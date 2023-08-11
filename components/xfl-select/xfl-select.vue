@@ -33,14 +33,15 @@
 			<span class="popper__arrow"></span> <!-- 列表框左上角的空心小三角 -->
 			<scroll-view 
 				class="list" style="background-color: #fff;"  
-				:style="'height: ' + listBoxHeight__ +'em;'"
+				:style="'max-height: ' + listBoxHeight__ +'em;'"
 			    scroll-y >
 				<div 
-					class="item" @click="onClickItem(index, item.value)"
+					class="item" @click="onClickItem(index,item.isClickNoEffect,item.value)"
 					v-for="(item, index) in innerList" :key="index" 
 					:class="{active: activeIndex == index, disabled: item.disabled}"
 				>
 					<div>{{item.value}}</div>
+					<image :src="item.iconPath" v-if="item.isClickNoEffect"></image>
 				</div>
 				<div v-show="innerList.length==0" class="data-state item">无数据</div>
 				<!-- <slot></slot> -->
@@ -152,7 +153,9 @@
 					arr.push({
 						isActive: false,
 						value: value,
-						disabled: isDisabled
+						disabled: isDisabled,
+						iconPath: val.iconPath,
+						isClickNoEffect: val.isClickNoEffect
 					});
 				});
 				return arr;
@@ -314,7 +317,7 @@
 			// 整个列表框上的点击事件
 			onListClick(){
 			},
-			onClickItem(index, value){  // 列表项上的点击事件
+			onClickItem(index,flag,value){  // 列表项上的点击事件
 				if( this.itemIsDisabled(index) ){
 					this.switchMgr.open(); // 点在禁用项上，就不隐藏
 					return;
@@ -323,14 +326,14 @@
 				if(this.disabled){ //如果本项被禁用 或 整个列表框被禁用
 					return;
 				};
-        this.setInput(value);
+				if (!flag) {this.setInput(value)};
 				if( !this.itemIsActive(index) ){  //如果点在非选中项上
 				  this.clearItemActive(); // 清空其它的选中的列表项
 					this.setItemActive(index, value); // 将这一项设置为选中项
 					this.$emit('change', {newVal: value, oldVal: this.selectText, 
 											index: index, orignItem: this.list[index],parentIndex: this.outerIndex});
 											
-					this.setInput(value);   // 更改输入框的值
+					if (!flag) {this.setInput(value)};   // 更改输入框的值
 				}
 			},
 			onListHide(){ //列表隐藏时的回调
@@ -877,6 +880,13 @@
 				
 				//***************************  弹出框中每一项样式  ***************************
 				.item{
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					>image {
+						width: 20px;
+						height: 20px;
+					};
 					&:hover{
 						background-color: @mouse-move-color;
 						&.disabled{

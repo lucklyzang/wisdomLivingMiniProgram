@@ -14,7 +14,6 @@
 							:clearable="false"
 							:showItemNum="8"
 							 @change="familyMemberChange"
-							 @clear="familyMemberClear"
 							placeholder = "请选择家庭"
 							:selectHideType="'hideAll'"
 						>
@@ -84,12 +83,21 @@
 			return {
 				familyMemberList: [
 					{
-						text: 1,
+						id: 1,
 						value: '张三的家'
 					},
 					{
-						text: 1,
+						id: 2,
 						value: '李四的家'
+					},
+					{
+						id: 3,
+						value: '王强的家'
+					},
+					{
+						iconPath: require("@/static/img/family-management-icon.png"),
+						value: '家庭管理',
+						isClickNoEffect: true
 					}
 				],
 				tabCutList: ['设备','房间'],
@@ -171,12 +179,10 @@
 			
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
-
-			},
-			
-			// 家庭下拉框下拉清除事件
-			familyMemberClear () {
-				this.selectHospitalList = []
+				console.log(val)
+				if (val.orignItem.isClickNoEffect) {
+					console.log('家庭管理');
+				}
 			},
 			
 			// 家庭下拉框下拉确定事件
@@ -247,6 +253,7 @@
 								color: #101010;
 							};
 							.list-container {
+								width: 150px !important;
 								top: -10px;
 								.popper__arrow {
 									display: none !important;
@@ -269,6 +276,7 @@
 				color: #898C8C;
 				display: flex;
 				justify-content: space-between;
+				align-items: center;
 				position: absolute;
 				left: 50%;
 				transform: translateX(-50%);

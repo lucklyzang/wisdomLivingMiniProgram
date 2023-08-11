@@ -39,6 +39,24 @@
 					</view>
 			</u-popup>
 		</view>
+		<!-- 微信授权弹框 -->
+		<view class="weixin-authorization-info-box">
+			<u-popup v-model="weixinAuthorizationInfoBoxShow" mode="bottom" :mask-close-able="false" :safe-area-inset-bottom="true" height="414px">
+				<view class="weixin-top-area">
+					<view class="weixin-top-area-left">
+						<image :src="logoSmallIcon"></image>
+						<text>守望家</text>
+					</view>
+					<view class="weixin-top-area-right">
+						<u-icon name="info-circle" size="34" color="#dbdbdb"></u-icon>
+					</view>
+				</view>
+				<view class="account-info-area">
+					<text>申请获取并验证你的手机号</text>
+					<text>登录并关联米家账号</text>
+				</view>
+			</u-popup>
+		</view>
 		<u-toast ref="uToast" />
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" text="登录中,请稍候···" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<u-modal v-model="modalShow" :content="modalContent"
@@ -124,6 +142,7 @@
 			return {
 				loginBackgroundPng: require("@/static/img/login-background.png"),
 				loginLogoPng: require("@/static/img/login-logo.png"),
+				logoSmallIcon: require("@/static/img/logo-small-icon.png"),
 				form: {
 					username: '',
 					password: '',
@@ -134,7 +153,8 @@
 				showGetVerificationCode: true,
 				isSetPassword: false,
 				count: '',
-				privacyPolicyBoxShow: true,
+				privacyPolicyBoxShow: false,
+				weixinAuthorizationInfoBoxShow: true,
 				timer: null,
 				isPasswordLogin: true,
 				isForgetPassword: false,
@@ -379,6 +399,51 @@
 					}
 				}
 			}
+		};
+		.weixin-authorization-info-box {
+			::v-deep .u-drawer {
+				.u-drawer-content {
+					padding: 10px 20px;
+					box-sizing: border-box;
+					background: #fff;
+					.weixin-top-area {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						.weixin-top-area-left {
+							display: flex;
+							align-items: center;
+							>image {
+								width: 31px;
+								height: 31px;
+								margin-right: 6px
+							};
+							>text {
+								font-size: 14px;
+								color: #101010
+							}
+						};
+						.weixin-top-area-right {}
+					};
+					.account-info-area {
+						margin-top: 20px;
+						display: flex;
+						flex-direction: column;
+						>text {
+							&:first-child {
+								font-size: 16px;
+								color: #101010;
+								font-weight: bold;
+							};
+							&:last-child {
+								margin-top: 8px;
+								font-size: 12px;
+								color: #adadad
+							}
+						}
+					}
+				}
+			}		
 		};
 		/deep/ .u-model {
 			position: relative;

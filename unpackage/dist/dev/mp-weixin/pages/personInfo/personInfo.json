@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "个人资料",
+  "navigationBarBackgroundColor": "#75b0f0",
+  "navigationBarTextStyle": "white",
+  "backgroundColorBottom": "#f7f7f7",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon"
+  }
+}
