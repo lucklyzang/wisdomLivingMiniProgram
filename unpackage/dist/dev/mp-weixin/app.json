@@ -16,7 +16,11 @@
     {
       "root": "devicePackage",
       "pages": [
-        "pages/device/index/index"
+        "pages/device/index/index",
+        "pages/messageDetails/messageDetails",
+        "pages/addDevices/addDevices",
+        "pages/goOpen/goOpen",
+        "pages/addDevicesInfo/addDevicesInfo"
       ],
       "name": "rootDevice"
     }

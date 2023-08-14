@@ -3,5 +3,9 @@
   "navigationBarBackgroundColor": "#ffffff",
   "backgroundColorTop": "#fff,",
   "backgroundColorBottom": "#fff",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "xfl-select": "/components/xfl-select/xfl-select",
+    "nav-bar": "/components/zhouWei-navBar/index"
+  }
 }

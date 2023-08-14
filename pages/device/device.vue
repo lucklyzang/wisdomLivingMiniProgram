@@ -5,8 +5,8 @@
 			<view class="operation-area">
 				<view class="operation-top-area">
 					<view class="image-area">
-						<image :src="messageIconPng"></image>
-						<image :src="addDeviceIconPng"></image>
+						<image :src="messageIconPng" @click="enterMessagePageDetails"></image>
+						<image :src="addDeviceIconPng" @click="addDeviceEvent"></image>
 					</view>
 					<view class="dropdown-area">
 						<xfl-select
@@ -121,6 +121,46 @@
 						roomName: '大门',
 						deviceName: '人员存在感知雷达',
 						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '客厅',
+						deviceName: '跌倒监测雷达',
+						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '卫生间',
+						deviceName: '跌倒监测雷达',
+						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '主卧',
+						deviceName: '人员存在感知雷达',
+						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '大门',
+						deviceName: '人员存在感知雷达',
+						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '客厅',
+						deviceName: '跌倒监测雷达',
+						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '卫生间',
+						deviceName: '跌倒监测雷达',
+						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '主卧',
+						deviceName: '人员存在感知雷达',
+						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '大门',
+						deviceName: '人员存在感知雷达',
+						imageUrl: require("@/static/img/room-icon.png")
 					}
 				],
 				roomList: [
@@ -192,6 +232,20 @@
 			// tab切换点击事件
 			tabCutEvent (item,index) {
 				this.tabCutActiveIndex = index
+			},
+			
+			// 进入消息详情页
+			enterMessagePageDetails () {
+				uni.redirectTo({
+					url: '/devicePackage/pages/device/index/index'
+				})
+			},
+			
+			// 添加设备事件
+			addDeviceEvent () {
+				uni.redirectTo({
+					url: '/devicePackage/pages/addDevices/addDevices'
+				})
 			}
 		}
 	}
@@ -199,6 +253,10 @@
 
 <style lang="scss">
 	@import "~@/common/stylus/variable.scss";
+	page {
+		width: 100%;
+		height: 100vh;
+	};
 	.content-box {
 		@include content-wrapper
 		.top-area-box {

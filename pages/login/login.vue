@@ -41,7 +41,7 @@
 		</view>
 		<!-- 微信授权弹框 -->
 		<view class="weixin-authorization-info-box">
-			<u-popup v-model="weixinAuthorizationInfoBoxShow" mode="bottom" :mask-close-able="false" :safe-area-inset-bottom="true" height="414px">
+			<u-popup v-model="weixinAuthorizationInfoBoxShow" mode="bottom" :safe-area-inset-bottom="true" height="414px">
 				<view class="weixin-top-area">
 					<view class="weixin-top-area-left">
 						<image :src="logoSmallIcon"></image>
@@ -54,6 +54,16 @@
 				<view class="account-info-area">
 					<text>申请获取并验证你的手机号</text>
 					<text>登录并关联米家账号</text>
+				</view>
+				<view class="phone-number-area">
+					<text>15669106075</text>
+					<text>微信绑定号码</text>
+				</view>
+				<view class="not-allow-area">
+					<text>不允许</text>
+				</view>
+				<view class="other-phone-number-area">
+					<text>使用其他号码</text>
 				</view>
 			</u-popup>
 		</view>
@@ -122,7 +132,7 @@
 				<button @click="sure">进 入 首 页</button>
 			</view>
       <view class="weixin-login" v-if="!isForgetPassword && !isSetPassword">
-        <u-divider border-color="#DBDBDB" color="#919191">其他登录方式</u-divider>
+        <u-divider border-color="#DBDBDB" color="#919191" @click="weixinLoginEvent">其他登录方式</u-divider>
         <view class="image-wrapper" @click="weixinLoginEvent">
           <image src="/static/img/weixin.png">
         </view>
@@ -154,7 +164,7 @@
 				isSetPassword: false,
 				count: '',
 				privacyPolicyBoxShow: false,
-				weixinAuthorizationInfoBoxShow: true,
+				weixinAuthorizationInfoBoxShow: false,
 				timer: null,
 				isPasswordLogin: true,
 				isForgetPassword: false,
@@ -307,9 +317,7 @@
       
       // 微信授权登录事件
       weixinLoginEvent () {
-        uni.redirectTo({
-            url: '/pages/weixinLogin/weixinLogin'
-        })
+        this.weixinAuthorizationInfoBoxShow = true
       },
 			
 			// 弹框确定事件
@@ -323,6 +331,10 @@
 
 <style lang="scss">
 	@import "~@/common/stylus/variable.scss";
+	page {
+		width: 100%;
+		height: 100vh;
+	};
 	.container {
 		@include content-wrapper;
 		font-size: 14px;
@@ -406,43 +418,91 @@
 					padding: 10px 20px;
 					box-sizing: border-box;
 					background: #fff;
-					.weixin-top-area {
-						display: flex;
-						justify-content: space-between;
-						align-items: center;
-						.weixin-top-area-left {
-							display: flex;
-							align-items: center;
-							>image {
-								width: 31px;
-								height: 31px;
-								margin-right: 6px
-							};
-							>text {
-								font-size: 14px;
-								color: #101010
-							}
-						};
-						.weixin-top-area-right {}
-					};
-					.account-info-area {
-						margin-top: 20px;
+					.uni-scroll-view-content {
 						display: flex;
 						flex-direction: column;
-						>text {
-							&:first-child {
-								font-size: 16px;
-								color: #101010;
-								font-weight: bold;
+					}
+						.weixin-top-area {
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							.weixin-top-area-left {
+								display: flex;
+								align-items: center;
+								>image {
+									width: 31px;
+									height: 31px;
+									margin-right: 6px
+								};
+								>text {
+									font-size: 14px;
+									color: #101010
+								}
 							};
-							&:last-child {
-								margin-top: 8px;
-								font-size: 12px;
-								color: #adadad
+							.weixin-top-area-right {}
+						};
+						.account-info-area {
+							margin-top: 20px;
+							display: flex;
+							flex-direction: column;
+							>text {
+								&:first-child {
+									font-size: 16px;
+									color: #101010;
+									font-weight: bold;
+								};
+								&:last-child {
+									margin-top: 8px;
+									font-size: 12px;
+									color: #adadad
+								}
 							}
+						};
+						.phone-number-area {
+							margin-top: 20px;
+							background: #ffffd6;
+							border: 2px solid #ffd17c;
+							width: 100%;
+							height: 58px;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							justify-content: center;
+							font-size: 10px;
+							color: #4c4c4c;
+							>text {
+								&:first-child {
+									font-size: 14px;
+									margin-bottom: 2px;
+								};
+								&:last-child {
+									color: #cdcdcd
+								}
+							}
+						};
+						.not-allow-area {
+							margin-top: 10px;
+							background: #ffffd6;
+							border: 2px solid #ffd17c;
+							width: 100%;
+							height: 58px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							font-size: 14px;
+							color: #4c4c4c;
+						};
+						.other-phone-number-area {
+							width: 100%;
+							flex: 1;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							font-size: 12px;
+							height: 150px;
+							color: #3a3ab7
 						}
 					}
-				}
 			}		
 		};
 		/deep/ .u-model {

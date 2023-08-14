@@ -6,7 +6,8 @@ $color-text-right: black;  //字体颜色（右边内容文字）
 $color-underline: #e5e5e5; // 下划线颜色
 @mixin content-wrapper () {
   display: flex;
-  height: 100%;
+	min-height: 100vh;
+	height: 100%;
   width: 100%;
   flex-direction: column;
 	// position: fixed;

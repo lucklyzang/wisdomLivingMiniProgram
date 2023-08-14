@@ -114,6 +114,10 @@
 
 <style lang="scss">
 	@import "~@/common/stylus/variable.scss";
+	page {
+		width: 100%;
+		height: 100vh;
+	};
 	.content-box {
 		@include content-wrapper
 		.top-area-box {
