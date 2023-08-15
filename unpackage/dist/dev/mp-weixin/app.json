@@ -9,7 +9,8 @@
     {
       "root": "healthMonitoringPackage",
       "pages": [
-        "pages/healthMonitoring/index/index"
+        "pages/healthMonitoring/index/index",
+        "pages/heartRate/heartRate"
       ],
       "name": "rootHealthMonitoring"
     },

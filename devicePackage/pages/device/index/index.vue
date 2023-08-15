@@ -177,7 +177,7 @@
 	@import "~@/common/stylus/variable.scss";
 	page {
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 	};
 	.content-box {
 		@include content-wrapper;

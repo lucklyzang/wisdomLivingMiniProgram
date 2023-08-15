@@ -255,7 +255,7 @@
 	@import "~@/common/stylus/variable.scss";
 	page {
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 	};
 	.content-box {
 		@include content-wrapper
@@ -277,7 +277,7 @@
 				flex-direction: column;
 				align-items: center;
 				z-index: 1;
-				margin-top: 6vh;
+				margin-top: 44px;
 				position: relative;
 				.operation-top-area {
 					width: 100%;

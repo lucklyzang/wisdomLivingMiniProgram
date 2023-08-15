@@ -116,7 +116,7 @@
 	@import "~@/common/stylus/variable.scss";
 	page {
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 	};
 	.content-box {
 		@include content-wrapper
@@ -205,7 +205,7 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			flex: 1;
+			// flex: 1;
 			overflow: auto;
 			flex-grow: 0;
 			>view {

@@ -55,6 +55,15 @@
 						"backgroundColorTop": "#fff,",
 						"backgroundColorBottom": "#fff"
 					}
+				},
+				{
+					"path": "pages/heartRate/heartRate",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
 				}
 			]
 		},

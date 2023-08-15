@@ -3,5 +3,8 @@
   "navigationBarBackgroundColor": "#75b0f0",
   "navigationBarTextStyle": "black",
   "navigationStyle": "custom",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "xfl-select": "/components/xfl-select/xfl-select"
+  }
 }

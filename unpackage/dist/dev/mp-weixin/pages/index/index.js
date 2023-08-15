@@ -93,6 +93,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
+try {
+  components = {
+    uToast: function() {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 174))
+    },
+    xflSelect: function() {
+      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 234))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
+  }
+}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -130,37 +156,295 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
 
 
-var _vuex = __webpack_require__(/*! vuex */ 9);
 
 
 
-var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 9);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var xflSelect = function xflSelect() {__webpack_require__.e(/*! require.ensure | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then((function () {return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 234));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
 {
-  components: {},
+  components: {
+    xflSelect: xflSelect },
 
   data: function data() {
-    return {};
+    return {
+      infoText: '',
+      showLoadingHint: false,
+      heartRateIconPng: __webpack_require__(/*! @/static/img/heart-rate-icon.png */ 313),
+      breatheIconPng: __webpack_require__(/*! @/static/img/breathe-icon.png */ 314),
+      toiletIconPng: __webpack_require__(/*! @/static/img/toilet-icon.png */ 307),
+      tumbleIconPng: __webpack_require__(/*! @/static/img/tumble-icon.png */ 308),
+      leaveHomeIconPng: __webpack_require__(/*! @/static/img/leave-home-icon.png */ 309),
+      familyMemberList: [
+      {
+        id: 1,
+        value: '张三的家' },
+
+      {
+        id: 2,
+        value: '李四的家' },
+
+      {
+        id: 3,
+        value: '王强的家' }] };
+
+
 
   },
   onReady: function onReady() {
   },
-  computed: _objectSpread({},
-  (0, _vuex.mapGetters)([])),
+  computed: _objectSpread(_objectSpread({},
+  (0, _vuex.mapGetters)([
+  'userInfo'])), {}, {
 
+    userName: function userName() {
+    },
+    proId: function proId() {
+    },
+    proName: function proName() {
+    },
+    workerId: function workerId() {
+    },
+    depName: function depName() {
+    },
+    accountName: function accountName() {
+    } }),
 
   mounted: function mounted() {
   },
-  methods: _objectSpread({},
-  (0, _vuex.mapMutations)([])) };exports.default = _default;
+  methods: _objectSpread(_objectSpread({},
+  (0, _vuex.mapMutations)([
+  'changeOverDueWay'])), {}, {
+
+
+    // 家庭选择下拉框下拉选择确定事件
+    familyMemberChange: function familyMemberChange(val) {
+      console.log(val);
+      if (val.orignItem.isClickNoEffect) {
+        console.log('家庭管理');
+      }
+    },
+
+    // 绑定设备事件
+    bindDeviceEvent: function bindDeviceEvent() {
+      uni.redirectTo({
+        url: '/healthMonitoringPackage/pages/healthMonitoring/index/index' });
+
+    },
+
+    // 进入数据详情事件
+    enterDetailsEvent: function enterDetailsEvent() {
+      uni.redirectTo({
+        url: '/healthMonitoringPackage/pages/heartRate/heartRate' });
+
+    },
+
+    // 编辑数据卡片事件
+    editDataCardEvent: function editDataCardEvent() {
+      uni.redirectTo({
+        url: '/healthMonitoringPackage/pages/healthMonitoring/index/index' });
+
+    } }) };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
