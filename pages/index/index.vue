@@ -18,7 +18,7 @@
 				</xfl-select>
 			</view>
 		</view>
-		<view class="center-area" v-show="false">
+		<view class="center-area">
 			<view class="bind-sleep-device-area">
 				<view>
 					<text>睡眠</text>
@@ -80,7 +80,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="center-area-data">
+		<view class="center-area-data" v-show="false">
 			<view class="banner-area-box">
 				<view class="banner-area"></view>
 			</view>
@@ -98,7 +98,7 @@
 							<text>心率 70次/分</text>
 							<text>心率正常</text>
 						</view>
-						<view class="heart-rate-title-right" @click="enterDetailsEvent">
+						<view class="heart-rate-title-right" @click="enterDetailsEvent('心率')">
 							详情
 						</view>
 					</view>
@@ -113,7 +113,7 @@
 							<text>呼吸 16次/分</text>
 							<text>呼吸正常</text>
 						</view>
-						<view class="heart-rate-title-right">
+						<view class="heart-rate-title-right" @click="enterDetailsEvent('呼吸')">
 							详情
 						</view>
 					</view>
@@ -136,7 +136,7 @@
 							<text>平均入厕时间 15分钟</text>
 							<text>入厕时间正常</text>
 						</view>
-						<view class="heart-rate-title-right">
+						<view class="heart-rate-title-right" @click="enterDetailsEvent('入厕')">
 							详情
 						</view>
 					</view>
@@ -159,7 +159,7 @@
 							<text>跌倒1次</text>
 							<text>已自行站起</text>
 						</view>
-						<view class="heart-rate-title-right">
+						<view class="heart-rate-title-right" @click="enterDetailsEvent('跌倒')">
 							详情
 						</view>
 					</view>
@@ -181,7 +181,7 @@
 							<text>最近离家时间</text>
 							<text>22：37</text>
 						</view>
-						<view class="heart-rate-title-right">
+						<view class="heart-rate-title-right" @click="enterDetailsEvent('离家和回家')">
 							详情
 						</view>
 					</view>
@@ -269,15 +269,33 @@
 			// 绑定设备事件
 			bindDeviceEvent () {
 				uni.redirectTo({
-					url: '/healthMonitoringPackage/pages/healthMonitoring/index/index'
+					url: '/devicePackage/pages/bingDevices/bingDevices'
 				})
 			},
 			
 			// 进入数据详情事件
-			enterDetailsEvent () {
-				uni.redirectTo({
-					url: '/healthMonitoringPackage/pages/heartRate/heartRate'
-				})
+			enterDetailsEvent (text) {
+				if (text == '心率') {
+					uni.redirectTo({
+						url: '/healthMonitoringPackage/pages/heartRate/heartRate'
+					})
+				} else if (text == '呼吸') {
+					uni.redirectTo({
+						url: '/healthMonitoringPackage/pages/breathe/breathe'
+					})
+				} else if (text == '入厕') {
+					uni.redirectTo({
+						url: '/healthMonitoringPackage/pages/toilet/toilet'
+					})
+				} else if (text == '跌倒') {
+					uni.redirectTo({
+						url: '/healthMonitoringPackage/pages/tumble/tumble'
+					})
+				} else if (text == '离家和回家') {
+					uni.redirectTo({
+						url: '/healthMonitoringPackage/pages/leaveHome/leaveHome'
+					})
+				}
 			},
 			
 			// 编辑数据卡片事件

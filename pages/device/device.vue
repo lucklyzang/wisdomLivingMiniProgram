@@ -45,20 +45,25 @@
 				</view>
 			</view>
 			<view class="room-content-area" v-if="tabCutActiveIndex == 1">
-				<view class="room-list" v-for="(item,index) in roomList" :key="index">
-					<view class="room-left">
-						<view class="room-left-top">
-							<text>{{ item.roomName }}</text>
-							<text>4个设备</text>
+				<view class="room-list-wrapper">
+					<view class="room-list" v-for="(item,index) in roomList" :key="index">
+						<view class="room-left">
+							<view class="room-left-top">
+								<text>{{ item.roomName }}</text>
+								<text>4个设备</text>
+							</view>
+							<view class="room-left-bottom">
+								<image :src="item.imageUrl"></image>
+								<image :src="item.imageUrl"></image>
+							</view>
 						</view>
-						<view class="room-left-bottom">
-							<image :src="item.imageUrl"></image>
-							<image :src="item.imageUrl"></image>
+						<view class="room-right">
+							<u-icon name="arrow-right" color="#737373" size="30"></u-icon>
 						</view>
 					</view>
-					<view class="room-right">
-						<u-icon name="arrow-right" color="#737373" size="30"></u-icon>
-					</view>
+				</view>
+				<view class="room-management" @click="roomManagementEvent">
+					<text>房间管理</text>
 				</view>
 			</view>
 		</view>
@@ -183,6 +188,11 @@
 						roomName: '大门',
 						deviceName: '人员存在感知雷达',
 						imageUrl: require("@/static/img/room-icon.png")
+					},
+					{
+						roomName: '大门',
+						deviceName: '人员存在感知雷达',
+						imageUrl: require("@/static/img/room-icon.png")
 					}
 				],
 				tabCutActiveIndex: 0,
@@ -232,6 +242,13 @@
 			// tab切换点击事件
 			tabCutEvent (item,index) {
 				this.tabCutActiveIndex = index
+			},
+			
+			// 房间管理事件
+			roomManagementEvent () {
+				uni.redirectTo({
+					url: '/devicePackage/pages/roomManagement/roomManagement'
+				})
 			},
 			
 			// 进入消息详情页
@@ -405,56 +422,74 @@
 			};
 			.room-content-area {
 				width: 98%;
+				height: 100%;
 				padding: 10px;
 				box-sizing: border-box;
 				display: flex;
 				flex-direction: column;
 				margin-top: -40px;
-				position: absolute;
+				position: relative;
+				z-index: 1000;
 				flex-grow: 0;
-				.room-list {
-					display: flex;
-					height: 110px;
-					justify-content: space-between;
-					margin-bottom: 10px;
-					border-radius: 10px;;
-					box-shadow: 0px 2px 6px 0 rgba(0, 0, 9, 0.1);
-					padding: 10px;
-					box-sizing: border-box;
-					background: #fff;
-					.room-left {
+				.room-list-wrapper {
+					flex: 1;
+					overflow: auto;
+					.room-list {
 						display: flex;
-						flex-direction: column;
+						height: 110px;
 						justify-content: space-between;
-						.room-left-top {
+						margin-bottom: 10px;
+						border-radius: 10px;;
+						box-shadow: 0px 2px 6px 0 rgba(0, 0, 9, 0.1);
+						padding: 10px;
+						box-sizing: border-box;
+						background: #fff;
+						.room-left {
 							display: flex;
 							flex-direction: column;
 							justify-content: space-between;
-							>text {
-								&:first-child {
-									font-size: 14px;
-									color: #101010;
-									margin-bottom: 4px;
-								};
-								&:last-child {
-									font-size: 12px;
-									color: #BBBBBB
+							.room-left-top {
+								display: flex;
+								flex-direction: column;
+								justify-content: space-between;
+								>text {
+									&:first-child {
+										font-size: 14px;
+										color: #101010;
+										margin-bottom: 4px;
+									};
+									&:last-child {
+										font-size: 12px;
+										color: #BBBBBB
+									}
+								}
+							};
+							.room-left-bottom {
+								>image {
+									width: 34px;
+									height: 42px;
+									margin-right: 4px
 								}
 							}
 						};
-						.room-left-bottom {
-							>image {
-								width: 34px;
-								height: 42px;
-								margin-right: 4px
-							}
+						.room-right {
+							display: flex;
+							align-items: center;
 						}
-					};
-					.room-right {
-						display: flex;
-						align-items: center;
 					}
-				}
+				};
+				.room-management {
+					margin: 0 auto;
+					width: 98%;
+					height: 55px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border-radius: 10px;
+					box-shadow: 0px 1px 6px 0 rgba(0, 0, 9, 0.1);
+					font-size: 14px;
+					color: #101010
+				}	
 			}
 		}
 	}

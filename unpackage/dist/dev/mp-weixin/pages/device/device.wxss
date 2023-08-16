@@ -184,15 +184,21 @@ page {
 }
 .content-box .center-content-area .room-content-area {
   width: 98%;
+  height: 100%;
   padding: 10px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   margin-top: -40px;
-  position: absolute;
+  position: relative;
+  z-index: 1000;
   flex-grow: 0;
 }
-.content-box .center-content-area .room-content-area .room-list {
+.content-box .center-content-area .room-content-area .room-list-wrapper {
+  flex: 1;
+  overflow: auto;
+}
+.content-box .center-content-area .room-content-area .room-list-wrapper .room-list {
   display: flex;
   height: 110px;
   justify-content: space-between;
@@ -203,32 +209,44 @@ page {
   box-sizing: border-box;
   background: #fff;
 }
-.content-box .center-content-area .room-content-area .room-list .room-left {
+.content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-left {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-.content-box .center-content-area .room-content-area .room-list .room-left .room-left-top {
+.content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-left .room-left-top {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-.content-box .center-content-area .room-content-area .room-list .room-left .room-left-top > text:first-child {
+.content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-left .room-left-top > text:first-child {
   font-size: 14px;
   color: #101010;
   margin-bottom: 4px;
 }
-.content-box .center-content-area .room-content-area .room-list .room-left .room-left-top > text:last-child {
+.content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-left .room-left-top > text:last-child {
   font-size: 12px;
   color: #BBBBBB;
 }
-.content-box .center-content-area .room-content-area .room-list .room-left .room-left-bottom > image {
+.content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-left .room-left-bottom > image {
   width: 34px;
   height: 42px;
   margin-right: 4px;
 }
-.content-box .center-content-area .room-content-area .room-list .room-right {
+.content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-right {
   display: flex;
   align-items: center;
+}
+.content-box .center-content-area .room-content-area .room-management {
+  margin: 0 auto;
+  width: 98%;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0px 1px 6px 0 rgba(0, 0, 9, 0.1);
+  font-size: 14px;
+  color: #101010;
 }
 

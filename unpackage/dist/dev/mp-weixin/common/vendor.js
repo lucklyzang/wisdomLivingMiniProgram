@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
-
-/***/ 1:
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
+/* 0 */,
+/* 1 */
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -2090,706 +2090,7 @@ uni$1;exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
-
-/***/ 12:
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ 13:
-/*!******************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/store/index.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 9));
-var _login = _interopRequireDefault(__webpack_require__(/*! ./login.js */ 14));
-var _quality = _interopRequireDefault(__webpack_require__(/*! ./quality.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-_vue.default.use(_vuex.default);var _default =
-new _vuex.default.Store({
-  modules: {
-    login: _login.default,
-    quality: _quality.default } });exports.default = _default;
-
-/***/ }),
-
-/***/ 14:
-/*!******************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/store/login.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  state: {
-    userInfo: null,
-    roleNameList: [],
-    token: null, //请求token,
-    overDueWay: false,
-    selectHospitalList: [],
-    permissionInfo: [] },
-
-  getters: {
-    userInfo: function userInfo(state) {return state.userInfo;},
-    roleNameList: function roleNameList(state) {return state.roleNameList;},
-    token: function token(state) {return state.token;},
-    overDueWay: function overDueWay(state) {return state.overDueWay;},
-    selectHospitalList: function selectHospitalList(state) {return state.selectHospitalList;},
-    permissionInfo: function permissionInfo(state) {return state.permissionInfo;} },
-
-  mutations: {
-    storeUserInfo: function storeUserInfo(state, playLoad) {
-      state.userInfo = playLoad;
-    },
-    // 修改token状态
-    changeToken: function changeToken(state, playLoad) {
-      if (playLoad && playLoad != 'null') {
-        state.token = playLoad;
-      }
-    },
-    // 修改角色列表
-    changeRoleNameList: function changeRoleNameList(state, playLoad) {
-      state.roleNameList = playLoad;
-    },
-    // 修改过期方式
-    changeOverDueWay: function changeOverDueWay(state, playLoad) {
-      state.overDueWay = playLoad;
-    },
-    // 修改项目列表
-    changeSelectHospitalList: function changeSelectHospitalList(state, playLoad) {
-      state.selectHospitalList = playLoad;
-    },
-    // 修改权限列表
-    changePermissionInfo: function changePermissionInfo(state, playLoad) {
-      state.permissionInfo = playLoad;
-    } },
-
-  actions: {} };exports.default = _default;
-
-/***/ }),
-
-/***/ 15:
-/*!********************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/store/quality.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 16);var _default =
-{
-  state: (0, _resetStore.getDefaultQualityState)(),
-  getters: {
-    enterTaskDetailsSource: function enterTaskDetailsSource(state) {return state.enterTaskDetailsSource;},
-    isShowRevaluationBtn: function isShowRevaluationBtn(state) {return state.isShowRevaluationBtn;},
-    isShowRejectBtn: function isShowRejectBtn(state) {return state.isShowRejectBtn;},
-    enterGradeSource: function enterGradeSource(state) {return state.enterGradeSource;},
-    titleText: function titleText(state) {return state.titleText;},
-    taskMessage: function taskMessage(state) {return state.taskMessage;},
-    bottomBarIndex: function bottomBarIndex(state) {return state.bottomBarIndex;},
-    mainTaskId: function mainTaskId(state) {return state.mainTaskId;},
-    subtaskDetails: function subtaskDetails(state) {return state.subtaskDetails;},
-    subtaskInfo: function subtaskInfo(state) {return state.subtaskInfo;},
-    disposeSubTaskData: function disposeSubTaskData(state) {return state.disposeSubTaskData;},
-    cacheIndex: function cacheIndex(state) {return state.cacheIndex;},
-    isSkipDetails: function isSkipDetails(state) {return state.isSkipDetails;},
-    timeMessage: function timeMessage(state) {return state.timeMessage;},
-    ossMessage: function ossMessage(state) {return state.ossMessage;},
-    recordExamineItemScrollTop: function recordExamineItemScrollTop(state) {return state.recordExamineItemScrollTop;} },
-
-  mutations: {
-    changeTitleText: function changeTitleText(state, playLoad) {
-      state.titleText = playLoad;
-    },
-    changeIsShowRevaluationBtn: function changeIsShowRevaluationBtn(state, playLoad) {
-      state.isShowRevaluationBtn = playLoad;
-    },
-    changeIsShowRejectBtn: function changeIsShowRejectBtn(state, playLoad) {
-      state.isShowRejectBtn = playLoad;
-    },
-    changeEnterTaskDetailsSource: function changeEnterTaskDetailsSource(state, playLoad) {
-      state.enterTaskDetailsSource = playLoad;
-    },
-    changeEnterGradeSource: function changeEnterGradeSource(state, playLoad) {
-      state.enterGradeSource = playLoad;
-    },
-    changeBottomBarIndex: function changeBottomBarIndex(state, playLoad) {
-      state.bottomBarIndex = playLoad;
-    },
-    changeTaskMessage: function changeTaskMessage(state, playLoad) {
-      state.taskMessage = playLoad;
-    },
-    changeMainTaskId: function changeMainTaskId(state, playLoad) {
-      state.mainTaskId = playLoad;
-    },
-    changeSubtaskDetails: function changeSubtaskDetails(state, playLoad) {
-      state.subtaskDetails = playLoad;
-    },
-    changeSubtaskInfo: function changeSubtaskInfo(state, playLoad) {
-      state.subtaskInfo = playLoad;
-    },
-    changeDisposeSubTaskData: function changeDisposeSubTaskData(state, playLoad) {
-      state.disposeSubTaskData = playLoad;
-    },
-    changeCacheIndex: function changeCacheIndex(state, playLoad) {
-      state.cacheIndex = playLoad;
-    },
-    changeIsSkipDetails: function changeIsSkipDetails(state, playLoad) {
-      state.isSkipDetails = playLoad;
-    },
-    changeTimeMessage: function changeTimeMessage(state, playLoad) {
-      state.timeMessage = playLoad;
-    },
-    changeOssMessage: function changeOssMessage(state, playLoad) {
-      state.ossMessage = playLoad;
-    },
-    changeRecordExamineItemScrollTop: function changeRecordExamineItemScrollTop(state, playLoad) {
-      state.recordExamineItemScrollTop = playLoad;
-    },
-    //重置质量管理的状态
-    resetQualityInfoState: function resetQualityInfoState(state) {
-      Object.assign(state, (0, _resetStore.getDefaultQualityState)());
-    } },
-
-  actions: {
-    resetQualityState: function resetQualityState(_ref) {var commit = _ref.commit;
-      commit('resetQualityInfoState');
-    } } };exports.default = _default;
-
-/***/ }),
-
-/***/ 16:
-/*!**************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/common/js/resetStore/resetStore.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getDefaultQualityState = getDefaultQualityState; // 质量管理信息store的初始值
-function getDefaultQualityState() {
-  return {
-    titleText: '',
-    recordExamineItemScrollTop: 0,
-    bottomBarIndex: 0,
-    taskMessage: {},
-    mainTaskId: '',
-    subtaskInfo: {},
-    subtaskDetails: {},
-    disposeSubTaskData: [],
-    cacheIndex: {},
-    isSkipDetails: false,
-    timeMessage: {},
-    ossMessage: {},
-    enterTaskDetailsSource: '',
-    enterGradeSource: '',
-    isShowRevaluationBtn: true,
-    isShowRejectBtn: true };
-
-};
-
-/***/ }),
-
-/***/ 17:
-/*!**********************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/common/js/utils.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.removeAllLocalStorage = exports.getStringLength = exports.getDate = exports.clearCache = exports.checkCache = exports.removeCache = exports.getCache = exports.setCache = void 0; /*
-                                                                                                                                                                                                                                                                      * 存储uni localStorage
-                                                                                                                                                                                                                                                                      * @param{String} name key值
-                                                                                                                                                                                                                                                                      * @param{String} data value值
-                                                                                                                                                                                                                                                                     */
-var setCache = function setCache(name, data) {
-  try {
-    uni.setStorageSync(name, data);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-/*
-    * 获取uni localStorage
-    * @param{String} name key值
-   */exports.setCache = setCache;
-var getCache = function getCache(name) {
-  var data;
-  try {
-    data = uni.getStorageSync(name);
-  } catch (e) {
-    console.log(e);
-  }
-  return data;
-};
-
-/*
-    * 删除指定key的uni localStorage
-    * @param{String} name key值
-   */exports.getCache = getCache;
-var removeCache = function removeCache(name) {
-  try {
-    uni.removeStorageSync(name);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-/*
-    * 判断指定key在uni localStorage是否存在
-    * @param{String} name key值
-   */exports.removeCache = removeCache;
-var checkCache = function checkCache(name) {
-  var value;
-  try {
-    var res = uni.getStorageInfoSync();
-    value = res.keys.includes(name);
-  } catch (e) {
-    console.log(e);
-  }
-  return value;
-};
-
-/*
-    * 删除本地uni localStorage
-    * 
-   */exports.checkCache = checkCache;
-var clearCache = function clearCache() {
-  try {
-    uni.clearStorageSync();
-  } catch (e) {
-    console.log(e);
-  }
-
-};
-
-/*
-    * 格式化当前日期
-    * 
-   */exports.clearCache = clearCache;
-var getDate = function getDate() {
-  var date = new Date();
-  var year = date.getFullYear(); //年 ,从 Date 对象以四位数字返回年份
-  var month = date.getMonth() + 1; //月 ,从 Date 对象返回月份 (0 ~ 11) ,date.getMonth()比实际月份少 1 个月
-  var day = date.getDate(); //日 ,从 Date 对象返回一个月中的某一天 (1 ~ 31)
-
-  var hours = date.getHours(); //小时 ,返回 Date 对象的小时 (0 ~ 23)
-  var minutes = date.getMinutes(); //分钟 ,返回 Date 对象的分钟 (0 ~ 59)
-  var seconds = date.getSeconds(); //秒 ,返回 Date 对象的秒数 (0 ~ 59)   
-  //获取当前系统时间  
-  var currentDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
-  //修改月份格式
-  if (month >= 1 && month <= 9) {
-    month = "0" + month;
-  }
-  //修改日期格式
-  if (day >= 0 && day <= 9) {
-    day = "0" + day;
-  }
-  //修改小时格式
-  if (hours >= 0 && hours <= 9) {
-    hours = "0" + hours;
-  }
-  //修改分钟格式
-  if (minutes >= 0 && minutes <= 9) {
-    minutes = "0" + minutes;
-  }
-  //修改秒格式
-  if (seconds >= 0 && seconds <= 9) {
-    seconds = "0" + seconds;
-  }
-  //获取当前系统时间  格式(yyyy-mm-dd hh:mm:ss)+ " " + hours + ":" + minutes + ":" + seconds
-  var currentFormatDate = year + "-" + month + "-" + day;
-  return currentFormatDate;
-
-};
-
-/*
-    * 获取字符串的长度
-    * @param{String} str 指定字符串
-   */exports.getDate = getDate;
-var getStringLength = function getStringLength(str) {
-  var realLength = 0,len = str.length,charCode = -1;
-  for (var i = 0; i < len; i++) {
-    charCode = str.charCodeAt(i);
-    if (charCode >= 0 && charCode <= 128) realLength += 1;else
-    realLength += 2;
-  }
-  return realLength;
-};exports.getStringLength = getStringLength;
-
-var removeAllLocalStorage = function removeAllLocalStorage() {
-  // removeStore('userName');
-  // removeStore('userPassword');
-  removeCache('userInfo');
-  removeCache('isLogin');
-  removeCache('roleNameList');
-  removeCache('questToken');
-  removeCache('permissionInfo');
-  removeCache('storeOverDueWay');
-  removeCache('selectHospitalList');
-};exports.removeAllLocalStorage = removeAllLocalStorage;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 18:
-/*!**********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/index.js ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
-var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 19));
-
-
-
-var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 20));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _queryParams = _interopRequireDefault(__webpack_require__(/*! ./libs/function/queryParams.js */ 24));
-
-var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/function/route.js */ 25));
-
-var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFormat.js */ 29));
-
-var _timeFrom = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFrom.js */ 30));
-
-var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 31));
-
-var _guid = _interopRequireDefault(__webpack_require__(/*! ./libs/function/guid.js */ 32));
-
-var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/function/color.js */ 33));
-
-var _type2icon = _interopRequireDefault(__webpack_require__(/*! ./libs/function/type2icon.js */ 34));
-
-var _randomArray = _interopRequireDefault(__webpack_require__(/*! ./libs/function/randomArray.js */ 35));
-
-var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepClone.js */ 22));
-
-var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepMerge.js */ 21));
-
-var _addUnit = _interopRequireDefault(__webpack_require__(/*! ./libs/function/addUnit.js */ 36));
-
-
-var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 23));
-
-var _random = _interopRequireDefault(__webpack_require__(/*! ./libs/function/random.js */ 37));
-
-var _trim = _interopRequireDefault(__webpack_require__(/*! ./libs/function/trim.js */ 38));
-
-var _toast = _interopRequireDefault(__webpack_require__(/*! ./libs/function/toast.js */ 39));
-
-var _getParent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/getParent.js */ 40));
-
-var _$parent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/$parent.js */ 41));
-
-
-
-var _sys = __webpack_require__(/*! ./libs/function/sys.js */ 42);
-
-var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 43));
-
-var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 44));
-
-
-
-var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 45));
-
-var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 46));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 引入全局mixin
-// 引入关于是否mixin集成小程序分享的配置
-// import wxshare from './libs/mixin/mpShare.js'
-// 全局挂载引入http相关请求拦截插件
-function wranning(str) {// 开发环境进行信息输出,主要是一些报错信息
-  // 这个环境的来由是在程序编写时候,点击hx编辑器运行调试代码的时候,详见:
-  // 	https://uniapp.dcloud.io/frame?id=%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%92%8c%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83
-  if (true) {console.warn(str);}} // 尝试判断在根目录的/store中是否有$u.mixin.js，此文件uView默认为需要挂在到全局的vuex的state变量
-// HX2.6.11版本,放到try中,控制台依然会警告,暂时不用此方式，
-// let vuexStore = {};
-// try {
-// 	vuexStore = require("@/store/$u.mixin.js");
-// } catch (e) {
-// 	//TODO handle the exception
-// }
-// post类型对象参数转为get类型url参数
-var $u = { queryParams: _queryParams.default, route: _route.default, timeFormat: _timeFormat.default, date: _timeFormat.default, // 另名date
-  timeFrom: _timeFrom.default, colorGradient: _colorGradient.default.colorGradient, colorToRgba: _colorGradient.default.colorToRgba, guid: _guid.default, color: _color.default, sys: _sys.sys, os: _sys.os, type2icon: _type2icon.default, randomArray: _randomArray.default, wranning: wranning, get: _request.default.get,
-  post: _request.default.post,
-  put: _request.default.put,
-  'delete': _request.default.delete,
-  hexToRgb: _colorGradient.default.hexToRgb,
-  rgbToHex: _colorGradient.default.rgbToHex,
-  test: _test.default,
-  random: _random.default,
-  deepClone: _deepClone.default,
-  deepMerge: _deepMerge.default,
-  getParent: _getParent.default,
-  $parent: _$parent.default,
-  addUnit: _addUnit.default,
-  trim: _trim.default,
-  type: ['primary', 'success', 'error', 'warning', 'info'],
-  http: _request.default,
-  toast: _toast.default,
-  config: _config.default, // uView配置信息相关，比如版本号
-  zIndex: _zIndex.default,
-  debounce: _debounce.default,
-  throttle: _throttle.default };
-
-
-// $u挂载到uni对象上
-uni.$u = $u;
-
-var install = function install(Vue) {
-  Vue.mixin(_mixin.default);
-  if (Vue.prototype.openShare) {
-    Vue.mixin(mpShare);
-  }
-  // Vue.mixin(vuexStore);
-  // 时间格式化，同时两个名称，date和timeFormat
-  Vue.filter('timeFormat', function (timestamp, format) {
-    return (0, _timeFormat.default)(timestamp, format);
-  });
-  Vue.filter('date', function (timestamp, format) {
-    return (0, _timeFormat.default)(timestamp, format);
-  });
-  // 将多久以前的方法，注入到全局过滤器
-  Vue.filter('timeFrom', function (timestamp, format) {
-    return (0, _timeFrom.default)(timestamp, format);
-  });
-  Vue.prototype.$u = $u;
-};var _default =
-
-{
-  install: install };exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 19:
-/*!*********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/mixin/mixin.js ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
-  data: function data() {
-    return {};
-  },
-  onLoad: function onLoad() {
-    // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
-    this.$u.getRect = this.$uGetRect;
-  },
-  methods: {
-    // 查询节点信息
-    // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
-    // 解决办法为在组件根部再套一个没有任何作用的view元素
-    $uGetRect: function $uGetRect(selector, all) {var _this = this;
-      return new Promise(function (resolve) {
-        uni.createSelectorQuery().
-        in(_this)[all ? 'selectAll' : 'select'](selector).
-        boundingClientRect(function (rect) {
-          if (all && Array.isArray(rect) && rect.length) {
-            resolve(rect);
-          }
-          if (!all && rect) {
-            resolve(rect);
-          }
-        }).
-        exec();
-      });
-    },
-    getParentData: function getParentData() {var _this2 = this;var parentName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-      // 避免在created中去定义parent变量
-      if (!this.parent) this.parent = false;
-      // 这里的本质原理是，通过获取父组件实例(也即u-radio-group的this)
-      // 将父组件this中对应的参数，赋值给本组件(u-radio的this)的parentData对象中对应的属性
-      // 之所以需要这么做，是因为所有端中，头条小程序不支持通过this.parent.xxx去监听父组件参数的变化
-      this.parent = this.$u.$parent.call(this, parentName);
-      if (this.parent) {
-        // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
-        Object.keys(this.parentData).map(function (key) {
-          _this2.parentData[key] = _this2.parent[key];
-        });
-      }
-    },
-    // 阻止事件冒泡
-    preventEvent: function preventEvent(e) {
-      e && e.stopPropagation && e.stopPropagation();
-    } },
-
-  onReachBottom: function onReachBottom() {
-    uni.$emit('uOnReachBottom');
-  },
-  beforeDestroy: function beforeDestroy() {var _this3 = this;
-    // 判断当前页面是否存在parent和children，一般在checkbox和checkbox-group父子联动的场景会有此情况
-    // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
-    if (this.parent && uni.$u.test.array(this.parent.children)) {
-      // 组件销毁时，移除父组件中的children数组中对应的实例
-      var childrenList = this.parent.children;
-      childrenList.map(function (child, index) {
-        // 如果相等，则移除
-        if (child === _this3) {
-          childrenList.splice(index, 1);
-        }
-      });
-    }
-  } };
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 2:
+/* 2 */
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
@@ -2819,3359 +2120,7 @@ module.exports = g;
 
 
 /***/ }),
-
-/***/ 20:
-/*!***********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/request/index.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ../function/deepMerge */ 21));
-var _test = _interopRequireDefault(__webpack_require__(/*! ../function/test */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
-Request = /*#__PURE__*/function () {_createClass(Request, [{ key: "setConfig",
-    // 设置全局默认配置
-    value: function setConfig(customConfig) {
-      // 深度合并对象，否则会造成对象深层属性丢失
-      this.config = (0, _deepMerge.default)(this.config, customConfig);
-    }
-
-    // 主要请求部分
-  }, { key: "request", value: function request() {var _this = this;var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      // 检查请求拦截
-      if (this.interceptor.request && typeof this.interceptor.request === 'function') {
-        var tmpConfig = {};
-        var interceptorRequest = this.interceptor.request(options);
-        if (interceptorRequest === false) {
-          // 返回一个处于pending状态中的Promise，来取消原promise，避免进入then()回调
-          return new Promise(function () {});
-        }
-        this.options = interceptorRequest;
-      }
-      options.dataType = options.dataType || this.config.dataType;
-      options.responseType = options.responseType || this.config.responseType;
-      options.url = options.url || '';
-      options.params = options.params || {};
-      options.header = Object.assign({}, this.config.header, options.header);
-      options.method = options.method || this.config.method;
-
-      return new Promise(function (resolve, reject) {
-        options.complete = function (response) {
-          // 请求返回后，隐藏loading(如果请求返回快的话，可能会没有loading)
-          uni.hideLoading();
-          // 清除定时器，如果请求回来了，就无需loading
-          clearTimeout(_this.config.timer);
-          _this.config.timer = null;
-          // 判断用户对拦截返回数据的要求，如果originalData为true，返回所有的数据(response)到拦截器，否则只返回response.data
-          if (_this.config.originalData) {
-            // 判断是否存在拦截器
-            if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
-              var resInterceptors = _this.interceptor.response(response);
-              // 如果拦截器不返回false，就将拦截器返回的内容给this.$u.post的then回调
-              if (resInterceptors !== false) {
-                resolve(resInterceptors);
-              } else {
-                // 如果拦截器返回false，意味着拦截器定义者认为返回有问题，直接接入catch回调
-                reject(response);
-              }
-            } else {
-              // 如果要求返回原始数据，就算没有拦截器，也返回最原始的数据
-              resolve(response);
-            }
-          } else {
-            if (response.statusCode == 200) {
-              if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
-                var _resInterceptors = _this.interceptor.response(response.data);
-                if (_resInterceptors !== false) {
-                  resolve(_resInterceptors);
-                } else {
-                  reject(response.data);
-                }
-              } else {
-                // 如果不是返回原始数据(originalData=false)，且没有拦截器的情况下，返回纯数据给then回调
-                resolve(response.data);
-              }
-            } else {
-              // 不返回原始数据的情况下，服务器状态码不为200，modal弹框提示
-              // if(response.errMsg) {
-              // 	uni.showModal({
-              // 		title: response.errMsg
-              // 	});
-              // }
-              reject(response);
-            }
-          }
-        };
-
-        // 判断用户传递的URL是否/开头,如果不是,加上/，这里使用了uView的test.js验证库的url()方法
-        options.url = _test.default.url(options.url) ? options.url : _this.config.baseUrl + (options.url.indexOf('/') == 0 ?
-        options.url : '/' + options.url);
-
-        // 是否显示loading
-        // 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
-        // 而没有清除前者的定时器，导致前者超时，一直显示loading
-        if (_this.config.showLoading && !_this.config.timer) {
-          _this.config.timer = setTimeout(function () {
-            uni.showLoading({
-              title: _this.config.loadingText,
-              mask: _this.config.loadingMask });
-
-            _this.config.timer = null;
-          }, _this.config.loadingTime);
-        }
-        uni.request(options);
-      });
-      // .catch(res => {
-      // 	// 如果返回reject()，不让其进入this.$u.post().then().catch()后面的catct()
-      // 	// 因为很多人都会忘了写后面的catch()，导致报错捕获不到catch
-      // 	return new Promise(()=>{});
-      // })
-    } }]);
-
-  function Request() {var _this2 = this;_classCallCheck(this, Request);
-    this.config = {
-      baseUrl: '', // 请求的根域名
-      // 默认的请求头
-      header: {},
-      method: 'POST',
-      // 设置为json，返回后uni.request会对数据进行一次JSON.parse
-      dataType: 'json',
-      // 此参数无需处理，因为5+和支付宝小程序不支持，默认为text即可
-      responseType: 'text',
-      showLoading: true, // 是否显示请求中的loading
-      loadingText: '请求中...',
-      loadingTime: 800, // 在此时间内，请求还没回来的话，就显示加载中动画，单位ms
-      timer: null, // 定时器
-      originalData: false, // 是否在拦截器中返回服务端的原始数据，见文档说明
-      loadingMask: true // 展示loading的时候，是否给一个透明的蒙层，防止触摸穿透
-    };
-
-    // 拦截器
-    this.interceptor = {
-      // 请求前的拦截
-      request: null,
-      // 请求后的拦截
-      response: null };
-
-
-    // get请求
-    this.get = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        method: 'GET',
-        url: url,
-        header: header,
-        data: data });
-
-    };
-
-    // post请求
-    this.post = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'POST',
-        header: header,
-        data: data });
-
-    };
-
-    // put请求，不支持支付宝小程序(HX2.6.15)
-    this.put = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'PUT',
-        header: header,
-        data: data });
-
-    };
-
-    // delete请求，不支持支付宝和头条小程序(HX2.6.15)
-    this.delete = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return _this2.request({
-        url: url,
-        method: 'DELETE',
-        header: header,
-        data: data });
-
-    };
-  }return Request;}();var _default =
-
-new Request();exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 200:
-/*!**********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/emitter.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 递归使用 call 方式this指向
-                                                                                                      * @param componentName // 需要找的组件的名称
-                                                                                                      * @param eventName // 事件名称
-                                                                                                      * @param params // 需要传递的参数
-                                                                                                      */
-function _broadcast(componentName, eventName, params) {
-  // 循环子节点找到名称一样的子节点 否则 递归 当前子节点
-  this.$children.map(function (child) {
-    if (componentName === child.$options.name) {
-      child.$emit.apply(child, [eventName].concat(params));
-    } else {
-      _broadcast.apply(child, [componentName, eventName].concat(params));
-    }
-  });
-}var _default =
-{
-  methods: {
-    /**
-              * 派发 (向上查找) (一个)
-              * @param componentName // 需要找的组件的名称
-              * @param eventName // 事件名称
-              * @param params // 需要传递的参数
-              */
-    dispatch: function dispatch(componentName, eventName, params) {
-      var parent = this.$parent || this.$root; //$parent 找到最近的父节点 $root 根节点
-      var name = parent.$options.name; // 获取当前组件实例的name
-      // 如果当前有节点 && 当前没名称 且 当前名称等于需要传进来的名称的时候就去查找当前的节点
-      // 循环出当前名称的一样的组件实例
-      while (parent && (!name || name !== componentName)) {
-        parent = parent.$parent;
-        if (parent) {
-          name = parent.$options.name;
-        }
-      }
-      // 有节点表示当前找到了name一样的实例
-      if (parent) {
-        parent.$emit.apply(parent, [eventName].concat(params));
-      }
-    },
-    /**
-        * 广播 (向下查找) (广播多个)
-        * @param componentName // 需要找的组件的名称
-        * @param eventName // 事件名称
-        * @param params // 需要传递的参数
-        */
-    broadcast: function broadcast(componentName, eventName, params) {
-      _broadcast.call(this, componentName, eventName, params);
-    } } };exports.default = _default;
-
-/***/ }),
-
-/***/ 201:
-/*!******************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/async-validator.js ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-/* eslint no-console:0 */
-var formatRegExp = /%[sdj%]/g;
-var warning = function warning() {}; // don't print warning message when in production env or node runtime
-
-if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
-'undefined' && typeof document !== 'undefined') {
-  warning = function warning(type, errors) {
-    if (typeof console !== 'undefined' && console.warn) {
-      if (errors.every(function (e) {
-        return typeof e === 'string';
-      })) {
-        console.warn(type, errors);
-      }
-    }
-  };
-}
-
-function convertFieldsError(errors) {
-  if (!errors || !errors.length) return null;
-  var fields = {};
-  errors.forEach(function (error) {
-    var field = error.field;
-    fields[field] = fields[field] || [];
-    fields[field].push(error);
-  });
-  return fields;
-}
-
-function format() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  var i = 1;
-  var f = args[0];
-  var len = args.length;
-
-  if (typeof f === 'function') {
-    return f.apply(null, args.slice(1));
-  }
-
-  if (typeof f === 'string') {
-    var str = String(f).replace(formatRegExp, function (x) {
-      if (x === '%%') {
-        return '%';
-      }
-
-      if (i >= len) {
-        return x;
-      }
-
-      switch (x) {
-        case '%s':
-          return String(args[i++]);
-
-        case '%d':
-          return Number(args[i++]);
-
-        case '%j':
-          try {
-            return JSON.stringify(args[i++]);
-          } catch (_) {
-            return '[Circular]';
-          }
-
-          break;
-
-        default:
-          return x;}
-
-    });
-
-    for (var arg = args[i]; i < len; arg = args[++i]) {
-      str += " " + arg;
-    }
-
-    return str;
-  }
-
-  return f;
-}
-
-function isNativeStringType(type) {
-  return type === 'string' || type === 'url' || type === 'hex' || type === 'email' || type === 'pattern';
-}
-
-function isEmptyValue(value, type) {
-  if (value === undefined || value === null) {
-    return true;
-  }
-
-  if (type === 'array' && Array.isArray(value) && !value.length) {
-    return true;
-  }
-
-  if (isNativeStringType(type) && typeof value === 'string' && !value) {
-    return true;
-  }
-
-  return false;
-}
-
-function asyncParallelArray(arr, func, callback) {
-  var results = [];
-  var total = 0;
-  var arrLength = arr.length;
-
-  function count(errors) {
-    results.push.apply(results, errors);
-    total++;
-
-    if (total === arrLength) {
-      callback(results);
-    }
-  }
-
-  arr.forEach(function (a) {
-    func(a, count);
-  });
-}
-
-function asyncSerialArray(arr, func, callback) {
-  var index = 0;
-  var arrLength = arr.length;
-
-  function next(errors) {
-    if (errors && errors.length) {
-      callback(errors);
-      return;
-    }
-
-    var original = index;
-    index = index + 1;
-
-    if (original < arrLength) {
-      func(arr[original], next);
-    } else {
-      callback([]);
-    }
-  }
-
-  next([]);
-}
-
-function flattenObjArr(objArr) {
-  var ret = [];
-  Object.keys(objArr).forEach(function (k) {
-    ret.push.apply(ret, objArr[k]);
-  });
-  return ret;
-}
-
-function asyncMap(objArr, option, func, callback) {
-  if (option.first) {
-    var _pending = new Promise(function (resolve, reject) {
-      var next = function next(errors) {
-        callback(errors);
-        return errors.length ? reject({
-          errors: errors,
-          fields: convertFieldsError(errors) }) :
-        resolve();
-      };
-
-      var flattenArr = flattenObjArr(objArr);
-      asyncSerialArray(flattenArr, func, next);
-    });
-
-    _pending["catch"](function (e) {
-      return e;
-    });
-
-    return _pending;
-  }
-
-  var firstFields = option.firstFields || [];
-
-  if (firstFields === true) {
-    firstFields = Object.keys(objArr);
-  }
-
-  var objArrKeys = Object.keys(objArr);
-  var objArrLength = objArrKeys.length;
-  var total = 0;
-  var results = [];
-  var pending = new Promise(function (resolve, reject) {
-    var next = function next(errors) {
-      results.push.apply(results, errors);
-      total++;
-
-      if (total === objArrLength) {
-        callback(results);
-        return results.length ? reject({
-          errors: results,
-          fields: convertFieldsError(results) }) :
-        resolve();
-      }
-    };
-
-    if (!objArrKeys.length) {
-      callback(results);
-      resolve();
-    }
-
-    objArrKeys.forEach(function (key) {
-      var arr = objArr[key];
-
-      if (firstFields.indexOf(key) !== -1) {
-        asyncSerialArray(arr, func, next);
-      } else {
-        asyncParallelArray(arr, func, next);
-      }
-    });
-  });
-  pending["catch"](function (e) {
-    return e;
-  });
-  return pending;
-}
-
-function complementError(rule) {
-  return function (oe) {
-    if (oe && oe.message) {
-      oe.field = oe.field || rule.fullField;
-      return oe;
-    }
-
-    return {
-      message: typeof oe === 'function' ? oe() : oe,
-      field: oe.field || rule.fullField };
-
-  };
-}
-
-function deepMerge(target, source) {
-  if (source) {
-    for (var s in source) {
-      if (source.hasOwnProperty(s)) {
-        var value = source[s];
-
-        if (typeof value === 'object' && typeof target[s] === 'object') {
-          target[s] = _extends({}, target[s], {}, value);
-        } else {
-          target[s] = value;
-        }
-      }
-    }
-  }
-
-  return target;
-}
-
-/**
-   *  Rule for validating required fields.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param source The source object being validated.
-   *  @param errors An array of errors that this rule may add
-   *  validation errors to.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function required(rule, value, source, errors, options, type) {
-  if (rule.required && (!source.hasOwnProperty(rule.field) || isEmptyValue(value, type || rule.type))) {
-    errors.push(format(options.messages.required, rule.fullField));
-  }
-}
-
-/**
-   *  Rule for validating whitespace.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param source The source object being validated.
-   *  @param errors An array of errors that this rule may add
-   *  validation errors to.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function whitespace(rule, value, source, errors, options) {
-  if (/^\s+$/.test(value) || value === '') {
-    errors.push(format(options.messages.whitespace, rule.fullField));
-  }
-}
-
-/* eslint max-len:0 */
-
-var pattern = {
-  // http://emailregex.com/
-  email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  url: new RegExp(
-  "^(?!mailto:)(?:(?:http|https|ftp)://|//)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-*)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-*)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$",
-  'i'),
-  hex: /^#?([a-f0-9]{6}|[a-f0-9]{3})$/i };
-
-var types = {
-  integer: function integer(value) {
-    return types.number(value) && parseInt(value, 10) === value;
-  },
-  "float": function float(value) {
-    return types.number(value) && !types.integer(value);
-  },
-  array: function array(value) {
-    return Array.isArray(value);
-  },
-  regexp: function regexp(value) {
-    if (value instanceof RegExp) {
-      return true;
-    }
-
-    try {
-      return !!new RegExp(value);
-    } catch (e) {
-      return false;
-    }
-  },
-  date: function date(value) {
-    return typeof value.getTime === 'function' && typeof value.getMonth === 'function' && typeof value.getYear ===
-    'function';
-  },
-  number: function number(value) {
-    if (isNaN(value)) {
-      return false;
-    }
-
-    // 修改源码，将字符串数值先转为数值
-    return typeof +value === 'number';
-  },
-  object: function object(value) {
-    return typeof value === 'object' && !types.array(value);
-  },
-  method: function method(value) {
-    return typeof value === 'function';
-  },
-  email: function email(value) {
-    return typeof value === 'string' && !!value.match(pattern.email) && value.length < 255;
-  },
-  url: function url(value) {
-    return typeof value === 'string' && !!value.match(pattern.url);
-  },
-  hex: function hex(value) {
-    return typeof value === 'string' && !!value.match(pattern.hex);
-  } };
-
-/**
-        *  Rule for validating the type of a value.
-        *
-        *  @param rule The validation rule.
-        *  @param value The value of the field on the source object.
-        *  @param source The source object being validated.
-        *  @param errors An array of errors that this rule may add
-        *  validation errors to.
-        *  @param options The validation options.
-        *  @param options.messages The validation messages.
-        */
-
-function type(rule, value, source, errors, options) {
-  if (rule.required && value === undefined) {
-    required(rule, value, source, errors, options);
-    return;
-  }
-
-  var custom = ['integer', 'float', 'array', 'regexp', 'object', 'method', 'email', 'number', 'date', 'url', 'hex'];
-  var ruleType = rule.type;
-
-  if (custom.indexOf(ruleType) > -1) {
-    if (!types[ruleType](value)) {
-      errors.push(format(options.messages.types[ruleType], rule.fullField, rule.type));
-    } // straight typeof check
-
-  } else if (ruleType && typeof value !== rule.type) {
-    errors.push(format(options.messages.types[ruleType], rule.fullField, rule.type));
-  }
-}
-
-/**
-   *  Rule for validating minimum and maximum allowed values.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param source The source object being validated.
-   *  @param errors An array of errors that this rule may add
-   *  validation errors to.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function range(rule, value, source, errors, options) {
-  var len = typeof rule.len === 'number';
-  var min = typeof rule.min === 'number';
-  var max = typeof rule.max === 'number'; // 正则匹配码点范围从U+010000一直到U+10FFFF的文字（补充平面Supplementary Plane）
-
-  var spRegexp = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
-  var val = value;
-  var key = null;
-  var num = typeof value === 'number';
-  var str = typeof value === 'string';
-  var arr = Array.isArray(value);
-
-  if (num) {
-    key = 'number';
-  } else if (str) {
-    key = 'string';
-  } else if (arr) {
-    key = 'array';
-  } // if the value is not of a supported type for range validation
-  // the validation rule rule should use the
-  // type property to also test for a particular type
-
-
-  if (!key) {
-    return false;
-  }
-
-  if (arr) {
-    val = value.length;
-  }
-
-  if (str) {
-    // 处理码点大于U+010000的文字length属性不准确的bug，如"𠮷𠮷𠮷".length !== 3
-    val = value.replace(spRegexp, '_').length;
-  }
-
-  if (len) {
-    if (val !== rule.len) {
-      errors.push(format(options.messages[key].len, rule.fullField, rule.len));
-    }
-  } else if (min && !max && val < rule.min) {
-    errors.push(format(options.messages[key].min, rule.fullField, rule.min));
-  } else if (max && !min && val > rule.max) {
-    errors.push(format(options.messages[key].max, rule.fullField, rule.max));
-  } else if (min && max && (val < rule.min || val > rule.max)) {
-    errors.push(format(options.messages[key].range, rule.fullField, rule.min, rule.max));
-  }
-}
-
-var ENUM = 'enum';
-/**
-                    *  Rule for validating a value exists in an enumerable list.
-                    *
-                    *  @param rule The validation rule.
-                    *  @param value The value of the field on the source object.
-                    *  @param source The source object being validated.
-                    *  @param errors An array of errors that this rule may add
-                    *  validation errors to.
-                    *  @param options The validation options.
-                    *  @param options.messages The validation messages.
-                    */
-
-function enumerable(rule, value, source, errors, options) {
-  rule[ENUM] = Array.isArray(rule[ENUM]) ? rule[ENUM] : [];
-
-  if (rule[ENUM].indexOf(value) === -1) {
-    errors.push(format(options.messages[ENUM], rule.fullField, rule[ENUM].join(', ')));
-  }
-}
-
-/**
-   *  Rule for validating a regular expression pattern.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param source The source object being validated.
-   *  @param errors An array of errors that this rule may add
-   *  validation errors to.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function pattern$1(rule, value, source, errors, options) {
-  if (rule.pattern) {
-    if (rule.pattern instanceof RegExp) {
-      // if a RegExp instance is passed, reset `lastIndex` in case its `global`
-      // flag is accidentally set to `true`, which in a validation scenario
-      // is not necessary and the result might be misleading
-      rule.pattern.lastIndex = 0;
-
-      if (!rule.pattern.test(value)) {
-        errors.push(format(options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
-      }
-    } else if (typeof rule.pattern === 'string') {
-      var _pattern = new RegExp(rule.pattern);
-
-      if (!_pattern.test(value)) {
-        errors.push(format(options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
-      }
-    }
-  }
-}
-
-var rules = {
-  required: required,
-  whitespace: whitespace,
-  type: type,
-  range: range,
-  "enum": enumerable,
-  pattern: pattern$1 };
-
-
-/**
-                         *  Performs validation for string types.
-                         *
-                         *  @param rule The validation rule.
-                         *  @param value The value of the field on the source object.
-                         *  @param callback The callback function.
-                         *  @param source The source object being validated.
-                         *  @param options The validation options.
-                         *  @param options.messages The validation messages.
-                         */
-
-function string(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value, 'string') && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options, 'string');
-
-    if (!isEmptyValue(value, 'string')) {
-      rules.type(rule, value, source, errors, options);
-      rules.range(rule, value, source, errors, options);
-      rules.pattern(rule, value, source, errors, options);
-
-      if (rule.whitespace === true) {
-        rules.whitespace(rule, value, source, errors, options);
-      }
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates a function.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function method(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (value !== undefined) {
-      rules.type(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates a number.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function number(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (value === '') {
-      value = undefined;
-    }
-
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (value !== undefined) {
-      rules.type(rule, value, source, errors, options);
-      rules.range(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates a boolean.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function _boolean(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (value !== undefined) {
-      rules.type(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates the regular expression type.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function regexp(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (!isEmptyValue(value)) {
-      rules.type(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates a number is an integer.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function integer(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (value !== undefined) {
-      rules.type(rule, value, source, errors, options);
-      rules.range(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates a number is a floating point number.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function floatFn(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (value !== undefined) {
-      rules.type(rule, value, source, errors, options);
-      rules.range(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates an array.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function array(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value, 'array') && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options, 'array');
-
-    if (!isEmptyValue(value, 'array')) {
-      rules.type(rule, value, source, errors, options);
-      rules.range(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates an object.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function object(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (value !== undefined) {
-      rules.type(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-var ENUM$1 = 'enum';
-/**
-                      *  Validates an enumerable list.
-                      *
-                      *  @param rule The validation rule.
-                      *  @param value The value of the field on the source object.
-                      *  @param callback The callback function.
-                      *  @param source The source object being validated.
-                      *  @param options The validation options.
-                      *  @param options.messages The validation messages.
-                      */
-
-function enumerable$1(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (value !== undefined) {
-      rules[ENUM$1](rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Validates a regular expression pattern.
-   *
-   *  Performs validation when a rule only contains
-   *  a pattern property but is not declared as a string type.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function pattern$2(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value, 'string') && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (!isEmptyValue(value, 'string')) {
-      rules.pattern(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-function date(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-
-    if (!isEmptyValue(value)) {
-      var dateObject;
-
-      if (typeof value === 'number') {
-        dateObject = new Date(value);
-      } else {
-        dateObject = value;
-      }
-
-      rules.type(rule, dateObject, source, errors, options);
-
-      if (dateObject) {
-        rules.range(rule, dateObject.getTime(), source, errors, options);
-      }
-    }
-  }
-
-  callback(errors);
-}
-
-function required$1(rule, value, callback, source, options) {
-  var errors = [];
-  var type = Array.isArray(value) ? 'array' : typeof value;
-  rules.required(rule, value, source, errors, options, type);
-  callback(errors);
-}
-
-function type$1(rule, value, callback, source, options) {
-  var ruleType = rule.type;
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value, ruleType) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options, ruleType);
-
-    if (!isEmptyValue(value, ruleType)) {
-      rules.type(rule, value, source, errors, options);
-    }
-  }
-
-  callback(errors);
-}
-
-/**
-   *  Performs validation for any type.
-   *
-   *  @param rule The validation rule.
-   *  @param value The value of the field on the source object.
-   *  @param callback The callback function.
-   *  @param source The source object being validated.
-   *  @param options The validation options.
-   *  @param options.messages The validation messages.
-   */
-
-function any(rule, value, callback, source, options) {
-  var errors = [];
-  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
-
-  if (validate) {
-    if (isEmptyValue(value) && !rule.required) {
-      return callback();
-    }
-
-    rules.required(rule, value, source, errors, options);
-  }
-
-  callback(errors);
-}
-
-var validators = {
-  string: string,
-  method: method,
-  number: number,
-  "boolean": _boolean,
-  regexp: regexp,
-  integer: integer,
-  "float": floatFn,
-  array: array,
-  object: object,
-  "enum": enumerable$1,
-  pattern: pattern$2,
-  date: date,
-  url: type$1,
-  hex: type$1,
-  email: type$1,
-  required: required$1,
-  any: any };
-
-
-function newMessages() {
-  return {
-    "default": 'Validation error on field %s',
-    required: '%s is required',
-    "enum": '%s must be one of %s',
-    whitespace: '%s cannot be empty',
-    date: {
-      format: '%s date %s is invalid for format %s',
-      parse: '%s date could not be parsed, %s is invalid ',
-      invalid: '%s date %s is invalid' },
-
-    types: {
-      string: '%s is not a %s',
-      method: '%s is not a %s (function)',
-      array: '%s is not an %s',
-      object: '%s is not an %s',
-      number: '%s is not a %s',
-      date: '%s is not a %s',
-      "boolean": '%s is not a %s',
-      integer: '%s is not an %s',
-      "float": '%s is not a %s',
-      regexp: '%s is not a valid %s',
-      email: '%s is not a valid %s',
-      url: '%s is not a valid %s',
-      hex: '%s is not a valid %s' },
-
-    string: {
-      len: '%s must be exactly %s characters',
-      min: '%s must be at least %s characters',
-      max: '%s cannot be longer than %s characters',
-      range: '%s must be between %s and %s characters' },
-
-    number: {
-      len: '%s must equal %s',
-      min: '%s cannot be less than %s',
-      max: '%s cannot be greater than %s',
-      range: '%s must be between %s and %s' },
-
-    array: {
-      len: '%s must be exactly %s in length',
-      min: '%s cannot be less than %s in length',
-      max: '%s cannot be greater than %s in length',
-      range: '%s must be between %s and %s in length' },
-
-    pattern: {
-      mismatch: '%s value %s does not match pattern %s' },
-
-    clone: function clone() {
-      var cloned = JSON.parse(JSON.stringify(this));
-      cloned.clone = this.clone;
-      return cloned;
-    } };
-
-}
-var messages = newMessages();
-
-/**
-                               *  Encapsulates a validation schema.
-                               *
-                               *  @param descriptor An object declaring validation rules
-                               *  for this schema.
-                               */
-
-function Schema(descriptor) {
-  this.rules = null;
-  this._messages = messages;
-  this.define(descriptor);
-}
-
-Schema.prototype = {
-  messages: function messages(_messages) {
-    if (_messages) {
-      this._messages = deepMerge(newMessages(), _messages);
-    }
-
-    return this._messages;
-  },
-  define: function define(rules) {
-    if (!rules) {
-      throw new Error('Cannot configure a schema with no rules');
-    }
-
-    if (typeof rules !== 'object' || Array.isArray(rules)) {
-      throw new Error('Rules must be an object');
-    }
-
-    this.rules = {};
-    var z;
-    var item;
-
-    for (z in rules) {
-      if (rules.hasOwnProperty(z)) {
-        item = rules[z];
-        this.rules[z] = Array.isArray(item) ? item : [item];
-      }
-    }
-  },
-  validate: function validate(source_, o, oc) {
-    var _this = this;
-
-    if (o === void 0) {
-      o = {};
-    }
-
-    if (oc === void 0) {
-      oc = function oc() {};
-    }
-
-    var source = source_;
-    var options = o;
-    var callback = oc;
-
-    if (typeof options === 'function') {
-      callback = options;
-      options = {};
-    }
-
-    if (!this.rules || Object.keys(this.rules).length === 0) {
-      if (callback) {
-        callback();
-      }
-
-      return Promise.resolve();
-    }
-
-    function complete(results) {
-      var i;
-      var errors = [];
-      var fields = {};
-
-      function add(e) {
-        if (Array.isArray(e)) {
-          var _errors;
-
-          errors = (_errors = errors).concat.apply(_errors, e);
-        } else {
-          errors.push(e);
-        }
-      }
-
-      for (i = 0; i < results.length; i++) {
-        add(results[i]);
-      }
-
-      if (!errors.length) {
-        errors = null;
-        fields = null;
-      } else {
-        fields = convertFieldsError(errors);
-      }
-
-      callback(errors, fields);
-    }
-
-    if (options.messages) {
-      var messages$1 = this.messages();
-
-      if (messages$1 === messages) {
-        messages$1 = newMessages();
-      }
-
-      deepMerge(messages$1, options.messages);
-      options.messages = messages$1;
-    } else {
-      options.messages = this.messages();
-    }
-
-    var arr;
-    var value;
-    var series = {};
-    var keys = options.keys || Object.keys(this.rules);
-    keys.forEach(function (z) {
-      arr = _this.rules[z];
-      value = source[z];
-      arr.forEach(function (r) {
-        var rule = r;
-
-        if (typeof rule.transform === 'function') {
-          if (source === source_) {
-            source = _extends({}, source);
-          }
-
-          value = source[z] = rule.transform(value);
-        }
-
-        if (typeof rule === 'function') {
-          rule = {
-            validator: rule };
-
-        } else {
-          rule = _extends({}, rule);
-        }
-
-        rule.validator = _this.getValidationMethod(rule);
-        rule.field = z;
-        rule.fullField = rule.fullField || z;
-        rule.type = _this.getType(rule);
-
-        if (!rule.validator) {
-          return;
-        }
-
-        series[z] = series[z] || [];
-        series[z].push({
-          rule: rule,
-          value: value,
-          source: source,
-          field: z });
-
-      });
-    });
-    var errorFields = {};
-    return asyncMap(series, options, function (data, doIt) {
-      var rule = data.rule;
-      var deep = (rule.type === 'object' || rule.type === 'array') && (typeof rule.fields === 'object' || typeof rule.defaultField ===
-      'object');
-      deep = deep && (rule.required || !rule.required && data.value);
-      rule.field = data.field;
-
-      function addFullfield(key, schema) {
-        return _extends({}, schema, {
-          fullField: rule.fullField + "." + key });
-
-      }
-
-      function cb(e) {
-        if (e === void 0) {
-          e = [];
-        }
-
-        var errors = e;
-
-        if (!Array.isArray(errors)) {
-          errors = [errors];
-        }
-
-        if (!options.suppressWarning && errors.length) {
-          Schema.warning('async-validator:', errors);
-        }
-
-        if (errors.length && rule.message) {
-          errors = [].concat(rule.message);
-        }
-
-        errors = errors.map(complementError(rule));
-
-        if (options.first && errors.length) {
-          errorFields[rule.field] = 1;
-          return doIt(errors);
-        }
-
-        if (!deep) {
-          doIt(errors);
-        } else {
-          // if rule is required but the target object
-          // does not exist fail at the rule level and don't
-          // go deeper
-          if (rule.required && !data.value) {
-            if (rule.message) {
-              errors = [].concat(rule.message).map(complementError(rule));
-            } else if (options.error) {
-              errors = [options.error(rule, format(options.messages.required, rule.field))];
-            } else {
-              errors = [];
-            }
-
-            return doIt(errors);
-          }
-
-          var fieldsSchema = {};
-
-          if (rule.defaultField) {
-            for (var k in data.value) {
-              if (data.value.hasOwnProperty(k)) {
-                fieldsSchema[k] = rule.defaultField;
-              }
-            }
-          }
-
-          fieldsSchema = _extends({}, fieldsSchema, {}, data.rule.fields);
-
-          for (var f in fieldsSchema) {
-            if (fieldsSchema.hasOwnProperty(f)) {
-              var fieldSchema = Array.isArray(fieldsSchema[f]) ? fieldsSchema[f] : [fieldsSchema[f]];
-              fieldsSchema[f] = fieldSchema.map(addFullfield.bind(null, f));
-            }
-          }
-
-          var schema = new Schema(fieldsSchema);
-          schema.messages(options.messages);
-
-          if (data.rule.options) {
-            data.rule.options.messages = options.messages;
-            data.rule.options.error = options.error;
-          }
-
-          schema.validate(data.value, data.rule.options || options, function (errs) {
-            var finalErrors = [];
-
-            if (errors && errors.length) {
-              finalErrors.push.apply(finalErrors, errors);
-            }
-
-            if (errs && errs.length) {
-              finalErrors.push.apply(finalErrors, errs);
-            }
-
-            doIt(finalErrors.length ? finalErrors : null);
-          });
-        }
-      }
-
-      var res;
-
-      if (rule.asyncValidator) {
-        res = rule.asyncValidator(rule, data.value, cb, data.source, options);
-      } else if (rule.validator) {
-        res = rule.validator(rule, data.value, cb, data.source, options);
-
-        if (res === true) {
-          cb();
-        } else if (res === false) {
-          cb(rule.message || rule.field + " fails");
-        } else if (res instanceof Array) {
-          cb(res);
-        } else if (res instanceof Error) {
-          cb(res.message);
-        }
-      }
-
-      if (res && res.then) {
-        res.then(function () {
-          return cb();
-        }, function (e) {
-          return cb(e);
-        });
-      }
-    }, function (results) {
-      complete(results);
-    });
-  },
-  getType: function getType(rule) {
-    if (rule.type === undefined && rule.pattern instanceof RegExp) {
-      rule.type = 'pattern';
-    }
-
-    if (typeof rule.validator !== 'function' && rule.type && !validators.hasOwnProperty(rule.type)) {
-      throw new Error(format('Unknown rule type %s', rule.type));
-    }
-
-    return rule.type || 'string';
-  },
-  getValidationMethod: function getValidationMethod(rule) {
-    if (typeof rule.validator === 'function') {
-      return rule.validator;
-    }
-
-    var keys = Object.keys(rule);
-    var messageIndex = keys.indexOf('message');
-
-    if (messageIndex !== -1) {
-      keys.splice(messageIndex, 1);
-    }
-
-    if (keys.length === 1 && keys[0] === 'required') {
-      return validators.required;
-    }
-
-    return validators[this.getType(rule)] || false;
-  } };
-
-
-Schema.register = function register(type, validator) {
-  if (typeof validator !== 'function') {
-    throw new Error('Cannot register a validator by type, validator is not a function');
-  }
-
-  validators[type] = validator;
-};
-
-Schema.warning = warning;
-Schema.messages = messages;var _default =
-
-Schema;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 202)))
-
-/***/ }),
-
-/***/ 202:
-/*!********************************************************!*\
-  !*** ./node_modules/node-libs-browser/mock/process.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.nextTick = function nextTick(fn) {
-    var args = Array.prototype.slice.call(arguments);
-    args.shift();
-    setTimeout(function () {
-        fn.apply(null, args);
-    }, 0);
-};
-
-exports.platform = exports.arch = 
-exports.execPath = exports.title = 'browser';
-exports.pid = 1;
-exports.browser = true;
-exports.env = {};
-exports.argv = [];
-
-exports.binding = function (name) {
-	throw new Error('No such module. (Possibly not yet loaded)')
-};
-
-(function () {
-    var cwd = '/';
-    var path;
-    exports.cwd = function () { return cwd };
-    exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 203);
-        cwd = path.resolve(dir, cwd);
-    };
-})();
-
-exports.exit = exports.kill = 
-exports.umask = exports.dlopen = 
-exports.uptime = exports.memoryUsage = 
-exports.uvCounters = function() {};
-exports.features = {};
-
-
-/***/ }),
-
-/***/ 203:
-/*!***********************************************!*\
-  !*** ./node_modules/path-browserify/index.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {// .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
-// backported and transplited with Babel, with backwards-compat fixes
-
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// resolves . and .. elements in a path array with directory names there
-// must be no slashes, empty elements, or device names (c:\) in the array
-// (so also no leading and trailing slashes - it does not distinguish
-// relative and absolute paths)
-function normalizeArray(parts, allowAboveRoot) {
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = parts.length - 1; i >= 0; i--) {
-    var last = parts[i];
-    if (last === '.') {
-      parts.splice(i, 1);
-    } else if (last === '..') {
-      parts.splice(i, 1);
-      up++;
-    } else if (up) {
-      parts.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (allowAboveRoot) {
-    for (; up--; up) {
-      parts.unshift('..');
-    }
-  }
-
-  return parts;
-}
-
-// path.resolve([from ...], to)
-// posix version
-exports.resolve = function() {
-  var resolvedPath = '',
-      resolvedAbsolute = false;
-
-  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-    var path = (i >= 0) ? arguments[i] : process.cwd();
-
-    // Skip empty and invalid entries
-    if (typeof path !== 'string') {
-      throw new TypeError('Arguments to path.resolve must be strings');
-    } else if (!path) {
-      continue;
-    }
-
-    resolvedPath = path + '/' + resolvedPath;
-    resolvedAbsolute = path.charAt(0) === '/';
-  }
-
-  // At this point the path should be resolved to a full absolute path, but
-  // handle relative paths to be safe (might happen when process.cwd() fails)
-
-  // Normalize the path
-  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-    return !!p;
-  }), !resolvedAbsolute).join('/');
-
-  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-};
-
-// path.normalize(path)
-// posix version
-exports.normalize = function(path) {
-  var isAbsolute = exports.isAbsolute(path),
-      trailingSlash = substr(path, -1) === '/';
-
-  // Normalize the path
-  path = normalizeArray(filter(path.split('/'), function(p) {
-    return !!p;
-  }), !isAbsolute).join('/');
-
-  if (!path && !isAbsolute) {
-    path = '.';
-  }
-  if (path && trailingSlash) {
-    path += '/';
-  }
-
-  return (isAbsolute ? '/' : '') + path;
-};
-
-// posix version
-exports.isAbsolute = function(path) {
-  return path.charAt(0) === '/';
-};
-
-// posix version
-exports.join = function() {
-  var paths = Array.prototype.slice.call(arguments, 0);
-  return exports.normalize(filter(paths, function(p, index) {
-    if (typeof p !== 'string') {
-      throw new TypeError('Arguments to path.join must be strings');
-    }
-    return p;
-  }).join('/'));
-};
-
-
-// path.relative(from, to)
-// posix version
-exports.relative = function(from, to) {
-  from = exports.resolve(from).substr(1);
-  to = exports.resolve(to).substr(1);
-
-  function trim(arr) {
-    var start = 0;
-    for (; start < arr.length; start++) {
-      if (arr[start] !== '') break;
-    }
-
-    var end = arr.length - 1;
-    for (; end >= 0; end--) {
-      if (arr[end] !== '') break;
-    }
-
-    if (start > end) return [];
-    return arr.slice(start, end - start + 1);
-  }
-
-  var fromParts = trim(from.split('/'));
-  var toParts = trim(to.split('/'));
-
-  var length = Math.min(fromParts.length, toParts.length);
-  var samePartsLength = length;
-  for (var i = 0; i < length; i++) {
-    if (fromParts[i] !== toParts[i]) {
-      samePartsLength = i;
-      break;
-    }
-  }
-
-  var outputParts = [];
-  for (var i = samePartsLength; i < fromParts.length; i++) {
-    outputParts.push('..');
-  }
-
-  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-
-  return outputParts.join('/');
-};
-
-exports.sep = '/';
-exports.delimiter = ':';
-
-exports.dirname = function (path) {
-  if (typeof path !== 'string') path = path + '';
-  if (path.length === 0) return '.';
-  var code = path.charCodeAt(0);
-  var hasRoot = code === 47 /*/*/;
-  var end = -1;
-  var matchedSlash = true;
-  for (var i = path.length - 1; i >= 1; --i) {
-    code = path.charCodeAt(i);
-    if (code === 47 /*/*/) {
-        if (!matchedSlash) {
-          end = i;
-          break;
-        }
-      } else {
-      // We saw the first non-path separator
-      matchedSlash = false;
-    }
-  }
-
-  if (end === -1) return hasRoot ? '/' : '.';
-  if (hasRoot && end === 1) {
-    // return '//';
-    // Backwards-compat fix:
-    return '/';
-  }
-  return path.slice(0, end);
-};
-
-function basename(path) {
-  if (typeof path !== 'string') path = path + '';
-
-  var start = 0;
-  var end = -1;
-  var matchedSlash = true;
-  var i;
-
-  for (i = path.length - 1; i >= 0; --i) {
-    if (path.charCodeAt(i) === 47 /*/*/) {
-        // If we reached a path separator that was not part of a set of path
-        // separators at the end of the string, stop now
-        if (!matchedSlash) {
-          start = i + 1;
-          break;
-        }
-      } else if (end === -1) {
-      // We saw the first non-path separator, mark this as the end of our
-      // path component
-      matchedSlash = false;
-      end = i + 1;
-    }
-  }
-
-  if (end === -1) return '';
-  return path.slice(start, end);
-}
-
-// Uses a mixed approach for backwards-compatibility, as ext behavior changed
-// in new Node.js versions, so only basename() above is backported here
-exports.basename = function (path, ext) {
-  var f = basename(path);
-  if (ext && f.substr(-1 * ext.length) === ext) {
-    f = f.substr(0, f.length - ext.length);
-  }
-  return f;
-};
-
-exports.extname = function (path) {
-  if (typeof path !== 'string') path = path + '';
-  var startDot = -1;
-  var startPart = 0;
-  var end = -1;
-  var matchedSlash = true;
-  // Track the state of characters (if any) we see before our first dot and
-  // after any path separator we find
-  var preDotState = 0;
-  for (var i = path.length - 1; i >= 0; --i) {
-    var code = path.charCodeAt(i);
-    if (code === 47 /*/*/) {
-        // If we reached a path separator that was not part of a set of path
-        // separators at the end of the string, stop now
-        if (!matchedSlash) {
-          startPart = i + 1;
-          break;
-        }
-        continue;
-      }
-    if (end === -1) {
-      // We saw the first non-path separator, mark this as the end of our
-      // extension
-      matchedSlash = false;
-      end = i + 1;
-    }
-    if (code === 46 /*.*/) {
-        // If this is our first dot, mark it as the start of our extension
-        if (startDot === -1)
-          startDot = i;
-        else if (preDotState !== 1)
-          preDotState = 1;
-    } else if (startDot !== -1) {
-      // We saw a non-dot and non-path separator before our dot, so we should
-      // have a good chance at having a non-empty extension
-      preDotState = -1;
-    }
-  }
-
-  if (startDot === -1 || end === -1 ||
-      // We saw a non-dot character immediately before the dot
-      preDotState === 0 ||
-      // The (right-most) trimmed path component is exactly '..'
-      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
-    return '';
-  }
-  return path.slice(startDot, end);
-};
-
-function filter (xs, f) {
-    if (xs.filter) return xs.filter(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        if (f(xs[i], i, xs)) res.push(xs[i]);
-    }
-    return res;
-}
-
-// String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
-    ? function (str, start, len) { return str.substr(start, len) }
-    : function (str, start, len) {
-        if (start < 0) start = str.length + start;
-        return str.substr(start, len);
-    }
-;
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 202)))
-
-/***/ }),
-
-/***/ 21:
-/*!****************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/deepMerge.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./deepClone */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-// JS对象深度合并
-function deepMerge() {var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  target = (0, _deepClone.default)(target);
-  if (typeof target !== 'object' || target === null || typeof source !== 'object' || source === null) return target;
-  var merged = Array.isArray(target) ? target.slice() : Object.assign({}, target);
-  for (var prop in source) {
-    if (!source.hasOwnProperty(prop)) continue;
-    var sourceValue = source[prop];
-    var targetValue = merged[prop];
-    if (sourceValue instanceof Date) {
-      merged[prop] = new Date(sourceValue);
-    } else if (sourceValue instanceof RegExp) {
-      merged[prop] = new RegExp(sourceValue);
-    } else if (sourceValue instanceof Map) {
-      merged[prop] = new Map(sourceValue);
-    } else if (sourceValue instanceof Set) {
-      merged[prop] = new Set(sourceValue);
-    } else if (typeof sourceValue === 'object' && sourceValue !== null) {
-      merged[prop] = deepMerge(targetValue, sourceValue);
-    } else {
-      merged[prop] = sourceValue;
-    }
-  }
-  return merged;
-}var _default =
-
-deepMerge;exports.default = _default;
-
-/***/ }),
-
-/***/ 22:
-/*!****************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/deepClone.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;} // 判断arr是否为一个数组，返回一个bool值
-function isArray(arr) {
-  return Object.prototype.toString.call(arr) === '[object Array]';
-}
-
-// 深度克隆
-function deepClone(obj) {var cache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new WeakMap();
-  if (obj === null || typeof obj !== 'object') return obj;
-  if (cache.has(obj)) return cache.get(obj);
-  var clone;
-  if (obj instanceof Date) {
-    clone = new Date(obj.getTime());
-  } else if (obj instanceof RegExp) {
-    clone = new RegExp(obj);
-  } else if (obj instanceof Map) {
-    clone = new Map(Array.from(obj, function (_ref) {var _ref2 = _slicedToArray(_ref, 2),key = _ref2[0],value = _ref2[1];return [key, deepClone(value, cache)];}));
-  } else if (obj instanceof Set) {
-    clone = new Set(Array.from(obj, function (value) {return deepClone(value, cache);}));
-  } else if (Array.isArray(obj)) {
-    clone = obj.map(function (value) {return deepClone(value, cache);});
-  } else if (Object.prototype.toString.call(obj) === '[object Object]') {
-    clone = Object.create(Object.getPrototypeOf(obj));
-    cache.set(obj, clone);
-    for (var _i2 = 0, _Object$entries = Object.entries(obj); _i2 < _Object$entries.length; _i2++) {var _Object$entries$_i = _slicedToArray(_Object$entries[_i2], 2),key = _Object$entries$_i[0],value = _Object$entries$_i[1];
-      clone[key] = deepClone(value, cache);
-    }
-  } else {
-    clone = Object.assign({}, obj);
-  }
-  cache.set(obj, clone);
-  return clone;
-}var _default =
-
-
-deepClone;exports.default = _default;
-
-/***/ }),
-
-/***/ 23:
-/*!***********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/test.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 验证电子邮箱格式
-                                                                                                      */
-function email(value) {
-  return /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(value);
-}
-
-/**
-   * 验证手机格式
-   */
-function mobile(value) {
-  return /^1[3-9]\d{9}$/.test(value);
-}
-
-/**
-   * 验证URL格式
-   */
-function url(value) {
-  return /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/.test(value);
-}
-
-/**
-   * 验证日期格式
-   */
-function date(value) {
-  return !/Invalid|NaN/.test(new Date(value).toString());
-}
-
-/**
-   * 验证ISO类型的日期格式
-   */
-function dateISO(value) {
-  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value);
-}
-
-/**
-   * 验证十进制数字
-   */
-function number(value) {
-  return /^[\+-]?(\d+\.?\d*|\.\d+|\d\.\d+e\+\d+)$/.test(value);
-}
-
-/**
-   * 验证整数
-   */
-function digits(value) {
-  return /^\d+$/.test(value);
-}
-
-/**
-   * 验证身份证号码
-   */
-function idCard(value) {
-  return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
-  value);
-}
-
-/**
-   * 是否车牌号
-   */
-function carNo(value) {
-  // 新能源车牌
-  var xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/;
-  // 旧车牌
-  var creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/;
-  if (value.length === 7) {
-    return creg.test(value);
-  } else if (value.length === 8) {
-    return xreg.test(value);
-  } else {
-    return false;
-  }
-}
-
-/**
-   * 金额,只允许2位小数
-   */
-function amount(value) {
-  //金额，只允许保留两位小数
-  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value);
-}
-
-/**
-   * 中文
-   */
-function chinese(value) {
-  var reg = /^[\u4e00-\u9fa5]+$/gi;
-  return reg.test(value);
-}
-
-/**
-   * 只能输入字母
-   */
-function letter(value) {
-  return /^[a-zA-Z]*$/.test(value);
-}
-
-/**
-   * 只能是字母或者数字
-   */
-function enOrNum(value) {
-  //英文或者数字
-  var reg = /^[0-9a-zA-Z]*$/g;
-  return reg.test(value);
-}
-
-/**
-   * 验证是否包含某个值
-   */
-function contains(value, param) {
-  return value.indexOf(param) >= 0;
-}
-
-/**
-   * 验证一个值范围[min, max]
-   */
-function range(value, param) {
-  return value >= param[0] && value <= param[1];
-}
-
-/**
-   * 验证一个长度范围[min, max]
-   */
-function rangeLength(value, param) {
-  return value.length >= param[0] && value.length <= param[1];
-}
-
-/**
-   * 是否固定电话
-   */
-function landline(value) {
-  var reg = /^\d{3,4}-\d{7,8}(-\d{3,4})?$/;
-  return reg.test(value);
-}
-
-/**
-   * 判断是否为空
-   */
-function empty(value) {
-  switch (typeof value) {
-    case 'undefined':
-      return true;
-    case 'string':
-      if (value.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) return true;
-      break;
-    case 'boolean':
-      if (!value) return true;
-      break;
-    case 'number':
-      if (0 === value || isNaN(value)) return true;
-      break;
-    case 'object':
-      if (null === value || value.length === 0) return true;
-      for (var i in value) {
-        return false;
-      }
-      return true;}
-
-  return false;
-}
-
-/**
-   * 是否json字符串
-   */
-function jsonString(value) {
-  if (typeof value == 'string') {
-    try {
-      var obj = JSON.parse(value);
-      if (typeof obj == 'object' && obj) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
-  return false;
-}
-
-
-/**
-   * 是否数组
-   */
-function array(value) {
-  if (typeof Array.isArray === "function") {
-    return Array.isArray(value);
-  } else {
-    return Object.prototype.toString.call(value) === "[object Array]";
-  }
-}
-
-/**
-   * 是否对象
-   */
-function object(value) {
-  return Object.prototype.toString.call(value) === '[object Object]';
-}
-
-/**
-   * 是否短信验证码
-   */
-function code(value) {var len = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
-  return new RegExp("^\\d{".concat(len, "}$")).test(value);
-}var _default =
-
-
-{
-  email: email,
-  mobile: mobile,
-  url: url,
-  date: date,
-  dateISO: dateISO,
-  number: number,
-  digits: digits,
-  idCard: idCard,
-  carNo: carNo,
-  amount: amount,
-  chinese: chinese,
-  letter: letter,
-  enOrNum: enOrNum,
-  contains: contains,
-  range: range,
-  rangeLength: rangeLength,
-  empty: empty,
-  isEmpty: empty,
-  jsonString: jsonString,
-  landline: landline,
-  object: object,
-  array: array,
-  code: code };exports.default = _default;
-
-/***/ }),
-
-/***/ 24:
-/*!******************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/queryParams.js ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 对象转url参数
-                                                                                                      * @param {*} data,对象
-                                                                                                      * @param {*} isPrefix,是否自动加上"?"
-                                                                                                      */
-function queryParams() {var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var isPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var arrayFormat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'brackets';
-  var prefix = isPrefix ? '?' : '';
-  var _result = [];
-  if (['indices', 'brackets', 'repeat', 'comma'].indexOf(arrayFormat) == -1) arrayFormat = 'brackets';var _loop = function _loop(
-  key) {
-    var value = data[key];
-    // 去掉为空的参数
-    if (['', undefined, null].indexOf(value) >= 0) {
-      return "continue";
-    }
-    // 如果值为数组，另行处理
-    if (value.constructor === Array) {
-      // e.g. {ids: [1, 2, 3]}
-      switch (arrayFormat) {
-        case 'indices':
-          // 结果: ids[0]=1&ids[1]=2&ids[2]=3
-          for (var i = 0; i < value.length; i++) {
-            _result.push(key + '[' + i + ']=' + value[i]);
-          }
-          break;
-        case 'brackets':
-          // 结果: ids[]=1&ids[]=2&ids[]=3
-          value.forEach(function (_value) {
-            _result.push(key + '[]=' + _value);
-          });
-          break;
-        case 'repeat':
-          // 结果: ids=1&ids=2&ids=3
-          value.forEach(function (_value) {
-            _result.push(key + '=' + _value);
-          });
-          break;
-        case 'comma':
-          // 结果: ids=1,2,3
-          var commaStr = "";
-          value.forEach(function (_value) {
-            commaStr += (commaStr ? "," : "") + _value;
-          });
-          _result.push(key + '=' + commaStr);
-          break;
-        default:
-          value.forEach(function (_value) {
-            _result.push(key + '[]=' + _value);
-          });}
-
-    } else {
-      _result.push(key + '=' + value);
-    }};for (var key in data) {var _ret = _loop(key);if (_ret === "continue") continue;
-  }
-  return _result.length ? prefix + _result.join('&') : '';
-}var _default =
-
-queryParams;exports.default = _default;
-
-/***/ }),
-
-/***/ 25:
-/*!************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/route.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * 路由跳转方法，该方法相对于直接使用uni.xxx的好处是使用更加简单快捷
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * 并且带有路由拦截功能
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             */var
-
-Router = /*#__PURE__*/function () {
-  function Router() {_classCallCheck(this, Router);
-    // 原始属性定义
-    this.config = {
-      type: 'navigateTo',
-      url: '',
-      delta: 1, // navigateBack页面后退时,回退的层数
-      params: {}, // 传递的参数
-      animationType: 'pop-in', // 窗口动画,只在APP有效
-      animationDuration: 300, // 窗口动画持续时间,单位毫秒,只在APP有效
-      intercept: false // 是否需要拦截
-    };
-    // 因为route方法是需要对外赋值给另外的对象使用，同时route内部有使用this，会导致route失去上下文
-    // 这里在构造函数中进行this绑定
-    this.route = this.route.bind(this);
-  }
-
-  // 判断url前面是否有"/"，如果没有则加上，否则无法跳转
-  _createClass(Router, [{ key: "addRootPath", value: function addRootPath(url) {
-      return url[0] === '/' ? url : "/".concat(url);
-    }
-
-    // 整合路由参数
-  }, { key: "mixinParam", value: function mixinParam(url, params) {
-      url = url && this.addRootPath(url);
-
-      // 使用正则匹配，主要依据是判断是否有"/","?","="等，如“/page/index/index?name=mary"
-      // 如果有url中有get参数，转换后无需带上"?"
-      var query = '';
-      if (/.*\/.*\?.*=.*/.test(url)) {
-        // object对象转为get类型的参数
-        query = uni.$u.queryParams(params, false);
-        // 因为已有get参数,所以后面拼接的参数需要带上"&"隔开
-        return url += "&" + query;
-      } else {
-        // 直接拼接参数，因为此处url中没有后面的query参数，也就没有"?/&"之类的符号
-        query = uni.$u.queryParams(params);
-        return url += query;
-      }
-    }
-
-    // 对外的方法名称
-  }, { key: "route", value: function () {var _route = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var options,params,mergeConfig,isNext,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:options = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};params = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
-                // 合并用户的配置和内部的默认配置
-                mergeConfig = {};
-
-                if (typeof options === 'string') {
-                  // 如果options为字符串，则为route(url, params)的形式
-                  mergeConfig.url = this.mixinParam(options, params);
-                  mergeConfig.type = 'navigateTo';
-                } else {
-                  mergeConfig = uni.$u.deepMerge(this.config, options);
-                  // 否则正常使用mergeConfig中的url和params进行拼接
-                  mergeConfig.url = this.mixinParam(options.url, options.params);
-                }
-
-                if (params.intercept) {
-                  this.config.intercept = params.intercept;
-                }
-                // params参数也带给拦截器
-                mergeConfig.params = params;
-                // 合并内外部参数
-                mergeConfig = uni.$u.deepMerge(this.config, mergeConfig);
-                // 判断用户是否定义了拦截器
-                if (!(typeof uni.$u.routeIntercept === 'function')) {_context.next = 14;break;}_context.next = 10;return (
-
-                  new Promise(function (resolve, reject) {
-                    uni.$u.routeIntercept(mergeConfig, resolve);
-                  }));case 10:isNext = _context.sent;
-                // 如果isNext为true，则执行路由跳转
-                isNext && this.openPage(mergeConfig);_context.next = 15;break;case 14:
-
-                this.openPage(mergeConfig);case 15:case "end":return _context.stop();}}}, _callee, this);}));function route() {return _route.apply(this, arguments);}return route;}()
-
-
-
-    // 执行路由跳转
-  }, { key: "openPage", value: function openPage(config) {
-      // 解构参数
-      var
-      url =
-
-
-
-
-      config.url,type = config.type,delta = config.delta,animationType = config.animationType,animationDuration = config.animationDuration;
-      if (config.type == 'navigateTo' || config.type == 'to') {
-        uni.navigateTo({
-          url: url,
-          animationType: animationType,
-          animationDuration: animationDuration });
-
-      }
-      if (config.type == 'redirectTo' || config.type == 'redirect') {
-        uni.redirectTo({
-          url: url });
-
-      }
-      if (config.type == 'switchTab' || config.type == 'tab') {
-        uni.switchTab({
-          url: url });
-
-      }
-      if (config.type == 'reLaunch' || config.type == 'launch') {
-        uni.reLaunch({
-          url: url });
-
-      }
-      if (config.type == 'navigateBack' || config.type == 'back') {
-        uni.navigateBack({
-          delta: delta });
-
-      }
-    } }]);return Router;}();var _default =
-
-
-new Router().route;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 26:
-/*!**********************************************************!*\
-  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ 27);
-
-/***/ }),
-
-/***/ 27:
-/*!************************************************************!*\
-  !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-// This method of obtaining a reference to the global object needs to be
-// kept identical to the way it is obtained in runtime.js
-var g = (function() {
-  return this || (typeof self === "object" && self);
-})() || Function("return this")();
-
-// Use `getOwnPropertyNames` because not all browsers support calling
-// `hasOwnProperty` on the global `self` object in a worker. See #183.
-var hadRuntime = g.regeneratorRuntime &&
-  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
-
-// Save the old regeneratorRuntime in case it needs to be restored later.
-var oldRuntime = hadRuntime && g.regeneratorRuntime;
-
-// Force reevalutation of runtime.js.
-g.regeneratorRuntime = undefined;
-
-module.exports = __webpack_require__(/*! ./runtime */ 28);
-
-if (hadRuntime) {
-  // Restore the original runtime.
-  g.regeneratorRuntime = oldRuntime;
-} else {
-  // Remove the global property added by runtime.js.
-  try {
-    delete g.regeneratorRuntime;
-  } catch(e) {
-    g.regeneratorRuntime = undefined;
-  }
-}
-
-
-/***/ }),
-
-/***/ 28:
-/*!*****************************************************!*\
-  !*** ./node_modules/regenerator-runtime/runtime.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-!(function(global) {
-  "use strict";
-
-  var Op = Object.prototype;
-  var hasOwn = Op.hasOwnProperty;
-  var undefined; // More compressible than void 0.
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  var inModule = typeof module === "object";
-  var runtime = global.regeneratorRuntime;
-  if (runtime) {
-    if (inModule) {
-      // If regeneratorRuntime is defined globally and we're in a module,
-      // make the exports object identical to regeneratorRuntime.
-      module.exports = runtime;
-    }
-    // Don't bother evaluating the rest of this file if the runtime was
-    // already defined globally.
-    return;
-  }
-
-  // Define the runtime globally (as expected by generated code) as either
-  // module.exports (if we're in a module) or a new, empty object.
-  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
-
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-    var generator = Object.create(protoGenerator.prototype);
-    var context = new Context(tryLocsList || []);
-
-    // The ._invoke method unifies the implementations of the .next,
-    // .throw, and .return methods.
-    generator._invoke = makeInvokeMethod(innerFn, self, context);
-
-    return generator;
-  }
-  runtime.wrap = wrap;
-
-  // Try/catch helper to minimize deoptimizations. Returns a completion
-  // record like context.tryEntries[i].completion. This interface could
-  // have been (and was previously) designed to take a closure to be
-  // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
-  // to create a new function object. We can even get away with assuming
-  // the method takes exactly one argument, since that happens to be true
-  // in every case, so we don't have to touch the arguments object. The
-  // only additional allocation required is the completion record, which
-  // has a stable shape and so hopefully should be cheap to allocate.
-  function tryCatch(fn, obj, arg) {
-    try {
-      return { type: "normal", arg: fn.call(obj, arg) };
-    } catch (err) {
-      return { type: "throw", arg: err };
-    }
-  }
-
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-
-  // Returning this object from the innerFn has the same effect as
-  // breaking out of the dispatch switch statement.
-  var ContinueSentinel = {};
-
-  // Dummy constructor functions that we use as the .constructor and
-  // .constructor.prototype properties for functions that return Generator
-  // objects. For full spec compliance, you may wish to configure your
-  // minifier not to mangle the names of these two functions.
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-
-  // This is a polyfill for %IteratorPrototype% for environments that
-  // don't natively support it.
-  var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
-    return this;
-  };
-
-  var getProto = Object.getPrototypeOf;
-  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  if (NativeIteratorPrototype &&
-      NativeIteratorPrototype !== Op &&
-      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-    // This environment has a native %IteratorPrototype%; use it instead
-    // of the polyfill.
-    IteratorPrototype = NativeIteratorPrototype;
-  }
-
-  var Gp = GeneratorFunctionPrototype.prototype =
-    Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] =
-    GeneratorFunction.displayName = "GeneratorFunction";
-
-  // Helper for defining the .next, .throw, and .return methods of the
-  // Iterator interface in terms of a single ._invoke method.
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
-      prototype[method] = function(arg) {
-        return this._invoke(method, arg);
-      };
-    });
-  }
-
-  runtime.isGeneratorFunction = function(genFun) {
-    var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor
-      ? ctor === GeneratorFunction ||
-        // For the native GeneratorFunction constructor, the best we can
-        // do is to check its .name property.
-        (ctor.displayName || ctor.name) === "GeneratorFunction"
-      : false;
-  };
-
-  runtime.mark = function(genFun) {
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-    } else {
-      genFun.__proto__ = GeneratorFunctionPrototype;
-      if (!(toStringTagSymbol in genFun)) {
-        genFun[toStringTagSymbol] = "GeneratorFunction";
-      }
-    }
-    genFun.prototype = Object.create(Gp);
-    return genFun;
-  };
-
-  // Within the body of any async function, `await x` is transformed to
-  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
-  // `hasOwn.call(value, "__await")` to determine if the yielded value is
-  // meant to be awaited.
-  runtime.awrap = function(arg) {
-    return { __await: arg };
-  };
-
-  function AsyncIterator(generator) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if (record.type === "throw") {
-        reject(record.arg);
-      } else {
-        var result = record.arg;
-        var value = result.value;
-        if (value &&
-            typeof value === "object" &&
-            hasOwn.call(value, "__await")) {
-          return Promise.resolve(value.__await).then(function(value) {
-            invoke("next", value, resolve, reject);
-          }, function(err) {
-            invoke("throw", err, resolve, reject);
-          });
-        }
-
-        return Promise.resolve(value).then(function(unwrapped) {
-          // When a yielded Promise is resolved, its final value becomes
-          // the .value of the Promise<{value,done}> result for the
-          // current iteration.
-          result.value = unwrapped;
-          resolve(result);
-        }, function(error) {
-          // If a rejected Promise was yielded, throw the rejection back
-          // into the async generator function so it can be handled there.
-          return invoke("throw", error, resolve, reject);
-        });
-      }
-    }
-
-    var previousPromise;
-
-    function enqueue(method, arg) {
-      function callInvokeWithMethodAndArg() {
-        return new Promise(function(resolve, reject) {
-          invoke(method, arg, resolve, reject);
-        });
-      }
-
-      return previousPromise =
-        // If enqueue has been called before, then we want to wait until
-        // all previous Promises have been resolved before calling invoke,
-        // so that results are always delivered in the correct order. If
-        // enqueue has not been called before, then it is important to
-        // call invoke immediately, without waiting on a callback to fire,
-        // so that the async generator function has the opportunity to do
-        // any necessary setup in a predictable way. This predictability
-        // is why the Promise constructor synchronously invokes its
-        // executor callback, and why async functions synchronously
-        // execute code before the first await. Since we implement simple
-        // async functions in terms of async generators, it is especially
-        // important to get this right, even though it requires care.
-        previousPromise ? previousPromise.then(
-          callInvokeWithMethodAndArg,
-          // Avoid propagating failures to Promises returned by later
-          // invocations of the iterator.
-          callInvokeWithMethodAndArg
-        ) : callInvokeWithMethodAndArg();
-    }
-
-    // Define the unified helper method that is used to implement .next,
-    // .throw, and .return (see defineIteratorMethods).
-    this._invoke = enqueue;
-  }
-
-  defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
-    return this;
-  };
-  runtime.AsyncIterator = AsyncIterator;
-
-  // Note that simple async functions are implemented on top of
-  // AsyncIterator objects; they just return a Promise for the value of
-  // the final result produced by the iterator.
-  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
-    var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList)
-    );
-
-    return runtime.isGeneratorFunction(outerFn)
-      ? iter // If outerFn is a generator, return the full iterator.
-      : iter.next().then(function(result) {
-          return result.done ? result.value : iter.next();
-        });
-  };
-
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = GenStateSuspendedStart;
-
-    return function invoke(method, arg) {
-      if (state === GenStateExecuting) {
-        throw new Error("Generator is already running");
-      }
-
-      if (state === GenStateCompleted) {
-        if (method === "throw") {
-          throw arg;
-        }
-
-        // Be forgiving, per 25.3.3.3.3 of the spec:
-        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-        return doneResult();
-      }
-
-      context.method = method;
-      context.arg = arg;
-
-      while (true) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-
-        if (context.method === "next") {
-          // Setting context._sent for legacy support of Babel's
-          // function.sent implementation.
-          context.sent = context._sent = context.arg;
-
-        } else if (context.method === "throw") {
-          if (state === GenStateSuspendedStart) {
-            state = GenStateCompleted;
-            throw context.arg;
-          }
-
-          context.dispatchException(context.arg);
-
-        } else if (context.method === "return") {
-          context.abrupt("return", context.arg);
-        }
-
-        state = GenStateExecuting;
-
-        var record = tryCatch(innerFn, self, context);
-        if (record.type === "normal") {
-          // If an exception is thrown from innerFn, we leave state ===
-          // GenStateExecuting and loop back for another invocation.
-          state = context.done
-            ? GenStateCompleted
-            : GenStateSuspendedYield;
-
-          if (record.arg === ContinueSentinel) {
-            continue;
-          }
-
-          return {
-            value: record.arg,
-            done: context.done
-          };
-
-        } else if (record.type === "throw") {
-          state = GenStateCompleted;
-          // Dispatch the exception by looping back around to the
-          // context.dispatchException(context.arg) call above.
-          context.method = "throw";
-          context.arg = record.arg;
-        }
-      }
-    };
-  }
-
-  // Call delegate.iterator[context.method](context.arg) and handle the
-  // result, either by returning a { value, done } result from the
-  // delegate iterator, or by modifying context.method and context.arg,
-  // setting context.delegate to null, and returning the ContinueSentinel.
-  function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (method === undefined) {
-      // A .throw or .return when the delegate iterator has no .throw
-      // method always terminates the yield* loop.
-      context.delegate = null;
-
-      if (context.method === "throw") {
-        if (delegate.iterator.return) {
-          // If the delegate iterator has a return method, give it a
-          // chance to clean up.
-          context.method = "return";
-          context.arg = undefined;
-          maybeInvokeDelegate(delegate, context);
-
-          if (context.method === "throw") {
-            // If maybeInvokeDelegate(context) changed context.method from
-            // "return" to "throw", let that override the TypeError below.
-            return ContinueSentinel;
-          }
-        }
-
-        context.method = "throw";
-        context.arg = new TypeError(
-          "The iterator does not provide a 'throw' method");
-      }
-
-      return ContinueSentinel;
-    }
-
-    var record = tryCatch(method, delegate.iterator, context.arg);
-
-    if (record.type === "throw") {
-      context.method = "throw";
-      context.arg = record.arg;
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    var info = record.arg;
-
-    if (! info) {
-      context.method = "throw";
-      context.arg = new TypeError("iterator result is not an object");
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    if (info.done) {
-      // Assign the result of the finished delegate to the temporary
-      // variable specified by delegate.resultName (see delegateYield).
-      context[delegate.resultName] = info.value;
-
-      // Resume execution at the desired location (see delegateYield).
-      context.next = delegate.nextLoc;
-
-      // If context.method was "throw" but the delegate handled the
-      // exception, let the outer generator proceed normally. If
-      // context.method was "next", forget context.arg since it has been
-      // "consumed" by the delegate iterator. If context.method was
-      // "return", allow the original .return call to continue in the
-      // outer generator.
-      if (context.method !== "return") {
-        context.method = "next";
-        context.arg = undefined;
-      }
-
-    } else {
-      // Re-yield the result returned by the delegate method.
-      return info;
-    }
-
-    // The delegate iterator is finished, so forget it and continue with
-    // the outer generator.
-    context.delegate = null;
-    return ContinueSentinel;
-  }
-
-  // Define Generator.prototype.{next,throw,return} in terms of the
-  // unified ._invoke helper method.
-  defineIteratorMethods(Gp);
-
-  Gp[toStringTagSymbol] = "Generator";
-
-  // A Generator should always return itself as the iterator object when the
-  // @@iterator function is called on it. Some browsers' implementations of the
-  // iterator prototype chain incorrectly implement this, causing the Generator
-  // object to not be returned from this call. This ensures that doesn't happen.
-  // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
-    return this;
-  };
-
-  Gp.toString = function() {
-    return "[object Generator]";
-  };
-
-  function pushTryEntry(locs) {
-    var entry = { tryLoc: locs[0] };
-
-    if (1 in locs) {
-      entry.catchLoc = locs[1];
-    }
-
-    if (2 in locs) {
-      entry.finallyLoc = locs[2];
-      entry.afterLoc = locs[3];
-    }
-
-    this.tryEntries.push(entry);
-  }
-
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal";
-    delete record.arg;
-    entry.completion = record;
-  }
-
-  function Context(tryLocsList) {
-    // The root entry object (effectively a try statement without a catch
-    // or a finally block) gives us a place to store values thrown from
-    // locations where there is no enclosing try statement.
-    this.tryEntries = [{ tryLoc: "root" }];
-    tryLocsList.forEach(pushTryEntry, this);
-    this.reset(true);
-  }
-
-  runtime.keys = function(object) {
-    var keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    keys.reverse();
-
-    // Rather than returning an object with a next method, we keep
-    // things simple and return the next function itself.
-    return function next() {
-      while (keys.length) {
-        var key = keys.pop();
-        if (key in object) {
-          next.value = key;
-          next.done = false;
-          return next;
-        }
-      }
-
-      // To avoid creating an additional object, we just hang the .value
-      // and .done properties off the next function object itself. This
-      // also ensures that the minifier will not anonymize the function.
-      next.done = true;
-      return next;
-    };
-  };
-
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) {
-        return iteratorMethod.call(iterable);
-      }
-
-      if (typeof iterable.next === "function") {
-        return iterable;
-      }
-
-      if (!isNaN(iterable.length)) {
-        var i = -1, next = function next() {
-          while (++i < iterable.length) {
-            if (hasOwn.call(iterable, i)) {
-              next.value = iterable[i];
-              next.done = false;
-              return next;
-            }
-          }
-
-          next.value = undefined;
-          next.done = true;
-
-          return next;
-        };
-
-        return next.next = next;
-      }
-    }
-
-    // Return an iterator with no values.
-    return { next: doneResult };
-  }
-  runtime.values = values;
-
-  function doneResult() {
-    return { value: undefined, done: true };
-  }
-
-  Context.prototype = {
-    constructor: Context,
-
-    reset: function(skipTempReset) {
-      this.prev = 0;
-      this.next = 0;
-      // Resetting context._sent for legacy support of Babel's
-      // function.sent implementation.
-      this.sent = this._sent = undefined;
-      this.done = false;
-      this.delegate = null;
-
-      this.method = "next";
-      this.arg = undefined;
-
-      this.tryEntries.forEach(resetTryEntry);
-
-      if (!skipTempReset) {
-        for (var name in this) {
-          // Not sure about the optimal order of these conditions:
-          if (name.charAt(0) === "t" &&
-              hasOwn.call(this, name) &&
-              !isNaN(+name.slice(1))) {
-            this[name] = undefined;
-          }
-        }
-      }
-    },
-
-    stop: function() {
-      this.done = true;
-
-      var rootEntry = this.tryEntries[0];
-      var rootRecord = rootEntry.completion;
-      if (rootRecord.type === "throw") {
-        throw rootRecord.arg;
-      }
-
-      return this.rval;
-    },
-
-    dispatchException: function(exception) {
-      if (this.done) {
-        throw exception;
-      }
-
-      var context = this;
-      function handle(loc, caught) {
-        record.type = "throw";
-        record.arg = exception;
-        context.next = loc;
-
-        if (caught) {
-          // If the dispatched exception was caught by a catch block,
-          // then let that catch block handle the exception normally.
-          context.method = "next";
-          context.arg = undefined;
-        }
-
-        return !! caught;
-      }
-
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        var record = entry.completion;
-
-        if (entry.tryLoc === "root") {
-          // Exception thrown outside of any try block that could handle
-          // it, so set the completion value of the entire function to
-          // throw the exception.
-          return handle("end");
-        }
-
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc");
-          var hasFinally = hasOwn.call(entry, "finallyLoc");
-
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            } else if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            }
-
-          } else if (hasFinally) {
-            if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else {
-            throw new Error("try statement without catch or finally");
-          }
-        }
-      }
-    },
-
-    abrupt: function(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev &&
-            hasOwn.call(entry, "finallyLoc") &&
-            this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-
-      if (finallyEntry &&
-          (type === "break" ||
-           type === "continue") &&
-          finallyEntry.tryLoc <= arg &&
-          arg <= finallyEntry.finallyLoc) {
-        // Ignore the finally entry if control is not jumping to a
-        // location outside the try/catch block.
-        finallyEntry = null;
-      }
-
-      var record = finallyEntry ? finallyEntry.completion : {};
-      record.type = type;
-      record.arg = arg;
-
-      if (finallyEntry) {
-        this.method = "next";
-        this.next = finallyEntry.finallyLoc;
-        return ContinueSentinel;
-      }
-
-      return this.complete(record);
-    },
-
-    complete: function(record, afterLoc) {
-      if (record.type === "throw") {
-        throw record.arg;
-      }
-
-      if (record.type === "break" ||
-          record.type === "continue") {
-        this.next = record.arg;
-      } else if (record.type === "return") {
-        this.rval = this.arg = record.arg;
-        this.method = "return";
-        this.next = "end";
-      } else if (record.type === "normal" && afterLoc) {
-        this.next = afterLoc;
-      }
-
-      return ContinueSentinel;
-    },
-
-    finish: function(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) {
-          this.complete(entry.completion, entry.afterLoc);
-          resetTryEntry(entry);
-          return ContinueSentinel;
-        }
-      }
-    },
-
-    "catch": function(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if (record.type === "throw") {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-
-      // The context.catch method must only be called with a location
-      // argument that corresponds to a known catch block.
-      throw new Error("illegal catch attempt");
-    },
-
-    delegateYield: function(iterable, resultName, nextLoc) {
-      this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      };
-
-      if (this.method === "next") {
-        // Deliberately forget the last sent value so that we don't
-        // accidentally pass it on to the delegate.
-        this.arg = undefined;
-      }
-
-      return ContinueSentinel;
-    }
-  };
-})(
-  // In sloppy mode, unbound `this` refers to the global object, fallback to
-  // Function constructor if we're in global strict mode. That is sadly a form
-  // of indirect eval which violates Content Security Policy.
-  (function() {
-    return this || (typeof self === "object" && self);
-  })() || Function("return this")()
-);
-
-
-/***/ }),
-
-/***/ 29:
-/*!*****************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/timeFormat.js ***!
-  \*****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // padStart 的 polyfill，因为某些机型或情况，还无法支持es7的padStart，比如电脑版的微信小程序
-// 所以这里做一个兼容polyfill的兼容处理
-if (!String.prototype.padStart) {
-  // 为了方便表示这里 fillString 用了ES6 的默认参数，不影响理解
-  String.prototype.padStart = function (maxLength) {var fillString = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ' ';
-    if (Object.prototype.toString.call(fillString) !== "[object String]") throw new TypeError(
-    'fillString must be String');
-    var str = this;
-    // 返回 String(str) 这里是为了使返回的值是字符串字面量，在控制台中更符合直觉
-    if (str.length >= maxLength) return String(str);
-
-    var fillLength = maxLength - str.length,
-    times = Math.ceil(fillLength / fillString.length);
-    while (times >>= 1) {
-      fillString += fillString;
-      if (times === 1) {
-        fillString += fillString;
-      }
-    }
-    return fillString.slice(0, fillLength) + str;
-  };
-}
-
-// 其他更多是格式化有如下:
-// yyyy:mm:dd|yyyy:mm|yyyy年mm月dd日|yyyy年mm月dd日 hh时MM分等,可自定义组合
-function timeFormat() {var dateTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;var fmt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yyyy-mm-dd';
-  // 如果为null,则格式化当前时间
-  if (!dateTime) dateTime = Number(new Date());
-  // 如果dateTime长度为10或者13，则为秒和毫秒的时间戳，如果超过13位，则为其他的时间格式
-  if (dateTime.toString().length == 10) dateTime *= 1000;
-  var date = new Date(dateTime);
-  var ret;
-  var opt = {
-    "y+": date.getFullYear().toString(), // 年
-    "m+": (date.getMonth() + 1).toString(), // 月
-    "d+": date.getDate().toString(), // 日
-    "h+": date.getHours().toString(), // 时
-    "M+": date.getMinutes().toString(), // 分
-    "s+": date.getSeconds().toString() // 秒
-    // 有其他格式化字符需求可以继续添加，必须转化成字符串
-  };
-  for (var k in opt) {
-    ret = new RegExp("(" + k + ")").exec(fmt);
-    if (ret) {
-      fmt = fmt.replace(ret[1], ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, "0"));
-    };
-  };
-  return fmt;
-}var _default =
-
-timeFormat;exports.default = _default;
-
-/***/ }),
-
-/***/ 3:
+/* 3 */
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -12222,516 +8171,7 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
-
-/***/ 30:
-/*!***************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/timeFrom.js ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ../../libs/function/timeFormat.js */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-/**
-                                                                                                                                                                                                                                                                                          * 时间戳转为多久之前
-                                                                                                                                                                                                                                                                                          * @param String timestamp 时间戳
-                                                                                                                                                                                                                                                                                          * @param String | Boolean format 如果为时间格式字符串，超出一定时间范围，返回固定的时间格式；
-                                                                                                                                                                                                                                                                                          * 如果为布尔值false，无论什么时间，都返回多久以前的格式
-                                                                                                                                                                                                                                                                                          */
-function timeFrom() {var dateTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yyyy-mm-dd';
-  // 如果为null,则格式化当前时间
-  if (!dateTime) dateTime = Number(new Date());
-  // 如果dateTime长度为10或者13，则为秒和毫秒的时间戳，如果超过13位，则为其他的时间格式
-  if (dateTime.toString().length == 10) dateTime *= 1000;
-  var timestamp = +new Date(Number(dateTime));
-
-  var timer = (Number(new Date()) - timestamp) / 1000;
-  // 如果小于5分钟,则返回"刚刚",其他以此类推
-  var tips = '';
-  switch (true) {
-    case timer < 300:
-      tips = '刚刚';
-      break;
-    case timer >= 300 && timer < 3600:
-      tips = parseInt(timer / 60) + '分钟前';
-      break;
-    case timer >= 3600 && timer < 86400:
-      tips = parseInt(timer / 3600) + '小时前';
-      break;
-    case timer >= 86400 && timer < 2592000:
-      tips = parseInt(timer / 86400) + '天前';
-      break;
-    default:
-      // 如果format为false，则无论什么时间戳，都显示xx之前
-      if (format === false) {
-        if (timer >= 2592000 && timer < 365 * 86400) {
-          tips = parseInt(timer / (86400 * 30)) + '个月前';
-        } else {
-          tips = parseInt(timer / (86400 * 365)) + '年前';
-        }
-      } else {
-        tips = (0, _timeFormat.default)(timestamp, format);
-      }}
-
-  return tips;
-}var _default =
-
-timeFrom;exports.default = _default;
-
-/***/ }),
-
-/***/ 307:
-/*!******************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/toilet-icon.png ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAMAAADX9CSSAAAAUVBMVEX/VVXob1Dnb0//AADocFHoblDka1HpcFDpb1HocFDrcFLocFHobVHob1Hnb1HpcFDoblDob0/rblLpcFDpb1Hob1DpbVDob1DocFDob1HpcFE6K4EHAAAAG3RSTlMD/8EBQsAT8IHgMsBisaGA0HFBoH7rI+iZkVKKoeEFAAAArklEQVR4nKXRSRaDIBAEUIqgDArE2eT+B00DQTC6S+34j6HpZg92n+Q9cmRfOz8c/OyCiXEcmbj4M26+OiG/d8b+8nbwXmMCug56gvZ+aIOrUnvOELyHVrtVrqM4ZXel8Y73QNK5Elqndx1s7Rav5K3EVNil46FOI6HnNeA6a0hz1G9CP59NE3rEI+e5bFhCgQu2n7nQNw3t5KjnQi+LtBS56Oj05eYbQJ28pPJrPpuuBZVfZS4TAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 308:
-/*!******************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/tumble-icon.png ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAA0lBMVEUAAAAono4Af38ono4onY0ono4mnY0A//8AqqozmZkono4pno8nno4ono0on48ono4nnY4ono4lno4ono4nn4wmno4nn40nno0uoosonIwrnI4ono4nnY4kno4nnI4mnY8mn5Aon44A/wAAqlUkkoYooYYgn58nno4lnY4amYAzzJkkmYomnIwqqn8ono4mnYwpnIwgn4onnZAon44imYgjlY0lnI8mm40gn48nnY8nnYknm5Ain4olnY4onowonY8on44nno0pn5AonI4nno8pno6hr/dJAAAARnRSTlMA/wL7X/6SAQMF8tzquu72NONhs2+gd2kLgRLzdT/CazXmAQMVEwjPRAoFI1AGvac+GCeHDx1LVxCvGi4lIkdtTXtFWp22fR5guAAAALFJREFUeJx9z9cOgkAQBVDG3QWkWijSwd577/X/f0mNYMxu4jye3MnM5f6P2BQYq1gjm9G+Dl5AY0SA3GjsqXK5QWPuMN7HA/Y+XzzlfmMd1xVjBeTrV+tLm1fVkokAwmmGvoIAgSQB0VF5nWKwcY67IQBofojMfJad4xmfALkL7aJXyio60itHWhOOw4/zx4SLJhsY48L7j0W6bunJSqR+LihaVKOLbHmjy9bLV1lj5wmtBgxOk3HlNgAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 309:
-/*!**********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/leave-home-icon.png ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAARVBMVEUAVf8Aev8Aev8AAP8Aev8Aef8Aev8Aev8Adf8Aev8Aev8AeP8Aev8AeP8Aev8Aef8Aev8AdP8Aev8Aev8Aef8Ad/8Ae/88aEvMAAAAF3RSTlMDwf8BgHJi4CPwsaHoQsAoMhZm5BMtbN302S4AAABhSURBVHicnZBZDoAgDAXbalkUcff+R9WyJCZgos4PLwM0baGBhNlyim7gThPeHHu6QKfbgBJHtlcTwCo3QnDxE6bju5tLN9JSuJ2OV+9q9X73V5mXUZJ3FgP8tL+8Z5PTCSYQAsahltCGAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 31:
-/*!********************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/colorGradient.js ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 求两个颜色之间的渐变值
-                                                                                                      * @param {string} startColor 开始的颜色
-                                                                                                      * @param {string} endColor 结束的颜色
-                                                                                                      * @param {number} step 颜色等分的份额
-                                                                                                      * */
-function colorGradient() {var startColor = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'rgb(0, 0, 0)';var endColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'rgb(255, 255, 255)';var step = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
-  var startRGB = hexToRgb(startColor, false); //转换为rgb数组模式
-  var startR = startRGB[0];
-  var startG = startRGB[1];
-  var startB = startRGB[2];
-
-  var endRGB = hexToRgb(endColor, false);
-  var endR = endRGB[0];
-  var endG = endRGB[1];
-  var endB = endRGB[2];
-
-  var sR = (endR - startR) / step; //总差值
-  var sG = (endG - startG) / step;
-  var sB = (endB - startB) / step;
-  var colorArr = [];
-  for (var i = 0; i < step; i++) {
-    //计算每一步的hex值 
-    var hex = rgbToHex('rgb(' + Math.round(sR * i + startR) + ',' + Math.round(sG * i + startG) + ',' + Math.round(sB *
-    i + startB) + ')');
-    colorArr.push(hex);
-  }
-  return colorArr;
-}
-
-// 将hex表示方式转换为rgb表示方式(这里返回rgb数组模式)
-function hexToRgb(sColor) {var str = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-  sColor = sColor.toLowerCase();
-  if (sColor && reg.test(sColor)) {
-    if (sColor.length === 4) {
-      var sColorNew = "#";
-      for (var i = 1; i < 4; i += 1) {
-        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
-      }
-      sColor = sColorNew;
-    }
-    //处理六位的颜色值
-    var sColorChange = [];
-    for (var _i = 1; _i < 7; _i += 2) {
-      sColorChange.push(parseInt("0x" + sColor.slice(_i, _i + 2)));
-    }
-    if (!str) {
-      return sColorChange;
-    } else {
-      return "rgb(".concat(sColorChange[0], ",").concat(sColorChange[1], ",").concat(sColorChange[2], ")");
-    }
-  } else if (/^(rgb|RGB)/.test(sColor)) {
-    var arr = sColor.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",");
-    return arr.map(function (val) {return Number(val);});
-  } else {
-    return sColor;
-  }
-};
-
-// 将rgb表示方式转换为hex表示方式
-function rgbToHex(rgb) {
-  var _this = rgb;
-  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-  if (/^(rgb|RGB)/.test(_this)) {
-    var aColor = _this.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",");
-    var strHex = "#";
-    for (var i = 0; i < aColor.length; i++) {
-      var hex = Number(aColor[i]).toString(16);
-      hex = String(hex).length == 1 ? 0 + '' + hex : hex; // 保证每个rgb的值为2位
-      if (hex === "0") {
-        hex += hex;
-      }
-      strHex += hex;
-    }
-    if (strHex.length !== 7) {
-      strHex = _this;
-    }
-    return strHex;
-  } else if (reg.test(_this)) {
-    var aNum = _this.replace(/#/, "").split("");
-    if (aNum.length === 6) {
-      return _this;
-    } else if (aNum.length === 3) {
-      var numHex = "#";
-      for (var _i2 = 0; _i2 < aNum.length; _i2 += 1) {
-        numHex += aNum[_i2] + aNum[_i2];
-      }
-      return numHex;
-    }
-  } else {
-    return _this;
-  }
-}
-
-
-/**
-  * JS颜色十六进制转换为rgb或rgba,返回的格式为 rgba（255，255，255，0.5）字符串
-  * sHex为传入的十六进制的色值
-  * alpha为rgba的透明度
-  */
-function colorToRgba(color) {var alpha = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.3;
-  color = rgbToHex(color);
-  // 十六进制颜色值的正则表达式
-  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-  /* 16进制颜色转为RGB格式 */
-  var sColor = color.toLowerCase();
-  if (sColor && reg.test(sColor)) {
-    if (sColor.length === 4) {
-      var sColorNew = '#';
-      for (var i = 1; i < 4; i += 1) {
-        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
-      }
-      sColor = sColorNew;
-    }
-    // 处理六位的颜色值
-    var sColorChange = [];
-    for (var _i3 = 1; _i3 < 7; _i3 += 2) {
-      sColorChange.push(parseInt('0x' + sColor.slice(_i3, _i3 + 2)));
-    }
-    // return sColorChange.join(',')
-    return 'rgba(' + sColorChange.join(',') + ',' + alpha + ')';
-  } else
-  {
-    return sColor;
-  }
-}var _default =
-
-{
-  colorGradient: colorGradient,
-  hexToRgb: hexToRgb,
-  rgbToHex: rgbToHex,
-  colorToRgba: colorToRgba };exports.default = _default;
-
-/***/ }),
-
-/***/ 313:
-/*!**********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/heart-rate-icon.png ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAAn1BMVEVXVtcAAABWVtVYVNdYWNdXVtdYVtZXVddYVthZV9hXVtd/f/9YVddXVdZXVtdcXNZZVtpVVdlXV9hXV9ZXV9dYVtdXVtZYVdlZVdhXV9dXV9dXVddmZsxXVtdVVdpVVddZU9VVVd1YVtdVVdRXV9dXVddVVdhXVtZYVtZYU9NZWdlXVtdXV9dYWNhYVthYWNdXV9dVVdtVVdRYVtdXV9deCoTXAAAANXRSTlP/AIBAhuWdv2hwsgJgqt4ZUzxblkx06F1C1EbXBZIwMysP7AaNeCf0wzQU+34040DIKjagmW2/cmMAAACpSURBVHicZZDVDsMwDEWviyszjZl5+/9vW5ymnbSdh/jqKJFjg/4QamEEgcHZz+wsZaXvIQiJNK7YEI6lTCidtiLFQKWeO4xfBaUuljgapeRDd1wD5uPaqi0fsePZ0PKC8xukCaipKjNyV5xnoLkugO1pCTjp/PvpiO/X0YuLLweiZyiydZDN2hmJElO1L9TYgttSmnO3CWa4E2bdL0eSn2B999UST7r0AcFYB1qEqqmfAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 314:
-/*!*******************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/breathe-icon.png ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAANlBMVEUAAABXVtdYVtdYWNdXVthYWNdYVtdQUM9YVddXV9dXV9ZYVtdXVdZWVtZXV9ZXVthVVdRVVddIJ6itAAAAEnRSTlMA/4Ag70DAEGDgcKCwUJDPMD8vdLGaAAAAeklEQVR4nJXPSxLDIAwDUCS+gXza+1+2wiR0MlmFjcUb48Hu3fHf2zUfdITzoUxKCJ0qEE/ZAXxECQh5TJFgEy2qzah1oqhX+KsJbBhhFxVLehQsJBEt4YiDMGnJZ/uf1B8nrU8aXdRak8bYqmRhtd8XcrNA1mvJ+/kBXAUCKlVzvNwAAAAASUVORK5CYII="
-
-/***/ }),
-
-/***/ 32:
-/*!***********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/guid.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 本算法来源于简书开源代码，详见：https://www.jianshu.com/p/fdbf293d0a85
-                                                                                                      * 全局唯一标识符（uuid，Globally Unique Identifier）,也称作 uuid(Universally Unique IDentifier) 
-                                                                                                      * 一般用于多个组件之间,给它一个唯一的标识符,或者v-for循环的时候,如果使用数组的index可能会导致更新列表出现问题
-                                                                                                      * 最可能的情况是左滑删除item或者对某条信息流"不喜欢"并去掉它的时候,会导致组件内的数据可能出现错乱
-                                                                                                      * v-for的时候,推荐使用后端返回的id而不是循环的index
-                                                                                                      * @param {Number} len uuid的长度
-                                                                                                      * @param {Boolean} firstU 将返回的首字母置为"u"
-                                                                                                      * @param {Number} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
-                                                                                                      */
-function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
-  var uuid = [];
-  radix = radix || chars.length;
-
-  if (len) {
-    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
-    for (var i = 0; i < len; i++) {uuid[i] = chars[0 | Math.random() * radix];}
-  } else {
-    var r;
-    // rfc4122标准要求返回的uuid中,某些位为固定的字符
-    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
-    uuid[14] = '4';
-
-    for (var _i = 0; _i < 36; _i++) {
-      if (!uuid[_i]) {
-        r = 0 | Math.random() * 16;
-        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
-      }
-    }
-  }
-  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guid不能用作id或者class
-  if (firstU) {
-    uuid.shift();
-    return 'u' + uuid.join('');
-  } else {
-    return uuid.join('');
-  }
-}var _default =
-
-guid;exports.default = _default;
-
-/***/ }),
-
-/***/ 33:
-/*!************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/color.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 为了让用户能够自定义主题，会逐步弃用此文件，各颜色通过css提供
-// 为了给某些特殊场景使用和向后兼容，无需删除此文件(2020-06-20)
-var color = {
-  primary: "#2979ff",
-  primaryDark: "#2b85e4",
-  primaryDisabled: "#a0cfff",
-  primaryLight: "#ecf5ff",
-  bgColor: "#f3f4f6",
-
-  info: "#909399",
-  infoDark: "#82848a",
-  infoDisabled: "#c8c9cc",
-  infoLight: "#f4f4f5",
-
-  warning: "#ff9900",
-  warningDark: "#f29100",
-  warningDisabled: "#fcbd71",
-  warningLight: "#fdf6ec",
-
-  error: "#fa3534",
-  errorDark: "#dd6161",
-  errorDisabled: "#fab6b6",
-  errorLight: "#fef0f0",
-
-  success: "#19be6b",
-  successDark: "#18b566",
-  successDisabled: "#71d5a1",
-  successLight: "#dbf1e1",
-
-  mainColor: "#303133",
-  contentColor: "#606266",
-  tipsColor: "#909399",
-  lightColor: "#c0c4cc",
-  borderColor: "#e4e7ed" };var _default =
-
-
-color;exports.default = _default;
-
-/***/ }),
-
-/***/ 34:
-/*!****************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/type2icon.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 根据主题type值,获取对应的图标
-                                                                                                      * @param String type 主题名称,primary|info|error|warning|success
-                                                                                                      * @param String fill 是否使用fill填充实体的图标  
-                                                                                                      */
-function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  // 如果非预置值,默认为success
-  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
-  var iconName = '';
-  // 目前(2019-12-12),info和primary使用同一个图标
-  switch (type) {
-    case 'primary':
-      iconName = 'info-circle';
-      break;
-    case 'info':
-      iconName = 'info-circle';
-      break;
-    case 'error':
-      iconName = 'close-circle';
-      break;
-    case 'warning':
-      iconName = 'error-circle';
-      break;
-    case 'success':
-      iconName = 'checkmark-circle';
-      break;
-    default:
-      iconName = 'checkmark-circle';}
-
-  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
-  if (fill) iconName += '-fill';
-  return iconName;
-}var _default =
-
-type2icon;exports.default = _default;
-
-/***/ }),
-
-/***/ 35:
-/*!******************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/randomArray.js ***!
-  \******************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 打乱数组
-function randomArray() {var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  // 原理是sort排序,Math.random()产生0<= x < 1之间的数,会导致x-0.05大于或者小于0
-  return array.sort(function () {return Math.random() - 0.5;});
-}var _default =
-
-randomArray;exports.default = _default;
-
-/***/ }),
-
-/***/ 36:
-/*!**************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/addUnit.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = addUnit;var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-// 添加单位，如果有rpx，%，px等单位结尾或者值为auto，直接返回，否则加上rpx单位结尾
-function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'auto';var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'rpx';
-  value = String(value);
-  // 用uView内置验证规则中的number判断是否为数值
-  return _test.default.number(value) ? "".concat(value).concat(unit) : value;
-}
-
-/***/ }),
-
-/***/ 37:
-/*!*************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/random.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function random(min, max) {
-  if (min >= 0 && max > 0 && max >= min) {
-    var gab = max - min + 1;
-    return Math.floor(Math.random() * gab + min);
-  } else {
-    return 0;
-  }
-}var _default =
-
-random;exports.default = _default;
-
-/***/ }),
-
-/***/ 38:
-/*!***********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/trim.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function trim(str) {var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'both';
-  if (pos == 'both') {
-    return str.replace(/^\s+|\s+$/g, "");
-  } else if (pos == "left") {
-    return str.replace(/^\s*/, '');
-  } else if (pos == 'right') {
-    return str.replace(/(\s*$)/g, "");
-  } else if (pos == 'all') {
-    return str.replace(/\s+/g, "");
-  } else {
-    return str;
-  }
-}var _default =
-
-trim;exports.default = _default;
-
-/***/ }),
-
-/***/ 39:
-/*!************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/toast.js ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function toast(title) {var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1500;
-  uni.showToast({
-    title: title,
-    icon: 'none',
-    duration: duration });
-
-}var _default =
-
-toast;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 4:
+/* 4 */
 /*!*************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-i18n/dist/uni-i18n.es.js ***!
   \*************************************************************/
@@ -13194,251 +8634,7 @@ function resolveLocaleChain(locale) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
-
-/***/ 40:
-/*!****************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/getParent.js ***!
-  \****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = getParent; // 获取父组件的参数，因为支付宝小程序不支持provide/inject的写法
-// this.$parent在非H5中，可以准确获取到父组件，但是在H5中，需要多次this.$parent.$parent.xxx
-function getParent(name, keys) {
-  var parent = this.$parent;
-  // 通过while历遍，这里主要是为了H5需要多层解析的问题
-  while (parent) {
-    // 父组件
-    if (parent.$options.name !== name) {
-      // 如果组件的name不相等，继续上一级寻找
-      parent = parent.$parent;
-    } else {var _ret = function () {
-        var data = {};
-        // 判断keys是否数组，如果传过来的是一个数组，那么直接使用数组元素值当做键值去父组件寻找
-        if (Array.isArray(keys)) {
-          keys.map(function (val) {
-            data[val] = parent[val] ? parent[val] : '';
-          });
-        } else {
-          // 历遍传过来的对象参数
-          for (var i in keys) {
-            // 如果子组件有此值则用，无此值则用父组件的值
-            // 判断是否空数组，如果是，则用父组件的值，否则用子组件的值
-            if (Array.isArray(keys[i])) {
-              if (keys[i].length) {
-                data[i] = keys[i];
-              } else {
-                data[i] = parent[i];
-              }
-            } else if (keys[i].constructor === Object) {
-              // 判断是否对象，如果是对象，且有属性，那么使用子组件的值，否则使用父组件的值
-              if (Object.keys(keys[i]).length) {
-                data[i] = keys[i];
-              } else {
-                data[i] = parent[i];
-              }
-            } else {
-              // 只要子组件有传值，即使是false值，也是“传值”了，也需要覆盖父组件的同名参数
-              data[i] = keys[i] || keys[i] === false ? keys[i] : parent[i];
-            }
-          }
-        }
-        return { v: data };}();if (typeof _ret === "object") return _ret.v;
-    }
-  }
-
-  return {};
-}
-
-/***/ }),
-
-/***/ 41:
-/*!**************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/$parent.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = $parent; // 获取父组件的参数，因为支付宝小程序不支持provide/inject的写法
-// this.$parent在非H5中，可以准确获取到父组件，但是在H5中，需要多次this.$parent.$parent.xxx
-// 这里默认值等于undefined有它的含义，因为最顶层元素(组件)的$parent就是undefined，意味着不传name
-// 值(默认为undefined)，就是查找最顶层的$parent
-function $parent() {var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-  var parent = this.$parent;
-  // 通过while历遍，这里主要是为了H5需要多层解析的问题
-  while (parent) {
-    // 父组件
-    if (parent.$options && parent.$options.name !== name) {
-      // 如果组件的name不相等，继续上一级寻找
-      parent = parent.$parent;
-    } else {
-      return parent;
-    }
-  }
-  return false;
-}
-
-/***/ }),
-
-/***/ 42:
-/*!**********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/sys.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.os = os;exports.sys = sys;function os() {
-  return uni.getSystemInfoSync().platform;
-};
-
-function sys() {
-  return uni.getSystemInfoSync();
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 43:
-/*!***************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/debounce.js ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var timeout = null;
-
-/**
-                                                                                                                         * 防抖原理：一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
-                                                                                                                         * 
-                                                                                                                         * @param {Function} func 要执行的回调函数 
-                                                                                                                         * @param {Number} wait 延时的时间
-                                                                                                                         * @param {Boolean} immediate 是否立即执行 
-                                                                                                                         * @return null
-                                                                                                                         */
-function debounce(func) {var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  // 清除定时器
-  if (timeout !== null) clearTimeout(timeout);
-  // 立即执行，此类情况一般用不到
-  if (immediate) {
-    var callNow = !timeout;
-    timeout = setTimeout(function () {
-      timeout = null;
-    }, wait);
-    if (callNow) typeof func === 'function' && func();
-  } else {
-    // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
-    timeout = setTimeout(function () {
-      typeof func === 'function' && func();
-    }, wait);
-  }
-}var _default =
-
-debounce;exports.default = _default;
-
-/***/ }),
-
-/***/ 44:
-/*!***************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/throttle.js ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var timer, flag;
-/**
-                                                                                                                      * 节流原理：在一定时间内，只能触发一次
-                                                                                                                      * 
-                                                                                                                      * @param {Function} func 要执行的回调函数 
-                                                                                                                      * @param {Number} wait 延时的时间
-                                                                                                                      * @param {Boolean} immediate 是否立即执行
-                                                                                                                      * @return null
-                                                                                                                      */
-function throttle(func) {var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-  if (immediate) {
-    if (!flag) {
-      flag = true;
-      // 如果是立即执行，则在wait毫秒内开始时执行
-      typeof func === 'function' && func();
-      timer = setTimeout(function () {
-        flag = false;
-      }, wait);
-    }
-  } else {
-    if (!flag) {
-      flag = true;
-      // 如果是非立即执行，则在wait毫秒内的结束处执行
-      timer = setTimeout(function () {
-        flag = false;
-        typeof func === 'function' && func();
-      }, wait);
-    }
-
-  }
-};var _default =
-throttle;exports.default = _default;
-
-/***/ }),
-
-/***/ 45:
-/*!***********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/config/config.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 此版本发布于2023-03-27
-var version = '1.8.8';var _default =
-
-{
-  v: version,
-  version: version,
-  // 主题名称
-  type: [
-  'primary',
-  'success',
-  'info',
-  'error',
-  'warning'] };exports.default = _default;
-
-/***/ }),
-
-/***/ 46:
-/*!***********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/config/zIndex.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // uniapp在H5中各API的z-index值如下：
-/**
- * actionsheet: 999
- * modal: 999
- * navigate: 998
- * tabbar: 998
- * toast: 999
- */var _default =
-
-{
-  toast: 10090,
-  noNetwork: 10080,
-  // popup包含popup，actionsheet，keyboard，picker的值
-  popup: 10075,
-  mask: 10070,
-  navbar: 980,
-  topTips: 975,
-  sticky: 970,
-  indexListSticky: 965 };exports.default = _default;
-
-/***/ }),
-
-/***/ 5:
+/* 5 */
 /*!**************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/pages.json ***!
   \**************************************************/
@@ -13448,2258 +8644,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 /***/ }),
-
-/***/ 53:
-/*!****************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/api/login.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getHospitalList = getHospitalList;exports.logIn = logIn;exports.userSignOut = userSignOut;exports.weixinLogIn = weixinLogIn;exports.boundExist = boundExist;exports.boundNotExist = boundNotExist;var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 54));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-// 获取医院列表
-function getHospitalList() {
-  return (0, _request.default)({
-    url: 'project/queryAll',
-    method: 'get' });
-
-}
-
-// 账号密码登录
-function logIn(data) {
-  return (0, _request.default)({
-    url: 'auth/login',
-    method: 'post',
-    data: data });
-
-}
-
-// 用户退出登录
-function userSignOut() {
-  return (0, _request.default)({
-    url: 'auth/logout',
-    method: 'post' });
-
-};
-
-// 微信登录
-function weixinLogIn(code) {
-  return (0, _request.default)({
-    url: "login/wx/".concat(code),
-    method: 'get' });
-
-}
-
-// 微信授权绑定已存在账号
-function boundExist(code, data) {
-  return (0, _request.default)({
-    url: "login/wx/boundExist/".concat(code),
-    method: 'post',
-    data: data });
-
-}
-
-// 微信授权不绑定账号
-function boundNotExist(proId, code) {
-  return (0, _request.default)({
-    url: "login/wx/boundNotExist/".concat(proId, "/").concat(code),
-    method: 'post',
-    data: {} });
-
-}
-
-/***/ }),
-
-/***/ 54:
-/*!******************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/api/request.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _axiosMiniprogram = _interopRequireDefault(__webpack_require__(/*! axios-miniprogram */ 55));
-var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 13));
-var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 56));
-var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-var instance = _axiosMiniprogram.default.create({
-  // 生产域名 https://blinktech.cn/nblink
-  // 开发域名 https://blink.blinktech.cn/nblink
-  // 准生产域名 https://ver.blinktech.cn/nblink
-  // 测试域名 https://show.blinktech.cn/nblink
-  baseURL: 'https://blink.blinktech.cn/nblink',
-  retry: 3, // 网络请求异常后，重试次数 
-  retryDelay: 1000, // 每次重试间隔时间
-  timeout: 30000,
-  headers: {
-    // common: {    
-    //   'Accept': 'application/json, test/plain,'
-    // }
-    // post: {
-    //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-    // }
-  } });
-
-
-// 添加请求拦截器
-instance.interceptors.request.use(function (config) {
-  if (config['url'] == 'auth/login') {
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-  };
-  // 请求头添加token
-  if (_store.default.getters.token) {
-    config.headers['Authorization'] = _store.default.getters.token;
-  };
-  return config;
-}, function (error) {
-  //处理请求错误
-  return Promise.reject(error.response);
-});
-
-// 添加响应拦截器
-instance.interceptors.response.use(function (response) {
-  if (response.headers['token']) {
-    _store.default.commit('changeToken', response.headers['token']);
-    (0, _utils.setCache)('questToken', response.headers['token']);
-  };
-  return response;
-}, function (error) {
-  if (Object.prototype.toString.call(error.response) === '[object Object]') {
-    if (error.response.hasOwnProperty('status')) {
-      if (error.response.status === 401) {
-        (0, _utils.removeAllLocalStorage)();
-        if (!_store.default.getters.overDueWay) {
-          uni.showToast({
-            title: 'token已过期,请重新登录',
-            duration: 1000 });
-
-          setTimeout(function () {
-            uni.redirectTo({
-              url: '/pages/login/login' });
-
-          }, 2000);
-        } else {
-          uni.redirectTo({
-            url: '/pages/login/login' });
-
-        }
-      }
-    }
-  };
-  // 处理响应错误
-  var config = error.config;
-  // 判断是否配置了重试
-  if (!config || !config.retry) {
-    if (Object.prototype.toString.call(error.response) === '[object Object]') {
-      if (error.response.hasOwnProperty('data')) {
-        if (error.response.data.hasOwnProperty('msg')) {
-          return Promise.reject(error.response.data.msg);
-        } else if (error.response.data.hasOwnProperty('message')) {
-          return Promise.reject(error.response.data.message);
-        } else {
-          return Promise.reject(error.response.data);
-        }
-      } else {
-        return Promise.reject(error.response);
-      }
-    } else {
-      return Promise.reject(error);
-    }
-  };
-  if (!config.shouldRetry || typeof config.shouldRetry != 'function') {
-    if (Object.prototype.toString.call(error.response) === '[object Object]') {
-      if (error.response.hasOwnProperty('data')) {
-        if (error.response.data.hasOwnProperty('msg')) {
-          return Promise.reject(error.response.data.msg);
-        } else if (error.response.data.hasOwnProperty('message')) {
-          return Promise.reject(error.response.data.message);
-        } else {
-          return Promise.reject(error.response.data);
-        }
-      } else {
-        return Promise.reject(error.response);
-      }
-    } else {
-      return Promise.reject(error);
-    }
-  };
-  //判断是否满足重试条件
-  if (!config.shouldRetry(error)) {
-    if (Object.prototype.toString.call(error.response) === '[object Object]') {
-      if (error.response.hasOwnProperty('data')) {
-        if (error.response.data.hasOwnProperty('msg')) {
-          return Promise.reject(error.response.data.msg);
-        } else if (error.response.data.hasOwnProperty('message')) {
-          return Promise.reject(error.response.data.message);
-        } else {
-          return Promise.reject(error.response.data);
-        }
-      } else {
-        return Promise.reject(error.response);
-      }
-    } else {
-      return Promise.reject(error);
-    }
-  };
-  // 设置重置次数，默认为0
-  config.__retryCount = config.__retryCount || 0;
-  // 判断是否超过了重试次数
-  if (config.__retryCount > config.retry) {
-    if (Object.prototype.toString.call(error.response) === '[object Object]') {
-      if (error.response.hasOwnProperty('data')) {
-        if (error.response.data.hasOwnProperty('msg')) {
-          return Promise.reject(error.response.data.msg);
-        } else if (error.response.data.hasOwnProperty('message')) {
-          return Promise.reject(error.response.data.message);
-        } else {
-          return Promise.reject(error.response.data);
-        }
-      } else {
-        return Promise.reject(error.response);
-      }
-    } else {
-      return Promise.reject(error);
-    }
-  };
-  //重试次数自增
-  config.__retryCount += 1;
-  //延时处理
-  var backoff = new Promise(function (resolve) {
-    setTimeout(function () {
-      resolve();
-    }, config.retryDelay || 1);
-  });
-  //重新发起axios请求
-  return backoff.then(function () {
-    return service(config);
-  });
-});var _default =
-
-instance;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 55:
-/*!**********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/axios-miniprogram/es/index.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true });
-
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true } });
-
-
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-
-  try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function _construct(Parent, args, Class) {
-  if (_isNativeReflectConstruct()) {
-    _construct = Reflect.construct;
-  } else {
-    _construct = function _construct(Parent, args, Class) {
-      var a = [null];
-      a.push.apply(a, args);
-      var Constructor = Function.bind.apply(Parent, a);
-      var instance = new Constructor();
-      if (Class) _setPrototypeOf(instance, Class.prototype);
-      return instance;
-    };
-  }
-
-  return _construct.apply(null, arguments);
-}
-
-function _isNativeFunction(fn) {
-  return Function.toString.call(fn).indexOf("[native code]") !== -1;
-}
-
-function _wrapNativeSuper(Class) {
-  var _cache = typeof Map === "function" ? new Map() : undefined;
-
-  _wrapNativeSuper = function _wrapNativeSuper(Class) {
-    if (Class === null || !_isNativeFunction(Class)) return Class;
-
-    if (typeof Class !== "function") {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-
-    if (typeof _cache !== "undefined") {
-      if (_cache.has(Class)) return _cache.get(Class);
-
-      _cache.set(Class, Wrapper);
-    }
-
-    function Wrapper() {
-      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
-    }
-
-    Wrapper.prototype = Object.create(Class.prototype, {
-      constructor: {
-        value: Wrapper,
-        enumerable: false,
-        writable: true,
-        configurable: true } });
-
-
-    return _setPrototypeOf(Wrapper, Class);
-  };
-
-  return _wrapNativeSuper(Class);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-    result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-
-    return _possibleConstructorReturn(this, result);
-  };
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}
-
-  return arr2;
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-var _toString = Object.prototype.toString;
-/**
-                                            * 对字符串进行编码转换
-                                            *
-                                            * @param str 字符串
-                                            */
-
-function encode(str) {
-  return encodeURIComponent(str).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
-}
-/**
-   * 是不是一个日期对象
-   *
-   * @param date 判断目标
-   */
-
-function isDate(date) {
-  return _toString.call(date) === '[object Date]';
-}
-/**
-   * 是不是一个普通对象
-   *
-   * @param obj 判断目标
-   */
-
-function isPlainObject(obj) {
-  return _toString.call(obj) === '[object Object]';
-}
-/**
-   * 深度合并多个对象
-   *
-   * @param objs n 个对象
-   */
-
-function deepMerge() {
-  var result = {};
-
-  function assignValue(key, val) {
-    // 如果当前结果和当前值都为普通对象
-    // 递归进行深度合并
-    if (isPlainObject(result[key]) && isPlainObject(val)) {
-      result[key] = deepMerge(result[key], val);
-    } // 如果只有当前值为普通对象
-    // 直接深拷贝当前值
-    else if (isPlainObject(val)) {
-        result[key] = deepMerge({}, val);
-      } // 如果都不是普通对象
-      // 直接赋值
-      else {
-          result[key] = val;
-        }
-  }
-
-  for (var _len = arguments.length, objs = new Array(_len), _key = 0; _key < _len; _key++) {
-    objs[_key] = arguments[_key];
-  }
-
-  objs.forEach(function assignObj(obj) {
-    Object.entries(obj).forEach(function assignKey(_ref) {
-      var _ref2 = _slicedToArray(_ref, 2),
-      key = _ref2[0],
-      value = _ref2[1];
-
-      assignValue(key, value);
-    });
-  });
-  return result;
-}
-/**
-   * 从对象中提取一部分属性
-   *
-   * @param obj  源对象
-   * @param keys 需要提取的 key
-   */
-
-function pick(obj) {
-  var _pick = {};
-
-  for (var _len2 = arguments.length, keys = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-    keys[_key2 - 1] = arguments[_key2];
-  }
-
-  keys.forEach(function pickKey(key) {
-    _pick[key] = obj[key];
-  });
-  return _pick;
-}
-/**
-   * 从对象中剔除一部分属性
-   *
-   * @param obj  源对象
-   * @param keys 需要剔除的 key
-   */
-
-function omit(obj) {
-  var _omit = _objectSpread2({}, obj);
-
-  for (var _len3 = arguments.length, keys = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-    keys[_key3 - 1] = arguments[_key3];
-  }
-
-  keys.forEach(function omitKey(key) {
-    delete _omit[key];
-  });
-  return _omit;
-}
-
-/**
-   * 通过请求地址和序列化参数生成新的请求地址
-   *
-   * @param url              请求地址
-   * @param serializedParams 序列化参数
-   */
-
-function generateURL(url, serializedParams) {
-  // 移除 hash
-  var hashIndex = url.indexOf('#');
-
-  if (hashIndex !== -1) {
-    url = url.slice(0, hashIndex);
-  }
-
-  if (serializedParams === '') {
-    return url;
-  } // 拼接前缀
-
-
-  var prefix = url.indexOf('?') === -1 ? '?' : '&';
-  serializedParams = "".concat(prefix).concat(serializedParams);
-  return "".concat(url).concat(serializedParams);
-}
-/**
-   * 默认参数序列化
-   *
-   * @param params 请求参数
-   */
-
-
-function paramsSerialization(params) {
-  var parts = [];
-  Object.entries(params).forEach(function encodeKeyValue(_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-    key = _ref2[0],
-    value = _ref2[1];
-
-    if (value === null || value === void 0 || value !== value) {
-      return;
-    } // 如果值是一个数组, 则特殊处理 key
-
-
-    if (Array.isArray(value)) {
-      key += '[]';
-    } // 转成数组统一处理
-
-
-    var values = [].concat(value);
-    values.forEach(function (val) {
-      if (isPlainObject(val)) {
-        val = JSON.stringify(val);
-      } else if (isDate(val)) {
-        val = val.toISOString();
-      }
-
-      parts.push("".concat(encode(key), "=").concat(encode(val)));
-    });
-  });
-  return parts.join('&');
-}
-/**
-   * 处理 URL 参数
-   *
-   * @param url              请求地址
-   * @param params           请求参数
-   * @param paramsSerializer 自定义参数序列化
-   */
-
-
-function buildURL(url) {
-  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var paramsSerializer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : paramsSerialization;
-  return generateURL(url, paramsSerializer(params));
-}
-
-/**
-   * 只取 config2 中的配置
-   *
-   * @param keys
-   * @param config
-   * @param config2
-   */
-
-function onlyFromConfig2(keys, config, config2) {
-  keys.forEach(function (key) {
-    if (config2[key] !== void 0) {
-      config[key] = config2[key];
-    }
-  });
-}
-/**
-   * 优先取 config2 中的配置, config2 中没有就取 config1
-   *
-   * @param keys
-   * @param config
-   * @param config1
-   * @param config2
-   */
-
-
-function priorityFromConfig2(keys, config, config1, config2) {
-  keys.forEach(function (key) {
-    if (config2[key] !== void 0) {
-      config[key] = config2[key];
-    } else if (config1[key] !== void 0) {
-      config[key] = config1[key];
-    }
-  });
-}
-/**
-   * 深度合并配置
-   *
-   * @param keys
-   * @param config
-   * @param config1
-   * @param config2
-   */
-
-
-function deepMergeConfig(keys, config, config1, config2) {
-  keys.forEach(function (key) {
-    if (isPlainObject(config2[key])) {
-      var _config1$key;
-
-      config[key] = deepMerge((_config1$key = config1[key]) !== null && _config1$key !== void 0 ? _config1$key : {}, config2[key]);
-    } else if (isPlainObject(config1[key])) {
-      config[key] = deepMerge(config1[key]);
-    }
-  });
-}
-/**
-   * 合并 Axios 请求配置
-   *
-   * @param config1 Axios 请求配置1
-   * @param config2 Axios 请求配置2
-   */
-
-
-function mergeConfig() {
-  var config1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var config = {};
-  var onlyFromConfig2Keys = ['url', 'data'];
-  var priorityFromConfig2Keys = ['adapter', 'baseURL', 'method', 'validateStatus', 'paramsSerializer', 'transformRequest', 'transformResponse', 'errorHandler', 'cancelToken', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'];
-  var deepMergeConfigKeys = ['headers', 'params'];
-  onlyFromConfig2(onlyFromConfig2Keys, config, config2);
-  priorityFromConfig2(priorityFromConfig2Keys, config, config1, config2);
-  deepMergeConfig(deepMergeConfigKeys, config, config1, config2);
-  return config;
-}
-
-/**
-   * 拦截器管理器
-   */
-var InterceptorManagerClass = /*#__PURE__*/function () {
-  function InterceptorManagerClass() {
-    _classCallCheck(this, InterceptorManagerClass);
-
-    /**
-                                                     * 生成拦截器 id
-                                                     */
-    this._id = 0;
-    /**
-                   * 拦截器集合
-                   */
-
-    this._interceptors = {};
-  }
-
-  _createClass(InterceptorManagerClass, [{
-    key: "use",
-    value: function use(resolved, rejected) {
-      this._interceptors[++this._id] = {
-        resolved: resolved,
-        rejected: rejected };
-
-      return this._id;
-    } },
-  {
-    key: "eject",
-    value: function eject(id) {
-      delete this._interceptors[id];
-    } },
-  {
-    key: "forEach",
-    value: function forEach(executor, reverse) {
-      var interceptors = Object.values(this._interceptors);
-
-      if (reverse === 'reverse') {
-        interceptors = interceptors.reverse();
-      }
-
-      interceptors.forEach(executor);
-    } }]);
-
-
-  return InterceptorManagerClass;
-}();
-
-var CancelClass = /*#__PURE__*/function () {
-  /**
-                                             * @param message 取消信息
-                                             */
-  function CancelClass(message) {
-    _classCallCheck(this, CancelClass);
-
-    this.message = message;
-  }
-
-  _createClass(CancelClass, [{
-    key: "toString",
-    value: function toString() {
-      var message = this.message ? ": ".concat(this.message) : '';
-      return "Cancel".concat(message);
-    } }]);
-
-
-  return CancelClass;
-}();
-
-/**
-      * 是否是取消请求实例
-      *
-      * @param value 判断的值
-      */
-
-function isCancel(value) {
-  return value instanceof CancelClass;
-}
-
-/**
-   * 请求方法转全小写
-   *
-   * @param config Axios 请求配置
-   */
-function methodToLowercase() {
-  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'get';
-  return method.toLowerCase();
-}
-/**
-   * 请求方法转全大写
-   *
-   * @param config Axios 请求配置
-   */
-
-function methodToUppercase() {
-  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'GET';
-  return method.toUpperCase();
-}
-
-/**
-   * 拉平请求头
-   *
-   * @param config Axios 请求配置
-   */
-
-function flattenHeaders(config) {
-  var _headers$common, _headers$method;
-
-  var headers = config.headers;
-
-  if (headers === void 0) {
-    return {};
-  }
-
-  var method = methodToLowercase(config.method);
-  return _objectSpread2(_objectSpread2(_objectSpread2({}, (_headers$common = headers.common) !== null && _headers$common !== void 0 ? _headers$common : {}), (_headers$method = headers[method]) !== null && _headers$method !== void 0 ? _headers$method : {}), omit(headers, 'common', 'options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect'));
-}
-
-/**
-   * 转换数据
-   *
-   * @param data       请求数据/响应数据
-   * @param headers    请求头/响应头
-   * @param transforms 请求数据转换函数/响应数据转换函数
-   */
-function transformData(data, headers, transforms) {
-  if (transforms === void 0) {
-    return data;
-  }
-
-  if (!Array.isArray(transforms)) {
-    transforms = [transforms];
-  }
-
-  transforms.forEach(function (transform) {
-    data = transform(data, headers);
-  });
-  return data;
-}
-
-/**
-   * 检查是否是一个绝对 URL
-   *
-   * xxx:// 或者 "//" 开头,  视为绝对地址
-   *
-   * @param url 需要检查的 URL
-   */
-function isAbsoluteURL(url) {
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-}
-
-/**
-   * 拼接 baseURL 和 url 获得完整的 URL
-   *
-   * combineURL('1/2///','////3/4') => '1/2/3/4'
-   */
-function combineURL(baseURL, url) {
-  return "".concat(baseURL.replace(/\/*$/, ''), "/").concat(url.replace(/^\/*/, ''));
-}
-
-/**
-   * 根据配置中的 baseURL 和 url 和 params 生成完整 URL
-   *
-   * @param config Axios 请求配置
-   */
-
-function transformURL(config) {
-  var _config$baseURL = config.baseURL,
-  baseURL = _config$baseURL === void 0 ? '' : _config$baseURL,
-  _config$url = config.url,
-  url = _config$url === void 0 ? '' : _config$url;
-  var fullURL = isAbsoluteURL(url) ? url : combineURL(baseURL, url);
-  return buildURL(fullURL, config.params, config.paramsSerializer);
-}
-/**
-   * Axios 请求配置转换成各大平台通用请求配置
-   *
-   * 抹平差异
-   *
-   * @param config Axios 请求配置
-   */
-
-
-function transformRequest(config) {
-  return _objectSpread2({
-    url: transformURL(config),
-    method: methodToUppercase(config.method),
-    header: config.headers },
-  pick(config, 'data', 'headers', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'));
-}
-
-/**
-   * 各大平台通用响应体转成 Axios 响应体
-   *
-   * 抹平差异
-   *
-   * @param response 通用响应体
-   * @param config   Axios 请求配置
-   */
-
-function transformResponse(response, config) {
-  var _ref, _response$statusCode, _ref2, _response$header;
-
-  var status = (_ref = (_response$statusCode = response.statusCode) !== null && _response$statusCode !== void 0 ? _response$statusCode : response.status) !== null && _ref !== void 0 ? _ref : 400;
-  var headers = (_ref2 = (_response$header = response.header) !== null && _response$header !== void 0 ? _response$header : response.headers) !== null && _ref2 !== void 0 ? _ref2 : {};
-  var statusText = status === 200 ? 'OK' : status === 400 ? 'Bad Adapter' : '';
-  return _objectSpread2({
-    status: status,
-    statusText: statusText,
-    headers: headers,
-    config: config },
-  pick(response, 'data', 'cookies', 'profile'));
-}
-
-/**
-   * AxiosError 继承自 Error
-   */
-var AxiosErrorClass = /*#__PURE__*/function (_Error) {
-  _inherits(AxiosErrorClass, _Error);
-
-  var _super = _createSuper(AxiosErrorClass);
-
-  /**
-                                               * @param message  错误信息
-                                               * @param config   Axios 请求配置
-                                               * @param request  通用请求配置
-                                               * @param response Axios 响应体
-                                               */
-  function AxiosErrorClass(message, config, request, response) {
-    var _this;
-
-    _classCallCheck(this, AxiosErrorClass);
-
-    _this = _super.call(this, message);
-    _this.config = config;
-    _this.request = request;
-    _this.response = response;
-    _this.isAxiosError = true; // 修复继承系统自带类 prototype 设置失败的问题
-
-    Object.setPrototypeOf(_assertThisInitialized(_this), AxiosErrorClass.prototype);
-    return _this;
-  }
-
-  return AxiosErrorClass;
-}( /*#__PURE__*/_wrapNativeSuper(Error));
-/**
-                                           * 创建 AxiosError 的工厂方法
-                                           *
-                                           * 返回一个新的 AxiosError 对象
-                                           *
-                                           * @param message  错误信息
-                                           * @param config   Axios 请求配置
-                                           * @param request  通用请求配置
-                                           * @param response Axios 响应体
-                                           */
-
-
-function createError(message, config, request, response) {
-  return new AxiosErrorClass(message, config, request, response);
-}
-
-/**
-   * 请求函数
-   *
-   * @param config Axios 请求配置
-   */
-
-function request(config) {
-  return new Promise(function dispatchAdapter(resolve, reject) {
-    var adapter = config.adapter,
-    cancelToken = config.cancelToken;
-    var requestConfig = transformRequest(config);
-    /**
-                                                   * 捕获错误
-                                                   *
-                                                   * @param message  错误信息
-                                                   * @param response Axios 响应体
-                                                   */
-
-    function catchError(message, response) {
-      if (typeof message !== 'string') {
-        message = '配置不正确或者网络异常';
-      }
-
-      reject(createError(message, config, requestConfig, response));
-    }
-
-    if (adapter === void 0) {
-      catchError('平台适配失败，您需要参阅文档使用自定义适配器手动适配当前平台');
-      return;
-    }
-    /**
-       * 效验状态码
-       *
-       * @param res 请求结果
-       */
-
-
-    function handleResponse(res) {
-      var response = transformResponse(res, config);
-
-      if (config.validateStatus === void 0 || config.validateStatus(response.status)) {
-        resolve(response);
-      } else {
-        catchError("\u8BF7\u6C42\u5931\u8D25\uFF0C\u72B6\u6001\u7801\u4E3A ".concat(response.status), response);
-      }
-    } // 使用适配器发送请求
-
-
-    var task = adapter(_objectSpread2(_objectSpread2({}, requestConfig), {}, {
-      success: handleResponse,
-      fail: catchError }));
-    // 如果存在取消令牌
-    // 则调用取消令牌里的 listener 监听用户的取消操作
-
-    if (cancelToken !== void 0) {
-      cancelToken.listener.then(function onCanceled(reason) {
-        if (task !== void 0) {
-          task.abort();
-        }
-
-        reject(reason);
-      });
-    }
-  });
-}
-
-/**
-   * 如果已经取消, 则抛出取消对象
-   *
-   * @param config Axios 请求配置
-   */
-
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-}
-/**
-   * 发送请求
-   *
-   * @param config Axios 请求配置
-   */
-
-
-function dispatchRequest(config) {
-  var _config$data;
-
-  throwIfCancellationRequested(config);
-  config.headers = flattenHeaders(config);
-  config.data = transformData((_config$data = config.data) !== null && _config$data !== void 0 ? _config$data : {}, config.headers, config.transformRequest);
-
-  function onResolved(response) {
-    throwIfCancellationRequested(config);
-    response.data = transformData(response.data, response.headers, config.transformResponse);
-    return response;
-  }
-
-  function onRejected(reason) {
-    var _config$errorHandler, _config$errorHandler2;
-
-    if (!isCancel(reason)) {
-      throwIfCancellationRequested(config);
-
-      if (reason.response !== void 0) {
-        reason.response.data = transformData(reason.response.data, reason.response.headers, config.transformResponse);
-      }
-    }
-
-    return (_config$errorHandler = (_config$errorHandler2 = config.errorHandler) === null || _config$errorHandler2 === void 0 ? void 0 : _config$errorHandler2.call(config, reason)) !== null && _config$errorHandler !== void 0 ? _config$errorHandler : Promise.reject(reason);
-  }
-
-  return request(config).then(onResolved, onRejected);
-}
-
-var AxiosClass = /*#__PURE__*/function () {
-  /**
-                                            * @param defaults 自定义默认配置
-                                            */
-  function AxiosClass() {
-    var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, AxiosClass);
-
-    this.defaults = defaults;
-    this.interceptors = {
-      request: new InterceptorManagerClass(),
-      response: new InterceptorManagerClass() };
-
-  }
-
-  _createClass(AxiosClass, [{
-    key: "getUri",
-    value: function getUri(config) {
-      var _mergeConfig = mergeConfig(this.defaults, config),
-      _mergeConfig$url = _mergeConfig.url,
-      url = _mergeConfig$url === void 0 ? '' : _mergeConfig$url,
-      params = _mergeConfig.params,
-      paramsSerializer = _mergeConfig.paramsSerializer;
-
-      return buildURL(url, params, paramsSerializer).replace(/^\?/, '');
-    } },
-  {
-    key: "request",
-    value: function request(config) {
-      var requestConfig = mergeConfig(this.defaults, config);
-      var promiseRequest = Promise.resolve(requestConfig); // 执行请求拦截器
-
-      this.interceptors.request.forEach(function executor(_ref) {
-        var resolved = _ref.resolved,
-        rejected = _ref.rejected;
-        promiseRequest = promiseRequest.then(resolved, rejected);
-      }, 'reverse'); // 发送请求
-
-      var promiseResponse = promiseRequest.then(dispatchRequest); // 执行响应拦截器
-
-      this.interceptors.response.forEach(function executor(_ref2) {
-        var resolved = _ref2.resolved,
-        rejected = _ref2.rejected;
-        promiseResponse = promiseResponse.then(resolved, rejected);
-      });
-      return promiseResponse;
-    } },
-  {
-    key: "options",
-    value: function options(url, config) {
-      return this._requestMethodWithoutParams('options', url, void 0, config);
-    } },
-  {
-    key: "get",
-    value: function get(url, params, config) {
-      return this._requestMethodWithoutParams('get', url, params, config);
-    } },
-  {
-    key: "head",
-    value: function head(url, params, config) {
-      return this._requestMethodWithoutParams('head', url, params, config);
-    } },
-  {
-    key: "post",
-    value: function post(url, data, config) {
-      return this._requestMethodWithoutData('post', url, data, config);
-    } },
-  {
-    key: "put",
-    value: function put(url, data, config) {
-      return this._requestMethodWithoutData('put', url, data, config);
-    } },
-  {
-    key: "delete",
-    value: function _delete(url, params, config) {
-      return this._requestMethodWithoutParams('delete', url, params, config);
-    } },
-  {
-    key: "trace",
-    value: function trace(url, config) {
-      return this._requestMethodWithoutParams('trace', url, void 0, config);
-    } },
-  {
-    key: "connect",
-    value: function connect(url, config) {
-      return this._requestMethodWithoutParams('connect', url, void 0, config);
-    }
-    /**
-       * 合并配置后发送 HTTP 请求
-       *
-       * @param method 请求方法
-       * @param url    请求地址
-       * @param params 请求参数
-       * @param config 额外配置
-       */ },
-
-  {
-    key: "_requestMethodWithoutParams",
-    value: function _requestMethodWithoutParams(method, url, params) {
-      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
-        method: method,
-        url: url,
-        params: params }));
-
-    }
-    /**
-       * 合并配置后发送 HTTP 请求
-       *
-       * @param method 请求方法
-       * @param url    请求地址
-       * @param data   请求数据
-       * @param config 额外配置
-       */ },
-
-  {
-    key: "_requestMethodWithoutData",
-    value: function _requestMethodWithoutData(method, url, data) {
-      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
-        method: method,
-        url: url,
-        data: data }));
-
-    } }]);
-
-
-  return AxiosClass;
-}();
-
-var CancelTokenClass = /*#__PURE__*/function () {
-  function CancelTokenClass(executor) {
-    var _this = this;
-
-    _classCallCheck(this, CancelTokenClass);
-
-    var action;
-    this.listener = new Promise(function (resolve) {
-      action = function action(message) {
-        // 防止重复取消
-        if (_this._reason) {
-          return;
-        }
-
-        _this._reason = new CancelClass(message);
-        resolve(_this._reason);
-      };
-    });
-    executor(action);
-  }
-
-  _createClass(CancelTokenClass, [{
-    key: "throwIfRequested",
-    value: function throwIfRequested() {
-      if (this._reason) {
-        throw this._reason;
-      }
-    }
-    /**
-       * 返回一个 CancelTokenSource
-       *
-       * CancelTokenSource.token 是一个 CancelToken 对象
-       *
-       * CancelTokenSource.cancel 是一个 CancelAction 函数
-       *
-       * 调用 CancelTokenSource.cancel('这里可以填写您的错误信息')
-       *
-       * 取消请求 CancelTokenSource.token
-       */ }],
-
-  [{
-    key: "source",
-    value: function source() {
-      var cancel;
-      var token = new CancelTokenClass(function executor(action) {
-        cancel = action;
-      });
-      return {
-        token: token,
-        cancel: cancel };
-
-    } }]);
-
-
-  return CancelTokenClass;
-}();
-
-/**
-      * 自适应当前平台
-      */
-function adaptive() {
-  var stack = [function () {
-    return uni.request;
-  }, function () {
-    return wx.request;
-  }, function () {
-    return my.request;
-  }, function () {
-    return swan.request;
-  }, function () {
-    return tt.request;
-  }, function () {
-    return qq.request;
-  }];
-  var adapter;
-
-  while (stack.length !== 0 && adapter === void 0) {
-    try {
-      adapter = stack.shift()();
-    } catch (err) {}
-  }
-
-  return adapter;
-}
-
-var defaults = {
-  /**
-                  * 适配器
-                  */
-  adapter: adaptive(),
-
-  /**
-                        * 请求方法
-                        */
-  method: 'get',
-
-  /**
-                  * 请求头
-                  */
-  headers: {
-    common: {
-      Accept: 'application/json, test/plain, */*' },
-
-    options: {},
-    get: {},
-    head: {},
-    post: {
-      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
-
-    put: {
-      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
-
-    "delete": {},
-    trace: {},
-    connect: {} },
-
-
-  /**
-                    * 状态码效验
-                    *
-                    * @param status 状态码
-                    */
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  },
-
-  /**
-      * 超时时间
-      */
-  timeout: 10000,
-
-  /**
-                   * 响应数据格式
-                   */
-  dataType: 'json',
-
-  /**
-                     * 响应数据类型
-                     */
-  responseType: 'text',
-
-  /**
-                         * 开启 http2
-                         */
-  enableHttp2: false,
-
-  /**
-                       * 开启 quic
-                       */
-  enableQuic: false,
-
-  /**
-                      * 开启 cache
-                      */
-  enableCache: false,
-
-  /**
-                       * 验证 ssl 证书
-                       */
-  sslVerify: true };
-
-
-/**
-                      * 创建一个新的 Axios 实例
-                      *
-                      * 返回一个 Axios 实例增强
-                      */
-
-function createInstance(defaults) {
-  var instance = new AxiosClass(defaults);
-  /**
-                                            * 支持重载的 axios 函数
-                                            */
-
-  function axios(url) {
-    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    // 调用方式一处理请求配置
-    if (typeof url !== 'string') {
-      config = url;
-    } // 调用方式二处理请求配置
-    else {
-        config = _objectSpread2(_objectSpread2({}, config), {}, {
-          url: url });
-
-      }
-
-    return instance.request(config);
-  } // instance 的属性合并到 axios 函数中
-
-
-  Object.assign(axios, instance); // instance 的方法合并到 axios 函数中
-
-  Object.setPrototypeOf(axios, Object.getPrototypeOf(instance));
-  return axios;
-}
-/**
-   * Axios 实例拓展
-   */
-
-
-var axios = createInstance(defaults); // 添加 create 工厂方法
-
-axios.create = function create() {
-  var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return createInstance(mergeConfig(axios.defaults, defaults));
-}; // 添加 Axios 类
-
-
-axios.Axios = AxiosClass; // 添加 CancelToken 类
-
-axios.CancelToken = CancelTokenClass; // 添加 检查错误是否来自取消请求 方法
-
-axios.isCancel = isCancel;var _default =
-
-axios;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 56:
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/index.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var stringify = __webpack_require__(/*! ./stringify */ 57);
-var parse = __webpack_require__(/*! ./parse */ 60);
-var formats = __webpack_require__(/*! ./formats */ 59);
-
-module.exports = {
-    formats: formats,
-    parse: parse,
-    stringify: stringify
-};
-
-
-/***/ }),
-
-/***/ 57:
-/*!******************************************!*\
-  !*** ./node_modules/qs/lib/stringify.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(/*! ./utils */ 58);
-var formats = __webpack_require__(/*! ./formats */ 59);
-
-var arrayPrefixGenerators = {
-    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
-        return prefix + '[]';
-    },
-    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
-        return prefix + '[' + key + ']';
-    },
-    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
-        return prefix;
-    }
-};
-
-var toISO = Date.prototype.toISOString;
-
-var defaults = {
-    delimiter: '&',
-    encode: true,
-    encoder: utils.encode,
-    encodeValuesOnly: false,
-    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
-        return toISO.call(date);
-    },
-    skipNulls: false,
-    strictNullHandling: false
-};
-
-var stringify = function stringify( // eslint-disable-line func-name-matching
-    object,
-    prefix,
-    generateArrayPrefix,
-    strictNullHandling,
-    skipNulls,
-    encoder,
-    filter,
-    sort,
-    allowDots,
-    serializeDate,
-    formatter,
-    encodeValuesOnly
-) {
-    var obj = object;
-    if (typeof filter === 'function') {
-        obj = filter(prefix, obj);
-    } else if (obj instanceof Date) {
-        obj = serializeDate(obj);
-    } else if (obj === null) {
-        if (strictNullHandling) {
-            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
-        }
-
-        obj = '';
-    }
-
-    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
-        if (encoder) {
-            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
-            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
-        }
-        return [formatter(prefix) + '=' + formatter(String(obj))];
-    }
-
-    var values = [];
-
-    if (typeof obj === 'undefined') {
-        return values;
-    }
-
-    var objKeys;
-    if (Array.isArray(filter)) {
-        objKeys = filter;
-    } else {
-        var keys = Object.keys(obj);
-        objKeys = sort ? keys.sort(sort) : keys;
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        if (Array.isArray(obj)) {
-            values = values.concat(stringify(
-                obj[key],
-                generateArrayPrefix(prefix, key),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly
-            ));
-        } else {
-            values = values.concat(stringify(
-                obj[key],
-                prefix + (allowDots ? '.' + key : '[' + key + ']'),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly
-            ));
-        }
-    }
-
-    return values;
-};
-
-module.exports = function (object, opts) {
-    var obj = object;
-    var options = opts ? utils.assign({}, opts) : {};
-
-    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
-        throw new TypeError('Encoder has to be a function.');
-    }
-
-    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
-    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
-    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
-    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
-    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
-    var sort = typeof options.sort === 'function' ? options.sort : null;
-    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
-    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
-    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
-    if (typeof options.format === 'undefined') {
-        options.format = formats['default'];
-    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
-        throw new TypeError('Unknown format option provided.');
-    }
-    var formatter = formats.formatters[options.format];
-    var objKeys;
-    var filter;
-
-    if (typeof options.filter === 'function') {
-        filter = options.filter;
-        obj = filter('', obj);
-    } else if (Array.isArray(options.filter)) {
-        filter = options.filter;
-        objKeys = filter;
-    }
-
-    var keys = [];
-
-    if (typeof obj !== 'object' || obj === null) {
-        return '';
-    }
-
-    var arrayFormat;
-    if (options.arrayFormat in arrayPrefixGenerators) {
-        arrayFormat = options.arrayFormat;
-    } else if ('indices' in options) {
-        arrayFormat = options.indices ? 'indices' : 'repeat';
-    } else {
-        arrayFormat = 'indices';
-    }
-
-    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
-
-    if (!objKeys) {
-        objKeys = Object.keys(obj);
-    }
-
-    if (sort) {
-        objKeys.sort(sort);
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        keys = keys.concat(stringify(
-            obj[key],
-            key,
-            generateArrayPrefix,
-            strictNullHandling,
-            skipNulls,
-            encode ? encoder : null,
-            filter,
-            sort,
-            allowDots,
-            serializeDate,
-            formatter,
-            encodeValuesOnly
-        ));
-    }
-
-    var joined = keys.join(delimiter);
-    var prefix = options.addQueryPrefix === true ? '?' : '';
-
-    return joined.length > 0 ? prefix + joined : '';
-};
-
-
-/***/ }),
-
-/***/ 58:
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/utils.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var has = Object.prototype.hasOwnProperty;
-
-var hexTable = (function () {
-    var array = [];
-    for (var i = 0; i < 256; ++i) {
-        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
-    }
-
-    return array;
-}());
-
-var compactQueue = function compactQueue(queue) {
-    var obj;
-
-    while (queue.length) {
-        var item = queue.pop();
-        obj = item.obj[item.prop];
-
-        if (Array.isArray(obj)) {
-            var compacted = [];
-
-            for (var j = 0; j < obj.length; ++j) {
-                if (typeof obj[j] !== 'undefined') {
-                    compacted.push(obj[j]);
-                }
-            }
-
-            item.obj[item.prop] = compacted;
-        }
-    }
-
-    return obj;
-};
-
-var arrayToObject = function arrayToObject(source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
-    for (var i = 0; i < source.length; ++i) {
-        if (typeof source[i] !== 'undefined') {
-            obj[i] = source[i];
-        }
-    }
-
-    return obj;
-};
-
-var merge = function merge(target, source, options) {
-    if (!source) {
-        return target;
-    }
-
-    if (typeof source !== 'object') {
-        if (Array.isArray(target)) {
-            target.push(source);
-        } else if (typeof target === 'object') {
-            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
-                target[source] = true;
-            }
-        } else {
-            return [target, source];
-        }
-
-        return target;
-    }
-
-    if (typeof target !== 'object') {
-        return [target].concat(source);
-    }
-
-    var mergeTarget = target;
-    if (Array.isArray(target) && !Array.isArray(source)) {
-        mergeTarget = arrayToObject(target, options);
-    }
-
-    if (Array.isArray(target) && Array.isArray(source)) {
-        source.forEach(function (item, i) {
-            if (has.call(target, i)) {
-                if (target[i] && typeof target[i] === 'object') {
-                    target[i] = merge(target[i], item, options);
-                } else {
-                    target.push(item);
-                }
-            } else {
-                target[i] = item;
-            }
-        });
-        return target;
-    }
-
-    return Object.keys(source).reduce(function (acc, key) {
-        var value = source[key];
-
-        if (has.call(acc, key)) {
-            acc[key] = merge(acc[key], value, options);
-        } else {
-            acc[key] = value;
-        }
-        return acc;
-    }, mergeTarget);
-};
-
-var assign = function assignSingleSource(target, source) {
-    return Object.keys(source).reduce(function (acc, key) {
-        acc[key] = source[key];
-        return acc;
-    }, target);
-};
-
-var decode = function (str) {
-    try {
-        return decodeURIComponent(str.replace(/\+/g, ' '));
-    } catch (e) {
-        return str;
-    }
-};
-
-var encode = function encode(str) {
-    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-    // It has been adapted here for stricter adherence to RFC 3986
-    if (str.length === 0) {
-        return str;
-    }
-
-    var string = typeof str === 'string' ? str : String(str);
-
-    var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
-
-        if (
-            c === 0x2D // -
-            || c === 0x2E // .
-            || c === 0x5F // _
-            || c === 0x7E // ~
-            || (c >= 0x30 && c <= 0x39) // 0-9
-            || (c >= 0x41 && c <= 0x5A) // a-z
-            || (c >= 0x61 && c <= 0x7A) // A-Z
-        ) {
-            out += string.charAt(i);
-            continue;
-        }
-
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        out += hexTable[0xF0 | (c >> 18)]
-            + hexTable[0x80 | ((c >> 12) & 0x3F)]
-            + hexTable[0x80 | ((c >> 6) & 0x3F)]
-            + hexTable[0x80 | (c & 0x3F)];
-    }
-
-    return out;
-};
-
-var compact = function compact(value) {
-    var queue = [{ obj: { o: value }, prop: 'o' }];
-    var refs = [];
-
-    for (var i = 0; i < queue.length; ++i) {
-        var item = queue[i];
-        var obj = item.obj[item.prop];
-
-        var keys = Object.keys(obj);
-        for (var j = 0; j < keys.length; ++j) {
-            var key = keys[j];
-            var val = obj[key];
-            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
-                queue.push({ obj: obj, prop: key });
-                refs.push(val);
-            }
-        }
-    }
-
-    return compactQueue(queue);
-};
-
-var isRegExp = function isRegExp(obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-var isBuffer = function isBuffer(obj) {
-    if (obj === null || typeof obj === 'undefined') {
-        return false;
-    }
-
-    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
-};
-
-module.exports = {
-    arrayToObject: arrayToObject,
-    assign: assign,
-    compact: compact,
-    decode: decode,
-    encode: encode,
-    isBuffer: isBuffer,
-    isRegExp: isRegExp,
-    merge: merge
-};
-
-
-/***/ }),
-
-/***/ 59:
-/*!****************************************!*\
-  !*** ./node_modules/qs/lib/formats.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var replace = String.prototype.replace;
-var percentTwenties = /%20/g;
-
-module.exports = {
-    'default': 'RFC3986',
-    formatters: {
-        RFC1738: function (value) {
-            return replace.call(value, percentTwenties, '+');
-        },
-        RFC3986: function (value) {
-            return value;
-        }
-    },
-    RFC1738: 'RFC1738',
-    RFC3986: 'RFC3986'
-};
-
-
-/***/ }),
-
-/***/ 60:
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/parse.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(/*! ./utils */ 58);
-
-var has = Object.prototype.hasOwnProperty;
-
-var defaults = {
-    allowDots: false,
-    allowPrototypes: false,
-    arrayLimit: 20,
-    decoder: utils.decode,
-    delimiter: '&',
-    depth: 5,
-    parameterLimit: 1000,
-    plainObjects: false,
-    strictNullHandling: false
-};
-
-var parseValues = function parseQueryStringValues(str, options) {
-    var obj = {};
-    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
-    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
-    var parts = cleanStr.split(options.delimiter, limit);
-
-    for (var i = 0; i < parts.length; ++i) {
-        var part = parts[i];
-
-        var bracketEqualsPos = part.indexOf(']=');
-        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
-
-        var key, val;
-        if (pos === -1) {
-            key = options.decoder(part, defaults.decoder);
-            val = options.strictNullHandling ? null : '';
-        } else {
-            key = options.decoder(part.slice(0, pos), defaults.decoder);
-            val = options.decoder(part.slice(pos + 1), defaults.decoder);
-        }
-        if (has.call(obj, key)) {
-            obj[key] = [].concat(obj[key]).concat(val);
-        } else {
-            obj[key] = val;
-        }
-    }
-
-    return obj;
-};
-
-var parseObject = function (chain, val, options) {
-    var leaf = val;
-
-    for (var i = chain.length - 1; i >= 0; --i) {
-        var obj;
-        var root = chain[i];
-
-        if (root === '[]') {
-            obj = [];
-            obj = obj.concat(leaf);
-        } else {
-            obj = options.plainObjects ? Object.create(null) : {};
-            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
-            var index = parseInt(cleanRoot, 10);
-            if (
-                !isNaN(index)
-                && root !== cleanRoot
-                && String(index) === cleanRoot
-                && index >= 0
-                && (options.parseArrays && index <= options.arrayLimit)
-            ) {
-                obj = [];
-                obj[index] = leaf;
-            } else {
-                obj[cleanRoot] = leaf;
-            }
-        }
-
-        leaf = obj;
-    }
-
-    return leaf;
-};
-
-var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
-    if (!givenKey) {
-        return;
-    }
-
-    // Transform dot notation to bracket notation
-    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
-
-    // The regex chunks
-
-    var brackets = /(\[[^[\]]*])/;
-    var child = /(\[[^[\]]*])/g;
-
-    // Get the parent
-
-    var segment = brackets.exec(key);
-    var parent = segment ? key.slice(0, segment.index) : key;
-
-    // Stash the parent if it exists
-
-    var keys = [];
-    if (parent) {
-        // If we aren't using plain objects, optionally prefix keys
-        // that would overwrite object prototype properties
-        if (!options.plainObjects && has.call(Object.prototype, parent)) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-
-        keys.push(parent);
-    }
-
-    // Loop through children appending to the array until we hit depth
-
-    var i = 0;
-    while ((segment = child.exec(key)) !== null && i < options.depth) {
-        i += 1;
-        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-        keys.push(segment[1]);
-    }
-
-    // If there's a remainder, just add whatever is left
-
-    if (segment) {
-        keys.push('[' + key.slice(segment.index) + ']');
-    }
-
-    return parseObject(keys, val, options);
-};
-
-module.exports = function (str, opts) {
-    var options = opts ? utils.assign({}, opts) : {};
-
-    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
-        throw new TypeError('Decoder has to be a function.');
-    }
-
-    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
-    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
-    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
-    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
-    options.parseArrays = options.parseArrays !== false;
-    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
-    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
-    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
-    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
-    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
-    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
-
-    if (str === '' || str === null || typeof str === 'undefined') {
-        return options.plainObjects ? Object.create(null) : {};
-    }
-
-    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
-    var obj = options.plainObjects ? Object.create(null) : {};
-
-    // Iterate over the keys and setup the new object
-
-    var keys = Object.keys(tempObj);
-    for (var i = 0; i < keys.length; ++i) {
-        var key = keys[i];
-        var newObj = parseKeys(key, tempObj[key], options);
-        obj = utils.merge(obj, newObj, options);
-    }
-
-    return utils.compact(obj);
-};
-
-
-/***/ }),
-
-/***/ 61:
-/*!***********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/login-background.png ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAADjCAMAAABJnqQtAAACglBMVEUR0YMR0YMS0YMAAAAR0YQR0YMR0YMR0YMR0YMR0YMQ0YQR0YMQ0YMR0YMS0IIR0YMR0YMR0IMR0YMR0YMR0oMR0IMR0IMQ0IIR0YQQ0YMQ0YMQ0IMQ0YMS0oMQ0YIQ0IMR0YMQ0YMR0YIQ0IMQ0IMQ0YMR0YIR0YMQ0YIQ0IMQ0IMR0YMR0YMQz4MR0YIS0YIR0IIR0IMQ0YMS0oIQ0IMR0YMR0YMR0YIQ0IQR0YMR0IQR0YMQ0oMR0YMQ0YMR0YMQ0IMQ0oMA/wAR0YMQ0IMAv38R0IMQ0IIQz38R0oER0YQR0YMR0IIS0IIR0oIR0oQR0YMR0oIR0oQR0YQQ0YQQ0YQQ0oMR0IQR0IMQ0YIR0IIR0IMS0oMS0YMP04MQ0YUR0oMS0oQQ0oQR0YIQ0YMQ0YMQ0YMR0IMQ0oQR0oMQ0IMQ0YIQ0oQS0YQPzoMS0IMR0IISyH8R0IMQ0YQQ0IIP0YER0oMP0YMR0oMR0oQQ0YMS0YMR04MQ0IIAzGYQzoIQz4MQ0oQRzH8A/38R0YIRz4MP0ocA0XQR0oIO0YIS0IIM0YAP0n0P04oJ0X8N0oIP04QNz4YKzn8R04YP0oMQ0YQQ0oMS0IIP04EP0n8R0IIQ0IQO0IQA338NzoINyXkA0YsO1H8Lyn8PzoEQ1oQA1H8Pz4EL1H8Qz4cR0oIR1H8Q1IgSyoQA1H8O0YMS04QAv38P0oIAzIAN0H8N1IIMzYMN0H8Rz4QR0oQN0oAQ1IIS0YQQ04MNzIAA/6oAtm0Af38Mzn8Axo4AyH8Qz38M1YIA444J04QA25IO0X8AzJkS238Oz4MN2YAMzoYS1IYN14YJ03sT0oMR1IIN0oYM1Ib/1hTJAAAA1nRSTlP/wIAA3/XSp/6hvsH5/YOKx8T3lr+Uo6p6vdzKjIKsr8i7tpzay4Xv6fue1vtA45Fc0O6BUuTgsH7OeGmems3ibewB3o4ETLIQSbLyuIGHk9hatLiwvGE8mF7Vv2VUI165Vnw9kOh/Z3KY6t1+dERziQ7mcLpDSiGkdk5IhDEFL1A+HgJYaxELZjcrFjMjHDk0OxpMRJFQVkUitKo2CDkTCxIYNB8GVRggLR4vHQxIHQgzCiY7KTxbbCgvj0AoAwcCKgkOICsJHQc4BQ4lFCoqEx1EOygqFyHG/gAACDdJREFUeJzt12dbG8cChmESW1oEAgQCAZIsGYTpvXewIZjiGNNLqMY+YAPuLXZc495b3JOT3nuvp5/0Xv5PFpBlipC0qxVvrsvv/Z3dmUczs4PfYlp4RQ/4EcBidodgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdQpLt/UGpqklablJoa5K/A4+4Hsrr7a1XZielVxhR10bKlutDAB6YLDNWZyrPUKXHG/G0bE1Ra/hLOSOoepFqeN5pSpJsZ2p1QU1aKsSIxQZXkq0n4lribtdqwSdqkIIUe6ll3/7Ds9LgsnaTczn6BZeq4/PUJYX/pLTC5mfMWG9d0Z5WbdLrQWXMI1JmK1Cmj6V6uI7fdkxLy4opmv9xLgUuz1oj9tV6MW3nahsSKOHW5lMUlrqPJechYR666J2Xndy9VtvhMgcvUxrxs9PIPUiVWdZd7s7QCTeq49OUqKWfQPN39VdvWmJTK6375q43isBc+v79YXK3gyhLn4ekyctLdv6FCrfDB4hExv9RVI19QQ15cubT7gee7OGXxRnfTmN1dlQ5pPp2Yv8KX+VPzlg0018f4ehomdVXi/LOY3l27PsXrK4tydFlrKjaqUpVOvrIz+MFJ8evKhPoAH08i0NQtrn0nJ4+juyq/yMdjkCe0PKVq23Lv7/6qKl3BBnvye3LMZUJsuK/nIJ48Fdkzb29T3RtGF+wjKpeuvNuYvjEhTPL5458waorVmGcXnyY+wtDqi4Ufc8sqGJLLNjRmfFZtNpv1QkzWtrvrR+zeMOrTy6LSJi7Nxor12Q1hLs8g8XZoLAqs1zyxxEXxe5ZkKNg+xirYIkLmbK7J93QWLM0Xl35WpJ9NI1hj25R650JqsxpKk/dEFtS3xESHT4oeiK23CJrOjC0Pe5R7huB1mpWPeDmkFktyRrzbN2VEJj/oZ/8hQhrLNMJKn3/mlRLebKiW0dadJRGGZpnn/SO39ujdJ3ewd78r2Bxh22Nt8fZ3lyY8OmbHKtGOgTaPNnu0pWy1orlniNcLLVJnsErQPybtLbO62+WENJYKBTskF5Rix8pIg02fEbJ6xkmY89jqkM8aO0sNgrXZ6e6LERo9O7O9sbrMEu3pPAKsthDpb3De3W6JudNgiVV68Yevsmj0Zk/iBW/J2KARWgccI4jVVEufokzmUqv73RdtkbrQ7Vx2n5ITotdENivzuW+JLF0nfaA5IRHJQoGlVMa68srEp9bFvNsi9bK3ngfdpzwszt2r+gH1Br3sY3ms687WRf85v//NphG5j5Ap+Ann7aNvRzi9KnrI4+5TJuvHSq4f0GrIkH8qF+eefnuRw9tH3qnrf1T2w+QQ2xfMOO8DLHP/+ZVGYvcpEyfPbU/rR1tL13kxyMo3dz9+L7rD1u8v5R4rlP9YyXKqbZFT95zwgjIJF8Y5xsZLunL3yeo+ZWLtC7dc1m+zJlfnyH9DVOY3f3fS3OGhy2d3tUfJf75k8REaW8QWOX9ZONIzuGvo05tnTqyYHLrfhY60nfuuHBpsaj9ZOb5WxhO3NNqEVidXvoHbNrMX/9qMndx07iFX0R2e+WnnR5vlv0iK7VdfWrTojb4Prw17+msXVvbvPXzw+drZe9Zv1gp6+odXP9k/VPdi+3Zpv0F89QaNJdZ+CLa17pH/CRWN9dz44kmPmjs83fdh78d/8+Kd7o3X/TLthbXn7uwbHJ7/O1M8PHj1ud21U6t7rlndpztx+f8dV7q2SzpE4wtHSo6NeLP1R66//79vpTV3eOH1izU9vjl3Nte87DThgeNvffBcx6aaa4NNmaKPrh+q2XTh03NnXnAzVBfd7R5/pu9s2qH+Y4+6XE3FJZk17/9+xn4yvHv5x0u7jg6PS1qAUT3XLt18V2LquVb8fHpn03ZFl37ljbfmW7dyue/u8K83nt39wf6nDv9atze3t/fo0d7e3L11Vw/fee2987XznMT/qD3yx6mde5t6KovnDxH1cVfu5689v1WR+dz19ZGLu9qVuG2u7Trl8tsuk4Tu3lnx5fGXXn7v9MGzT3UMpYmGOi68c/CT3c9+59nHU56tN09d6R+X3bxw+EbfAd+MbMG6Az35+v5N10sknvvFTWl9//TdmO6H7nYnzr8yVJNZUuyueFTJi59/UevjwdxH3e86cPzVf19Mq8vNbC+p3Fy8duK+NrY2anPlyf7cfb+98tV/F2QQfwIfZ3GGCB+bRAAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 62:
-/*!*****************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/login-logo.png ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABHCAMAAACAsrFUAAAC+lBMVEUAAADj8eXi8eTk8ebl8ufo9Orn8+nr9ezY7Nvm8+jZ7dzb7d3X7NrW69ns9u3V69jt9u7q9Ovb7t7d7t/v+PDe7+DT6dfg8OLu9+/h8ePf7+H////j8eXx+PHo8+nf/9/j8eX////b29vj8eXi8eTj8eXi8eXk8ubw+PHj8eXm8+jm5ub////m8ubf79/s9+7s9u3o9Ori8eTj8ebq9uvl8ufl9Ojh8eTb7t7i8eTk8uTv+PHv9/Di8eTh8eWqqqrg7+Pb7dvj8eXi8uTk8eTq6urq9Ove7+Dj8uTj8eXj8Obm8+jj8eXj8eXg7+Xj8eWq/6rl8uXn8+nk8ebj7uPq9ezh8OTn9ufm8ujt9u7h8OHm8uji8eTi8eXj7OPb7t7k8OXp9evc7t/j4+Pj8uXo9Orp9uzm/+bX7dzMzMzn8enr9+3l8uXp9Onu9u/f8OLj8eXX7dji8OLn8+fs9uzi8OTx+PHi7+Lq9Orm8uzj8OPo8Ojj8eO/v7/b/9vT6d7h8Ojw+PHq8+rV69nq8erZ7dzk7+Tx+PLq9ezj8ebn8+fs9e3f7d/j8eXx+fPk8uTo9ejX69nk8Obt9PHl9eXw9/Df39/g8ODU/9Tj8ebv+PDl7uXx+PLs9+/n8+nq/+rZ7N3k8+ni8eXo8+nj8uXd7uXc8d/d79+//7/j8+PS6tnf6t/u9fDy//Lf7+/z9/PV7djo9/Dg8ubU49Ti9eLt9/Lu/+7U6tTv9e/w+fLb7eTj7Ozn9ezr9+7o8+rd8ODv+O/x9/Hg9evu7u7x+PPh8eTc8OHv+fDp+Onr9uvY7Nrb7t3X6Nff8eLg8OPj8uno9OjU6NYA///X69vT5tjV6td/f3/W69nV7Np//39////M5szV69e////y8vLp9OvM/8zb7t3p9Onl8ubb7dvU1NTb7t3S8OHX7Nrx+vHU5dTa7tzc7t/x+PLc69zo9Ovz+fPS4dLb8+fy+fPd7uDn+e3o8/Pl9u7T69fZ7dzU6tjn9+fi8eXt9+96Dt57AAAA/nRSTlMA///////////////////4////////jP////8B/f//CPkEB/H79bf7/Oz4CgYUEPj79ve08vRE8vnuJvPt5oADsw7eYDgM2fS+4q/hlNox1QM78o8uy0M25/IRZY7LG7Oe+bgJmsCkCrQFXpqIF5SqposjVhuGJT7sKGYhEgQHFyLebu8kt3Hpq8UruzhtphNM6XtHMsgIIQZajB7lfMYM9Gnn0XUebtIEUkkYhBQQPlUiURIaYg8MMXgcGzW0hedwXBkPauAzzyNYyqQtWdFRQ3ABmjR6AsE3AgIK2wQUdAXcXcsrBlsRqzUeZ+zCQbuCERWxxCsWHkDigz+ynF4zbxgAAAWeSURBVHic3Zd3XBNnGMfTgBW0dVvAOyXxEpIQkhDIZO89ZG8EQUBkb3ErBVkKyF4y66zWWVv3qnt077333u3n0zfjLrmRQPyzv3/I8z7P78t7z7333ns0Y7K99PPWwa4fqowWGdGX17ncpUu53IaT0EP5jwwCu0pc16sOD+Hf7ab1A7k+ZzIBAv5FOplMYJ5007MDJfWbRGBeTLImyLXIBILtUNI8oqxFRfxp3gzI/5DImgSYN0dUdHhahNdO9YvmoHJMStIL1ia/NY3/v2stZhEFFN28eSguU0cQTDmHFYIcx5laZTY3LQcNrciRoCOOO6YiMCuaMb94hyCr8GjVmdwrQ3qE35jG/Psq4uajkqxN3rAtoKYmNEYg3CbBhlcXGiEwj8bNn6GV+PyVwuFM1a/M8QH/bdHo+IzVFQYJG5visDLx+/z0cTQIuOGQL8ZS3/++wkD/EsaXoRKndNcFYNGyxLPd5WI0mLF6PWUnIVnAo6jsy5mdiVgEFC1jttmjgSUlAWoLtUQV3eYpi8YitaTl0APd0PA6kt+zPNHSXCPLRNmKPikaoYPSfOjvRCwadiH2P5+H1YYmOIxK8XaVpCmfJoSiAedj/Bx6RxGOmUac0Ca+B9tcG+nJXDqRFRuMlUXqz8G2A4HRRPAW/zA22a4Su8DfRUfwqcP8/FQEfkQjVuSW5BInbUASO1voEs5AS30itH7vbDbqZzT2/BRi0A8IxQKXNB2hRe0/noH5nZx7Ju3QPKUYISfWBaEVsE8U8PtnYA52yaQLljVEcO4ps0PnCIdX02gpmAPJSI9N42ClMMLjqXMsJQ/rEYiC1q0PYWOEMloImkNi0qMidYWMoNqI6mwebKbMkEXcdUYtwJQWcaYEDTkFtCCtR155OT5Y5+cUbwDrnd+qRDz2gHV+OIylI0T6pWdoCXAjrUA9TVg5Ubh/TO9aw1V+QPAIE2puVZouB/tUXw5DND/taOnhTnQ6i9cn8OXR9ZQKdkP1GrPV/HWo18+6xx/0QFQ/5L402kD22Ng/Ebn1Sv0Kup8ncbPGpd33e9fy5AivY436SQJ7lK0droDuTXxc+Sxc3tkBOugXNaD3OBAAfoQtAxLAeID2Eg0CYjbh8w6t+PyUgHv++HxukIkA+C7ubf5uPL4FUwPo157X78KuSEKaAmBDUJpmBanl7cUiZL3IACuCWF4YYU+YEzFLAVhCVGDxcU1OmBpISpIBqxaTFLhK1Qdo8+1Acm4lGbCQLMUvLb1rPlkVSJGiACygkOLDrz/bq6DKkAFPzqbUyAj1OAVglknKIwMsTFJeLwGwPO8xU2TxxUYCAHp57uMmaPszBD+N9tXr2+dOW9tLnyUBaMkHXi19YloqffEVYgv/f+Kfvj/aUTDhK9ui3rVNFPNsTo1EbK+SFAmv9Ntgov1GjiQTnHfBadAcHJRgBsJrjKk9FpWQ0El6VVAoq+5fN9HM+TqA+v3HYCOIXK6sNHrSf6+q6sil/uuDojkziQCVwDbNizIGgHY2uLm5iqyt5+kA9lIGetzgyIPDIox+KEA7wWfqokX6APsU2f38eo+Y1FSP1r74MnBKwIrf3nznjzd+xBOuuhIBlinJntDG5Vn83E37XtIVegpfeOr2rfb2dwiP0+kGEgAJOSYgTFvlXnlBMdvCov2vz/Gpp7tIAHNzxM7XRYitpQ+Esb7FFxQLF8yeNXLrAJ/QBCZoAglgZubkXuLrF7v+xGRZbHWtlzvLymrxwgWKP0s3v0lq4243KoBqGbB5wT7X3JXgJES3sbFarPgm7w7h3a+5hm8NALTrQC0bmyWBe1uIs9fem4uuXGsu19HR0QiAJb/3HcVepNGpoa1bu5rPnYsLqJFIxOBpIgFYiF18tyE7/jz064OPzoeEshkMBgcGAo2AWU7ulZ0U33v/AWfhnI+XkP5IAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 63:
-/*!**********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/logo-small-icon.png ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfCAMAAAAocOYLAAADAFBMVEUAAACx2rQR0YOU16rd7+Cq2rGc2K2j2a+Z2Kyw2rTk8uau2rO33rvi8eWe2a7g8OOX2Kso1pBg1Zvm9Oll1Zxx1qG13LhC05GO2KqH16eK263P6NKK2KhY1Zmm2bBP1JXM59DC48U20o192ahV1ZcRzoAm0opu1Z+B2qmD16ag2K4e0ohc1JkA//97x5cS0oOL1KaA1qQs0Yp/0qBH1JOn2rUztXGw2rSG2qsnz4Zq1p0x0Ywbz4Sy3sAovXV216K94MAi0ohL1JSr2rYwyoTU69iR2Ksws23E5Mmz27YSynxUu39x2aS53rwswnpTwIQ2z4qs3r4r1I86046x2rTW69lLv4BN0JExwXyP26+F0KF62qig27er2rsV0YSv27xevYN41KBXvIHY7Ns+05D///82040k0oia2awavXGv36/R6dUS0YM9wX+m2bCX0qogxnxuypQWzYAsz4gX0YQfuW90y5jp9eum3rtKuHqU2ase0odyz5ors22s2rJ22qc01ZFpzZY2unc9zYvJ5ct616MXwXQw1Y8szIUlu3Iu04uw2rOf2bMAv3+x2rSx27OK2agR0oJj1pyq1KpEtXRAv3+v27IUxXhsw45/2aWw27RYy5BCyYhg359V1JUp0op10Z0S1IES0IOg2a6P1ae/v78P0nhlvYWu3LRI1JNK1JMsyIGF2KcO0YRfuIJTxomw2bNJsXSg1bJ/zZ07yYYV1H9e05kmwnpNy4y948lZ0JVFzo0T0oQ9t3Sk17W538Xt9+9wvo1ey5Irt3Gw2rMQ0oMnxn5s2KJT0pSb0q0ZxnqP2Kp/v386044R0oMP0YE2045P0pNt1Z8X0YU/05Fo0Jh/v79q1JU/05Fv1p9b0ple1Zp116Antm5q1KpL1JQe0IWK2Kho1pxX1JdGyYhw359816NU1Zaz5MdQ349z1qEuunRQ359/35901qJl1p0n1Y5V1Zh/16RE05Ia0oh31aFowos+0I1r1pxI05NR1ZZm1p0Qz3+X2bJc1Zo2w39kNWqNAAABAHRSTlMA//7////////+//////////////////7///////////////7///////////8B//H//v//////8P///v/////////////////////////////////5/////////////////////gHw8vD/EP/h//D///////L///////Dy///w///////////////y5P8E37biLVgM/wRG//+Fhf//EAzy/0e58P8EEf8sR/n/vFn//1f/////DP////////f/////////vOb///////AEwMCG4i23huP/BAyG3y3gRv8MuP/wLFj/EPfg/xD6/xAQLN/7uEbAwbj//1iG9+gQ/+j/vRe/bwAAA2xJREFUeJw903dYUlEUAPALPBGePB+KoIYVUGFKIklApBAGuGfmTDNHbnOvUnNlmrb33nvvvYervffee+913+PL8+/vO/eee+45gIgVGTPnHm9SqVSVlSOXpaWN6pi8fs6H11dIA2DEtNWThgyhUHyZFmbmznQGzcvO3qnvk89v7owgOWPzRCYFMsvXxHYOkMcO5F7/tsAF+rTNTVApFB5Pb25JZ3ey44CfUxfCu1dPJNmCqVdY0hlsmsypr4ltrG/emAEyJhGHUyzMuplbMmh0HCuVJySYuE/X96/ATFgZBVZGcjNy+DAntLjc0cQ9f6wBc6H/51i8BEU4aGz1ZRuSu6/9Do4zSXa2ZLCbOSXIkSOHMCy2eudOggf1+wiaOrND0RJjG4LHH0SQ0qN7Wwm2vQRUZGnwXRqUw9+KcVAs7mBS+O95kZGQk1OAimwamxbH4QhyMBTFcETTxhd47d5na5sclgIqTazhoHviMBRBkPAko0YqFC6fX/s1TDQejIRNY9Bke3DNIQw1btwo3ZIjqIuX8vTZ20NE7tAJXh6zLSYex/C4LdPLpif6CHXMxOAoQ4i72yKwjMH2snOQF8+Ox3GEXxYREcHW6QItvI8FGQrcxKkgjWAn+eK8UCQpnK8I3lQeGMhimSm16xrcxJ6jwSjI9vZOCeWh4Zn8Oh99DI/F4vHMlEENBWJPCXSCu/TvnVDKF9QJdTCXx/OlOL88qVZ7SjwKQYdDdBfIPQZWF89etWo4jER/f/8DjQbROInHMFdwPzqa4KHco8Fl/lLplwNKZUXF7cagkKqqwZ7QJ5PZQ8dwHRfLfHyELEVOTI12164GUdW4wVZWWWC9iQNsnhkzMwWKxOCI7Kio3fJad4KtPoE5PUhu2RudZOQLhPpteXlyumx+rprgdxfBrRdcbkBAi03rvNhm+lYFS8diyjZp62d5iK3Ekv1LwOMLcJSsrftEPsqu8fau8FbWHCsqSq/3y5cMo1KXrgSnHrwlRyly3/a/UUFabWNRenr9LL9evahUataUCQBcnfqHHCXb2hCDYd3J3Nz2dj8Tn9iwA+6Hy4KHTwlODhO5F6jV9zzy80mlZm34RewPcFl4/u5akt3gj8CmEUjdv3TKDpJhzHi+5trpcynjF6Wmji4sdHV1PXHm7JKV8G4A/gG7ERwzF/F54AAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 80:
-/*!*****************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/family-management-icon.png ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEUAAACJjIyJi4uJjIyHi4uJjIyPj4+Ji4uJjIyKjY2KioqHj4+Ijo6IjIyKjIyKjo7IIFBBAAAAEHRSTlMA/8DgQPAQcNBgMCCQn78/1qAw2QAAAG1JREFUeJxjQAPOJjDWPtHA1xBWjuC1XMFjIBZ7oAoDg5PoBCCz0RIkMFkCSEgkMLB8YGBrBDKFGLgMhRcwKIKZzOGlBlCmYwG7CCYTSQFcG8gwB4hhSFZwBj5hYPADW4zkHAaGTaKB2phOhwIALF0ZpzJerCoAAAAASUVORK5CYII="
-
-/***/ }),
-
-/***/ 81:
-/*!****************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-icon.png ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAqCAMAAADhynmdAAACB1BMVEUAAADa2trb29v////q6urn5+fZ2dno6Ojc3NzS0tLl5eXV1dXExMTp6enY2Njm5ubX19fh4eHW1tbk5OT////BwcHT09Pi4uLR0dHj4+PLy8vOzs7MzMzf39/q6uq9vb3V1dXFxcXU1NS/v7/Hx8fr6+ra2tq7u7vT09O/v7/b29rd3d3Pz8+qqqrAwMDy8vKvr6/Y2NjW1tbJycnb29vw8O7q6uqqqqrU1NTz8/Orq6vr6+vb29v////S0tLt7emioqLf39/V1dX09Onp9OnR0dHZ2dne3t7s7OzU1NTv7++Wlpba2trFxcXW1tbf39/W1tbLzcvDw8Pc3NHBwcHW1ta0tLTq6ujr6+vOzs7t7dukpKTc3Nvb29nT09Pb29v4+PjS0tL///+qqtTX19ft7e2tra3T09PR0dD39/bu8u7S0tLv7+3r6+vU1NTa2trPz8/c3NzLy8vDw8PU1NTb29uwsLDIyMjV1dW5ubnS0tHNzc3S0uGurq7m5ub7+/fY2Nba2trW1tTZ2dnb29uzs7PU1NTZ2dnu7u7Y3NjR0dHU1NTc3Nzv7+3l5eXb29rj4+Pq6ur19fPPz83a2tnb29ubm5vh4eHX19Lb29vT09vU1NbZ2dnc3NzT09Pb29vt7e3e3t3b29azs7LU1NT6+vm3t7fR0dHZ2dnW1tbc3NzY2Njt7exsec8UAAAArXRSTlMA//8B/////////////////////wL////////////9/+3//wT/8P3//f/a//8D/3L+NOz+9HXzBgYV/v4HDX1F/xDmFxcLnBdE7HL/1XvY4ixr4RZSqv5XMvsOKu+oI4247jUGOXM+dML9PRFvGerp+oIx/E0r8zydOo9RERYKQLxna/sV/zYiD0L8GDNh28cJPWt1s5b/MzMOI8XdHfkyOeky7x77/xY2MpHs/UJvpPgAAAJTSURBVHic1dR1f9NAGAfw3iW9RhppqpGuupbaVtoCG9tgwITh7u7u7u7u7g4vkksDyTXwAuDJv9/P73nuc0/O8+8V1bfu9LbHB19ev3Di6Z3eTKZCUW7RtebjVjWXO9/YPeP2g5VDQw+/rd57dphkVPePHh8Do9FAvMRACABCAOVeTCLJQBvthZwgBFWOk7xmSUH5+w0ihhrooX1QEkrQrFIJMgwD9dpokkxpMwnuZRUGDMwmN/xBOB+eAkDrg0w2+YUk3Q4BQOEBDoH+ZEujZVYjFCnrspa/qEF8pFTyiUN2Hj0s0D7AeSECcszIF7KGLCJ/7Z1NqHuH3mOCU8xGMp/mIwoeh2xETRvfb5Lfs5gFGeCvvSbJI4H2ApKYKbvmOGRjdTomDEHMc/snP3PImGq/T/CCoJdIAZisIsiiT5zEIdVFRq5WHOLnJSkoxqUWkuLfnrJJp87R+KaVYGtKrGFvA9VZDpqEjbaQcKxxxUUYN2FX9Nlkh26RgIsUu2xyU1f/QjrY4jj7GpfcEgiCFB79SnFIZfHY5rhNghSWla1xi+uddZloEXNchCKGgYCIG+W3ZNwkpWIioli9jgFO0WaGHDK1nabTVcA1Z+FjitkIhSMTXCTOB7jmSZCIxHTZyCZ4ktzFJCBH4wrPGqmOQiGRTyQSmriZIG/aBToggoi/EE5pWiwtKjrLR0YuEX/A8OyoGpebW4s3HFfu2tJXzy87IR5PaO68/fVRuPasnXVm4ZFj94/v+zwYan0/QieXb1pw7sDXD/O3D/Zm3G/Lf1U/AdxoWRz71ImhAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 82:
-/*!*******************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/message-icon.png ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdBAMAAACkvXo8AAAAKlBMVEUAAAD///////////////////////////////////////////////////+Gu8ovAAAADnRSTlMA/8CAINBAMLBgcO8QkJpT+AQAAAB/SURBVHicYyAPsJig8r2lHVD4iYIJyFyuQMEoJC57oKCgYDiCf1oweHKg9AE4v1EKqEWwAW6Z4AUgeVEExmcWBFnmKAzjc4iCSFYJGJ9JCEHSgz8RwhecAOFyAj0HBpIQfiGML1gA5jsbwwAizNLSIHLwEED4HgxKRVHDFycAAAXPFBEXnPLoAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 83:
-/*!**********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/add-device-icon.png ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAMAAABhTZc9AAAAM1BMVEX///8AAAD///////////////////////////////////////////////////////////+Q8lQ3AAAAEXRSTlP/AIC/J+6W1OoSW0Bq8pkV9Nym9WgAAACbSURBVHichZNZEsQgCEQbNWpitvufduJkcCQL9I9VPJVWAMTaZp8ycvLz1mJMQ9zB2mOQ1A2NVQ2up6tgVeuf3lgVU/9I/UndIwSO3KAgDXXWwkFjv730F0XCuIjLerqMmGQqYWKCMHyhHkmhCZnBV3QuvxgzoLTCEJUW1c/qeXXP+nv1v9L/2aiRXl+jN4y+MnrS6GdjFl7m6ANXGwO6mdjWhgAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 9:
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */
 /*!**************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vuex3/dist/vuex.common.js ***!
   \**************************************************************************************/
@@ -16955,8 +9903,5248 @@ module.exports = index_cjs;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
+/* 10 */,
+/* 11 */,
+/* 12 */
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-/***/ 92:
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 13 */
+/*!******************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/store/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 9));
+var _login = _interopRequireDefault(__webpack_require__(/*! ./login.js */ 14));
+var _quality = _interopRequireDefault(__webpack_require__(/*! ./quality.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+_vue.default.use(_vuex.default);var _default =
+new _vuex.default.Store({
+  modules: {
+    login: _login.default,
+    quality: _quality.default } });exports.default = _default;
+
+/***/ }),
+/* 14 */
+/*!******************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/store/login.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  state: {
+    userInfo: null,
+    roleNameList: [],
+    token: null, //请求token,
+    overDueWay: false,
+    selectHospitalList: [],
+    permissionInfo: [] },
+
+  getters: {
+    userInfo: function userInfo(state) {return state.userInfo;},
+    roleNameList: function roleNameList(state) {return state.roleNameList;},
+    token: function token(state) {return state.token;},
+    overDueWay: function overDueWay(state) {return state.overDueWay;},
+    selectHospitalList: function selectHospitalList(state) {return state.selectHospitalList;},
+    permissionInfo: function permissionInfo(state) {return state.permissionInfo;} },
+
+  mutations: {
+    storeUserInfo: function storeUserInfo(state, playLoad) {
+      state.userInfo = playLoad;
+    },
+    // 修改token状态
+    changeToken: function changeToken(state, playLoad) {
+      if (playLoad && playLoad != 'null') {
+        state.token = playLoad;
+      }
+    },
+    // 修改角色列表
+    changeRoleNameList: function changeRoleNameList(state, playLoad) {
+      state.roleNameList = playLoad;
+    },
+    // 修改过期方式
+    changeOverDueWay: function changeOverDueWay(state, playLoad) {
+      state.overDueWay = playLoad;
+    },
+    // 修改项目列表
+    changeSelectHospitalList: function changeSelectHospitalList(state, playLoad) {
+      state.selectHospitalList = playLoad;
+    },
+    // 修改权限列表
+    changePermissionInfo: function changePermissionInfo(state, playLoad) {
+      state.permissionInfo = playLoad;
+    } },
+
+  actions: {} };exports.default = _default;
+
+/***/ }),
+/* 15 */
+/*!********************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/store/quality.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 16);var _default =
+{
+  state: (0, _resetStore.getDefaultQualityState)(),
+  getters: {
+    enterTaskDetailsSource: function enterTaskDetailsSource(state) {return state.enterTaskDetailsSource;},
+    isShowRevaluationBtn: function isShowRevaluationBtn(state) {return state.isShowRevaluationBtn;},
+    isShowRejectBtn: function isShowRejectBtn(state) {return state.isShowRejectBtn;},
+    enterGradeSource: function enterGradeSource(state) {return state.enterGradeSource;},
+    titleText: function titleText(state) {return state.titleText;},
+    taskMessage: function taskMessage(state) {return state.taskMessage;},
+    bottomBarIndex: function bottomBarIndex(state) {return state.bottomBarIndex;},
+    mainTaskId: function mainTaskId(state) {return state.mainTaskId;},
+    subtaskDetails: function subtaskDetails(state) {return state.subtaskDetails;},
+    subtaskInfo: function subtaskInfo(state) {return state.subtaskInfo;},
+    disposeSubTaskData: function disposeSubTaskData(state) {return state.disposeSubTaskData;},
+    cacheIndex: function cacheIndex(state) {return state.cacheIndex;},
+    isSkipDetails: function isSkipDetails(state) {return state.isSkipDetails;},
+    timeMessage: function timeMessage(state) {return state.timeMessage;},
+    ossMessage: function ossMessage(state) {return state.ossMessage;},
+    recordExamineItemScrollTop: function recordExamineItemScrollTop(state) {return state.recordExamineItemScrollTop;} },
+
+  mutations: {
+    changeTitleText: function changeTitleText(state, playLoad) {
+      state.titleText = playLoad;
+    },
+    changeIsShowRevaluationBtn: function changeIsShowRevaluationBtn(state, playLoad) {
+      state.isShowRevaluationBtn = playLoad;
+    },
+    changeIsShowRejectBtn: function changeIsShowRejectBtn(state, playLoad) {
+      state.isShowRejectBtn = playLoad;
+    },
+    changeEnterTaskDetailsSource: function changeEnterTaskDetailsSource(state, playLoad) {
+      state.enterTaskDetailsSource = playLoad;
+    },
+    changeEnterGradeSource: function changeEnterGradeSource(state, playLoad) {
+      state.enterGradeSource = playLoad;
+    },
+    changeBottomBarIndex: function changeBottomBarIndex(state, playLoad) {
+      state.bottomBarIndex = playLoad;
+    },
+    changeTaskMessage: function changeTaskMessage(state, playLoad) {
+      state.taskMessage = playLoad;
+    },
+    changeMainTaskId: function changeMainTaskId(state, playLoad) {
+      state.mainTaskId = playLoad;
+    },
+    changeSubtaskDetails: function changeSubtaskDetails(state, playLoad) {
+      state.subtaskDetails = playLoad;
+    },
+    changeSubtaskInfo: function changeSubtaskInfo(state, playLoad) {
+      state.subtaskInfo = playLoad;
+    },
+    changeDisposeSubTaskData: function changeDisposeSubTaskData(state, playLoad) {
+      state.disposeSubTaskData = playLoad;
+    },
+    changeCacheIndex: function changeCacheIndex(state, playLoad) {
+      state.cacheIndex = playLoad;
+    },
+    changeIsSkipDetails: function changeIsSkipDetails(state, playLoad) {
+      state.isSkipDetails = playLoad;
+    },
+    changeTimeMessage: function changeTimeMessage(state, playLoad) {
+      state.timeMessage = playLoad;
+    },
+    changeOssMessage: function changeOssMessage(state, playLoad) {
+      state.ossMessage = playLoad;
+    },
+    changeRecordExamineItemScrollTop: function changeRecordExamineItemScrollTop(state, playLoad) {
+      state.recordExamineItemScrollTop = playLoad;
+    },
+    //重置质量管理的状态
+    resetQualityInfoState: function resetQualityInfoState(state) {
+      Object.assign(state, (0, _resetStore.getDefaultQualityState)());
+    } },
+
+  actions: {
+    resetQualityState: function resetQualityState(_ref) {var commit = _ref.commit;
+      commit('resetQualityInfoState');
+    } } };exports.default = _default;
+
+/***/ }),
+/* 16 */
+/*!**************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/common/js/resetStore/resetStore.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.getDefaultQualityState = getDefaultQualityState; // 质量管理信息store的初始值
+function getDefaultQualityState() {
+  return {
+    titleText: '',
+    recordExamineItemScrollTop: 0,
+    bottomBarIndex: 0,
+    taskMessage: {},
+    mainTaskId: '',
+    subtaskInfo: {},
+    subtaskDetails: {},
+    disposeSubTaskData: [],
+    cacheIndex: {},
+    isSkipDetails: false,
+    timeMessage: {},
+    ossMessage: {},
+    enterTaskDetailsSource: '',
+    enterGradeSource: '',
+    isShowRevaluationBtn: true,
+    isShowRejectBtn: true };
+
+};
+
+/***/ }),
+/* 17 */
+/*!**********************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/common/js/utils.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.removeAllLocalStorage = exports.getStringLength = exports.getDate = exports.clearCache = exports.checkCache = exports.removeCache = exports.getCache = exports.setCache = void 0; /*
+                                                                                                                                                                                                                                                                      * 存储uni localStorage
+                                                                                                                                                                                                                                                                      * @param{String} name key值
+                                                                                                                                                                                                                                                                      * @param{String} data value值
+                                                                                                                                                                                                                                                                     */
+var setCache = function setCache(name, data) {
+  try {
+    uni.setStorageSync(name, data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*
+    * 获取uni localStorage
+    * @param{String} name key值
+   */exports.setCache = setCache;
+var getCache = function getCache(name) {
+  var data;
+  try {
+    data = uni.getStorageSync(name);
+  } catch (e) {
+    console.log(e);
+  }
+  return data;
+};
+
+/*
+    * 删除指定key的uni localStorage
+    * @param{String} name key值
+   */exports.getCache = getCache;
+var removeCache = function removeCache(name) {
+  try {
+    uni.removeStorageSync(name);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*
+    * 判断指定key在uni localStorage是否存在
+    * @param{String} name key值
+   */exports.removeCache = removeCache;
+var checkCache = function checkCache(name) {
+  var value;
+  try {
+    var res = uni.getStorageInfoSync();
+    value = res.keys.includes(name);
+  } catch (e) {
+    console.log(e);
+  }
+  return value;
+};
+
+/*
+    * 删除本地uni localStorage
+    * 
+   */exports.checkCache = checkCache;
+var clearCache = function clearCache() {
+  try {
+    uni.clearStorageSync();
+  } catch (e) {
+    console.log(e);
+  }
+
+};
+
+/*
+    * 格式化当前日期
+    * 
+   */exports.clearCache = clearCache;
+var getDate = function getDate() {
+  var date = new Date();
+  var year = date.getFullYear(); //年 ,从 Date 对象以四位数字返回年份
+  var month = date.getMonth() + 1; //月 ,从 Date 对象返回月份 (0 ~ 11) ,date.getMonth()比实际月份少 1 个月
+  var day = date.getDate(); //日 ,从 Date 对象返回一个月中的某一天 (1 ~ 31)
+
+  var hours = date.getHours(); //小时 ,返回 Date 对象的小时 (0 ~ 23)
+  var minutes = date.getMinutes(); //分钟 ,返回 Date 对象的分钟 (0 ~ 59)
+  var seconds = date.getSeconds(); //秒 ,返回 Date 对象的秒数 (0 ~ 59)   
+  //获取当前系统时间  
+  var currentDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+  //修改月份格式
+  if (month >= 1 && month <= 9) {
+    month = "0" + month;
+  }
+  //修改日期格式
+  if (day >= 0 && day <= 9) {
+    day = "0" + day;
+  }
+  //修改小时格式
+  if (hours >= 0 && hours <= 9) {
+    hours = "0" + hours;
+  }
+  //修改分钟格式
+  if (minutes >= 0 && minutes <= 9) {
+    minutes = "0" + minutes;
+  }
+  //修改秒格式
+  if (seconds >= 0 && seconds <= 9) {
+    seconds = "0" + seconds;
+  }
+  //获取当前系统时间  格式(yyyy-mm-dd hh:mm:ss)+ " " + hours + ":" + minutes + ":" + seconds
+  var currentFormatDate = year + "-" + month + "-" + day;
+  return currentFormatDate;
+
+};
+
+/*
+    * 获取字符串的长度
+    * @param{String} str 指定字符串
+   */exports.getDate = getDate;
+var getStringLength = function getStringLength(str) {
+  var realLength = 0,len = str.length,charCode = -1;
+  for (var i = 0; i < len; i++) {
+    charCode = str.charCodeAt(i);
+    if (charCode >= 0 && charCode <= 128) realLength += 1;else
+    realLength += 2;
+  }
+  return realLength;
+};exports.getStringLength = getStringLength;
+
+var removeAllLocalStorage = function removeAllLocalStorage() {
+  // removeStore('userName');
+  // removeStore('userPassword');
+  removeCache('userInfo');
+  removeCache('isLogin');
+  removeCache('roleNameList');
+  removeCache('questToken');
+  removeCache('permissionInfo');
+  removeCache('storeOverDueWay');
+  removeCache('selectHospitalList');
+};exports.removeAllLocalStorage = removeAllLocalStorage;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 18 */
+/*!**********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/index.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+var _mixin = _interopRequireDefault(__webpack_require__(/*! ./libs/mixin/mixin.js */ 19));
+
+
+
+var _request = _interopRequireDefault(__webpack_require__(/*! ./libs/request */ 20));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _queryParams = _interopRequireDefault(__webpack_require__(/*! ./libs/function/queryParams.js */ 24));
+
+var _route = _interopRequireDefault(__webpack_require__(/*! ./libs/function/route.js */ 25));
+
+var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFormat.js */ 29));
+
+var _timeFrom = _interopRequireDefault(__webpack_require__(/*! ./libs/function/timeFrom.js */ 30));
+
+var _colorGradient = _interopRequireDefault(__webpack_require__(/*! ./libs/function/colorGradient.js */ 31));
+
+var _guid = _interopRequireDefault(__webpack_require__(/*! ./libs/function/guid.js */ 32));
+
+var _color = _interopRequireDefault(__webpack_require__(/*! ./libs/function/color.js */ 33));
+
+var _type2icon = _interopRequireDefault(__webpack_require__(/*! ./libs/function/type2icon.js */ 34));
+
+var _randomArray = _interopRequireDefault(__webpack_require__(/*! ./libs/function/randomArray.js */ 35));
+
+var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepClone.js */ 22));
+
+var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ./libs/function/deepMerge.js */ 21));
+
+var _addUnit = _interopRequireDefault(__webpack_require__(/*! ./libs/function/addUnit.js */ 36));
+
+
+var _test = _interopRequireDefault(__webpack_require__(/*! ./libs/function/test.js */ 23));
+
+var _random = _interopRequireDefault(__webpack_require__(/*! ./libs/function/random.js */ 37));
+
+var _trim = _interopRequireDefault(__webpack_require__(/*! ./libs/function/trim.js */ 38));
+
+var _toast = _interopRequireDefault(__webpack_require__(/*! ./libs/function/toast.js */ 39));
+
+var _getParent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/getParent.js */ 40));
+
+var _$parent = _interopRequireDefault(__webpack_require__(/*! ./libs/function/$parent.js */ 41));
+
+
+
+var _sys = __webpack_require__(/*! ./libs/function/sys.js */ 42);
+
+var _debounce = _interopRequireDefault(__webpack_require__(/*! ./libs/function/debounce.js */ 43));
+
+var _throttle = _interopRequireDefault(__webpack_require__(/*! ./libs/function/throttle.js */ 44));
+
+
+
+var _config = _interopRequireDefault(__webpack_require__(/*! ./libs/config/config.js */ 45));
+
+var _zIndex = _interopRequireDefault(__webpack_require__(/*! ./libs/config/zIndex.js */ 46));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} // 引入全局mixin
+// 引入关于是否mixin集成小程序分享的配置
+// import wxshare from './libs/mixin/mpShare.js'
+// 全局挂载引入http相关请求拦截插件
+function wranning(str) {// 开发环境进行信息输出,主要是一些报错信息
+  // 这个环境的来由是在程序编写时候,点击hx编辑器运行调试代码的时候,详见:
+  // 	https://uniapp.dcloud.io/frame?id=%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83%e5%92%8c%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83
+  if (true) {console.warn(str);}} // 尝试判断在根目录的/store中是否有$u.mixin.js，此文件uView默认为需要挂在到全局的vuex的state变量
+// HX2.6.11版本,放到try中,控制台依然会警告,暂时不用此方式，
+// let vuexStore = {};
+// try {
+// 	vuexStore = require("@/store/$u.mixin.js");
+// } catch (e) {
+// 	//TODO handle the exception
+// }
+// post类型对象参数转为get类型url参数
+var $u = { queryParams: _queryParams.default, route: _route.default, timeFormat: _timeFormat.default, date: _timeFormat.default, // 另名date
+  timeFrom: _timeFrom.default, colorGradient: _colorGradient.default.colorGradient, colorToRgba: _colorGradient.default.colorToRgba, guid: _guid.default, color: _color.default, sys: _sys.sys, os: _sys.os, type2icon: _type2icon.default, randomArray: _randomArray.default, wranning: wranning, get: _request.default.get,
+  post: _request.default.post,
+  put: _request.default.put,
+  'delete': _request.default.delete,
+  hexToRgb: _colorGradient.default.hexToRgb,
+  rgbToHex: _colorGradient.default.rgbToHex,
+  test: _test.default,
+  random: _random.default,
+  deepClone: _deepClone.default,
+  deepMerge: _deepMerge.default,
+  getParent: _getParent.default,
+  $parent: _$parent.default,
+  addUnit: _addUnit.default,
+  trim: _trim.default,
+  type: ['primary', 'success', 'error', 'warning', 'info'],
+  http: _request.default,
+  toast: _toast.default,
+  config: _config.default, // uView配置信息相关，比如版本号
+  zIndex: _zIndex.default,
+  debounce: _debounce.default,
+  throttle: _throttle.default };
+
+
+// $u挂载到uni对象上
+uni.$u = $u;
+
+var install = function install(Vue) {
+  Vue.mixin(_mixin.default);
+  if (Vue.prototype.openShare) {
+    Vue.mixin(mpShare);
+  }
+  // Vue.mixin(vuexStore);
+  // 时间格式化，同时两个名称，date和timeFormat
+  Vue.filter('timeFormat', function (timestamp, format) {
+    return (0, _timeFormat.default)(timestamp, format);
+  });
+  Vue.filter('date', function (timestamp, format) {
+    return (0, _timeFormat.default)(timestamp, format);
+  });
+  // 将多久以前的方法，注入到全局过滤器
+  Vue.filter('timeFrom', function (timestamp, format) {
+    return (0, _timeFrom.default)(timestamp, format);
+  });
+  Vue.prototype.$u = $u;
+};var _default =
+
+{
+  install: install };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 19 */
+/*!*********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/mixin/mixin.js ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(uni) {module.exports = {
+  data: function data() {
+    return {};
+  },
+  onLoad: function onLoad() {
+    // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
+    this.$u.getRect = this.$uGetRect;
+  },
+  methods: {
+    // 查询节点信息
+    // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
+    // 解决办法为在组件根部再套一个没有任何作用的view元素
+    $uGetRect: function $uGetRect(selector, all) {var _this = this;
+      return new Promise(function (resolve) {
+        uni.createSelectorQuery().
+        in(_this)[all ? 'selectAll' : 'select'](selector).
+        boundingClientRect(function (rect) {
+          if (all && Array.isArray(rect) && rect.length) {
+            resolve(rect);
+          }
+          if (!all && rect) {
+            resolve(rect);
+          }
+        }).
+        exec();
+      });
+    },
+    getParentData: function getParentData() {var _this2 = this;var parentName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      // 避免在created中去定义parent变量
+      if (!this.parent) this.parent = false;
+      // 这里的本质原理是，通过获取父组件实例(也即u-radio-group的this)
+      // 将父组件this中对应的参数，赋值给本组件(u-radio的this)的parentData对象中对应的属性
+      // 之所以需要这么做，是因为所有端中，头条小程序不支持通过this.parent.xxx去监听父组件参数的变化
+      this.parent = this.$u.$parent.call(this, parentName);
+      if (this.parent) {
+        // 历遍parentData中的属性，将parent中的同名属性赋值给parentData
+        Object.keys(this.parentData).map(function (key) {
+          _this2.parentData[key] = _this2.parent[key];
+        });
+      }
+    },
+    // 阻止事件冒泡
+    preventEvent: function preventEvent(e) {
+      e && e.stopPropagation && e.stopPropagation();
+    } },
+
+  onReachBottom: function onReachBottom() {
+    uni.$emit('uOnReachBottom');
+  },
+  beforeDestroy: function beforeDestroy() {var _this3 = this;
+    // 判断当前页面是否存在parent和children，一般在checkbox和checkbox-group父子联动的场景会有此情况
+    // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
+    if (this.parent && uni.$u.test.array(this.parent.children)) {
+      // 组件销毁时，移除父组件中的children数组中对应的实例
+      var childrenList = this.parent.children;
+      childrenList.map(function (child, index) {
+        // 如果相等，则移除
+        if (child === _this3) {
+          childrenList.splice(index, 1);
+        }
+      });
+    }
+  } };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 20 */
+/*!***********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/request/index.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepMerge = _interopRequireDefault(__webpack_require__(/*! ../function/deepMerge */ 21));
+var _test = _interopRequireDefault(__webpack_require__(/*! ../function/test */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var
+Request = /*#__PURE__*/function () {_createClass(Request, [{ key: "setConfig",
+    // 设置全局默认配置
+    value: function setConfig(customConfig) {
+      // 深度合并对象，否则会造成对象深层属性丢失
+      this.config = (0, _deepMerge.default)(this.config, customConfig);
+    }
+
+    // 主要请求部分
+  }, { key: "request", value: function request() {var _this = this;var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      // 检查请求拦截
+      if (this.interceptor.request && typeof this.interceptor.request === 'function') {
+        var tmpConfig = {};
+        var interceptorRequest = this.interceptor.request(options);
+        if (interceptorRequest === false) {
+          // 返回一个处于pending状态中的Promise，来取消原promise，避免进入then()回调
+          return new Promise(function () {});
+        }
+        this.options = interceptorRequest;
+      }
+      options.dataType = options.dataType || this.config.dataType;
+      options.responseType = options.responseType || this.config.responseType;
+      options.url = options.url || '';
+      options.params = options.params || {};
+      options.header = Object.assign({}, this.config.header, options.header);
+      options.method = options.method || this.config.method;
+
+      return new Promise(function (resolve, reject) {
+        options.complete = function (response) {
+          // 请求返回后，隐藏loading(如果请求返回快的话，可能会没有loading)
+          uni.hideLoading();
+          // 清除定时器，如果请求回来了，就无需loading
+          clearTimeout(_this.config.timer);
+          _this.config.timer = null;
+          // 判断用户对拦截返回数据的要求，如果originalData为true，返回所有的数据(response)到拦截器，否则只返回response.data
+          if (_this.config.originalData) {
+            // 判断是否存在拦截器
+            if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
+              var resInterceptors = _this.interceptor.response(response);
+              // 如果拦截器不返回false，就将拦截器返回的内容给this.$u.post的then回调
+              if (resInterceptors !== false) {
+                resolve(resInterceptors);
+              } else {
+                // 如果拦截器返回false，意味着拦截器定义者认为返回有问题，直接接入catch回调
+                reject(response);
+              }
+            } else {
+              // 如果要求返回原始数据，就算没有拦截器，也返回最原始的数据
+              resolve(response);
+            }
+          } else {
+            if (response.statusCode == 200) {
+              if (_this.interceptor.response && typeof _this.interceptor.response === 'function') {
+                var _resInterceptors = _this.interceptor.response(response.data);
+                if (_resInterceptors !== false) {
+                  resolve(_resInterceptors);
+                } else {
+                  reject(response.data);
+                }
+              } else {
+                // 如果不是返回原始数据(originalData=false)，且没有拦截器的情况下，返回纯数据给then回调
+                resolve(response.data);
+              }
+            } else {
+              // 不返回原始数据的情况下，服务器状态码不为200，modal弹框提示
+              // if(response.errMsg) {
+              // 	uni.showModal({
+              // 		title: response.errMsg
+              // 	});
+              // }
+              reject(response);
+            }
+          }
+        };
+
+        // 判断用户传递的URL是否/开头,如果不是,加上/，这里使用了uView的test.js验证库的url()方法
+        options.url = _test.default.url(options.url) ? options.url : _this.config.baseUrl + (options.url.indexOf('/') == 0 ?
+        options.url : '/' + options.url);
+
+        // 是否显示loading
+        // 加一个是否已有timer定时器的判断，否则有两个同时请求的时候，后者会清除前者的定时器id
+        // 而没有清除前者的定时器，导致前者超时，一直显示loading
+        if (_this.config.showLoading && !_this.config.timer) {
+          _this.config.timer = setTimeout(function () {
+            uni.showLoading({
+              title: _this.config.loadingText,
+              mask: _this.config.loadingMask });
+
+            _this.config.timer = null;
+          }, _this.config.loadingTime);
+        }
+        uni.request(options);
+      });
+      // .catch(res => {
+      // 	// 如果返回reject()，不让其进入this.$u.post().then().catch()后面的catct()
+      // 	// 因为很多人都会忘了写后面的catch()，导致报错捕获不到catch
+      // 	return new Promise(()=>{});
+      // })
+    } }]);
+
+  function Request() {var _this2 = this;_classCallCheck(this, Request);
+    this.config = {
+      baseUrl: '', // 请求的根域名
+      // 默认的请求头
+      header: {},
+      method: 'POST',
+      // 设置为json，返回后uni.request会对数据进行一次JSON.parse
+      dataType: 'json',
+      // 此参数无需处理，因为5+和支付宝小程序不支持，默认为text即可
+      responseType: 'text',
+      showLoading: true, // 是否显示请求中的loading
+      loadingText: '请求中...',
+      loadingTime: 800, // 在此时间内，请求还没回来的话，就显示加载中动画，单位ms
+      timer: null, // 定时器
+      originalData: false, // 是否在拦截器中返回服务端的原始数据，见文档说明
+      loadingMask: true // 展示loading的时候，是否给一个透明的蒙层，防止触摸穿透
+    };
+
+    // 拦截器
+    this.interceptor = {
+      // 请求前的拦截
+      request: null,
+      // 请求后的拦截
+      response: null };
+
+
+    // get请求
+    this.get = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        method: 'GET',
+        url: url,
+        header: header,
+        data: data });
+
+    };
+
+    // post请求
+    this.post = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'POST',
+        header: header,
+        data: data });
+
+    };
+
+    // put请求，不支持支付宝小程序(HX2.6.15)
+    this.put = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'PUT',
+        header: header,
+        data: data });
+
+    };
+
+    // delete请求，不支持支付宝和头条小程序(HX2.6.15)
+    this.delete = function (url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      return _this2.request({
+        url: url,
+        method: 'DELETE',
+        header: header,
+        data: data });
+
+    };
+  }return Request;}();var _default =
+
+new Request();exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 21 */
+/*!****************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/deepMerge.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _deepClone = _interopRequireDefault(__webpack_require__(/*! ./deepClone */ 22));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// JS对象深度合并
+function deepMerge() {var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var source = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  target = (0, _deepClone.default)(target);
+  if (typeof target !== 'object' || target === null || typeof source !== 'object' || source === null) return target;
+  var merged = Array.isArray(target) ? target.slice() : Object.assign({}, target);
+  for (var prop in source) {
+    if (!source.hasOwnProperty(prop)) continue;
+    var sourceValue = source[prop];
+    var targetValue = merged[prop];
+    if (sourceValue instanceof Date) {
+      merged[prop] = new Date(sourceValue);
+    } else if (sourceValue instanceof RegExp) {
+      merged[prop] = new RegExp(sourceValue);
+    } else if (sourceValue instanceof Map) {
+      merged[prop] = new Map(sourceValue);
+    } else if (sourceValue instanceof Set) {
+      merged[prop] = new Set(sourceValue);
+    } else if (typeof sourceValue === 'object' && sourceValue !== null) {
+      merged[prop] = deepMerge(targetValue, sourceValue);
+    } else {
+      merged[prop] = sourceValue;
+    }
+  }
+  return merged;
+}var _default =
+
+deepMerge;exports.default = _default;
+
+/***/ }),
+/* 22 */
+/*!****************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/deepClone.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;} // 判断arr是否为一个数组，返回一个bool值
+function isArray(arr) {
+  return Object.prototype.toString.call(arr) === '[object Array]';
+}
+
+// 深度克隆
+function deepClone(obj) {var cache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new WeakMap();
+  if (obj === null || typeof obj !== 'object') return obj;
+  if (cache.has(obj)) return cache.get(obj);
+  var clone;
+  if (obj instanceof Date) {
+    clone = new Date(obj.getTime());
+  } else if (obj instanceof RegExp) {
+    clone = new RegExp(obj);
+  } else if (obj instanceof Map) {
+    clone = new Map(Array.from(obj, function (_ref) {var _ref2 = _slicedToArray(_ref, 2),key = _ref2[0],value = _ref2[1];return [key, deepClone(value, cache)];}));
+  } else if (obj instanceof Set) {
+    clone = new Set(Array.from(obj, function (value) {return deepClone(value, cache);}));
+  } else if (Array.isArray(obj)) {
+    clone = obj.map(function (value) {return deepClone(value, cache);});
+  } else if (Object.prototype.toString.call(obj) === '[object Object]') {
+    clone = Object.create(Object.getPrototypeOf(obj));
+    cache.set(obj, clone);
+    for (var _i2 = 0, _Object$entries = Object.entries(obj); _i2 < _Object$entries.length; _i2++) {var _Object$entries$_i = _slicedToArray(_Object$entries[_i2], 2),key = _Object$entries$_i[0],value = _Object$entries$_i[1];
+      clone[key] = deepClone(value, cache);
+    }
+  } else {
+    clone = Object.assign({}, obj);
+  }
+  cache.set(obj, clone);
+  return clone;
+}var _default =
+
+
+deepClone;exports.default = _default;
+
+/***/ }),
+/* 23 */
+/*!***********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/test.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 验证电子邮箱格式
+                                                                                                      */
+function email(value) {
+  return /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(value);
+}
+
+/**
+   * 验证手机格式
+   */
+function mobile(value) {
+  return /^1[3-9]\d{9}$/.test(value);
+}
+
+/**
+   * 验证URL格式
+   */
+function url(value) {
+  return /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w-.\/?%&=]*)?/.test(value);
+}
+
+/**
+   * 验证日期格式
+   */
+function date(value) {
+  return !/Invalid|NaN/.test(new Date(value).toString());
+}
+
+/**
+   * 验证ISO类型的日期格式
+   */
+function dateISO(value) {
+  return /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$/.test(value);
+}
+
+/**
+   * 验证十进制数字
+   */
+function number(value) {
+  return /^[\+-]?(\d+\.?\d*|\.\d+|\d\.\d+e\+\d+)$/.test(value);
+}
+
+/**
+   * 验证整数
+   */
+function digits(value) {
+  return /^\d+$/.test(value);
+}
+
+/**
+   * 验证身份证号码
+   */
+function idCard(value) {
+  return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
+  value);
+}
+
+/**
+   * 是否车牌号
+   */
+function carNo(value) {
+  // 新能源车牌
+  var xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/;
+  // 旧车牌
+  var creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/;
+  if (value.length === 7) {
+    return creg.test(value);
+  } else if (value.length === 8) {
+    return xreg.test(value);
+  } else {
+    return false;
+  }
+}
+
+/**
+   * 金额,只允许2位小数
+   */
+function amount(value) {
+  //金额，只允许保留两位小数
+  return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value);
+}
+
+/**
+   * 中文
+   */
+function chinese(value) {
+  var reg = /^[\u4e00-\u9fa5]+$/gi;
+  return reg.test(value);
+}
+
+/**
+   * 只能输入字母
+   */
+function letter(value) {
+  return /^[a-zA-Z]*$/.test(value);
+}
+
+/**
+   * 只能是字母或者数字
+   */
+function enOrNum(value) {
+  //英文或者数字
+  var reg = /^[0-9a-zA-Z]*$/g;
+  return reg.test(value);
+}
+
+/**
+   * 验证是否包含某个值
+   */
+function contains(value, param) {
+  return value.indexOf(param) >= 0;
+}
+
+/**
+   * 验证一个值范围[min, max]
+   */
+function range(value, param) {
+  return value >= param[0] && value <= param[1];
+}
+
+/**
+   * 验证一个长度范围[min, max]
+   */
+function rangeLength(value, param) {
+  return value.length >= param[0] && value.length <= param[1];
+}
+
+/**
+   * 是否固定电话
+   */
+function landline(value) {
+  var reg = /^\d{3,4}-\d{7,8}(-\d{3,4})?$/;
+  return reg.test(value);
+}
+
+/**
+   * 判断是否为空
+   */
+function empty(value) {
+  switch (typeof value) {
+    case 'undefined':
+      return true;
+    case 'string':
+      if (value.replace(/(^[ \t\n\r]*)|([ \t\n\r]*$)/g, '').length == 0) return true;
+      break;
+    case 'boolean':
+      if (!value) return true;
+      break;
+    case 'number':
+      if (0 === value || isNaN(value)) return true;
+      break;
+    case 'object':
+      if (null === value || value.length === 0) return true;
+      for (var i in value) {
+        return false;
+      }
+      return true;}
+
+  return false;
+}
+
+/**
+   * 是否json字符串
+   */
+function jsonString(value) {
+  if (typeof value == 'string') {
+    try {
+      var obj = JSON.parse(value);
+      if (typeof obj == 'object' && obj) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+  return false;
+}
+
+
+/**
+   * 是否数组
+   */
+function array(value) {
+  if (typeof Array.isArray === "function") {
+    return Array.isArray(value);
+  } else {
+    return Object.prototype.toString.call(value) === "[object Array]";
+  }
+}
+
+/**
+   * 是否对象
+   */
+function object(value) {
+  return Object.prototype.toString.call(value) === '[object Object]';
+}
+
+/**
+   * 是否短信验证码
+   */
+function code(value) {var len = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
+  return new RegExp("^\\d{".concat(len, "}$")).test(value);
+}var _default =
+
+
+{
+  email: email,
+  mobile: mobile,
+  url: url,
+  date: date,
+  dateISO: dateISO,
+  number: number,
+  digits: digits,
+  idCard: idCard,
+  carNo: carNo,
+  amount: amount,
+  chinese: chinese,
+  letter: letter,
+  enOrNum: enOrNum,
+  contains: contains,
+  range: range,
+  rangeLength: rangeLength,
+  empty: empty,
+  isEmpty: empty,
+  jsonString: jsonString,
+  landline: landline,
+  object: object,
+  array: array,
+  code: code };exports.default = _default;
+
+/***/ }),
+/* 24 */
+/*!******************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/queryParams.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 对象转url参数
+                                                                                                      * @param {*} data,对象
+                                                                                                      * @param {*} isPrefix,是否自动加上"?"
+                                                                                                      */
+function queryParams() {var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};var isPrefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var arrayFormat = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'brackets';
+  var prefix = isPrefix ? '?' : '';
+  var _result = [];
+  if (['indices', 'brackets', 'repeat', 'comma'].indexOf(arrayFormat) == -1) arrayFormat = 'brackets';var _loop = function _loop(
+  key) {
+    var value = data[key];
+    // 去掉为空的参数
+    if (['', undefined, null].indexOf(value) >= 0) {
+      return "continue";
+    }
+    // 如果值为数组，另行处理
+    if (value.constructor === Array) {
+      // e.g. {ids: [1, 2, 3]}
+      switch (arrayFormat) {
+        case 'indices':
+          // 结果: ids[0]=1&ids[1]=2&ids[2]=3
+          for (var i = 0; i < value.length; i++) {
+            _result.push(key + '[' + i + ']=' + value[i]);
+          }
+          break;
+        case 'brackets':
+          // 结果: ids[]=1&ids[]=2&ids[]=3
+          value.forEach(function (_value) {
+            _result.push(key + '[]=' + _value);
+          });
+          break;
+        case 'repeat':
+          // 结果: ids=1&ids=2&ids=3
+          value.forEach(function (_value) {
+            _result.push(key + '=' + _value);
+          });
+          break;
+        case 'comma':
+          // 结果: ids=1,2,3
+          var commaStr = "";
+          value.forEach(function (_value) {
+            commaStr += (commaStr ? "," : "") + _value;
+          });
+          _result.push(key + '=' + commaStr);
+          break;
+        default:
+          value.forEach(function (_value) {
+            _result.push(key + '[]=' + _value);
+          });}
+
+    } else {
+      _result.push(key + '=' + value);
+    }};for (var key in data) {var _ret = _loop(key);if (_ret === "continue") continue;
+  }
+  return _result.length ? prefix + _result.join('&') : '';
+}var _default =
+
+queryParams;exports.default = _default;
+
+/***/ }),
+/* 25 */
+/*!************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/route.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;} /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * 路由跳转方法，该方法相对于直接使用uni.xxx的好处是使用更加简单快捷
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * 并且带有路由拦截功能
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             */var
+
+Router = /*#__PURE__*/function () {
+  function Router() {_classCallCheck(this, Router);
+    // 原始属性定义
+    this.config = {
+      type: 'navigateTo',
+      url: '',
+      delta: 1, // navigateBack页面后退时,回退的层数
+      params: {}, // 传递的参数
+      animationType: 'pop-in', // 窗口动画,只在APP有效
+      animationDuration: 300, // 窗口动画持续时间,单位毫秒,只在APP有效
+      intercept: false // 是否需要拦截
+    };
+    // 因为route方法是需要对外赋值给另外的对象使用，同时route内部有使用this，会导致route失去上下文
+    // 这里在构造函数中进行this绑定
+    this.route = this.route.bind(this);
+  }
+
+  // 判断url前面是否有"/"，如果没有则加上，否则无法跳转
+  _createClass(Router, [{ key: "addRootPath", value: function addRootPath(url) {
+      return url[0] === '/' ? url : "/".concat(url);
+    }
+
+    // 整合路由参数
+  }, { key: "mixinParam", value: function mixinParam(url, params) {
+      url = url && this.addRootPath(url);
+
+      // 使用正则匹配，主要依据是判断是否有"/","?","="等，如“/page/index/index?name=mary"
+      // 如果有url中有get参数，转换后无需带上"?"
+      var query = '';
+      if (/.*\/.*\?.*=.*/.test(url)) {
+        // object对象转为get类型的参数
+        query = uni.$u.queryParams(params, false);
+        // 因为已有get参数,所以后面拼接的参数需要带上"&"隔开
+        return url += "&" + query;
+      } else {
+        // 直接拼接参数，因为此处url中没有后面的query参数，也就没有"?/&"之类的符号
+        query = uni.$u.queryParams(params);
+        return url += query;
+      }
+    }
+
+    // 对外的方法名称
+  }, { key: "route", value: function () {var _route = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var options,params,mergeConfig,isNext,_args = arguments;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:options = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};params = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+                // 合并用户的配置和内部的默认配置
+                mergeConfig = {};
+
+                if (typeof options === 'string') {
+                  // 如果options为字符串，则为route(url, params)的形式
+                  mergeConfig.url = this.mixinParam(options, params);
+                  mergeConfig.type = 'navigateTo';
+                } else {
+                  mergeConfig = uni.$u.deepMerge(this.config, options);
+                  // 否则正常使用mergeConfig中的url和params进行拼接
+                  mergeConfig.url = this.mixinParam(options.url, options.params);
+                }
+
+                if (params.intercept) {
+                  this.config.intercept = params.intercept;
+                }
+                // params参数也带给拦截器
+                mergeConfig.params = params;
+                // 合并内外部参数
+                mergeConfig = uni.$u.deepMerge(this.config, mergeConfig);
+                // 判断用户是否定义了拦截器
+                if (!(typeof uni.$u.routeIntercept === 'function')) {_context.next = 14;break;}_context.next = 10;return (
+
+                  new Promise(function (resolve, reject) {
+                    uni.$u.routeIntercept(mergeConfig, resolve);
+                  }));case 10:isNext = _context.sent;
+                // 如果isNext为true，则执行路由跳转
+                isNext && this.openPage(mergeConfig);_context.next = 15;break;case 14:
+
+                this.openPage(mergeConfig);case 15:case "end":return _context.stop();}}}, _callee, this);}));function route() {return _route.apply(this, arguments);}return route;}()
+
+
+
+    // 执行路由跳转
+  }, { key: "openPage", value: function openPage(config) {
+      // 解构参数
+      var
+      url =
+
+
+
+
+      config.url,type = config.type,delta = config.delta,animationType = config.animationType,animationDuration = config.animationDuration;
+      if (config.type == 'navigateTo' || config.type == 'to') {
+        uni.navigateTo({
+          url: url,
+          animationType: animationType,
+          animationDuration: animationDuration });
+
+      }
+      if (config.type == 'redirectTo' || config.type == 'redirect') {
+        uni.redirectTo({
+          url: url });
+
+      }
+      if (config.type == 'switchTab' || config.type == 'tab') {
+        uni.switchTab({
+          url: url });
+
+      }
+      if (config.type == 'reLaunch' || config.type == 'launch') {
+        uni.reLaunch({
+          url: url });
+
+      }
+      if (config.type == 'navigateBack' || config.type == 'back') {
+        uni.navigateBack({
+          delta: delta });
+
+      }
+    } }]);return Router;}();var _default =
+
+
+new Router().route;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 26 */
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ 27);
+
+/***/ }),
+/* 27 */
+/*!************************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// This method of obtaining a reference to the global object needs to be
+// kept identical to the way it is obtained in runtime.js
+var g = (function() {
+  return this || (typeof self === "object" && self);
+})() || Function("return this")();
+
+// Use `getOwnPropertyNames` because not all browsers support calling
+// `hasOwnProperty` on the global `self` object in a worker. See #183.
+var hadRuntime = g.regeneratorRuntime &&
+  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
+
+// Save the old regeneratorRuntime in case it needs to be restored later.
+var oldRuntime = hadRuntime && g.regeneratorRuntime;
+
+// Force reevalutation of runtime.js.
+g.regeneratorRuntime = undefined;
+
+module.exports = __webpack_require__(/*! ./runtime */ 28);
+
+if (hadRuntime) {
+  // Restore the original runtime.
+  g.regeneratorRuntime = oldRuntime;
+} else {
+  // Remove the global property added by runtime.js.
+  try {
+    delete g.regeneratorRuntime;
+  } catch(e) {
+    g.regeneratorRuntime = undefined;
+  }
+}
+
+
+/***/ }),
+/* 28 */
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+!(function(global) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  var inModule = typeof module === "object";
+  var runtime = global.regeneratorRuntime;
+  if (runtime) {
+    if (inModule) {
+      // If regeneratorRuntime is defined globally and we're in a module,
+      // make the exports object identical to regeneratorRuntime.
+      module.exports = runtime;
+    }
+    // Don't bother evaluating the rest of this file if the runtime was
+    // already defined globally.
+    return;
+  }
+
+  // Define the runtime globally (as expected by generated code) as either
+  // module.exports (if we're in a module) or a new, empty object.
+  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  runtime.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  runtime.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  runtime.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  runtime.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  runtime.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return runtime.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        if (delegate.iterator.return) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  runtime.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  runtime.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+})(
+  // In sloppy mode, unbound `this` refers to the global object, fallback to
+  // Function constructor if we're in global strict mode. That is sadly a form
+  // of indirect eval which violates Content Security Policy.
+  (function() {
+    return this || (typeof self === "object" && self);
+  })() || Function("return this")()
+);
+
+
+/***/ }),
+/* 29 */
+/*!*****************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/timeFormat.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // padStart 的 polyfill，因为某些机型或情况，还无法支持es7的padStart，比如电脑版的微信小程序
+// 所以这里做一个兼容polyfill的兼容处理
+if (!String.prototype.padStart) {
+  // 为了方便表示这里 fillString 用了ES6 的默认参数，不影响理解
+  String.prototype.padStart = function (maxLength) {var fillString = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ' ';
+    if (Object.prototype.toString.call(fillString) !== "[object String]") throw new TypeError(
+    'fillString must be String');
+    var str = this;
+    // 返回 String(str) 这里是为了使返回的值是字符串字面量，在控制台中更符合直觉
+    if (str.length >= maxLength) return String(str);
+
+    var fillLength = maxLength - str.length,
+    times = Math.ceil(fillLength / fillString.length);
+    while (times >>= 1) {
+      fillString += fillString;
+      if (times === 1) {
+        fillString += fillString;
+      }
+    }
+    return fillString.slice(0, fillLength) + str;
+  };
+}
+
+// 其他更多是格式化有如下:
+// yyyy:mm:dd|yyyy:mm|yyyy年mm月dd日|yyyy年mm月dd日 hh时MM分等,可自定义组合
+function timeFormat() {var dateTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;var fmt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yyyy-mm-dd';
+  // 如果为null,则格式化当前时间
+  if (!dateTime) dateTime = Number(new Date());
+  // 如果dateTime长度为10或者13，则为秒和毫秒的时间戳，如果超过13位，则为其他的时间格式
+  if (dateTime.toString().length == 10) dateTime *= 1000;
+  var date = new Date(dateTime);
+  var ret;
+  var opt = {
+    "y+": date.getFullYear().toString(), // 年
+    "m+": (date.getMonth() + 1).toString(), // 月
+    "d+": date.getDate().toString(), // 日
+    "h+": date.getHours().toString(), // 时
+    "M+": date.getMinutes().toString(), // 分
+    "s+": date.getSeconds().toString() // 秒
+    // 有其他格式化字符需求可以继续添加，必须转化成字符串
+  };
+  for (var k in opt) {
+    ret = new RegExp("(" + k + ")").exec(fmt);
+    if (ret) {
+      fmt = fmt.replace(ret[1], ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, "0"));
+    };
+  };
+  return fmt;
+}var _default =
+
+timeFormat;exports.default = _default;
+
+/***/ }),
+/* 30 */
+/*!***************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/timeFrom.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _timeFormat = _interopRequireDefault(__webpack_require__(/*! ../../libs/function/timeFormat.js */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+/**
+                                                                                                                                                                                                                                                                                          * 时间戳转为多久之前
+                                                                                                                                                                                                                                                                                          * @param String timestamp 时间戳
+                                                                                                                                                                                                                                                                                          * @param String | Boolean format 如果为时间格式字符串，超出一定时间范围，返回固定的时间格式；
+                                                                                                                                                                                                                                                                                          * 如果为布尔值false，无论什么时间，都返回多久以前的格式
+                                                                                                                                                                                                                                                                                          */
+function timeFrom() {var dateTime = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'yyyy-mm-dd';
+  // 如果为null,则格式化当前时间
+  if (!dateTime) dateTime = Number(new Date());
+  // 如果dateTime长度为10或者13，则为秒和毫秒的时间戳，如果超过13位，则为其他的时间格式
+  if (dateTime.toString().length == 10) dateTime *= 1000;
+  var timestamp = +new Date(Number(dateTime));
+
+  var timer = (Number(new Date()) - timestamp) / 1000;
+  // 如果小于5分钟,则返回"刚刚",其他以此类推
+  var tips = '';
+  switch (true) {
+    case timer < 300:
+      tips = '刚刚';
+      break;
+    case timer >= 300 && timer < 3600:
+      tips = parseInt(timer / 60) + '分钟前';
+      break;
+    case timer >= 3600 && timer < 86400:
+      tips = parseInt(timer / 3600) + '小时前';
+      break;
+    case timer >= 86400 && timer < 2592000:
+      tips = parseInt(timer / 86400) + '天前';
+      break;
+    default:
+      // 如果format为false，则无论什么时间戳，都显示xx之前
+      if (format === false) {
+        if (timer >= 2592000 && timer < 365 * 86400) {
+          tips = parseInt(timer / (86400 * 30)) + '个月前';
+        } else {
+          tips = parseInt(timer / (86400 * 365)) + '年前';
+        }
+      } else {
+        tips = (0, _timeFormat.default)(timestamp, format);
+      }}
+
+  return tips;
+}var _default =
+
+timeFrom;exports.default = _default;
+
+/***/ }),
+/* 31 */
+/*!********************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/colorGradient.js ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 求两个颜色之间的渐变值
+                                                                                                      * @param {string} startColor 开始的颜色
+                                                                                                      * @param {string} endColor 结束的颜色
+                                                                                                      * @param {number} step 颜色等分的份额
+                                                                                                      * */
+function colorGradient() {var startColor = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'rgb(0, 0, 0)';var endColor = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'rgb(255, 255, 255)';var step = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
+  var startRGB = hexToRgb(startColor, false); //转换为rgb数组模式
+  var startR = startRGB[0];
+  var startG = startRGB[1];
+  var startB = startRGB[2];
+
+  var endRGB = hexToRgb(endColor, false);
+  var endR = endRGB[0];
+  var endG = endRGB[1];
+  var endB = endRGB[2];
+
+  var sR = (endR - startR) / step; //总差值
+  var sG = (endG - startG) / step;
+  var sB = (endB - startB) / step;
+  var colorArr = [];
+  for (var i = 0; i < step; i++) {
+    //计算每一步的hex值 
+    var hex = rgbToHex('rgb(' + Math.round(sR * i + startR) + ',' + Math.round(sG * i + startG) + ',' + Math.round(sB *
+    i + startB) + ')');
+    colorArr.push(hex);
+  }
+  return colorArr;
+}
+
+// 将hex表示方式转换为rgb表示方式(这里返回rgb数组模式)
+function hexToRgb(sColor) {var str = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+  sColor = sColor.toLowerCase();
+  if (sColor && reg.test(sColor)) {
+    if (sColor.length === 4) {
+      var sColorNew = "#";
+      for (var i = 1; i < 4; i += 1) {
+        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
+      }
+      sColor = sColorNew;
+    }
+    //处理六位的颜色值
+    var sColorChange = [];
+    for (var _i = 1; _i < 7; _i += 2) {
+      sColorChange.push(parseInt("0x" + sColor.slice(_i, _i + 2)));
+    }
+    if (!str) {
+      return sColorChange;
+    } else {
+      return "rgb(".concat(sColorChange[0], ",").concat(sColorChange[1], ",").concat(sColorChange[2], ")");
+    }
+  } else if (/^(rgb|RGB)/.test(sColor)) {
+    var arr = sColor.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",");
+    return arr.map(function (val) {return Number(val);});
+  } else {
+    return sColor;
+  }
+};
+
+// 将rgb表示方式转换为hex表示方式
+function rgbToHex(rgb) {
+  var _this = rgb;
+  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+  if (/^(rgb|RGB)/.test(_this)) {
+    var aColor = _this.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",");
+    var strHex = "#";
+    for (var i = 0; i < aColor.length; i++) {
+      var hex = Number(aColor[i]).toString(16);
+      hex = String(hex).length == 1 ? 0 + '' + hex : hex; // 保证每个rgb的值为2位
+      if (hex === "0") {
+        hex += hex;
+      }
+      strHex += hex;
+    }
+    if (strHex.length !== 7) {
+      strHex = _this;
+    }
+    return strHex;
+  } else if (reg.test(_this)) {
+    var aNum = _this.replace(/#/, "").split("");
+    if (aNum.length === 6) {
+      return _this;
+    } else if (aNum.length === 3) {
+      var numHex = "#";
+      for (var _i2 = 0; _i2 < aNum.length; _i2 += 1) {
+        numHex += aNum[_i2] + aNum[_i2];
+      }
+      return numHex;
+    }
+  } else {
+    return _this;
+  }
+}
+
+
+/**
+  * JS颜色十六进制转换为rgb或rgba,返回的格式为 rgba（255，255，255，0.5）字符串
+  * sHex为传入的十六进制的色值
+  * alpha为rgba的透明度
+  */
+function colorToRgba(color) {var alpha = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.3;
+  color = rgbToHex(color);
+  // 十六进制颜色值的正则表达式
+  var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+  /* 16进制颜色转为RGB格式 */
+  var sColor = color.toLowerCase();
+  if (sColor && reg.test(sColor)) {
+    if (sColor.length === 4) {
+      var sColorNew = '#';
+      for (var i = 1; i < 4; i += 1) {
+        sColorNew += sColor.slice(i, i + 1).concat(sColor.slice(i, i + 1));
+      }
+      sColor = sColorNew;
+    }
+    // 处理六位的颜色值
+    var sColorChange = [];
+    for (var _i3 = 1; _i3 < 7; _i3 += 2) {
+      sColorChange.push(parseInt('0x' + sColor.slice(_i3, _i3 + 2)));
+    }
+    // return sColorChange.join(',')
+    return 'rgba(' + sColorChange.join(',') + ',' + alpha + ')';
+  } else
+  {
+    return sColor;
+  }
+}var _default =
+
+{
+  colorGradient: colorGradient,
+  hexToRgb: hexToRgb,
+  rgbToHex: rgbToHex,
+  colorToRgba: colorToRgba };exports.default = _default;
+
+/***/ }),
+/* 32 */
+/*!***********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/guid.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 本算法来源于简书开源代码，详见：https://www.jianshu.com/p/fdbf293d0a85
+                                                                                                      * 全局唯一标识符（uuid，Globally Unique Identifier）,也称作 uuid(Universally Unique IDentifier) 
+                                                                                                      * 一般用于多个组件之间,给它一个唯一的标识符,或者v-for循环的时候,如果使用数组的index可能会导致更新列表出现问题
+                                                                                                      * 最可能的情况是左滑删除item或者对某条信息流"不喜欢"并去掉它的时候,会导致组件内的数据可能出现错乱
+                                                                                                      * v-for的时候,推荐使用后端返回的id而不是循环的index
+                                                                                                      * @param {Number} len uuid的长度
+                                                                                                      * @param {Boolean} firstU 将返回的首字母置为"u"
+                                                                                                      * @param {Number} radix 生成uuid的基数(意味着返回的字符串都是这个基数),2-二进制,8-八进制,10-十进制,16-十六进制
+                                                                                                      */
+function guid() {var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;var firstU = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;var radix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  var uuid = [];
+  radix = radix || chars.length;
+
+  if (len) {
+    // 如果指定uuid长度,只是取随机的字符,0|x为位运算,能去掉x的小数位,返回整数位
+    for (var i = 0; i < len; i++) {uuid[i] = chars[0 | Math.random() * radix];}
+  } else {
+    var r;
+    // rfc4122标准要求返回的uuid中,某些位为固定的字符
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+    uuid[14] = '4';
+
+    for (var _i = 0; _i < 36; _i++) {
+      if (!uuid[_i]) {
+        r = 0 | Math.random() * 16;
+        uuid[_i] = chars[_i == 19 ? r & 0x3 | 0x8 : r];
+      }
+    }
+  }
+  // 移除第一个字符,并用u替代,因为第一个字符为数值时,该guid不能用作id或者class
+  if (firstU) {
+    uuid.shift();
+    return 'u' + uuid.join('');
+  } else {
+    return uuid.join('');
+  }
+}var _default =
+
+guid;exports.default = _default;
+
+/***/ }),
+/* 33 */
+/*!************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/color.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 为了让用户能够自定义主题，会逐步弃用此文件，各颜色通过css提供
+// 为了给某些特殊场景使用和向后兼容，无需删除此文件(2020-06-20)
+var color = {
+  primary: "#2979ff",
+  primaryDark: "#2b85e4",
+  primaryDisabled: "#a0cfff",
+  primaryLight: "#ecf5ff",
+  bgColor: "#f3f4f6",
+
+  info: "#909399",
+  infoDark: "#82848a",
+  infoDisabled: "#c8c9cc",
+  infoLight: "#f4f4f5",
+
+  warning: "#ff9900",
+  warningDark: "#f29100",
+  warningDisabled: "#fcbd71",
+  warningLight: "#fdf6ec",
+
+  error: "#fa3534",
+  errorDark: "#dd6161",
+  errorDisabled: "#fab6b6",
+  errorLight: "#fef0f0",
+
+  success: "#19be6b",
+  successDark: "#18b566",
+  successDisabled: "#71d5a1",
+  successLight: "#dbf1e1",
+
+  mainColor: "#303133",
+  contentColor: "#606266",
+  tipsColor: "#909399",
+  lightColor: "#c0c4cc",
+  borderColor: "#e4e7ed" };var _default =
+
+
+color;exports.default = _default;
+
+/***/ }),
+/* 34 */
+/*!****************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/type2icon.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 根据主题type值,获取对应的图标
+                                                                                                      * @param String type 主题名称,primary|info|error|warning|success
+                                                                                                      * @param String fill 是否使用fill填充实体的图标  
+                                                                                                      */
+function type2icon() {var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'success';var fill = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  // 如果非预置值,默认为success
+  if (['primary', 'info', 'error', 'warning', 'success'].indexOf(type) == -1) type = 'success';
+  var iconName = '';
+  // 目前(2019-12-12),info和primary使用同一个图标
+  switch (type) {
+    case 'primary':
+      iconName = 'info-circle';
+      break;
+    case 'info':
+      iconName = 'info-circle';
+      break;
+    case 'error':
+      iconName = 'close-circle';
+      break;
+    case 'warning':
+      iconName = 'error-circle';
+      break;
+    case 'success':
+      iconName = 'checkmark-circle';
+      break;
+    default:
+      iconName = 'checkmark-circle';}
+
+  // 是否是实体类型,加上-fill,在icon组件库中,实体的类名是后面加-fill的
+  if (fill) iconName += '-fill';
+  return iconName;
+}var _default =
+
+type2icon;exports.default = _default;
+
+/***/ }),
+/* 35 */
+/*!******************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/randomArray.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 打乱数组
+function randomArray() {var array = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  // 原理是sort排序,Math.random()产生0<= x < 1之间的数,会导致x-0.05大于或者小于0
+  return array.sort(function () {return Math.random() - 0.5;});
+}var _default =
+
+randomArray;exports.default = _default;
+
+/***/ }),
+/* 36 */
+/*!**************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/addUnit.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = addUnit;var _test = _interopRequireDefault(__webpack_require__(/*! ./test.js */ 23));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 添加单位，如果有rpx，%，px等单位结尾或者值为auto，直接返回，否则加上rpx单位结尾
+function addUnit() {var value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'auto';var unit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'rpx';
+  value = String(value);
+  // 用uView内置验证规则中的number判断是否为数值
+  return _test.default.number(value) ? "".concat(value).concat(unit) : value;
+}
+
+/***/ }),
+/* 37 */
+/*!*************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/random.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function random(min, max) {
+  if (min >= 0 && max > 0 && max >= min) {
+    var gab = max - min + 1;
+    return Math.floor(Math.random() * gab + min);
+  } else {
+    return 0;
+  }
+}var _default =
+
+random;exports.default = _default;
+
+/***/ }),
+/* 38 */
+/*!***********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/trim.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function trim(str) {var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'both';
+  if (pos == 'both') {
+    return str.replace(/^\s+|\s+$/g, "");
+  } else if (pos == "left") {
+    return str.replace(/^\s*/, '');
+  } else if (pos == 'right') {
+    return str.replace(/(\s*$)/g, "");
+  } else if (pos == 'all') {
+    return str.replace(/\s+/g, "");
+  } else {
+    return str;
+  }
+}var _default =
+
+trim;exports.default = _default;
+
+/***/ }),
+/* 39 */
+/*!************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/toast.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function toast(title) {var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1500;
+  uni.showToast({
+    title: title,
+    icon: 'none',
+    duration: duration });
+
+}var _default =
+
+toast;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 40 */
+/*!****************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/getParent.js ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = getParent; // 获取父组件的参数，因为支付宝小程序不支持provide/inject的写法
+// this.$parent在非H5中，可以准确获取到父组件，但是在H5中，需要多次this.$parent.$parent.xxx
+function getParent(name, keys) {
+  var parent = this.$parent;
+  // 通过while历遍，这里主要是为了H5需要多层解析的问题
+  while (parent) {
+    // 父组件
+    if (parent.$options.name !== name) {
+      // 如果组件的name不相等，继续上一级寻找
+      parent = parent.$parent;
+    } else {var _ret = function () {
+        var data = {};
+        // 判断keys是否数组，如果传过来的是一个数组，那么直接使用数组元素值当做键值去父组件寻找
+        if (Array.isArray(keys)) {
+          keys.map(function (val) {
+            data[val] = parent[val] ? parent[val] : '';
+          });
+        } else {
+          // 历遍传过来的对象参数
+          for (var i in keys) {
+            // 如果子组件有此值则用，无此值则用父组件的值
+            // 判断是否空数组，如果是，则用父组件的值，否则用子组件的值
+            if (Array.isArray(keys[i])) {
+              if (keys[i].length) {
+                data[i] = keys[i];
+              } else {
+                data[i] = parent[i];
+              }
+            } else if (keys[i].constructor === Object) {
+              // 判断是否对象，如果是对象，且有属性，那么使用子组件的值，否则使用父组件的值
+              if (Object.keys(keys[i]).length) {
+                data[i] = keys[i];
+              } else {
+                data[i] = parent[i];
+              }
+            } else {
+              // 只要子组件有传值，即使是false值，也是“传值”了，也需要覆盖父组件的同名参数
+              data[i] = keys[i] || keys[i] === false ? keys[i] : parent[i];
+            }
+          }
+        }
+        return { v: data };}();if (typeof _ret === "object") return _ret.v;
+    }
+  }
+
+  return {};
+}
+
+/***/ }),
+/* 41 */
+/*!**************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/$parent.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = $parent; // 获取父组件的参数，因为支付宝小程序不支持provide/inject的写法
+// this.$parent在非H5中，可以准确获取到父组件，但是在H5中，需要多次this.$parent.$parent.xxx
+// 这里默认值等于undefined有它的含义，因为最顶层元素(组件)的$parent就是undefined，意味着不传name
+// 值(默认为undefined)，就是查找最顶层的$parent
+function $parent() {var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+  var parent = this.$parent;
+  // 通过while历遍，这里主要是为了H5需要多层解析的问题
+  while (parent) {
+    // 父组件
+    if (parent.$options && parent.$options.name !== name) {
+      // 如果组件的name不相等，继续上一级寻找
+      parent = parent.$parent;
+    } else {
+      return parent;
+    }
+  }
+  return false;
+}
+
+/***/ }),
+/* 42 */
+/*!**********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/sys.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.os = os;exports.sys = sys;function os() {
+  return uni.getSystemInfoSync().platform;
+};
+
+function sys() {
+  return uni.getSystemInfoSync();
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 43 */
+/*!***************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/debounce.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var timeout = null;
+
+/**
+                                                                                                                         * 防抖原理：一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
+                                                                                                                         * 
+                                                                                                                         * @param {Function} func 要执行的回调函数 
+                                                                                                                         * @param {Number} wait 延时的时间
+                                                                                                                         * @param {Boolean} immediate 是否立即执行 
+                                                                                                                         * @return null
+                                                                                                                         */
+function debounce(func) {var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  // 清除定时器
+  if (timeout !== null) clearTimeout(timeout);
+  // 立即执行，此类情况一般用不到
+  if (immediate) {
+    var callNow = !timeout;
+    timeout = setTimeout(function () {
+      timeout = null;
+    }, wait);
+    if (callNow) typeof func === 'function' && func();
+  } else {
+    // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+    timeout = setTimeout(function () {
+      typeof func === 'function' && func();
+    }, wait);
+  }
+}var _default =
+
+debounce;exports.default = _default;
+
+/***/ }),
+/* 44 */
+/*!***************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/throttle.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var timer, flag;
+/**
+                                                                                                                      * 节流原理：在一定时间内，只能触发一次
+                                                                                                                      * 
+                                                                                                                      * @param {Function} func 要执行的回调函数 
+                                                                                                                      * @param {Number} wait 延时的时间
+                                                                                                                      * @param {Boolean} immediate 是否立即执行
+                                                                                                                      * @return null
+                                                                                                                      */
+function throttle(func) {var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+  if (immediate) {
+    if (!flag) {
+      flag = true;
+      // 如果是立即执行，则在wait毫秒内开始时执行
+      typeof func === 'function' && func();
+      timer = setTimeout(function () {
+        flag = false;
+      }, wait);
+    }
+  } else {
+    if (!flag) {
+      flag = true;
+      // 如果是非立即执行，则在wait毫秒内的结束处执行
+      timer = setTimeout(function () {
+        flag = false;
+        typeof func === 'function' && func();
+      }, wait);
+    }
+
+  }
+};var _default =
+throttle;exports.default = _default;
+
+/***/ }),
+/* 45 */
+/*!***********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/config/config.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 此版本发布于2023-03-27
+var version = '1.8.8';var _default =
+
+{
+  v: version,
+  version: version,
+  // 主题名称
+  type: [
+  'primary',
+  'success',
+  'info',
+  'error',
+  'warning'] };exports.default = _default;
+
+/***/ }),
+/* 46 */
+/*!***********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/config/zIndex.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // uniapp在H5中各API的z-index值如下：
+/**
+ * actionsheet: 999
+ * modal: 999
+ * navigate: 998
+ * tabbar: 998
+ * toast: 999
+ */var _default =
+
+{
+  toast: 10090,
+  noNetwork: 10080,
+  // popup包含popup，actionsheet，keyboard，picker的值
+  popup: 10075,
+  mask: 10070,
+  navbar: 980,
+  topTips: 975,
+  sticky: 970,
+  indexListSticky: 965 };exports.default = _default;
+
+/***/ }),
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */
+/*!****************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/api/login.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.getHospitalList = getHospitalList;exports.logIn = logIn;exports.userSignOut = userSignOut;exports.weixinLogIn = weixinLogIn;exports.boundExist = boundExist;exports.boundNotExist = boundNotExist;var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 54));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 获取医院列表
+function getHospitalList() {
+  return (0, _request.default)({
+    url: 'project/queryAll',
+    method: 'get' });
+
+}
+
+// 账号密码登录
+function logIn(data) {
+  return (0, _request.default)({
+    url: 'auth/login',
+    method: 'post',
+    data: data });
+
+}
+
+// 用户退出登录
+function userSignOut() {
+  return (0, _request.default)({
+    url: 'auth/logout',
+    method: 'post' });
+
+};
+
+// 微信登录
+function weixinLogIn(code) {
+  return (0, _request.default)({
+    url: "login/wx/".concat(code),
+    method: 'get' });
+
+}
+
+// 微信授权绑定已存在账号
+function boundExist(code, data) {
+  return (0, _request.default)({
+    url: "login/wx/boundExist/".concat(code),
+    method: 'post',
+    data: data });
+
+}
+
+// 微信授权不绑定账号
+function boundNotExist(proId, code) {
+  return (0, _request.default)({
+    url: "login/wx/boundNotExist/".concat(proId, "/").concat(code),
+    method: 'post',
+    data: {} });
+
+}
+
+/***/ }),
+/* 54 */
+/*!******************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/api/request.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _axiosMiniprogram = _interopRequireDefault(__webpack_require__(/*! axios-miniprogram */ 55));
+var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 13));
+var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 56));
+var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var instance = _axiosMiniprogram.default.create({
+  // 生产域名 https://blinktech.cn/nblink
+  // 开发域名 https://blink.blinktech.cn/nblink
+  // 准生产域名 https://ver.blinktech.cn/nblink
+  // 测试域名 https://show.blinktech.cn/nblink
+  baseURL: 'https://blink.blinktech.cn/nblink',
+  retry: 3, // 网络请求异常后，重试次数 
+  retryDelay: 1000, // 每次重试间隔时间
+  timeout: 30000,
+  headers: {
+    // common: {    
+    //   'Accept': 'application/json, test/plain,'
+    // }
+    // post: {
+    //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+    // }
+  } });
+
+
+// 添加请求拦截器
+instance.interceptors.request.use(function (config) {
+  if (config['url'] == 'auth/login') {
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  };
+  // 请求头添加token
+  if (_store.default.getters.token) {
+    config.headers['Authorization'] = _store.default.getters.token;
+  };
+  return config;
+}, function (error) {
+  //处理请求错误
+  return Promise.reject(error.response);
+});
+
+// 添加响应拦截器
+instance.interceptors.response.use(function (response) {
+  if (response.headers['token']) {
+    _store.default.commit('changeToken', response.headers['token']);
+    (0, _utils.setCache)('questToken', response.headers['token']);
+  };
+  return response;
+}, function (error) {
+  if (Object.prototype.toString.call(error.response) === '[object Object]') {
+    if (error.response.hasOwnProperty('status')) {
+      if (error.response.status === 401) {
+        (0, _utils.removeAllLocalStorage)();
+        if (!_store.default.getters.overDueWay) {
+          uni.showToast({
+            title: 'token已过期,请重新登录',
+            duration: 1000 });
+
+          setTimeout(function () {
+            uni.redirectTo({
+              url: '/pages/login/login' });
+
+          }, 2000);
+        } else {
+          uni.redirectTo({
+            url: '/pages/login/login' });
+
+        }
+      }
+    }
+  };
+  // 处理响应错误
+  var config = error.config;
+  // 判断是否配置了重试
+  if (!config || !config.retry) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  };
+  if (!config.shouldRetry || typeof config.shouldRetry != 'function') {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  };
+  //判断是否满足重试条件
+  if (!config.shouldRetry(error)) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  };
+  // 设置重置次数，默认为0
+  config.__retryCount = config.__retryCount || 0;
+  // 判断是否超过了重试次数
+  if (config.__retryCount > config.retry) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  };
+  //重试次数自增
+  config.__retryCount += 1;
+  //延时处理
+  var backoff = new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve();
+    }, config.retryDelay || 1);
+  });
+  //重新发起axios请求
+  return backoff.then(function () {
+    return service(config);
+  });
+});var _default =
+
+instance;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 55 */
+/*!**********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/axios-miniprogram/es/index.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true });
+
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true } });
+
+
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    _construct = Reflect.construct;
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+
+  return _construct.apply(null, arguments);
+}
+
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+
+      _cache.set(Class, Wrapper);
+    }
+
+    function Wrapper() {
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+    }
+
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true } });
+
+
+    return _setPrototypeOf(Wrapper, Class);
+  };
+
+  return _wrapNativeSuper(Class);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (typeof call === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+    result;
+
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return _possibleConstructorReturn(this, result);
+  };
+}
+
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}
+
+  return arr2;
+}
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+var _toString = Object.prototype.toString;
+/**
+                                            * 对字符串进行编码转换
+                                            *
+                                            * @param str 字符串
+                                            */
+
+function encode(str) {
+  return encodeURIComponent(str).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
+}
+/**
+   * 是不是一个日期对象
+   *
+   * @param date 判断目标
+   */
+
+function isDate(date) {
+  return _toString.call(date) === '[object Date]';
+}
+/**
+   * 是不是一个普通对象
+   *
+   * @param obj 判断目标
+   */
+
+function isPlainObject(obj) {
+  return _toString.call(obj) === '[object Object]';
+}
+/**
+   * 深度合并多个对象
+   *
+   * @param objs n 个对象
+   */
+
+function deepMerge() {
+  var result = {};
+
+  function assignValue(key, val) {
+    // 如果当前结果和当前值都为普通对象
+    // 递归进行深度合并
+    if (isPlainObject(result[key]) && isPlainObject(val)) {
+      result[key] = deepMerge(result[key], val);
+    } // 如果只有当前值为普通对象
+    // 直接深拷贝当前值
+    else if (isPlainObject(val)) {
+        result[key] = deepMerge({}, val);
+      } // 如果都不是普通对象
+      // 直接赋值
+      else {
+          result[key] = val;
+        }
+  }
+
+  for (var _len = arguments.length, objs = new Array(_len), _key = 0; _key < _len; _key++) {
+    objs[_key] = arguments[_key];
+  }
+
+  objs.forEach(function assignObj(obj) {
+    Object.entries(obj).forEach(function assignKey(_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+      key = _ref2[0],
+      value = _ref2[1];
+
+      assignValue(key, value);
+    });
+  });
+  return result;
+}
+/**
+   * 从对象中提取一部分属性
+   *
+   * @param obj  源对象
+   * @param keys 需要提取的 key
+   */
+
+function pick(obj) {
+  var _pick = {};
+
+  for (var _len2 = arguments.length, keys = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    keys[_key2 - 1] = arguments[_key2];
+  }
+
+  keys.forEach(function pickKey(key) {
+    _pick[key] = obj[key];
+  });
+  return _pick;
+}
+/**
+   * 从对象中剔除一部分属性
+   *
+   * @param obj  源对象
+   * @param keys 需要剔除的 key
+   */
+
+function omit(obj) {
+  var _omit = _objectSpread2({}, obj);
+
+  for (var _len3 = arguments.length, keys = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+    keys[_key3 - 1] = arguments[_key3];
+  }
+
+  keys.forEach(function omitKey(key) {
+    delete _omit[key];
+  });
+  return _omit;
+}
+
+/**
+   * 通过请求地址和序列化参数生成新的请求地址
+   *
+   * @param url              请求地址
+   * @param serializedParams 序列化参数
+   */
+
+function generateURL(url, serializedParams) {
+  // 移除 hash
+  var hashIndex = url.indexOf('#');
+
+  if (hashIndex !== -1) {
+    url = url.slice(0, hashIndex);
+  }
+
+  if (serializedParams === '') {
+    return url;
+  } // 拼接前缀
+
+
+  var prefix = url.indexOf('?') === -1 ? '?' : '&';
+  serializedParams = "".concat(prefix).concat(serializedParams);
+  return "".concat(url).concat(serializedParams);
+}
+/**
+   * 默认参数序列化
+   *
+   * @param params 请求参数
+   */
+
+
+function paramsSerialization(params) {
+  var parts = [];
+  Object.entries(params).forEach(function encodeKeyValue(_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+    key = _ref2[0],
+    value = _ref2[1];
+
+    if (value === null || value === void 0 || value !== value) {
+      return;
+    } // 如果值是一个数组, 则特殊处理 key
+
+
+    if (Array.isArray(value)) {
+      key += '[]';
+    } // 转成数组统一处理
+
+
+    var values = [].concat(value);
+    values.forEach(function (val) {
+      if (isPlainObject(val)) {
+        val = JSON.stringify(val);
+      } else if (isDate(val)) {
+        val = val.toISOString();
+      }
+
+      parts.push("".concat(encode(key), "=").concat(encode(val)));
+    });
+  });
+  return parts.join('&');
+}
+/**
+   * 处理 URL 参数
+   *
+   * @param url              请求地址
+   * @param params           请求参数
+   * @param paramsSerializer 自定义参数序列化
+   */
+
+
+function buildURL(url) {
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var paramsSerializer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : paramsSerialization;
+  return generateURL(url, paramsSerializer(params));
+}
+
+/**
+   * 只取 config2 中的配置
+   *
+   * @param keys
+   * @param config
+   * @param config2
+   */
+
+function onlyFromConfig2(keys, config, config2) {
+  keys.forEach(function (key) {
+    if (config2[key] !== void 0) {
+      config[key] = config2[key];
+    }
+  });
+}
+/**
+   * 优先取 config2 中的配置, config2 中没有就取 config1
+   *
+   * @param keys
+   * @param config
+   * @param config1
+   * @param config2
+   */
+
+
+function priorityFromConfig2(keys, config, config1, config2) {
+  keys.forEach(function (key) {
+    if (config2[key] !== void 0) {
+      config[key] = config2[key];
+    } else if (config1[key] !== void 0) {
+      config[key] = config1[key];
+    }
+  });
+}
+/**
+   * 深度合并配置
+   *
+   * @param keys
+   * @param config
+   * @param config1
+   * @param config2
+   */
+
+
+function deepMergeConfig(keys, config, config1, config2) {
+  keys.forEach(function (key) {
+    if (isPlainObject(config2[key])) {
+      var _config1$key;
+
+      config[key] = deepMerge((_config1$key = config1[key]) !== null && _config1$key !== void 0 ? _config1$key : {}, config2[key]);
+    } else if (isPlainObject(config1[key])) {
+      config[key] = deepMerge(config1[key]);
+    }
+  });
+}
+/**
+   * 合并 Axios 请求配置
+   *
+   * @param config1 Axios 请求配置1
+   * @param config2 Axios 请求配置2
+   */
+
+
+function mergeConfig() {
+  var config1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var config = {};
+  var onlyFromConfig2Keys = ['url', 'data'];
+  var priorityFromConfig2Keys = ['adapter', 'baseURL', 'method', 'validateStatus', 'paramsSerializer', 'transformRequest', 'transformResponse', 'errorHandler', 'cancelToken', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'];
+  var deepMergeConfigKeys = ['headers', 'params'];
+  onlyFromConfig2(onlyFromConfig2Keys, config, config2);
+  priorityFromConfig2(priorityFromConfig2Keys, config, config1, config2);
+  deepMergeConfig(deepMergeConfigKeys, config, config1, config2);
+  return config;
+}
+
+/**
+   * 拦截器管理器
+   */
+var InterceptorManagerClass = /*#__PURE__*/function () {
+  function InterceptorManagerClass() {
+    _classCallCheck(this, InterceptorManagerClass);
+
+    /**
+                                                     * 生成拦截器 id
+                                                     */
+    this._id = 0;
+    /**
+                   * 拦截器集合
+                   */
+
+    this._interceptors = {};
+  }
+
+  _createClass(InterceptorManagerClass, [{
+    key: "use",
+    value: function use(resolved, rejected) {
+      this._interceptors[++this._id] = {
+        resolved: resolved,
+        rejected: rejected };
+
+      return this._id;
+    } },
+  {
+    key: "eject",
+    value: function eject(id) {
+      delete this._interceptors[id];
+    } },
+  {
+    key: "forEach",
+    value: function forEach(executor, reverse) {
+      var interceptors = Object.values(this._interceptors);
+
+      if (reverse === 'reverse') {
+        interceptors = interceptors.reverse();
+      }
+
+      interceptors.forEach(executor);
+    } }]);
+
+
+  return InterceptorManagerClass;
+}();
+
+var CancelClass = /*#__PURE__*/function () {
+  /**
+                                             * @param message 取消信息
+                                             */
+  function CancelClass(message) {
+    _classCallCheck(this, CancelClass);
+
+    this.message = message;
+  }
+
+  _createClass(CancelClass, [{
+    key: "toString",
+    value: function toString() {
+      var message = this.message ? ": ".concat(this.message) : '';
+      return "Cancel".concat(message);
+    } }]);
+
+
+  return CancelClass;
+}();
+
+/**
+      * 是否是取消请求实例
+      *
+      * @param value 判断的值
+      */
+
+function isCancel(value) {
+  return value instanceof CancelClass;
+}
+
+/**
+   * 请求方法转全小写
+   *
+   * @param config Axios 请求配置
+   */
+function methodToLowercase() {
+  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'get';
+  return method.toLowerCase();
+}
+/**
+   * 请求方法转全大写
+   *
+   * @param config Axios 请求配置
+   */
+
+function methodToUppercase() {
+  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'GET';
+  return method.toUpperCase();
+}
+
+/**
+   * 拉平请求头
+   *
+   * @param config Axios 请求配置
+   */
+
+function flattenHeaders(config) {
+  var _headers$common, _headers$method;
+
+  var headers = config.headers;
+
+  if (headers === void 0) {
+    return {};
+  }
+
+  var method = methodToLowercase(config.method);
+  return _objectSpread2(_objectSpread2(_objectSpread2({}, (_headers$common = headers.common) !== null && _headers$common !== void 0 ? _headers$common : {}), (_headers$method = headers[method]) !== null && _headers$method !== void 0 ? _headers$method : {}), omit(headers, 'common', 'options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect'));
+}
+
+/**
+   * 转换数据
+   *
+   * @param data       请求数据/响应数据
+   * @param headers    请求头/响应头
+   * @param transforms 请求数据转换函数/响应数据转换函数
+   */
+function transformData(data, headers, transforms) {
+  if (transforms === void 0) {
+    return data;
+  }
+
+  if (!Array.isArray(transforms)) {
+    transforms = [transforms];
+  }
+
+  transforms.forEach(function (transform) {
+    data = transform(data, headers);
+  });
+  return data;
+}
+
+/**
+   * 检查是否是一个绝对 URL
+   *
+   * xxx:// 或者 "//" 开头,  视为绝对地址
+   *
+   * @param url 需要检查的 URL
+   */
+function isAbsoluteURL(url) {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+}
+
+/**
+   * 拼接 baseURL 和 url 获得完整的 URL
+   *
+   * combineURL('1/2///','////3/4') => '1/2/3/4'
+   */
+function combineURL(baseURL, url) {
+  return "".concat(baseURL.replace(/\/*$/, ''), "/").concat(url.replace(/^\/*/, ''));
+}
+
+/**
+   * 根据配置中的 baseURL 和 url 和 params 生成完整 URL
+   *
+   * @param config Axios 请求配置
+   */
+
+function transformURL(config) {
+  var _config$baseURL = config.baseURL,
+  baseURL = _config$baseURL === void 0 ? '' : _config$baseURL,
+  _config$url = config.url,
+  url = _config$url === void 0 ? '' : _config$url;
+  var fullURL = isAbsoluteURL(url) ? url : combineURL(baseURL, url);
+  return buildURL(fullURL, config.params, config.paramsSerializer);
+}
+/**
+   * Axios 请求配置转换成各大平台通用请求配置
+   *
+   * 抹平差异
+   *
+   * @param config Axios 请求配置
+   */
+
+
+function transformRequest(config) {
+  return _objectSpread2({
+    url: transformURL(config),
+    method: methodToUppercase(config.method),
+    header: config.headers },
+  pick(config, 'data', 'headers', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'));
+}
+
+/**
+   * 各大平台通用响应体转成 Axios 响应体
+   *
+   * 抹平差异
+   *
+   * @param response 通用响应体
+   * @param config   Axios 请求配置
+   */
+
+function transformResponse(response, config) {
+  var _ref, _response$statusCode, _ref2, _response$header;
+
+  var status = (_ref = (_response$statusCode = response.statusCode) !== null && _response$statusCode !== void 0 ? _response$statusCode : response.status) !== null && _ref !== void 0 ? _ref : 400;
+  var headers = (_ref2 = (_response$header = response.header) !== null && _response$header !== void 0 ? _response$header : response.headers) !== null && _ref2 !== void 0 ? _ref2 : {};
+  var statusText = status === 200 ? 'OK' : status === 400 ? 'Bad Adapter' : '';
+  return _objectSpread2({
+    status: status,
+    statusText: statusText,
+    headers: headers,
+    config: config },
+  pick(response, 'data', 'cookies', 'profile'));
+}
+
+/**
+   * AxiosError 继承自 Error
+   */
+var AxiosErrorClass = /*#__PURE__*/function (_Error) {
+  _inherits(AxiosErrorClass, _Error);
+
+  var _super = _createSuper(AxiosErrorClass);
+
+  /**
+                                               * @param message  错误信息
+                                               * @param config   Axios 请求配置
+                                               * @param request  通用请求配置
+                                               * @param response Axios 响应体
+                                               */
+  function AxiosErrorClass(message, config, request, response) {
+    var _this;
+
+    _classCallCheck(this, AxiosErrorClass);
+
+    _this = _super.call(this, message);
+    _this.config = config;
+    _this.request = request;
+    _this.response = response;
+    _this.isAxiosError = true; // 修复继承系统自带类 prototype 设置失败的问题
+
+    Object.setPrototypeOf(_assertThisInitialized(_this), AxiosErrorClass.prototype);
+    return _this;
+  }
+
+  return AxiosErrorClass;
+}( /*#__PURE__*/_wrapNativeSuper(Error));
+/**
+                                           * 创建 AxiosError 的工厂方法
+                                           *
+                                           * 返回一个新的 AxiosError 对象
+                                           *
+                                           * @param message  错误信息
+                                           * @param config   Axios 请求配置
+                                           * @param request  通用请求配置
+                                           * @param response Axios 响应体
+                                           */
+
+
+function createError(message, config, request, response) {
+  return new AxiosErrorClass(message, config, request, response);
+}
+
+/**
+   * 请求函数
+   *
+   * @param config Axios 请求配置
+   */
+
+function request(config) {
+  return new Promise(function dispatchAdapter(resolve, reject) {
+    var adapter = config.adapter,
+    cancelToken = config.cancelToken;
+    var requestConfig = transformRequest(config);
+    /**
+                                                   * 捕获错误
+                                                   *
+                                                   * @param message  错误信息
+                                                   * @param response Axios 响应体
+                                                   */
+
+    function catchError(message, response) {
+      if (typeof message !== 'string') {
+        message = '配置不正确或者网络异常';
+      }
+
+      reject(createError(message, config, requestConfig, response));
+    }
+
+    if (adapter === void 0) {
+      catchError('平台适配失败，您需要参阅文档使用自定义适配器手动适配当前平台');
+      return;
+    }
+    /**
+       * 效验状态码
+       *
+       * @param res 请求结果
+       */
+
+
+    function handleResponse(res) {
+      var response = transformResponse(res, config);
+
+      if (config.validateStatus === void 0 || config.validateStatus(response.status)) {
+        resolve(response);
+      } else {
+        catchError("\u8BF7\u6C42\u5931\u8D25\uFF0C\u72B6\u6001\u7801\u4E3A ".concat(response.status), response);
+      }
+    } // 使用适配器发送请求
+
+
+    var task = adapter(_objectSpread2(_objectSpread2({}, requestConfig), {}, {
+      success: handleResponse,
+      fail: catchError }));
+    // 如果存在取消令牌
+    // 则调用取消令牌里的 listener 监听用户的取消操作
+
+    if (cancelToken !== void 0) {
+      cancelToken.listener.then(function onCanceled(reason) {
+        if (task !== void 0) {
+          task.abort();
+        }
+
+        reject(reason);
+      });
+    }
+  });
+}
+
+/**
+   * 如果已经取消, 则抛出取消对象
+   *
+   * @param config Axios 请求配置
+   */
+
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+/**
+   * 发送请求
+   *
+   * @param config Axios 请求配置
+   */
+
+
+function dispatchRequest(config) {
+  var _config$data;
+
+  throwIfCancellationRequested(config);
+  config.headers = flattenHeaders(config);
+  config.data = transformData((_config$data = config.data) !== null && _config$data !== void 0 ? _config$data : {}, config.headers, config.transformRequest);
+
+  function onResolved(response) {
+    throwIfCancellationRequested(config);
+    response.data = transformData(response.data, response.headers, config.transformResponse);
+    return response;
+  }
+
+  function onRejected(reason) {
+    var _config$errorHandler, _config$errorHandler2;
+
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      if (reason.response !== void 0) {
+        reason.response.data = transformData(reason.response.data, reason.response.headers, config.transformResponse);
+      }
+    }
+
+    return (_config$errorHandler = (_config$errorHandler2 = config.errorHandler) === null || _config$errorHandler2 === void 0 ? void 0 : _config$errorHandler2.call(config, reason)) !== null && _config$errorHandler !== void 0 ? _config$errorHandler : Promise.reject(reason);
+  }
+
+  return request(config).then(onResolved, onRejected);
+}
+
+var AxiosClass = /*#__PURE__*/function () {
+  /**
+                                            * @param defaults 自定义默认配置
+                                            */
+  function AxiosClass() {
+    var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, AxiosClass);
+
+    this.defaults = defaults;
+    this.interceptors = {
+      request: new InterceptorManagerClass(),
+      response: new InterceptorManagerClass() };
+
+  }
+
+  _createClass(AxiosClass, [{
+    key: "getUri",
+    value: function getUri(config) {
+      var _mergeConfig = mergeConfig(this.defaults, config),
+      _mergeConfig$url = _mergeConfig.url,
+      url = _mergeConfig$url === void 0 ? '' : _mergeConfig$url,
+      params = _mergeConfig.params,
+      paramsSerializer = _mergeConfig.paramsSerializer;
+
+      return buildURL(url, params, paramsSerializer).replace(/^\?/, '');
+    } },
+  {
+    key: "request",
+    value: function request(config) {
+      var requestConfig = mergeConfig(this.defaults, config);
+      var promiseRequest = Promise.resolve(requestConfig); // 执行请求拦截器
+
+      this.interceptors.request.forEach(function executor(_ref) {
+        var resolved = _ref.resolved,
+        rejected = _ref.rejected;
+        promiseRequest = promiseRequest.then(resolved, rejected);
+      }, 'reverse'); // 发送请求
+
+      var promiseResponse = promiseRequest.then(dispatchRequest); // 执行响应拦截器
+
+      this.interceptors.response.forEach(function executor(_ref2) {
+        var resolved = _ref2.resolved,
+        rejected = _ref2.rejected;
+        promiseResponse = promiseResponse.then(resolved, rejected);
+      });
+      return promiseResponse;
+    } },
+  {
+    key: "options",
+    value: function options(url, config) {
+      return this._requestMethodWithoutParams('options', url, void 0, config);
+    } },
+  {
+    key: "get",
+    value: function get(url, params, config) {
+      return this._requestMethodWithoutParams('get', url, params, config);
+    } },
+  {
+    key: "head",
+    value: function head(url, params, config) {
+      return this._requestMethodWithoutParams('head', url, params, config);
+    } },
+  {
+    key: "post",
+    value: function post(url, data, config) {
+      return this._requestMethodWithoutData('post', url, data, config);
+    } },
+  {
+    key: "put",
+    value: function put(url, data, config) {
+      return this._requestMethodWithoutData('put', url, data, config);
+    } },
+  {
+    key: "delete",
+    value: function _delete(url, params, config) {
+      return this._requestMethodWithoutParams('delete', url, params, config);
+    } },
+  {
+    key: "trace",
+    value: function trace(url, config) {
+      return this._requestMethodWithoutParams('trace', url, void 0, config);
+    } },
+  {
+    key: "connect",
+    value: function connect(url, config) {
+      return this._requestMethodWithoutParams('connect', url, void 0, config);
+    }
+    /**
+       * 合并配置后发送 HTTP 请求
+       *
+       * @param method 请求方法
+       * @param url    请求地址
+       * @param params 请求参数
+       * @param config 额外配置
+       */ },
+
+  {
+    key: "_requestMethodWithoutParams",
+    value: function _requestMethodWithoutParams(method, url, params) {
+      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
+        method: method,
+        url: url,
+        params: params }));
+
+    }
+    /**
+       * 合并配置后发送 HTTP 请求
+       *
+       * @param method 请求方法
+       * @param url    请求地址
+       * @param data   请求数据
+       * @param config 额外配置
+       */ },
+
+  {
+    key: "_requestMethodWithoutData",
+    value: function _requestMethodWithoutData(method, url, data) {
+      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
+        method: method,
+        url: url,
+        data: data }));
+
+    } }]);
+
+
+  return AxiosClass;
+}();
+
+var CancelTokenClass = /*#__PURE__*/function () {
+  function CancelTokenClass(executor) {
+    var _this = this;
+
+    _classCallCheck(this, CancelTokenClass);
+
+    var action;
+    this.listener = new Promise(function (resolve) {
+      action = function action(message) {
+        // 防止重复取消
+        if (_this._reason) {
+          return;
+        }
+
+        _this._reason = new CancelClass(message);
+        resolve(_this._reason);
+      };
+    });
+    executor(action);
+  }
+
+  _createClass(CancelTokenClass, [{
+    key: "throwIfRequested",
+    value: function throwIfRequested() {
+      if (this._reason) {
+        throw this._reason;
+      }
+    }
+    /**
+       * 返回一个 CancelTokenSource
+       *
+       * CancelTokenSource.token 是一个 CancelToken 对象
+       *
+       * CancelTokenSource.cancel 是一个 CancelAction 函数
+       *
+       * 调用 CancelTokenSource.cancel('这里可以填写您的错误信息')
+       *
+       * 取消请求 CancelTokenSource.token
+       */ }],
+
+  [{
+    key: "source",
+    value: function source() {
+      var cancel;
+      var token = new CancelTokenClass(function executor(action) {
+        cancel = action;
+      });
+      return {
+        token: token,
+        cancel: cancel };
+
+    } }]);
+
+
+  return CancelTokenClass;
+}();
+
+/**
+      * 自适应当前平台
+      */
+function adaptive() {
+  var stack = [function () {
+    return uni.request;
+  }, function () {
+    return wx.request;
+  }, function () {
+    return my.request;
+  }, function () {
+    return swan.request;
+  }, function () {
+    return tt.request;
+  }, function () {
+    return qq.request;
+  }];
+  var adapter;
+
+  while (stack.length !== 0 && adapter === void 0) {
+    try {
+      adapter = stack.shift()();
+    } catch (err) {}
+  }
+
+  return adapter;
+}
+
+var defaults = {
+  /**
+                  * 适配器
+                  */
+  adapter: adaptive(),
+
+  /**
+                        * 请求方法
+                        */
+  method: 'get',
+
+  /**
+                  * 请求头
+                  */
+  headers: {
+    common: {
+      Accept: 'application/json, test/plain, */*' },
+
+    options: {},
+    get: {},
+    head: {},
+    post: {
+      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
+
+    put: {
+      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
+
+    "delete": {},
+    trace: {},
+    connect: {} },
+
+
+  /**
+                    * 状态码效验
+                    *
+                    * @param status 状态码
+                    */
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  },
+
+  /**
+      * 超时时间
+      */
+  timeout: 10000,
+
+  /**
+                   * 响应数据格式
+                   */
+  dataType: 'json',
+
+  /**
+                     * 响应数据类型
+                     */
+  responseType: 'text',
+
+  /**
+                         * 开启 http2
+                         */
+  enableHttp2: false,
+
+  /**
+                       * 开启 quic
+                       */
+  enableQuic: false,
+
+  /**
+                      * 开启 cache
+                      */
+  enableCache: false,
+
+  /**
+                       * 验证 ssl 证书
+                       */
+  sslVerify: true };
+
+
+/**
+                      * 创建一个新的 Axios 实例
+                      *
+                      * 返回一个 Axios 实例增强
+                      */
+
+function createInstance(defaults) {
+  var instance = new AxiosClass(defaults);
+  /**
+                                            * 支持重载的 axios 函数
+                                            */
+
+  function axios(url) {
+    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    // 调用方式一处理请求配置
+    if (typeof url !== 'string') {
+      config = url;
+    } // 调用方式二处理请求配置
+    else {
+        config = _objectSpread2(_objectSpread2({}, config), {}, {
+          url: url });
+
+      }
+
+    return instance.request(config);
+  } // instance 的属性合并到 axios 函数中
+
+
+  Object.assign(axios, instance); // instance 的方法合并到 axios 函数中
+
+  Object.setPrototypeOf(axios, Object.getPrototypeOf(instance));
+  return axios;
+}
+/**
+   * Axios 实例拓展
+   */
+
+
+var axios = createInstance(defaults); // 添加 create 工厂方法
+
+axios.create = function create() {
+  var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return createInstance(mergeConfig(axios.defaults, defaults));
+}; // 添加 Axios 类
+
+
+axios.Axios = AxiosClass; // 添加 CancelToken 类
+
+axios.CancelToken = CancelTokenClass; // 添加 检查错误是否来自取消请求 方法
+
+axios.isCancel = isCancel;var _default =
+
+axios;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+/* 56 */
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(/*! ./stringify */ 57);
+var parse = __webpack_require__(/*! ./parse */ 60);
+var formats = __webpack_require__(/*! ./formats */ 59);
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+/* 57 */
+/*!******************************************!*\
+  !*** ./node_modules/qs/lib/stringify.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ 58);
+var formats = __webpack_require__(/*! ./formats */ 59);
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
+        return prefix + '[]';
+    },
+    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
+        return prefix;
+    }
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaults = {
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var stringify = function stringify( // eslint-disable-line func-name-matching
+    object,
+    prefix,
+    generateArrayPrefix,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    formatter,
+    encodeValuesOnly
+) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (Array.isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        if (Array.isArray(obj)) {
+            values = values.concat(stringify(
+                obj[key],
+                generateArrayPrefix(prefix, key),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        } else {
+            values = values.concat(stringify(
+                obj[key],
+                prefix + (allowDots ? '.' + key : '[' + key + ']'),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        }
+    }
+
+    return values;
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
+    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
+    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
+    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
+    var sort = typeof options.sort === 'function' ? options.sort : null;
+    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
+    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
+    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
+    if (typeof options.format === 'undefined') {
+        options.format = formats['default'];
+    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
+        throw new TypeError('Unknown format option provided.');
+    }
+    var formatter = formats.formatters[options.format];
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (Array.isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (options.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = options.arrayFormat;
+    } else if ('indices' in options) {
+        arrayFormat = options.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (sort) {
+        objKeys.sort(sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        keys = keys.concat(stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encode ? encoder : null,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            formatter,
+            encodeValuesOnly
+        ));
+    }
+
+    var joined = keys.join(delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+/* 58 */
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/utils.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    var obj;
+
+    while (queue.length) {
+        var item = queue.pop();
+        obj = item.obj[item.prop];
+
+        if (Array.isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+
+    return obj;
+};
+
+var arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+var merge = function merge(target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+var assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+var decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+var encode = function encode(str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+var compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    return compactQueue(queue);
+};
+
+var isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var isBuffer = function isBuffer(obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    merge: merge
+};
+
+
+/***/ }),
+/* 59 */
+/*!****************************************!*\
+  !*** ./node_modules/qs/lib/formats.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
+/* 60 */
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/parse.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ 58);
+
+var has = Object.prototype.hasOwnProperty;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    parameterLimit: 1000,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+
+    for (var i = 0; i < parts.length; ++i) {
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder);
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder);
+            val = options.decoder(part.slice(pos + 1), defaults.decoder);
+        }
+        if (has.call(obj, key)) {
+            obj[key] = [].concat(obj[key]).concat(val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options) {
+    var leaf = val;
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]') {
+            obj = [];
+            obj = obj.concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj;
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys
+        // that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while ((segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options);
+};
+
+module.exports = function (str, opts) {
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
+    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
+    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
+    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
+    options.parseArrays = options.parseArrays !== false;
+    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
+    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
+    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
+    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
+    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
+    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options);
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
+/* 61 */
+/*!***********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/login-background.png ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAADjCAMAAABJnqQtAAACglBMVEUR0YMR0YMS0YMAAAAR0YQR0YMR0YMR0YMR0YMR0YMQ0YQR0YMQ0YMR0YMS0IIR0YMR0YMR0IMR0YMR0YMR0oMR0IMR0IMQ0IIR0YQQ0YMQ0YMQ0IMQ0YMS0oMQ0YIQ0IMR0YMQ0YMR0YIQ0IMQ0IMQ0YMR0YIR0YMQ0YIQ0IMQ0IMR0YMR0YMQz4MR0YIS0YIR0IIR0IMQ0YMS0oIQ0IMR0YMR0YMR0YIQ0IQR0YMR0IQR0YMQ0oMR0YMQ0YMR0YMQ0IMQ0oMA/wAR0YMQ0IMAv38R0IMQ0IIQz38R0oER0YQR0YMR0IIS0IIR0oIR0oQR0YMR0oIR0oQR0YQQ0YQQ0YQQ0oMR0IQR0IMQ0YIR0IIR0IMS0oMS0YMP04MQ0YUR0oMS0oQQ0oQR0YIQ0YMQ0YMQ0YMR0IMQ0oQR0oMQ0IMQ0YIQ0oQS0YQPzoMS0IMR0IISyH8R0IMQ0YQQ0IIP0YER0oMP0YMR0oMR0oQQ0YMS0YMR04MQ0IIAzGYQzoIQz4MQ0oQRzH8A/38R0YIRz4MP0ocA0XQR0oIO0YIS0IIM0YAP0n0P04oJ0X8N0oIP04QNz4YKzn8R04YP0oMQ0YQQ0oMS0IIP04EP0n8R0IIQ0IQO0IQA338NzoINyXkA0YsO1H8Lyn8PzoEQ1oQA1H8Pz4EL1H8Qz4cR0oIR1H8Q1IgSyoQA1H8O0YMS04QAv38P0oIAzIAN0H8N1IIMzYMN0H8Rz4QR0oQN0oAQ1IIS0YQQ04MNzIAA/6oAtm0Af38Mzn8Axo4AyH8Qz38M1YIA444J04QA25IO0X8AzJkS238Oz4MN2YAMzoYS1IYN14YJ03sT0oMR1IIN0oYM1Ib/1hTJAAAA1nRSTlP/wIAA3/XSp/6hvsH5/YOKx8T3lr+Uo6p6vdzKjIKsr8i7tpzay4Xv6fue1vtA45Fc0O6BUuTgsH7OeGmems3ibewB3o4ETLIQSbLyuIGHk9hatLiwvGE8mF7Vv2VUI165Vnw9kOh/Z3KY6t1+dERziQ7mcLpDSiGkdk5IhDEFL1A+HgJYaxELZjcrFjMjHDk0OxpMRJFQVkUitKo2CDkTCxIYNB8GVRggLR4vHQxIHQgzCiY7KTxbbCgvj0AoAwcCKgkOICsJHQc4BQ4lFCoqEx1EOygqFyHG/gAACDdJREFUeJzt12dbG8cChmESW1oEAgQCAZIsGYTpvXewIZjiGNNLqMY+YAPuLXZc495b3JOT3nuvp5/0Xv5PFpBlipC0qxVvrsvv/Z3dmUczs4PfYlp4RQ/4EcBidodgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdgdwx2x2B3DHbHYHcMdsdQpLt/UGpqklablJoa5K/A4+4Hsrr7a1XZielVxhR10bKlutDAB6YLDNWZyrPUKXHG/G0bE1Ra/hLOSOoepFqeN5pSpJsZ2p1QU1aKsSIxQZXkq0n4lribtdqwSdqkIIUe6ll3/7Ds9LgsnaTczn6BZeq4/PUJYX/pLTC5mfMWG9d0Z5WbdLrQWXMI1JmK1Cmj6V6uI7fdkxLy4opmv9xLgUuz1oj9tV6MW3nahsSKOHW5lMUlrqPJechYR666J2Xndy9VtvhMgcvUxrxs9PIPUiVWdZd7s7QCTeq49OUqKWfQPN39VdvWmJTK6375q43isBc+v79YXK3gyhLn4ekyctLdv6FCrfDB4hExv9RVI19QQ15cubT7gee7OGXxRnfTmN1dlQ5pPp2Yv8KX+VPzlg0018f4ehomdVXi/LOY3l27PsXrK4tydFlrKjaqUpVOvrIz+MFJ8evKhPoAH08i0NQtrn0nJ4+juyq/yMdjkCe0PKVq23Lv7/6qKl3BBnvye3LMZUJsuK/nIJ48Fdkzb29T3RtGF+wjKpeuvNuYvjEhTPL5458waorVmGcXnyY+wtDqi4Ufc8sqGJLLNjRmfFZtNpv1QkzWtrvrR+zeMOrTy6LSJi7Nxor12Q1hLs8g8XZoLAqs1zyxxEXxe5ZkKNg+xirYIkLmbK7J93QWLM0Xl35WpJ9NI1hj25R650JqsxpKk/dEFtS3xESHT4oeiK23CJrOjC0Pe5R7huB1mpWPeDmkFktyRrzbN2VEJj/oZ/8hQhrLNMJKn3/mlRLebKiW0dadJRGGZpnn/SO39ujdJ3ewd78r2Bxh22Nt8fZ3lyY8OmbHKtGOgTaPNnu0pWy1orlniNcLLVJnsErQPybtLbO62+WENJYKBTskF5Rix8pIg02fEbJ6xkmY89jqkM8aO0sNgrXZ6e6LERo9O7O9sbrMEu3pPAKsthDpb3De3W6JudNgiVV68Yevsmj0Zk/iBW/J2KARWgccI4jVVEufokzmUqv73RdtkbrQ7Vx2n5ITotdENivzuW+JLF0nfaA5IRHJQoGlVMa68srEp9bFvNsi9bK3ngfdpzwszt2r+gH1Br3sY3ms687WRf85v//NphG5j5Ap+Ann7aNvRzi9KnrI4+5TJuvHSq4f0GrIkH8qF+eefnuRw9tH3qnrf1T2w+QQ2xfMOO8DLHP/+ZVGYvcpEyfPbU/rR1tL13kxyMo3dz9+L7rD1u8v5R4rlP9YyXKqbZFT95zwgjIJF8Y5xsZLunL3yeo+ZWLtC7dc1m+zJlfnyH9DVOY3f3fS3OGhy2d3tUfJf75k8REaW8QWOX9ZONIzuGvo05tnTqyYHLrfhY60nfuuHBpsaj9ZOb5WxhO3NNqEVidXvoHbNrMX/9qMndx07iFX0R2e+WnnR5vlv0iK7VdfWrTojb4Prw17+msXVvbvPXzw+drZe9Zv1gp6+odXP9k/VPdi+3Zpv0F89QaNJdZ+CLa17pH/CRWN9dz44kmPmjs83fdh78d/8+Kd7o3X/TLthbXn7uwbHJ7/O1M8PHj1ud21U6t7rlndpztx+f8dV7q2SzpE4wtHSo6NeLP1R66//79vpTV3eOH1izU9vjl3Nte87DThgeNvffBcx6aaa4NNmaKPrh+q2XTh03NnXnAzVBfd7R5/pu9s2qH+Y4+6XE3FJZk17/9+xn4yvHv5x0u7jg6PS1qAUT3XLt18V2LquVb8fHpn03ZFl37ljbfmW7dyue/u8K83nt39wf6nDv9atze3t/fo0d7e3L11Vw/fee2987XznMT/qD3yx6mde5t6KovnDxH1cVfu5689v1WR+dz19ZGLu9qVuG2u7Trl8tsuk4Tu3lnx5fGXXn7v9MGzT3UMpYmGOi68c/CT3c9+59nHU56tN09d6R+X3bxw+EbfAd+MbMG6Az35+v5N10sknvvFTWl9//TdmO6H7nYnzr8yVJNZUuyueFTJi59/UevjwdxH3e86cPzVf19Mq8vNbC+p3Fy8duK+NrY2anPlyf7cfb+98tV/F2QQfwIfZ3GGCB+bRAAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 62 */
+/*!*****************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/login-logo.png ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABHCAMAAACAsrFUAAAC+lBMVEUAAADj8eXi8eTk8ebl8ufo9Orn8+nr9ezY7Nvm8+jZ7dzb7d3X7NrW69ns9u3V69jt9u7q9Ovb7t7d7t/v+PDe7+DT6dfg8OLu9+/h8ePf7+H////j8eXx+PHo8+nf/9/j8eX////b29vj8eXi8eTj8eXi8eXk8ubw+PHj8eXm8+jm5ub////m8ubf79/s9+7s9u3o9Ori8eTj8ebq9uvl8ufl9Ojh8eTb7t7i8eTk8uTv+PHv9/Di8eTh8eWqqqrg7+Pb7dvj8eXi8uTk8eTq6urq9Ove7+Dj8uTj8eXj8Obm8+jj8eXj8eXg7+Xj8eWq/6rl8uXn8+nk8ebj7uPq9ezh8OTn9ufm8ujt9u7h8OHm8uji8eTi8eXj7OPb7t7k8OXp9evc7t/j4+Pj8uXo9Orp9uzm/+bX7dzMzMzn8enr9+3l8uXp9Onu9u/f8OLj8eXX7dji8OLn8+fs9uzi8OTx+PHi7+Lq9Orm8uzj8OPo8Ojj8eO/v7/b/9vT6d7h8Ojw+PHq8+rV69nq8erZ7dzk7+Tx+PLq9ezj8ebn8+fs9e3f7d/j8eXx+fPk8uTo9ejX69nk8Obt9PHl9eXw9/Df39/g8ODU/9Tj8ebv+PDl7uXx+PLs9+/n8+nq/+rZ7N3k8+ni8eXo8+nj8uXd7uXc8d/d79+//7/j8+PS6tnf6t/u9fDy//Lf7+/z9/PV7djo9/Dg8ubU49Ti9eLt9/Lu/+7U6tTv9e/w+fLb7eTj7Ozn9ezr9+7o8+rd8ODv+O/x9/Hg9evu7u7x+PPh8eTc8OHv+fDp+Onr9uvY7Nrb7t3X6Nff8eLg8OPj8uno9OjU6NYA///X69vT5tjV6td/f3/W69nV7Np//39////M5szV69e////y8vLp9OvM/8zb7t3p9Onl8ubb7dvU1NTb7t3S8OHX7Nrx+vHU5dTa7tzc7t/x+PLc69zo9Ovz+fPS4dLb8+fy+fPd7uDn+e3o8/Pl9u7T69fZ7dzU6tjn9+fi8eXt9+96Dt57AAAA/nRSTlMA///////////////////4////////jP////8B/f//CPkEB/H79bf7/Oz4CgYUEPj79ve08vRE8vnuJvPt5oADsw7eYDgM2fS+4q/hlNox1QM78o8uy0M25/IRZY7LG7Oe+bgJmsCkCrQFXpqIF5SqposjVhuGJT7sKGYhEgQHFyLebu8kt3Hpq8UruzhtphNM6XtHMsgIIQZajB7lfMYM9Gnn0XUebtIEUkkYhBQQPlUiURIaYg8MMXgcGzW0hedwXBkPauAzzyNYyqQtWdFRQ3ABmjR6AsE3AgIK2wQUdAXcXcsrBlsRqzUeZ+zCQbuCERWxxCsWHkDigz+ynF4zbxgAAAWeSURBVHic3Zd3XBNnGMfTgBW0dVvAOyXxEpIQkhDIZO89ZG8EQUBkb3ErBVkKyF4y66zWWVv3qnt077333u3n0zfjLrmRQPyzv3/I8z7P78t7z7333ns0Y7K99PPWwa4fqowWGdGX17ncpUu53IaT0EP5jwwCu0pc16sOD+Hf7ab1A7k+ZzIBAv5FOplMYJ5007MDJfWbRGBeTLImyLXIBILtUNI8oqxFRfxp3gzI/5DImgSYN0dUdHhahNdO9YvmoHJMStIL1ia/NY3/v2stZhEFFN28eSguU0cQTDmHFYIcx5laZTY3LQcNrciRoCOOO6YiMCuaMb94hyCr8GjVmdwrQ3qE35jG/Psq4uajkqxN3rAtoKYmNEYg3CbBhlcXGiEwj8bNn6GV+PyVwuFM1a/M8QH/bdHo+IzVFQYJG5visDLx+/z0cTQIuOGQL8ZS3/++wkD/EsaXoRKndNcFYNGyxLPd5WI0mLF6PWUnIVnAo6jsy5mdiVgEFC1jttmjgSUlAWoLtUQV3eYpi8YitaTl0APd0PA6kt+zPNHSXCPLRNmKPikaoYPSfOjvRCwadiH2P5+H1YYmOIxK8XaVpCmfJoSiAedj/Bx6RxGOmUac0Ca+B9tcG+nJXDqRFRuMlUXqz8G2A4HRRPAW/zA22a4Su8DfRUfwqcP8/FQEfkQjVuSW5BInbUASO1voEs5AS30itH7vbDbqZzT2/BRi0A8IxQKXNB2hRe0/noH5nZx7Ju3QPKUYISfWBaEVsE8U8PtnYA52yaQLljVEcO4ps0PnCIdX02gpmAPJSI9N42ClMMLjqXMsJQ/rEYiC1q0PYWOEMloImkNi0qMidYWMoNqI6mwebKbMkEXcdUYtwJQWcaYEDTkFtCCtR155OT5Y5+cUbwDrnd+qRDz2gHV+OIylI0T6pWdoCXAjrUA9TVg5Ubh/TO9aw1V+QPAIE2puVZouB/tUXw5DND/taOnhTnQ6i9cn8OXR9ZQKdkP1GrPV/HWo18+6xx/0QFQ/5L402kD22Ng/Ebn1Sv0Kup8ncbPGpd33e9fy5AivY436SQJ7lK0droDuTXxc+Sxc3tkBOugXNaD3OBAAfoQtAxLAeID2Eg0CYjbh8w6t+PyUgHv++HxukIkA+C7ubf5uPL4FUwPo157X78KuSEKaAmBDUJpmBanl7cUiZL3IACuCWF4YYU+YEzFLAVhCVGDxcU1OmBpISpIBqxaTFLhK1Qdo8+1Acm4lGbCQLMUvLb1rPlkVSJGiACygkOLDrz/bq6DKkAFPzqbUyAj1OAVglknKIwMsTFJeLwGwPO8xU2TxxUYCAHp57uMmaPszBD+N9tXr2+dOW9tLnyUBaMkHXi19YloqffEVYgv/f+Kfvj/aUTDhK9ui3rVNFPNsTo1EbK+SFAmv9Ntgov1GjiQTnHfBadAcHJRgBsJrjKk9FpWQ0El6VVAoq+5fN9HM+TqA+v3HYCOIXK6sNHrSf6+q6sil/uuDojkziQCVwDbNizIGgHY2uLm5iqyt5+kA9lIGetzgyIPDIox+KEA7wWfqokX6APsU2f38eo+Y1FSP1r74MnBKwIrf3nznjzd+xBOuuhIBlinJntDG5Vn83E37XtIVegpfeOr2rfb2dwiP0+kGEgAJOSYgTFvlXnlBMdvCov2vz/Gpp7tIAHNzxM7XRYitpQ+Esb7FFxQLF8yeNXLrAJ/QBCZoAglgZubkXuLrF7v+xGRZbHWtlzvLymrxwgWKP0s3v0lq4243KoBqGbB5wT7X3JXgJES3sbFarPgm7w7h3a+5hm8NALTrQC0bmyWBe1uIs9fem4uuXGsu19HR0QiAJb/3HcVepNGpoa1bu5rPnYsLqJFIxOBpIgFYiF18tyE7/jz064OPzoeEshkMBgcGAo2AWU7ulZ0U33v/AWfhnI+XkP5IAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 63 */
+/*!**********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/logo-small-icon.png ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfCAMAAAAocOYLAAADAFBMVEUAAACx2rQR0YOU16rd7+Cq2rGc2K2j2a+Z2Kyw2rTk8uau2rO33rvi8eWe2a7g8OOX2Kso1pBg1Zvm9Oll1Zxx1qG13LhC05GO2KqH16eK263P6NKK2KhY1Zmm2bBP1JXM59DC48U20o192ahV1ZcRzoAm0opu1Z+B2qmD16ag2K4e0ohc1JkA//97x5cS0oOL1KaA1qQs0Yp/0qBH1JOn2rUztXGw2rSG2qsnz4Zq1p0x0Ywbz4Sy3sAovXV216K94MAi0ohL1JSr2rYwyoTU69iR2Ksws23E5Mmz27YSynxUu39x2aS53rwswnpTwIQ2z4qs3r4r1I86046x2rTW69lLv4BN0JExwXyP26+F0KF62qig27er2rsV0YSv27xevYN41KBXvIHY7Ns+05D///82040k0oia2awavXGv36/R6dUS0YM9wX+m2bCX0qogxnxuypQWzYAsz4gX0YQfuW90y5jp9eum3rtKuHqU2ase0odyz5ors22s2rJ22qc01ZFpzZY2unc9zYvJ5ct616MXwXQw1Y8szIUlu3Iu04uw2rOf2bMAv3+x2rSx27OK2agR0oJj1pyq1KpEtXRAv3+v27IUxXhsw45/2aWw27RYy5BCyYhg359V1JUp0op10Z0S1IES0IOg2a6P1ae/v78P0nhlvYWu3LRI1JNK1JMsyIGF2KcO0YRfuIJTxomw2bNJsXSg1bJ/zZ07yYYV1H9e05kmwnpNy4y948lZ0JVFzo0T0oQ9t3Sk17W538Xt9+9wvo1ey5Irt3Gw2rMQ0oMnxn5s2KJT0pSb0q0ZxnqP2Kp/v386044R0oMP0YE2045P0pNt1Z8X0YU/05Fo0Jh/v79q1JU/05Fv1p9b0ple1Zp116Antm5q1KpL1JQe0IWK2Kho1pxX1JdGyYhw359816NU1Zaz5MdQ349z1qEuunRQ359/35901qJl1p0n1Y5V1Zh/16RE05Ia0oh31aFowos+0I1r1pxI05NR1ZZm1p0Qz3+X2bJc1Zo2w39kNWqNAAABAHRSTlMA//7////////+//////////////////7///////////////7///////////8B//H//v//////8P///v/////////////////////////////////5/////////////////////gHw8vD/EP/h//D///////L///////Dy///w///////////////y5P8E37biLVgM/wRG//+Fhf//EAzy/0e58P8EEf8sR/n/vFn//1f/////DP////////f/////////vOb///////AEwMCG4i23huP/BAyG3y3gRv8MuP/wLFj/EPfg/xD6/xAQLN/7uEbAwbj//1iG9+gQ/+j/vRe/bwAAA2xJREFUeJw903dYUlEUAPALPBGePB+KoIYVUGFKIklApBAGuGfmTDNHbnOvUnNlmrb33nvvvYervffee+913+PL8+/vO/eee+45gIgVGTPnHm9SqVSVlSOXpaWN6pi8fs6H11dIA2DEtNWThgyhUHyZFmbmznQGzcvO3qnvk89v7owgOWPzRCYFMsvXxHYOkMcO5F7/tsAF+rTNTVApFB5Pb25JZ3ey44CfUxfCu1dPJNmCqVdY0hlsmsypr4ltrG/emAEyJhGHUyzMuplbMmh0HCuVJySYuE/X96/ATFgZBVZGcjNy+DAntLjc0cQ9f6wBc6H/51i8BEU4aGz1ZRuSu6/9Do4zSXa2ZLCbOSXIkSOHMCy2eudOggf1+wiaOrND0RJjG4LHH0SQ0qN7Wwm2vQRUZGnwXRqUw9+KcVAs7mBS+O95kZGQk1OAimwamxbH4QhyMBTFcETTxhd47d5na5sclgIqTazhoHviMBRBkPAko0YqFC6fX/s1TDQejIRNY9Bke3DNIQw1btwo3ZIjqIuX8vTZ20NE7tAJXh6zLSYex/C4LdPLpif6CHXMxOAoQ4i72yKwjMH2snOQF8+Ox3GEXxYREcHW6QItvI8FGQrcxKkgjWAn+eK8UCQpnK8I3lQeGMhimSm16xrcxJ6jwSjI9vZOCeWh4Zn8Oh99DI/F4vHMlEENBWJPCXSCu/TvnVDKF9QJdTCXx/OlOL88qVZ7SjwKQYdDdBfIPQZWF89etWo4jER/f/8DjQbROInHMFdwPzqa4KHco8Fl/lLplwNKZUXF7cagkKqqwZ7QJ5PZQ8dwHRfLfHyELEVOTI12164GUdW4wVZWWWC9iQNsnhkzMwWKxOCI7Kio3fJad4KtPoE5PUhu2RudZOQLhPpteXlyumx+rprgdxfBrRdcbkBAi03rvNhm+lYFS8diyjZp62d5iK3Ekv1LwOMLcJSsrftEPsqu8fau8FbWHCsqSq/3y5cMo1KXrgSnHrwlRyly3/a/UUFabWNRenr9LL9evahUataUCQBcnfqHHCXb2hCDYd3J3Nz2dj8Tn9iwA+6Hy4KHTwlODhO5F6jV9zzy80mlZm34RewPcFl4/u5akt3gj8CmEUjdv3TKDpJhzHi+5trpcynjF6Wmji4sdHV1PXHm7JKV8G4A/gG7ERwzF/F54AAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */
+/*!**********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/heart-rate-icon.png ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAAn1BMVEVXVtcAAABWVtVYVNdYWNdXVtdYVtZXVddYVthZV9hXVtd/f/9YVddXVdZXVtdcXNZZVtpVVdlXV9hXV9ZXV9dYVtdXVtZYVdlZVdhXV9dXV9dXVddmZsxXVtdVVdpVVddZU9VVVd1YVtdVVdRXV9dXVddVVdhXVtZYVtZYU9NZWdlXVtdXV9dYWNhYVthYWNdXV9dVVdtVVdRYVtdXV9deCoTXAAAANXRSTlP/AIBAhuWdv2hwsgJgqt4ZUzxblkx06F1C1EbXBZIwMysP7AaNeCf0wzQU+34040DIKjagmW2/cmMAAACpSURBVHicZZDVDsMwDEWviyszjZl5+/9vW5ymnbSdh/jqKJFjg/4QamEEgcHZz+wsZaXvIQiJNK7YEI6lTCidtiLFQKWeO4xfBaUuljgapeRDd1wD5uPaqi0fsePZ0PKC8xukCaipKjNyV5xnoLkugO1pCTjp/PvpiO/X0YuLLweiZyiydZDN2hmJElO1L9TYgttSmnO3CWa4E2bdL0eSn2B999UST7r0AcFYB1qEqqmfAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 73 */
+/*!*******************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/breathe-icon.png ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAANlBMVEUAAABXVtdYVtdYWNdXVthYWNdYVtdQUM9YVddXV9dXV9ZYVtdXVdZWVtZXV9ZXVthVVdRVVddIJ6itAAAAEnRSTlMA/4Ag70DAEGDgcKCwUJDPMD8vdLGaAAAAeklEQVR4nJXPSxLDIAwDUCS+gXza+1+2wiR0MlmFjcUb48Hu3fHf2zUfdITzoUxKCJ0qEE/ZAXxECQh5TJFgEy2qzah1oqhX+KsJbBhhFxVLehQsJBEt4YiDMGnJZ/uf1B8nrU8aXdRak8bYqmRhtd8XcrNA1mvJ+/kBXAUCKlVzvNwAAAAASUVORK5CYII="
+
+/***/ }),
+/* 74 */
+/*!******************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/toilet-icon.png ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAMAAADX9CSSAAAAUVBMVEX/VVXob1Dnb0//AADocFHoblDka1HpcFDpb1HocFDrcFLocFHobVHob1Hnb1HpcFDoblDob0/rblLpcFDpb1Hob1DpbVDob1DocFDob1HpcFE6K4EHAAAAG3RSTlMD/8EBQsAT8IHgMsBisaGA0HFBoH7rI+iZkVKKoeEFAAAArklEQVR4nKXRSRaDIBAEUIqgDArE2eT+B00DQTC6S+34j6HpZg92n+Q9cmRfOz8c/OyCiXEcmbj4M26+OiG/d8b+8nbwXmMCug56gvZ+aIOrUnvOELyHVrtVrqM4ZXel8Y73QNK5Elqndx1s7Rav5K3EVNil46FOI6HnNeA6a0hz1G9CP59NE3rEI+e5bFhCgQu2n7nQNw3t5KjnQi+LtBS56Oj05eYbQJ28pPJrPpuuBZVfZS4TAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 75 */
+/*!******************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/tumble-icon.png ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAA0lBMVEUAAAAono4Af38ono4onY0ono4mnY0A//8AqqozmZkono4pno8nno4ono0on48ono4nnY4ono4lno4ono4nn4wmno4nn40nno0uoosonIwrnI4ono4nnY4kno4nnI4mnY8mn5Aon44A/wAAqlUkkoYooYYgn58nno4lnY4amYAzzJkkmYomnIwqqn8ono4mnYwpnIwgn4onnZAon44imYgjlY0lnI8mm40gn48nnY8nnYknm5Ain4olnY4onowonY8on44nno0pn5AonI4nno8pno6hr/dJAAAARnRSTlMA/wL7X/6SAQMF8tzquu72NONhs2+gd2kLgRLzdT/CazXmAQMVEwjPRAoFI1AGvac+GCeHDx1LVxCvGi4lIkdtTXtFWp22fR5guAAAALFJREFUeJx9z9cOgkAQBVDG3QWkWijSwd577/X/f0mNYMxu4jye3MnM5f6P2BQYq1gjm9G+Dl5AY0SA3GjsqXK5QWPuMN7HA/Y+XzzlfmMd1xVjBeTrV+tLm1fVkokAwmmGvoIAgSQB0VF5nWKwcY67IQBofojMfJad4xmfALkL7aJXyio60itHWhOOw4/zx4SLJhsY48L7j0W6bunJSqR+LihaVKOLbHmjy9bLV1lj5wmtBgxOk3HlNgAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 76 */
+/*!**********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/leave-home-icon.png ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAARVBMVEUAVf8Aev8Aev8AAP8Aev8Aef8Aev8Aev8Adf8Aev8Aev8AeP8Aev8AeP8Aev8Aef8Aev8AdP8Aev8Aev8Aef8Ad/8Ae/88aEvMAAAAF3RSTlMDwf8BgHJi4CPwsaHoQsAoMhZm5BMtbN302S4AAABhSURBVHicnZBZDoAgDAXbalkUcff+R9WyJCZgos4PLwM0baGBhNlyim7gThPeHHu6QKfbgBJHtlcTwCo3QnDxE6bju5tLN9JSuJ2OV+9q9X73V5mXUZJ3FgP8tL+8Z5PTCSYQAsahltCGAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */
+/*!*****************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/family-management-icon.png ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEUAAACJjIyJi4uJjIyHi4uJjIyPj4+Ji4uJjIyKjY2KioqHj4+Ijo6IjIyKjIyKjo7IIFBBAAAAEHRSTlMA/8DgQPAQcNBgMCCQn78/1qAw2QAAAG1JREFUeJxjQAPOJjDWPtHA1xBWjuC1XMFjIBZ7oAoDg5PoBCCz0RIkMFkCSEgkMLB8YGBrBDKFGLgMhRcwKIKZzOGlBlCmYwG7CCYTSQFcG8gwB4hhSFZwBj5hYPADW4zkHAaGTaKB2phOhwIALF0ZpzJerCoAAAAASUVORK5CYII="
+
+/***/ }),
+/* 86 */
+/*!****************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-icon.png ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAqCAMAAADhynmdAAACB1BMVEUAAADa2trb29v////q6urn5+fZ2dno6Ojc3NzS0tLl5eXV1dXExMTp6enY2Njm5ubX19fh4eHW1tbk5OT////BwcHT09Pi4uLR0dHj4+PLy8vOzs7MzMzf39/q6uq9vb3V1dXFxcXU1NS/v7/Hx8fr6+ra2tq7u7vT09O/v7/b29rd3d3Pz8+qqqrAwMDy8vKvr6/Y2NjW1tbJycnb29vw8O7q6uqqqqrU1NTz8/Orq6vr6+vb29v////S0tLt7emioqLf39/V1dX09Onp9OnR0dHZ2dne3t7s7OzU1NTv7++Wlpba2trFxcXW1tbf39/W1tbLzcvDw8Pc3NHBwcHW1ta0tLTq6ujr6+vOzs7t7dukpKTc3Nvb29nT09Pb29v4+PjS0tL///+qqtTX19ft7e2tra3T09PR0dD39/bu8u7S0tLv7+3r6+vU1NTa2trPz8/c3NzLy8vDw8PU1NTb29uwsLDIyMjV1dW5ubnS0tHNzc3S0uGurq7m5ub7+/fY2Nba2trW1tTZ2dnb29uzs7PU1NTZ2dnu7u7Y3NjR0dHU1NTc3Nzv7+3l5eXb29rj4+Pq6ur19fPPz83a2tnb29ubm5vh4eHX19Lb29vT09vU1NbZ2dnc3NzT09Pb29vt7e3e3t3b29azs7LU1NT6+vm3t7fR0dHZ2dnW1tbc3NzY2Njt7exsec8UAAAArXRSTlMA//8B/////////////////////wL////////////9/+3//wT/8P3//f/a//8D/3L+NOz+9HXzBgYV/v4HDX1F/xDmFxcLnBdE7HL/1XvY4ixr4RZSqv5XMvsOKu+oI4247jUGOXM+dML9PRFvGerp+oIx/E0r8zydOo9RERYKQLxna/sV/zYiD0L8GDNh28cJPWt1s5b/MzMOI8XdHfkyOeky7x77/xY2MpHs/UJvpPgAAAJTSURBVHic1dR1f9NAGAfw3iW9RhppqpGuupbaVtoCG9tgwITh7u7u7u7u7g4vkksDyTXwAuDJv9/P73nuc0/O8+8V1bfu9LbHB19ev3Di6Z3eTKZCUW7RtebjVjWXO9/YPeP2g5VDQw+/rd57dphkVPePHh8Do9FAvMRACABCAOVeTCLJQBvthZwgBFWOk7xmSUH5+w0ihhrooX1QEkrQrFIJMgwD9dpokkxpMwnuZRUGDMwmN/xBOB+eAkDrg0w2+YUk3Q4BQOEBDoH+ZEujZVYjFCnrspa/qEF8pFTyiUN2Hj0s0D7AeSECcszIF7KGLCJ/7Z1NqHuH3mOCU8xGMp/mIwoeh2xETRvfb5Lfs5gFGeCvvSbJI4H2ApKYKbvmOGRjdTomDEHMc/snP3PImGq/T/CCoJdIAZisIsiiT5zEIdVFRq5WHOLnJSkoxqUWkuLfnrJJp87R+KaVYGtKrGFvA9VZDpqEjbaQcKxxxUUYN2FX9Nlkh26RgIsUu2xyU1f/QjrY4jj7GpfcEgiCFB79SnFIZfHY5rhNghSWla1xi+uddZloEXNchCKGgYCIG+W3ZNwkpWIioli9jgFO0WaGHDK1nabTVcA1Z+FjitkIhSMTXCTOB7jmSZCIxHTZyCZ4ktzFJCBH4wrPGqmOQiGRTyQSmriZIG/aBToggoi/EE5pWiwtKjrLR0YuEX/A8OyoGpebW4s3HFfu2tJXzy87IR5PaO68/fVRuPasnXVm4ZFj94/v+zwYan0/QieXb1pw7sDXD/O3D/Zm3G/Lf1U/AdxoWRz71ImhAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 87 */
+/*!*******************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/message-icon.png ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdBAMAAACkvXo8AAAAKlBMVEUAAAD///////////////////////////////////////////////////+Gu8ovAAAADnRSTlMA/8CAINBAMLBgcO8QkJpT+AQAAAB/SURBVHicYyAPsJig8r2lHVD4iYIJyFyuQMEoJC57oKCgYDiCf1oweHKg9AE4v1EKqEWwAW6Z4AUgeVEExmcWBFnmKAzjc4iCSFYJGJ9JCEHSgz8RwhecAOFyAj0HBpIQfiGML1gA5jsbwwAizNLSIHLwEED4HgxKRVHDFycAAAXPFBEXnPLoAAAAAElFTkSuQmCC"
+
+/***/ }),
+/* 88 */
+/*!**********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/add-device-icon.png ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAMAAABhTZc9AAAAM1BMVEX///8AAAD///////////////////////////////////////////////////////////+Q8lQ3AAAAEXRSTlP/AIC/J+6W1OoSW0Bq8pkV9Nym9WgAAACbSURBVHichZNZEsQgCEQbNWpitvufduJkcCQL9I9VPJVWAMTaZp8ycvLz1mJMQ9zB2mOQ1A2NVQ2up6tgVeuf3lgVU/9I/UndIwSO3KAgDXXWwkFjv730F0XCuIjLerqMmGQqYWKCMHyhHkmhCZnBV3QuvxgzoLTCEJUW1c/qeXXP+nv1v9L/2aiRXl+jN4y+MnrS6GdjFl7m6ANXGwO6mdjWhgAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/user-photo.png ***!
   \*****************************************************************/
@@ -16966,8 +15154,7 @@ module.exports = index_cjs;
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAADwSaEZAAADAFBMVEUAAAC87uy56+qr5OOu5+a57Oun4uCh4N+y6emP0tKk4eC16uqb2tmc396o5OKT1NOj392Lzc2e3NuOz8+26eiKycmZ1tOa2diW2Nio4d+U1tah3NrRxaDb2r+S0M6tmHDO0LvU2MPMxqbMzLTl3Ly15OHa4NLO1sfa1rmGeFyYhmWHxcPJya/j6dvDtI66up7GxKvZ0rHGyrbe4tCusJhkVDvIwqGksqLYyqbKupShl3e/roSPf1+snXnq7uGlk3Dn4MLQv5a4tJe0nXPq583LvZmQhGfSyqrh59fFq3yAb1Hd3cSvrY/j4smQim3Yzqvg17ax5uTX3c3Cu52+y7vB0cegjWq7pXuSkHV5c1i/pHWBvr2jnoG1xri4nG6vt6Ozq4iywbOxo4CeiWScvrXCv6ahoo59t7Sm2terpYbJtYmoqY29xLLU07iLeVrOuYypva+nkGe4poB+eV+cqpajuardyJ27rYx6ak5uYERsc2W8tZHI2tC6vqqUnYqqyLx0ZUmRwryh0sxeTzXh06+cnYW02tKr2NGJknyBg2l4qqOKqZ2fmYCiqZ7dz6iVlXrOs4Cq6upWRy647Ou87eye399pW0G67Ow4PTVFSDylglPWvpCAiHXHz7/O3NDkz6BlZVFwiH2X3Nx6fWdYWEZxblcjJR6XtKdoe2+yz8S97u6Xgl6v39sYGhSO0tGm4+GXy8WXfFRvaE9mbmGf3997j32jycC87u5tmZORclVIPSkwMCOFta677euN09OW2dmf39++7+l8lYeR1tOt5OSf3t5tt7ed3tya29u47Oue3tvG8fGm5OKL0dGp5uKSmoWO09Ot5eS98e6f3t5RUEC77u6w6OiO0NB6nZSEnI2S2dRmmZmExcWN1M6vuKFqubeq5eO+uJtqt7XMxKS7spmP1tSMzs5GNiCr5eSv5ubX1bPD0b+CcVZlr69qpqawo4az5uxyaFCz6+fNx6mOnomJysptrq3Z2b+spYRme3OqsJy+vp3Tz6tms7OCvsHAt5OzgwfkAAABAHRSTlMA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////DP/jrqX/Xf////////////9C/////////6P///+lpP////84//+F+//////KTOcQL/+7fLf/jCvvZBLDC0friulJff94rxv//zYP3y+peGNe56keZHj/2lNa51ZWeLEo4JbnYaSxKOB4yYWFClbJil6RIgAACzpJREFUeJyV13dck2cCB/AAChStRRuwKQnZ05CdkIWQRMIIe+8Nyt5bNsgeRUUQsFp31XNV62it19ZWex3X6x7X612v4/be83nelYE4fho+/MHn+/k9433eJ6R75/f7nt/z4u477mvX3tn94p7n933/Pn+/ap768sPd69zRrAVxA//ddj+77wcPT/3iQ2/vdSDuawkMz559D1fq1e+8YRAMaEgvAgP9Pnjqga1X312zZg2m2TFHze3OBw84wO88gIVqAENGCShnDLR7gME+ddYDZDWMzOW6E9yz91uKt99FJXyU+HIiS+DO7WnO3UW2l/vRvWcLr2XHkNV0R6qRj3d0VHY5aG73mrk/boCYk4YVc4Nm4oljF5dyKk/bR+r27KrWWc8NUFuzBnKuw4TYxTNHjhyM63HAVtXOenp6ItWIZmQ7BkM+dGZhfiEumOu4qntWsShAI8Z5F8y97/qxYx1H44Ydq9212+s+gELHiWHwaSIT0Gnw2TF/7Mz7B4V1DksA8vwK6w0fBLOPE/Qik+0YuQ/8Sr547MzCkcayXU7V3Fy373M+GOYwTCds1+QwnLT5M/PzmdM9ztXcXE6mN3GM2BwIRiawlNw6rrv7yx3zx663x9U5LYGb24tO1nuEhWOJqIVqidzT7OXCk+7uJRcPzi9k6lUumNO03fZywZBqmEZO3FHSXBWhSCnkunO7Dx+8MJpT6TJpTgPd6+WLYhtAcA12SyRzT/cfH0mjS8KTS7tSueSejIUjmRk5J10mzWG3PeflBaohzbA58/CgUBITyd4ewz3dxfXn83Tp5UK9obPn9K7p69ePZOS4bA4Q4pm/BTBfFyxw/OQubuJwU0joflPtDNX8/vu99PripuHKowsX9OUrJo2oBouBZnD/E3PmsaMpuCvlZK4hPdmi0c7kiRqX4oos9aJgVcxQTkFMzIpJw2dtry+iuQwzeDI/X6pLNwjnGqXnr14trY5gsSQFOWbV0JBUWn6S7HLwYk/VzU2boIavAIZ5FE5OTpoNFcVzCxfazaWtbKY4WVbKkkplqnxxsr6O64q5IefuG+sRDKtGYD2TkypzVp4xerRIZ2NOTKikBV1iarhZVsZnakJVKzHkobq1/q7VdhROlhXl7Y/Kq4gXMKvKZFVlGfnicEmyrIvPq24tdzwh7Uvw1nocc25G6VGV0ffvz1u0VbNlwQoGX9FVJRaLk9n8JF61rmDlCriBd+kzBObcjFIyUQ4snTaJKSsLTuIvKxTsaia7lMHj8ZI0BSdXYmCrvQ6xTfZmuEY5FxdytZ4qFyh5Vd18XtKygs2gCcQadhKPx9TEoAeH08SBB/QWgoFq2BOFnUIenuf0IeezpgYTtgWB8JL4DKZNEJ4sY8NmsnLk7LZb8DdwdryEY3YN8Tz7h+jn002Lg7TYrVsjI4EQK9BRk0sVjMhIJbu8iYu+lh3e9HdIN9eDYNUgRwEPAvx4evqOi67Wh5toQVthIpVMm7aFVa7vYjCVNnZMMBe7GjmMlPTRZgLz8gWhAA8UpFAovn2j0SESjU3JC9rKC+IpbbYWLbXTOtTFZzJkOIZQeDnSbYghGh5QDhak+AR8kqnPEZcygoIiwchstintFDU5ZnqIwWbLcoITUcwxpE+fwKphQUFAAc7/UmalghkJ5h9qsS3a+AiWTFE5VCUunTieiN4/7HF3Jz3zxObNCEeARD+gfZyhUvCZPB7glGGLLfIIVmlVlSzGbK4s4ZJXxxzqBQQEoO0olMDxjEqFgpEEFiGI0zIljwhvKFBJS2XSmJJE+Fp1spwwO4lycBHOvRwnVTCUcEU5LfECucZQNCE1m2OGSjwg5ggimKsGQaBBj0IJ6BtptLKVW7dus3EGE+RyTWtrUYFZmtNdQkGqoRr6NlwHFgAEcuCD/kQ4XPPta4yLYSgjY7duC+MMaiNY4a3lBeUTGUt9FOT64Bgy6TbEEA+SWDAODDWg75JVRrOFbQsLC+NwEqgsVmuIXjVx+PDHAd7r0OsIEW/SR09iGo76+/ujHFIuIHAkRBc+NdiSpeWEhSXIWZrOEJF1+vDoJX/0OogGsbxJN5+0a0+CPAEwxEO1zS8I9+fVtjz9NAd028YRSFiaImNmY8fRjmwfb0cOBjzoCAYdNCiGcuv9txwS0g2mpwEGrG2xNHBQFqQJMxuPHt7iucYbvPaJG6u397sk0it25zEkuAYTeOhIGz1rZnFxClQDmIBWLZO26q2jjR3bEQzjkLxJIv3QEXLhAscOzrYXW6IWWwbBMIFGg5g5pqBs5NIWH0LB8iqJdGOFRXiB2SfU1waM9CxTyxSHE8YJC4pVshlSoFV2f+Lv6Yq9DV4ojxHWI/DzCPyJJNBv7Kj62mzvqSKJdpCakBDBiaXZGKWKqnypatoZQ85m+OXsFaIOgNAEggAs+0Sbevbbgehig3ZwMIwTn0BTspWM5ZQuVX7ZeCCG4W8zjw/he/NrF+tx8A9qgX5XLrTNzV6bbT+VXjuVkCDnJAhsTGYSn18ljWlq7veBXxg8POAtDHkLfQmxt5BxPUJYSKC1vSO6t33g29leUQNVmxCfwJHHxtKSkg4cSKlSNV3u37QBh9DAUZJI3wPTRIwQtx7fmH3lYHR078C1gbY0iUmrTeDEx1NjaUzegQOpufnN/Tt8fZyss+gt6FNCwiiYjX7ZJy5AbHagLdRAlScIBBEaAY3JPLBzJ7gslwyDs52AwCXW5znsgvaKo7URi99YZnSNsE2tnmsLbdBR4+UCmlzDZjMO7ExNyQ++jGGQQXILvznesGMbccwv+1BmtLEmWq1W9xpDwiOARmN3mtl8/s7UwmAwSoJBAzYZFjBrWDFM2ui3ZSxTWGOtiZ5Tz6mFoRIDVVAtENPEy/ydO1Nzgy+DGYOBNxTww8trr/22/WMXbKOf35YrjUKjqCa6XT2gFooaJPFyTmysks+HoyysIyw8tx2+CHzjhPmBbF8S1ohExTVgc6jbRCHhckEsTRkJB5lS2HwZDtIueXm95/QVBVkD1IKU35btS8ZTxcWhp2C3XiuYNJqNxmTwU8Eg60rgjDla4LxwDDJQJ2zEWk8HASNVzwlDJGIaTUADWGoqKDbsi1uPPgr/49sCz9dO2JbsFzLS6Ja8PHD3N7aphaf0mnCqlsZchhNW0h+AYI/iecPFAucahmHFXo5Ls2RlZVlAN2N7u5HeYIqvFjNSUnKbj5fsQC7UhPX6CgvuD2QB0GJjo3H09KioqKw8S6hI2Cait7LEYgZjubC5qft4P7xoEpbDrnDUCAsWCy0CWFZUFMCMwrT6hoJklobFLmzq7n7BH2D3sewamLGluFALwGZANXqa1Rpab0mngjByuzNGxgPXE9SqFpg3HBsbtYamV9TOzMxkpVuKRUZ9vSUqnBohUNQNxWWMn9t8z/nC8w04LcAosz+2GiG2WBsVZUgvPiW0ptENOh2Lpcifzph2aOa8WV1z43OoZV+yikIMFbW1tRW1BkuaqMYYSqcbKnQGc35OTlmfP0a99Mw9LRLpo7/A+T8k1BdJKipMFSaTwQI2rjAtzSLRUVniwsrKpnNYsb0372OB/Pfz7WMnEMxkqjXpJA0haeeN1jRLA1VerchVqYL74NPy2Es37k/B/PbKiUx9qy6cajKZwnWdRSHFxsYQOjggBeLc/ODj21977bWf/eTBKJDP/vGH0NZkFpWqpbIkAAsdPapvkFDjaUyAjW8H1H8e2IL59e+SWREgms7kcn3c4cwcgGkFzJTmprG//uahJCQ//+lXfwLXsU5z2XRGx9JEgYQFTu5fffHnzx6ewsF/ffHPd94ZuTjyzt//99W/f/m3e/71/wHIqmDrRfpM3wAAAABJRU5ErkJggg=="
 
 /***/ }),
-
-/***/ 93:
+/* 98 */
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/home-care.png ***!
   \****************************************************************/
@@ -16977,8 +15164,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAADw
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAC/VBMVEUAAAD////+uLf+sbD9qKj+trb9paT+rq79nZ3/+fr9oKD9o6L7fn7+tLT+s7L6amv+rKz7dnf/+/v9pqX8jIz9q6r7e3v9qqn98vP8g4P+9/j7dHX97O77cXL8kJD8l5f97vD9m5v8h4j+9fb8eXn8gID9mZn7hYb9lpX+r6/99PX8lJT73eH//f396uz7b3D94+T8kpL8ior98PHnZ2f1tL/85+r61dvycnPypK/6mpr5z9b4d3j2u8T4ydD74OT2uML7bG37pqX6cnP62t/62N38oKD95ejsbG33wcr5env6o6Lva2zgXF37jo73xMz0d3j60tj74ub6nZ32vsf7yMn5oKD0dHX0k5P/AAD4lpb6goL3cnPkY2TnamrgV1j3xs7ybm/1mZn3iIj0rrnrZGX+uLfyqLLob2/3bm/pYmP4zNPzamv3nZ3ucnPgYGH1envoX1/3fn/7a2zvZ2f4hIThVFTxiIj80tP4o6L8w8P5zdP9zs79v7/kW1v4i4v2gYH1sbr4kpL8gID+uLf82tv+tLP/mZn9u7v/f3//mZnzfn77dnf7a2z/v7/////uf4D+uLb7cXL7a2vweHj8e3v6a2v/t7f9qan/a2v9o6P/tbX9nZ3/ZmbodXfyjY39oKD7srT8jIzyg4P+rqz9trb+sLD/t7f9mZn8iIj6ubj3jo78k5P9mZn+uLX/l5f/mZn+q6v8iYn/a2v/n5//XV37hYX/VVX5aGj7a2v9n5//ior6a2v/kpL7bGz8hYX/lpb/sbH7jY37aWv/lJT8i4v8np7/bW3/trT3a2v8bGz9kJD/kJD9o6P/n5/9g4P/ubb+mpr3rLD/tLT9oaH+t7bMmZn8goL9mpr/iorUf3/8hIT9paT7bm76hob/s7P/tbXtW23+kpL/gID7goL8mJj8g4Pvf3/6nZ38h4f7hYX+t7b7bm/9oKD7lpb/t7f/kJDmZmb+pKT+lZX9nZ38mpr/vLz/g4P8kJD9o6P7Z2v9iYn/iorzoaX/nZ2lRhfmAAAA/3RSTlMA/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wH////////////////6////////////////+/////////////////////jy//YF/wQK//fzBAH/z/fU//ekNfYT/B/5Bf///v/z//ae9kPz9/8izP3CGw/2UDcIC9YDWMmoGHA9O8MRDcq4MqzLI20fSdo+8D3xp73/EWe1BaqVJQbk4chdFFYOvRQ/T/oQL5t34+XyrFFHCsHYdVsTIZeZRWgw/07cmoTrAAAHG0lEQVR4nIWXB1hTWRbHXyBgSOgEMCEmhJIwECJgFpjAgEQIJS5lIICIrBBHcVCXAVm6MIyKwtpWVsdepthHp/fee++9997rN/9z33shUT/8fR8195dz373nnnvCebDx+e2PPLNl9WK/oKBgX1/f86aFhoZGRkulERH+/juffOi2H566Z6PneJF5Y7veeXH14sU+Pn5+QcFQvUyFfP/+/bt3P/vjydfmnW5ufPvQlsV+PiSKJlS3qZDL5TKZ/sTh7z88+ZJ3yNFdV62Gd4YZ7WXqDYYTh786NrZp0tx07/ZrMFMvk82WgrpNGUydLinp+J2n3O68ew9tYSIzaYncMc9ipqQ8/s0p8YFHtwsmrdC5zfT0x58YE1Zo1zXepu+kGTFp6t2mVnvfq3uY+tNV/HNObRoQNAkqmeXlD95OU954iF9bz9nSptBkHQq73c6H5E19EplK5cHr1kPd5V4iMSZEm83mcDhqa6uB1YqpEnq9XqajmEql8qafsUZfi9sipl8kIkLt7e2tZa7Vam0YSQEGip9CQTMyjry1h3v+GaYyk00X5tGeNE/yB54bGdGmp6eQqktHzIy4uLvf57azJ51MhUip7ag69TTUR/cNlZenYMY6LW8aj3zAPUJBvUybWSJRz9JozObMzOLiYoSdnqrp7nYNYWN0SWRmxBmNH33G0c4IJrIPZm9vsiR8IGhatL8c66mMUwVG2dXh3ZuvcA0NKcsxXZhxRpXqZQ7p4DYjI5mqlqjXBXuoCVGaVKjdQy6XayiDmVBv4j4XE5dMX+eaNWsKwyXhaSb80tPTMzDgdDr7+uIlzj6n80C9q8sYB8hUPc2tFlMej3kgWTIls+qHh7uMAGbiZaTySRQaLe1JnVpNdY6PD3d1QVQlJiZya8UkirRJNVObEolm88T48HzeDOTWCmZotM12TjV2YkVlx3wAk1QhcaWO3nOre0sq2+GSCVWoJ5HS2lrkQrhaHc+TnJw8nZjFiI2NnaVO1bSWZLd3BDIzilvLUp7mW7vcnBrQM7hunY8f26roCH+cOL0BZ1SL3DPG9QVoWpuyK8sCmclUdkKltuVQ4/uCgikbUXiZhGOSYVQlBkYlhMXMMcSbWy0roDIzgbtaqApSx/LlmeEBaZQGlAdIhL7BQZqDD3KN3v88U4C5ydJcR2oUU4UaFsHUsxPAEx4OdW5dWRQzoQpVHmpLJl71GHommU0Xza3LhQgzjLtSrPJQi4UR6rOANVeri5laxkyoQvWz1Vpb0uLFneG3Z3rsdGyRBxdCzc5NYCbUSL5uOmpbWvJpL/ndZDs6qBuMdf9F5FsuhprLzBjuWqHKM9WdAQyNXFttRi5MYiI1JoyZUIVa7ahuaDAJIzQ8mTKtvlj4HZjN5kKozTEQYc6Byl+h9uqG+kJ6mScTNckk0+rWmExpmW6yLJesbG7kzRnc5cLla7c21BexOsbIHwwO9Teg/MWpHPkXilQtIDWGmbxKFz6pWfRyPqPQZ1qEXKfNUAWGJRbhbxMjB+rSxhhmQhWubZl1pD5HHGIyFQ4MrgsyaLUOe7WzqFCkDeoyQZ0Jlb9CKWo/lMIiN1kyrbWqKMuDPFqmxjnMLOCe5M0If6REP4ZnZVWJ5EBty/GgaiHOa2XjDDJndnJvwFT4R0gVUPOyqnJy+kEbI0+mNSzMc9PW319KR709hsyCDdx3OxVyBS2V3dqysCqnbaFABTigO1BKPytKQQXepYailkXNgVmwlft1p1yuQGTa15q8PDaqtLSGccHsC/BNgOzZTA0Mg9m5jXsBqpz2FeqlFRVs5Gwv/sFDL5zfxNSEmQUhnXdwn3y5X4ZFQiJa61tqasSB4FKeRQL4z6K9FjbhhJkhIRvu4sZu2y1jUbE5++qfW7RE4PzTWbLkz70WXg0rCAm5fwc3+hepCoVMNzKyr3vz3qYFC/7N+KfAvwQWAEtJM530GMz3FvQhJx+SybA/dr2uob57c6uFTF5atYqU/wisgolHhUrz3fooOpj1Tx2GiuYIzca+7onW1qamJgtxMeMSYhVhKSlphplbNgNP+hjrue555QQ1cSi6Q64rxicmVvCUlMwlVoKLeOZm18HMhdm5bQfrEkePPct3cOVKl2t4eHy8vb29EtTVZYNmsIxYia+ljY3Yl5CQWx+mjgvc8MBx1vuVK3Hld3XNHx7uAO1l7QhRV9cIlhLL4PBsvetGd+9+53HW+7G+xtgFe35iRwdqfBlkOtfId7gUj5m/vevu4jeNPfAe3/vxPYZRJdyDVKuFcoKMR/pB7Lz1+hs92vB5Nxz75SC1fmJ7Qvc2fyl5qMzcsO3hb70/OYyeeuK+gxmsD5vK7Nz62A5hhTxYf/t1Dx48wpvUKnibdLY7N9x/y6N7zviwQtz88R+/f3r3609fxvg/8V/if8QXb2674/odN3sM/xuezKzBQR+8pgAAAABJRU5ErkJggg=="
 
 /***/ }),
-
-/***/ 94:
+/* 99 */
 /*!***************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/house-reconstruction.png ***!
   \***************************************************************************/
@@ -16988,8 +15174,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADW
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAADAFBMVEUAAACYqv5BXf6Fmf58kf55jv6Oof5/k/6Wp/1Tbf6Blf51i/5HYv5Ycf6Hm/6Tpf7c4f+Lnv6Dl/5Qav7Z3//O1v5MZ/5KZf6Ro/3k6P/U2v5Paf5geP7R2P6Jnf7m6v/I0P7e4//L0/5DX/3W3f9Xb/xAXPzo7P9ke/5zif2drv7h5f96jPlddf5LXe5rgv5nfv3Ezf1PYe9whfuisv5VavWZq/5RaPlJVuY+WfpsgPl9kPpac/5wh/1UZ/JWbPhBXf5ugPZHWOtnevaUpPtMYPLAyv5thP5RaftMY/ZRZPFyhPZngP5UbPs7VPVjdvZQWuJPZfcAAP93iPdvg/lbcvt+jvaYqv5XcP5rd+xhb+20vflqgf2Km/lgcfJedfpzg/OOof6GmPlcauymtP2uu/26xv5MXOuNnvpveeuJlvNjevtmdfByfexKVOJvffCClfp2ifq8xPlBXf6Vp/6Ek/ZdbvGpuP5GU+aCjvFpefGHm/5Zb/g4TvFYZeqttvh9ivJUYOeYqv5IXvR4hvNFT+Cfq/dLWeimsPidp/aOnfhCWPSNmPKYo/Y1R+jAyPqzwP6Yqv64wvyXqf5/f/9aZOU6TexNaf5BXf5CVe9BXf5AXP+RmvJBXP6XqP1FWv94gu18kv5di/97kP5Af/9qgv6Xqf9/f/9zi/53iP9Ycv6dsf8zZv9rgv+qqv9fd/5AQP91i/6Clv5tg/9nf/1adf+aqv////9/kv1GXf9heP9AXfyWp/9mZv8zVf9tg/6fn/9whv9ac/+Vqf+XqP1CXf9Ra/9wh/uXqv5nfv5cdP+Wpvlmmf96lP89Vf98lP8/Xf93j/xzjP+Sqv9hePxjfP52jf1ziv5FWP9wiP5je/5mceqSrf9idv96j/4Af/8qVf+Upf9Vqv9cdf4A//9bc/54lv97kP+Gm/6XqP9kfP9nfvxbcv9/lf6OnP8zM/99kf5tf+1xiP2Yqv9dd/Zxcf+Dlv6Imf+Dl/5BXf9+k/5ogPNDXf9mc/85S+qWqP8odoS5AAABAHRSTlMA/////////////////////////////////////////////////////////////////////////////////////P///////////////v//////Af/////2/v//////////9v//////////////////////9fb////////3////////+///////////////////8f/ABP//+9v/rED/zJMl//0L9QTUygzzHvENBTkD+gT8+iOjdDABmwtCYD0FD8QIOadNongTQuD2zy4FMhVpTUsUFVnBpsga1vn/HA3RAgYfA7cB1BFV7GchTTjfEgWzDppjHgnwD8a4wBZYFP84WRYntAAACDxJREFUeJxt13dcU9kSB/BLERM1GiFBEhJIQmhJCCRUAYGAICSicQMIRMrSDL0JArIU6QiiKD57Xdf2XNv23nvv7fXeey+7v3PuTQi7O3/n+5k5ZeaeMG7x42uv/+r0oVcObmdjF+JuGnsQv/znI2+/+fP73X/visNfPP/Cwb17Pbjg8Xhr1gT4+PisXRu0erWXl5fv7dsX/viLK2/c9XV4//tP3Ld9bwJVGpZCgnLS13fF8uXe5y58/933Di+Bdz3zxemDznwJcbCA35Te3suWXf7oynm3xA9fe+iQs9IEjSYuTpNA5GK1i3LZylsfP3vpYVfOa1/e50zpAYgAdZcrFuXKlZGfvvwnZ95nHlqUrNVwMiiIbpA7XBm5YcOnz57nduhHh9wkWapG4yZZCMdCyE2bnr7D7tXvT7tOhE3L43kskSkpOl07IpIEkdHRD/yHlHz4Cefe4ijJkSzZWgptNovFUlAQG7sBQeSOV3/zBuj7znJ5GxEBAQ4kdJe69qLpSfvgVFFBMjCB0Ts2b754h2FuPr/dTU6XIRxrEUSSYnVdk1KJRKIV5liykpOdMuazD55k/vECu1Iia6XjDV1dVVVlQVgmJ6dFkvDwYIlSNdSUlZVMIJERER++xLx+kN4+HmitWinsaOgtAl7tksJwIrXi5tLyrVnJOwjcHBERIbvxGPMXLumagBqVVKTUSsd7h4raqnyxt5BFcshwiVZVMlANGkODSNmNBxnuZHgbHeMKMbHKjkrYNnKDdDZ7MEmqVdQPUwrb2NhIpCzqOYbbX97G6YZBYoVKaX3lUMpySByniJarqrcOD3RvBc0qaKyAg0z9GfMKRwMcXTM5CrFcLZKXNI/qUnCFdLYyJA0OVp60WoeRFLYsYGtFRUUUIvUqw94HLNXR1TtrgJWKS0paYb292y1zhEqU0rOg3bCOGk15f39hIaSgmKGniksU4Kgq6p03KFRyaUd9faWtXaezWcTBZHeVIvFZFNxd7thdo+lOi4dNFQgElBLp46jqGuqdaThpEEvtza2VFlu7xSQPDpZIlEK11NA8MNBdBunRbU5LDwVks9KJ4LO2rK1otLm+pNcglsO2WiwmkwJUKxSp5WJDc3VD7e64BN6A0RxPaDGf2U5vPLnvq6tgK2FzxGJ7a1+rydQ3Tm4gkSpF3WxtLZI6Jnaa45G2mM9ndnESPebVlgLbWt+boxJ3tDb19TX1CbWkXLlYociZh0zgjSaB5oeG8vl+zC6XDPLybUODVbaWNOSoVPaSpqbS0g6hUASpUhjqDqBcj43VSXpzYj4fklLnFGJvrc3C2kHI6iE1Wy5kLQYlrzIpU7+NpYHMLtLXrGRHAvL2UTtZWl06pablGmi5Hrwqa09m9rbcfOQMJNRdrsAdwqH0NeFmwdpFbLk5tFxeF6Q+LzHXD9Lfn7mbm0KumblM115gamqaxq1Uk91VdBjYhQaMtkBmbyM0MNB/HaHOjwo7bTH5Yk19paUzCqVSpJYqPm9ZmMFdKCud6FkiQV2fI5eMjDVllZeeFCmxu6qzY2NjLS0tSYhMKhNptevWrQJ1fhqwTnZOR8YmZ/VNEamWD1rHWj639vQQp8/OIxIpiQT9Vlk5icuAcsWKmYUO+eAAzoRAVJvrlKuYPdwGcRLzPTbZZJvDtBCq5fY6hWFOLhTah1ErUubmunKuCmH2LC5zUcq16BeRfN7aUEe6H9bIUnaDqKT067ILgxe3Xmq3jlnH69DBsIOsRUo2aUiIJ7OHLtNdzgpJewulHQtjY0UJu+sM1E4a9SN5eetyi9HlfkQSuigjYwuSTeMSNCkWaihp6ZkI8NDUzBtUZNxNGTNH8hILU1Nh+as8QW8vlZZBOlOEIlV9S9LEziKeR0LNAWpFU/pjI+kYLqTNAwn9+3Lu88lKg3MaQe40Go3Exh3ApZSK1OOZ2ejy0FC0OT/EM4P5nbvUYY6Fk2kkP0uk2Ww0pxBbS8esdCotLT6d9jkq7mT+fY771McWFJSJ6PDUCqUnrZBp8fHmbHMbrIazs7D5pFtBjzKPnGMl9nZaKSFbpFWqp1iZnh6fl21kLTkkqbjanIhuJQVnHGfePsfJAtOc1t47RxY6ycnQ0PTEbL0e1kNDDkk1a6SNzucHhmS8yLx5gT4vNuBA5eqS4WZ0Wsdw0gRkf6EgND9xW3amvgo2oWY+ZzbzGEv9Qjw7TzCXPrpFXzSbkrMGRc0LMziWhaQBM3JWxESE5ucm5o3A0pdNQ8/+I/vyQP2xv6feYm6+e5nK6Jgsm1g6pxYaqpMmustRbUyMoFiQn5s3su+YvgyDvvLI/v33bFkfQm6SZ+fj32WYKx/fIi+a6JjGraMKrdDQPIF1lleEFsZsjoqSoa2pdfAsRIKGhYWBHj1DHj8vXyZyB2h509BQ9U6cJ6qVCWLw4U9l6b4jx4xH9v+fSFCS9L83yZPrvT9DsrQ7LQ23gO6tDN/uiChI9AnslnsQW5wy4/gn9JV4752nWdpY0d8fj0MnUiCLkEVhTtMWCwlbv4UGJz1PncFKSfzt+kXyFoporIBNTyfXFDJVJkvlJkIILPB6pzx64lHno/b89YvkLSSTVRQWFhIowCr5sAJulniGwRLIyneecj2mf/q96x9+Rt4l+NCjpwTIiWL9UmVR/uwsAWWDrPPUiad+4PaAv/TrB15lKf1gRxEZGCjw46RbdB4/8+jSfw73/u+x1244Jf2QuSafm8zoPPrOJ9wOuSV+8q8f/OQqHiYUclu7RGZkdP7r8TM//MafFZr5pd8++NxrV4shv0OCyAwuOjtPHX/xxFt/cPv5V2NnxQvnX78NAAAAAElFTkSuQmCC"
 
 /***/ }),
-
-/***/ 95:
+/* 100 */
 /*!******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/chronic-care-management.png ***!
   \******************************************************************************/
@@ -16999,8 +15184,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADW
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAC9FBMVEX44JcAAAD+/PX+/Pf1v2f0uFz2zHn1xG70tln1wGn2xnHzrUz1vmX31If2yXX0tFb0ul7435X2x3P43pP++u/30YH1wmr9+Oj++/L32Y31vWP2z3/zr0/0slT30oL43JH9+Ov2ynf0sVH314r0u2D9+e31vGH2znz32o71w2zzq0n304T425D0uGH////99d789Nvzqkf99uD66Lf0tVf31oj889j99+bzqEP0tl32zXv88dT44Jr556/99uTzsFD2zn/446L77Mf55an1umP778r44Jb2ynz30of1vGX54bL//fv3zoP44Jf43Zn0s1n66rr54K788M/425L66r732I/44J7//wD1wm/526T425X53qv77tP55rP55LX77MH42ZT768z44qb30YX66MP/zGb41pr304r88Nf0qEP65cD647vzqUX436f31pD1vmX3y4DzrUv54Jf1u1//AAD0t1r43JH31If2ynb0s1T3qkb42Z/66Lz0tVf435f77dD1w232z3332o7/qlX/33/54Jfzp0H30ZTzqj30sVH30YHttm364pP31Yrqv2rtpDfyo0P/v0D34JX0qUL//1X/kiTxxnH30oL0pkH2w2v//6r20Xb34Zf335b22Ir0ymr1znz0qkX1wGbxpUH14pP/35/545f3yXX20Hv31IPzxnH34Zb4xXX403z30JD1xW3zqUX2qEDzq0n31IX1w2v/6pX404P1xGz2yXT32Ir33pTzqEP1v2f41onzp0L0rk6/f0DMzGb////MzJl/f3/zwGb1v2T2znz1y3jUqir/4470q0j23ZT2vmL0v2X1vmT41oj/14b02ZL0wGX//3/ztmH2x3H44JbmmTPMmTP0w231v2T404XU1H/1xW7jxo72z373w2n33pb2x3PuzHf335b20H/0rEjy2Yz325P/pTz0wWnyqEL4y3X314n1xnL1zXj1vWL54Jfz0YD50YD2znr43pbvv2DzqUT1p0Hy15T55q5xRzoCAAAA/HRSTlP/AP//////////////////////////////////////////////////////////////////////////////////////////9v////////z///////////8B/////////////////wX////0///7///8//jx9gH39vzL9yH///fA//by+AMIztf/Ffr7DjT/DA49BEFZAwcSYMhRAxyYoO8YTnL1RxoQUT08pT/JIyP//tM48r7FDPOu2/gfqmjPpqAEBQEFAkHWrTEGCclwxTCtlhMveQQVld4KBdqbdQbuCcQiZrwPqNjmFEARX7VK3jG75OwWLJKzEMBOE/9vCdrvAAAGU0lEQVR4nIXXZ1waSRQA8FURRQFPEhRFVGyoiEbRqJwiGgyoBDUCgmLv3SRe9NRcei+XSy+X3nvv13vvvffee/lyb2aB3UVymQ9+0f/vzbz39s1IeFFrx6E1z+068ct0wrWCgydNikpJSQwLu7b7/mPvHX35NdqfU/TRg4f/mD1jBuXoMjY2izc8fPnC1lPvV7vTtq82LJ3OcO6SJ4+MjFz1xd5fH2bQ6meu75rtBj1JoVi88MlTS8jAmD5yac1d7tBNZiEKUiZjjxxZ/ZiTVl/asPRW0tzPE2KpYkuvfr8axUX0wzVL3aFDJjp3azb36x2SLeVfPb6apDuue9xtFO2cvH6QkUINllI+f+RkG6b/3HsT6Yopl+t5QnlHh5CUAkHAlT3VQNu+nn0rCQlCUq/XOGTAgu1LgB484aEqUSR1xAQpFoLUt2hI6XfmnY+9iMWHaY1HEHnNpgaTyVRRoVTW1+X/WznNyJObzXLIkBhki0HFR9LPb8G3bcShz+lBLcp4kWhyfHx0aHa2Om3K1M6ZSp68uahSDxmSGVoMBgNbgGRSyMXXiVfoJ81Tiny8vUWTJ4MNVWeAvV3Ji2wunlKkl7HZKpAajRRoUghn/+PEJ/SghaE+HmladGeHSiqVajSaQZ0ASc7AqwSjMvneE6lc2FycEe/T2cHm86WqwUGdzg8ka+BFgtEOFZ6ouA/RMrsBMsTXwQLKYnGfIN6k59cDbdCLjUVp0fALGx9yG8CXSv2QDJ9D0LIUHOyBFvdrNH2tTXa7vZ2PEpQUgmOGhw8QVFWDJ3miM00tZN/ieoKEcyKZEEdR+FQmKek0m6TFykahBjWvgClvc1H0kVV5pEUmZf60ZkuemCldFMmb0YYKsIWI0qWvg2KZcivKkA5KysSUepKSLZwBLYylyUGTGNIfU4dMTMRUpDbVl1bW9tnG2pcvP603DA721WGKq8J1SkxdX3ZiHaLZeeasSA2bHxDCivPNlAQmp0eMISoLoUlMg7GsQnMoDFFRRVUYTyhjC/xCuEBjAtNzcjiYchgyE1GoCpFnrAmLJWkDSfk0asWUlHEOGURMR/XMyzMajTWxsXjD8ZbELLkYNpzESvD1l0Qkp+c2I6qCFFExgxCNqjLmWUA2mteW4jRFT7XPb2oqau0e74F89dlsdThNbKaUEHOroqoshRZjDdAsTKGurgFDLw6by5BAoRMwbWw085zUY0uwwxkyhpgLVTFaLEaQa3mV/0Nr/LjcBJosIOaiesJuQcrlJI1WZ2SkIYZckWlcqYSzWgI4tZ2nSxwyJqYggliERnws/EBDHtN4WwsMPpXOeUkEBLTk5xcKwpdHl3m3+7okSbMctwOmoiInwfMW9S2nv1nAsXJKfcrUWpcMJBZBTOe9IsS0FK5BhuRydVJW95RBVqmoSeGSgcQ1SorFmKo1lCQ7nsthNfmkhuoSxjiZLhlI7HbuFqS4FrdEdlMrrO7unvr6UviEbGMclr0sNTU12goHdclZxA+UlMkwRd8rtITa2RLjgpD5SJa1llC7DUw+T1wYdkmVrI+qK2CyruN8K+wWZDfLnyaTzxIvDbukit0umkBNUut8LHuYMv0GsXUVlviBwW7JcKetOoGdlCVM2buP+O0yJaXs9nhvBm3SWTtdUhFEyfSu9cRnx1a5JJ/PblfTr2a7jtvujc9p9Q/K1QZRsvevFcTivQspKRDwDTZUktLKytpam00XzkVlKeuxligUWq3EJXO6Nr5NeO38CDLklLgTcCvgQRR3mzU+NVVUq9WWlGi1ivICoFjmLBtFj5+jCxmSbCHnvDWkddZaFb4KJBWK3NxymDcgu/5+Gj25tvzOkNC3lPSNK4mDiDgmljBaQfbeWDGE6KadP3mImUBNE38qJilzto3eQz4vlzw1cjPpj7/soHKAIHPLSbls/WbHy3Ro3ZERx83rUUokmQ5ZHoHlgbudj1qv6nU/fso4J5J4s46ZkEtKSbkkOad32zksHQ/4obaTb3xwxqOEARYjyc2VSFByoTBdD4y+RXvAw9q05fjFBSFwIeERz5QFElTPcjhob9fZAysgQ27/rLTt2X5l/8DAwERJ9lDEyt6u7zaObh6a+H+Ol9fiP1+4793nf54D6w5Y8+bNuxPWypWzYJ3/8tkH95375iHan/8HdS0m9iAYo60AAAAASUVORK5CYII="
 
 /***/ }),
-
-/***/ 96:
+/* 101 */
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/common-set.png ***!
   \*****************************************************************/
@@ -17010,8 +15194,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADW
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAANlBMVEUAAAAR0YMQz38Q0YQQ0oIR0YMR0YIR0YQQz4MQz38R0IMQz4UR0IMQ0oMS0YMS0YMQ0YQR0oPdDJDxAAAAEnRSTlMA/xBwYPCw30Ag0DCvUICgX78jCEIAAAAArUlEQVR4nKVR0RLDIAgzRdGqbe3//+xAneu683a78SJHIIFo/gkLwN6Ly2IMC8AtHZG8LwQEgIr3adRXJ83KI6CEW5/AgWiZg2SB2UYcYwJ4ES/AmDAR2t4iII4egtPKiay6DtTm+/51A9XVDeo9O/wmD8kRXCubx/4G5BugVCRKlUrYB5WmKp5OcBf/tu78QLGk5FwtyblcLWkm0oeJYnu03XZ7tX3+UfOv/SEeH5oEZR8oxj4AAAAASUVORK5CYII="
 
 /***/ }),
-
-/***/ 97:
+/* 102 */
 /*!**************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/household-operation.png ***!
   \**************************************************************************/
@@ -17021,8 +15204,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAM1BMVEUAAAAR0YMS0YMR0YMQz38S0YMR0YMQz4MQ0oMR0YMR0YMQ0oIQz4UR0YIR0YQQ0YQS0YJPW0g0AAAAEXRSTlMA/4DAEKDPQFDw4GAwsN9wj8zoTmIAAACVSURBVHicrZBLFsMgCEV58YeJMd3/agtW0+gxpx2EEdwroNI/wSZM+QZgu+Ez4woHXjcccFds95OLsV/uLxzwzTTuQh1YTYqlWiMTx7XkOZX5Ritn9Zi12rSa/dOzSHEQBScvPyRf2nIVIIqIRJp2QpiHVzsIlgVBJvMofBBFHPQi/Q7dX5NRZJPn4ozfIpk+9EMejDcJEQNXGg/1fgAAAABJRU5ErkJggg=="
 
 /***/ }),
-
-/***/ 98:
+/* 103 */
 /*!********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/help-feedback.png ***!
   \********************************************************************/
@@ -17032,8 +15214,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAQlBMVEUAqqoR0YMAf38R0YMR0YMR0YMQ0IMNyYYQ0IUPzIMP0YUR0YMS0YQS0oQP0YMR0YQR0YMQ0IQQ0IUPzIUR0IQQ0YPNufpoAAAAFnRSTlMD/wLB76FSE2IjMrGRgULf0XJBMttO86WN6wAAANtJREFUeJx1UdsWwiAMI0IFdpFN3f//qjQFNj3HvKxLL2mKG4jPinj+NyQPwqcveiokmSzTpTwgpKxRZtj5ey0ew2Ntu1uYAxZNV8YrtSCw283YrE2hmQ0zhQGV85CcBf5kFg5yQO3PCBoLVpbuHKjtkyV2NgY8hh1Pxj2YBzq/VXErImdK9uuNr+rUaH7O3sSJtsLQV6wQOis/x47FhhQz4tz7bd8Fpd+Qmi/gZct2VWmXPg66s5u2DOamE2dQeawBbLLvoh77kkRuT1492ltcdkyryJrOzW9/8AHU/gXoNGE5PwAAAABJRU5ErkJggg=="
 
 /***/ }),
-
-/***/ 99:
+/* 104 */
 /*!************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/about.png ***!
   \************************************************************/
@@ -17042,7 +15223,1902 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAKlBMVEUAAAAR0YMR0YMQz4UQz38S0YMQ0oIR0YMR0YQQ0oMQz4MR0IMQ0YMQ0YTM+qRIAAAADnRSTlMA/8AwEIBg4N9QQNB/X+Pt05YAAACXSURBVHicY8AAzHNOGsDYPo2CghJHoOKNagbMSRIQucRdIHK5GFhC2gFEsWwESXlsYWBgUmBgcG8BcgIXQDhcokBOERCDOAwaQC0gjWBOogEDpzCMYziBgVUAxmEMQOWgKEMxAGw0GKhDLWVLgFoKcgZImUcJukOhXlgB9gIDc6GuAfMlcajHXQsFBcVD4AEyNRIeIHAAADBcG6jsAFL4AAAAAElFTkSuQmCC"
 
-/***/ })
+/***/ }),
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */,
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */
+/*!**********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/emitter.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-}]);
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 递归使用 call 方式this指向
+                                                                                                      * @param componentName // 需要找的组件的名称
+                                                                                                      * @param eventName // 事件名称
+                                                                                                      * @param params // 需要传递的参数
+                                                                                                      */
+function _broadcast(componentName, eventName, params) {
+  // 循环子节点找到名称一样的子节点 否则 递归 当前子节点
+  this.$children.map(function (child) {
+    if (componentName === child.$options.name) {
+      child.$emit.apply(child, [eventName].concat(params));
+    } else {
+      _broadcast.apply(child, [componentName, eventName].concat(params));
+    }
+  });
+}var _default =
+{
+  methods: {
+    /**
+              * 派发 (向上查找) (一个)
+              * @param componentName // 需要找的组件的名称
+              * @param eventName // 事件名称
+              * @param params // 需要传递的参数
+              */
+    dispatch: function dispatch(componentName, eventName, params) {
+      var parent = this.$parent || this.$root; //$parent 找到最近的父节点 $root 根节点
+      var name = parent.$options.name; // 获取当前组件实例的name
+      // 如果当前有节点 && 当前没名称 且 当前名称等于需要传进来的名称的时候就去查找当前的节点
+      // 循环出当前名称的一样的组件实例
+      while (parent && (!name || name !== componentName)) {
+        parent = parent.$parent;
+        if (parent) {
+          name = parent.$options.name;
+        }
+      }
+      // 有节点表示当前找到了name一样的实例
+      if (parent) {
+        parent.$emit.apply(parent, [eventName].concat(params));
+      }
+    },
+    /**
+        * 广播 (向下查找) (广播多个)
+        * @param componentName // 需要找的组件的名称
+        * @param eventName // 事件名称
+        * @param params // 需要传递的参数
+        */
+    broadcast: function broadcast(componentName, eventName, params) {
+      _broadcast.call(this, componentName, eventName, params);
+    } } };exports.default = _default;
+
+/***/ }),
+/* 220 */
+/*!******************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/async-validator.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/* eslint no-console:0 */
+var formatRegExp = /%[sdj%]/g;
+var warning = function warning() {}; // don't print warning message when in production env or node runtime
+
+if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
+'undefined' && typeof document !== 'undefined') {
+  warning = function warning(type, errors) {
+    if (typeof console !== 'undefined' && console.warn) {
+      if (errors.every(function (e) {
+        return typeof e === 'string';
+      })) {
+        console.warn(type, errors);
+      }
+    }
+  };
+}
+
+function convertFieldsError(errors) {
+  if (!errors || !errors.length) return null;
+  var fields = {};
+  errors.forEach(function (error) {
+    var field = error.field;
+    fields[field] = fields[field] || [];
+    fields[field].push(error);
+  });
+  return fields;
+}
+
+function format() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var i = 1;
+  var f = args[0];
+  var len = args.length;
+
+  if (typeof f === 'function') {
+    return f.apply(null, args.slice(1));
+  }
+
+  if (typeof f === 'string') {
+    var str = String(f).replace(formatRegExp, function (x) {
+      if (x === '%%') {
+        return '%';
+      }
+
+      if (i >= len) {
+        return x;
+      }
+
+      switch (x) {
+        case '%s':
+          return String(args[i++]);
+
+        case '%d':
+          return Number(args[i++]);
+
+        case '%j':
+          try {
+            return JSON.stringify(args[i++]);
+          } catch (_) {
+            return '[Circular]';
+          }
+
+          break;
+
+        default:
+          return x;}
+
+    });
+
+    for (var arg = args[i]; i < len; arg = args[++i]) {
+      str += " " + arg;
+    }
+
+    return str;
+  }
+
+  return f;
+}
+
+function isNativeStringType(type) {
+  return type === 'string' || type === 'url' || type === 'hex' || type === 'email' || type === 'pattern';
+}
+
+function isEmptyValue(value, type) {
+  if (value === undefined || value === null) {
+    return true;
+  }
+
+  if (type === 'array' && Array.isArray(value) && !value.length) {
+    return true;
+  }
+
+  if (isNativeStringType(type) && typeof value === 'string' && !value) {
+    return true;
+  }
+
+  return false;
+}
+
+function asyncParallelArray(arr, func, callback) {
+  var results = [];
+  var total = 0;
+  var arrLength = arr.length;
+
+  function count(errors) {
+    results.push.apply(results, errors);
+    total++;
+
+    if (total === arrLength) {
+      callback(results);
+    }
+  }
+
+  arr.forEach(function (a) {
+    func(a, count);
+  });
+}
+
+function asyncSerialArray(arr, func, callback) {
+  var index = 0;
+  var arrLength = arr.length;
+
+  function next(errors) {
+    if (errors && errors.length) {
+      callback(errors);
+      return;
+    }
+
+    var original = index;
+    index = index + 1;
+
+    if (original < arrLength) {
+      func(arr[original], next);
+    } else {
+      callback([]);
+    }
+  }
+
+  next([]);
+}
+
+function flattenObjArr(objArr) {
+  var ret = [];
+  Object.keys(objArr).forEach(function (k) {
+    ret.push.apply(ret, objArr[k]);
+  });
+  return ret;
+}
+
+function asyncMap(objArr, option, func, callback) {
+  if (option.first) {
+    var _pending = new Promise(function (resolve, reject) {
+      var next = function next(errors) {
+        callback(errors);
+        return errors.length ? reject({
+          errors: errors,
+          fields: convertFieldsError(errors) }) :
+        resolve();
+      };
+
+      var flattenArr = flattenObjArr(objArr);
+      asyncSerialArray(flattenArr, func, next);
+    });
+
+    _pending["catch"](function (e) {
+      return e;
+    });
+
+    return _pending;
+  }
+
+  var firstFields = option.firstFields || [];
+
+  if (firstFields === true) {
+    firstFields = Object.keys(objArr);
+  }
+
+  var objArrKeys = Object.keys(objArr);
+  var objArrLength = objArrKeys.length;
+  var total = 0;
+  var results = [];
+  var pending = new Promise(function (resolve, reject) {
+    var next = function next(errors) {
+      results.push.apply(results, errors);
+      total++;
+
+      if (total === objArrLength) {
+        callback(results);
+        return results.length ? reject({
+          errors: results,
+          fields: convertFieldsError(results) }) :
+        resolve();
+      }
+    };
+
+    if (!objArrKeys.length) {
+      callback(results);
+      resolve();
+    }
+
+    objArrKeys.forEach(function (key) {
+      var arr = objArr[key];
+
+      if (firstFields.indexOf(key) !== -1) {
+        asyncSerialArray(arr, func, next);
+      } else {
+        asyncParallelArray(arr, func, next);
+      }
+    });
+  });
+  pending["catch"](function (e) {
+    return e;
+  });
+  return pending;
+}
+
+function complementError(rule) {
+  return function (oe) {
+    if (oe && oe.message) {
+      oe.field = oe.field || rule.fullField;
+      return oe;
+    }
+
+    return {
+      message: typeof oe === 'function' ? oe() : oe,
+      field: oe.field || rule.fullField };
+
+  };
+}
+
+function deepMerge(target, source) {
+  if (source) {
+    for (var s in source) {
+      if (source.hasOwnProperty(s)) {
+        var value = source[s];
+
+        if (typeof value === 'object' && typeof target[s] === 'object') {
+          target[s] = _extends({}, target[s], {}, value);
+        } else {
+          target[s] = value;
+        }
+      }
+    }
+  }
+
+  return target;
+}
+
+/**
+   *  Rule for validating required fields.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param source The source object being validated.
+   *  @param errors An array of errors that this rule may add
+   *  validation errors to.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function required(rule, value, source, errors, options, type) {
+  if (rule.required && (!source.hasOwnProperty(rule.field) || isEmptyValue(value, type || rule.type))) {
+    errors.push(format(options.messages.required, rule.fullField));
+  }
+}
+
+/**
+   *  Rule for validating whitespace.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param source The source object being validated.
+   *  @param errors An array of errors that this rule may add
+   *  validation errors to.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function whitespace(rule, value, source, errors, options) {
+  if (/^\s+$/.test(value) || value === '') {
+    errors.push(format(options.messages.whitespace, rule.fullField));
+  }
+}
+
+/* eslint max-len:0 */
+
+var pattern = {
+  // http://emailregex.com/
+  email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  url: new RegExp(
+  "^(?!mailto:)(?:(?:http|https|ftp)://|//)(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]+-*)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+-*)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,})))|localhost)(?::\\d{2,5})?(?:(/|\\?|#)[^\\s]*)?$",
+  'i'),
+  hex: /^#?([a-f0-9]{6}|[a-f0-9]{3})$/i };
+
+var types = {
+  integer: function integer(value) {
+    return types.number(value) && parseInt(value, 10) === value;
+  },
+  "float": function float(value) {
+    return types.number(value) && !types.integer(value);
+  },
+  array: function array(value) {
+    return Array.isArray(value);
+  },
+  regexp: function regexp(value) {
+    if (value instanceof RegExp) {
+      return true;
+    }
+
+    try {
+      return !!new RegExp(value);
+    } catch (e) {
+      return false;
+    }
+  },
+  date: function date(value) {
+    return typeof value.getTime === 'function' && typeof value.getMonth === 'function' && typeof value.getYear ===
+    'function';
+  },
+  number: function number(value) {
+    if (isNaN(value)) {
+      return false;
+    }
+
+    // 修改源码，将字符串数值先转为数值
+    return typeof +value === 'number';
+  },
+  object: function object(value) {
+    return typeof value === 'object' && !types.array(value);
+  },
+  method: function method(value) {
+    return typeof value === 'function';
+  },
+  email: function email(value) {
+    return typeof value === 'string' && !!value.match(pattern.email) && value.length < 255;
+  },
+  url: function url(value) {
+    return typeof value === 'string' && !!value.match(pattern.url);
+  },
+  hex: function hex(value) {
+    return typeof value === 'string' && !!value.match(pattern.hex);
+  } };
+
+/**
+        *  Rule for validating the type of a value.
+        *
+        *  @param rule The validation rule.
+        *  @param value The value of the field on the source object.
+        *  @param source The source object being validated.
+        *  @param errors An array of errors that this rule may add
+        *  validation errors to.
+        *  @param options The validation options.
+        *  @param options.messages The validation messages.
+        */
+
+function type(rule, value, source, errors, options) {
+  if (rule.required && value === undefined) {
+    required(rule, value, source, errors, options);
+    return;
+  }
+
+  var custom = ['integer', 'float', 'array', 'regexp', 'object', 'method', 'email', 'number', 'date', 'url', 'hex'];
+  var ruleType = rule.type;
+
+  if (custom.indexOf(ruleType) > -1) {
+    if (!types[ruleType](value)) {
+      errors.push(format(options.messages.types[ruleType], rule.fullField, rule.type));
+    } // straight typeof check
+
+  } else if (ruleType && typeof value !== rule.type) {
+    errors.push(format(options.messages.types[ruleType], rule.fullField, rule.type));
+  }
+}
+
+/**
+   *  Rule for validating minimum and maximum allowed values.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param source The source object being validated.
+   *  @param errors An array of errors that this rule may add
+   *  validation errors to.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function range(rule, value, source, errors, options) {
+  var len = typeof rule.len === 'number';
+  var min = typeof rule.min === 'number';
+  var max = typeof rule.max === 'number'; // 正则匹配码点范围从U+010000一直到U+10FFFF的文字（补充平面Supplementary Plane）
+
+  var spRegexp = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+  var val = value;
+  var key = null;
+  var num = typeof value === 'number';
+  var str = typeof value === 'string';
+  var arr = Array.isArray(value);
+
+  if (num) {
+    key = 'number';
+  } else if (str) {
+    key = 'string';
+  } else if (arr) {
+    key = 'array';
+  } // if the value is not of a supported type for range validation
+  // the validation rule rule should use the
+  // type property to also test for a particular type
+
+
+  if (!key) {
+    return false;
+  }
+
+  if (arr) {
+    val = value.length;
+  }
+
+  if (str) {
+    // 处理码点大于U+010000的文字length属性不准确的bug，如"𠮷𠮷𠮷".length !== 3
+    val = value.replace(spRegexp, '_').length;
+  }
+
+  if (len) {
+    if (val !== rule.len) {
+      errors.push(format(options.messages[key].len, rule.fullField, rule.len));
+    }
+  } else if (min && !max && val < rule.min) {
+    errors.push(format(options.messages[key].min, rule.fullField, rule.min));
+  } else if (max && !min && val > rule.max) {
+    errors.push(format(options.messages[key].max, rule.fullField, rule.max));
+  } else if (min && max && (val < rule.min || val > rule.max)) {
+    errors.push(format(options.messages[key].range, rule.fullField, rule.min, rule.max));
+  }
+}
+
+var ENUM = 'enum';
+/**
+                    *  Rule for validating a value exists in an enumerable list.
+                    *
+                    *  @param rule The validation rule.
+                    *  @param value The value of the field on the source object.
+                    *  @param source The source object being validated.
+                    *  @param errors An array of errors that this rule may add
+                    *  validation errors to.
+                    *  @param options The validation options.
+                    *  @param options.messages The validation messages.
+                    */
+
+function enumerable(rule, value, source, errors, options) {
+  rule[ENUM] = Array.isArray(rule[ENUM]) ? rule[ENUM] : [];
+
+  if (rule[ENUM].indexOf(value) === -1) {
+    errors.push(format(options.messages[ENUM], rule.fullField, rule[ENUM].join(', ')));
+  }
+}
+
+/**
+   *  Rule for validating a regular expression pattern.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param source The source object being validated.
+   *  @param errors An array of errors that this rule may add
+   *  validation errors to.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function pattern$1(rule, value, source, errors, options) {
+  if (rule.pattern) {
+    if (rule.pattern instanceof RegExp) {
+      // if a RegExp instance is passed, reset `lastIndex` in case its `global`
+      // flag is accidentally set to `true`, which in a validation scenario
+      // is not necessary and the result might be misleading
+      rule.pattern.lastIndex = 0;
+
+      if (!rule.pattern.test(value)) {
+        errors.push(format(options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
+      }
+    } else if (typeof rule.pattern === 'string') {
+      var _pattern = new RegExp(rule.pattern);
+
+      if (!_pattern.test(value)) {
+        errors.push(format(options.messages.pattern.mismatch, rule.fullField, value, rule.pattern));
+      }
+    }
+  }
+}
+
+var rules = {
+  required: required,
+  whitespace: whitespace,
+  type: type,
+  range: range,
+  "enum": enumerable,
+  pattern: pattern$1 };
+
+
+/**
+                         *  Performs validation for string types.
+                         *
+                         *  @param rule The validation rule.
+                         *  @param value The value of the field on the source object.
+                         *  @param callback The callback function.
+                         *  @param source The source object being validated.
+                         *  @param options The validation options.
+                         *  @param options.messages The validation messages.
+                         */
+
+function string(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value, 'string') && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options, 'string');
+
+    if (!isEmptyValue(value, 'string')) {
+      rules.type(rule, value, source, errors, options);
+      rules.range(rule, value, source, errors, options);
+      rules.pattern(rule, value, source, errors, options);
+
+      if (rule.whitespace === true) {
+        rules.whitespace(rule, value, source, errors, options);
+      }
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates a function.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function method(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates a number.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function number(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (value === '') {
+      value = undefined;
+    }
+
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+      rules.range(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates a boolean.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function _boolean(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates the regular expression type.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function regexp(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (!isEmptyValue(value)) {
+      rules.type(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates a number is an integer.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function integer(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+      rules.range(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates a number is a floating point number.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function floatFn(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+      rules.range(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates an array.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function array(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value, 'array') && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options, 'array');
+
+    if (!isEmptyValue(value, 'array')) {
+      rules.type(rule, value, source, errors, options);
+      rules.range(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates an object.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function object(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (value !== undefined) {
+      rules.type(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+var ENUM$1 = 'enum';
+/**
+                      *  Validates an enumerable list.
+                      *
+                      *  @param rule The validation rule.
+                      *  @param value The value of the field on the source object.
+                      *  @param callback The callback function.
+                      *  @param source The source object being validated.
+                      *  @param options The validation options.
+                      *  @param options.messages The validation messages.
+                      */
+
+function enumerable$1(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (value !== undefined) {
+      rules[ENUM$1](rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Validates a regular expression pattern.
+   *
+   *  Performs validation when a rule only contains
+   *  a pattern property but is not declared as a string type.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function pattern$2(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value, 'string') && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (!isEmptyValue(value, 'string')) {
+      rules.pattern(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+function date(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+
+    if (!isEmptyValue(value)) {
+      var dateObject;
+
+      if (typeof value === 'number') {
+        dateObject = new Date(value);
+      } else {
+        dateObject = value;
+      }
+
+      rules.type(rule, dateObject, source, errors, options);
+
+      if (dateObject) {
+        rules.range(rule, dateObject.getTime(), source, errors, options);
+      }
+    }
+  }
+
+  callback(errors);
+}
+
+function required$1(rule, value, callback, source, options) {
+  var errors = [];
+  var type = Array.isArray(value) ? 'array' : typeof value;
+  rules.required(rule, value, source, errors, options, type);
+  callback(errors);
+}
+
+function type$1(rule, value, callback, source, options) {
+  var ruleType = rule.type;
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value, ruleType) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options, ruleType);
+
+    if (!isEmptyValue(value, ruleType)) {
+      rules.type(rule, value, source, errors, options);
+    }
+  }
+
+  callback(errors);
+}
+
+/**
+   *  Performs validation for any type.
+   *
+   *  @param rule The validation rule.
+   *  @param value The value of the field on the source object.
+   *  @param callback The callback function.
+   *  @param source The source object being validated.
+   *  @param options The validation options.
+   *  @param options.messages The validation messages.
+   */
+
+function any(rule, value, callback, source, options) {
+  var errors = [];
+  var validate = rule.required || !rule.required && source.hasOwnProperty(rule.field);
+
+  if (validate) {
+    if (isEmptyValue(value) && !rule.required) {
+      return callback();
+    }
+
+    rules.required(rule, value, source, errors, options);
+  }
+
+  callback(errors);
+}
+
+var validators = {
+  string: string,
+  method: method,
+  number: number,
+  "boolean": _boolean,
+  regexp: regexp,
+  integer: integer,
+  "float": floatFn,
+  array: array,
+  object: object,
+  "enum": enumerable$1,
+  pattern: pattern$2,
+  date: date,
+  url: type$1,
+  hex: type$1,
+  email: type$1,
+  required: required$1,
+  any: any };
+
+
+function newMessages() {
+  return {
+    "default": 'Validation error on field %s',
+    required: '%s is required',
+    "enum": '%s must be one of %s',
+    whitespace: '%s cannot be empty',
+    date: {
+      format: '%s date %s is invalid for format %s',
+      parse: '%s date could not be parsed, %s is invalid ',
+      invalid: '%s date %s is invalid' },
+
+    types: {
+      string: '%s is not a %s',
+      method: '%s is not a %s (function)',
+      array: '%s is not an %s',
+      object: '%s is not an %s',
+      number: '%s is not a %s',
+      date: '%s is not a %s',
+      "boolean": '%s is not a %s',
+      integer: '%s is not an %s',
+      "float": '%s is not a %s',
+      regexp: '%s is not a valid %s',
+      email: '%s is not a valid %s',
+      url: '%s is not a valid %s',
+      hex: '%s is not a valid %s' },
+
+    string: {
+      len: '%s must be exactly %s characters',
+      min: '%s must be at least %s characters',
+      max: '%s cannot be longer than %s characters',
+      range: '%s must be between %s and %s characters' },
+
+    number: {
+      len: '%s must equal %s',
+      min: '%s cannot be less than %s',
+      max: '%s cannot be greater than %s',
+      range: '%s must be between %s and %s' },
+
+    array: {
+      len: '%s must be exactly %s in length',
+      min: '%s cannot be less than %s in length',
+      max: '%s cannot be greater than %s in length',
+      range: '%s must be between %s and %s in length' },
+
+    pattern: {
+      mismatch: '%s value %s does not match pattern %s' },
+
+    clone: function clone() {
+      var cloned = JSON.parse(JSON.stringify(this));
+      cloned.clone = this.clone;
+      return cloned;
+    } };
+
+}
+var messages = newMessages();
+
+/**
+                               *  Encapsulates a validation schema.
+                               *
+                               *  @param descriptor An object declaring validation rules
+                               *  for this schema.
+                               */
+
+function Schema(descriptor) {
+  this.rules = null;
+  this._messages = messages;
+  this.define(descriptor);
+}
+
+Schema.prototype = {
+  messages: function messages(_messages) {
+    if (_messages) {
+      this._messages = deepMerge(newMessages(), _messages);
+    }
+
+    return this._messages;
+  },
+  define: function define(rules) {
+    if (!rules) {
+      throw new Error('Cannot configure a schema with no rules');
+    }
+
+    if (typeof rules !== 'object' || Array.isArray(rules)) {
+      throw new Error('Rules must be an object');
+    }
+
+    this.rules = {};
+    var z;
+    var item;
+
+    for (z in rules) {
+      if (rules.hasOwnProperty(z)) {
+        item = rules[z];
+        this.rules[z] = Array.isArray(item) ? item : [item];
+      }
+    }
+  },
+  validate: function validate(source_, o, oc) {
+    var _this = this;
+
+    if (o === void 0) {
+      o = {};
+    }
+
+    if (oc === void 0) {
+      oc = function oc() {};
+    }
+
+    var source = source_;
+    var options = o;
+    var callback = oc;
+
+    if (typeof options === 'function') {
+      callback = options;
+      options = {};
+    }
+
+    if (!this.rules || Object.keys(this.rules).length === 0) {
+      if (callback) {
+        callback();
+      }
+
+      return Promise.resolve();
+    }
+
+    function complete(results) {
+      var i;
+      var errors = [];
+      var fields = {};
+
+      function add(e) {
+        if (Array.isArray(e)) {
+          var _errors;
+
+          errors = (_errors = errors).concat.apply(_errors, e);
+        } else {
+          errors.push(e);
+        }
+      }
+
+      for (i = 0; i < results.length; i++) {
+        add(results[i]);
+      }
+
+      if (!errors.length) {
+        errors = null;
+        fields = null;
+      } else {
+        fields = convertFieldsError(errors);
+      }
+
+      callback(errors, fields);
+    }
+
+    if (options.messages) {
+      var messages$1 = this.messages();
+
+      if (messages$1 === messages) {
+        messages$1 = newMessages();
+      }
+
+      deepMerge(messages$1, options.messages);
+      options.messages = messages$1;
+    } else {
+      options.messages = this.messages();
+    }
+
+    var arr;
+    var value;
+    var series = {};
+    var keys = options.keys || Object.keys(this.rules);
+    keys.forEach(function (z) {
+      arr = _this.rules[z];
+      value = source[z];
+      arr.forEach(function (r) {
+        var rule = r;
+
+        if (typeof rule.transform === 'function') {
+          if (source === source_) {
+            source = _extends({}, source);
+          }
+
+          value = source[z] = rule.transform(value);
+        }
+
+        if (typeof rule === 'function') {
+          rule = {
+            validator: rule };
+
+        } else {
+          rule = _extends({}, rule);
+        }
+
+        rule.validator = _this.getValidationMethod(rule);
+        rule.field = z;
+        rule.fullField = rule.fullField || z;
+        rule.type = _this.getType(rule);
+
+        if (!rule.validator) {
+          return;
+        }
+
+        series[z] = series[z] || [];
+        series[z].push({
+          rule: rule,
+          value: value,
+          source: source,
+          field: z });
+
+      });
+    });
+    var errorFields = {};
+    return asyncMap(series, options, function (data, doIt) {
+      var rule = data.rule;
+      var deep = (rule.type === 'object' || rule.type === 'array') && (typeof rule.fields === 'object' || typeof rule.defaultField ===
+      'object');
+      deep = deep && (rule.required || !rule.required && data.value);
+      rule.field = data.field;
+
+      function addFullfield(key, schema) {
+        return _extends({}, schema, {
+          fullField: rule.fullField + "." + key });
+
+      }
+
+      function cb(e) {
+        if (e === void 0) {
+          e = [];
+        }
+
+        var errors = e;
+
+        if (!Array.isArray(errors)) {
+          errors = [errors];
+        }
+
+        if (!options.suppressWarning && errors.length) {
+          Schema.warning('async-validator:', errors);
+        }
+
+        if (errors.length && rule.message) {
+          errors = [].concat(rule.message);
+        }
+
+        errors = errors.map(complementError(rule));
+
+        if (options.first && errors.length) {
+          errorFields[rule.field] = 1;
+          return doIt(errors);
+        }
+
+        if (!deep) {
+          doIt(errors);
+        } else {
+          // if rule is required but the target object
+          // does not exist fail at the rule level and don't
+          // go deeper
+          if (rule.required && !data.value) {
+            if (rule.message) {
+              errors = [].concat(rule.message).map(complementError(rule));
+            } else if (options.error) {
+              errors = [options.error(rule, format(options.messages.required, rule.field))];
+            } else {
+              errors = [];
+            }
+
+            return doIt(errors);
+          }
+
+          var fieldsSchema = {};
+
+          if (rule.defaultField) {
+            for (var k in data.value) {
+              if (data.value.hasOwnProperty(k)) {
+                fieldsSchema[k] = rule.defaultField;
+              }
+            }
+          }
+
+          fieldsSchema = _extends({}, fieldsSchema, {}, data.rule.fields);
+
+          for (var f in fieldsSchema) {
+            if (fieldsSchema.hasOwnProperty(f)) {
+              var fieldSchema = Array.isArray(fieldsSchema[f]) ? fieldsSchema[f] : [fieldsSchema[f]];
+              fieldsSchema[f] = fieldSchema.map(addFullfield.bind(null, f));
+            }
+          }
+
+          var schema = new Schema(fieldsSchema);
+          schema.messages(options.messages);
+
+          if (data.rule.options) {
+            data.rule.options.messages = options.messages;
+            data.rule.options.error = options.error;
+          }
+
+          schema.validate(data.value, data.rule.options || options, function (errs) {
+            var finalErrors = [];
+
+            if (errors && errors.length) {
+              finalErrors.push.apply(finalErrors, errors);
+            }
+
+            if (errs && errs.length) {
+              finalErrors.push.apply(finalErrors, errs);
+            }
+
+            doIt(finalErrors.length ? finalErrors : null);
+          });
+        }
+      }
+
+      var res;
+
+      if (rule.asyncValidator) {
+        res = rule.asyncValidator(rule, data.value, cb, data.source, options);
+      } else if (rule.validator) {
+        res = rule.validator(rule, data.value, cb, data.source, options);
+
+        if (res === true) {
+          cb();
+        } else if (res === false) {
+          cb(rule.message || rule.field + " fails");
+        } else if (res instanceof Array) {
+          cb(res);
+        } else if (res instanceof Error) {
+          cb(res.message);
+        }
+      }
+
+      if (res && res.then) {
+        res.then(function () {
+          return cb();
+        }, function (e) {
+          return cb(e);
+        });
+      }
+    }, function (results) {
+      complete(results);
+    });
+  },
+  getType: function getType(rule) {
+    if (rule.type === undefined && rule.pattern instanceof RegExp) {
+      rule.type = 'pattern';
+    }
+
+    if (typeof rule.validator !== 'function' && rule.type && !validators.hasOwnProperty(rule.type)) {
+      throw new Error(format('Unknown rule type %s', rule.type));
+    }
+
+    return rule.type || 'string';
+  },
+  getValidationMethod: function getValidationMethod(rule) {
+    if (typeof rule.validator === 'function') {
+      return rule.validator;
+    }
+
+    var keys = Object.keys(rule);
+    var messageIndex = keys.indexOf('message');
+
+    if (messageIndex !== -1) {
+      keys.splice(messageIndex, 1);
+    }
+
+    if (keys.length === 1 && keys[0] === 'required') {
+      return validators.required;
+    }
+
+    return validators[this.getType(rule)] || false;
+  } };
+
+
+Schema.register = function register(type, validator) {
+  if (typeof validator !== 'function') {
+    throw new Error('Cannot register a validator by type, validator is not a function');
+  }
+
+  validators[type] = validator;
+};
+
+Schema.warning = warning;
+Schema.messages = messages;var _default =
+
+Schema;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 221)))
+
+/***/ }),
+/* 221 */
+/*!********************************************************!*\
+  !*** ./node_modules/node-libs-browser/mock/process.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.nextTick = function nextTick(fn) {
+    var args = Array.prototype.slice.call(arguments);
+    args.shift();
+    setTimeout(function () {
+        fn.apply(null, args);
+    }, 0);
+};
+
+exports.platform = exports.arch = 
+exports.execPath = exports.title = 'browser';
+exports.pid = 1;
+exports.browser = true;
+exports.env = {};
+exports.argv = [];
+
+exports.binding = function (name) {
+	throw new Error('No such module. (Possibly not yet loaded)')
+};
+
+(function () {
+    var cwd = '/';
+    var path;
+    exports.cwd = function () { return cwd };
+    exports.chdir = function (dir) {
+        if (!path) path = __webpack_require__(/*! path */ 222);
+        cwd = path.resolve(dir, cwd);
+    };
+})();
+
+exports.exit = exports.kill = 
+exports.umask = exports.dlopen = 
+exports.uptime = exports.memoryUsage = 
+exports.uvCounters = function() {};
+exports.features = {};
+
+
+/***/ }),
+/* 222 */
+/*!***********************************************!*\
+  !*** ./node_modules/path-browserify/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {// .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
+// backported and transplited with Babel, with backwards-compat fixes
+
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// resolves . and .. elements in a path array with directory names there
+// must be no slashes, empty elements, or device names (c:\) in the array
+// (so also no leading and trailing slashes - it does not distinguish
+// relative and absolute paths)
+function normalizeArray(parts, allowAboveRoot) {
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = parts.length - 1; i >= 0; i--) {
+    var last = parts[i];
+    if (last === '.') {
+      parts.splice(i, 1);
+    } else if (last === '..') {
+      parts.splice(i, 1);
+      up++;
+    } else if (up) {
+      parts.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (allowAboveRoot) {
+    for (; up--; up) {
+      parts.unshift('..');
+    }
+  }
+
+  return parts;
+}
+
+// path.resolve([from ...], to)
+// posix version
+exports.resolve = function() {
+  var resolvedPath = '',
+      resolvedAbsolute = false;
+
+  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+    // Skip empty and invalid entries
+    if (typeof path !== 'string') {
+      throw new TypeError('Arguments to path.resolve must be strings');
+    } else if (!path) {
+      continue;
+    }
+
+    resolvedPath = path + '/' + resolvedPath;
+    resolvedAbsolute = path.charAt(0) === '/';
+  }
+
+  // At this point the path should be resolved to a full absolute path, but
+  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+  // Normalize the path
+  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+    return !!p;
+  }), !resolvedAbsolute).join('/');
+
+  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+};
+
+// path.normalize(path)
+// posix version
+exports.normalize = function(path) {
+  var isAbsolute = exports.isAbsolute(path),
+      trailingSlash = substr(path, -1) === '/';
+
+  // Normalize the path
+  path = normalizeArray(filter(path.split('/'), function(p) {
+    return !!p;
+  }), !isAbsolute).join('/');
+
+  if (!path && !isAbsolute) {
+    path = '.';
+  }
+  if (path && trailingSlash) {
+    path += '/';
+  }
+
+  return (isAbsolute ? '/' : '') + path;
+};
+
+// posix version
+exports.isAbsolute = function(path) {
+  return path.charAt(0) === '/';
+};
+
+// posix version
+exports.join = function() {
+  var paths = Array.prototype.slice.call(arguments, 0);
+  return exports.normalize(filter(paths, function(p, index) {
+    if (typeof p !== 'string') {
+      throw new TypeError('Arguments to path.join must be strings');
+    }
+    return p;
+  }).join('/'));
+};
+
+
+// path.relative(from, to)
+// posix version
+exports.relative = function(from, to) {
+  from = exports.resolve(from).substr(1);
+  to = exports.resolve(to).substr(1);
+
+  function trim(arr) {
+    var start = 0;
+    for (; start < arr.length; start++) {
+      if (arr[start] !== '') break;
+    }
+
+    var end = arr.length - 1;
+    for (; end >= 0; end--) {
+      if (arr[end] !== '') break;
+    }
+
+    if (start > end) return [];
+    return arr.slice(start, end - start + 1);
+  }
+
+  var fromParts = trim(from.split('/'));
+  var toParts = trim(to.split('/'));
+
+  var length = Math.min(fromParts.length, toParts.length);
+  var samePartsLength = length;
+  for (var i = 0; i < length; i++) {
+    if (fromParts[i] !== toParts[i]) {
+      samePartsLength = i;
+      break;
+    }
+  }
+
+  var outputParts = [];
+  for (var i = samePartsLength; i < fromParts.length; i++) {
+    outputParts.push('..');
+  }
+
+  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+  return outputParts.join('/');
+};
+
+exports.sep = '/';
+exports.delimiter = ':';
+
+exports.dirname = function (path) {
+  if (typeof path !== 'string') path = path + '';
+  if (path.length === 0) return '.';
+  var code = path.charCodeAt(0);
+  var hasRoot = code === 47 /*/*/;
+  var end = -1;
+  var matchedSlash = true;
+  for (var i = path.length - 1; i >= 1; --i) {
+    code = path.charCodeAt(i);
+    if (code === 47 /*/*/) {
+        if (!matchedSlash) {
+          end = i;
+          break;
+        }
+      } else {
+      // We saw the first non-path separator
+      matchedSlash = false;
+    }
+  }
+
+  if (end === -1) return hasRoot ? '/' : '.';
+  if (hasRoot && end === 1) {
+    // return '//';
+    // Backwards-compat fix:
+    return '/';
+  }
+  return path.slice(0, end);
+};
+
+function basename(path) {
+  if (typeof path !== 'string') path = path + '';
+
+  var start = 0;
+  var end = -1;
+  var matchedSlash = true;
+  var i;
+
+  for (i = path.length - 1; i >= 0; --i) {
+    if (path.charCodeAt(i) === 47 /*/*/) {
+        // If we reached a path separator that was not part of a set of path
+        // separators at the end of the string, stop now
+        if (!matchedSlash) {
+          start = i + 1;
+          break;
+        }
+      } else if (end === -1) {
+      // We saw the first non-path separator, mark this as the end of our
+      // path component
+      matchedSlash = false;
+      end = i + 1;
+    }
+  }
+
+  if (end === -1) return '';
+  return path.slice(start, end);
+}
+
+// Uses a mixed approach for backwards-compatibility, as ext behavior changed
+// in new Node.js versions, so only basename() above is backported here
+exports.basename = function (path, ext) {
+  var f = basename(path);
+  if (ext && f.substr(-1 * ext.length) === ext) {
+    f = f.substr(0, f.length - ext.length);
+  }
+  return f;
+};
+
+exports.extname = function (path) {
+  if (typeof path !== 'string') path = path + '';
+  var startDot = -1;
+  var startPart = 0;
+  var end = -1;
+  var matchedSlash = true;
+  // Track the state of characters (if any) we see before our first dot and
+  // after any path separator we find
+  var preDotState = 0;
+  for (var i = path.length - 1; i >= 0; --i) {
+    var code = path.charCodeAt(i);
+    if (code === 47 /*/*/) {
+        // If we reached a path separator that was not part of a set of path
+        // separators at the end of the string, stop now
+        if (!matchedSlash) {
+          startPart = i + 1;
+          break;
+        }
+        continue;
+      }
+    if (end === -1) {
+      // We saw the first non-path separator, mark this as the end of our
+      // extension
+      matchedSlash = false;
+      end = i + 1;
+    }
+    if (code === 46 /*.*/) {
+        // If this is our first dot, mark it as the start of our extension
+        if (startDot === -1)
+          startDot = i;
+        else if (preDotState !== 1)
+          preDotState = 1;
+    } else if (startDot !== -1) {
+      // We saw a non-dot and non-path separator before our dot, so we should
+      // have a good chance at having a non-empty extension
+      preDotState = -1;
+    }
+  }
+
+  if (startDot === -1 || end === -1 ||
+      // We saw a non-dot character immediately before the dot
+      preDotState === 0 ||
+      // The (right-most) trimmed path component is exactly '..'
+      preDotState === 1 && startDot === end - 1 && startDot === startPart + 1) {
+    return '';
+  }
+  return path.slice(startDot, end);
+};
+
+function filter (xs, f) {
+    if (xs.filter) return xs.filter(f);
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        if (f(xs[i], i, xs)) res.push(xs[i]);
+    }
+    return res;
+}
+
+// String.prototype.substr - negative index don't work in IE8
+var substr = 'ab'.substr(-1) === 'b'
+    ? function (str, start, len) { return str.substr(start, len) }
+    : function (str, start, len) {
+        if (start < 0) start = str.length + start;
+        return str.substr(start, len);
+    }
+;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 221)))
+
+/***/ })
+]]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map

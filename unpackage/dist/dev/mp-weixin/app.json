@@ -10,7 +10,16 @@
       "root": "healthMonitoringPackage",
       "pages": [
         "pages/healthMonitoring/index/index",
-        "pages/heartRate/heartRate"
+        "pages/heartRate/heartRate",
+        "pages/toilet/toilet",
+        "pages/tumble/tumble",
+        "pages/leaveHome/leaveHome",
+        "pages/breathe/breathe",
+        "pages/healthHeartRateTips/healthHeartRateTips",
+        "pages/healthBreatheTips/healthBreatheTips",
+        "pages/healthToiletTips/healthToiletTips",
+        "pages/healthTumbleTips/healthTumbleTips",
+        "pages/healthLeaveHomeTips/healthLeaveHomeTips"
       ],
       "name": "rootHealthMonitoring"
     },
@@ -21,7 +30,12 @@
         "pages/messageDetails/messageDetails",
         "pages/addDevices/addDevices",
         "pages/goOpen/goOpen",
-        "pages/addDevicesInfo/addDevicesInfo"
+        "pages/addDevicesInfo/addDevicesInfo",
+        "pages/bingDevices/bingDevices",
+        "pages/bingDevicesHint/bingDevicesHint",
+        "pages/roomManagement/roomManagement",
+        "pages/addRoom/addRoom",
+        "pages/roomEdit/roomEdit"
       ],
       "name": "rootDevice"
     }

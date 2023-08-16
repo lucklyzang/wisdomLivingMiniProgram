@@ -28,12 +28,87 @@
 						</view>
 						<view class="data-bottom"></view>
 					</view>
+					<view class="day-data-area" v-if="currentItem == 1">
+						<view class="data-top">
+							<view>
+								<u-icon name="arrow-left" size="40" color="#101010"></u-icon>
+								<text>7月3日 - 7月9日</text>
+								<u-icon name="arrow-right" size="40" color="#101010"></u-icon>
+							</view>
+							<view>
+								<text>7月3日</text>
+							</view>
+							<view>
+								<text>49-109次/分钟</text>
+							</view>
+						</view>
+						<view class="data-bottom"></view>
+					</view>
+					<view class="day-data-area" v-if="currentItem == 2">
+						<view class="data-top">
+							<view>
+								<u-icon name="arrow-left" size="40" color="#101010"></u-icon>
+								<text>7月</text>
+								<u-icon name="arrow-right" size="40" color="#101010"></u-icon>
+							</view>
+							<view>
+								<text>7月10日</text>
+							</view>
+							<view>
+								<text>49-109次/分钟</text>
+							</view>
+						</view>
+						<view class="data-bottom"></view>
+					</view>
 				</view>
 			</view>
 			<view class="content-bottom-area">
-				<view class="data-overview"></view>
-				<view class="daytime-nap"></view>
-				<view class="health-tips"></view>
+				<view class="data-overview">
+					<view class="data-top">
+						<image :src="dataOverviewIconPng"></image>
+						<text>数据概览</text>
+					</view>
+					<view class="data-content">
+						<view class="data-content-top">
+							<view class="content-top-left">
+								<text>54次/分</text>
+								<text>静息心率</text>
+							</view>
+							<view class="content-top-right">
+								<text>122次/分</text>
+								<text>最高心率</text>
+							</view>
+						</view>
+						<view class="data-content-bottom">
+							<view class="content-bottom-left">
+								<text>14次/分</text>
+								<text>最低心率</text>
+							</view>
+							<view class="content-bottom-right">
+								<text>60次/分</text>
+								<text>平均心率</text>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="daytime-nap">
+					<view class="daytime-nap-top">
+						<image :src="daytimeNapIconPng"></image>
+						<text>日间小憩</text>
+					</view>
+					<view class="daytime-nap-bottom">
+						<text>2小时30分</text>
+					</view>
+				</view>
+				<view class="health-tips">
+					<view class="health-tips-top">
+						<image :src="daytimeNapIconPng"></image>
+						<text>健康小知识</text>
+					</view>
+					<view class="health-tips-bottom" @click="healthTipsDetailsEvent">
+						<text>正常人的心率一般为60～100次/分，一般来说，年龄越小，心率越快，老年人心跳比年轻人慢，女性的心率比同龄男性快，这是正常的生理现象。安静状态下......</text>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -53,6 +128,8 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
+				dataOverviewIconPng: require("@/static/img/data-overview-icon.png"),
+				daytimeNapIconPng: require("@/static/img/daytime-nap-icon.png"),
 				itemList: [{
 					name: '日'
 				}, {
@@ -94,6 +171,13 @@
 				this.currentItem = index;
 			},
 			
+			// 进入健康小知识详情事件
+			healthTipsDetailsEvent () {
+				uni.redirectTo({
+					url: '/healthMonitoringPackage/pages/healthHeartRateTips/healthHeartRateTips'
+				})
+			},
+			
 			backTo () {
 				uni.switchTab({
 					url: '/pages/index/index'
@@ -131,7 +215,7 @@
 			flex-direction: column;
 			.content-top-area {
 				background: #fff;
-				height: 55vh;
+				height: 440px;
 				display: flex;
 				flex-direction: column;
 				.content-top-title {
@@ -194,18 +278,170 @@
 					margin-bottom: 10px;
 					border-radius: 10px;;
 					box-shadow: 0px 2px 6px 0 rgba(0, 0, 9, 0.1);
-					padding: 6px 10px;
+					padding: 8px 12px;
 					box-sizing: border-box;
 					border: 1px solid #BBBBBB
 				}
 				.data-overview {
 					height: 208px;
+					display: flex;
+					padding-top: 0 !important;
+					flex-direction: column;
+					.data-top {
+						height: 42px;
+						display: flex;
+						align-items: center;
+						box-sizing: border-box;
+						@include bottom-border-1px(#BBBBBB);
+						>image {
+							width: 24px;
+							height: 24px;
+							margin-right: 10px;
+							vertical-align: middle;
+						};
+						>text {
+							font-size: 14px;
+							color: #101010;
+							vertical-align: middle;
+						}
+					};
+					.data-content {
+						flex: 1;
+						padding: 16px 26px;
+						box-sizing: border-box;
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+						.data-content-top {
+							display: flex;
+							justify-content: space-between;
+							.content-top-left {
+								display: flex;
+								flex-direction: column;
+								justify-content: space-between;
+								align-items: center;
+								>text {
+									&:first-child {
+										font-size: 18px;
+										color: #101010;
+										margin-bottom: 4px;
+									};
+									&:last-child {
+										font-size: 12px;
+										color: #9C9FA3;
+									}
+								}
+							};
+							.content-top-right {
+								display: flex;
+								flex-direction: column;
+								justify-content: space-between;
+								align-items: center;
+								>text {
+									&:first-child {
+										font-size: 18px;
+										color: #101010;
+										margin-bottom: 4px;
+									};
+									&:last-child {
+										font-size: 12px;
+										color: #9C9FA3;
+									}
+								}
+							};
+						};
+						.data-content-bottom {
+							display: flex;
+							justify-content: space-between;
+							.content-bottom-left {
+								display: flex;
+								flex-direction: column;
+								justify-content: space-between;
+								align-items: center;
+								>text {
+									&:first-child {
+										font-size: 18px;
+										color: #101010;
+										margin-bottom: 4px;
+									};
+									&:last-child {
+										font-size: 12px;
+										color: #9C9FA3;
+									}
+								}
+							};
+							.content-bottom-right {
+								display: flex;
+								flex-direction: column;
+								justify-content: space-between;
+								align-items: center;
+								>text {
+									&:first-child {
+										font-size: 18px;
+										color: #101010;
+										margin-bottom: 4px;
+									};
+									&:last-child {
+										font-size: 12px;
+										color: #9C9FA3;
+									}
+								}
+							};
+						};
+					}
 				};
 				.daytime-nap {
 					height: 91px;
+					display: flex;
+					flex-direction: column;
+					.daytime-nap-top {
+						>image {
+							width: 24px;
+							height: 24px;
+							margin-right: 10px;
+							vertical-align: middle;
+						};
+						>text {
+							font-size: 14px;
+							color: #101010;
+							vertical-align: middle;
+						}
+					};
+					.daytime-nap-bottom {
+						flex: 1;
+						display: flex;
+						align-items: center;
+						font-size: 18px;
+						color: #101010;
+					}
 				};
 				.health-tips {
+					height: 91px;
+					display: flex;
+					flex-direction: column;
 					height: 134px;
+					.health-tips-top {
+						>image {
+							width: 24px;
+							height: 24px;
+							margin-right: 10px;
+							vertical-align: middle;
+						};
+						>text {
+							font-size: 14px;
+							color: #101010;
+							vertical-align: middle;
+						}
+					};
+					.health-tips-bottom {
+						flex: 1;
+						display: flex;
+						align-items: center;
+						font-size: 14px;
+						color: #101010;
+						text-align: justify;
+						text-indent: 12px;
+					};
 				}
 			}
 		}
