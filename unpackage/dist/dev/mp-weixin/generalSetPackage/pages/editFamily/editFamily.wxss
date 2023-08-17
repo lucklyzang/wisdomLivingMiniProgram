@@ -48,39 +48,44 @@ page {
   background: #fff;
 }
 .content-box .content-area {
-  padding: 16px;
+  flex: 1;
+  padding: 20px;
+  background: #F5F5F5;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
-.content-box .content-area .paragraph-one {
-  text-indent: 12px;
-}
-.content-box .content-area .paragraph-one > tetx {
-  font-size: 14px;
-  color: #1F1F1F;
-  line-height: 20px;
-  text-align: justify;
-}
-.content-box .content-area .paragraph-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-}
-.content-box .content-area .paragraph-image > image {
-  width: 265px;
-  height: 174px;
-}
-.content-box .content-area .paragraph-two {
-  text-indent: 12px;
+.content-box .content-area .edit-top {
   flex: 1;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
-.content-box .content-area .paragraph-two > tetx {
-  font-size: 14px;
-  color: #1F1F1F;
-  line-height: 20px;
-  text-align: justify;
+.content-box .content-area .edit-top .edit-input  .u-input {
+  border-radius: 8px;
+  padding-left: 6px !important;
+  height: 42px;
+  box-sizing: border-box;
+  background: #fff !important;
+}
+.content-box .content-area .edit-top .edit-input  .u-input .u-input__input {
+  height: 42px;
+  line-height: 42px;
+}
+.content-box .content-area .edit-bottom {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+}
+.content-box .content-area .edit-bottom > text {
+  width: 100%;
+  display: inline-block;
+  height: 42px;
+  text-align: center;
+  line-height: 37px;
+  border-radius: 4px;
+  background: #11D183;
+  font-size: 12px;
+  color: #fff;
 }
 

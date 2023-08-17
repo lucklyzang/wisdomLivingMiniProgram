@@ -7,22 +7,16 @@
 			</nav-bar> 
 		</view>
 		<view class="content-area">
-			<view class="content-top-area">
-				<u-input v-model="roomNameValue" type="text" placeholder="请输入房间名称" :border="true" placeholder-style="color:#101010" border-color="#BBBBBB" />
-			</view>
 			<view class="recommend-room-area">
-				<view class="recommend-room-title">
-					<text>推荐房间名称</text>
-				</view>
 				<view class="recommend-room-list-wrapper">
 					<view class="recommend-room-list" v-for="(item,index) in recommendRoomList" :key="index">
 						<text>{{ item }}</text>
+						<image :src="deleteRedIconPng" @click="deleteEvent"></image>
 					</view>
 				</view>
 			</view>
 			<view class="operation-area">
-				<text @click="cancelEvent">取消</text>
-				<text @click="saveEvent">保存</text>
+				<text @click="completeEvent">完成</text>
 			</view>
 		</view>
 	</view>
@@ -43,7 +37,8 @@
 				infoText: '',
 				showLoadingHint: false,
 				roomNameValue: '',
-				recommendRoomList: ['后院','阳台','浴室','卧室','餐厅']
+				recommendRoomList: ['后院','阳台','浴室','卧室','餐厅'],
+				deleteRedIconPng: require("@/static/img/delete-red-icon.png"),
 			}
 		},
 		onReady() {
@@ -72,15 +67,15 @@
 				'changeOverDueWay'
 			]),
 			
-			// 取消事件
-			cancelEvent () {
+			// 完成事件
+			completeEvent () {
 				uni.redirectTo({
 					url: '/devicePackage/pages/roomManagement/roomManagement'
 				})
 			},
 			
-			// 保存事件
-			saveEvent () {
+			// 删除事件
+			deleteEvent () {
 				
 			},
 			
@@ -122,48 +117,40 @@
 			display: flex;
 			align-items: center;
 			flex-direction: column;
-			.content-top-area {
-				width: 100%;
-				margin-bottom: 14px;
-				::v-deep {
-					.u-input {
-						background: #fff !important
-					}
-				}
-			};
 			.recommend-room-area {
 				width: 100%;
 				flex: 1;
-				display: flex;
-				flex-direction: column;
-				overflow: auto;
-				.recommend-room-title {
-					width: 100%;
-					font-size: 14px;
-					color: #101010;
-					margin-bottom: 14px;
-				};
 				.recommend-room-list-wrapper {
 					width: 100%;
 					flex: 1;
 					overflow: auto;
-					flex-wrap: wrap;
 					display: flex;
-					align-content: flex-start;
+					flex-direction: column;
+					align-items: center;
 					.recommend-room-list {
-						margin-right: 2%;
+						width: 100%;
 						margin-bottom: 10px;
 						border-radius: 5px;
-						width: 32%;
 						height: 40px;
 						display: flex;
-						background: #fff;
 						align-items: center;
-						justify-content: center;
-						font-size: 14px;
-						color: #101010;
-						&:nth-child(3n) {
-							margin-right: 0 !important
+						justify-content: space-between;
+						>text {
+							margin-right: 20px;
+							flex: 1;
+							padding-left: 20px;
+							line-height: 40px;
+							border-radius: 5px;
+							box-sizing: border-box;
+							display: inline-block;
+							background: #fff;
+							height: 40px;
+							font-size: 14px;
+							color: #101010;
+						};
+						>image {
+							width: 20px;
+							height: 20px
 						}
 					}
 				}
@@ -172,22 +159,18 @@
 				height: 80px;
 				width: 100%;
 				display: flex;
-				justify-content: space-between;
+				justify-content: center;
 				align-items: center;
 				>text {
 					font-size: 18px;
 					display: inline-block;
 					border-radius: 26px;
-					width: 45%;
+					width: 70%;
 					height: 48px;
 					display: flex;
 					align-items: center;
 					justify-content: center;
 					&:first-child {
-						border: 1px solid #E86F50;
-						color: #E86F50
-					};
-					&:last-child {
 						background: #11D183;
 						color: #fff
 					}

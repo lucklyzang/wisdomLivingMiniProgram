@@ -35,9 +35,30 @@
         "pages/bingDevicesHint/bingDevicesHint",
         "pages/roomManagement/roomManagement",
         "pages/addRoom/addRoom",
-        "pages/roomEdit/roomEdit"
+        "pages/roomEdit/roomEdit",
+        "pages/roomDetails/roomDetails"
       ],
       "name": "rootDevice"
+    },
+    {
+      "root": "generalSetPackage",
+      "pages": [
+        "pages/generalSet/index/index",
+        "pages/aboutApp/aboutApp",
+        "pages/familyManagement/familyManagement",
+        "pages/addFamily/addFamily",
+        "pages/editFamily/editFamily",
+        "pages/privateInfo/privateInfo",
+        "pages/generalSetting/generalSetting",
+        "pages/accountSecurity/accountSecurity",
+        "pages/accountSecurity/editPhoneNumber",
+        "pages/accountSecurity/editPhoneNumberNext",
+        "pages/warningSetting/warningSetting",
+        "pages/warningMessagePhoneNumber/warningMessagePhoneNumber",
+        "pages/warningMessagePhoneNumber/warningMessagePhoneNumberAdd",
+        "pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure"
+      ],
+      "name": "rootGeneralSetPackage"
     }
   ],
   "window": {
@@ -81,6 +102,12 @@
       ]
     },
     "devicePackage/pages/device/index/index": {
+      "network": "all",
+      "packages": [
+        "devicePackage"
+      ]
+    },
+    "generalSetPackage/pages/generalSet/index/index": {
       "network": "all",
       "packages": [
         "devicePackage"

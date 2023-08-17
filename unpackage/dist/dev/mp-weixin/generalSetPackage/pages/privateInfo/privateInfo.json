@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#ffffff",
+  "backgroundColorTop": "#fff,",
+  "backgroundColorBottom": "#fff",
+  "usingComponents": {
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "u-input": "/node-modules/uview-ui/components/u-input/u-input",
+    "u-radio-group": "/node-modules/uview-ui/components/u-radio-group/u-radio-group",
+    "u-radio": "/node-modules/uview-ui/components/u-radio/u-radio",
+    "nav-bar": "/components/zhouWei-navBar/index"
+  }
+}

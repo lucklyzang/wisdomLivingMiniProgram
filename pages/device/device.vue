@@ -46,7 +46,7 @@
 			</view>
 			<view class="room-content-area" v-if="tabCutActiveIndex == 1">
 				<view class="room-list-wrapper">
-					<view class="room-list" v-for="(item,index) in roomList" :key="index">
+					<view class="room-list" v-for="(item,index) in roomList" :key="index" @click="enterRoomDetails(item)">
 						<view class="room-left">
 							<view class="room-left-top">
 								<text>{{ item.roomName }}</text>
@@ -231,7 +231,9 @@
 			familyMemberChange (val) {
 				console.log(val)
 				if (val.orignItem.isClickNoEffect) {
-					console.log('家庭管理');
+					uni.redirectTo({
+						url: '/generalSetPackage/pages/familyManagement/familyManagement'
+					})
 				}
 			},
 			
@@ -255,6 +257,13 @@
 			enterMessagePageDetails () {
 				uni.redirectTo({
 					url: '/devicePackage/pages/device/index/index'
+				})
+			},
+			
+			// 进入房间详情事件
+			enterRoomDetails () {
+				uni.redirectTo({
+					url: '/devicePackage/pages/roomDetails/roomDetails'
 				})
 			},
 			

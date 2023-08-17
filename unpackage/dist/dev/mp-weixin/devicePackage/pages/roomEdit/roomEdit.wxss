@@ -57,72 +57,62 @@ page {
   align-items: center;
   flex-direction: column;
 }
-.content-box .content-area .content-top-area {
-  width: 100%;
-  margin-bottom: 14px;
-}
-.content-box .content-area .content-top-area  .u-input {
-  background: #fff !important;
-}
 .content-box .content-area .recommend-room-area {
   width: 100%;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-}
-.content-box .content-area .recommend-room-area .recommend-room-title {
-  width: 100%;
-  font-size: 14px;
-  color: #101010;
-  margin-bottom: 14px;
 }
 .content-box .content-area .recommend-room-area .recommend-room-list-wrapper {
   width: 100%;
   flex: 1;
   overflow: auto;
-  flex-wrap: wrap;
   display: flex;
-  align-content: flex-start;
+  flex-direction: column;
+  align-items: center;
 }
 .content-box .content-area .recommend-room-area .recommend-room-list-wrapper .recommend-room-list {
-  margin-right: 2%;
+  width: 100%;
   margin-bottom: 10px;
   border-radius: 5px;
-  width: 32%;
   height: 40px;
   display: flex;
-  background: #fff;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+}
+.content-box .content-area .recommend-room-area .recommend-room-list-wrapper .recommend-room-list > text {
+  margin-right: 20px;
+  flex: 1;
+  padding-left: 20px;
+  line-height: 40px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: inline-block;
+  background: #fff;
+  height: 40px;
   font-size: 14px;
   color: #101010;
 }
-.content-box .content-area .recommend-room-area .recommend-room-list-wrapper .recommend-room-list:nth-child(3n) {
-  margin-right: 0 !important;
+.content-box .content-area .recommend-room-area .recommend-room-list-wrapper .recommend-room-list > image {
+  width: 20px;
+  height: 20px;
 }
 .content-box .content-area .operation-area {
   height: 80px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 .content-box .content-area .operation-area > text {
   font-size: 18px;
   display: inline-block;
   border-radius: 26px;
-  width: 45%;
+  width: 70%;
   height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .content-box .content-area .operation-area > text:first-child {
-  border: 1px solid #E86F50;
-  color: #E86F50;
-}
-.content-box .content-area .operation-area > text:last-child {
   background: #11D183;
   color: #fff;
 }

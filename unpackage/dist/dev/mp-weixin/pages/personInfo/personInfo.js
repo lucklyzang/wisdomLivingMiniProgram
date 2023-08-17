@@ -125,7 +125,7 @@ var components
 try {
   components = {
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 186))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 383))
     }
   }
 } catch (e) {
@@ -182,7 +182,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -288,9 +288,39 @@ var _login = __webpack_require__(/*! @/api/login.js */ 53);function ownKeys(obje
 
   mounted: function mounted() {
   },
-  methods: _objectSpread({},
+  methods: _objectSpread(_objectSpread({},
   (0, _vuex.mapMutations)([
-  'changeOverDueWay'])) };exports.default = _default;
+  'changeOverDueWay'])), {}, {
+
+
+    // 头像点击事件
+    enterPersonMessagePageEvent: function enterPersonMessagePageEvent() {
+      uni.redirectTo({
+        url: '/generalSetPackage/pages/privateInfo/privateInfo' });
+
+    },
+
+    // 底部功能区点击事件
+    bottomFunctionClickEvent: function bottomFunctionClickEvent(name) {
+      if (name == '帮助与反馈') {
+        uni.redirectTo({
+          url: '/generalSetPackage/pages/generalSet/index/index' });
+
+      } else if (name == '关于APP') {
+        uni.redirectTo({
+          url: '/generalSetPackage/pages/aboutApp/aboutApp' });
+
+      } else if (name == '家庭管理') {
+        uni.redirectTo({
+          url: '/generalSetPackage/pages/familyManagement/familyManagement' });
+
+      } else if (name == '通用设置') {
+        uni.redirectTo({
+          url: '/generalSetPackage/pages/generalSetting/generalSetting' });
+
+      }
+    } }) };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
 
