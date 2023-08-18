@@ -29,7 +29,7 @@
 					<text>手动添加设备</text>
 				</view>
 				<view class="device-list-area">
-					<view class="device-list">
+					<view class="device-list" @click="chooseWifiEvent">
 						<image :src="imageUrl" ></image>
 						<text>跌倒监测雷达</text>
 					</view>
@@ -92,6 +92,13 @@
 			backTo () {
 				uni.switchTab({
 					url: '/pages/device/device'
+				})
+			},
+			
+			// 选择wifi事件
+			chooseWifiEvent () {
+				uni.redirectTo({
+					url: '/devicePackage/pages/selectWifi/selectWifi'
 				})
 			},
 			

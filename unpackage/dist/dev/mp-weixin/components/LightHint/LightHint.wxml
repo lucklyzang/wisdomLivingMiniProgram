@@ -1,0 +1,1 @@
+<block wx:if="{{isShow}}"><view class="light-hint"><image src="{{type=='success'?passedPng:exclamationPointPng}}"></image><text>{{message}}</text></view></block>
