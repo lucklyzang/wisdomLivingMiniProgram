@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#ffffff",
+  "backgroundColorTop": "#fff,",
+  "backgroundColorBottom": "#fff",
+  "usingComponents": {
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "u-picker": "/node-modules/uview-ui/components/u-picker/u-picker",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "nav-bar": "/components/zhouWei-navBar/index"
+  }
+}

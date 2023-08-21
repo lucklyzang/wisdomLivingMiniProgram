@@ -4,11 +4,6 @@ import store from './store'
 import ourLoading from '@/components/our-loading/our-loading.vue'
 import { getCache } from '@/common/js/utils'
 import uView from "uview-ui";
-import Create from '@/common/js/create.js';
-import Alert from '@/components/LightHint/LightHint.vue';
-Vue.prototype.$Alert= ((obj)=>{//挂载在原型上
-return Create(Alert,obj).show(); //返回组件实例
-});
 Vue.use(uView);
 Vue.component('ourLoading', ourLoading);
 Vue.config.productionTip = false;

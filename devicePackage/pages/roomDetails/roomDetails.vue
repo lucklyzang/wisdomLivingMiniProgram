@@ -12,7 +12,7 @@
 				<text>主卧</text>
 			</view>
 			<view class="content-bottom">
-				<view class="devices-list" @click="enterDeviceEvent">
+				<view class="devices-list" @click="enterDeviceEvent(item)" v-for="(item,index) in deviceList" :key="index">
 					<view class="list-top">
 						<view class="list-top-left">
 							<image :src="deviceIconPng"></image>
@@ -22,36 +22,8 @@
 						</view>
 					</view>
 					<view class="list-bottom">
-						<text>主卧</text>
-						<text>体征监测雷达1</text>
-					</view>
-				</view>
-				<view class="devices-list">
-					<view class="list-top">
-						<view class="list-top-left">
-							<image :src="deviceIconPng"></image>
-						</view>
-						<view class="list-top-right">
-							<text>在线</text>
-						</view>
-					</view>
-					<view class="list-bottom">
-						<text>主卧</text>
-						<text>体征监测雷达1</text>
-					</view>
-				</view>
-				<view class="devices-list">
-					<view class="list-top">
-						<view class="list-top-left">
-							<image :src="deviceIconPng"></image>
-						</view>
-						<view class="list-top-right">
-							<text>在线</text>
-						</view>
-					</view>
-					<view class="list-bottom">
-						<text>主卧</text>
-						<text>体征监测雷达1</text>
+						<text>{{ item.room }}</text>
+						<text>{{ item.deviceName }}</text>
 					</view>
 				</view>
 			</view>
@@ -73,7 +45,25 @@
 			return {
 				infoText: '',
 				deviceIconPng: require("@/static/img/room-icon.png"),
-				showLoadingHint: false
+				showLoadingHint: false,
+				deviceList: [
+					{
+						room: '主卧',
+						deviceName: '跌倒检测雷达'
+					},
+					{
+						room: '主卧',
+						deviceName: '人员存在感知雷达'
+					},
+					{
+						room: '主卧',
+						deviceName: '体征监测雷达'
+					},
+					{
+						room: '主卧',
+						deviceName: '人体检测雷达'
+					}
+				]
 			}
 		},
 		onReady() {
@@ -103,8 +93,24 @@
 			]),
 			
 			// 进入设备事件
-			enterDeviceEvent () {
-				
+			enterDeviceEvent (item) {
+				if (item.deviceName == '跌倒检测雷达') {
+					uni.redirectTo({
+						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+					})
+				} else if (item.deviceName == '人员存在感知雷达') {
+					uni.redirectTo({
+						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
+					})
+				} else if (item.deviceName == '体征监测雷达') {
+					uni.redirectTo({
+						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
+					})
+				} else if (item.deviceName == '人体检测雷达') {
+					uni.redirectTo({
+						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
+					})
+				}
 			},
 			
 			backTo () {

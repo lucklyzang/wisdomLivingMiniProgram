@@ -129,6 +129,7 @@
 				.set-list {
 					padding: 0 6px 0 10px;
 					box-sizing: border-box;
+					border-radius: 8px;
 					display: flex;
 					align-items: center;
 					justify-content: space-between;

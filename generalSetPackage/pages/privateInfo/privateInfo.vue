@@ -19,6 +19,29 @@
 					</view>
 					<view class="birthday-area">
 						<text>出生年月</text>
+						<view class="date-box">
+							<view class="year-area" @click="yearAreaClickEvent">
+								<text>{{ selectYear }}</text>
+								<u-icon :name="isShowYearDropDown ? 'arrow-down' : 'arrow-up'" color="#BBBBBB" size="20"></u-icon>
+								<view class="year-list-box" v-if="isShowYearDropDown">
+									<view class="year-list"></view>
+								</view>
+							</view>
+							<view class="month-area" @click="monthAreaClickEvent">
+								<text>{{ selectMonth }}</text>
+								<u-icon :name="isShowMonthDropDown ? 'arrow-down' : 'arrow-up'" color="#BBBBBB" size="20"></u-icon>
+								<view class="month-list-box" v-if="isShowMonthDropDown">
+									<view class="year-list"></view>
+								</view>
+							</view>
+							<view class="day-area" @click="dayAreaClickEvent">
+								<text>{{ selectDay }}</text>
+								<u-icon :name="isShowDayDropDown ? 'arrow-down' : 'arrow-up'" color="#BBBBBB" size="20"></u-icon>
+								<view class="day-list-box" v-if="isShowDayDropDown">
+									<view class="day-list"></view>
+								</view>
+							</view>
+						</view>
 					</view>
 					<view class="gender-area">
 						<text>性别</text>
@@ -56,6 +79,12 @@
 				infoText: '',
 				showLoadingHint: false,
 				niceNameValue: '',
+				isShowYearDropDown: false,
+				isShowMonthDropDown: false,
+				isShowDayDropDown: false,
+				selectYear: '1990',
+				selectMonth: '1',
+				selectDay: '12',
 				gendervalue: '男',
 				genderList: [
 					{
@@ -99,6 +128,21 @@
 			
 			radioGroupChange(e) {
 				// console.log(e);
+			},
+			
+			// 年区域点击事件
+			yearAreaClickEvent () {
+				this.isShowYearDropDown = !this.isShowYearDropDown
+			},
+			
+			// 月区域点击事件
+			monthAreaClickEvent () {
+				this.isShowMonthDropDown = !this.isShowMonthDropDown
+			},
+			
+			// 日区域点击事件
+			dayAreaClickEvent () {
+				this.isShowDayDropDown = !this.isShowDayDropDown
 			},
 					
 			// 完成事件
@@ -209,6 +253,73 @@
 								padding-left: 6px !important;
 								box-sizing: border-box;
 								.u-input__input {
+								}
+							}
+						}
+					};
+					.birthday-area {
+						.date-box {
+							flex: 1;
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							>view {
+								flex: 1;
+								position: relative;
+								margin-right: 6px;
+								height: 30px;
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								border: 1px solid #BBBBBB;
+								border-radius: 6px;
+								padding: 4px;
+								box-sizing: border-box;
+								>text {
+									font-size: 12px;
+									color: #101010
+								};
+								&:last-child {
+									margin-right: 0 !important
+								}
+							};
+							.year-area {
+								.year-list-box {
+									position: absolute;
+									width: 70px;
+									top: 36px;
+									left: 0;
+									border-radius: 4px;
+									background: #fff;
+									height: 100px;
+									padding: 4px;
+									box-sizing: border-box;
+								}
+							};
+							.month-area {
+								.month-list-box {
+									position: absolute;
+									width: 70px;
+									top: 36px;
+									left: 0;
+									border-radius: 4px;
+									background: #fff;
+									height: 100px;
+									padding: 4px;
+									box-sizing: border-box;
+								}
+							};
+							.day-area {
+								.day-list-box {
+									position: absolute;
+									width: 70px;
+									top: 36px;
+									left: 0;
+									border-radius: 4px;
+									background: #fff;
+									height: 100px;
+									padding: 4px;
+									box-sizing: border-box;
 								}
 							}
 						}
