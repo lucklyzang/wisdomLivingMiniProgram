@@ -50,7 +50,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'enterAddRoomPageSource'
 			]),
 			userName() {
 			},
@@ -74,19 +75,17 @@
 			
 			// 取消事件
 			cancelEvent () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/roomManagement/roomManagement'
-				})
+				this.backTo()
 			},
 			
 			// 保存事件
 			saveEvent () {
-				
+				this.backTo()
 			},
 			
 			backTo () {
 				uni.redirectTo({
-					url: '/devicePackage/pages/roomManagement/roomManagement'
+					url: `${this.enterAddRoomPageSource}`
 				})
 			}
 		}

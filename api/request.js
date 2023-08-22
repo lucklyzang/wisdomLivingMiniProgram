@@ -7,7 +7,7 @@ const instance = axios.create({
 	// 开发域名 https://blink.blinktech.cn/nblink
 	// 准生产域名 https://ver.blinktech.cn/nblink
 	// 测试域名 https://show.blinktech.cn/nblink
-  baseURL: 'https://blink.blinktech.cn/nblink',
+  baseURL: 'http://blink.blinktech.cn:48080',
 	retry: 3, // 网络请求异常后，重试次数 
 	retryDelay: 1000, // 每次重试间隔时间
 	timeout: 30000,
@@ -23,12 +23,13 @@ const instance = axios.create({
 
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
+	config.headers['tenant-id'] = 1;
   if (config['url'] == 'auth/login') {
   	config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   };
 	// 请求头添加token
 	if (store.getters.token) {
-	   config.headers['Authorization'] = store.getters.token
+	   config.headers['Authorization'] = `Bearer${store.getters.token}`
 	}; 
 	return config;
 }, function (error) {

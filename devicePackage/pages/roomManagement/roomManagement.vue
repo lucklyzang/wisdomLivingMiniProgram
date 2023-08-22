@@ -65,7 +65,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeEnterAddRoomPageSource'
 			]),
 			
 			// 房间编辑事件
@@ -77,6 +78,7 @@
 			
 			// 房间添加事件
 			roomAddEvent () {
+				this.changeEnterAddRoomPageSource('/devicePackage/pages/roomManagement/roomManagement');
 				uni.redirectTo({
 					url: '/devicePackage/pages/addRoom/addRoom'
 				})

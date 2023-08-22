@@ -25,9 +25,9 @@
 				<text v-for="(item,index) in tabCutList" :class="{'activeTabStyle' : tabCutActiveIndex == index }" @click="tabCutEvent(item,index)" :key="index">{{ item }}</text>
 			</view>
 		</view>
-		<view class="center-content-area">
-			<view class="device-content-area" v-if="tabCutActiveIndex == 0">
-				<view class="device-list" v-for="(item,index) in deviceList" :key="index">
+		<view class="center-content-area" v-if="tabCutActiveIndex == 0">
+			<view class="device-content-area">
+				<view class="device-list" v-for="(item,index) in deviceList" :key="index" @click="enterDeviceDetails(item)">
 					<view class="device-top">
 						<view class="device-top-left">
 							<image :src="item.imageUrl"></image>
@@ -44,7 +44,9 @@
 					</view>
 				</view>
 			</view>
-			<view class="room-content-area" v-if="tabCutActiveIndex == 1">
+		</view>
+		<view class="center-content-area center-content-area-one" v-if="tabCutActiveIndex == 1">
+			<view class="room-content-area">
 				<view class="room-list-wrapper">
 					<view class="room-list" v-for="(item,index) in roomList" :key="index" @click="enterRoomDetails(item)">
 						<view class="room-left">
@@ -224,7 +226,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeEnterDeviceSetPageSource'
 			]),
 			
 			// 家庭选择下拉框下拉选择确定事件
@@ -260,8 +263,30 @@
 				})
 			},
 			
+			// 进入设备详情事件
+			enterDeviceDetails (item) {
+				if (item.deviceName == '跌倒监测雷达') {
+					uni.redirectTo({
+						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+					})
+				} else if (item.deviceName == '人员存在感知雷达') {
+					uni.redirectTo({
+						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
+					})
+				} else if (item.deviceName == '体征监测雷达') {
+					uni.redirectTo({
+						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
+					})
+				} else if (item.deviceName == '人体检测雷达') {
+					uni.redirectTo({
+						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
+					})
+				};
+				this.changeEnterDeviceSetPageSource('/pages/device/device')
+			},
+			
 			// 进入房间详情事件
-			enterRoomDetails () {
+			enterRoomDetails (item) {
 				uni.redirectTo({
 					url: '/devicePackage/pages/roomDetails/roomDetails'
 				})
@@ -436,7 +461,6 @@
 				box-sizing: border-box;
 				display: flex;
 				flex-direction: column;
-				margin-top: -40px;
 				position: relative;
 				z-index: 1000;
 				flex-grow: 0;
@@ -500,6 +524,9 @@
 					color: #101010
 				}	
 			}
+		};
+		.center-content-area-one {
+			margin-top: -40px !important
 		}
 	}
 </style>

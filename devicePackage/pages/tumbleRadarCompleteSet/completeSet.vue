@@ -15,7 +15,7 @@
 						</view>
 					</view>
 					<view class="bottom-btn">
-						<text>拒绝</text>
+						<text @click="refuseEvent">拒绝</text>
 						<text @click="agreeEvent">同意</text>
 					</view>
 			</u-popup>
@@ -109,10 +109,14 @@
 			}
 		},
 		onReady() {
+			if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+				this.wifiListBoxShow = true
+			}
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'enterDeviceSetPageSource'
 			]),
 			userName() {
 			},
@@ -133,6 +137,11 @@
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 拒绝事件
+			refuseEvent () {
+				this.backTo()
+			},
 			
 			// 同意事件
 			agreeEvent () {
@@ -178,9 +187,15 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/selectWifi/setDeviceName'
-				})
+				if (this.enterDeviceSetPageSource == '/pages/device/device') {
+					uni.switchTab({
+						url: `${this.enterDeviceSetPageSource}`
+					})
+				} else {
+					uni.redirectTo({
+						url: `${this.enterDeviceSetPageSource}`
+					})
+				}
 			}
 		}
 	}

@@ -80,7 +80,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeEnterAddRoomPageSource'
 			]),
 			
 			// 下一步事件
@@ -91,7 +92,12 @@
 			},
 			
 			// 创建新房间事件
-			createNewRoomEvent () {},
+			createNewRoomEvent () {
+				this.changeEnterAddRoomPageSource('/devicePackage/pages/selectWifi/setRoomDeviceName');
+				uni.redirectTo({
+					url: '/devicePackage/pages/addRoom/addRoom'
+				})
+			},
 			
 			// 房间点击事件
 			roomClickEvent (item,index) {

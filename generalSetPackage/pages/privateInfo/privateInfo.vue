@@ -24,21 +24,27 @@
 								<text>{{ selectYear }}</text>
 								<u-icon :name="isShowYearDropDown ? 'arrow-down' : 'arrow-up'" color="#BBBBBB" size="20"></u-icon>
 								<view class="year-list-box" v-if="isShowYearDropDown">
-									<view class="year-list"></view>
+									<view class="year-list" :class="{'yearListStyle': selectYear == item }" v-for="(item,index) in yearList" :key="index" @click="yearItemClickEvent(item,index)">
+										<text>{{ item }}</text>
+									</view>
 								</view>
 							</view>
 							<view class="month-area" @click="monthAreaClickEvent">
 								<text>{{ selectMonth }}</text>
 								<u-icon :name="isShowMonthDropDown ? 'arrow-down' : 'arrow-up'" color="#BBBBBB" size="20"></u-icon>
 								<view class="month-list-box" v-if="isShowMonthDropDown">
-									<view class="year-list"></view>
+									<view class="month-list" :class="{'monthListStyle': selectMonth == item }" v-for="(item,index) in monthList" :key="index" @click="monthItemClickEvent(item,index)">
+										<text>{{ item }}</text>
+									</view>
 								</view>
 							</view>
 							<view class="day-area" @click="dayAreaClickEvent">
 								<text>{{ selectDay }}</text>
 								<u-icon :name="isShowDayDropDown ? 'arrow-down' : 'arrow-up'" color="#BBBBBB" size="20"></u-icon>
 								<view class="day-list-box" v-if="isShowDayDropDown">
-									<view class="day-list"></view>
+									<view class="day-list" :class="{'dayListStyle': selectDay == item }" v-for="(item,index) in dayList" :key="index" @click="dayItemClickEvent(item,index)">
+										<text>{{ item }}</text>
+									</view>
 								</view>
 							</view>
 						</view>
@@ -82,9 +88,12 @@
 				isShowYearDropDown: false,
 				isShowMonthDropDown: false,
 				isShowDayDropDown: false,
-				selectYear: '1990',
-				selectMonth: '1',
-				selectDay: '12',
+				yearList: [],
+				monthList: [1,2,3,4,5,6,7,8,9,10,11,12],
+				dayList: [],
+				selectYear: 1970,
+				selectMonth: 1,
+				selectDay: 1,
 				gendervalue: '男',
 				genderList: [
 					{
@@ -101,6 +110,8 @@
 			}
 		},
 		onReady() {
+			this.generateYears(this.selectYear,new Date().getFullYear());
+			this.generateDays(new Date(this.selectYear, this.selectMonth, 0).getDate());
 		},
 		computed: {
 			...mapGetters([
@@ -130,9 +141,38 @@
 				// console.log(e);
 			},
 			
+			// 生成年份
+			generateYears (startYear,endYear) {
+				this.yearList = [];
+				for (let i = startYear; i <= endYear; i++) {
+					this.yearList.push(i)
+				}
+			},
+			
+			// 生成天数
+			generateDays (endDay) {
+				this.dayList = [];
+				for (let i = 1; i <= endDay; i++) {
+					this.dayList.push(i)
+				}
+			},
+			
 			// 年区域点击事件
 			yearAreaClickEvent () {
 				this.isShowYearDropDown = !this.isShowYearDropDown
+			},
+			
+			// 年份点击事件
+			yearItemClickEvent (item,index) {
+				this.selectYear = item;
+				this.selectDay = 1;
+				if (item == new Date().getFullYear()) {
+					this.monthList = this.monthList.slice(0,this.monthList.indexOf(new Date().getMonth()) + 2);
+					this.selectMonth = 1
+				} else {
+					this.monthList = [1,2,3,4,5,6,7,8,9,10,11,12]
+				};
+				this.generateDays(new Date(this.selectYear, this.selectMonth, 0).getDate())
 			},
 			
 			// 月区域点击事件
@@ -140,9 +180,25 @@
 				this.isShowMonthDropDown = !this.isShowMonthDropDown
 			},
 			
+			// 月份点击事件
+			monthItemClickEvent (item,index) {
+				this.selectMonth = item;
+				this.selectDay = 1;
+				this.generateDays(new Date(this.selectYear, this.selectMonth, 0).getDate());
+				if (this.selectYear == new Date().getFullYear() && this.selectMonth == new Date().getMonth() + 1) {
+					this.dayList = this.dayList.slice(0,this.dayList.indexOf(new Date().getDate()) + 1)
+				}
+			},
+			
+			
 			// 日区域点击事件
 			dayAreaClickEvent () {
 				this.isShowDayDropDown = !this.isShowDayDropDown
+			},
+			
+			// 天点击事件
+			dayItemClickEvent (item,index) {
+				this.selectDay = item
 			},
 					
 			// 完成事件
@@ -248,7 +304,7 @@
 					};
 					.nice-name-area {
 						::v-deep {
-							.u-input {
+							u-input {
 								flex: 1;
 								padding-left: 6px !important;
 								box-sizing: border-box;
@@ -291,9 +347,18 @@
 									left: 0;
 									border-radius: 4px;
 									background: #fff;
-									height: 100px;
+									height: 250px;
 									padding: 4px;
+									overflow: auto;
 									box-sizing: border-box;
+									.year-list {
+										padding: 4px;
+										text-align: center;
+										box-sizing: border-box;
+									};
+									.yearListStyle {
+										color: #11D183
+									}
 								}
 							};
 							.month-area {
@@ -304,9 +369,18 @@
 									left: 0;
 									border-radius: 4px;
 									background: #fff;
-									height: 100px;
+									height: 250px;
+									overflow: auto;
 									padding: 4px;
 									box-sizing: border-box;
+									.month-list {
+										padding: 4px;
+										text-align: center;
+										box-sizing: border-box;
+									};
+									.monthListStyle {
+										color: #11D183
+									}
 								}
 							};
 							.day-area {
@@ -317,16 +391,25 @@
 									left: 0;
 									border-radius: 4px;
 									background: #fff;
-									height: 100px;
+									height: 250px;
+									overflow: auto;
 									padding: 4px;
 									box-sizing: border-box;
+									.day-list {
+										padding: 4px;
+										text-align: center;
+										box-sizing: border-box;
+									};
+									.dayListStyle {
+										color: #11D183
+									}
 								}
 							}
 						}
 					};
 					.gender-area {
 						::v-deep {
-							.u-radio-group {
+							u-radio-group {
 								flex: 1;
 								.u-radio {
 									width: 30% !important

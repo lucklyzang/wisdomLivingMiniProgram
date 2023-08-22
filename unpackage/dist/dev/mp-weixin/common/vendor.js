@@ -947,7 +947,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2091,40 +2091,7 @@ uni$1;exports.default = _default;
 
 /***/ }),
 
-/***/ 107:
-/*!*****************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/user-photo.png ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAADwSaEZAAADAFBMVEUAAAC87uy56+qr5OOu5+a57Oun4uCh4N+y6emP0tKk4eC16uqb2tmc396o5OKT1NOj392Lzc2e3NuOz8+26eiKycmZ1tOa2diW2Nio4d+U1tah3NrRxaDb2r+S0M6tmHDO0LvU2MPMxqbMzLTl3Ly15OHa4NLO1sfa1rmGeFyYhmWHxcPJya/j6dvDtI66up7GxKvZ0rHGyrbe4tCusJhkVDvIwqGksqLYyqbKupShl3e/roSPf1+snXnq7uGlk3Dn4MLQv5a4tJe0nXPq583LvZmQhGfSyqrh59fFq3yAb1Hd3cSvrY/j4smQim3Yzqvg17ax5uTX3c3Cu52+y7vB0cegjWq7pXuSkHV5c1i/pHWBvr2jnoG1xri4nG6vt6Ozq4iywbOxo4CeiWScvrXCv6ahoo59t7Sm2terpYbJtYmoqY29xLLU07iLeVrOuYypva+nkGe4poB+eV+cqpajuardyJ27rYx6ak5uYERsc2W8tZHI2tC6vqqUnYqqyLx0ZUmRwryh0sxeTzXh06+cnYW02tKr2NGJknyBg2l4qqOKqZ2fmYCiqZ7dz6iVlXrOs4Cq6upWRy647Ou87eye399pW0G67Ow4PTVFSDylglPWvpCAiHXHz7/O3NDkz6BlZVFwiH2X3Nx6fWdYWEZxblcjJR6XtKdoe2+yz8S97u6Xgl6v39sYGhSO0tGm4+GXy8WXfFRvaE9mbmGf3997j32jycC87u5tmZORclVIPSkwMCOFta677euN09OW2dmf39++7+l8lYeR1tOt5OSf3t5tt7ed3tya29u47Oue3tvG8fGm5OKL0dGp5uKSmoWO09Ot5eS98e6f3t5RUEC77u6w6OiO0NB6nZSEnI2S2dRmmZmExcWN1M6vuKFqubeq5eO+uJtqt7XMxKS7spmP1tSMzs5GNiCr5eSv5ubX1bPD0b+CcVZlr69qpqawo4az5uxyaFCz6+fNx6mOnomJysptrq3Z2b+spYRme3OqsJy+vp3Tz6tms7OCvsHAt5OzgwfkAAABAHRSTlMA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////DP/jrqX/Xf////////////9C/////////6P///+lpP////84//+F+//////KTOcQL/+7fLf/jCvvZBLDC0friulJff94rxv//zYP3y+peGNe56keZHj/2lNa51ZWeLEo4JbnYaSxKOB4yYWFClbJil6RIgAACzpJREFUeJyV13dck2cCB/AAChStRRuwKQnZ05CdkIWQRMIIe+8Nyt5bNsgeRUUQsFp31XNV62it19ZWex3X6x7X612v4/be83nelYE4fho+/MHn+/k9433eJ6R75/f7nt/z4u477mvX3tn94p7n933/Pn+/ap768sPd69zRrAVxA//ddj+77wcPT/3iQ2/vdSDuawkMz559D1fq1e+8YRAMaEgvAgP9Pnjqga1X312zZg2m2TFHze3OBw84wO88gIVqAENGCShnDLR7gME+ddYDZDWMzOW6E9yz91uKt99FJXyU+HIiS+DO7WnO3UW2l/vRvWcLr2XHkNV0R6qRj3d0VHY5aG73mrk/boCYk4YVc4Nm4oljF5dyKk/bR+r27KrWWc8NUFuzBnKuw4TYxTNHjhyM63HAVtXOenp6ItWIZmQ7BkM+dGZhfiEumOu4qntWsShAI8Z5F8y97/qxYx1H44Ydq9212+s+gELHiWHwaSIT0Gnw2TF/7Mz7B4V1DksA8vwK6w0fBLOPE/Qik+0YuQ/8Sr547MzCkcayXU7V3Fy373M+GOYwTCds1+QwnLT5M/PzmdM9ztXcXE6mN3GM2BwIRiawlNw6rrv7yx3zx663x9U5LYGb24tO1nuEhWOJqIVqidzT7OXCk+7uJRcPzi9k6lUumNO03fZywZBqmEZO3FHSXBWhSCnkunO7Dx+8MJpT6TJpTgPd6+WLYhtAcA12SyRzT/cfH0mjS8KTS7tSueSejIUjmRk5J10mzWG3PeflBaohzbA58/CgUBITyd4ewz3dxfXn83Tp5UK9obPn9K7p69ePZOS4bA4Q4pm/BTBfFyxw/OQubuJwU0joflPtDNX8/vu99PripuHKowsX9OUrJo2oBouBZnD/E3PmsaMpuCvlZK4hPdmi0c7kiRqX4oos9aJgVcxQTkFMzIpJw2dtry+iuQwz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"
-
-/***/ }),
-
-/***/ 108:
-/*!****************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/home-care.png ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAC/VBMVEUAAAD////+uLf+sbD9qKj+trb9paT+rq79nZ3/+fr9oKD9o6L7fn7+tLT+s7L6amv+rKz7dnf/+/v9pqX8jIz9q6r7e3v9qqn98vP8g4P+9/j7dHX97O77cXL8kJD8l5f97vD9m5v8h4j+9fb8eXn8gID9mZn7hYb9lpX+r6/99PX8lJT73eH//f396uz7b3D94+T8kpL8ior98PHnZ2f1tL/85+r61dvycnPypK/6mpr5z9b4d3j2u8T4ydD74OT2uML7bG37pqX6cnP62t/62N38oKD95ejsbG33wcr5env6o6Lva2zgXF37jo73xMz0d3j60tj74ub6nZ32vsf7yMn5oKD0dHX0k5P/AAD4lpb6goL3cnPkY2TnamrgV1j3xs7ybm/1mZn3iIj0rrnrZGX+uLfyqLLob2/3bm/pYmP4zNPzamv3nZ3ucnPgYGH1envoX1/3fn/7a2zvZ2f4hIThVFTxiIj80tP4o6L8w8P5zdP9zs79v7/kW1v4i4v2gYH1sbr4kpL8gID+uLf82tv+tLP/mZn9u7v/f3//mZnzfn77dnf7a2z/v7/////uf4D+uLb7cXL7a2vweHj8e3v6a2v/t7f9qan/a2v9o6P/tbX9nZ3/ZmbodXfyjY39oKD7srT8jIzyg4P+rqz9trb+sLD/t7f9mZn8iIj6ubj3jo78k5P9mZn+uLX/l5f/mZn+q6v8iYn/a2v/n5//XV37hYX/VVX5aGj7a2v9n5//ior6a2v/kpL7bGz8hYX/lpb/sbH7jY37aWv/lJT8i4v8np7/bW3/trT3a2v8bGz9kJD/kJD9o6P/n5/9g4P/ubb+mpr3rLD/tLT9oaH+t7bMmZn8goL9mpr/iorUf3/8hIT9paT7bm76hob/s7P/tbXtW23+kpL/gID7goL8mJj8g4Pvf3/6nZ38h4f7hYX+t7b7bm/9oKD7lpb/t7f/kJDmZmb+pKT+lZX9nZ38mpr/vLz/g4P8kJD9o6P7Z2v9iYn/iorzoaX/nZ2lRhfmAAAA/3RSTlMA/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wH////////////////6////////////////+/////////////////////jy//YF/wQK//fzBAH/z/fU//ekNfYT/B/5Bf///v/z//ae9kPz9/8izP3CGw/2UDcIC9YDWMmoGHA9O8MRDcq4MqzLI20fSdo+8D3xp73/EWe1BaqVJQbk4chdFFYOvRQ/T/oQL5t34+XyrFFHCsHYdVsTIZeZRWgw/07cmoTrAAAHG0lEQVR4nIWXB1hTWRbHXyBgSOgEMCEmhJIwECJgFpjAgEQIJS5lIICIrBBHcVCXAVm6MIyKwtpWVsdepthHp/fee++9997rN/9z33shUT/8fR8195dz373nnnvCebDx+e2PPLNl9WK/oKBgX1/f86aFhoZGRkulERH+/juffOi2H566Z6PneJF5Y7veeXH14sU+Pn5+QcFQvUyFfP/+/bt3P/vjydfmnW5ufPvQlsV+PiSKJlS3qZDL5TKZ/sTh7z88+ZJ3yNFdV62Gd4YZ7WXqDYYTh786NrZp0tx07/ZrMFMvk82WgrpNGUydLinp+J2n3O68ew9tYSIzaYncMc9ipqQ8/s0p8YFHtwsmrdC5zfT0x58YE1Zo1zXepu+kGTFp6t2mVnvfq3uY+tNV/HNObRoQNAkqmeXlD95OU954iF9bz9nSptBkHQq73c6H5E19EplK5cHr1kPd5V4iMSZEm83mcDhqa6uB1YqpEnq9XqajmEql8qafsUZfi9sipl8kIkLt7e2tZa7Vam0YSQEGip9CQTMyjry1h3v+GaYyk00X5tGeNE/yB54bGdGmp6eQqktHzIy4uLvf57azJ51MhUip7ag69TTUR/cNlZenYMY6LW8aj3zAPUJBvUybWSJRz9JozObMzOLiYoSdnqrp7nYNYWN0SWRmxBmNH33G0c4IJrIPZm9vsiR8IGhatL8c66mMUwVG2dXh3ZuvcA0NKcsxXZhxRpXqZQ7p4DYjI5mqlqjXBXuoCVGaVKjdQy6XayiDmVBv4j4XE5dMX+eaNWsKwyXhaSb80tPTMzDgdDr7+uIlzj6n80C9q8sYB8hUPc2tFlMej3kgWTIls+qHh7uMAGbiZaTySRQaLe1JnVpNdY6PD3d1QVQlJiZya8UkirRJNVObEolm88T48HzeDOTWCmZotM12TjV2YkVlx3wAk1QhcaWO3nOre0sq2+GSCVWoJ5HS2lrkQrhaHc+TnJw8nZjFiI2NnaVO1bSWZLd3BDIzilvLUp7mW7vcnBrQM7hunY8f26roCH+cOL0BZ1SL3DPG9QVoWpuyK8sCmclUdkKltuVQ4/uCgikbUXiZhGOSYVQlBkYlhMXMMcSbWy0roDIzgbtaqApSx/LlmeEBaZQGlAdIhL7BQZqDD3KN3v88U4C5ydJcR2oUU4UaFsHUsxPAEx4OdW5dWRQzoQpVHmpLJl71GHommU0Xza3LhQgzjLtSrPJQi4UR6rOANVeri5laxkyoQvWz1Vpb0uLFneG3Z3rsdGyRBxdCzc5NYCbUSL5uOmpbWvJpL/ndZDs6qBuMdf9F5FsuhprLzBjuWqHKM9WdAQyNXFttRi5MYiI1JoyZUIVa7ahuaDAJIzQ8mTKtvlj4HZjN5kKozTEQYc6Byl+h9uqG+kJ6mScTNckk0+rWmExpmW6yLJesbG7kzRnc5cLla7c21BexOsbIHwwO9Teg/MWpHPkXilQtIDWGmbxKFz6pWfRyPqPQZ1qEXKfNUAWGJRbhbxMjB+rSxhhmQhWubZl1pD5HHGIyFQ4MrgsyaLUOe7WzqFCkDeoyQZ0Jlb9CKWo/lMIiN1kyrbWqKMuDPFqmxjnMLOCe5M0If6REP4ZnZVWJ5EBty/GgaiHOa2XjDDJndnJvwFT4R0gVUPOyqnJy+kEbI0+mNSzMc9PW319KR709hsyCDdx3OxVyBS2V3dqysCqnbaFABTigO1BKPytKQQXepYailkXNgVmwlft1p1yuQGTa15q8PDaqtLSGccHsC/BNgOzZTA0Mg9m5jXsBqpz2FeqlFRVs5Gwv/sFDL5zfxNSEmQUhnXdwn3y5X4ZFQiJa61tqasSB4FKeRQL4z6K9FjbhhJkhIRvu4sZu2y1jUbE5++qfW7RE4PzTWbLkz70WXg0rCAm5fwc3+hepCoVMNzKyr3vz3qYFC/7N+KfAvwQWAEtJM530GMz3FvQhJx+SybA/dr2uob57c6uFTF5atYqU/wisgolHhUrz3fooOpj1Tx2GiuYIzca+7onW1qamJgtxMeMSYhVhKSlphplbNgNP+hjrue555QQ1cSi6Q64rxicmVvCUlMwlVoKLeOZm18HMhdm5bQfrEkePPct3cOVKl2t4eHy8vb29EtTVZYNmsIxYia+ljY3Yl5CQWx+mjgvc8MBx1vuVK3Hld3XNHx7uAO1l7QhRV9cIlhLL4PBsvetGd+9+53HW+7G+xtgFe35iRwdqfBlkOtfId7gUj5m/vevu4jeNPfAe3/vxPYZRJdyDVKuFcoKMR/pB7Lz1+hs92vB5Nxz75SC1fmJ7Qvc2fyl5qMzcsO3hb70/OYyeeuK+gxmsD5vK7Nz62A5hhTxYf/t1Dx48wpvUKnibdLY7N9x/y6N7zviwQtz88R+/f3r3609fxvg/8V/if8QXb2674/odN3sM/xuezKzBQR+8pgAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 109:
-/*!***************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/house-reconstruction.png ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAADAFBMVEUAAACYqv5BXf6Fmf58kf55jv6Oof5/k/6Wp/1Tbf6Blf51i/5HYv5Ycf6Hm/6Tpf7c4f+Lnv6Dl/5Qav7Z3//O1v5MZ/5KZf6Ro/3k6P/U2v5Paf5geP7R2P6Jnf7m6v/I0P7e4//L0/5DX/3W3f9Xb/xAXPzo7P9ke/5zif2drv7h5f96jPlddf5LXe5rgv5nfv3Ezf1PYe9whfuisv5VavWZq/5RaPlJVuY+WfpsgPl9kPpac/5wh/1UZ/JWbPhBXf5ugPZHWOtnevaUpPtMYPLAyv5thP5RaftMY/ZRZPFyhPZngP5UbPs7VPVjdvZQWuJPZfcAAP93iPdvg/lbcvt+jvaYqv5XcP5rd+xhb+20vflqgf2Km/lgcfJedfpzg/OOof6GmPlcauymtP2uu/26xv5MXOuNnvpveeuJlvNjevtmdfByfexKVOJvffCClfp2ifq8xPlBXf6Vp/6Ek/ZdbvGpuP5GU+aCjvFpefGHm/5Zb/g4TvFYZeqttvh9ivJUYOeYqv5IXvR4hvNFT+Cfq/dLWeimsPidp/aOnfhCWPSNmPKYo/Y1R+jAyPqzwP6Yqv64wvyXqf5/f/9aZOU6TexNaf5BXf5CVe9BXf5AXP+RmvJBXP6XqP1FWv94gu18kv5di/97kP5Af/9qgv6Xqf9/f/9zi/53iP9Ycv6dsf8zZv9rgv+qqv9fd/5AQP91i/6Clv5tg/9nf/1adf+aqv////9/kv1GXf9heP9AXfyWp/9mZv8zVf9tg/6fn/9whv9ac/+Vqf+XqP1CXf9Ra/9wh/uXqv5nfv5cdP+Wpvlmmf96lP89Vf98lP8/Xf93j/xzjP+Sqv9hePxjfP52jf1ziv5FWP9wiP5je/5mceqSrf9idv96j/4Af/8qVf+Upf9Vqv9cdf4A//9bc/54lv97kP+Gm/6XqP9kfP9nfvxbcv9/lf6OnP8zM/99kf5tf+1xiP2Yqv9dd/Zxcf+Dlv6Imf+Dl/5BXf9+k/5ogPNDXf9mc/85S+qWqP8odoS5AAABAHRSTlMA/////////////////////////////////////////////////////////////////////////////////////P///////////////v//////Af/////2/v//////////9v//////////////////////9fb////////3////////+///////////////////8f/ABP//+9v/rED/zJMl//0L9QTUygzzHvENBTkD+gT8+iOjdDABmwtCYD0FD8QIOadNongTQuD2zy4FMhVpTUsUFVnBpsga1vn/HA3RAgYfA7cB1BFV7GchTTjfEgWzDppjHgnwD8a4wBZYFP84WRYntAAACDxJREFUeJxt13dcU9kSB/BLERM1GiFBEhJIQmhJCCRUAYGAICSicQMIRMrSDL0JArIU6QiiKD57Xdf2XNv23nvv7fXeey+7v3PuTQi7O3/n+5k5ZeaeMG7x42uv/+r0oVcObmdjF+JuGnsQv/znI2+/+fP73X/visNfPP/Cwb17Pbjg8Xhr1gT4+PisXRu0erWXl5fv7dsX/viLK2/c9XV4//tP3Ld9bwJVGpZCgnLS13fF8uXe5y58/933Di+Bdz3zxemDznwJcbCA35Te3suWXf7oynm3xA9fe+iQs9IEjSYuTpNA5GK1i3LZylsfP3vpYVfOa1/e50zpAYgAdZcrFuXKlZGfvvwnZ95nHlqUrNVwMiiIbpA7XBm5YcOnz57nduhHh9wkWapG4yZZCMdCyE2bnr7D7tXvT7tOhE3L43kskSkpOl07IpIEkdHRD/yHlHz4Cefe4ijJkSzZWgptNovFUlAQG7sBQeSOV3/zBuj7znJ5GxEBAQ4kdJe69qLpSfvgVFFBMjCB0Ts2b754h2FuPr/dTU6XIRxrEUSSYnVdk1KJRKIV5liykpOdMuazD55k/vECu1Iia6XjDV1dVVVlQVgmJ6dFkvDwYIlSNdSUlZVMIJERER++xLx+kN4+HmitWinsaOgtAl7tksJwIrXi5tLyrVnJOwjcHBERIbvxGPMXLumagBqVVKTUSsd7h4raqnyxt5BFcshwiVZVMlANGkODSNmNBxnuZHgbHeMKMbHKjkrYNnKDdDZ7MEmqVdQPUwrb2NhIpCzqOYbbX97G6YZBYoVKaX3lUMpySByniJarqrcOD3RvBc0qaKyAg0z9GfMKRwMcXTM5CrFcLZKXNI/qUnCFdLYyJA0OVp60WoeRFLYsYGtFRUUUIvUqw94HLNXR1TtrgJWKS0paYb292y1zhEqU0rOg3bCOGk15f39hIaSgmKGniksU4Kgq6p03KFRyaUd9faWtXaezWcTBZHeVIvFZFNxd7thdo+lOi4dNFQgElBLp46jqGuqdaThpEEvtza2VFlu7xSQPDpZIlEK11NA8MNBdBunRbU5LDwVks9KJ4LO2rK1otLm+pNcglsO2WiwmkwJUKxSp5WJDc3VD7e64BN6A0RxPaDGf2U5vPLnvq6tgK2FzxGJ7a1+rydQ3Tm4gkSpF3WxtLZI6Jnaa45G2mM9ndnESPebVlgLbWt+boxJ3tDb19TX1CbWkXLlYociZh0zgjSaB5oeG8vl+zC6XDPLybUODVbaWNOSoVPaSpqbS0g6hUASpUhjqDqBcj43VSXpzYj4fklLnFGJvrc3C2kHI6iE1Wy5kLQYlrzIpU7+NpYHMLtLXrGRHAvL2UTtZWl06pablGmi5Hrwqa09m9rbcfOQMJNRdrsAdwqH0NeFmwdpFbLk5tFxeF6Q+LzHXD9Lfn7mbm0KumblM115gamqaxq1Uk91VdBjYhQaMtkBmbyM0MNB/HaHOjwo7bTH5Yk19paUzCqVSpJYqPm9ZmMFdKCud6FkiQV2fI5eMjDVllZeeFCmxu6qzY2NjLS0tSYhMKhNptevWrQJ1fhqwTnZOR8YmZ/VNEamWD1rHWj639vQQp8/OIxIpiQT9Vlk5icuAcsWKmYUO+eAAzoRAVJvrlKuYPdwGcRLzPTbZZJvDtBCq5fY6hWFOLhTah1ErUubmunKuCmH2LC5zUcq16BeRfN7aUEe6H9bIUnaDqKT067ILgxe3Xmq3jlnH69DBsIOsRUo2aUiIJ7OHLtNdzgpJewulHQtjY0UJu+sM1E4a9SN5eetyi9HlfkQSuigjYwuSTeMSNCkWaihp6ZkI8NDUzBtUZNxNGTNH8hILU1Nh+as8QW8vlZZBOlOEIlV9S9LEziKeR0LNAWpFU/pjI+kYLqTNAwn9+3Lu88lKg3MaQe40Go3Exh3ApZSK1OOZ2ejy0FC0OT/EM4P5nbvUYY6Fk2kkP0uk2Ww0pxBbS8esdCotLT6d9jkq7mT+fY771McWFJSJ6PDUCqUnrZBp8fHmbHMbrIazs7D5pFtBjzKPnGMl9nZaKSFbpFWqp1iZnh6fl21kLTkkqbjanIhuJQVnHGfePsfJAtOc1t47RxY6ycnQ0PTEbL0e1kNDDkk1a6SNzucHhmS8yLx5gT4vNuBA5eqS4WZ0Wsdw0gRkf6EgND9xW3amvgo2oWY+ZzbzGEv9Qjw7TzCXPrpFXzSbkrMGRc0LMziWhaQBM3JWxESE5ucm5o3A0pdNQ8/+I/vyQP2xv6feYm6+e5nK6Jgsm1g6pxYaqpMmustRbUyMoFiQn5s3su+YvgyDvvLI/v33bFkfQm6SZ+fj32WYKx/fIi+a6JjGraMKrdDQPIF1lleEFsZsjoqSoa2pdfAsRIKGhYWBHj1DHj8vXyZyB2h509BQ9U6cJ6qVCWLw4U9l6b4jx4xH9v+fSFCS9L83yZPrvT9DsrQ7LQ23gO6tDN/uiChI9AnslnsQW5wy4/gn9JV4752nWdpY0d8fj0MnUiCLkEVhTtMWCwlbv4UGJz1PncFKSfzt+kXyFoporIBNTyfXFDJVJkvlJkIILPB6pzx64lHno/b89YvkLSSTVRQWFhIowCr5sAJulniGwRLIyneecj2mf/q96x9+Rt4l+NCjpwTIiWL9UmVR/uwsAWWDrPPUiad+4PaAv/TrB15lKf1gRxEZGCjw46RbdB4/8+jSfw73/u+x1244Jf2QuSafm8zoPPrOJ9wOuSV+8q8f/OQqHiYUclu7RGZkdP7r8TM//MafFZr5pd8++NxrV4shv0OCyAwuOjtPHX/xxFt/cPv5V2NnxQvnX78NAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 110:
+/***/ 100:
 /*!******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/chronic-care-management.png ***!
   \******************************************************************************/
@@ -2135,7 +2102,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADW
 
 /***/ }),
 
-/***/ 111:
+/***/ 101:
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/common-set.png ***!
   \*****************************************************************/
@@ -2146,7 +2113,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 112:
+/***/ 102:
 /*!**************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/household-operation.png ***!
   \**************************************************************************/
@@ -2157,7 +2124,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 113:
+/***/ 103:
 /*!********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/help-feedback.png ***!
   \********************************************************************/
@@ -2168,7 +2135,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 114:
+/***/ 104:
 /*!************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/about.png ***!
   \************************************************************/
@@ -2319,12 +2286,12 @@ function normalizeComponent (
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
 var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 9));
 var _login = _interopRequireDefault(__webpack_require__(/*! ./login.js */ 14));
-var _quality = _interopRequireDefault(__webpack_require__(/*! ./quality.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _device = _interopRequireDefault(__webpack_require__(/*! ./device.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 _vue.default.use(_vuex.default);var _default =
 new _vuex.default.Store({
   modules: {
     login: _login.default,
-    quality: _quality.default } });exports.default = _default;
+    device: _device.default } });exports.default = _default;
 
 /***/ }),
 
@@ -2336,48 +2303,41 @@ new _vuex.default.Store({
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _utils = __webpack_require__(/*! @/common/js/utils */ 17);var _default =
+{
   state: {
     userInfo: null,
-    roleNameList: [],
     token: null, //请求token,
-    overDueWay: false,
-    selectHospitalList: [],
-    permissionInfo: [] },
+    overDueWay: false },
 
   getters: {
-    userInfo: function userInfo(state) {return state.userInfo;},
-    roleNameList: function roleNameList(state) {return state.roleNameList;},
-    token: function token(state) {return state.token;},
-    overDueWay: function overDueWay(state) {return state.overDueWay;},
-    selectHospitalList: function selectHospitalList(state) {return state.selectHospitalList;},
-    permissionInfo: function permissionInfo(state) {return state.permissionInfo;} },
+    userInfo: function userInfo(state) {
+      state.userInfo = JSON.parse((0, _utils.getCache)('userInfo')) ? JSON.parse((0, _utils.getCache)('userInfo')) : null;
+      return state.userInfo;
+    },
+    token: function token(state) {
+      state.userInfo = (0, _utils.getCache)('token') ? (0, _utils.getCache)('token') : null;
+      return state.token;
+    },
+    overDueWay: function overDueWay(state) {return state.overDueWay;} },
 
   mutations: {
     storeUserInfo: function storeUserInfo(state, playLoad) {
-      state.userInfo = playLoad;
+      if (playLoad && playLoad != 'null') {
+        (0, _utils.setCache)('userInfo', playLoad);
+        state.userInfo = playLoad;
+      }
     },
     // 修改token状态
     changeToken: function changeToken(state, playLoad) {
       if (playLoad && playLoad != 'null') {
+        (0, _utils.setCache)('token', playLoad);
         state.token = playLoad;
       }
-    },
-    // 修改角色列表
-    changeRoleNameList: function changeRoleNameList(state, playLoad) {
-      state.roleNameList = playLoad;
     },
     // 修改过期方式
     changeOverDueWay: function changeOverDueWay(state, playLoad) {
       state.overDueWay = playLoad;
-    },
-    // 修改项目列表
-    changeSelectHospitalList: function changeSelectHospitalList(state, playLoad) {
-      state.selectHospitalList = playLoad;
-    },
-    // 修改权限列表
-    changePermissionInfo: function changePermissionInfo(state, playLoad) {
-      state.permissionInfo = playLoad;
     } },
 
   actions: {} };exports.default = _default;
@@ -2385,91 +2345,43 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 15:
-/*!********************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/store/quality.js ***!
-  \********************************************************/
+/*!*******************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/store/device.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 16);var _default =
 {
-  state: (0, _resetStore.getDefaultQualityState)(),
+  state: (0, _resetStore.getDefaultDeviceState)(),
   getters: {
-    enterTaskDetailsSource: function enterTaskDetailsSource(state) {return state.enterTaskDetailsSource;},
-    isShowRevaluationBtn: function isShowRevaluationBtn(state) {return state.isShowRevaluationBtn;},
-    isShowRejectBtn: function isShowRejectBtn(state) {return state.isShowRejectBtn;},
-    enterGradeSource: function enterGradeSource(state) {return state.enterGradeSource;},
-    titleText: function titleText(state) {return state.titleText;},
-    taskMessage: function taskMessage(state) {return state.taskMessage;},
-    bottomBarIndex: function bottomBarIndex(state) {return state.bottomBarIndex;},
-    mainTaskId: function mainTaskId(state) {return state.mainTaskId;},
-    subtaskDetails: function subtaskDetails(state) {return state.subtaskDetails;},
-    subtaskInfo: function subtaskInfo(state) {return state.subtaskInfo;},
-    disposeSubTaskData: function disposeSubTaskData(state) {return state.disposeSubTaskData;},
-    cacheIndex: function cacheIndex(state) {return state.cacheIndex;},
-    isSkipDetails: function isSkipDetails(state) {return state.isSkipDetails;},
     timeMessage: function timeMessage(state) {return state.timeMessage;},
     ossMessage: function ossMessage(state) {return state.ossMessage;},
-    recordExamineItemScrollTop: function recordExamineItemScrollTop(state) {return state.recordExamineItemScrollTop;} },
+    enterAddRoomPageSource: function enterAddRoomPageSource(state) {return state.enterAddRoomPageSource;},
+    enterDeviceSetPageSource: function enterDeviceSetPageSource(state) {return state.enterDeviceSetPageSource;} },
 
   mutations: {
-    changeTitleText: function changeTitleText(state, playLoad) {
-      state.titleText = playLoad;
-    },
-    changeIsShowRevaluationBtn: function changeIsShowRevaluationBtn(state, playLoad) {
-      state.isShowRevaluationBtn = playLoad;
-    },
-    changeIsShowRejectBtn: function changeIsShowRejectBtn(state, playLoad) {
-      state.isShowRejectBtn = playLoad;
-    },
-    changeEnterTaskDetailsSource: function changeEnterTaskDetailsSource(state, playLoad) {
-      state.enterTaskDetailsSource = playLoad;
-    },
-    changeEnterGradeSource: function changeEnterGradeSource(state, playLoad) {
-      state.enterGradeSource = playLoad;
-    },
-    changeBottomBarIndex: function changeBottomBarIndex(state, playLoad) {
-      state.bottomBarIndex = playLoad;
-    },
-    changeTaskMessage: function changeTaskMessage(state, playLoad) {
-      state.taskMessage = playLoad;
-    },
-    changeMainTaskId: function changeMainTaskId(state, playLoad) {
-      state.mainTaskId = playLoad;
-    },
-    changeSubtaskDetails: function changeSubtaskDetails(state, playLoad) {
-      state.subtaskDetails = playLoad;
-    },
-    changeSubtaskInfo: function changeSubtaskInfo(state, playLoad) {
-      state.subtaskInfo = playLoad;
-    },
-    changeDisposeSubTaskData: function changeDisposeSubTaskData(state, playLoad) {
-      state.disposeSubTaskData = playLoad;
-    },
-    changeCacheIndex: function changeCacheIndex(state, playLoad) {
-      state.cacheIndex = playLoad;
-    },
-    changeIsSkipDetails: function changeIsSkipDetails(state, playLoad) {
-      state.isSkipDetails = playLoad;
-    },
     changeTimeMessage: function changeTimeMessage(state, playLoad) {
       state.timeMessage = playLoad;
     },
     changeOssMessage: function changeOssMessage(state, playLoad) {
       state.ossMessage = playLoad;
     },
-    changeRecordExamineItemScrollTop: function changeRecordExamineItemScrollTop(state, playLoad) {
-      state.recordExamineItemScrollTop = playLoad;
+    changeEnterAddRoomPageSource: function changeEnterAddRoomPageSource(state, playLoad) {
+      state.enterAddRoomPageSource = playLoad;
+    },
+    changeEnterDeviceSetPageSource: function changeEnterDeviceSetPageSource(state, playLoad) {
+      state.enterDeviceSetPageSource = playLoad;
     },
     //重置质量管理的状态
-    resetQualityInfoState: function resetQualityInfoState(state) {
-      Object.assign(state, (0, _resetStore.getDefaultQualityState)());
+    resetDeviceInfoState: function resetDeviceInfoState(state) {
+      Object.assign(state, (0, _resetStore.getDefaultDeviceState)());
     } },
 
   actions: {
-    resetQualityState: function resetQualityState(_ref) {var commit = _ref.commit;
-      commit('resetQualityInfoState');
+    resetDeviceState: function resetDeviceState(_ref) {var commit = _ref.commit;
+      commit('resetDeviceInfoState');
     } } };exports.default = _default;
 
 /***/ }),
@@ -2482,25 +2394,13 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getDefaultQualityState = getDefaultQualityState; // 质量管理信息store的初始值
-function getDefaultQualityState() {
+Object.defineProperty(exports, "__esModule", { value: true });exports.getDefaultDeviceState = getDefaultDeviceState; // 质量管理信息store的初始值
+function getDefaultDeviceState() {
   return {
-    titleText: '',
-    recordExamineItemScrollTop: 0,
-    bottomBarIndex: 0,
-    taskMessage: {},
-    mainTaskId: '',
-    subtaskInfo: {},
-    subtaskDetails: {},
-    disposeSubTaskData: [],
-    cacheIndex: {},
-    isSkipDetails: false,
     timeMessage: {},
     ossMessage: {},
-    enterTaskDetailsSource: '',
-    enterGradeSource: '',
-    isShowRevaluationBtn: true,
-    isShowRejectBtn: true };
+    enterAddRoomPageSource: '',
+    enterDeviceSetPageSource: '' };
 
 };
 
@@ -2641,11 +2541,8 @@ var removeAllLocalStorage = function removeAllLocalStorage() {
   // removeStore('userPassword');
   removeCache('userInfo');
   removeCache('isLogin');
-  removeCache('roleNameList');
-  removeCache('questToken');
-  removeCache('permissionInfo');
+  removeCache('token');
   removeCache('storeOverDueWay');
-  removeCache('selectHospitalList');
 };exports.removeAllLocalStorage = removeAllLocalStorage;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
@@ -10000,7 +9897,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -10021,14 +9918,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -10114,7 +10011,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -11696,7 +11593,2215 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 548:
+/***/ 53:
+/*!****************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/api/login.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.logIn = logIn;exports.logInByCode = logInByCode;exports.sendPhoneCode = sendPhoneCode;exports.resetPassword = resetPassword;exports.userSignOut = userSignOut;exports.weixinLogIn = weixinLogIn;var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 54));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 账号密码登录
+function logIn(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/login',
+    method: 'post',
+    data: data });
+
+}
+
+// 账号验证码登录
+function logInByCode(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/sms-login',
+    method: 'post',
+    data: data });
+
+}
+
+// 发送手机验证码
+function sendPhoneCode(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/send-sms-code',
+    method: 'post',
+    data: data });
+
+}
+
+// 重置密码
+function resetPassword(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/reset-password',
+    method: 'post',
+    data: data });
+
+}
+
+// 用户退出登录
+function userSignOut() {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/logout',
+    method: 'post' });
+
+};
+
+// 微信登录
+function weixinLogIn(code) {
+  return (0, _request.default)({
+    url: "login/wx/".concat(code),
+    method: 'get' });
+
+}
+
+/***/ }),
+
+/***/ 54:
+/*!******************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/api/request.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _axiosMiniprogram = _interopRequireDefault(__webpack_require__(/*! axios-miniprogram */ 55));
+var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 13));
+var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 56));
+var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var instance = _axiosMiniprogram.default.create({
+  // 生产域名 https://blinktech.cn/nblink
+  // 开发域名 https://blink.blinktech.cn/nblink
+  // 准生产域名 https://ver.blinktech.cn/nblink
+  // 测试域名 https://show.blinktech.cn/nblink
+  baseURL: 'http://blink.blinktech.cn:48080',
+  retry: 3, // 网络请求异常后，重试次数 
+  retryDelay: 1000, // 每次重试间隔时间
+  timeout: 30000,
+  headers: {
+    // common: {    
+    //   'Accept': 'application/json, test/plain,'
+    // }
+    // post: {
+    //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+    // }
+  } });
+
+
+// 添加请求拦截器
+instance.interceptors.request.use(function (config) {
+  config.headers['tenant-id'] = 1;
+  if (config['url'] == 'auth/login') {
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  };
+  // 请求头添加token
+  if (_store.default.getters.token) {
+    config.headers['Authorization'] = "Bearer".concat(_store.default.getters.token);
+  };
+  return config;
+}, function (error) {
+  //处理请求错误
+  return Promise.reject(error.response);
+});
+
+// 添加响应拦截器
+instance.interceptors.response.use(function (response) {
+  if (response.headers['token']) {
+    _store.default.commit('changeToken', response.headers['token']);
+    (0, _utils.setCache)('questToken', response.headers['token']);
+  };
+  return response;
+}, function (error) {
+  if (Object.prototype.toString.call(error.response) === '[object Object]') {
+    if (error.response.hasOwnProperty('status')) {
+      if (error.response.status === 401) {
+        (0, _utils.removeAllLocalStorage)();
+        if (!_store.default.getters.overDueWay) {
+          uni.showToast({
+            title: 'token已过期,请重新登录',
+            duration: 1000 });
+
+          setTimeout(function () {
+            uni.redirectTo({
+              url: '/pages/login/login' });
+
+          }, 2000);
+        } else {
+          uni.redirectTo({
+            url: '/pages/login/login' });
+
+        }
+      }
+    }
+  };
+  // 处理响应错误
+  var config = error.config;
+  // 判断是否配置了重试
+  if (!config || !config.retry) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  };
+  if (!config.shouldRetry || typeof config.shouldRetry != 'function') {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  };
+  //判断是否满足重试条件
+  if (!config.shouldRetry(error)) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  };
+  // 设置重置次数，默认为0
+  config.__retryCount = config.__retryCount || 0;
+  // 判断是否超过了重试次数
+  if (config.__retryCount > config.retry) {
+    if (Object.prototype.toString.call(error.response) === '[object Object]') {
+      if (error.response.hasOwnProperty('data')) {
+        if (error.response.data.hasOwnProperty('msg')) {
+          return Promise.reject(error.response.data.msg);
+        } else if (error.response.data.hasOwnProperty('message')) {
+          return Promise.reject(error.response.data.message);
+        } else {
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        return Promise.reject(error.response);
+      }
+    } else {
+      return Promise.reject(error);
+    }
+  };
+  //重试次数自增
+  config.__retryCount += 1;
+  //延时处理
+  var backoff = new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve();
+    }, config.retryDelay || 1);
+  });
+  //重新发起axios请求
+  return backoff.then(function () {
+    return service(config);
+  });
+});var _default =
+
+instance;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 55:
+/*!**********************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/axios-miniprogram/es/index.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true });
+
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true } });
+
+
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+
+  try {
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    _construct = Reflect.construct;
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+
+  return _construct.apply(null, arguments);
+}
+
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+
+      _cache.set(Class, Wrapper);
+    }
+
+    function Wrapper() {
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+    }
+
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true } });
+
+
+    return _setPrototypeOf(Wrapper, Class);
+  };
+
+  return _wrapNativeSuper(Class);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (typeof call === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+    result;
+
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+
+    return _possibleConstructorReturn(this, result);
+  };
+}
+
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+function _iterableToArrayLimit(arr, i) {
+  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}
+
+  return arr2;
+}
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+var _toString = Object.prototype.toString;
+/**
+                                            * 对字符串进行编码转换
+                                            *
+                                            * @param str 字符串
+                                            */
+
+function encode(str) {
+  return encodeURIComponent(str).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
+}
+/**
+   * 是不是一个日期对象
+   *
+   * @param date 判断目标
+   */
+
+function isDate(date) {
+  return _toString.call(date) === '[object Date]';
+}
+/**
+   * 是不是一个普通对象
+   *
+   * @param obj 判断目标
+   */
+
+function isPlainObject(obj) {
+  return _toString.call(obj) === '[object Object]';
+}
+/**
+   * 深度合并多个对象
+   *
+   * @param objs n 个对象
+   */
+
+function deepMerge() {
+  var result = {};
+
+  function assignValue(key, val) {
+    // 如果当前结果和当前值都为普通对象
+    // 递归进行深度合并
+    if (isPlainObject(result[key]) && isPlainObject(val)) {
+      result[key] = deepMerge(result[key], val);
+    } // 如果只有当前值为普通对象
+    // 直接深拷贝当前值
+    else if (isPlainObject(val)) {
+        result[key] = deepMerge({}, val);
+      } // 如果都不是普通对象
+      // 直接赋值
+      else {
+          result[key] = val;
+        }
+  }
+
+  for (var _len = arguments.length, objs = new Array(_len), _key = 0; _key < _len; _key++) {
+    objs[_key] = arguments[_key];
+  }
+
+  objs.forEach(function assignObj(obj) {
+    Object.entries(obj).forEach(function assignKey(_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+      key = _ref2[0],
+      value = _ref2[1];
+
+      assignValue(key, value);
+    });
+  });
+  return result;
+}
+/**
+   * 从对象中提取一部分属性
+   *
+   * @param obj  源对象
+   * @param keys 需要提取的 key
+   */
+
+function pick(obj) {
+  var _pick = {};
+
+  for (var _len2 = arguments.length, keys = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    keys[_key2 - 1] = arguments[_key2];
+  }
+
+  keys.forEach(function pickKey(key) {
+    _pick[key] = obj[key];
+  });
+  return _pick;
+}
+/**
+   * 从对象中剔除一部分属性
+   *
+   * @param obj  源对象
+   * @param keys 需要剔除的 key
+   */
+
+function omit(obj) {
+  var _omit = _objectSpread2({}, obj);
+
+  for (var _len3 = arguments.length, keys = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+    keys[_key3 - 1] = arguments[_key3];
+  }
+
+  keys.forEach(function omitKey(key) {
+    delete _omit[key];
+  });
+  return _omit;
+}
+
+/**
+   * 通过请求地址和序列化参数生成新的请求地址
+   *
+   * @param url              请求地址
+   * @param serializedParams 序列化参数
+   */
+
+function generateURL(url, serializedParams) {
+  // 移除 hash
+  var hashIndex = url.indexOf('#');
+
+  if (hashIndex !== -1) {
+    url = url.slice(0, hashIndex);
+  }
+
+  if (serializedParams === '') {
+    return url;
+  } // 拼接前缀
+
+
+  var prefix = url.indexOf('?') === -1 ? '?' : '&';
+  serializedParams = "".concat(prefix).concat(serializedParams);
+  return "".concat(url).concat(serializedParams);
+}
+/**
+   * 默认参数序列化
+   *
+   * @param params 请求参数
+   */
+
+
+function paramsSerialization(params) {
+  var parts = [];
+  Object.entries(params).forEach(function encodeKeyValue(_ref) {
+    var _ref2 = _slicedToArray(_ref, 2),
+    key = _ref2[0],
+    value = _ref2[1];
+
+    if (value === null || value === void 0 || value !== value) {
+      return;
+    } // 如果值是一个数组, 则特殊处理 key
+
+
+    if (Array.isArray(value)) {
+      key += '[]';
+    } // 转成数组统一处理
+
+
+    var values = [].concat(value);
+    values.forEach(function (val) {
+      if (isPlainObject(val)) {
+        val = JSON.stringify(val);
+      } else if (isDate(val)) {
+        val = val.toISOString();
+      }
+
+      parts.push("".concat(encode(key), "=").concat(encode(val)));
+    });
+  });
+  return parts.join('&');
+}
+/**
+   * 处理 URL 参数
+   *
+   * @param url              请求地址
+   * @param params           请求参数
+   * @param paramsSerializer 自定义参数序列化
+   */
+
+
+function buildURL(url) {
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var paramsSerializer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : paramsSerialization;
+  return generateURL(url, paramsSerializer(params));
+}
+
+/**
+   * 只取 config2 中的配置
+   *
+   * @param keys
+   * @param config
+   * @param config2
+   */
+
+function onlyFromConfig2(keys, config, config2) {
+  keys.forEach(function (key) {
+    if (config2[key] !== void 0) {
+      config[key] = config2[key];
+    }
+  });
+}
+/**
+   * 优先取 config2 中的配置, config2 中没有就取 config1
+   *
+   * @param keys
+   * @param config
+   * @param config1
+   * @param config2
+   */
+
+
+function priorityFromConfig2(keys, config, config1, config2) {
+  keys.forEach(function (key) {
+    if (config2[key] !== void 0) {
+      config[key] = config2[key];
+    } else if (config1[key] !== void 0) {
+      config[key] = config1[key];
+    }
+  });
+}
+/**
+   * 深度合并配置
+   *
+   * @param keys
+   * @param config
+   * @param config1
+   * @param config2
+   */
+
+
+function deepMergeConfig(keys, config, config1, config2) {
+  keys.forEach(function (key) {
+    if (isPlainObject(config2[key])) {
+      var _config1$key;
+
+      config[key] = deepMerge((_config1$key = config1[key]) !== null && _config1$key !== void 0 ? _config1$key : {}, config2[key]);
+    } else if (isPlainObject(config1[key])) {
+      config[key] = deepMerge(config1[key]);
+    }
+  });
+}
+/**
+   * 合并 Axios 请求配置
+   *
+   * @param config1 Axios 请求配置1
+   * @param config2 Axios 请求配置2
+   */
+
+
+function mergeConfig() {
+  var config1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var config = {};
+  var onlyFromConfig2Keys = ['url', 'data'];
+  var priorityFromConfig2Keys = ['adapter', 'baseURL', 'method', 'validateStatus', 'paramsSerializer', 'transformRequest', 'transformResponse', 'errorHandler', 'cancelToken', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'];
+  var deepMergeConfigKeys = ['headers', 'params'];
+  onlyFromConfig2(onlyFromConfig2Keys, config, config2);
+  priorityFromConfig2(priorityFromConfig2Keys, config, config1, config2);
+  deepMergeConfig(deepMergeConfigKeys, config, config1, config2);
+  return config;
+}
+
+/**
+   * 拦截器管理器
+   */
+var InterceptorManagerClass = /*#__PURE__*/function () {
+  function InterceptorManagerClass() {
+    _classCallCheck(this, InterceptorManagerClass);
+
+    /**
+                                                     * 生成拦截器 id
+                                                     */
+    this._id = 0;
+    /**
+                   * 拦截器集合
+                   */
+
+    this._interceptors = {};
+  }
+
+  _createClass(InterceptorManagerClass, [{
+    key: "use",
+    value: function use(resolved, rejected) {
+      this._interceptors[++this._id] = {
+        resolved: resolved,
+        rejected: rejected };
+
+      return this._id;
+    } },
+  {
+    key: "eject",
+    value: function eject(id) {
+      delete this._interceptors[id];
+    } },
+  {
+    key: "forEach",
+    value: function forEach(executor, reverse) {
+      var interceptors = Object.values(this._interceptors);
+
+      if (reverse === 'reverse') {
+        interceptors = interceptors.reverse();
+      }
+
+      interceptors.forEach(executor);
+    } }]);
+
+
+  return InterceptorManagerClass;
+}();
+
+var CancelClass = /*#__PURE__*/function () {
+  /**
+                                             * @param message 取消信息
+                                             */
+  function CancelClass(message) {
+    _classCallCheck(this, CancelClass);
+
+    this.message = message;
+  }
+
+  _createClass(CancelClass, [{
+    key: "toString",
+    value: function toString() {
+      var message = this.message ? ": ".concat(this.message) : '';
+      return "Cancel".concat(message);
+    } }]);
+
+
+  return CancelClass;
+}();
+
+/**
+      * 是否是取消请求实例
+      *
+      * @param value 判断的值
+      */
+
+function isCancel(value) {
+  return value instanceof CancelClass;
+}
+
+/**
+   * 请求方法转全小写
+   *
+   * @param config Axios 请求配置
+   */
+function methodToLowercase() {
+  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'get';
+  return method.toLowerCase();
+}
+/**
+   * 请求方法转全大写
+   *
+   * @param config Axios 请求配置
+   */
+
+function methodToUppercase() {
+  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'GET';
+  return method.toUpperCase();
+}
+
+/**
+   * 拉平请求头
+   *
+   * @param config Axios 请求配置
+   */
+
+function flattenHeaders(config) {
+  var _headers$common, _headers$method;
+
+  var headers = config.headers;
+
+  if (headers === void 0) {
+    return {};
+  }
+
+  var method = methodToLowercase(config.method);
+  return _objectSpread2(_objectSpread2(_objectSpread2({}, (_headers$common = headers.common) !== null && _headers$common !== void 0 ? _headers$common : {}), (_headers$method = headers[method]) !== null && _headers$method !== void 0 ? _headers$method : {}), omit(headers, 'common', 'options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect'));
+}
+
+/**
+   * 转换数据
+   *
+   * @param data       请求数据/响应数据
+   * @param headers    请求头/响应头
+   * @param transforms 请求数据转换函数/响应数据转换函数
+   */
+function transformData(data, headers, transforms) {
+  if (transforms === void 0) {
+    return data;
+  }
+
+  if (!Array.isArray(transforms)) {
+    transforms = [transforms];
+  }
+
+  transforms.forEach(function (transform) {
+    data = transform(data, headers);
+  });
+  return data;
+}
+
+/**
+   * 检查是否是一个绝对 URL
+   *
+   * xxx:// 或者 "//" 开头,  视为绝对地址
+   *
+   * @param url 需要检查的 URL
+   */
+function isAbsoluteURL(url) {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+}
+
+/**
+   * 拼接 baseURL 和 url 获得完整的 URL
+   *
+   * combineURL('1/2///','////3/4') => '1/2/3/4'
+   */
+function combineURL(baseURL, url) {
+  return "".concat(baseURL.replace(/\/*$/, ''), "/").concat(url.replace(/^\/*/, ''));
+}
+
+/**
+   * 根据配置中的 baseURL 和 url 和 params 生成完整 URL
+   *
+   * @param config Axios 请求配置
+   */
+
+function transformURL(config) {
+  var _config$baseURL = config.baseURL,
+  baseURL = _config$baseURL === void 0 ? '' : _config$baseURL,
+  _config$url = config.url,
+  url = _config$url === void 0 ? '' : _config$url;
+  var fullURL = isAbsoluteURL(url) ? url : combineURL(baseURL, url);
+  return buildURL(fullURL, config.params, config.paramsSerializer);
+}
+/**
+   * Axios 请求配置转换成各大平台通用请求配置
+   *
+   * 抹平差异
+   *
+   * @param config Axios 请求配置
+   */
+
+
+function transformRequest(config) {
+  return _objectSpread2({
+    url: transformURL(config),
+    method: methodToUppercase(config.method),
+    header: config.headers },
+  pick(config, 'data', 'headers', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'));
+}
+
+/**
+   * 各大平台通用响应体转成 Axios 响应体
+   *
+   * 抹平差异
+   *
+   * @param response 通用响应体
+   * @param config   Axios 请求配置
+   */
+
+function transformResponse(response, config) {
+  var _ref, _response$statusCode, _ref2, _response$header;
+
+  var status = (_ref = (_response$statusCode = response.statusCode) !== null && _response$statusCode !== void 0 ? _response$statusCode : response.status) !== null && _ref !== void 0 ? _ref : 400;
+  var headers = (_ref2 = (_response$header = response.header) !== null && _response$header !== void 0 ? _response$header : response.headers) !== null && _ref2 !== void 0 ? _ref2 : {};
+  var statusText = status === 200 ? 'OK' : status === 400 ? 'Bad Adapter' : '';
+  return _objectSpread2({
+    status: status,
+    statusText: statusText,
+    headers: headers,
+    config: config },
+  pick(response, 'data', 'cookies', 'profile'));
+}
+
+/**
+   * AxiosError 继承自 Error
+   */
+var AxiosErrorClass = /*#__PURE__*/function (_Error) {
+  _inherits(AxiosErrorClass, _Error);
+
+  var _super = _createSuper(AxiosErrorClass);
+
+  /**
+                                               * @param message  错误信息
+                                               * @param config   Axios 请求配置
+                                               * @param request  通用请求配置
+                                               * @param response Axios 响应体
+                                               */
+  function AxiosErrorClass(message, config, request, response) {
+    var _this;
+
+    _classCallCheck(this, AxiosErrorClass);
+
+    _this = _super.call(this, message);
+    _this.config = config;
+    _this.request = request;
+    _this.response = response;
+    _this.isAxiosError = true; // 修复继承系统自带类 prototype 设置失败的问题
+
+    Object.setPrototypeOf(_assertThisInitialized(_this), AxiosErrorClass.prototype);
+    return _this;
+  }
+
+  return AxiosErrorClass;
+}( /*#__PURE__*/_wrapNativeSuper(Error));
+/**
+                                           * 创建 AxiosError 的工厂方法
+                                           *
+                                           * 返回一个新的 AxiosError 对象
+                                           *
+                                           * @param message  错误信息
+                                           * @param config   Axios 请求配置
+                                           * @param request  通用请求配置
+                                           * @param response Axios 响应体
+                                           */
+
+
+function createError(message, config, request, response) {
+  return new AxiosErrorClass(message, config, request, response);
+}
+
+/**
+   * 请求函数
+   *
+   * @param config Axios 请求配置
+   */
+
+function request(config) {
+  return new Promise(function dispatchAdapter(resolve, reject) {
+    var adapter = config.adapter,
+    cancelToken = config.cancelToken;
+    var requestConfig = transformRequest(config);
+    /**
+                                                   * 捕获错误
+                                                   *
+                                                   * @param message  错误信息
+                                                   * @param response Axios 响应体
+                                                   */
+
+    function catchError(message, response) {
+      if (typeof message !== 'string') {
+        message = '配置不正确或者网络异常';
+      }
+
+      reject(createError(message, config, requestConfig, response));
+    }
+
+    if (adapter === void 0) {
+      catchError('平台适配失败，您需要参阅文档使用自定义适配器手动适配当前平台');
+      return;
+    }
+    /**
+       * 效验状态码
+       *
+       * @param res 请求结果
+       */
+
+
+    function handleResponse(res) {
+      var response = transformResponse(res, config);
+
+      if (config.validateStatus === void 0 || config.validateStatus(response.status)) {
+        resolve(response);
+      } else {
+        catchError("\u8BF7\u6C42\u5931\u8D25\uFF0C\u72B6\u6001\u7801\u4E3A ".concat(response.status), response);
+      }
+    } // 使用适配器发送请求
+
+
+    var task = adapter(_objectSpread2(_objectSpread2({}, requestConfig), {}, {
+      success: handleResponse,
+      fail: catchError }));
+    // 如果存在取消令牌
+    // 则调用取消令牌里的 listener 监听用户的取消操作
+
+    if (cancelToken !== void 0) {
+      cancelToken.listener.then(function onCanceled(reason) {
+        if (task !== void 0) {
+          task.abort();
+        }
+
+        reject(reason);
+      });
+    }
+  });
+}
+
+/**
+   * 如果已经取消, 则抛出取消对象
+   *
+   * @param config Axios 请求配置
+   */
+
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+/**
+   * 发送请求
+   *
+   * @param config Axios 请求配置
+   */
+
+
+function dispatchRequest(config) {
+  var _config$data;
+
+  throwIfCancellationRequested(config);
+  config.headers = flattenHeaders(config);
+  config.data = transformData((_config$data = config.data) !== null && _config$data !== void 0 ? _config$data : {}, config.headers, config.transformRequest);
+
+  function onResolved(response) {
+    throwIfCancellationRequested(config);
+    response.data = transformData(response.data, response.headers, config.transformResponse);
+    return response;
+  }
+
+  function onRejected(reason) {
+    var _config$errorHandler, _config$errorHandler2;
+
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      if (reason.response !== void 0) {
+        reason.response.data = transformData(reason.response.data, reason.response.headers, config.transformResponse);
+      }
+    }
+
+    return (_config$errorHandler = (_config$errorHandler2 = config.errorHandler) === null || _config$errorHandler2 === void 0 ? void 0 : _config$errorHandler2.call(config, reason)) !== null && _config$errorHandler !== void 0 ? _config$errorHandler : Promise.reject(reason);
+  }
+
+  return request(config).then(onResolved, onRejected);
+}
+
+var AxiosClass = /*#__PURE__*/function () {
+  /**
+                                            * @param defaults 自定义默认配置
+                                            */
+  function AxiosClass() {
+    var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, AxiosClass);
+
+    this.defaults = defaults;
+    this.interceptors = {
+      request: new InterceptorManagerClass(),
+      response: new InterceptorManagerClass() };
+
+  }
+
+  _createClass(AxiosClass, [{
+    key: "getUri",
+    value: function getUri(config) {
+      var _mergeConfig = mergeConfig(this.defaults, config),
+      _mergeConfig$url = _mergeConfig.url,
+      url = _mergeConfig$url === void 0 ? '' : _mergeConfig$url,
+      params = _mergeConfig.params,
+      paramsSerializer = _mergeConfig.paramsSerializer;
+
+      return buildURL(url, params, paramsSerializer).replace(/^\?/, '');
+    } },
+  {
+    key: "request",
+    value: function request(config) {
+      var requestConfig = mergeConfig(this.defaults, config);
+      var promiseRequest = Promise.resolve(requestConfig); // 执行请求拦截器
+
+      this.interceptors.request.forEach(function executor(_ref) {
+        var resolved = _ref.resolved,
+        rejected = _ref.rejected;
+        promiseRequest = promiseRequest.then(resolved, rejected);
+      }, 'reverse'); // 发送请求
+
+      var promiseResponse = promiseRequest.then(dispatchRequest); // 执行响应拦截器
+
+      this.interceptors.response.forEach(function executor(_ref2) {
+        var resolved = _ref2.resolved,
+        rejected = _ref2.rejected;
+        promiseResponse = promiseResponse.then(resolved, rejected);
+      });
+      return promiseResponse;
+    } },
+  {
+    key: "options",
+    value: function options(url, config) {
+      return this._requestMethodWithoutParams('options', url, void 0, config);
+    } },
+  {
+    key: "get",
+    value: function get(url, params, config) {
+      return this._requestMethodWithoutParams('get', url, params, config);
+    } },
+  {
+    key: "head",
+    value: function head(url, params, config) {
+      return this._requestMethodWithoutParams('head', url, params, config);
+    } },
+  {
+    key: "post",
+    value: function post(url, data, config) {
+      return this._requestMethodWithoutData('post', url, data, config);
+    } },
+  {
+    key: "put",
+    value: function put(url, data, config) {
+      return this._requestMethodWithoutData('put', url, data, config);
+    } },
+  {
+    key: "delete",
+    value: function _delete(url, params, config) {
+      return this._requestMethodWithoutParams('delete', url, params, config);
+    } },
+  {
+    key: "trace",
+    value: function trace(url, config) {
+      return this._requestMethodWithoutParams('trace', url, void 0, config);
+    } },
+  {
+    key: "connect",
+    value: function connect(url, config) {
+      return this._requestMethodWithoutParams('connect', url, void 0, config);
+    }
+    /**
+       * 合并配置后发送 HTTP 请求
+       *
+       * @param method 请求方法
+       * @param url    请求地址
+       * @param params 请求参数
+       * @param config 额外配置
+       */ },
+
+  {
+    key: "_requestMethodWithoutParams",
+    value: function _requestMethodWithoutParams(method, url, params) {
+      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
+        method: method,
+        url: url,
+        params: params }));
+
+    }
+    /**
+       * 合并配置后发送 HTTP 请求
+       *
+       * @param method 请求方法
+       * @param url    请求地址
+       * @param data   请求数据
+       * @param config 额外配置
+       */ },
+
+  {
+    key: "_requestMethodWithoutData",
+    value: function _requestMethodWithoutData(method, url, data) {
+      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
+        method: method,
+        url: url,
+        data: data }));
+
+    } }]);
+
+
+  return AxiosClass;
+}();
+
+var CancelTokenClass = /*#__PURE__*/function () {
+  function CancelTokenClass(executor) {
+    var _this = this;
+
+    _classCallCheck(this, CancelTokenClass);
+
+    var action;
+    this.listener = new Promise(function (resolve) {
+      action = function action(message) {
+        // 防止重复取消
+        if (_this._reason) {
+          return;
+        }
+
+        _this._reason = new CancelClass(message);
+        resolve(_this._reason);
+      };
+    });
+    executor(action);
+  }
+
+  _createClass(CancelTokenClass, [{
+    key: "throwIfRequested",
+    value: function throwIfRequested() {
+      if (this._reason) {
+        throw this._reason;
+      }
+    }
+    /**
+       * 返回一个 CancelTokenSource
+       *
+       * CancelTokenSource.token 是一个 CancelToken 对象
+       *
+       * CancelTokenSource.cancel 是一个 CancelAction 函数
+       *
+       * 调用 CancelTokenSource.cancel('这里可以填写您的错误信息')
+       *
+       * 取消请求 CancelTokenSource.token
+       */ }],
+
+  [{
+    key: "source",
+    value: function source() {
+      var cancel;
+      var token = new CancelTokenClass(function executor(action) {
+        cancel = action;
+      });
+      return {
+        token: token,
+        cancel: cancel };
+
+    } }]);
+
+
+  return CancelTokenClass;
+}();
+
+/**
+      * 自适应当前平台
+      */
+function adaptive() {
+  var stack = [function () {
+    return uni.request;
+  }, function () {
+    return wx.request;
+  }, function () {
+    return my.request;
+  }, function () {
+    return swan.request;
+  }, function () {
+    return tt.request;
+  }, function () {
+    return qq.request;
+  }];
+  var adapter;
+
+  while (stack.length !== 0 && adapter === void 0) {
+    try {
+      adapter = stack.shift()();
+    } catch (err) {}
+  }
+
+  return adapter;
+}
+
+var defaults = {
+  /**
+                  * 适配器
+                  */
+  adapter: adaptive(),
+
+  /**
+                        * 请求方法
+                        */
+  method: 'get',
+
+  /**
+                  * 请求头
+                  */
+  headers: {
+    common: {
+      Accept: 'application/json, test/plain, */*' },
+
+    options: {},
+    get: {},
+    head: {},
+    post: {
+      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
+
+    put: {
+      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
+
+    "delete": {},
+    trace: {},
+    connect: {} },
+
+
+  /**
+                    * 状态码效验
+                    *
+                    * @param status 状态码
+                    */
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  },
+
+  /**
+      * 超时时间
+      */
+  timeout: 10000,
+
+  /**
+                   * 响应数据格式
+                   */
+  dataType: 'json',
+
+  /**
+                     * 响应数据类型
+                     */
+  responseType: 'text',
+
+  /**
+                         * 开启 http2
+                         */
+  enableHttp2: false,
+
+  /**
+                       * 开启 quic
+                       */
+  enableQuic: false,
+
+  /**
+                      * 开启 cache
+                      */
+  enableCache: false,
+
+  /**
+                       * 验证 ssl 证书
+                       */
+  sslVerify: true };
+
+
+/**
+                      * 创建一个新的 Axios 实例
+                      *
+                      * 返回一个 Axios 实例增强
+                      */
+
+function createInstance(defaults) {
+  var instance = new AxiosClass(defaults);
+  /**
+                                            * 支持重载的 axios 函数
+                                            */
+
+  function axios(url) {
+    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    // 调用方式一处理请求配置
+    if (typeof url !== 'string') {
+      config = url;
+    } // 调用方式二处理请求配置
+    else {
+        config = _objectSpread2(_objectSpread2({}, config), {}, {
+          url: url });
+
+      }
+
+    return instance.request(config);
+  } // instance 的属性合并到 axios 函数中
+
+
+  Object.assign(axios, instance); // instance 的方法合并到 axios 函数中
+
+  Object.setPrototypeOf(axios, Object.getPrototypeOf(instance));
+  return axios;
+}
+/**
+   * Axios 实例拓展
+   */
+
+
+var axios = createInstance(defaults); // 添加 create 工厂方法
+
+axios.create = function create() {
+  var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  return createInstance(mergeConfig(axios.defaults, defaults));
+}; // 添加 Axios 类
+
+
+axios.Axios = AxiosClass; // 添加 CancelToken 类
+
+axios.CancelToken = CancelTokenClass; // 添加 检查错误是否来自取消请求 方法
+
+axios.isCancel = isCancel;var _default =
+
+axios;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 56:
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(/*! ./stringify */ 57);
+var parse = __webpack_require__(/*! ./parse */ 60);
+var formats = __webpack_require__(/*! ./formats */ 59);
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+
+/***/ 57:
+/*!******************************************!*\
+  !*** ./node_modules/qs/lib/stringify.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ 58);
+var formats = __webpack_require__(/*! ./formats */ 59);
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
+        return prefix + '[]';
+    },
+    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
+        return prefix;
+    }
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaults = {
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var stringify = function stringify( // eslint-disable-line func-name-matching
+    object,
+    prefix,
+    generateArrayPrefix,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    formatter,
+    encodeValuesOnly
+) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (Array.isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        if (Array.isArray(obj)) {
+            values = values.concat(stringify(
+                obj[key],
+                generateArrayPrefix(prefix, key),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        } else {
+            values = values.concat(stringify(
+                obj[key],
+                prefix + (allowDots ? '.' + key : '[' + key + ']'),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter,
+                encodeValuesOnly
+            ));
+        }
+    }
+
+    return values;
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
+    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
+    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
+    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
+    var sort = typeof options.sort === 'function' ? options.sort : null;
+    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
+    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
+    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
+    if (typeof options.format === 'undefined') {
+        options.format = formats['default'];
+    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
+        throw new TypeError('Unknown format option provided.');
+    }
+    var formatter = formats.formatters[options.format];
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (Array.isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (options.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = options.arrayFormat;
+    } else if ('indices' in options) {
+        arrayFormat = options.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (sort) {
+        objKeys.sort(sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        keys = keys.concat(stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encode ? encoder : null,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            formatter,
+            encodeValuesOnly
+        ));
+    }
+
+    var joined = keys.join(delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+
+/***/ 58:
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/utils.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+var compactQueue = function compactQueue(queue) {
+    var obj;
+
+    while (queue.length) {
+        var item = queue.pop();
+        obj = item.obj[item.prop];
+
+        if (Array.isArray(obj)) {
+            var compacted = [];
+
+            for (var j = 0; j < obj.length; ++j) {
+                if (typeof obj[j] !== 'undefined') {
+                    compacted.push(obj[j]);
+                }
+            }
+
+            item.obj[item.prop] = compacted;
+        }
+    }
+
+    return obj;
+};
+
+var arrayToObject = function arrayToObject(source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+var merge = function merge(target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
+                target[source] = true;
+            }
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (has.call(acc, key)) {
+            acc[key] = merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+var assign = function assignSingleSource(target, source) {
+    return Object.keys(source).reduce(function (acc, key) {
+        acc[key] = source[key];
+        return acc;
+    }, target);
+};
+
+var decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+var encode = function encode(str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D // -
+            || c === 0x2E // .
+            || c === 0x5F // _
+            || c === 0x7E // ~
+            || (c >= 0x30 && c <= 0x39) // 0-9
+            || (c >= 0x41 && c <= 0x5A) // a-z
+            || (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)]
+            + hexTable[0x80 | ((c >> 12) & 0x3F)]
+            + hexTable[0x80 | ((c >> 6) & 0x3F)]
+            + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+var compact = function compact(value) {
+    var queue = [{ obj: { o: value }, prop: 'o' }];
+    var refs = [];
+
+    for (var i = 0; i < queue.length; ++i) {
+        var item = queue[i];
+        var obj = item.obj[item.prop];
+
+        var keys = Object.keys(obj);
+        for (var j = 0; j < keys.length; ++j) {
+            var key = keys[j];
+            var val = obj[key];
+            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
+                queue.push({ obj: obj, prop: key });
+                refs.push(val);
+            }
+        }
+    }
+
+    return compactQueue(queue);
+};
+
+var isRegExp = function isRegExp(obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+var isBuffer = function isBuffer(obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+module.exports = {
+    arrayToObject: arrayToObject,
+    assign: assign,
+    compact: compact,
+    decode: decode,
+    encode: encode,
+    isBuffer: isBuffer,
+    isRegExp: isRegExp,
+    merge: merge
+};
+
+
+/***/ }),
+
+/***/ 59:
+/*!****************************************!*\
+  !*** ./node_modules/qs/lib/formats.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
+
+/***/ 60:
+/*!**************************************!*\
+  !*** ./node_modules/qs/lib/parse.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ 58);
+
+var has = Object.prototype.hasOwnProperty;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    parameterLimit: 1000,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var parseValues = function parseQueryStringValues(str, options) {
+    var obj = {};
+    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
+    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
+    var parts = cleanStr.split(options.delimiter, limit);
+
+    for (var i = 0; i < parts.length; ++i) {
+        var part = parts[i];
+
+        var bracketEqualsPos = part.indexOf(']=');
+        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part, defaults.decoder);
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos), defaults.decoder);
+            val = options.decoder(part.slice(pos + 1), defaults.decoder);
+        }
+        if (has.call(obj, key)) {
+            obj[key] = [].concat(obj[key]).concat(val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function (chain, val, options) {
+    var leaf = val;
+
+    for (var i = chain.length - 1; i >= 0; --i) {
+        var obj;
+        var root = chain[i];
+
+        if (root === '[]') {
+            obj = [];
+            obj = obj.concat(leaf);
+        } else {
+            obj = options.plainObjects ? Object.create(null) : {};
+            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
+            var index = parseInt(cleanRoot, 10);
+            if (
+                !isNaN(index)
+                && root !== cleanRoot
+                && String(index) === cleanRoot
+                && index >= 0
+                && (options.parseArrays && index <= options.arrayLimit)
+            ) {
+                obj = [];
+                obj[index] = leaf;
+            } else {
+                obj[cleanRoot] = leaf;
+            }
+        }
+
+        leaf = obj;
+    }
+
+    return leaf;
+};
+
+var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var brackets = /(\[[^[\]]*])/;
+    var child = /(\[[^[\]]*])/g;
+
+    // Get the parent
+
+    var segment = brackets.exec(key);
+    var parent = segment ? key.slice(0, segment.index) : key;
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (parent) {
+        // If we aren't using plain objects, optionally prefix keys
+        // that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, parent)) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(parent);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while ((segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options);
+};
+
+module.exports = function (str, opts) {
+    var options = opts ? utils.assign({}, opts) : {};
+
+    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
+    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
+    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
+    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
+    options.parseArrays = options.parseArrays !== false;
+    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
+    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
+    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
+    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
+    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
+    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options);
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
+
+/***/ 61:
+/*!***********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/login-background.png ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+
+/***/ 62:
+/*!*****************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/login-logo.png ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ }),
+
+/***/ 63:
+/*!**********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/logo-small-icon.png ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfCAMAAAAocOYLAAADAFBMVEUAAACx2rQR0YOU16rd7+Cq2rGc2K2j2a+Z2Kyw2rTk8uau2rO33rvi8eWe2a7g8OOX2Kso1pBg1Zvm9Oll1Zxx1qG13LhC05GO2KqH16eK263P6NKK2KhY1Zmm2bBP1JXM59DC48U20o192ahV1ZcRzoAm0opu1Z+B2qmD16ag2K4e0ohc1JkA//97x5cS0oOL1KaA1qQs0Yp/0qBH1JOn2rUztXGw2rSG2qsnz4Zq1p0x0Ywbz4Sy3sAovXV216K94MAi0ohL1JSr2rYwyoTU69iR2Ksws23E5Mmz27YSynxUu39x2aS53rwswnpTwIQ2z4qs3r4r1I86046x2rTW69lLv4BN0JExwXyP26+F0KF62qig27er2rsV0YSv27xevYN41KBXvIHY7Ns+05D///82040k0oia2awavXGv36/R6dUS0YM9wX+m2bCX0qogxnxuypQWzYAsz4gX0YQfuW90y5jp9eum3rtKuHqU2ase0odyz5ors22s2rJ22qc01ZFpzZY2unc9zYvJ5ct616MXwXQw1Y8szIUlu3Iu04uw2rOf2bMAv3+x2rSx27OK2agR0oJj1pyq1KpEtXRAv3+v27IUxXhsw45/2aWw27RYy5BCyYhg359V1JUp0op10Z0S1IES0IOg2a6P1ae/v78P0nhlvYWu3LRI1JNK1JMsyIGF2KcO0YRfuIJTxomw2bNJsXSg1bJ/zZ07yYYV1H9e05kmwnpNy4y948lZ0JVFzo0T0oQ9t3Sk17W538Xt9+9wvo1ey5Irt3Gw2rMQ0oMnxn5s2KJT0pSb0q0ZxnqP2Kp/v386044R0oMP0YE2045P0pNt1Z8X0YU/05Fo0Jh/v79q1JU/05Fv1p9b0ple1Zp116Antm5q1KpL1JQe0IWK2Kho1pxX1JdGyYhw359816NU1Zaz5MdQ349z1qEuunRQ359/35901qJl1p0n1Y5V1Zh/16RE05Ia0oh31aFowos+0I1r1pxI05NR1ZZm1p0Qz3+X2bJc1Zo2w39kNWqNAAABAHRSTlMA//7////////+//////////////////7///////////////7///////////8B//H//v//////8P///v/////////////////////////////////5/////////////////////gHw8vD/EP/h//D///////L///////Dy///w///////////////y5P8E37biLVgM/wRG//+Fhf//EAzy/0e58P8EEf8sR/n/vFn//1f/////DP////////f/////////vOb///////AEwMCG4i23huP/BAyG3y3gRv8MuP/wLFj/EPfg/xD6/xAQLN/7uEbAwbj//1iG9+gQ/+j/vRe/bwAAA2xJREFUeJw903dYUlEUAPALPBGePB+KoIYVUGFKIklApBAGuGfmTDNHbnOvUnNlmrb33nvvvYervffee+913+PL8+/vO/eee+45gIgVGTPnHm9SqVSVlSOXpaWN6pi8fs6H11dIA2DEtNWThgyhUHyZFmbmznQGzcvO3qnvk89v7owgOWPzRCYFMsvXxHYOkMcO5F7/tsAF+rTNTVApFB5Pb25JZ3ey44CfUxfCu1dPJNmCqVdY0hlsmsypr4ltrG/emAEyJhGHUyzMuplbMmh0HCuVJySYuE/X96/ATFgZBVZGcjNy+DAntLjc0cQ9f6wBc6H/51i8BEU4aGz1ZRuSu6/9Do4zSXa2ZLCbOSXIkSOHMCy2eudOggf1+wiaOrND0RJjG4LHH0SQ0qN7Wwm2vQRUZGnwXRqUw9+KcVAs7mBS+O95kZGQk1OAimwamxbH4QhyMBTFcETTxhd47d5na5sclgIqTazhoHviMBRBkPAko0YqFC6fX/s1TDQejIRNY9Bke3DNIQw1btwo3ZIjqIuX8vTZ20NE7tAJXh6zLSYex/C4LdPLpif6CHXMxOAoQ4i72yKwjMH2snOQF8+Ox3GEXxYREcHW6QItvI8FGQrcxKkgjWAn+eK8UCQpnK8I3lQeGMhimSm16xrcxJ6jwSjI9vZOCeWh4Zn8Oh99DI/F4vHMlEENBWJPCXSCu/TvnVDKF9QJdTCXx/OlOL88qVZ7SjwKQYdDdBfIPQZWF89etWo4jER/f/8DjQbROInHMFdwPzqa4KHco8Fl/lLplwNKZUXF7cagkKqqwZ7QJ5PZQ8dwHRfLfHyELEVOTI12164GUdW4wVZWWWC9iQNsnhkzMwWKxOCI7Kio3fJad4KtPoE5PUhu2RudZOQLhPpteXlyumx+rprgdxfBrRdcbkBAi03rvNhm+lYFS8diyjZp62d5iK3Ekv1LwOMLcJSsrftEPsqu8fau8FbWHCsqSq/3y5cMo1KXrgSnHrwlRyly3/a/UUFabWNRenr9LL9evahUataUCQBcnfqHHCXb2hCDYd3J3Nz2dj8Tn9iwA+6Hy4KHTwlODhO5F6jV9zzy80mlZm34RewPcFl4/u5akt3gj8CmEUjdv3TKDpJhzHi+5trpcynjF6Wmji4sdHV1PXHm7JKV8G4A/gG7ERwzF/F54AAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 669:
 /*!**********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/emitter.js ***!
   \**********************************************************************************/
@@ -11756,7 +13861,7 @@ function _broadcast(componentName, eventName, params) {
 
 /***/ }),
 
-/***/ 549:
+/***/ 670:
 /*!******************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/async-validator.js ***!
   \******************************************************************************************/
@@ -11786,7 +13891,7 @@ function _broadcast(componentName, eventName, params) {
 var formatRegExp = /%[sdj%]/g;
 var warning = function warning() {}; // don't print warning message when in production env or node runtime
 
-if (typeof process !== 'undefined' && Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
+if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
 'undefined' && typeof document !== 'undefined') {
   warning = function warning(type, errors) {
     if (typeof console !== 'undefined' && console.warn) {
@@ -13119,11 +15224,11 @@ Schema.warning = warning;
 Schema.messages = messages;var _default =
 
 Schema;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 550)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 671)))
 
 /***/ }),
 
-/***/ 550:
+/***/ 671:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -13154,7 +15259,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 551);
+        if (!path) path = __webpack_require__(/*! path */ 672);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -13168,7 +15273,7 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 551:
+/***/ 672:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -13478,11 +15583,44 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 550)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 671)))
 
 /***/ }),
 
-/***/ 622:
+/***/ 72:
+/*!**********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/heart-rate-icon.png ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAAn1BMVEVXVtcAAABWVtVYVNdYWNdXVtdYVtZXVddYVthZV9hXVtd/f/9YVddXVdZXVtdcXNZZVtpVVdlXV9hXV9ZXV9dYVtdXVtZYVdlZVdhXV9dXV9dXVddmZsxXVtdVVdpVVddZU9VVVd1YVtdVVdRXV9dXVddVVdhXVtZYVtZYU9NZWdlXVtdXV9dYWNhYVthYWNdXV9dVVdtVVdRYVtdXV9deCoTXAAAANXRSTlP/AIBAhuWdv2hwsgJgqt4ZUzxblkx06F1C1EbXBZIwMysP7AaNeCf0wzQU+34040DIKjagmW2/cmMAAACpSURBVHicZZDVDsMwDEWviyszjZl5+/9vW5ymnbSdh/jqKJFjg/4QamEEgcHZz+wsZaXvIQiJNK7YEI6lTCidtiLFQKWeO4xfBaUuljgapeRDd1wD5uPaqi0fsePZ0PKC8xukCaipKjNyV5xnoLkugO1pCTjp/PvpiO/X0YuLLweiZyiydZDN2hmJElO1L9TYgttSmnO3CWa4E2bdL0eSn2B999UST7r0AcFYB1qEqqmfAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 73:
+/*!*******************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/breathe-icon.png ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAANlBMVEUAAABXVtdYVtdYWNdXVthYWNdYVtdQUM9YVddXV9dXV9ZYVtdXVdZWVtZXV9ZXVthVVdRVVddIJ6itAAAAEnRSTlMA/4Ag70DAEGDgcKCwUJDPMD8vdLGaAAAAeklEQVR4nJXPSxLDIAwDUCS+gXza+1+2wiR0MlmFjcUb48Hu3fHf2zUfdITzoUxKCJ0qEE/ZAXxECQh5TJFgEy2qzah1oqhX+KsJbBhhFxVLehQsJBEt4YiDMGnJZ/uf1B8nrU8aXdRak8bYqmRhtd8XcrNA1mvJ+/kBXAUCKlVzvNwAAAAASUVORK5CYII="
+
+/***/ }),
+
+/***/ 74:
+/*!******************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/toilet-icon.png ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAMAAADX9CSSAAAAUVBMVEX/VVXob1Dnb0//AADocFHoblDka1HpcFDpb1HocFDrcFLocFHobVHob1Hnb1HpcFDoblDob0/rblLpcFDpb1Hob1DpbVDob1DocFDob1HpcFE6K4EHAAAAG3RSTlMD/8EBQsAT8IHgMsBisaGA0HFBoH7rI+iZkVKKoeEFAAAArklEQVR4nKXRSRaDIBAEUIqgDArE2eT+B00DQTC6S+34j6HpZg92n+Q9cmRfOz8c/OyCiXEcmbj4M26+OiG/d8b+8nbwXmMCug56gvZ+aIOrUnvOELyHVrtVrqM4ZXel8Y73QNK5Elqndx1s7Rav5K3EVNil46FOI6HnNeA6a0hz1G9CP59NE3rEI+e5bFhCgQu2n7nQNw3t5KjnQi+LtBS56Oj05eYbQJ28pPJrPpuuBZVfZS4TAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 743:
 /*!***********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/province.js ***!
   \***********************************************************************************/
@@ -13494,7 +15632,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 623:
+/***/ 744:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/city.js ***!
   \*******************************************************************************/
@@ -13506,7 +15644,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 624:
+/***/ 745:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/area.js ***!
   \*******************************************************************************/
@@ -13518,2246 +15656,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 63:
-/*!****************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/api/login.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getHospitalList = getHospitalList;exports.logIn = logIn;exports.userSignOut = userSignOut;exports.weixinLogIn = weixinLogIn;exports.boundExist = boundExist;exports.boundNotExist = boundNotExist;var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 64));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-// 获取医院列表
-function getHospitalList() {
-  return (0, _request.default)({
-    url: 'project/queryAll',
-    method: 'get' });
-
-}
-
-// 账号密码登录
-function logIn(data) {
-  return (0, _request.default)({
-    url: 'auth/login',
-    method: 'post',
-    data: data });
-
-}
-
-// 用户退出登录
-function userSignOut() {
-  return (0, _request.default)({
-    url: 'auth/logout',
-    method: 'post' });
-
-};
-
-// 微信登录
-function weixinLogIn(code) {
-  return (0, _request.default)({
-    url: "login/wx/".concat(code),
-    method: 'get' });
-
-}
-
-// 微信授权绑定已存在账号
-function boundExist(code, data) {
-  return (0, _request.default)({
-    url: "login/wx/boundExist/".concat(code),
-    method: 'post',
-    data: data });
-
-}
-
-// 微信授权不绑定账号
-function boundNotExist(proId, code) {
-  return (0, _request.default)({
-    url: "login/wx/boundNotExist/".concat(proId, "/").concat(code),
-    method: 'post',
-    data: {} });
-
-}
-
-/***/ }),
-
-/***/ 64:
-/*!******************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/api/request.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _axiosMiniprogram = _interopRequireDefault(__webpack_require__(/*! axios-miniprogram */ 65));
-var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 13));
-var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 66));
-var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-var instance = _axiosMiniprogram.default.create({
-  // 生产域名 https://blinktech.cn/nblink
-  // 开发域名 https://blink.blinktech.cn/nblink
-  // 准生产域名 https://ver.blinktech.cn/nblink
-  // 测试域名 https://show.blinktech.cn/nblink
-  baseURL: 'https://blink.blinktech.cn/nblink',
-  retry: 3, // 网络请求异常后，重试次数 
-  retryDelay: 1000, // 每次重试间隔时间
-  timeout: 30000,
-  headers: {
-    // common: {    
-    //   'Accept': 'application/json, test/plain,'
-    // }
-    // post: {
-    //   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-    // }
-  } });
-
-
-// 添加请求拦截器
-instance.interceptors.request.use(function (config) {
-  if (config['url'] == 'auth/login') {
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-  };
-  // 请求头添加token
-  if (_store.default.getters.token) {
-    config.headers['Authorization'] = _store.default.getters.token;
-  };
-  return config;
-}, function (error) {
-  //处理请求错误
-  return Promise.reject(error.response);
-});
-
-// 添加响应拦截器
-instance.interceptors.response.use(function (response) {
-  if (response.headers['token']) {
-    _store.default.commit('changeToken', response.headers['token']);
-    (0, _utils.setCache)('questToken', response.headers['token']);
-  };
-  return response;
-}, function (error) {
-  if (Object.prototype.toString.call(error.response) === '[object Object]') {
-    if (error.response.hasOwnProperty('status')) {
-      if (error.response.status === 401) {
-        (0, _utils.removeAllLocalStorage)();
-        if (!_store.default.getters.overDueWay) {
-          uni.showToast({
-            title: 'token已过期,请重新登录',
-            duration: 1000 });
-
-          setTimeout(function () {
-            uni.redirectTo({
-              url: '/pages/login/login' });
-
-          }, 2000);
-        } else {
-          uni.redirectTo({
-            url: '/pages/login/login' });
-
-        }
-      }
-    }
-  };
-  // 处理响应错误
-  var config = error.config;
-  // 判断是否配置了重试
-  if (!config || !config.retry) {
-    if (Object.prototype.toString.call(error.response) === '[object Object]') {
-      if (error.response.hasOwnProperty('data')) {
-        if (error.response.data.hasOwnProperty('msg')) {
-          return Promise.reject(error.response.data.msg);
-        } else if (error.response.data.hasOwnProperty('message')) {
-          return Promise.reject(error.response.data.message);
-        } else {
-          return Promise.reject(error.response.data);
-        }
-      } else {
-        return Promise.reject(error.response);
-      }
-    } else {
-      return Promise.reject(error);
-    }
-  };
-  if (!config.shouldRetry || typeof config.shouldRetry != 'function') {
-    if (Object.prototype.toString.call(error.response) === '[object Object]') {
-      if (error.response.hasOwnProperty('data')) {
-        if (error.response.data.hasOwnProperty('msg')) {
-          return Promise.reject(error.response.data.msg);
-        } else if (error.response.data.hasOwnProperty('message')) {
-          return Promise.reject(error.response.data.message);
-        } else {
-          return Promise.reject(error.response.data);
-        }
-      } else {
-        return Promise.reject(error.response);
-      }
-    } else {
-      return Promise.reject(error);
-    }
-  };
-  //判断是否满足重试条件
-  if (!config.shouldRetry(error)) {
-    if (Object.prototype.toString.call(error.response) === '[object Object]') {
-      if (error.response.hasOwnProperty('data')) {
-        if (error.response.data.hasOwnProperty('msg')) {
-          return Promise.reject(error.response.data.msg);
-        } else if (error.response.data.hasOwnProperty('message')) {
-          return Promise.reject(error.response.data.message);
-        } else {
-          return Promise.reject(error.response.data);
-        }
-      } else {
-        return Promise.reject(error.response);
-      }
-    } else {
-      return Promise.reject(error);
-    }
-  };
-  // 设置重置次数，默认为0
-  config.__retryCount = config.__retryCount || 0;
-  // 判断是否超过了重试次数
-  if (config.__retryCount > config.retry) {
-    if (Object.prototype.toString.call(error.response) === '[object Object]') {
-      if (error.response.hasOwnProperty('data')) {
-        if (error.response.data.hasOwnProperty('msg')) {
-          return Promise.reject(error.response.data.msg);
-        } else if (error.response.data.hasOwnProperty('message')) {
-          return Promise.reject(error.response.data.message);
-        } else {
-          return Promise.reject(error.response.data);
-        }
-      } else {
-        return Promise.reject(error.response);
-      }
-    } else {
-      return Promise.reject(error);
-    }
-  };
-  //重试次数自增
-  config.__retryCount += 1;
-  //延时处理
-  var backoff = new Promise(function (resolve) {
-    setTimeout(function () {
-      resolve();
-    }, config.retryDelay || 1);
-  });
-  //重新发起axios请求
-  return backoff.then(function () {
-    return service(config);
-  });
-});var _default =
-
-instance;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 65:
-/*!**********************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/axios-miniprogram/es/index.js ***!
-  \**********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true });
-
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true } });
-
-
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-
-  try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function _construct(Parent, args, Class) {
-  if (_isNativeReflectConstruct()) {
-    _construct = Reflect.construct;
-  } else {
-    _construct = function _construct(Parent, args, Class) {
-      var a = [null];
-      a.push.apply(a, args);
-      var Constructor = Function.bind.apply(Parent, a);
-      var instance = new Constructor();
-      if (Class) _setPrototypeOf(instance, Class.prototype);
-      return instance;
-    };
-  }
-
-  return _construct.apply(null, arguments);
-}
-
-function _isNativeFunction(fn) {
-  return Function.toString.call(fn).indexOf("[native code]") !== -1;
-}
-
-function _wrapNativeSuper(Class) {
-  var _cache = typeof Map === "function" ? new Map() : undefined;
-
-  _wrapNativeSuper = function _wrapNativeSuper(Class) {
-    if (Class === null || !_isNativeFunction(Class)) return Class;
-
-    if (typeof Class !== "function") {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-
-    if (typeof _cache !== "undefined") {
-      if (_cache.has(Class)) return _cache.get(Class);
-
-      _cache.set(Class, Wrapper);
-    }
-
-    function Wrapper() {
-      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
-    }
-
-    Wrapper.prototype = Object.create(Class.prototype, {
-      constructor: {
-        value: Wrapper,
-        enumerable: false,
-        writable: true,
-        configurable: true } });
-
-
-    return _setPrototypeOf(Wrapper, Class);
-  };
-
-  return _wrapNativeSuper(Class);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _createSuper(Derived) {
-  var hasNativeReflectConstruct = _isNativeReflectConstruct();
-
-  return function _createSuperInternal() {
-    var Super = _getPrototypeOf(Derived),
-    result;
-
-    if (hasNativeReflectConstruct) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-
-    return _possibleConstructorReturn(this, result);
-  };
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}
-
-  return arr2;
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-var _toString = Object.prototype.toString;
-/**
-                                            * 对字符串进行编码转换
-                                            *
-                                            * @param str 字符串
-                                            */
-
-function encode(str) {
-  return encodeURIComponent(str).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
-}
-/**
-   * 是不是一个日期对象
-   *
-   * @param date 判断目标
-   */
-
-function isDate(date) {
-  return _toString.call(date) === '[object Date]';
-}
-/**
-   * 是不是一个普通对象
-   *
-   * @param obj 判断目标
-   */
-
-function isPlainObject(obj) {
-  return _toString.call(obj) === '[object Object]';
-}
-/**
-   * 深度合并多个对象
-   *
-   * @param objs n 个对象
-   */
-
-function deepMerge() {
-  var result = {};
-
-  function assignValue(key, val) {
-    // 如果当前结果和当前值都为普通对象
-    // 递归进行深度合并
-    if (isPlainObject(result[key]) && isPlainObject(val)) {
-      result[key] = deepMerge(result[key], val);
-    } // 如果只有当前值为普通对象
-    // 直接深拷贝当前值
-    else if (isPlainObject(val)) {
-        result[key] = deepMerge({}, val);
-      } // 如果都不是普通对象
-      // 直接赋值
-      else {
-          result[key] = val;
-        }
-  }
-
-  for (var _len = arguments.length, objs = new Array(_len), _key = 0; _key < _len; _key++) {
-    objs[_key] = arguments[_key];
-  }
-
-  objs.forEach(function assignObj(obj) {
-    Object.entries(obj).forEach(function assignKey(_ref) {
-      var _ref2 = _slicedToArray(_ref, 2),
-      key = _ref2[0],
-      value = _ref2[1];
-
-      assignValue(key, value);
-    });
-  });
-  return result;
-}
-/**
-   * 从对象中提取一部分属性
-   *
-   * @param obj  源对象
-   * @param keys 需要提取的 key
-   */
-
-function pick(obj) {
-  var _pick = {};
-
-  for (var _len2 = arguments.length, keys = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-    keys[_key2 - 1] = arguments[_key2];
-  }
-
-  keys.forEach(function pickKey(key) {
-    _pick[key] = obj[key];
-  });
-  return _pick;
-}
-/**
-   * 从对象中剔除一部分属性
-   *
-   * @param obj  源对象
-   * @param keys 需要剔除的 key
-   */
-
-function omit(obj) {
-  var _omit = _objectSpread2({}, obj);
-
-  for (var _len3 = arguments.length, keys = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-    keys[_key3 - 1] = arguments[_key3];
-  }
-
-  keys.forEach(function omitKey(key) {
-    delete _omit[key];
-  });
-  return _omit;
-}
-
-/**
-   * 通过请求地址和序列化参数生成新的请求地址
-   *
-   * @param url              请求地址
-   * @param serializedParams 序列化参数
-   */
-
-function generateURL(url, serializedParams) {
-  // 移除 hash
-  var hashIndex = url.indexOf('#');
-
-  if (hashIndex !== -1) {
-    url = url.slice(0, hashIndex);
-  }
-
-  if (serializedParams === '') {
-    return url;
-  } // 拼接前缀
-
-
-  var prefix = url.indexOf('?') === -1 ? '?' : '&';
-  serializedParams = "".concat(prefix).concat(serializedParams);
-  return "".concat(url).concat(serializedParams);
-}
-/**
-   * 默认参数序列化
-   *
-   * @param params 请求参数
-   */
-
-
-function paramsSerialization(params) {
-  var parts = [];
-  Object.entries(params).forEach(function encodeKeyValue(_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-    key = _ref2[0],
-    value = _ref2[1];
-
-    if (value === null || value === void 0 || value !== value) {
-      return;
-    } // 如果值是一个数组, 则特殊处理 key
-
-
-    if (Array.isArray(value)) {
-      key += '[]';
-    } // 转成数组统一处理
-
-
-    var values = [].concat(value);
-    values.forEach(function (val) {
-      if (isPlainObject(val)) {
-        val = JSON.stringify(val);
-      } else if (isDate(val)) {
-        val = val.toISOString();
-      }
-
-      parts.push("".concat(encode(key), "=").concat(encode(val)));
-    });
-  });
-  return parts.join('&');
-}
-/**
-   * 处理 URL 参数
-   *
-   * @param url              请求地址
-   * @param params           请求参数
-   * @param paramsSerializer 自定义参数序列化
-   */
-
-
-function buildURL(url) {
-  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var paramsSerializer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : paramsSerialization;
-  return generateURL(url, paramsSerializer(params));
-}
-
-/**
-   * 只取 config2 中的配置
-   *
-   * @param keys
-   * @param config
-   * @param config2
-   */
-
-function onlyFromConfig2(keys, config, config2) {
-  keys.forEach(function (key) {
-    if (config2[key] !== void 0) {
-      config[key] = config2[key];
-    }
-  });
-}
-/**
-   * 优先取 config2 中的配置, config2 中没有就取 config1
-   *
-   * @param keys
-   * @param config
-   * @param config1
-   * @param config2
-   */
-
-
-function priorityFromConfig2(keys, config, config1, config2) {
-  keys.forEach(function (key) {
-    if (config2[key] !== void 0) {
-      config[key] = config2[key];
-    } else if (config1[key] !== void 0) {
-      config[key] = config1[key];
-    }
-  });
-}
-/**
-   * 深度合并配置
-   *
-   * @param keys
-   * @param config
-   * @param config1
-   * @param config2
-   */
-
-
-function deepMergeConfig(keys, config, config1, config2) {
-  keys.forEach(function (key) {
-    if (isPlainObject(config2[key])) {
-      var _config1$key;
-
-      config[key] = deepMerge((_config1$key = config1[key]) !== null && _config1$key !== void 0 ? _config1$key : {}, config2[key]);
-    } else if (isPlainObject(config1[key])) {
-      config[key] = deepMerge(config1[key]);
-    }
-  });
-}
-/**
-   * 合并 Axios 请求配置
-   *
-   * @param config1 Axios 请求配置1
-   * @param config2 Axios 请求配置2
-   */
-
-
-function mergeConfig() {
-  var config1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var config2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var config = {};
-  var onlyFromConfig2Keys = ['url', 'data'];
-  var priorityFromConfig2Keys = ['adapter', 'baseURL', 'method', 'validateStatus', 'paramsSerializer', 'transformRequest', 'transformResponse', 'errorHandler', 'cancelToken', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'];
-  var deepMergeConfigKeys = ['headers', 'params'];
-  onlyFromConfig2(onlyFromConfig2Keys, config, config2);
-  priorityFromConfig2(priorityFromConfig2Keys, config, config1, config2);
-  deepMergeConfig(deepMergeConfigKeys, config, config1, config2);
-  return config;
-}
-
-/**
-   * 拦截器管理器
-   */
-var InterceptorManagerClass = /*#__PURE__*/function () {
-  function InterceptorManagerClass() {
-    _classCallCheck(this, InterceptorManagerClass);
-
-    /**
-                                                     * 生成拦截器 id
-                                                     */
-    this._id = 0;
-    /**
-                   * 拦截器集合
-                   */
-
-    this._interceptors = {};
-  }
-
-  _createClass(InterceptorManagerClass, [{
-    key: "use",
-    value: function use(resolved, rejected) {
-      this._interceptors[++this._id] = {
-        resolved: resolved,
-        rejected: rejected };
-
-      return this._id;
-    } },
-  {
-    key: "eject",
-    value: function eject(id) {
-      delete this._interceptors[id];
-    } },
-  {
-    key: "forEach",
-    value: function forEach(executor, reverse) {
-      var interceptors = Object.values(this._interceptors);
-
-      if (reverse === 'reverse') {
-        interceptors = interceptors.reverse();
-      }
-
-      interceptors.forEach(executor);
-    } }]);
-
-
-  return InterceptorManagerClass;
-}();
-
-var CancelClass = /*#__PURE__*/function () {
-  /**
-                                             * @param message 取消信息
-                                             */
-  function CancelClass(message) {
-    _classCallCheck(this, CancelClass);
-
-    this.message = message;
-  }
-
-  _createClass(CancelClass, [{
-    key: "toString",
-    value: function toString() {
-      var message = this.message ? ": ".concat(this.message) : '';
-      return "Cancel".concat(message);
-    } }]);
-
-
-  return CancelClass;
-}();
-
-/**
-      * 是否是取消请求实例
-      *
-      * @param value 判断的值
-      */
-
-function isCancel(value) {
-  return value instanceof CancelClass;
-}
-
-/**
-   * 请求方法转全小写
-   *
-   * @param config Axios 请求配置
-   */
-function methodToLowercase() {
-  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'get';
-  return method.toLowerCase();
-}
-/**
-   * 请求方法转全大写
-   *
-   * @param config Axios 请求配置
-   */
-
-function methodToUppercase() {
-  var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'GET';
-  return method.toUpperCase();
-}
-
-/**
-   * 拉平请求头
-   *
-   * @param config Axios 请求配置
-   */
-
-function flattenHeaders(config) {
-  var _headers$common, _headers$method;
-
-  var headers = config.headers;
-
-  if (headers === void 0) {
-    return {};
-  }
-
-  var method = methodToLowercase(config.method);
-  return _objectSpread2(_objectSpread2(_objectSpread2({}, (_headers$common = headers.common) !== null && _headers$common !== void 0 ? _headers$common : {}), (_headers$method = headers[method]) !== null && _headers$method !== void 0 ? _headers$method : {}), omit(headers, 'common', 'options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect'));
-}
-
-/**
-   * 转换数据
-   *
-   * @param data       请求数据/响应数据
-   * @param headers    请求头/响应头
-   * @param transforms 请求数据转换函数/响应数据转换函数
-   */
-function transformData(data, headers, transforms) {
-  if (transforms === void 0) {
-    return data;
-  }
-
-  if (!Array.isArray(transforms)) {
-    transforms = [transforms];
-  }
-
-  transforms.forEach(function (transform) {
-    data = transform(data, headers);
-  });
-  return data;
-}
-
-/**
-   * 检查是否是一个绝对 URL
-   *
-   * xxx:// 或者 "//" 开头,  视为绝对地址
-   *
-   * @param url 需要检查的 URL
-   */
-function isAbsoluteURL(url) {
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-}
-
-/**
-   * 拼接 baseURL 和 url 获得完整的 URL
-   *
-   * combineURL('1/2///','////3/4') => '1/2/3/4'
-   */
-function combineURL(baseURL, url) {
-  return "".concat(baseURL.replace(/\/*$/, ''), "/").concat(url.replace(/^\/*/, ''));
-}
-
-/**
-   * 根据配置中的 baseURL 和 url 和 params 生成完整 URL
-   *
-   * @param config Axios 请求配置
-   */
-
-function transformURL(config) {
-  var _config$baseURL = config.baseURL,
-  baseURL = _config$baseURL === void 0 ? '' : _config$baseURL,
-  _config$url = config.url,
-  url = _config$url === void 0 ? '' : _config$url;
-  var fullURL = isAbsoluteURL(url) ? url : combineURL(baseURL, url);
-  return buildURL(fullURL, config.params, config.paramsSerializer);
-}
-/**
-   * Axios 请求配置转换成各大平台通用请求配置
-   *
-   * 抹平差异
-   *
-   * @param config Axios 请求配置
-   */
-
-
-function transformRequest(config) {
-  return _objectSpread2({
-    url: transformURL(config),
-    method: methodToUppercase(config.method),
-    header: config.headers },
-  pick(config, 'data', 'headers', 'dataType', 'responseType', 'timeout', 'enableHttp2', 'enableQuic', 'enableCache', 'sslVerify'));
-}
-
-/**
-   * 各大平台通用响应体转成 Axios 响应体
-   *
-   * 抹平差异
-   *
-   * @param response 通用响应体
-   * @param config   Axios 请求配置
-   */
-
-function transformResponse(response, config) {
-  var _ref, _response$statusCode, _ref2, _response$header;
-
-  var status = (_ref = (_response$statusCode = response.statusCode) !== null && _response$statusCode !== void 0 ? _response$statusCode : response.status) !== null && _ref !== void 0 ? _ref : 400;
-  var headers = (_ref2 = (_response$header = response.header) !== null && _response$header !== void 0 ? _response$header : response.headers) !== null && _ref2 !== void 0 ? _ref2 : {};
-  var statusText = status === 200 ? 'OK' : status === 400 ? 'Bad Adapter' : '';
-  return _objectSpread2({
-    status: status,
-    statusText: statusText,
-    headers: headers,
-    config: config },
-  pick(response, 'data', 'cookies', 'profile'));
-}
-
-/**
-   * AxiosError 继承自 Error
-   */
-var AxiosErrorClass = /*#__PURE__*/function (_Error) {
-  _inherits(AxiosErrorClass, _Error);
-
-  var _super = _createSuper(AxiosErrorClass);
-
-  /**
-                                               * @param message  错误信息
-                                               * @param config   Axios 请求配置
-                                               * @param request  通用请求配置
-                                               * @param response Axios 响应体
-                                               */
-  function AxiosErrorClass(message, config, request, response) {
-    var _this;
-
-    _classCallCheck(this, AxiosErrorClass);
-
-    _this = _super.call(this, message);
-    _this.config = config;
-    _this.request = request;
-    _this.response = response;
-    _this.isAxiosError = true; // 修复继承系统自带类 prototype 设置失败的问题
-
-    Object.setPrototypeOf(_assertThisInitialized(_this), AxiosErrorClass.prototype);
-    return _this;
-  }
-
-  return AxiosErrorClass;
-}( /*#__PURE__*/_wrapNativeSuper(Error));
-/**
-                                           * 创建 AxiosError 的工厂方法
-                                           *
-                                           * 返回一个新的 AxiosError 对象
-                                           *
-                                           * @param message  错误信息
-                                           * @param config   Axios 请求配置
-                                           * @param request  通用请求配置
-                                           * @param response Axios 响应体
-                                           */
-
-
-function createError(message, config, request, response) {
-  return new AxiosErrorClass(message, config, request, response);
-}
-
-/**
-   * 请求函数
-   *
-   * @param config Axios 请求配置
-   */
-
-function request(config) {
-  return new Promise(function dispatchAdapter(resolve, reject) {
-    var adapter = config.adapter,
-    cancelToken = config.cancelToken;
-    var requestConfig = transformRequest(config);
-    /**
-                                                   * 捕获错误
-                                                   *
-                                                   * @param message  错误信息
-                                                   * @param response Axios 响应体
-                                                   */
-
-    function catchError(message, response) {
-      if (typeof message !== 'string') {
-        message = '配置不正确或者网络异常';
-      }
-
-      reject(createError(message, config, requestConfig, response));
-    }
-
-    if (adapter === void 0) {
-      catchError('平台适配失败，您需要参阅文档使用自定义适配器手动适配当前平台');
-      return;
-    }
-    /**
-       * 效验状态码
-       *
-       * @param res 请求结果
-       */
-
-
-    function handleResponse(res) {
-      var response = transformResponse(res, config);
-
-      if (config.validateStatus === void 0 || config.validateStatus(response.status)) {
-        resolve(response);
-      } else {
-        catchError("\u8BF7\u6C42\u5931\u8D25\uFF0C\u72B6\u6001\u7801\u4E3A ".concat(response.status), response);
-      }
-    } // 使用适配器发送请求
-
-
-    var task = adapter(_objectSpread2(_objectSpread2({}, requestConfig), {}, {
-      success: handleResponse,
-      fail: catchError }));
-    // 如果存在取消令牌
-    // 则调用取消令牌里的 listener 监听用户的取消操作
-
-    if (cancelToken !== void 0) {
-      cancelToken.listener.then(function onCanceled(reason) {
-        if (task !== void 0) {
-          task.abort();
-        }
-
-        reject(reason);
-      });
-    }
-  });
-}
-
-/**
-   * 如果已经取消, 则抛出取消对象
-   *
-   * @param config Axios 请求配置
-   */
-
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-}
-/**
-   * 发送请求
-   *
-   * @param config Axios 请求配置
-   */
-
-
-function dispatchRequest(config) {
-  var _config$data;
-
-  throwIfCancellationRequested(config);
-  config.headers = flattenHeaders(config);
-  config.data = transformData((_config$data = config.data) !== null && _config$data !== void 0 ? _config$data : {}, config.headers, config.transformRequest);
-
-  function onResolved(response) {
-    throwIfCancellationRequested(config);
-    response.data = transformData(response.data, response.headers, config.transformResponse);
-    return response;
-  }
-
-  function onRejected(reason) {
-    var _config$errorHandler, _config$errorHandler2;
-
-    if (!isCancel(reason)) {
-      throwIfCancellationRequested(config);
-
-      if (reason.response !== void 0) {
-        reason.response.data = transformData(reason.response.data, reason.response.headers, config.transformResponse);
-      }
-    }
-
-    return (_config$errorHandler = (_config$errorHandler2 = config.errorHandler) === null || _config$errorHandler2 === void 0 ? void 0 : _config$errorHandler2.call(config, reason)) !== null && _config$errorHandler !== void 0 ? _config$errorHandler : Promise.reject(reason);
-  }
-
-  return request(config).then(onResolved, onRejected);
-}
-
-var AxiosClass = /*#__PURE__*/function () {
-  /**
-                                            * @param defaults 自定义默认配置
-                                            */
-  function AxiosClass() {
-    var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, AxiosClass);
-
-    this.defaults = defaults;
-    this.interceptors = {
-      request: new InterceptorManagerClass(),
-      response: new InterceptorManagerClass() };
-
-  }
-
-  _createClass(AxiosClass, [{
-    key: "getUri",
-    value: function getUri(config) {
-      var _mergeConfig = mergeConfig(this.defaults, config),
-      _mergeConfig$url = _mergeConfig.url,
-      url = _mergeConfig$url === void 0 ? '' : _mergeConfig$url,
-      params = _mergeConfig.params,
-      paramsSerializer = _mergeConfig.paramsSerializer;
-
-      return buildURL(url, params, paramsSerializer).replace(/^\?/, '');
-    } },
-  {
-    key: "request",
-    value: function request(config) {
-      var requestConfig = mergeConfig(this.defaults, config);
-      var promiseRequest = Promise.resolve(requestConfig); // 执行请求拦截器
-
-      this.interceptors.request.forEach(function executor(_ref) {
-        var resolved = _ref.resolved,
-        rejected = _ref.rejected;
-        promiseRequest = promiseRequest.then(resolved, rejected);
-      }, 'reverse'); // 发送请求
-
-      var promiseResponse = promiseRequest.then(dispatchRequest); // 执行响应拦截器
-
-      this.interceptors.response.forEach(function executor(_ref2) {
-        var resolved = _ref2.resolved,
-        rejected = _ref2.rejected;
-        promiseResponse = promiseResponse.then(resolved, rejected);
-      });
-      return promiseResponse;
-    } },
-  {
-    key: "options",
-    value: function options(url, config) {
-      return this._requestMethodWithoutParams('options', url, void 0, config);
-    } },
-  {
-    key: "get",
-    value: function get(url, params, config) {
-      return this._requestMethodWithoutParams('get', url, params, config);
-    } },
-  {
-    key: "head",
-    value: function head(url, params, config) {
-      return this._requestMethodWithoutParams('head', url, params, config);
-    } },
-  {
-    key: "post",
-    value: function post(url, data, config) {
-      return this._requestMethodWithoutData('post', url, data, config);
-    } },
-  {
-    key: "put",
-    value: function put(url, data, config) {
-      return this._requestMethodWithoutData('put', url, data, config);
-    } },
-  {
-    key: "delete",
-    value: function _delete(url, params, config) {
-      return this._requestMethodWithoutParams('delete', url, params, config);
-    } },
-  {
-    key: "trace",
-    value: function trace(url, config) {
-      return this._requestMethodWithoutParams('trace', url, void 0, config);
-    } },
-  {
-    key: "connect",
-    value: function connect(url, config) {
-      return this._requestMethodWithoutParams('connect', url, void 0, config);
-    }
-    /**
-       * 合并配置后发送 HTTP 请求
-       *
-       * @param method 请求方法
-       * @param url    请求地址
-       * @param params 请求参数
-       * @param config 额外配置
-       */ },
-
-  {
-    key: "_requestMethodWithoutParams",
-    value: function _requestMethodWithoutParams(method, url, params) {
-      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
-        method: method,
-        url: url,
-        params: params }));
-
-    }
-    /**
-       * 合并配置后发送 HTTP 请求
-       *
-       * @param method 请求方法
-       * @param url    请求地址
-       * @param data   请求数据
-       * @param config 额外配置
-       */ },
-
-  {
-    key: "_requestMethodWithoutData",
-    value: function _requestMethodWithoutData(method, url, data) {
-      var config = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      return this.request(_objectSpread2(_objectSpread2({}, config), {}, {
-        method: method,
-        url: url,
-        data: data }));
-
-    } }]);
-
-
-  return AxiosClass;
-}();
-
-var CancelTokenClass = /*#__PURE__*/function () {
-  function CancelTokenClass(executor) {
-    var _this = this;
-
-    _classCallCheck(this, CancelTokenClass);
-
-    var action;
-    this.listener = new Promise(function (resolve) {
-      action = function action(message) {
-        // 防止重复取消
-        if (_this._reason) {
-          return;
-        }
-
-        _this._reason = new CancelClass(message);
-        resolve(_this._reason);
-      };
-    });
-    executor(action);
-  }
-
-  _createClass(CancelTokenClass, [{
-    key: "throwIfRequested",
-    value: function throwIfRequested() {
-      if (this._reason) {
-        throw this._reason;
-      }
-    }
-    /**
-       * 返回一个 CancelTokenSource
-       *
-       * CancelTokenSource.token 是一个 CancelToken 对象
-       *
-       * CancelTokenSource.cancel 是一个 CancelAction 函数
-       *
-       * 调用 CancelTokenSource.cancel('这里可以填写您的错误信息')
-       *
-       * 取消请求 CancelTokenSource.token
-       */ }],
-
-  [{
-    key: "source",
-    value: function source() {
-      var cancel;
-      var token = new CancelTokenClass(function executor(action) {
-        cancel = action;
-      });
-      return {
-        token: token,
-        cancel: cancel };
-
-    } }]);
-
-
-  return CancelTokenClass;
-}();
-
-/**
-      * 自适应当前平台
-      */
-function adaptive() {
-  var stack = [function () {
-    return uni.request;
-  }, function () {
-    return wx.request;
-  }, function () {
-    return my.request;
-  }, function () {
-    return swan.request;
-  }, function () {
-    return tt.request;
-  }, function () {
-    return qq.request;
-  }];
-  var adapter;
-
-  while (stack.length !== 0 && adapter === void 0) {
-    try {
-      adapter = stack.shift()();
-    } catch (err) {}
-  }
-
-  return adapter;
-}
-
-var defaults = {
-  /**
-                  * 适配器
-                  */
-  adapter: adaptive(),
-
-  /**
-                        * 请求方法
-                        */
-  method: 'get',
-
-  /**
-                  * 请求头
-                  */
-  headers: {
-    common: {
-      Accept: 'application/json, test/plain, */*' },
-
-    options: {},
-    get: {},
-    head: {},
-    post: {
-      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
-
-    put: {
-      'Context-Type': 'application/x-www-form-urlencoded; charset=utf-8' },
-
-    "delete": {},
-    trace: {},
-    connect: {} },
-
-
-  /**
-                    * 状态码效验
-                    *
-                    * @param status 状态码
-                    */
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  },
-
-  /**
-      * 超时时间
-      */
-  timeout: 10000,
-
-  /**
-                   * 响应数据格式
-                   */
-  dataType: 'json',
-
-  /**
-                     * 响应数据类型
-                     */
-  responseType: 'text',
-
-  /**
-                         * 开启 http2
-                         */
-  enableHttp2: false,
-
-  /**
-                       * 开启 quic
-                       */
-  enableQuic: false,
-
-  /**
-                      * 开启 cache
-                      */
-  enableCache: false,
-
-  /**
-                       * 验证 ssl 证书
-                       */
-  sslVerify: true };
-
-
-/**
-                      * 创建一个新的 Axios 实例
-                      *
-                      * 返回一个 Axios 实例增强
-                      */
-
-function createInstance(defaults) {
-  var instance = new AxiosClass(defaults);
-  /**
-                                            * 支持重载的 axios 函数
-                                            */
-
-  function axios(url) {
-    var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    // 调用方式一处理请求配置
-    if (typeof url !== 'string') {
-      config = url;
-    } // 调用方式二处理请求配置
-    else {
-        config = _objectSpread2(_objectSpread2({}, config), {}, {
-          url: url });
-
-      }
-
-    return instance.request(config);
-  } // instance 的属性合并到 axios 函数中
-
-
-  Object.assign(axios, instance); // instance 的方法合并到 axios 函数中
-
-  Object.setPrototypeOf(axios, Object.getPrototypeOf(instance));
-  return axios;
-}
-/**
-   * Axios 实例拓展
-   */
-
-
-var axios = createInstance(defaults); // 添加 create 工厂方法
-
-axios.create = function create() {
-  var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return createInstance(mergeConfig(axios.defaults, defaults));
-}; // 添加 Axios 类
-
-
-axios.Axios = AxiosClass; // 添加 CancelToken 类
-
-axios.CancelToken = CancelTokenClass; // 添加 检查错误是否来自取消请求 方法
-
-axios.isCancel = isCancel;var _default =
-
-axios;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 66:
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/index.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var stringify = __webpack_require__(/*! ./stringify */ 67);
-var parse = __webpack_require__(/*! ./parse */ 70);
-var formats = __webpack_require__(/*! ./formats */ 69);
-
-module.exports = {
-    formats: formats,
-    parse: parse,
-    stringify: stringify
-};
-
-
-/***/ }),
-
-/***/ 67:
-/*!******************************************!*\
-  !*** ./node_modules/qs/lib/stringify.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(/*! ./utils */ 68);
-var formats = __webpack_require__(/*! ./formats */ 69);
-
-var arrayPrefixGenerators = {
-    brackets: function brackets(prefix) { // eslint-disable-line func-name-matching
-        return prefix + '[]';
-    },
-    indices: function indices(prefix, key) { // eslint-disable-line func-name-matching
-        return prefix + '[' + key + ']';
-    },
-    repeat: function repeat(prefix) { // eslint-disable-line func-name-matching
-        return prefix;
-    }
-};
-
-var toISO = Date.prototype.toISOString;
-
-var defaults = {
-    delimiter: '&',
-    encode: true,
-    encoder: utils.encode,
-    encodeValuesOnly: false,
-    serializeDate: function serializeDate(date) { // eslint-disable-line func-name-matching
-        return toISO.call(date);
-    },
-    skipNulls: false,
-    strictNullHandling: false
-};
-
-var stringify = function stringify( // eslint-disable-line func-name-matching
-    object,
-    prefix,
-    generateArrayPrefix,
-    strictNullHandling,
-    skipNulls,
-    encoder,
-    filter,
-    sort,
-    allowDots,
-    serializeDate,
-    formatter,
-    encodeValuesOnly
-) {
-    var obj = object;
-    if (typeof filter === 'function') {
-        obj = filter(prefix, obj);
-    } else if (obj instanceof Date) {
-        obj = serializeDate(obj);
-    } else if (obj === null) {
-        if (strictNullHandling) {
-            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder) : prefix;
-        }
-
-        obj = '';
-    }
-
-    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
-        if (encoder) {
-            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder);
-            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder))];
-        }
-        return [formatter(prefix) + '=' + formatter(String(obj))];
-    }
-
-    var values = [];
-
-    if (typeof obj === 'undefined') {
-        return values;
-    }
-
-    var objKeys;
-    if (Array.isArray(filter)) {
-        objKeys = filter;
-    } else {
-        var keys = Object.keys(obj);
-        objKeys = sort ? keys.sort(sort) : keys;
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        if (Array.isArray(obj)) {
-            values = values.concat(stringify(
-                obj[key],
-                generateArrayPrefix(prefix, key),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly
-            ));
-        } else {
-            values = values.concat(stringify(
-                obj[key],
-                prefix + (allowDots ? '.' + key : '[' + key + ']'),
-                generateArrayPrefix,
-                strictNullHandling,
-                skipNulls,
-                encoder,
-                filter,
-                sort,
-                allowDots,
-                serializeDate,
-                formatter,
-                encodeValuesOnly
-            ));
-        }
-    }
-
-    return values;
-};
-
-module.exports = function (object, opts) {
-    var obj = object;
-    var options = opts ? utils.assign({}, opts) : {};
-
-    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
-        throw new TypeError('Encoder has to be a function.');
-    }
-
-    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
-    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
-    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
-    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
-    var encoder = typeof options.encoder === 'function' ? options.encoder : defaults.encoder;
-    var sort = typeof options.sort === 'function' ? options.sort : null;
-    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
-    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
-    var encodeValuesOnly = typeof options.encodeValuesOnly === 'boolean' ? options.encodeValuesOnly : defaults.encodeValuesOnly;
-    if (typeof options.format === 'undefined') {
-        options.format = formats['default'];
-    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
-        throw new TypeError('Unknown format option provided.');
-    }
-    var formatter = formats.formatters[options.format];
-    var objKeys;
-    var filter;
-
-    if (typeof options.filter === 'function') {
-        filter = options.filter;
-        obj = filter('', obj);
-    } else if (Array.isArray(options.filter)) {
-        filter = options.filter;
-        objKeys = filter;
-    }
-
-    var keys = [];
-
-    if (typeof obj !== 'object' || obj === null) {
-        return '';
-    }
-
-    var arrayFormat;
-    if (options.arrayFormat in arrayPrefixGenerators) {
-        arrayFormat = options.arrayFormat;
-    } else if ('indices' in options) {
-        arrayFormat = options.indices ? 'indices' : 'repeat';
-    } else {
-        arrayFormat = 'indices';
-    }
-
-    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
-
-    if (!objKeys) {
-        objKeys = Object.keys(obj);
-    }
-
-    if (sort) {
-        objKeys.sort(sort);
-    }
-
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (skipNulls && obj[key] === null) {
-            continue;
-        }
-
-        keys = keys.concat(stringify(
-            obj[key],
-            key,
-            generateArrayPrefix,
-            strictNullHandling,
-            skipNulls,
-            encode ? encoder : null,
-            filter,
-            sort,
-            allowDots,
-            serializeDate,
-            formatter,
-            encodeValuesOnly
-        ));
-    }
-
-    var joined = keys.join(delimiter);
-    var prefix = options.addQueryPrefix === true ? '?' : '';
-
-    return joined.length > 0 ? prefix + joined : '';
-};
-
-
-/***/ }),
-
-/***/ 68:
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/utils.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var has = Object.prototype.hasOwnProperty;
-
-var hexTable = (function () {
-    var array = [];
-    for (var i = 0; i < 256; ++i) {
-        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
-    }
-
-    return array;
-}());
-
-var compactQueue = function compactQueue(queue) {
-    var obj;
-
-    while (queue.length) {
-        var item = queue.pop();
-        obj = item.obj[item.prop];
-
-        if (Array.isArray(obj)) {
-            var compacted = [];
-
-            for (var j = 0; j < obj.length; ++j) {
-                if (typeof obj[j] !== 'undefined') {
-                    compacted.push(obj[j]);
-                }
-            }
-
-            item.obj[item.prop] = compacted;
-        }
-    }
-
-    return obj;
-};
-
-var arrayToObject = function arrayToObject(source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
-    for (var i = 0; i < source.length; ++i) {
-        if (typeof source[i] !== 'undefined') {
-            obj[i] = source[i];
-        }
-    }
-
-    return obj;
-};
-
-var merge = function merge(target, source, options) {
-    if (!source) {
-        return target;
-    }
-
-    if (typeof source !== 'object') {
-        if (Array.isArray(target)) {
-            target.push(source);
-        } else if (typeof target === 'object') {
-            if (options.plainObjects || options.allowPrototypes || !has.call(Object.prototype, source)) {
-                target[source] = true;
-            }
-        } else {
-            return [target, source];
-        }
-
-        return target;
-    }
-
-    if (typeof target !== 'object') {
-        return [target].concat(source);
-    }
-
-    var mergeTarget = target;
-    if (Array.isArray(target) && !Array.isArray(source)) {
-        mergeTarget = arrayToObject(target, options);
-    }
-
-    if (Array.isArray(target) && Array.isArray(source)) {
-        source.forEach(function (item, i) {
-            if (has.call(target, i)) {
-                if (target[i] && typeof target[i] === 'object') {
-                    target[i] = merge(target[i], item, options);
-                } else {
-                    target.push(item);
-                }
-            } else {
-                target[i] = item;
-            }
-        });
-        return target;
-    }
-
-    return Object.keys(source).reduce(function (acc, key) {
-        var value = source[key];
-
-        if (has.call(acc, key)) {
-            acc[key] = merge(acc[key], value, options);
-        } else {
-            acc[key] = value;
-        }
-        return acc;
-    }, mergeTarget);
-};
-
-var assign = function assignSingleSource(target, source) {
-    return Object.keys(source).reduce(function (acc, key) {
-        acc[key] = source[key];
-        return acc;
-    }, target);
-};
-
-var decode = function (str) {
-    try {
-        return decodeURIComponent(str.replace(/\+/g, ' '));
-    } catch (e) {
-        return str;
-    }
-};
-
-var encode = function encode(str) {
-    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-    // It has been adapted here for stricter adherence to RFC 3986
-    if (str.length === 0) {
-        return str;
-    }
-
-    var string = typeof str === 'string' ? str : String(str);
-
-    var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
-
-        if (
-            c === 0x2D // -
-            || c === 0x2E // .
-            || c === 0x5F // _
-            || c === 0x7E // ~
-            || (c >= 0x30 && c <= 0x39) // 0-9
-            || (c >= 0x41 && c <= 0x5A) // a-z
-            || (c >= 0x61 && c <= 0x7A) // A-Z
-        ) {
-            out += string.charAt(i);
-            continue;
-        }
-
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        out += hexTable[0xF0 | (c >> 18)]
-            + hexTable[0x80 | ((c >> 12) & 0x3F)]
-            + hexTable[0x80 | ((c >> 6) & 0x3F)]
-            + hexTable[0x80 | (c & 0x3F)];
-    }
-
-    return out;
-};
-
-var compact = function compact(value) {
-    var queue = [{ obj: { o: value }, prop: 'o' }];
-    var refs = [];
-
-    for (var i = 0; i < queue.length; ++i) {
-        var item = queue[i];
-        var obj = item.obj[item.prop];
-
-        var keys = Object.keys(obj);
-        for (var j = 0; j < keys.length; ++j) {
-            var key = keys[j];
-            var val = obj[key];
-            if (typeof val === 'object' && val !== null && refs.indexOf(val) === -1) {
-                queue.push({ obj: obj, prop: key });
-                refs.push(val);
-            }
-        }
-    }
-
-    return compactQueue(queue);
-};
-
-var isRegExp = function isRegExp(obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-var isBuffer = function isBuffer(obj) {
-    if (obj === null || typeof obj === 'undefined') {
-        return false;
-    }
-
-    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
-};
-
-module.exports = {
-    arrayToObject: arrayToObject,
-    assign: assign,
-    compact: compact,
-    decode: decode,
-    encode: encode,
-    isBuffer: isBuffer,
-    isRegExp: isRegExp,
-    merge: merge
-};
-
-
-/***/ }),
-
-/***/ 69:
-/*!****************************************!*\
-  !*** ./node_modules/qs/lib/formats.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var replace = String.prototype.replace;
-var percentTwenties = /%20/g;
-
-module.exports = {
-    'default': 'RFC3986',
-    formatters: {
-        RFC1738: function (value) {
-            return replace.call(value, percentTwenties, '+');
-        },
-        RFC3986: function (value) {
-            return value;
-        }
-    },
-    RFC1738: 'RFC1738',
-    RFC3986: 'RFC3986'
-};
-
-
-/***/ }),
-
-/***/ 70:
-/*!**************************************!*\
-  !*** ./node_modules/qs/lib/parse.js ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(/*! ./utils */ 68);
-
-var has = Object.prototype.hasOwnProperty;
-
-var defaults = {
-    allowDots: false,
-    allowPrototypes: false,
-    arrayLimit: 20,
-    decoder: utils.decode,
-    delimiter: '&',
-    depth: 5,
-    parameterLimit: 1000,
-    plainObjects: false,
-    strictNullHandling: false
-};
-
-var parseValues = function parseQueryStringValues(str, options) {
-    var obj = {};
-    var cleanStr = options.ignoreQueryPrefix ? str.replace(/^\?/, '') : str;
-    var limit = options.parameterLimit === Infinity ? undefined : options.parameterLimit;
-    var parts = cleanStr.split(options.delimiter, limit);
-
-    for (var i = 0; i < parts.length; ++i) {
-        var part = parts[i];
-
-        var bracketEqualsPos = part.indexOf(']=');
-        var pos = bracketEqualsPos === -1 ? part.indexOf('=') : bracketEqualsPos + 1;
-
-        var key, val;
-        if (pos === -1) {
-            key = options.decoder(part, defaults.decoder);
-            val = options.strictNullHandling ? null : '';
-        } else {
-            key = options.decoder(part.slice(0, pos), defaults.decoder);
-            val = options.decoder(part.slice(pos + 1), defaults.decoder);
-        }
-        if (has.call(obj, key)) {
-            obj[key] = [].concat(obj[key]).concat(val);
-        } else {
-            obj[key] = val;
-        }
-    }
-
-    return obj;
-};
-
-var parseObject = function (chain, val, options) {
-    var leaf = val;
-
-    for (var i = chain.length - 1; i >= 0; --i) {
-        var obj;
-        var root = chain[i];
-
-        if (root === '[]') {
-            obj = [];
-            obj = obj.concat(leaf);
-        } else {
-            obj = options.plainObjects ? Object.create(null) : {};
-            var cleanRoot = root.charAt(0) === '[' && root.charAt(root.length - 1) === ']' ? root.slice(1, -1) : root;
-            var index = parseInt(cleanRoot, 10);
-            if (
-                !isNaN(index)
-                && root !== cleanRoot
-                && String(index) === cleanRoot
-                && index >= 0
-                && (options.parseArrays && index <= options.arrayLimit)
-            ) {
-                obj = [];
-                obj[index] = leaf;
-            } else {
-                obj[cleanRoot] = leaf;
-            }
-        }
-
-        leaf = obj;
-    }
-
-    return leaf;
-};
-
-var parseKeys = function parseQueryStringKeys(givenKey, val, options) {
-    if (!givenKey) {
-        return;
-    }
-
-    // Transform dot notation to bracket notation
-    var key = options.allowDots ? givenKey.replace(/\.([^.[]+)/g, '[$1]') : givenKey;
-
-    // The regex chunks
-
-    var brackets = /(\[[^[\]]*])/;
-    var child = /(\[[^[\]]*])/g;
-
-    // Get the parent
-
-    var segment = brackets.exec(key);
-    var parent = segment ? key.slice(0, segment.index) : key;
-
-    // Stash the parent if it exists
-
-    var keys = [];
-    if (parent) {
-        // If we aren't using plain objects, optionally prefix keys
-        // that would overwrite object prototype properties
-        if (!options.plainObjects && has.call(Object.prototype, parent)) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-
-        keys.push(parent);
-    }
-
-    // Loop through children appending to the array until we hit depth
-
-    var i = 0;
-    while ((segment = child.exec(key)) !== null && i < options.depth) {
-        i += 1;
-        if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
-            if (!options.allowPrototypes) {
-                return;
-            }
-        }
-        keys.push(segment[1]);
-    }
-
-    // If there's a remainder, just add whatever is left
-
-    if (segment) {
-        keys.push('[' + key.slice(segment.index) + ']');
-    }
-
-    return parseObject(keys, val, options);
-};
-
-module.exports = function (str, opts) {
-    var options = opts ? utils.assign({}, opts) : {};
-
-    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
-        throw new TypeError('Decoder has to be a function.');
-    }
-
-    options.ignoreQueryPrefix = options.ignoreQueryPrefix === true;
-    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
-    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
-    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
-    options.parseArrays = options.parseArrays !== false;
-    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
-    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
-    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
-    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
-    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
-    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
-
-    if (str === '' || str === null || typeof str === 'undefined') {
-        return options.plainObjects ? Object.create(null) : {};
-    }
-
-    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
-    var obj = options.plainObjects ? Object.create(null) : {};
-
-    // Iterate over the keys and setup the new object
-
-    var keys = Object.keys(tempObj);
-    for (var i = 0; i < keys.length; ++i) {
-        var key = keys[i];
-        var newObj = parseKeys(key, tempObj[key], options);
-        obj = utils.merge(obj, newObj, options);
-    }
-
-    return utils.compact(obj);
-};
-
-
-/***/ }),
-
-/***/ 71:
-/*!***********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/login-background.png ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,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"
-
-/***/ }),
-
-/***/ 72:
-/*!*****************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/login-logo.png ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,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"
-
-/***/ }),
-
-/***/ 73:
-/*!**********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/logo-small-icon.png ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfCAMAAAAocOYLAAADAFBMVEUAAACx2rQR0YOU16rd7+Cq2rGc2K2j2a+Z2Kyw2rTk8uau2rO33rvi8eWe2a7g8OOX2Kso1pBg1Zvm9Oll1Zxx1qG13LhC05GO2KqH16eK263P6NKK2KhY1Zmm2bBP1JXM59DC48U20o192ahV1ZcRzoAm0opu1Z+B2qmD16ag2K4e0ohc1JkA//97x5cS0oOL1KaA1qQs0Yp/0qBH1JOn2rUztXGw2rSG2qsnz4Zq1p0x0Ywbz4Sy3sAovXV216K94MAi0ohL1JSr2rYwyoTU69iR2Ksws23E5Mmz27YSynxUu39x2aS53rwswnpTwIQ2z4qs3r4r1I86046x2rTW69lLv4BN0JExwXyP26+F0KF62qig27er2rsV0YSv27xevYN41KBXvIHY7Ns+05D///82040k0oia2awavXGv36/R6dUS0YM9wX+m2bCX0qogxnxuypQWzYAsz4gX0YQfuW90y5jp9eum3rtKuHqU2ase0odyz5ors22s2rJ22qc01ZFpzZY2unc9zYvJ5ct616MXwXQw1Y8szIUlu3Iu04uw2rOf2bMAv3+x2rSx27OK2agR0oJj1pyq1KpEtXRAv3+v27IUxXhsw45/2aWw27RYy5BCyYhg359V1JUp0op10Z0S1IES0IOg2a6P1ae/v78P0nhlvYWu3LRI1JNK1JMsyIGF2KcO0YRfuIJTxomw2bNJsXSg1bJ/zZ07yYYV1H9e05kmwnpNy4y948lZ0JVFzo0T0oQ9t3Sk17W538Xt9+9wvo1ey5Irt3Gw2rMQ0oMnxn5s2KJT0pSb0q0ZxnqP2Kp/v386044R0oMP0YE2045P0pNt1Z8X0YU/05Fo0Jh/v79q1JU/05Fv1p9b0ple1Zp116Antm5q1KpL1JQe0IWK2Kho1pxX1JdGyYhw359816NU1Zaz5MdQ349z1qEuunRQ359/35901qJl1p0n1Y5V1Zh/16RE05Ia0oh31aFowos+0I1r1pxI05NR1ZZm1p0Qz3+X2bJc1Zo2w39kNWqNAAABAHRSTlMA//7////////+//////////////////7///////////////7///////////8B//H//v//////8P///v/////////////////////////////////5/////////////////////gHw8vD/EP/h//D///////L///////Dy///w///////////////y5P8E37biLVgM/wRG//+Fhf//EAzy/0e58P8EEf8sR/n/vFn//1f/////DP////////f/////////vOb///////AEwMCG4i23huP/BAyG3y3gRv8MuP/wLFj/EPfg/xD6/xAQLN/7uEbAwbj//1iG9+gQ/+j/vRe/bwAAA2xJREFUeJw903dYUlEUAPALPBGePB+KoIYVUGFKIklApBAGuGfmTDNHbnOvUnNlmrb33nvvvYervffee+913+PL8+/vO/eee+45gIgVGTPnHm9SqVSVlSOXpaWN6pi8fs6H11dIA2DEtNWThgyhUHyZFmbmznQGzcvO3qnvk89v7owgOWPzRCYFMsvXxHYOkMcO5F7/tsAF+rTNTVApFB5Pb25JZ3ey44CfUxfCu1dPJNmCqVdY0hlsmsypr4ltrG/emAEyJhGHUyzMuplbMmh0HCuVJySYuE/X96/ATFgZBVZGcjNy+DAntLjc0cQ9f6wBc6H/51i8BEU4aGz1ZRuSu6/9Do4zSXa2ZLCbOSXIkSOHMCy2eudOggf1+wiaOrND0RJjG4LHH0SQ0qN7Wwm2vQRUZGnwXRqUw9+KcVAs7mBS+O95kZGQk1OAimwamxbH4QhyMBTFcETTxhd47d5na5sclgIqTazhoHviMBRBkPAko0YqFC6fX/s1TDQejIRNY9Bke3DNIQw1btwo3ZIjqIuX8vTZ20NE7tAJXh6zLSYex/C4LdPLpif6CHXMxOAoQ4i72yKwjMH2snOQF8+Ox3GEXxYREcHW6QItvI8FGQrcxKkgjWAn+eK8UCQpnK8I3lQeGMhimSm16xrcxJ6jwSjI9vZOCeWh4Zn8Oh99DI/F4vHMlEENBWJPCXSCu/TvnVDKF9QJdTCXx/OlOL88qVZ7SjwKQYdDdBfIPQZWF89etWo4jER/f/8DjQbROInHMFdwPzqa4KHco8Fl/lLplwNKZUXF7cagkKqqwZ7QJ5PZQ8dwHRfLfHyELEVOTI12164GUdW4wVZWWWC9iQNsnhkzMwWKxOCI7Kio3fJad4KtPoE5PUhu2RudZOQLhPpteXlyumx+rprgdxfBrRdcbkBAi03rvNhm+lYFS8diyjZp62d5iK3Ekv1LwOMLcJSsrftEPsqu8fau8FbWHCsqSq/3y5cMo1KXrgSnHrwlRyly3/a/UUFabWNRenr9LL9evahUataUCQBcnfqHHCXb2hCDYd3J3Nz2dj8Tn9iwA+6Hy4KHTwlODhO5F6jV9zzy80mlZm34RewPcFl4/u5akt3gj8CmEUjdv3TKDpJhzHi+5trpcynjF6Wmji4sdHV1PXHm7JKV8G4A/gG7ERwzF/F54AAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 82:
-/*!**********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/heart-rate-icon.png ***!
-  \**********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAAn1BMVEVXVtcAAABWVtVYVNdYWNdXVtdYVtZXVddYVthZV9hXVtd/f/9YVddXVdZXVtdcXNZZVtpVVdlXV9hXV9ZXV9dYVtdXVtZYVdlZVdhXV9dXV9dXVddmZsxXVtdVVdpVVddZU9VVVd1YVtdVVdRXV9dXVddVVdhXVtZYVtZYU9NZWdlXVtdXV9dYWNhYVthYWNdXV9dVVdtVVdRYVtdXV9deCoTXAAAANXRSTlP/AIBAhuWdv2hwsgJgqt4ZUzxblkx06F1C1EbXBZIwMysP7AaNeCf0wzQU+34040DIKjagmW2/cmMAAACpSURBVHicZZDVDsMwDEWviyszjZl5+/9vW5ymnbSdh/jqKJFjg/4QamEEgcHZz+wsZaXvIQiJNK7YEI6lTCidtiLFQKWeO4xfBaUuljgapeRDd1wD5uPaqi0fsePZ0PKC8xukCaipKjNyV5xnoLkugO1pCTjp/PvpiO/X0YuLLweiZyiydZDN2hmJElO1L9TYgttSmnO3CWa4E2bdL0eSn2B999UST7r0AcFYB1qEqqmfAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 83:
-/*!*******************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/breathe-icon.png ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAANlBMVEUAAABXVtdYVtdYWNdXVthYWNdYVtdQUM9YVddXV9dXV9ZYVtdXVdZWVtZXV9ZXVthVVdRVVddIJ6itAAAAEnRSTlMA/4Ag70DAEGDgcKCwUJDPMD8vdLGaAAAAeklEQVR4nJXPSxLDIAwDUCS+gXza+1+2wiR0MlmFjcUb48Hu3fHf2zUfdITzoUxKCJ0qEE/ZAXxECQh5TJFgEy2qzah1oqhX+KsJbBhhFxVLehQsJBEt4YiDMGnJZ/uf1B8nrU8aXdRak8bYqmRhtd8XcrNA1mvJ+/kBXAUCKlVzvNwAAAAASUVORK5CYII="
-
-/***/ }),
-
-/***/ 84:
-/*!******************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/toilet-icon.png ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAMAAADX9CSSAAAAUVBMVEX/VVXob1Dnb0//AADocFHoblDka1HpcFDpb1HocFDrcFLocFHobVHob1Hnb1HpcFDoblDob0/rblLpcFDpb1Hob1DpbVDob1DocFDob1HpcFE6K4EHAAAAG3RSTlMD/8EBQsAT8IHgMsBisaGA0HFBoH7rI+iZkVKKoeEFAAAArklEQVR4nKXRSRaDIBAEUIqgDArE2eT+B00DQTC6S+34j6HpZg92n+Q9cmRfOz8c/OyCiXEcmbj4M26+OiG/d8b+8nbwXmMCug56gvZ+aIOrUnvOELyHVrtVrqM4ZXel8Y73QNK5Elqndx1s7Rav5K3EVNil46FOI6HnNeA6a0hz1G9CP59NE3rEI+e5bFhCgQu2n7nQNw3t5KjnQi+LtBS56Oj05eYbQJ28pPJrPpuuBZVfZS4TAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 85:
+/***/ 75:
 /*!******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/tumble-icon.png ***!
   \******************************************************************/
@@ -15768,7 +15667,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6
 
 /***/ }),
 
-/***/ 86:
+/***/ 76:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/leave-home-icon.png ***!
   \**********************************************************************/
@@ -15776,6 +15675,50 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAARVBMVEUAVf8Aev8Aev8AAP8Aev8Aef8Aev8Aev8Adf8Aev8Aev8AeP8Aev8AeP8Aev8Aef8Aev8AdP8Aev8Aev8Aef8Ad/8Ae/88aEvMAAAAF3RSTlMDwf8BgHJi4CPwsaHoQsAoMhZm5BMtbN302S4AAABhSURBVHicnZBZDoAgDAXbalkUcff+R9WyJCZgos4PLwM0baGBhNlyim7gThPeHHu6QKfbgBJHtlcTwCo3QnDxE6bju5tLN9JSuJ2OV+9q9X73V5mXUZJ3FgP8tL+8Z5PTCSYQAsahltCGAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 85:
+/*!*****************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/family-management-icon.png ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEUAAACJjIyJi4uJjIyHi4uJjIyPj4+Ji4uJjIyKjY2KioqHj4+Ijo6IjIyKjIyKjo7IIFBBAAAAEHRSTlMA/8DgQPAQcNBgMCCQn78/1qAw2QAAAG1JREFUeJxjQAPOJjDWPtHA1xBWjuC1XMFjIBZ7oAoDg5PoBCCz0RIkMFkCSEgkMLB8YGBrBDKFGLgMhRcwKIKZzOGlBlCmYwG7CCYTSQFcG8gwB4hhSFZwBj5hYPADW4zkHAaGTaKB2phOhwIALF0ZpzJerCoAAAAASUVORK5CYII="
+
+/***/ }),
+
+/***/ 86:
+/*!****************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-icon.png ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAqCAMAAADhynmdAAACB1BMVEUAAADa2trb29v////q6urn5+fZ2dno6Ojc3NzS0tLl5eXV1dXExMTp6enY2Njm5ubX19fh4eHW1tbk5OT////BwcHT09Pi4uLR0dHj4+PLy8vOzs7MzMzf39/q6uq9vb3V1dXFxcXU1NS/v7/Hx8fr6+ra2tq7u7vT09O/v7/b29rd3d3Pz8+qqqrAwMDy8vKvr6/Y2NjW1tbJycnb29vw8O7q6uqqqqrU1NTz8/Orq6vr6+vb29v////S0tLt7emioqLf39/V1dX09Onp9OnR0dHZ2dne3t7s7OzU1NTv7++Wlpba2trFxcXW1tbf39/W1tbLzcvDw8Pc3NHBwcHW1ta0tLTq6ujr6+vOzs7t7dukpKTc3Nvb29nT09Pb29v4+PjS0tL///+qqtTX19ft7e2tra3T09PR0dD39/bu8u7S0tLv7+3r6+vU1NTa2trPz8/c3NzLy8vDw8PU1NTb29uwsLDIyMjV1dW5ubnS0tHNzc3S0uGurq7m5ub7+/fY2Nba2trW1tTZ2dnb29uzs7PU1NTZ2dnu7u7Y3NjR0dHU1NTc3Nzv7+3l5eXb29rj4+Pq6ur19fPPz83a2tnb29ubm5vh4eHX19Lb29vT09vU1NbZ2dnc3NzT09Pb29vt7e3e3t3b29azs7LU1NT6+vm3t7fR0dHZ2dnW1tbc3NzY2Njt7exsec8UAAAArXRSTlMA//8B/////////////////////wL////////////9/+3//wT/8P3//f/a//8D/3L+NOz+9HXzBgYV/v4HDX1F/xDmFxcLnBdE7HL/1XvY4ixr4RZSqv5XMvsOKu+oI4247jUGOXM+dML9PRFvGerp+oIx/E0r8zydOo9RERYKQLxna/sV/zYiD0L8GDNh28cJPWt1s5b/MzMOI8XdHfkyOeky7x77/xY2MpHs/UJvpPgAAAJTSURBVHic1dR1f9NAGAfw3iW9RhppqpGuupbaVtoCG9tgwITh7u7u7u7u7g4vkksDyTXwAuDJv9/P73nuc0/O8+8V1bfu9LbHB19ev3Di6Z3eTKZCUW7RtebjVjWXO9/YPeP2g5VDQw+/rd57dphkVPePHh8Do9FAvMRACABCAOVeTCLJQBvthZwgBFWOk7xmSUH5+w0ihhrooX1QEkrQrFIJMgwD9dpokkxpMwnuZRUGDMwmN/xBOB+eAkDrg0w2+YUk3Q4BQOEBDoH+ZEujZVYjFCnrspa/qEF8pFTyiUN2Hj0s0D7AeSECcszIF7KGLCJ/7Z1NqHuH3mOCU8xGMp/mIwoeh2xETRvfb5Lfs5gFGeCvvSbJI4H2ApKYKbvmOGRjdTomDEHMc/snP3PImGq/T/CCoJdIAZisIsiiT5zEIdVFRq5WHOLnJSkoxqUWkuLfnrJJp87R+KaVYGtKrGFvA9VZDpqEjbaQcKxxxUUYN2FX9Nlkh26RgIsUu2xyU1f/QjrY4jj7GpfcEgiCFB79SnFIZfHY5rhNghSWla1xi+uddZloEXNchCKGgYCIG+W3ZNwkpWIioli9jgFO0WaGHDK1nabTVcA1Z+FjitkIhSMTXCTOB7jmSZCIxHTZyCZ4ktzFJCBH4wrPGqmOQiGRTyQSmriZIG/aBToggoi/EE5pWiwtKjrLR0YuEX/A8OyoGpebW4s3HFfu2tJXzy87IR5PaO68/fVRuPasnXVm4ZFj94/v+zwYan0/QieXb1pw7sDXD/O3D/Zm3G/Lf1U/AdxoWRz71ImhAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 87:
+/*!*******************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/message-icon.png ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdBAMAAACkvXo8AAAAKlBMVEUAAAD///////////////////////////////////////////////////+Gu8ovAAAADnRSTlMA/8CAINBAMLBgcO8QkJpT+AQAAAB/SURBVHicYyAPsJig8r2lHVD4iYIJyFyuQMEoJC57oKCgYDiCf1oweHKg9AE4v1EKqEWwAW6Z4AUgeVEExmcWBFnmKAzjc4iCSFYJGJ9JCEHSgz8RwhecAOFyAj0HBpIQfiGML1gA5jsbwwAizNLSIHLwEED4HgxKRVHDFycAAAXPFBEXnPLoAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 88:
+/*!**********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/add-device-icon.png ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAMAAABhTZc9AAAAM1BMVEX///8AAAD///////////////////////////////////////////////////////////+Q8lQ3AAAAEXRSTlP/AIC/J+6W1OoSW0Bq8pkV9Nym9WgAAACbSURBVHichZNZEsQgCEQbNWpitvufduJkcCQL9I9VPJVWAMTaZp8ycvLz1mJMQ9zB2mOQ1A2NVQ2up6tgVeuf3lgVU/9I/UndIwSO3KAgDXXWwkFjv730F0XCuIjLerqMmGQqYWKCMHyhHkmhCZnBV3QuvxgzoLTCEJUW1c/qeXXP+nv1v9L/2aiRXl+jN4y+MnrS6GdjFl7m6ANXGwO6mdjWhgAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -17036,47 +16979,36 @@ module.exports = index_cjs;
 
 /***/ }),
 
-/***/ 95:
-/*!*****************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/family-management-icon.png ***!
-  \*****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEUAAACJjIyJi4uJjIyHi4uJjIyPj4+Ji4uJjIyKjY2KioqHj4+Ijo6IjIyKjIyKjo7IIFBBAAAAEHRSTlMA/8DgQPAQcNBgMCCQn78/1qAw2QAAAG1JREFUeJxjQAPOJjDWPtHA1xBWjuC1XMFjIBZ7oAoDg5PoBCCz0RIkMFkCSEgkMLB8YGBrBDKFGLgMhRcwKIKZzOGlBlCmYwG7CCYTSQFcG8gwB4hhSFZwBj5hYPADW4zkHAaGTaKB2phOhwIALF0ZpzJerCoAAAAASUVORK5CYII="
-
-/***/ }),
-
-/***/ 96:
-/*!****************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-icon.png ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAqCAMAAADhynmdAAACB1BMVEUAAADa2trb29v////q6urn5+fZ2dno6Ojc3NzS0tLl5eXV1dXExMTp6enY2Njm5ubX19fh4eHW1tbk5OT////BwcHT09Pi4uLR0dHj4+PLy8vOzs7MzMzf39/q6uq9vb3V1dXFxcXU1NS/v7/Hx8fr6+ra2tq7u7vT09O/v7/b29rd3d3Pz8+qqqrAwMDy8vKvr6/Y2NjW1tbJycnb29vw8O7q6uqqqqrU1NTz8/Orq6vr6+vb29v////S0tLt7emioqLf39/V1dX09Onp9OnR0dHZ2dne3t7s7OzU1NTv7++Wlpba2trFxcXW1tbf39/W1tbLzcvDw8Pc3NHBwcHW1ta0tLTq6ujr6+vOzs7t7dukpKTc3Nvb29nT09Pb29v4+PjS0tL///+qqtTX19ft7e2tra3T09PR0dD39/bu8u7S0tLv7+3r6+vU1NTa2trPz8/c3NzLy8vDw8PU1NTb29uwsLDIyMjV1dW5ubnS0tHNzc3S0uGurq7m5ub7+/fY2Nba2trW1tTZ2dnb29uzs7PU1NTZ2dnu7u7Y3NjR0dHU1NTc3Nzv7+3l5eXb29rj4+Pq6ur19fPPz83a2tnb29ubm5vh4eHX19Lb29vT09vU1NbZ2dnc3NzT09Pb29vt7e3e3t3b29azs7LU1NT6+vm3t7fR0dHZ2dnW1tbc3NzY2Njt7exsec8UAAAArXRSTlMA//8B/////////////////////wL////////////9/+3//wT/8P3//f/a//8D/3L+NOz+9HXzBgYV/v4HDX1F/xDmFxcLnBdE7HL/1XvY4ixr4RZSqv5XMvsOKu+oI4247jUGOXM+dML9PRFvGerp+oIx/E0r8zydOo9RERYKQLxna/sV/zYiD0L8GDNh28cJPWt1s5b/MzMOI8XdHfkyOeky7x77/xY2MpHs/UJvpPgAAAJTSURBVHic1dR1f9NAGAfw3iW9RhppqpGuupbaVtoCG9tgwITh7u7u7u7u7g4vkksDyTXwAuDJv9/P73nuc0/O8+8V1bfu9LbHB19ev3Di6Z3eTKZCUW7RtebjVjWXO9/YPeP2g5VDQw+/rd57dphkVPePHh8Do9FAvMRACABCAOVeTCLJQBvthZwgBFWOk7xmSUH5+w0ihhrooX1QEkrQrFIJMgwD9dpokkxpMwnuZRUGDMwmN/xBOB+eAkDrg0w2+YUk3Q4BQOEBDoH+ZEujZVYjFCnrspa/qEF8pFTyiUN2Hj0s0D7AeSECcszIF7KGLCJ/7Z1NqHuH3mOCU8xGMp/mIwoeh2xETRvfb5Lfs5gFGeCvvSbJI4H2ApKYKbvmOGRjdTomDEHMc/snP3PImGq/T/CCoJdIAZisIsiiT5zEIdVFRq5WHOLnJSkoxqUWkuLfnrJJp87R+KaVYGtKrGFvA9VZDpqEjbaQcKxxxUUYN2FX9Nlkh26RgIsUu2xyU1f/QjrY4jj7GpfcEgiCFB79SnFIZfHY5rhNghSWla1xi+uddZloEXNchCKGgYCIG+W3ZNwkpWIioli9jgFO0WaGHDK1nabTVcA1Z+FjitkIhSMTXCTOB7jmSZCIxHTZyCZ4ktzFJCBH4wrPGqmOQiGRTyQSmriZIG/aBToggoi/EE5pWiwtKjrLR0YuEX/A8OyoGpebW4s3HFfu2tJXzy87IR5PaO68/fVRuPasnXVm4ZFj94/v+zwYan0/QieXb1pw7sDXD/O3D/Zm3G/Lf1U/AdxoWRz71ImhAAAAAElFTkSuQmCC"
-
-/***/ }),
-
 /***/ 97:
-/*!*******************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/message-icon.png ***!
-  \*******************************************************************/
+/*!*****************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/user-photo.png ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdBAMAAACkvXo8AAAAKlBMVEUAAAD///////////////////////////////////////////////////+Gu8ovAAAADnRSTlMA/8CAINBAMLBgcO8QkJpT+AQAAAB/SURBVHicYyAPsJig8r2lHVD4iYIJyFyuQMEoJC57oKCgYDiCf1oweHKg9AE4v1EKqEWwAW6Z4AUgeVEExmcWBFnmKAzjc4iCSFYJGJ9JCEHSgz8RwhecAOFyAj0HBpIQfiGML1gA5jsbwwAizNLSIHLwEED4HgxKRVHDFycAAAXPFBEXnPLoAAAAAElFTkSuQmCC"
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAADwSaEZAAADAFBMVEUAAAC87uy56+qr5OOu5+a57Oun4uCh4N+y6emP0tKk4eC16uqb2tmc396o5OKT1NOj392Lzc2e3NuOz8+26eiKycmZ1tOa2diW2Nio4d+U1tah3NrRxaDb2r+S0M6tmHDO0LvU2MPMxqbMzLTl3Ly15OHa4NLO1sfa1rmGeFyYhmWHxcPJya/j6dvDtI66up7GxKvZ0rHGyrbe4tCusJhkVDvIwqGksqLYyqbKupShl3e/roSPf1+snXnq7uGlk3Dn4MLQv5a4tJe0nXPq583LvZmQhGfSyqrh59fFq3yAb1Hd3cSvrY/j4smQim3Yzqvg17ax5uTX3c3Cu52+y7vB0cegjWq7pXuSkHV5c1i/pHWBvr2jnoG1xri4nG6vt6Ozq4iywbOxo4CeiWScvrXCv6ahoo59t7Sm2terpYbJtYmoqY29xLLU07iLeVrOuYypva+nkGe4poB+eV+cqpajuardyJ27rYx6ak5uYERsc2W8tZHI2tC6vqqUnYqqyLx0ZUmRwryh0sxeTzXh06+cnYW02tKr2NGJknyBg2l4qqOKqZ2fmYCiqZ7dz6iVlXrOs4Cq6upWRy647Ou87eye399pW0G67Ow4PTVFSDylglPWvpCAiHXHz7/O3NDkz6BlZVFwiH2X3Nx6fWdYWEZxblcjJR6XtKdoe2+yz8S97u6Xgl6v39sYGhSO0tGm4+GXy8WXfFRvaE9mbmGf3997j32jycC87u5tmZORclVIPSkwMCOFta677euN09OW2dmf39++7+l8lYeR1tOt5OSf3t5tt7ed3tya29u47Oue3tvG8fGm5OKL0dGp5uKSmoWO09Ot5eS98e6f3t5RUEC77u6w6OiO0NB6nZSEnI2S2dRmmZmExcWN1M6vuKFqubeq5eO+uJtqt7XMxKS7spmP1tSMzs5GNiCr5eSv5ubX1bPD0b+CcVZlr69qpqawo4az5uxyaFCz6+fNx6mOnomJysptrq3Z2b+spYRme3OqsJy+vp3Tz6tms7OCvsHAt5OzgwfkAAABAHRSTlMA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////DP/jrqX/Xf////////////9C/////////6P///+lpP////84//+F+//////KTOcQL/+7fLf/jCvvZBLDC0friulJff94rxv//zYP3y+peGNe56keZHj/2lNa51ZWeLEo4JbnYaSxKOB4yYWFClbJil6RIgAACzpJREFUeJyV13dck2cCB/AAChStRRuwKQnZ05CdkIWQRMIIe+8Nyt5bNsgeRUUQsFp31XNV62it19ZWex3X6x7X612v4/be83nelYE4fho+/MHn+/k9433eJ6R75/f7nt/z4u477mvX3tn94p7n933/Pn+/ap768sPd69zRrAVxA//ddj+77wcPT/3iQ2/vdSDuawkMz559D1fq1e+8YRAMaEgvAgP9Pnjqga1X312zZg2m2TFHze3OBw84wO88gIVqAENGCShnDLR7gME+ddYDZDWMzOW6E9yz91uKt99FJXyU+HIiS+DO7WnO3UW2l/vRvWcLr2XHkNV0R6qRj3d0VHY5aG73mrk/boCYk4YVc4Nm4oljF5dyKk/bR+r27KrWWc8NUFuzBnKuw4TYxTNHjhyM63HAVtXOenp6ItWIZmQ7BkM+dGZhfiEumOu4qntWsShAI8Z5F8y97/qxYx1H44Ydq9212+s+gELHiWHwaSIT0Gnw2TF/7Mz7B4V1DksA8vwK6w0fBLOPE/Qik+0YuQ/8Sr547MzCkcayXU7V3Fy373M+GOYwTCds1+QwnLT5M/PzmdM9ztXcXE6mN3GM2BwIRiawlNw6rrv7yx3zx663x9U5LYGb24tO1nuEhWOJqIVqidzT7OXCk+7uJRcPzi9k6lUumNO03fZywZBqmEZO3FHSXBWhSCnkunO7Dx+8MJpT6TJpTgPd6+WLYhtAcA12SyRzT/cfH0mjS8KTS7tSueSejIUjmRk5J10mzWG3PeflBaohzbA58/CgUBITyd4ewz3dxfXn83Tp5UK9obPn9K7p69ePZOS4bA4Q4pm/BTBfFyxw/OQubuJwU0joflPtDNX8/vu99PripuHKowsX9OUrJo2oBouBZnD/E3PmsaMpuCvlZK4hPdmi0c7kiRqX4oos9aJgVcxQTkFMzIpJw2dtry+iuQwz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"
 
 /***/ }),
 
 /***/ 98:
-/*!**********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/add-device-icon.png ***!
-  \**********************************************************************/
+/*!****************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/home-care.png ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAMAAABhTZc9AAAAM1BMVEX///8AAAD///////////////////////////////////////////////////////////+Q8lQ3AAAAEXRSTlP/AIC/J+6W1OoSW0Bq8pkV9Nym9WgAAACbSURBVHichZNZEsQgCEQbNWpitvufduJkcCQL9I9VPJVWAMTaZp8ycvLz1mJMQ9zB2mOQ1A2NVQ2up6tgVeuf3lgVU/9I/UndIwSO3KAgDXXWwkFjv730F0XCuIjLerqMmGQqYWKCMHyhHkmhCZnBV3QuvxgzoLTCEJUW1c/qeXXP+nv1v9L/2aiRXl+jN4y+MnrS6GdjFl7m6ANXGwO6mdjWhgAAAABJRU5ErkJggg=="
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAC/VBMVEUAAAD////+uLf+sbD9qKj+trb9paT+rq79nZ3/+fr9oKD9o6L7fn7+tLT+s7L6amv+rKz7dnf/+/v9pqX8jIz9q6r7e3v9qqn98vP8g4P+9/j7dHX97O77cXL8kJD8l5f97vD9m5v8h4j+9fb8eXn8gID9mZn7hYb9lpX+r6/99PX8lJT73eH//f396uz7b3D94+T8kpL8ior98PHnZ2f1tL/85+r61dvycnPypK/6mpr5z9b4d3j2u8T4ydD74OT2uML7bG37pqX6cnP62t/62N38oKD95ejsbG33wcr5env6o6Lva2zgXF37jo73xMz0d3j60tj74ub6nZ32vsf7yMn5oKD0dHX0k5P/AAD4lpb6goL3cnPkY2TnamrgV1j3xs7ybm/1mZn3iIj0rrnrZGX+uLfyqLLob2/3bm/pYmP4zNPzamv3nZ3ucnPgYGH1envoX1/3fn/7a2zvZ2f4hIThVFTxiIj80tP4o6L8w8P5zdP9zs79v7/kW1v4i4v2gYH1sbr4kpL8gID+uLf82tv+tLP/mZn9u7v/f3//mZnzfn77dnf7a2z/v7/////uf4D+uLb7cXL7a2vweHj8e3v6a2v/t7f9qan/a2v9o6P/tbX9nZ3/ZmbodXfyjY39oKD7srT8jIzyg4P+rqz9trb+sLD/t7f9mZn8iIj6ubj3jo78k5P9mZn+uLX/l5f/mZn+q6v8iYn/a2v/n5//XV37hYX/VVX5aGj7a2v9n5//ior6a2v/kpL7bGz8hYX/lpb/sbH7jY37aWv/lJT8i4v8np7/bW3/trT3a2v8bGz9kJD/kJD9o6P/n5/9g4P/ubb+mpr3rLD/tLT9oaH+t7bMmZn8goL9mpr/iorUf3/8hIT9paT7bm76hob/s7P/tbXtW23+kpL/gID7goL8mJj8g4Pvf3/6nZ38h4f7hYX+t7b7bm/9oKD7lpb/t7f/kJDmZmb+pKT+lZX9nZ38mpr/vLz/g4P8kJD9o6P7Z2v9iYn/iorzoaX/nZ2lRhfmAAAA/3RSTlMA/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wH////////////////6////////////////+/////////////////////jy//YF/wQK//fzBAH/z/fU//ekNfYT/B/5Bf///v/z//ae9kPz9/8izP3CGw/2UDcIC9YDWMmoGHA9O8MRDcq4MqzLI20fSdo+8D3xp73/EWe1BaqVJQbk4chdFFYOvRQ/T/oQL5t34+XyrFFHCsHYdVsTIZeZRWgw/07cmoTrAAAHG0lEQVR4nIWXB1hTWRbHXyBgSOgEMCEmhJIwECJgFpjAgEQIJS5lIICIrBBHcVCXAVm6MIyKwtpWVsdepthHp/fee++9997rN/9z33shUT/8fR8195dz373nnnvCebDx+e2PPLNl9WK/oKBgX1/f86aFhoZGRkulERH+/juffOi2H566Z6PneJF5Y7veeXH14sU+Pn5+QcFQvUyFfP/+/bt3P/vjydfmnW5ufPvQlsV+PiSKJlS3qZDL5TKZ/sTh7z88+ZJ3yNFdV62Gd4YZ7WXqDYYTh786NrZp0tx07/ZrMFMvk82WgrpNGUydLinp+J2n3O68ew9tYSIzaYncMc9ipqQ8/s0p8YFHtwsmrdC5zfT0x58YE1Zo1zXepu+kGTFp6t2mVnvfq3uY+tNV/HNObRoQNAkqmeXlD95OU954iF9bz9nSptBkHQq73c6H5E19EplK5cHr1kPd5V4iMSZEm83mcDhqa6uB1YqpEnq9XqajmEql8qafsUZfi9sipl8kIkLt7e2tZa7Vam0YSQEGip9CQTMyjry1h3v+GaYyk00X5tGeNE/yB54bGdGmp6eQqktHzIy4uLvf57azJ51MhUip7ag69TTUR/cNlZenYMY6LW8aj3zAPUJBvUybWSJRz9JozObMzOLiYoSdnqrp7nYNYWN0SWRmxBmNH33G0c4IJrIPZm9vsiR8IGhatL8c66mMUwVG2dXh3ZuvcA0NKcsxXZhxRpXqZQ7p4DYjI5mqlqjXBXuoCVGaVKjdQy6XayiDmVBv4j4XE5dMX+eaNWsKwyXhaSb80tPTMzDgdDr7+uIlzj6n80C9q8sYB8hUPc2tFlMej3kgWTIls+qHh7uMAGbiZaTySRQaLe1JnVpNdY6PD3d1QVQlJiZya8UkirRJNVObEolm88T48HzeDOTWCmZotM12TjV2YkVlx3wAk1QhcaWO3nOre0sq2+GSCVWoJ5HS2lrkQrhaHc+TnJw8nZjFiI2NnaVO1bSWZLd3BDIzilvLUp7mW7vcnBrQM7hunY8f26roCH+cOL0BZ1SL3DPG9QVoWpuyK8sCmclUdkKltuVQ4/uCgikbUXiZhGOSYVQlBkYlhMXMMcSbWy0roDIzgbtaqApSx/LlmeEBaZQGlAdIhL7BQZqDD3KN3v88U4C5ydJcR2oUU4UaFsHUsxPAEx4OdW5dWRQzoQpVHmpLJl71GHommU0Xza3LhQgzjLtSrPJQi4UR6rOANVeri5laxkyoQvWz1Vpb0uLFneG3Z3rsdGyRBxdCzc5NYCbUSL5uOmpbWvJpL/ndZDs6qBuMdf9F5FsuhprLzBjuWqHKM9WdAQyNXFttRi5MYiI1JoyZUIVa7ahuaDAJIzQ8mTKtvlj4HZjN5kKozTEQYc6Byl+h9uqG+kJ6mScTNckk0+rWmExpmW6yLJesbG7kzRnc5cLla7c21BexOsbIHwwO9Teg/MWpHPkXilQtIDWGmbxKFz6pWfRyPqPQZ1qEXKfNUAWGJRbhbxMjB+rSxhhmQhWubZl1pD5HHGIyFQ4MrgsyaLUOe7WzqFCkDeoyQZ0Jlb9CKWo/lMIiN1kyrbWqKMuDPFqmxjnMLOCe5M0If6REP4ZnZVWJ5EBty/GgaiHOa2XjDDJndnJvwFT4R0gVUPOyqnJy+kEbI0+mNSzMc9PW319KR709hsyCDdx3OxVyBS2V3dqysCqnbaFABTigO1BKPytKQQXepYailkXNgVmwlft1p1yuQGTa15q8PDaqtLSGccHsC/BNgOzZTA0Mg9m5jXsBqpz2FeqlFRVs5Gwv/sFDL5zfxNSEmQUhnXdwn3y5X4ZFQiJa61tqasSB4FKeRQL4z6K9FjbhhJkhIRvu4sZu2y1jUbE5++qfW7RE4PzTWbLkz70WXg0rCAm5fwc3+hepCoVMNzKyr3vz3qYFC/7N+KfAvwQWAEtJM530GMz3FvQhJx+SybA/dr2uob57c6uFTF5atYqU/wisgolHhUrz3fooOpj1Tx2GiuYIzca+7onW1qamJgtxMeMSYhVhKSlphplbNgNP+hjrue555QQ1cSi6Q64rxicmVvCUlMwlVoKLeOZm18HMhdm5bQfrEkePPct3cOVKl2t4eHy8vb29EtTVZYNmsIxYia+ljY3Yl5CQWx+mjgvc8MBx1vuVK3Hld3XNHx7uAO1l7QhRV9cIlhLL4PBsvetGd+9+53HW+7G+xtgFe35iRwdqfBlkOtfId7gUj5m/vevu4jeNPfAe3/vxPYZRJdyDVKuFcoKMR/pB7Lz1+hs92vB5Nxz75SC1fmJ7Qvc2fyl5qMzcsO3hb70/OYyeeuK+gxmsD5vK7Nz62A5hhTxYf/t1Dx48wpvUKnibdLY7N9x/y6N7zviwQtz88R+/f3r3609fxvg/8V/if8QXb2674/odN3sM/xuezKzBQR+8pgAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 99:
+/*!***************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/house-reconstruction.png ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAADAFBMVEUAAACYqv5BXf6Fmf58kf55jv6Oof5/k/6Wp/1Tbf6Blf51i/5HYv5Ycf6Hm/6Tpf7c4f+Lnv6Dl/5Qav7Z3//O1v5MZ/5KZf6Ro/3k6P/U2v5Paf5geP7R2P6Jnf7m6v/I0P7e4//L0/5DX/3W3f9Xb/xAXPzo7P9ke/5zif2drv7h5f96jPlddf5LXe5rgv5nfv3Ezf1PYe9whfuisv5VavWZq/5RaPlJVuY+WfpsgPl9kPpac/5wh/1UZ/JWbPhBXf5ugPZHWOtnevaUpPtMYPLAyv5thP5RaftMY/ZRZPFyhPZngP5UbPs7VPVjdvZQWuJPZfcAAP93iPdvg/lbcvt+jvaYqv5XcP5rd+xhb+20vflqgf2Km/lgcfJedfpzg/OOof6GmPlcauymtP2uu/26xv5MXOuNnvpveeuJlvNjevtmdfByfexKVOJvffCClfp2ifq8xPlBXf6Vp/6Ek/ZdbvGpuP5GU+aCjvFpefGHm/5Zb/g4TvFYZeqttvh9ivJUYOeYqv5IXvR4hvNFT+Cfq/dLWeimsPidp/aOnfhCWPSNmPKYo/Y1R+jAyPqzwP6Yqv64wvyXqf5/f/9aZOU6TexNaf5BXf5CVe9BXf5AXP+RmvJBXP6XqP1FWv94gu18kv5di/97kP5Af/9qgv6Xqf9/f/9zi/53iP9Ycv6dsf8zZv9rgv+qqv9fd/5AQP91i/6Clv5tg/9nf/1adf+aqv////9/kv1GXf9heP9AXfyWp/9mZv8zVf9tg/6fn/9whv9ac/+Vqf+XqP1CXf9Ra/9wh/uXqv5nfv5cdP+Wpvlmmf96lP89Vf98lP8/Xf93j/xzjP+Sqv9hePxjfP52jf1ziv5FWP9wiP5je/5mceqSrf9idv96j/4Af/8qVf+Upf9Vqv9cdf4A//9bc/54lv97kP+Gm/6XqP9kfP9nfvxbcv9/lf6OnP8zM/99kf5tf+1xiP2Yqv9dd/Zxcf+Dlv6Imf+Dl/5BXf9+k/5ogPNDXf9mc/85S+qWqP8odoS5AAABAHRSTlMA/////////////////////////////////////////////////////////////////////////////////////P///////////////v//////Af/////2/v//////////9v//////////////////////9fb////////3////////+///////////////////8f/ABP//+9v/rED/zJMl//0L9QTUygzzHvENBTkD+gT8+iOjdDABmwtCYD0FD8QIOadNongTQuD2zy4FMhVpTUsUFVnBpsga1vn/HA3RAgYfA7cB1BFV7GchTTjfEgWzDppjHgnwD8a4wBZYFP84WRYntAAACDxJREFUeJxt13dcU9kSB/BLERM1GiFBEhJIQmhJCCRUAYGAICSicQMIRMrSDL0JArIU6QiiKD57Xdf2XNv23nvv7fXeey+7v3PuTQi7O3/n+5k5ZeaeMG7x42uv/+r0oVcObmdjF+JuGnsQv/znI2+/+fP73X/visNfPP/Cwb17Pbjg8Xhr1gT4+PisXRu0erWXl5fv7dsX/viLK2/c9XV4//tP3Ld9bwJVGpZCgnLS13fF8uXe5y58/933Di+Bdz3zxemDznwJcbCA35Te3suWXf7oynm3xA9fe+iQs9IEjSYuTpNA5GK1i3LZylsfP3vpYVfOa1/e50zpAYgAdZcrFuXKlZGfvvwnZ95nHlqUrNVwMiiIbpA7XBm5YcOnz57nduhHh9wkWapG4yZZCMdCyE2bnr7D7tXvT7tOhE3L43kskSkpOl07IpIEkdHRD/yHlHz4Cefe4ijJkSzZWgptNovFUlAQG7sBQeSOV3/zBuj7znJ5GxEBAQ4kdJe69qLpSfvgVFFBMjCB0Ts2b754h2FuPr/dTU6XIRxrEUSSYnVdk1KJRKIV5liykpOdMuazD55k/vECu1Iia6XjDV1dVVVlQVgmJ6dFkvDwYIlSNdSUlZVMIJERER++xLx+kN4+HmitWinsaOgtAl7tksJwIrXi5tLyrVnJOwjcHBERIbvxGPMXLumagBqVVKTUSsd7h4raqnyxt5BFcshwiVZVMlANGkODSNmNBxnuZHgbHeMKMbHKjkrYNnKDdDZ7MEmqVdQPUwrb2NhIpCzqOYbbX97G6YZBYoVKaX3lUMpySByniJarqrcOD3RvBc0qaKyAg0z9GfMKRwMcXTM5CrFcLZKXNI/qUnCFdLYyJA0OVp60WoeRFLYsYGtFRUUUIvUqw94HLNXR1TtrgJWKS0paYb292y1zhEqU0rOg3bCOGk15f39hIaSgmKGniksU4Kgq6p03KFRyaUd9faWtXaezWcTBZHeVIvFZFNxd7thdo+lOi4dNFQgElBLp46jqGuqdaThpEEvtza2VFlu7xSQPDpZIlEK11NA8MNBdBunRbU5LDwVks9KJ4LO2rK1otLm+pNcglsO2WiwmkwJUKxSp5WJDc3VD7e64BN6A0RxPaDGf2U5vPLnvq6tgK2FzxGJ7a1+rydQ3Tm4gkSpF3WxtLZI6Jnaa45G2mM9ndnESPebVlgLbWt+boxJ3tDb19TX1CbWkXLlYociZh0zgjSaB5oeG8vl+zC6XDPLybUODVbaWNOSoVPaSpqbS0g6hUASpUhjqDqBcj43VSXpzYj4fklLnFGJvrc3C2kHI6iE1Wy5kLQYlrzIpU7+NpYHMLtLXrGRHAvL2UTtZWl06pablGmi5Hrwqa09m9rbcfOQMJNRdrsAdwqH0NeFmwdpFbLk5tFxeF6Q+LzHXD9Lfn7mbm0KumblM115gamqaxq1Uk91VdBjYhQaMtkBmbyM0MNB/HaHOjwo7bTH5Yk19paUzCqVSpJYqPm9ZmMFdKCud6FkiQV2fI5eMjDVllZeeFCmxu6qzY2NjLS0tSYhMKhNptevWrQJ1fhqwTnZOR8YmZ/VNEamWD1rHWj639vQQp8/OIxIpiQT9Vlk5icuAcsWKmYUO+eAAzoRAVJvrlKuYPdwGcRLzPTbZZJvDtBCq5fY6hWFOLhTah1ErUubmunKuCmH2LC5zUcq16BeRfN7aUEe6H9bIUnaDqKT067ILgxe3Xmq3jlnH69DBsIOsRUo2aUiIJ7OHLtNdzgpJewulHQtjY0UJu+sM1E4a9SN5eetyi9HlfkQSuigjYwuSTeMSNCkWaihp6ZkI8NDUzBtUZNxNGTNH8hILU1Nh+as8QW8vlZZBOlOEIlV9S9LEziKeR0LNAWpFU/pjI+kYLqTNAwn9+3Lu88lKg3MaQe40Go3Exh3ApZSK1OOZ2ejy0FC0OT/EM4P5nbvUYY6Fk2kkP0uk2Ww0pxBbS8esdCotLT6d9jkq7mT+fY771McWFJSJ6PDUCqUnrZBp8fHmbHMbrIazs7D5pFtBjzKPnGMl9nZaKSFbpFWqp1iZnh6fl21kLTkkqbjanIhuJQVnHGfePsfJAtOc1t47RxY6ycnQ0PTEbL0e1kNDDkk1a6SNzucHhmS8yLx5gT4vNuBA5eqS4WZ0Wsdw0gRkf6EgND9xW3amvgo2oWY+ZzbzGEv9Qjw7TzCXPrpFXzSbkrMGRc0LMziWhaQBM3JWxESE5ucm5o3A0pdNQ8/+I/vyQP2xv6feYm6+e5nK6Jgsm1g6pxYaqpMmustRbUyMoFiQn5s3su+YvgyDvvLI/v33bFkfQm6SZ+fj32WYKx/fIi+a6JjGraMKrdDQPIF1lleEFsZsjoqSoa2pdfAsRIKGhYWBHj1DHj8vXyZyB2h509BQ9U6cJ6qVCWLw4U9l6b4jx4xH9v+fSFCS9L83yZPrvT9DsrQ7LQ23gO6tDN/uiChI9AnslnsQW5wy4/gn9JV4752nWdpY0d8fj0MnUiCLkEVhTtMWCwlbv4UGJz1PncFKSfzt+kXyFoporIBNTyfXFDJVJkvlJkIILPB6pzx64lHno/b89YvkLSSTVRQWFhIowCr5sAJulniGwRLIyneecj2mf/q96x9+Rt4l+NCjpwTIiWL9UmVR/uwsAWWDrPPUiad+4PaAv/TrB15lKf1gRxEZGCjw46RbdB4/8+jSfw73/u+x1244Jf2QuSafm8zoPPrOJ9wOuSV+8q8f/OQqHiYUclu7RGZkdP7r8TM//MafFZr5pd8++NxrV4shv0OCyAwuOjtPHX/xxFt/cPv5V2NnxQvnX78NAAAAAElFTkSuQmCC"
 
 /***/ })
 

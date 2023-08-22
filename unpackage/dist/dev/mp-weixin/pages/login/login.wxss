@@ -205,8 +205,8 @@ page {
 .container .u-model .u-model__content .slot-content .show-box .list-container .list .active {
   color: #01a6ff;
 }
-.container .u-model .u-model__footer__button {
-  color: #43c3f4 !important;
+.container .u-model .u-model__footer__button:last-child {
+  color: #289E8E !important;
 }
 .container .container-content {
   flex: 1;
@@ -241,7 +241,19 @@ page {
   z-index: 1000;
 }
 .container .container-content .top-area-box .title > view:first-child {
+  position: relative;
+  width: 100%;
+  padding: 0 10px;
+  text-align: center;
+  box-sizing: border-box;
   font-size: 18px;
+}
+.container .container-content .top-area-box .title > view:first-child .u-icon {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  left: 10px;
 }
 .container .container-content .top-area-box .title > view:nth-child(2) {
   width: 64px;

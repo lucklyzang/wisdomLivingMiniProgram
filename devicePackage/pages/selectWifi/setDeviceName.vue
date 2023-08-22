@@ -77,11 +77,13 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeEnterDeviceSetPageSource'
 			]),
 			
 			// 开始体验事件
 			startExperienceEvent () {
+				this.changeEnterDeviceSetPageSource('/devicePackage/pages/selectWifi/setDeviceName');
 				uni.redirectTo({
 					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
 				})

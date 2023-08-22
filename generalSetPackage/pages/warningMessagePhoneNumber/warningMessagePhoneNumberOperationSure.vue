@@ -10,7 +10,7 @@
 			<view class="content-top-area">
 				<u-form :model="form" ref="uForm">
 					<u-form-item>
-						<u-input v-model="form.phoneNumber" placeholder="请输入手机号"/>
+						<u-input v-model="form.phoneNumber" placeholder="请输入手机号" type="number" />
 						<template slot="right">
 							<text v-if="showGetVerificationCode" @click="getVerificationCodeEvent">获取验证码</text>
 							<text v-if="!showGetVerificationCode" class="count">{{count}}s后重新获取</text>

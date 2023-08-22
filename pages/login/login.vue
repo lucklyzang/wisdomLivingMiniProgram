@@ -77,6 +77,7 @@
 				<image :src="loginBackgroundPng"></image>
 				<view class="title">
 					<view>
+						<u-icon name="arrow-left" color="#fff" size="40" @click="backTo" v-if="isForgetPassword || isSetPassword"></u-icon>
 						<text>
 							{{ isForgetPassword ? '忘记密码' : isSetPassword ? '设置密码' : isPasswordLogin ? '密 码 登 录' : '验 证 码 登 录 / 注 册' }}
 						</text>
@@ -90,12 +91,12 @@
 				</view>
 			</view>
 			<view class="skip-box" v-if="isSetPassword">
-				<text>跳过</text>
+				<text @click="skipEvent">跳过</text>
 			</view>
 			<view class="form-box">
 				<u-form :model="form" ref="uForm">
 					<u-form-item  v-if="!isSetPassword" label="+86" :label-style="{'font-size':'12px','color': '#B5B5B5'}">
-						<u-input v-model="form.username" placeholder="请输入手机号"/>
+						<u-input @blur="blurEvent" v-model="form.username" placeholder="请输入手机号" type="number" />
 					</u-form-item>
 					<u-form-item v-if="(isPasswordLogin && !isForgetPassword) || isSetPassword">
 						<u-input v-model="form.password" placeholder="请输入密码" type="password"/>
@@ -129,7 +130,7 @@
 				</view>
 			</view>
 			<view class="enter-home-btn" v-if="isForgetPassword || isSetPassword">
-				<button @click="sure">进 入 首 页</button>
+				<button @click="resetPasswordEvent">{{ isForgetPassword ? '确认' : '进入首页' }}</button>
 			</view>
       <view class="weixin-login" v-if="!isForgetPassword && !isSetPassword">
         <u-divider border-color="#DBDBDB" color="#919191" @click="weixinLoginEvent">其他登录方式</u-divider>
@@ -143,7 +144,7 @@
 
 <script>
 	import { mapGetters, mapMutations } from 'vuex'
-	import {logIn} from '@/api/login.js'
+	import {logIn, logInByCode, sendPhoneCode, resetPassword} from '@/api/login.js'
 	import { setCache, getCache, removeCache } from '@/common/js/utils'
 	export default {
 	components: {
@@ -162,12 +163,12 @@
 				},
 				showGetVerificationCode: true,
 				isSetPassword: false,
+				isPasswordLogin: true,
+				isForgetPassword: false,
 				count: '',
 				privacyPolicyBoxShow: false,
 				weixinAuthorizationInfoBoxShow: false,
 				timer: null,
-				isPasswordLogin: true,
-				isForgetPassword: false,
 				isReadAgreeChecked: false,
 				showLoadingHint: false,
 				modalShow: false,
@@ -188,8 +189,24 @@
 		methods: {
 			...mapMutations([
 				'storeUserInfo',
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeToken'
 			]),
+			
+			// 返回事件
+			backTo () {},
+			
+			// 输入框(账号/手机号)失去焦点事件
+			blurEvent (value) {
+				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+				if (!myreg.test(value)) {
+					this.$refs.uToast.show({
+						title: '手机号格式有误,请重新输入!',
+						type: 'error',
+						position: 'bottom'
+					})
+				}
+			},
 			
 			// 登录方式点击事件
 			loginMethodEvent () {
@@ -211,6 +228,23 @@
 			
 			// 获取验证码事件
 			getVerificationCodeEvent () {
+				if (!this.form.username) {
+					this.$refs.uToast.show({
+						title: '请输入手机号码!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+				if (!myreg.test(this.form.username)) {
+					this.$refs.uToast.show({
+						title: '手机号格式有误,请重新输入!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
 				const TIME_COUNT = 60;
 				if (!this.timer) {
 					this.count = TIME_COUNT;
@@ -223,7 +257,8 @@
 							clearInterval(this.timer);
 							this.timer = null
 						}
-					}, 1000)
+					}, 1000);
+					this.sendCodeEvent()
 				}
 			},
 			
@@ -237,82 +272,248 @@
 				this.privacyPolicyBoxShow = false
 			},
 				 
-			// 账号密码事件
+			// 登录事件
 			sure () {
-				// 注册时获取验证码后进入设置密码环节
-				if (!this.isPasswordLogin) {
-					this.isSetPassword = true
+				if (this.isPasswordLogin) {
+					this.accountLogin()
+				} else {
+					this.codeLogin()
+				}
+			},
+			
+			// 手机号密码登录
+			accountLogin () {
+				if (!this.form.username) {
+					this.$refs.uToast.show({
+						title: '请输入账号',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
 				};
-				uni.switchTab({
+				if (!this.form.password) {
+					this.$refs.uToast.show({
+						title: '请输入密码',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				if (!this.isReadAgreeChecked) {
+					this.$refs.uToast.show({
+						title: '请阅读并同意协议!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};	  
+				let loginMessage = {
+				  mobile: this.form.username,
+				  password: this.form.password
+				};
+				this.showLoadingHint = true;
+				logIn(loginMessage).then((res) => {
+					if (res && res.data.code == 0) {
+						this.changeOverDueWay(false);
+						setCache('storeOverDueWay',false);
+						setCache('isLogin', true);
+						// token信息存入store
+						this.changeToken(res.data.data.accessToken);
+						// 登录用户信息存入store
+						this.storeUserInfo(res.data.data);
+						uni.navigateTo({
+							url: '/pages/index/index'
+						})
+					} else {
+					 this.modalShow = true;
+					 this.modalContent = res.data.msg
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.modalShow = true;
+					this.modalContent = `${err}`
+				})
+			},
+			
+			// 手机号验证码登录
+			codeLogin () {
+				if (!this.form.username) {
+					this.$refs.uToast.show({
+						title: '请输入账号',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				if (!this.form.verificationCode) {
+					this.$refs.uToast.show({
+						title: '请输入验证码',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				if (!this.isReadAgreeChecked) {
+					this.$refs.uToast.show({
+						title: '请阅读并同意协议!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				// this.form.verificationCode
+				let loginMessage = {
+				  mobile: this.form.username,
+				  code: 9999
+				};
+				this.showLoadingHint = true;
+				logInByCode(loginMessage).then((res) => {
+					if (res && res.data.code == 0) {
+						this.changeOverDueWay(false);
+						setCache('storeOverDueWay',false);
+						setCache('isLogin', true);
+						// token信息存入store
+						this.changeToken(res.data.data.accessToken);
+						// 登录用户信息存入store
+						this.storeUserInfo(res.data.data);
+						// 注册成功后进入设置密码环节
+						if (!this.isPasswordLogin) {
+							this.isSetPassword = true
+						}
+					} else {
+					 this.modalShow = true;
+					 this.modalContent = res.data.msg
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.modalShow = true;
+					this.modalContent = `${err}`
+				})
+			},
+			
+			// 发送验证码事件
+			sendCodeEvent () {
+				if (!this.form.username) {
+					this.$refs.uToast.show({
+						title: '请输入账号',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				let loginMessage = {
+				  mobile: this.form.username,
+					scene: 1
+				};
+				this.showLoadingHint = true;
+				sendPhoneCode(loginMessage).then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data == true) {
+							this.$refs.uToast.show({
+								title: '发送成功!',
+								type: 'success',
+								position: 'bottom'
+							})
+						} else {
+							this.$refs.uToast.show({
+								title: res.data.msg,
+								type: 'error',
+								position: 'bottom'
+							})
+						}
+					} else {
+					 this.modalShow = true;
+					 this.modalContent = res.data.msg
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.modalShow = true;
+					this.modalContent = `${err}`
+				})
+			},
+			
+			// 跳过事件
+			skipEvent () {
+				uni.navigateTo({
 					url: '/pages/index/index'
 				})
-				// if (!this.form.username) {
-				// 	this.$refs.uToast.show({
-				// 		title: '请输入账号',
-				// 		type: 'warning'
-				// 	});
-				// 	return
-				// };
-				// if (!this.form.password) {
-				// 	this.$refs.uToast.show({
-				// 		title: '请输入密码',
-				// 		type: 'warning'
-				// 	});
-				// 	return
-				// };
-				// let loginMessage = {
-				//   username: this.form.username,
-				//   password: this.form.password
-				// };
-				// this.showLoadingHint = true;
-				// logIn(loginMessage).then((res) => {
-				// 	if (res) {
-				// 	  if (res.data.code == 200) {
-				// 		   this.changeOverDueWay(false);
-				// 		   setCache('storeOverDueWay',false); 
-				// 			// 登录用户名密码及用户信息存入Locastorage
-    //           // 判断是否勾选记住用户名密码
-    //           if (this.list[0]['checked']) {
-    //             setCache('userName', this.form.username);
-    //             setCache('userPassword', this.form.password);
-    //           } else {
-    //             removeCache('userName', this.form.username);
-    //             removeCache('userPassword', this.form.password);
-    //           };
-				// 			setCache('userInfo', res.data.data.worker);
-				// 			setCache('roleNameList', res.data.data.roleNameList);
-				// 			setCache('permissionInfo', res.data.data.authorities);
-				// 			setCache('isLogin', true);
-				// 			this.storeUserInfo(res.data.data.worker);
-				// 			this.changePermissionInfo(res.data.data.authorities);
-				// 			this.changeRoleNameList(res.data.data.roleNameList);
-				// 			if (this.userInfo.hospitalList.length > 1) {
-				// 				this.hospitalList = [];
-				// 				this.selectHospitalList = [];
-				// 				for (let item of this.userInfo.hospitalList) {
-				// 					this.hospitalList.push({
-				// 						value: item.hospitalName,
-				// 						id: item.id
-				// 					})
-				// 				};
-				// 				this.chooseHospitalShow = true
-				// 			} else {
-				// 				uni.navigateTo({
-				// 					url: '/pages/index/index'
-				// 				})
-				// 			}
-				// 	  } else {
-				// 		 this.modalShow = true;
-				// 		 this.modalContent = `${res.msg}`
-				// 	  }
-				// 	};
-				// 	this.showLoadingHint = false;
-				//   })
-				//   .catch((err) => {
-				// 	   this.showLoadingHint = false;
-				// 	   this.modalShow = true;
-				// 	   this.modalContent = `${err}`
-				//   })
+			},
+			
+			// 密码重置和设置密码事件
+			resetPasswordEvent () {
+				// 密码重置
+				if (this.isForgetPassword) {
+					if (!this.form.username) {
+						this.$refs.uToast.show({
+							title: '请输入账号',
+							type: 'warning',
+							position: 'bottom'
+						});
+						return
+					};
+					if (!this.form.verificationCode) {
+						this.$refs.uToast.show({
+							title: '请输入验证码',
+							type: 'warning',
+							position: 'bottom'
+						});
+						return
+					};
+					if (this.form.newPassword != this.form.againPassword) {
+						this.$refs.uToast.show({
+							title: '两次密码输入不一致!',
+							type: 'warning',
+							position: 'bottom'
+						});
+						return
+					};
+					// this.form.verificationCode
+					let loginMessage = {
+						password: this.form.newPassword,
+						code: 9999,
+					  mobile: this.form.username
+					};
+					this.showLoadingHint = true;
+					resetPassword(loginMessage).then((res) => {
+						if ( res && res.data.code == 0) {
+							this.$refs.uToast.show({
+								title: '密码重置成功!',
+								type: 'success',
+								position: 'bottom'
+							});
+							this.form = {
+								username: '',
+								password: '',
+								verificationCode: '',
+								newPassword: '',
+								againPassword: ''
+							};
+							this.showGetVerificationCode = true;
+							this.isSetPassword =  false;
+							this.isPasswordLogin = true;
+							this.isForgetPassword =  false;
+						} else {
+						 this.modalShow = true;
+						 this.modalContent = `${res.data.msg}`
+						};
+						this.showLoadingHint = false;
+					})
+					.catch((err) => {
+						this.showLoadingHint = false;
+						this.modalShow = true;
+						this.modalContent = `${err}`
+					})
+				} else {
+					// 设置密码
+					if (!this.isPasswordLogin && this.isSetPassword) {
+					}
+				}
 			},
       
       // 微信授权登录事件
@@ -528,7 +729,9 @@
 				}
 			};
 			.u-model__footer__button {
-				color: #43c3f4 !important
+				&:last-child {
+					color: #289E8E !important
+				}
 			}
 		};
 		.container-content {
@@ -560,7 +763,18 @@
 				  >view {
 						z-index: 1000;
 						&:first-child {
-							font-size: 18px
+							position: relative;
+							width: 100%;
+							padding: 0 10px;
+							text-align: center;
+							box-sizing: border-box;
+							font-size: 18px;
+							.u-icon {
+								position: absolute;
+								top: 50%;
+								transform: translateY(-50%);
+								left: 10px;
+							}
 						};
 						&:nth-child(2) {
 							width: 64px;

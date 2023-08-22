@@ -1,17 +1,36 @@
 import request from '@/api/request';
 
-// 获取医院列表
-export function getHospitalList() {
-	return request({
-	    url: 'project/queryAll',
-	    method: 'get'
-	  })
-}
-
 // 账号密码登录
 export function logIn(data) {
 	return request({
-	    url: 'auth/login',
+	    url: '/app-api/member/auth/login',
+	    method: 'post',
+	    data
+	  })
+}
+
+// 账号验证码登录
+export function logInByCode(data) {
+	return request({
+	    url: '/app-api/member/auth/sms-login',
+	    method: 'post',
+	    data
+	  })
+}
+
+// 发送手机验证码
+export function sendPhoneCode(data) {
+	return request({
+	    url: '/app-api/member/auth/send-sms-code',
+	    method: 'post',
+	    data
+	  })
+}
+
+// 重置密码
+export function resetPassword(data) {
+	return request({
+	    url: '/app-api/member/auth/reset-password',
 	    method: 'post',
 	    data
 	  })
@@ -20,7 +39,7 @@ export function logIn(data) {
 // 用户退出登录
 export function userSignOut() {
   return request({
-    url: 'auth/logout',
+    url: '/app-api/member/auth/logout',
     method: 'post'
   })
 };
@@ -33,21 +52,4 @@ export function weixinLogIn(code) {
 	})
 }
 
-// 微信授权绑定已存在账号
-export function boundExist(code,data) {
-	return request({
-	    url: `login/wx/boundExist/${code}`,
-	    method: 'post',
-			data
-	})
-}
-
-// 微信授权不绑定账号
-export function boundNotExist(proId,code) {
-	return request({
-	    url: `login/wx/boundNotExist/${proId}/${code}`,
-	    method: 'post',
-			data: {}
-	})
-}
 

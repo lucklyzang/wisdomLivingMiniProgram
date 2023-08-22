@@ -10,7 +10,7 @@
 			<view class="content-top-area">
 				<u-form :model="form" ref="uForm">
 					<u-form-item left-icon="minus-square-fill">
-						<u-input v-model="form.phoneNumber" placeholder="请输入手机号"/>
+						<u-input v-model="form.phoneNumber" placeholder="请输入手机号" type="number" />
 					</u-form-item>
 					<u-form-item left-icon="email">
 						<u-input v-model="form.verificationCode" placeholder="请输入验证码" type="number"/>

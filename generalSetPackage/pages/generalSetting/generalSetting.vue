@@ -2,6 +2,9 @@
 	<view class="content-box">
 		<u-toast ref="uToast" />
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
+		<u-modal v-model="modalShow" :content="modalContent"
+		 :show-cancel-button="true" @confirm="sureCancel" @cancel="cancelSure">
+		</u-modal>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" title="通用设置" @backClick="backTo">
 			</nav-bar> 
@@ -31,6 +34,8 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { userSignOut } from '@/api/login.js'
+	import { removeAllLocalStorage } from '@/common/js/utils'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -38,9 +43,11 @@
 		},
 		data() {
 			return {
-				infoText: '',
+				infoText: '退出中...',
 				checked: false,
 				showLoadingHint: false,
+				modalShow: false,
+				modalContent: '',
 				setList: [
 					{
 						name: '消息提示音'
@@ -90,8 +97,46 @@
 				'changeOverDueWay'
 			]),
 			
+			// 弹框确定事件
+			sureCancel () {
+				this.modalContent = '';
+				this.showLoadingHint = true;
+				userSignOut().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '退出登录成功!',
+							type: 'success',
+							position: 'bottom'
+						});
+						// 清空store和localStorage
+						this.$store.dispatch('resetDeviceState');
+						removeAllLocalStorage();
+						uni.redirectTo({
+							url: '/pages/login/login'
+						})
+					} else {
+					 this.modalShow = true;
+					 this.modalContent = res.data.msg
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.modalShow = true;
+					this.modalContent = `${err}`
+				})
+			},
+			
+			// 弹框取消事件
+			cancelSure () {
+				
+			},
+			
 			// 退出登录事件
-			logOutEvent () {},
+			logOutEvent () {
+				this.modalShow = true;
+				this.modalContent = '确认退出登录?'
+			},
 			
 			// 设置事件
 			setEvent(name) {

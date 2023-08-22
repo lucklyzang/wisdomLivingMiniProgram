@@ -110,7 +110,7 @@ page {
   font-size: 14px;
   color: #A7A7A3;
 }
-.content-box .content-area .edit-bottom .input-area .nice-name-area  .u-input {
+.content-box .content-area .edit-bottom .input-area .nice-name-area  u-input {
   flex: 1;
   padding-left: 6px !important;
   box-sizing: border-box;
@@ -148,9 +148,18 @@ page {
   left: 0;
   border-radius: 4px;
   background: #fff;
-  height: 100px;
+  height: 250px;
   padding: 4px;
+  overflow: auto;
   box-sizing: border-box;
+}
+.content-box .content-area .edit-bottom .input-area .birthday-area .date-box .year-area .year-list-box .year-list {
+  padding: 4px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.content-box .content-area .edit-bottom .input-area .birthday-area .date-box .year-area .year-list-box .yearListStyle {
+  color: #11D183;
 }
 .content-box .content-area .edit-bottom .input-area .birthday-area .date-box .month-area .month-list-box {
   position: absolute;
@@ -159,9 +168,18 @@ page {
   left: 0;
   border-radius: 4px;
   background: #fff;
-  height: 100px;
+  height: 250px;
+  overflow: auto;
   padding: 4px;
   box-sizing: border-box;
+}
+.content-box .content-area .edit-bottom .input-area .birthday-area .date-box .month-area .month-list-box .month-list {
+  padding: 4px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.content-box .content-area .edit-bottom .input-area .birthday-area .date-box .month-area .month-list-box .monthListStyle {
+  color: #11D183;
 }
 .content-box .content-area .edit-bottom .input-area .birthday-area .date-box .day-area .day-list-box {
   position: absolute;
@@ -170,14 +188,23 @@ page {
   left: 0;
   border-radius: 4px;
   background: #fff;
-  height: 100px;
+  height: 250px;
+  overflow: auto;
   padding: 4px;
   box-sizing: border-box;
 }
-.content-box .content-area .edit-bottom .input-area .gender-area  .u-radio-group {
+.content-box .content-area .edit-bottom .input-area .birthday-area .date-box .day-area .day-list-box .day-list {
+  padding: 4px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.content-box .content-area .edit-bottom .input-area .birthday-area .date-box .day-area .day-list-box .dayListStyle {
+  color: #11D183;
+}
+.content-box .content-area .edit-bottom .input-area .gender-area  u-radio-group {
   flex: 1;
 }
-.content-box .content-area .edit-bottom .input-area .gender-area  .u-radio-group .u-radio {
+.content-box .content-area .edit-bottom .input-area .gender-area  u-radio-group .u-radio {
   width: 30% !important;
 }
 .content-box .content-area .edit-bottom .btn-area {

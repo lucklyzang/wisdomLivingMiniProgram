@@ -1,45 +1,38 @@
-export default {
+import { setCache, getCache } from '@/common/js/utils'
+export default {	
 	state: {
 		userInfo: null,
-		roleNameList: [],
 		token: null, //请求token,
-		overDueWay: false,
-		selectHospitalList: [],
-		permissionInfo: []
+		overDueWay: false
 	},
 	getters: {
-		userInfo: state => state.userInfo,
-		roleNameList: state => state.roleNameList,
-		token: state => state.token,
-		overDueWay: state => state.overDueWay,
-		selectHospitalList: state => state.selectHospitalList,
-		permissionInfo: state => state.permissionInfo
+		 userInfo:(state) => {
+			state.userInfo = JSON.parse(getCache('userInfo')) ? JSON.parse(getCache('userInfo')) : null;
+			return state.userInfo
+		},
+		token:(state) => {
+			state.userInfo = getCache('token') ? getCache('token') : null;
+			return state.token
+		},
+		overDueWay: state => state.overDueWay
 	},
 	mutations: {
 		storeUserInfo(state, playLoad) {
-			state.userInfo = playLoad
+			if (playLoad && playLoad != 'null') {
+				setCache('userInfo', playLoad);
+				state.userInfo = playLoad
+			}
 		},
 		// 修改token状态
 		changeToken(state, playLoad) {
 			if (playLoad && playLoad != 'null') {
+				setCache('token', playLoad);
 				state.token = playLoad
 			}
-		},
-		// 修改角色列表
-		changeRoleNameList(state, playLoad) {
-			state.roleNameList = playLoad
 		},
 		// 修改过期方式
 		changeOverDueWay(state, playLoad) {
 			state.overDueWay = playLoad
-		},
-		// 修改项目列表
-		changeSelectHospitalList(state, playLoad) {
-			state.selectHospitalList = playLoad
-		},
-		// 修改权限列表
-		changePermissionInfo(state, playLoad) {
-			state.permissionInfo = playLoad
 		}
 	},
 	actions: {}

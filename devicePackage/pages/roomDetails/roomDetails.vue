@@ -49,7 +49,7 @@
 				deviceList: [
 					{
 						room: '主卧',
-						deviceName: '跌倒检测雷达'
+						deviceName: '跌倒监测雷达'
 					},
 					{
 						room: '主卧',
@@ -89,12 +89,13 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeEnterDeviceSetPageSource'
 			]),
 			
 			// 进入设备事件
 			enterDeviceEvent (item) {
-				if (item.deviceName == '跌倒检测雷达') {
+				if (item.deviceName == '跌倒监测雷达') {
 					uni.redirectTo({
 						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
 					})
@@ -110,7 +111,8 @@
 					uni.redirectTo({
 						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
 					})
-				}
+				};
+				this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails')
 			},
 			
 			backTo () {

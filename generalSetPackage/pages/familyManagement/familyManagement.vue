@@ -91,7 +91,7 @@
 			
 			backTo () {
 				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
+					url: '/pages/device/device'
 				})
 			}
 		}
