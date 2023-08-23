@@ -8,7 +8,9 @@
 		</view>
 		<view class="content-area">
 			<view class="edit-top">
-				<image :src="defaultPersonPhotoIconPng"></image>
+				<view class="user-photo-box">
+					<image :src="personPhotoSource"></image>
+				</view>
 				<text @click="changePhotoEvent">更换头像</text>
 			</view>
 			<view class="edit-bottom">
@@ -76,6 +78,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { getUserMessage, updateUserMessage } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -94,6 +97,9 @@
 				selectYear: 1970,
 				selectMonth: 1,
 				selectDay: 1,
+				currentDate: '',
+				srcImage: '',
+				imgArr: [],
 				gendervalue: '男',
 				genderList: [
 					{
@@ -106,16 +112,15 @@
 						name: '其他'
 					}
 				],
+				personPhotoSource: '',
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png")
 			}
 		},
 		onReady() {
-			this.generateYears(this.selectYear,new Date().getFullYear());
-			this.generateDays(new Date(this.selectYear, this.selectMonth, 0).getDate());
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userBasicInfo'
 			]),
 			userName() {
 			},
@@ -131,11 +136,113 @@
 			}
 		},
 		mounted() {
+			this.generateYears(this.selectYear,new Date().getFullYear());
+			this.generateDays(new Date(this.selectYear, this.selectMonth, 0).getDate());
+			// 回显用户基本信息
+			if (this.userBasicInfo) {
+				this.echoUserBasciMessage()
+			} else {
+				this.personPhotoSource = this.defaultPersonPhotoIconPng
+			}
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeUserBasicInfo'
 			]),
+			
+			// 回显用户基本信息
+			echoUserBasciMessage () {
+				this.personPhotoSource = this.userBasicInfo.avatar;
+				this.niceNameValue = this.userBasicInfo.nickname;
+				this.gendervalue = this.userBasicInfo.sex == 0 ? '其他' : this.userBasicInfo.sex == 1 ? '男' : '女';
+				this.currentDate = this.userBasicInfo.birthday;
+				this.disposeDateData(this.currentDate)
+			},
+			
+			// 处理日期数据
+			disposeDateData (value) {
+				let temporaryArr = this.getNowFormatDate(new Date(value)).split('-');
+				this.selectYear = temporaryArr[0];
+				this.selectMonth = temporaryArr[1];
+				this.selectDay = temporaryArr[2]
+			},
+			
+			// 格式化时间
+			getNowFormatDate(currentDate) {
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "-";
+				let seperator2 = ":";
+				let month = currentDate.getMonth() + 1;
+				currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				return currentdate
+			},
+
+
+			// 获取用户基本信息
+			queryUserBasicMessage () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				getUserMessage().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.changeUserBasicInfo(res.data.data);
+						this.echoUserBasciMessage()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 更新用户信息
+			updateUserBasicMessage () {
+				this.showLoadingHint = true;
+				this.infoText = '修改中...';
+				updateUserMessage({
+					reqVO: {
+						nickName: this.niceNameValue,
+						birthday: `${this.selectYear}-${this.selectMonth}-${this.selectDay}`,
+						sex: this.gendervalue == '男' ? 1 : this.gendervalue == '女' ? 2 : 0
+					},
+					avatarFile: this.srcImage
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '修改成功',
+							type: 'error',
+							position: 'bottom'
+						});
+						this.queryUserBasicMessage()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
 			
 			radioGroupChange(e) {
 				// console.log(e);
@@ -203,14 +310,36 @@
 					
 			// 完成事件
 			completeEvent () {
-				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
-				})
+				this.updateUserBasicMessage()
 			},
 			
 			// 更改头像事件
 			changePhotoEvent () {
-				
+				var that = this
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album', 'camera'],
+					success: function(res) {
+						that.imgArr = [];
+						uni.getFileSystemManager().readFile({
+							filePath: res.tempFilePaths[0],
+							encoding: 'base64',
+							success: res => {
+								let base64 = 'data:image/jpeg;base64,' + res.data;
+								that.imgArr.push(base64);
+							}
+						});
+						that.srcImage = res.tempFiles[0]
+					},
+					fail: function(err) {
+						that.$refs.uToast.show({
+							title: err,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
 			},
 			
 			backTo () {
@@ -252,9 +381,14 @@
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				>image {
+				.user-photo-box {
 					width: 89px;
 					height: 89px;
+					border-radius: 50%;
+					image {
+						width: 89px;
+						height: 89px;
+					}
 				};
 				>text {
 					width: 91px;

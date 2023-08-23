@@ -331,12 +331,17 @@ page {
 .container .container-content .form-btn .form-btn-info-text {
   margin-top: 4px;
   align-items: center;
-  text-align: right;
+  align-items: center;
   display: flex;
   justify-content: flex-end;
 }
+.container .container-content .form-btn .form-btn-info-text  .u-checkbox-group .u-checkbox .u-checkbox__icon-wrap {
+  width: 15px !important;
+  height: 15px !important;
+}
 .container .container-content .form-btn .form-btn-info-text  .u-checkbox-group .u-checkbox .u-checkbox__label {
   font-size: 12px;
+  margin-right: 0 !important;
   color: #252525;
 }
 .container .container-content .form-btn .form-btn-info-text > text {

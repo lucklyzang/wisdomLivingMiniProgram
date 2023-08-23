@@ -9,8 +9,9 @@
 		<view class="content-area">
 			<view class="recommend-room-area">
 				<view class="recommend-room-list-wrapper">
-					<view class="recommend-room-list" v-for="(item,index) in recommendRoomList" :key="index">
-						<text>{{ item }}</text>
+					<u-empty text="暂无数据" v-if="isShowNoData"></u-empty>
+					<view class="recommend-room-list" v-for="(item,index) in roomList" :key="index">
+						<text>{{ item.name }}</text>
 						<image :src="deleteRedIconPng" @click="deleteEvent"></image>
 					</view>
 				</view>
@@ -27,6 +28,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { getUserRoomList, deleteUserRoom } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -36,8 +38,9 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
+				isShowNoData: false,
 				roomNameValue: '',
-				recommendRoomList: ['后院','阳台','浴室','卧室','餐厅'],
+				roomList: [],
 				deleteRedIconPng: require("@/static/img/delete-red-icon.png"),
 			}
 		},
@@ -61,11 +64,43 @@
 			}
 		},
 		mounted() {
+			this.queryUserRoomList()
 		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 获取用户房间列表列表
+			queryUserRoomList () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.roomList = [];
+				getUserRoomList().then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data.length == 0) {
+							this.isShowNoData = true
+							return
+						};
+						this.roomList = res.data.data
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
 			
 			// 完成事件
 			completeEvent () {
@@ -76,7 +111,33 @@
 			
 			// 删除事件
 			deleteEvent () {
-				
+				this.showLoadingHint = true;
+				this.infoText = '删除中...';
+				deleteUserRoom().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '删除成功',
+							type: 'success',
+							position: 'bottom'
+						});
+						this.queryUserRoomList()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			backTo () {

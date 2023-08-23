@@ -68,7 +68,7 @@
 			</u-popup>
 		</view>
 		<u-toast ref="uToast" />
-		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" text="登录中,请稍候···" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
+		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="loadingText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<u-modal v-model="modalShow" :content="modalContent"
 		 :show-cancel-button="true" @confirm="sureCancel" @cancel="cancelSure">
 		</u-modal>
@@ -126,7 +126,7 @@
 					<u-checkbox-group>
 						<u-checkbox v-model="isReadAgreeChecked" shape="circle" active-color="#289E8E">阅读并同意协议</u-checkbox>
 					</u-checkbox-group>
-					<text>协议链接</text>
+					<text>《协议链接》</text>
 				</view>
 			</view>
 			<view class="enter-home-btn" v-if="isForgetPassword || isSetPassword">
@@ -144,7 +144,7 @@
 
 <script>
 	import { mapGetters, mapMutations } from 'vuex'
-	import {logIn, logInByCode, sendPhoneCode, resetPassword} from '@/api/login.js'
+	import {logIn, logInByCode, sendPhoneCode, resetPassword, setPassword } from '@/api/login.js'
 	import { setCache, getCache, removeCache } from '@/common/js/utils'
 	export default {
 	components: {
@@ -154,6 +154,7 @@
 				loginBackgroundPng: require("@/static/img/login-background.png"),
 				loginLogoPng: require("@/static/img/login-logo.png"),
 				logoSmallIcon: require("@/static/img/logo-small-icon.png"),
+				loadingText: '登录中,请稍候···',
 				form: {
 					username: '',
 					password: '',
@@ -194,7 +195,19 @@
 			]),
 			
 			// 返回事件
-			backTo () {},
+			backTo () {
+				if (this.isForgetPassword) {
+					this.isPasswordLogin = true;
+					this.isSetPassword = false;
+					this.isForgetPassword = false;
+					this.form.verificationCode = '';
+				} else if (this.isSetPassword) {
+					this.isPasswordLogin = false;
+					this.isSetPassword = false;
+					this.isForgetPassword = false;
+					this.form.verificationCode = ''
+				}
+			},
 			
 			// 输入框(账号/手机号)失去焦点事件
 			blurEvent (value) {
@@ -285,7 +298,7 @@
 			accountLogin () {
 				if (!this.form.username) {
 					this.$refs.uToast.show({
-						title: '请输入账号',
+						title: '请输入手机号',
 						type: 'warning',
 						position: 'bottom'
 					});
@@ -312,6 +325,7 @@
 				  password: this.form.password
 				};
 				this.showLoadingHint = true;
+				this.loadingText = '登录中...';
 				logIn(loginMessage).then((res) => {
 					if (res && res.data.code == 0) {
 						this.changeOverDueWay(false);
@@ -341,7 +355,7 @@
 			codeLogin () {
 				if (!this.form.username) {
 					this.$refs.uToast.show({
-						title: '请输入账号',
+						title: '请输入手机号',
 						type: 'warning',
 						position: 'bottom'
 					});
@@ -363,24 +377,28 @@
 					});
 					return
 				};
-				// this.form.verificationCode
 				let loginMessage = {
 				  mobile: this.form.username,
-				  code: 9999
+				  code: this.form.verificationCode
 				};
 				this.showLoadingHint = true;
+				this.loadingText = '登录中...';
 				logInByCode(loginMessage).then((res) => {
 					if (res && res.data.code == 0) {
 						this.changeOverDueWay(false);
 						setCache('storeOverDueWay',false);
 						setCache('isLogin', true);
 						// token信息存入store
-						this.changeToken(res.data.data.accessToken);
+						this.changeToken(c.accessToken);
 						// 登录用户信息存入store
 						this.storeUserInfo(res.data.data);
 						// 注册成功后进入设置密码环节
 						if (!this.isPasswordLogin) {
-							this.isSetPassword = true
+							// 第一次手机号验证码登录时，跳到密码设置界面
+							if (res.data.data.first) {
+								this.isSetPassword = true;
+								this.form.password = ''
+							}
 						}
 					} else {
 					 this.modalShow = true;
@@ -399,7 +417,7 @@
 			sendCodeEvent () {
 				if (!this.form.username) {
 					this.$refs.uToast.show({
-						title: '请输入账号',
+						title: '请输入手机号',
 						type: 'warning',
 						position: 'bottom'
 					});
@@ -410,6 +428,7 @@
 					scene: 1
 				};
 				this.showLoadingHint = true;
+				this.loadingText = '获取中...';
 				sendPhoneCode(loginMessage).then((res) => {
 					if ( res && res.data.code == 0) {
 						if (res.data.data == true) {
@@ -440,7 +459,7 @@
 			
 			// 跳过事件
 			skipEvent () {
-				uni.navigateTo({
+				uni.switchTab({
 					url: '/pages/index/index'
 				})
 			},
@@ -451,7 +470,7 @@
 				if (this.isForgetPassword) {
 					if (!this.form.username) {
 						this.$refs.uToast.show({
-							title: '请输入账号',
+							title: '请输入手机号',
 							type: 'warning',
 							position: 'bottom'
 						});
@@ -473,13 +492,13 @@
 						});
 						return
 					};
-					// this.form.verificationCode
 					let loginMessage = {
 						password: this.form.newPassword,
-						code: 9999,
+						code: this.form.verificationCode,
 					  mobile: this.form.username
 					};
 					this.showLoadingHint = true;
+					this.loadingText = '密码重置中...';
 					resetPassword(loginMessage).then((res) => {
 						if ( res && res.data.code == 0) {
 							this.$refs.uToast.show({
@@ -511,7 +530,41 @@
 					})
 				} else {
 					// 设置密码
+					if (!this.form.password) {
+						this.$refs.uToast.show({
+							title: '请输入密码',
+							type: 'warning',
+							position: 'bottom'
+						});
+						return
+					};
 					if (!this.isPasswordLogin && this.isSetPassword) {
+						this.showLoadingHint = true;
+						this.loadingText = '密码设置中...';
+						let loginMessage = {
+							password: this.form.password
+						};
+						setPassword(loginMessage).then((res) => {
+							if ( res && (res.data.code == 0 || res.data.code == 401) ) {
+								this.$refs.uToast.show({
+									title: '密码设置成功!',
+									type: 'success',
+									position: 'bottom'
+								});
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
+							} else {
+							 this.modalShow = true;
+							 this.modalContent = `${res.data.msg}`
+							};
+							this.showLoadingHint = false;
+						})
+						.catch((err) => {
+							this.showLoadingHint = false;
+							this.modalShow = true;
+							this.modalContent = `${err}`
+						})
 					}
 				}
 			},
@@ -856,13 +909,18 @@
 				.form-btn-info-text {
 					margin-top: 4px;
 					align-items: center;
-					text-align: right;
+					align-items: center;
 					display: flex;
 					justify-content: flex-end;
 					::v-deep .u-checkbox-group {
 						.u-checkbox {
+							.u-checkbox__icon-wrap {
+								width: 15px !important;
+								height: 15px !important
+							};
 							.u-checkbox__label {
 								font-size: 12px;
+								margin-right: 0 !important;
 								color: #252525
 							}
 						}

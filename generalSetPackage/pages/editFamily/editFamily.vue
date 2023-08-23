@@ -25,6 +25,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { updateUserFamily } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -33,10 +34,13 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
-				familyNameValue: ''
+				familyNameValue: '',
+				receiveData: {}
 			}
 		},
-		onReady() {
+		onLoad(options) {
+			this.receiveData = JSON.parse(options.mynavData);
+			this.familyNameValue = this.receiveData.name
 		},
 		computed: {
 			...mapGetters([
@@ -64,7 +68,46 @@
 			
 			// 完成事件
 			completeEvent () {
-				
+				if (!this.familyNameValue) {
+					this.$refs.uToast.show({
+						title: '家庭名称不能为空!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				this.showLoadingHint = true;
+				this.infoText = '添加中...';
+				updateUserFamily({
+						userId: this.userInfo.userId,
+						name: this.familyNameValue,
+						phones: "[]",
+						id: this.receiveData.id
+					}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '修改成功',
+							type: 'success',
+							position: 'bottom'
+						});
+						this.backTo()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			backTo () {

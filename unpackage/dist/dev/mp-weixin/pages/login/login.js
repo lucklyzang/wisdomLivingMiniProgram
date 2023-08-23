@@ -96,34 +96,34 @@ var components
 try {
   components = {
     uPopup: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-popup/u-popup */ "node-modules/uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! uview-ui/components/u-popup/u-popup.vue */ 629))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-popup/u-popup */ "node-modules/uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! uview-ui/components/u-popup/u-popup.vue */ 630))
     },
     uIcon: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 636))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 637))
     },
     uToast: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 643))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 644))
     },
     uModal: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */ "node-modules/uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 650))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */ "node-modules/uview-ui/components/u-modal/u-modal").then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 651))
     },
     uForm: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-form/u-form */ "node-modules/uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! uview-ui/components/u-form/u-form.vue */ 657))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-form/u-form */ "node-modules/uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! uview-ui/components/u-form/u-form.vue */ 658))
     },
     uFormItem: function() {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-form-item/u-form-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-form-item/u-form-item")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-form-item/u-form-item.vue */ 664))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-form-item/u-form-item */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-form-item/u-form-item")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-form-item/u-form-item.vue */ 665))
     },
     uInput: function() {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 675))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 676))
     },
     uCheckboxGroup: function() {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-checkbox-group/u-checkbox-group.vue */ 682))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-checkbox-group/u-checkbox-group")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-checkbox-group/u-checkbox-group.vue */ 683))
     },
     uCheckbox: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-checkbox/u-checkbox */ "node-modules/uview-ui/components/u-checkbox/u-checkbox").then(__webpack_require__.bind(null, /*! uview-ui/components/u-checkbox/u-checkbox.vue */ 689))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-checkbox/u-checkbox */ "node-modules/uview-ui/components/u-checkbox/u-checkbox").then(__webpack_require__.bind(null, /*! uview-ui/components/u-checkbox/u-checkbox.vue */ 690))
     },
     uDivider: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-divider/u-divider */ "node-modules/uview-ui/components/u-divider/u-divider").then(__webpack_require__.bind(null, /*! uview-ui/components/u-divider/u-divider.vue */ 696))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-divider/u-divider */ "node-modules/uview-ui/components/u-divider/u-divider").then(__webpack_require__.bind(null, /*! uview-ui/components/u-divider/u-divider.vue */ 697))
     }
   }
 } catch (e) {
@@ -341,7 +341,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var _vuex = __webpack_require__(/*! vuex */ 9);
 var _login = __webpack_require__(/*! @/api/login.js */ 53);
-var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+var _utils = __webpack_require__(/*! @/common/js/utils */ 15);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   components: {},
 
@@ -350,6 +350,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
       loginBackgroundPng: __webpack_require__(/*! @/static/img/login-background.png */ 61),
       loginLogoPng: __webpack_require__(/*! @/static/img/login-logo.png */ 62),
       logoSmallIcon: __webpack_require__(/*! @/static/img/logo-small-icon.png */ 63),
+      loadingText: '登录中,请稍候···',
       form: {
         username: '',
         password: '',
@@ -390,7 +391,19 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
 
 
     // 返回事件
-    backTo: function backTo() {},
+    backTo: function backTo() {
+      if (this.isForgetPassword) {
+        this.isPasswordLogin = true;
+        this.isSetPassword = false;
+        this.isForgetPassword = false;
+        this.form.verificationCode = '';
+      } else if (this.isSetPassword) {
+        this.isPasswordLogin = false;
+        this.isSetPassword = false;
+        this.isForgetPassword = false;
+        this.form.verificationCode = '';
+      }
+    },
 
     // 输入框(账号/手机号)失去焦点事件
     blurEvent: function blurEvent(value) {
@@ -481,7 +494,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
     accountLogin: function accountLogin() {var _this2 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
-          title: '请输入账号',
+          title: '请输入手机号',
           type: 'warning',
           position: 'bottom' });
 
@@ -508,6 +521,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
         password: this.form.password };
 
       this.showLoadingHint = true;
+      this.loadingText = '登录中...';
       (0, _login.logIn)(loginMessage).then(function (res) {
         if (res && res.data.code == 0) {
           _this2.changeOverDueWay(false);
@@ -537,7 +551,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
     codeLogin: function codeLogin() {var _this3 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
-          title: '请输入账号',
+          title: '请输入手机号',
           type: 'warning',
           position: 'bottom' });
 
@@ -559,24 +573,28 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
 
         return;
       };
-      // this.form.verificationCode
       var loginMessage = {
         mobile: this.form.username,
-        code: 9999 };
+        code: this.form.verificationCode };
 
       this.showLoadingHint = true;
+      this.loadingText = '登录中...';
       (0, _login.logInByCode)(loginMessage).then(function (res) {
         if (res && res.data.code == 0) {
           _this3.changeOverDueWay(false);
           (0, _utils.setCache)('storeOverDueWay', false);
           (0, _utils.setCache)('isLogin', true);
           // token信息存入store
-          _this3.changeToken(res.data.data.accessToken);
+          _this3.changeToken(c.accessToken);
           // 登录用户信息存入store
           _this3.storeUserInfo(res.data.data);
           // 注册成功后进入设置密码环节
           if (!_this3.isPasswordLogin) {
-            _this3.isSetPassword = true;
+            // 第一次手机号验证码登录时，跳到密码设置界面
+            if (res.data.data.first) {
+              _this3.isSetPassword = true;
+              _this3.form.password = '';
+            }
           }
         } else {
           _this3.modalShow = true;
@@ -595,7 +613,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
     sendCodeEvent: function sendCodeEvent() {var _this4 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
-          title: '请输入账号',
+          title: '请输入手机号',
           type: 'warning',
           position: 'bottom' });
 
@@ -606,6 +624,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
         scene: 1 };
 
       this.showLoadingHint = true;
+      this.loadingText = '获取中...';
       (0, _login.sendPhoneCode)(loginMessage).then(function (res) {
         if (res && res.data.code == 0) {
           if (res.data.data == true) {
@@ -636,7 +655,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
 
     // 跳过事件
     skipEvent: function skipEvent() {
-      uni.navigateTo({
+      uni.switchTab({
         url: '/pages/index/index' });
 
     },
@@ -647,7 +666,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
       if (this.isForgetPassword) {
         if (!this.form.username) {
           this.$refs.uToast.show({
-            title: '请输入账号',
+            title: '请输入手机号',
             type: 'warning',
             position: 'bottom' });
 
@@ -669,13 +688,13 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
 
           return;
         };
-        // this.form.verificationCode
         var loginMessage = {
           password: this.form.newPassword,
-          code: 9999,
+          code: this.form.verificationCode,
           mobile: this.form.username };
 
         this.showLoadingHint = true;
+        this.loadingText = '密码重置中...';
         (0, _login.resetPassword)(loginMessage).then(function (res) {
           if (res && res.data.code == 0) {
             _this5.$refs.uToast.show({
@@ -707,7 +726,41 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function ownKeys(o
         });
       } else {
         // 设置密码
+        if (!this.form.password) {
+          this.$refs.uToast.show({
+            title: '请输入密码',
+            type: 'warning',
+            position: 'bottom' });
+
+          return;
+        };
         if (!this.isPasswordLogin && this.isSetPassword) {
+          this.showLoadingHint = true;
+          this.loadingText = '密码设置中...';
+          var _loginMessage = {
+            password: this.form.password };
+
+          (0, _login.setPassword)(_loginMessage).then(function (res) {
+            if (res && (res.data.code == 0 || res.data.code == 401)) {
+              _this5.$refs.uToast.show({
+                title: '密码设置成功!',
+                type: 'success',
+                position: 'bottom' });
+
+              uni.switchTab({
+                url: '/pages/index/index' });
+
+            } else {
+              _this5.modalShow = true;
+              _this5.modalContent = "".concat(res.data.msg);
+            };
+            _this5.showLoadingHint = false;
+          }).
+          catch(function (err) {
+            _this5.showLoadingHint = false;
+            _this5.modalShow = true;
+            _this5.modalContent = "".concat(err);
+          });
         }
       }
     },

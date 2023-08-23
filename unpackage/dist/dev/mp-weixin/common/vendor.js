@@ -947,7 +947,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2092,6 +2092,17 @@ uni$1;exports.default = _default;
 /***/ }),
 
 /***/ 100:
+/*!***************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/house-reconstruction.png ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAADAFBMVEUAAACYqv5BXf6Fmf58kf55jv6Oof5/k/6Wp/1Tbf6Blf51i/5HYv5Ycf6Hm/6Tpf7c4f+Lnv6Dl/5Qav7Z3//O1v5MZ/5KZf6Ro/3k6P/U2v5Paf5geP7R2P6Jnf7m6v/I0P7e4//L0/5DX/3W3f9Xb/xAXPzo7P9ke/5zif2drv7h5f96jPlddf5LXe5rgv5nfv3Ezf1PYe9whfuisv5VavWZq/5RaPlJVuY+WfpsgPl9kPpac/5wh/1UZ/JWbPhBXf5ugPZHWOtnevaUpPtMYPLAyv5thP5RaftMY/ZRZPFyhPZngP5UbPs7VPVjdvZQWuJPZfcAAP93iPdvg/lbcvt+jvaYqv5XcP5rd+xhb+20vflqgf2Km/lgcfJedfpzg/OOof6GmPlcauymtP2uu/26xv5MXOuNnvpveeuJlvNjevtmdfByfexKVOJvffCClfp2ifq8xPlBXf6Vp/6Ek/ZdbvGpuP5GU+aCjvFpefGHm/5Zb/g4TvFYZeqttvh9ivJUYOeYqv5IXvR4hvNFT+Cfq/dLWeimsPidp/aOnfhCWPSNmPKYo/Y1R+jAyPqzwP6Yqv64wvyXqf5/f/9aZOU6TexNaf5BXf5CVe9BXf5AXP+RmvJBXP6XqP1FWv94gu18kv5di/97kP5Af/9qgv6Xqf9/f/9zi/53iP9Ycv6dsf8zZv9rgv+qqv9fd/5AQP91i/6Clv5tg/9nf/1adf+aqv////9/kv1GXf9heP9AXfyWp/9mZv8zVf9tg/6fn/9whv9ac/+Vqf+XqP1CXf9Ra/9wh/uXqv5nfv5cdP+Wpvlmmf96lP89Vf98lP8/Xf93j/xzjP+Sqv9hePxjfP52jf1ziv5FWP9wiP5je/5mceqSrf9idv96j/4Af/8qVf+Upf9Vqv9cdf4A//9bc/54lv97kP+Gm/6XqP9kfP9nfvxbcv9/lf6OnP8zM/99kf5tf+1xiP2Yqv9dd/Zxcf+Dlv6Imf+Dl/5BXf9+k/5ogPNDXf9mc/85S+qWqP8odoS5AAABAHRSTlMA/////////////////////////////////////////////////////////////////////////////////////P///////////////v//////Af/////2/v//////////9v//////////////////////9fb////////3////////+///////////////////8f/ABP//+9v/rED/zJMl//0L9QTUygzzHvENBTkD+gT8+iOjdDABmwtCYD0FD8QIOadNongTQuD2zy4FMhVpTUsUFVnBpsga1vn/HA3RAgYfA7cB1BFV7GchTTjfEgWzDppjHgnwD8a4wBZYFP84WRYntAAACDxJREFUeJxt13dcU9kSB/BLERM1GiFBEhJIQmhJCCRUAYGAICSicQMIRMrSDL0JArIU6QiiKD57Xdf2XNv23nvv7fXeey+7v3PuTQi7O3/n+5k5ZeaeMG7x42uv/+r0oVcObmdjF+JuGnsQv/znI2+/+fP73X/visNfPP/Cwb17Pbjg8Xhr1gT4+PisXRu0erWXl5fv7dsX/viLK2/c9XV4//tP3Ld9bwJVGpZCgnLS13fF8uXe5y58/933Di+Bdz3zxemDznwJcbCA35Te3suWXf7oynm3xA9fe+iQs9IEjSYuTpNA5GK1i3LZylsfP3vpYVfOa1/e50zpAYgAdZcrFuXKlZGfvvwnZ95nHlqUrNVwMiiIbpA7XBm5YcOnz57nduhHh9wkWapG4yZZCMdCyE2bnr7D7tXvT7tOhE3L43kskSkpOl07IpIEkdHRD/yHlHz4Cefe4ijJkSzZWgptNovFUlAQG7sBQeSOV3/zBuj7znJ5GxEBAQ4kdJe69qLpSfvgVFFBMjCB0Ts2b754h2FuPr/dTU6XIRxrEUSSYnVdk1KJRKIV5liykpOdMuazD55k/vECu1Iia6XjDV1dVVVlQVgmJ6dFkvDwYIlSNdSUlZVMIJERER++xLx+kN4+HmitWinsaOgtAl7tksJwIrXi5tLyrVnJOwjcHBERIbvxGPMXLumagBqVVKTUSsd7h4raqnyxt5BFcshwiVZVMlANGkODSNmNBxnuZHgbHeMKMbHKjkrYNnKDdDZ7MEmqVdQPUwrb2NhIpCzqOYbbX97G6YZBYoVKaX3lUMpySByniJarqrcOD3RvBc0qaKyAg0z9GfMKRwMcXTM5CrFcLZKXNI/qUnCFdLYyJA0OVp60WoeRFLYsYGtFRUUUIvUqw94HLNXR1TtrgJWKS0paYb292y1zhEqU0rOg3bCOGk15f39hIaSgmKGniksU4Kgq6p03KFRyaUd9faWtXaezWcTBZHeVIvFZFNxd7thdo+lOi4dNFQgElBLp46jqGuqdaThpEEvtza2VFlu7xSQPDpZIlEK11NA8MNBdBunRbU5LDwVks9KJ4LO2rK1otLm+pNcglsO2WiwmkwJUKxSp5WJDc3VD7e64BN6A0RxPaDGf2U5vPLnvq6tgK2FzxGJ7a1+rydQ3Tm4gkSpF3WxtLZI6Jnaa45G2mM9ndnESPebVlgLbWt+boxJ3tDb19TX1CbWkXLlYociZh0zgjSaB5oeG8vl+zC6XDPLybUODVbaWNOSoVPaSpqbS0g6hUASpUhjqDqBcj43VSXpzYj4fklLnFGJvrc3C2kHI6iE1Wy5kLQYlrzIpU7+NpYHMLtLXrGRHAvL2UTtZWl06pablGmi5Hrwqa09m9rbcfOQMJNRdrsAdwqH0NeFmwdpFbLk5tFxeF6Q+LzHXD9Lfn7mbm0KumblM115gamqaxq1Uk91VdBjYhQaMtkBmbyM0MNB/HaHOjwo7bTH5Yk19paUzCqVSpJYqPm9ZmMFdKCud6FkiQV2fI5eMjDVllZeeFCmxu6qzY2NjLS0tSYhMKhNptevWrQJ1fhqwTnZOR8YmZ/VNEamWD1rHWj639vQQp8/OIxIpiQT9Vlk5icuAcsWKmYUO+eAAzoRAVJvrlKuYPdwGcRLzPTbZZJvDtBCq5fY6hWFOLhTah1ErUubmunKuCmH2LC5zUcq16BeRfN7aUEe6H9bIUnaDqKT067ILgxe3Xmq3jlnH69DBsIOsRUo2aUiIJ7OHLtNdzgpJewulHQtjY0UJu+sM1E4a9SN5eetyi9HlfkQSuigjYwuSTeMSNCkWaihp6ZkI8NDUzBtUZNxNGTNH8hILU1Nh+as8QW8vlZZBOlOEIlV9S9LEziKeR0LNAWpFU/pjI+kYLqTNAwn9+3Lu88lKg3MaQe40Go3Exh3ApZSK1OOZ2ejy0FC0OT/EM4P5nbvUYY6Fk2kkP0uk2Ww0pxBbS8esdCotLT6d9jkq7mT+fY771McWFJSJ6PDUCqUnrZBp8fHmbHMbrIazs7D5pFtBjzKPnGMl9nZaKSFbpFWqp1iZnh6fl21kLTkkqbjanIhuJQVnHGfePsfJAtOc1t47RxY6ycnQ0PTEbL0e1kNDDkk1a6SNzucHhmS8yLx5gT4vNuBA5eqS4WZ0Wsdw0gRkf6EgND9xW3amvgo2oWY+ZzbzGEv9Qjw7TzCXPrpFXzSbkrMGRc0LMziWhaQBM3JWxESE5ucm5o3A0pdNQ8/+I/vyQP2xv6feYm6+e5nK6Jgsm1g6pxYaqpMmustRbUyMoFiQn5s3su+YvgyDvvLI/v33bFkfQm6SZ+fj32WYKx/fIi+a6JjGraMKrdDQPIF1lleEFsZsjoqSoa2pdfAsRIKGhYWBHj1DHj8vXyZyB2h509BQ9U6cJ6qVCWLw4U9l6b4jx4xH9v+fSFCS9L83yZPrvT9DsrQ7LQ23gO6tDN/uiChI9AnslnsQW5wy4/gn9JV4752nWdpY0d8fj0MnUiCLkEVhTtMWCwlbv4UGJz1PncFKSfzt+kXyFoporIBNTyfXFDJVJkvlJkIILPB6pzx64lHno/b89YvkLSSTVRQWFhIowCr5sAJulniGwRLIyneecj2mf/q96x9+Rt4l+NCjpwTIiWL9UmVR/uwsAWWDrPPUiad+4PaAv/TrB15lKf1gRxEZGCjw46RbdB4/8+jSfw73/u+x1244Jf2QuSafm8zoPPrOJ9wOuSV+8q8f/OQqHiYUclu7RGZkdP7r8TM//MafFZr5pd8++NxrV4shv0OCyAwuOjtPHX/xxFt/cPv5V2NnxQvnX78NAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 101:
 /*!******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/chronic-care-management.png ***!
   \******************************************************************************/
@@ -2102,7 +2113,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADW
 
 /***/ }),
 
-/***/ 101:
+/***/ 102:
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/common-set.png ***!
   \*****************************************************************/
@@ -2113,7 +2124,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 102:
+/***/ 103:
 /*!**************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/household-operation.png ***!
   \**************************************************************************/
@@ -2124,7 +2135,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 103:
+/***/ 104:
 /*!********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/help-feedback.png ***!
   \********************************************************************/
@@ -2135,7 +2146,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 104:
+/***/ 105:
 /*!************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/about.png ***!
   \************************************************************/
@@ -2286,7 +2297,7 @@ function normalizeComponent (
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
 var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 9));
 var _login = _interopRequireDefault(__webpack_require__(/*! ./login.js */ 14));
-var _device = _interopRequireDefault(__webpack_require__(/*! ./device.js */ 15));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _device = _interopRequireDefault(__webpack_require__(/*! ./device.js */ 16));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 _vue.default.use(_vuex.default);var _default =
 new _vuex.default.Store({
   modules: {
@@ -2303,21 +2314,25 @@ new _vuex.default.Store({
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _utils = __webpack_require__(/*! @/common/js/utils */ 17);var _default =
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _utils = __webpack_require__(/*! @/common/js/utils */ 15);var _default =
 {
   state: {
-    userInfo: null,
+    userInfo: {},
     token: null, //请求token,
-    overDueWay: false },
+    overDueWay: false,
+    userBasicInfo: null },
 
   getters: {
     userInfo: function userInfo(state) {
-      state.userInfo = JSON.parse((0, _utils.getCache)('userInfo')) ? JSON.parse((0, _utils.getCache)('userInfo')) : null;
+      state.userInfo = (0, _utils.getCache)('userInfo') ? (0, _utils.getCache)('userInfo') : {};
       return state.userInfo;
     },
     token: function token(state) {
       state.userInfo = (0, _utils.getCache)('token') ? (0, _utils.getCache)('token') : null;
       return state.token;
+    },
+    userBasicInfo: function userBasicInfo(state) {
+      return state.userBasicInfo;
     },
     overDueWay: function overDueWay(state) {return state.overDueWay;} },
 
@@ -2326,6 +2341,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       if (playLoad && playLoad != 'null') {
         (0, _utils.setCache)('userInfo', playLoad);
         state.userInfo = playLoad;
+      }
+    },
+    // 存储用户基本信息
+    changeUserBasicInfo: function changeUserBasicInfo(state, playLoad) {
+      if (playLoad && playLoad != 'null') {
+        state.userBasicInfo = playLoad;
       }
     },
     // 修改token状态
@@ -2345,68 +2366,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 15:
-/*!*******************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/store/device.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 16);var _default =
-{
-  state: (0, _resetStore.getDefaultDeviceState)(),
-  getters: {
-    timeMessage: function timeMessage(state) {return state.timeMessage;},
-    ossMessage: function ossMessage(state) {return state.ossMessage;},
-    enterAddRoomPageSource: function enterAddRoomPageSource(state) {return state.enterAddRoomPageSource;},
-    enterDeviceSetPageSource: function enterDeviceSetPageSource(state) {return state.enterDeviceSetPageSource;} },
-
-  mutations: {
-    changeTimeMessage: function changeTimeMessage(state, playLoad) {
-      state.timeMessage = playLoad;
-    },
-    changeOssMessage: function changeOssMessage(state, playLoad) {
-      state.ossMessage = playLoad;
-    },
-    changeEnterAddRoomPageSource: function changeEnterAddRoomPageSource(state, playLoad) {
-      state.enterAddRoomPageSource = playLoad;
-    },
-    changeEnterDeviceSetPageSource: function changeEnterDeviceSetPageSource(state, playLoad) {
-      state.enterDeviceSetPageSource = playLoad;
-    },
-    //重置质量管理的状态
-    resetDeviceInfoState: function resetDeviceInfoState(state) {
-      Object.assign(state, (0, _resetStore.getDefaultDeviceState)());
-    } },
-
-  actions: {
-    resetDeviceState: function resetDeviceState(_ref) {var commit = _ref.commit;
-      commit('resetDeviceInfoState');
-    } } };exports.default = _default;
-
-/***/ }),
-
-/***/ 16:
-/*!**************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/common/js/resetStore/resetStore.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getDefaultDeviceState = getDefaultDeviceState; // 质量管理信息store的初始值
-function getDefaultDeviceState() {
-  return {
-    timeMessage: {},
-    ossMessage: {},
-    enterAddRoomPageSource: '',
-    enterDeviceSetPageSource: '' };
-
-};
-
-/***/ }),
-
-/***/ 17:
 /*!**********************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/common/js/utils.js ***!
   \**********************************************************/
@@ -2545,6 +2504,68 @@ var removeAllLocalStorage = function removeAllLocalStorage() {
   removeCache('storeOverDueWay');
 };exports.removeAllLocalStorage = removeAllLocalStorage;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 16:
+/*!*******************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/store/device.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 17);var _default =
+{
+  state: (0, _resetStore.getDefaultDeviceState)(),
+  getters: {
+    timeMessage: function timeMessage(state) {return state.timeMessage;},
+    ossMessage: function ossMessage(state) {return state.ossMessage;},
+    enterAddRoomPageSource: function enterAddRoomPageSource(state) {return state.enterAddRoomPageSource;},
+    enterDeviceSetPageSource: function enterDeviceSetPageSource(state) {return state.enterDeviceSetPageSource;} },
+
+  mutations: {
+    changeTimeMessage: function changeTimeMessage(state, playLoad) {
+      state.timeMessage = playLoad;
+    },
+    changeOssMessage: function changeOssMessage(state, playLoad) {
+      state.ossMessage = playLoad;
+    },
+    changeEnterAddRoomPageSource: function changeEnterAddRoomPageSource(state, playLoad) {
+      state.enterAddRoomPageSource = playLoad;
+    },
+    changeEnterDeviceSetPageSource: function changeEnterDeviceSetPageSource(state, playLoad) {
+      state.enterDeviceSetPageSource = playLoad;
+    },
+    //重置质量管理的状态
+    resetDeviceInfoState: function resetDeviceInfoState(state) {
+      Object.assign(state, (0, _resetStore.getDefaultDeviceState)());
+    } },
+
+  actions: {
+    resetDeviceState: function resetDeviceState(_ref) {var commit = _ref.commit;
+      commit('resetDeviceInfoState');
+    } } };exports.default = _default;
+
+/***/ }),
+
+/***/ 17:
+/*!**************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/common/js/resetStore/resetStore.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.getDefaultDeviceState = getDefaultDeviceState; // 质量管理信息store的初始值
+function getDefaultDeviceState() {
+  return {
+    timeMessage: {},
+    ossMessage: {},
+    enterAddRoomPageSource: '',
+    enterDeviceSetPageSource: '' };
+
+};
 
 /***/ }),
 
@@ -9897,7 +9918,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -9918,14 +9939,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -10011,7 +10032,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -11601,7 +11622,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.logIn = logIn;exports.logInByCode = logInByCode;exports.sendPhoneCode = sendPhoneCode;exports.resetPassword = resetPassword;exports.userSignOut = userSignOut;exports.weixinLogIn = weixinLogIn;var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 54));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.logIn = logIn;exports.logInByCode = logInByCode;exports.sendPhoneCode = sendPhoneCode;exports.resetPassword = resetPassword;exports.setPassword = setPassword;exports.userSignOut = userSignOut;exports.weixinLogIn = weixinLogIn;var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 54));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
 // 账号密码登录
 function logIn(data) {
@@ -11639,6 +11660,15 @@ function resetPassword(data) {
 
 }
 
+// 设置密码
+function setPassword(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/set-password',
+    method: 'post',
+    data: data });
+
+}
+
 // 用户退出登录
 function userSignOut() {
   return (0, _request.default)({
@@ -11668,7 +11698,7 @@ function weixinLogIn(code) {
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _axiosMiniprogram = _interopRequireDefault(__webpack_require__(/*! axios-miniprogram */ 55));
 var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 13));
 var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 56));
-var _utils = __webpack_require__(/*! @/common/js/utils */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _utils = __webpack_require__(/*! @/common/js/utils */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 var instance = _axiosMiniprogram.default.create({
   // 生产域名 https://blinktech.cn/nblink
   // 开发域名 https://blink.blinktech.cn/nblink
@@ -13801,7 +13831,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfCAMAAAAo
 
 /***/ }),
 
-/***/ 669:
+/***/ 670:
 /*!**********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/emitter.js ***!
   \**********************************************************************************/
@@ -13861,7 +13891,7 @@ function _broadcast(componentName, eventName, params) {
 
 /***/ }),
 
-/***/ 670:
+/***/ 671:
 /*!******************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/async-validator.js ***!
   \******************************************************************************************/
@@ -13891,7 +13921,7 @@ function _broadcast(componentName, eventName, params) {
 var formatRegExp = /%[sdj%]/g;
 var warning = function warning() {}; // don't print warning message when in production env or node runtime
 
-if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
+if (typeof process !== 'undefined' && Object({"VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}) && "development" !== 'production' && typeof window !==
 'undefined' && typeof document !== 'undefined') {
   warning = function warning(type, errors) {
     if (typeof console !== 'undefined' && console.warn) {
@@ -15224,11 +15254,11 @@ Schema.warning = warning;
 Schema.messages = messages;var _default =
 
 Schema;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 671)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 672)))
 
 /***/ }),
 
-/***/ 671:
+/***/ 672:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -15259,7 +15289,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 672);
+        if (!path) path = __webpack_require__(/*! path */ 673);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -15273,7 +15303,7 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 672:
+/***/ 673:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -15583,7 +15613,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 671)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 672)))
 
 /***/ }),
 
@@ -15620,7 +15650,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAMAAADX
 
 /***/ }),
 
-/***/ 743:
+/***/ 744:
 /*!***********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/province.js ***!
   \***********************************************************************************/
@@ -15632,7 +15662,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 744:
+/***/ 745:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/city.js ***!
   \*******************************************************************************/
@@ -15644,7 +15674,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 745:
+/***/ 746:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/area.js ***!
   \*******************************************************************************/
@@ -16980,6 +17010,201 @@ module.exports = index_cjs;
 /***/ }),
 
 /***/ 97:
+/*!***************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/api/user.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.getUserMessage = getUserMessage;exports.updateUserMessage = updateUserMessage;exports.getUserRoom = getUserRoom;exports.getUserRoomList = getUserRoomList;exports.createUserRoom = createUserRoom;exports.updateUserRoom = updateUserRoom;exports.deleteUserRoom = deleteUserRoom;exports.getUserFamily = getUserFamily;exports.getUserFamilyList = getUserFamilyList;exports.createUserFamily = createUserFamily;exports.updateUserFamily = updateUserFamily;exports.deleteUserFamily = deleteUserFamily;exports.addMobile = addMobile;exports.uodateMobile = uodateMobile;exports.deleteMobile = deleteMobile;exports.getUserDeviceCount = getUserDeviceCount;exports.getUserDeviceMessage = getUserDeviceMessage;exports.getUserRoomDevices = getUserRoomDevices;exports.createUserDeviceBind = createUserDeviceBind;exports.updateUserDeviceBind = updateUserDeviceBind;exports.deleteUserDeviceBind = deleteUserDeviceBind;exports.getUserDeviceBind = getUserDeviceBind;var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 54));
+var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 获取用户基本信息
+function getUserMessage() {
+  return (0, _request.default)({
+    url: '/app-api/member/user/get',
+    method: 'get' });
+
+};
+
+// 修改用户信息
+function updateUserMessage(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/user/update',
+    method: 'post',
+    data: data });
+
+};
+
+
+// 获取用户房间
+function getUserRoom() {
+  return (0, _request.default)({
+    url: '/app-api/member/room/get',
+    method: 'get' });
+
+};
+
+// 获取用户房间列表
+function getUserRoomList() {
+  return (0, _request.default)({
+    url: '/app-api/member/room/list',
+    method: 'get' });
+
+};
+
+// 创建用户房间
+function createUserRoom(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/room/create',
+    method: 'post',
+    data: data });
+
+};
+
+// 更新用户房间
+function updateUserRoom(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/room/update',
+    method: 'put',
+    data: data });
+
+};
+
+// 删除用户房间
+function deleteUserRoom() {
+  return (0, _request.default)({
+    url: '/app-api/member/room/delete',
+    method: 'delete' });
+
+};
+
+// 获取用户家庭
+function getUserFamily() {
+  return (0, _request.default)({
+    url: '/app-api/member/family/get',
+    method: 'get' });
+
+};
+
+// 获取用户家庭列表
+function getUserFamilyList() {
+  return (0, _request.default)({
+    url: '/app-api/member/family/list',
+    method: 'get' });
+
+};
+
+// 创建用户家庭
+function createUserFamily(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/family/create',
+    method: 'post',
+    data: data });
+
+};
+
+// 更新用户家庭
+function updateUserFamily(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/family/update',
+    method: 'put',
+    data: data });
+
+};
+
+// 删除用户家庭
+function deleteUserFamily() {
+  return (0, _request.default)({
+    url: '/app-api/member/family/delete',
+    method: 'delete' });
+
+};
+
+// 新增手机号
+function addMobile() {
+  return (0, _request.default)({
+    url: '/app-api/member/family/add-mobile',
+    method: 'post' });
+
+};
+
+// 修改手机号
+function uodateMobile() {
+  return (0, _request.default)({
+    url: '/app-api/member/family/update-mobile',
+    method: 'put' });
+
+};
+
+// 删除手机号
+function deleteMobile() {
+  return (0, _request.default)({
+    url: '/app-api/member/family/delete-mobile',
+    method: 'delete' });
+
+};
+
+// 获取用户设备数量
+function getUserDeviceCount() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/device-count',
+    method: 'get' });
+
+};
+
+// 获取用户设备信息
+function getUserDeviceMessage() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/devices',
+    method: 'get' });
+
+};
+
+// 获取用户设备和房间列表
+function getUserRoomDevices() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/room-devices',
+    method: 'get' });
+
+};
+
+// 创建设备和用户绑定
+function createUserDeviceBind() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/create',
+    method: 'post' });
+
+};
+
+// 更新设备和用户绑定
+function updateUserDeviceBind() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/update',
+    method: 'put' });
+
+};
+
+// 删除设备和用户绑定
+function deleteUserDeviceBind() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/delete',
+    method: 'delete' });
+
+};
+
+// 获取设备和用户绑定
+function getUserDeviceBind() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-user/get',
+    method: 'get' });
+
+};
+
+/***/ }),
+
+/***/ 98:
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/user-photo.png ***!
   \*****************************************************************/
@@ -16990,7 +17215,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAADw
 
 /***/ }),
 
-/***/ 98:
+/***/ 99:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/home-care.png ***!
   \****************************************************************/
@@ -16998,17 +17223,6 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAADw
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAAC/VBMVEUAAAD////+uLf+sbD9qKj+trb9paT+rq79nZ3/+fr9oKD9o6L7fn7+tLT+s7L6amv+rKz7dnf/+/v9pqX8jIz9q6r7e3v9qqn98vP8g4P+9/j7dHX97O77cXL8kJD8l5f97vD9m5v8h4j+9fb8eXn8gID9mZn7hYb9lpX+r6/99PX8lJT73eH//f396uz7b3D94+T8kpL8ior98PHnZ2f1tL/85+r61dvycnPypK/6mpr5z9b4d3j2u8T4ydD74OT2uML7bG37pqX6cnP62t/62N38oKD95ejsbG33wcr5env6o6Lva2zgXF37jo73xMz0d3j60tj74ub6nZ32vsf7yMn5oKD0dHX0k5P/AAD4lpb6goL3cnPkY2TnamrgV1j3xs7ybm/1mZn3iIj0rrnrZGX+uLfyqLLob2/3bm/pYmP4zNPzamv3nZ3ucnPgYGH1envoX1/3fn/7a2zvZ2f4hIThVFTxiIj80tP4o6L8w8P5zdP9zs79v7/kW1v4i4v2gYH1sbr4kpL8gID+uLf82tv+tLP/mZn9u7v/f3//mZnzfn77dnf7a2z/v7/////uf4D+uLb7cXL7a2vweHj8e3v6a2v/t7f9qan/a2v9o6P/tbX9nZ3/ZmbodXfyjY39oKD7srT8jIzyg4P+rqz9trb+sLD/t7f9mZn8iIj6ubj3jo78k5P9mZn+uLX/l5f/mZn+q6v8iYn/a2v/n5//XV37hYX/VVX5aGj7a2v9n5//ior6a2v/kpL7bGz8hYX/lpb/sbH7jY37aWv/lJT8i4v8np7/bW3/trT3a2v8bGz9kJD/kJD9o6P/n5/9g4P/ubb+mpr3rLD/tLT9oaH+t7bMmZn8goL9mpr/iorUf3/8hIT9paT7bm76hob/s7P/tbXtW23+kpL/gID7goL8mJj8g4Pvf3/6nZ38h4f7hYX+t7b7bm/9oKD7lpb/t7f/kJDmZmb+pKT+lZX9nZ38mpr/vLz/g4P8kJD9o6P7Z2v9iYn/iorzoaX/nZ2lRhfmAAAA/3RSTlMA/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wH////////////////6////////////////+/////////////////////jy//YF/wQK//fzBAH/z/fU//ekNfYT/B/5Bf///v/z//ae9kPz9/8izP3CGw/2UDcIC9YDWMmoGHA9O8MRDcq4MqzLI20fSdo+8D3xp73/EWe1BaqVJQbk4chdFFYOvRQ/T/oQL5t34+XyrFFHCsHYdVsTIZeZRWgw/07cmoTrAAAHG0lEQVR4nIWXB1hTWRbHXyBgSOgEMCEmhJIwECJgFpjAgEQIJS5lIICIrBBHcVCXAVm6MIyKwtpWVsdepthHp/fee++9997rN/9z33shUT/8fR8195dz373nnnvCebDx+e2PPLNl9WK/oKBgX1/f86aFhoZGRkulERH+/juffOi2H566Z6PneJF5Y7veeXH14sU+Pn5+QcFQvUyFfP/+/bt3P/vjydfmnW5ufPvQlsV+PiSKJlS3qZDL5TKZ/sTh7z88+ZJ3yNFdV62Gd4YZ7WXqDYYTh786NrZp0tx07/ZrMFMvk82WgrpNGUydLinp+J2n3O68ew9tYSIzaYncMc9ipqQ8/s0p8YFHtwsmrdC5zfT0x58YE1Zo1zXepu+kGTFp6t2mVnvfq3uY+tNV/HNObRoQNAkqmeXlD95OU954iF9bz9nSptBkHQq73c6H5E19EplK5cHr1kPd5V4iMSZEm83mcDhqa6uB1YqpEnq9XqajmEql8qafsUZfi9sipl8kIkLt7e2tZa7Vam0YSQEGip9CQTMyjry1h3v+GaYyk00X5tGeNE/yB54bGdGmp6eQqktHzIy4uLvf57azJ51MhUip7ag69TTUR/cNlZenYMY6LW8aj3zAPUJBvUybWSJRz9JozObMzOLiYoSdnqrp7nYNYWN0SWRmxBmNH33G0c4IJrIPZm9vsiR8IGhatL8c66mMUwVG2dXh3ZuvcA0NKcsxXZhxRpXqZQ7p4DYjI5mqlqjXBXuoCVGaVKjdQy6XayiDmVBv4j4XE5dMX+eaNWsKwyXhaSb80tPTMzDgdDr7+uIlzj6n80C9q8sYB8hUPc2tFlMej3kgWTIls+qHh7uMAGbiZaTySRQaLe1JnVpNdY6PD3d1QVQlJiZya8UkirRJNVObEolm88T48HzeDOTWCmZotM12TjV2YkVlx3wAk1QhcaWO3nOre0sq2+GSCVWoJ5HS2lrkQrhaHc+TnJw8nZjFiI2NnaVO1bSWZLd3BDIzilvLUp7mW7vcnBrQM7hunY8f26roCH+cOL0BZ1SL3DPG9QVoWpuyK8sCmclUdkKltuVQ4/uCgikbUXiZhGOSYVQlBkYlhMXMMcSbWy0roDIzgbtaqApSx/LlmeEBaZQGlAdIhL7BQZqDD3KN3v88U4C5ydJcR2oUU4UaFsHUsxPAEx4OdW5dWRQzoQpVHmpLJl71GHommU0Xza3LhQgzjLtSrPJQi4UR6rOANVeri5laxkyoQvWz1Vpb0uLFneG3Z3rsdGyRBxdCzc5NYCbUSL5uOmpbWvJpL/ndZDs6qBuMdf9F5FsuhprLzBjuWqHKM9WdAQyNXFttRi5MYiI1JoyZUIVa7ahuaDAJIzQ8mTKtvlj4HZjN5kKozTEQYc6Byl+h9uqG+kJ6mScTNckk0+rWmExpmW6yLJesbG7kzRnc5cLla7c21BexOsbIHwwO9Teg/MWpHPkXilQtIDWGmbxKFz6pWfRyPqPQZ1qEXKfNUAWGJRbhbxMjB+rSxhhmQhWubZl1pD5HHGIyFQ4MrgsyaLUOe7WzqFCkDeoyQZ0Jlb9CKWo/lMIiN1kyrbWqKMuDPFqmxjnMLOCe5M0If6REP4ZnZVWJ5EBty/GgaiHOa2XjDDJndnJvwFT4R0gVUPOyqnJy+kEbI0+mNSzMc9PW319KR709hsyCDdx3OxVyBS2V3dqysCqnbaFABTigO1BKPytKQQXepYailkXNgVmwlft1p1yuQGTa15q8PDaqtLSGccHsC/BNgOzZTA0Mg9m5jXsBqpz2FeqlFRVs5Gwv/sFDL5zfxNSEmQUhnXdwn3y5X4ZFQiJa61tqasSB4FKeRQL4z6K9FjbhhJkhIRvu4sZu2y1jUbE5++qfW7RE4PzTWbLkz70WXg0rCAm5fwc3+hepCoVMNzKyr3vz3qYFC/7N+KfAvwQWAEtJM530GMz3FvQhJx+SybA/dr2uob57c6uFTF5atYqU/wisgolHhUrz3fooOpj1Tx2GiuYIzca+7onW1qamJgtxMeMSYhVhKSlphplbNgNP+hjrue555QQ1cSi6Q64rxicmVvCUlMwlVoKLeOZm18HMhdm5bQfrEkePPct3cOVKl2t4eHy8vb29EtTVZYNmsIxYia+ljY3Yl5CQWx+mjgvc8MBx1vuVK3Hld3XNHx7uAO1l7QhRV9cIlhLL4PBsvetGd+9+53HW+7G+xtgFe35iRwdqfBlkOtfId7gUj5m/vevu4jeNPfAe3/vxPYZRJdyDVKuFcoKMR/pB7Lz1+hs92vB5Nxz75SC1fmJ7Qvc2fyl5qMzcsO3hb70/OYyeeuK+gxmsD5vK7Nz62A5hhTxYf/t1Dx48wpvUKnibdLY7N9x/y6N7zviwQtz88R+/f3r3609fxvg/8V/if8QXb2674/odN3sM/xuezKzBQR+8pgAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 99:
-/*!***************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/house-reconstruction.png ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAA6CAMAAADWZboaAAADAFBMVEUAAACYqv5BXf6Fmf58kf55jv6Oof5/k/6Wp/1Tbf6Blf51i/5HYv5Ycf6Hm/6Tpf7c4f+Lnv6Dl/5Qav7Z3//O1v5MZ/5KZf6Ro/3k6P/U2v5Paf5geP7R2P6Jnf7m6v/I0P7e4//L0/5DX/3W3f9Xb/xAXPzo7P9ke/5zif2drv7h5f96jPlddf5LXe5rgv5nfv3Ezf1PYe9whfuisv5VavWZq/5RaPlJVuY+WfpsgPl9kPpac/5wh/1UZ/JWbPhBXf5ugPZHWOtnevaUpPtMYPLAyv5thP5RaftMY/ZRZPFyhPZngP5UbPs7VPVjdvZQWuJPZfcAAP93iPdvg/lbcvt+jvaYqv5XcP5rd+xhb+20vflqgf2Km/lgcfJedfpzg/OOof6GmPlcauymtP2uu/26xv5MXOuNnvpveeuJlvNjevtmdfByfexKVOJvffCClfp2ifq8xPlBXf6Vp/6Ek/ZdbvGpuP5GU+aCjvFpefGHm/5Zb/g4TvFYZeqttvh9ivJUYOeYqv5IXvR4hvNFT+Cfq/dLWeimsPidp/aOnfhCWPSNmPKYo/Y1R+jAyPqzwP6Yqv64wvyXqf5/f/9aZOU6TexNaf5BXf5CVe9BXf5AXP+RmvJBXP6XqP1FWv94gu18kv5di/97kP5Af/9qgv6Xqf9/f/9zi/53iP9Ycv6dsf8zZv9rgv+qqv9fd/5AQP91i/6Clv5tg/9nf/1adf+aqv////9/kv1GXf9heP9AXfyWp/9mZv8zVf9tg/6fn/9whv9ac/+Vqf+XqP1CXf9Ra/9wh/uXqv5nfv5cdP+Wpvlmmf96lP89Vf98lP8/Xf93j/xzjP+Sqv9hePxjfP52jf1ziv5FWP9wiP5je/5mceqSrf9idv96j/4Af/8qVf+Upf9Vqv9cdf4A//9bc/54lv97kP+Gm/6XqP9kfP9nfvxbcv9/lf6OnP8zM/99kf5tf+1xiP2Yqv9dd/Zxcf+Dlv6Imf+Dl/5BXf9+k/5ogPNDXf9mc/85S+qWqP8odoS5AAABAHRSTlMA/////////////////////////////////////////////////////////////////////////////////////P///////////////v//////Af/////2/v//////////9v//////////////////////9fb////////3////////+///////////////////8f/ABP//+9v/rED/zJMl//0L9QTUygzzHvENBTkD+gT8+iOjdDABmwtCYD0FD8QIOadNongTQuD2zy4FMhVpTUsUFVnBpsga1vn/HA3RAgYfA7cB1BFV7GchTTjfEgWzDppjHgnwD8a4wBZYFP84WRYntAAACDxJREFUeJxt13dcU9kSB/BLERM1GiFBEhJIQmhJCCRUAYGAICSicQMIRMrSDL0JArIU6QiiKD57Xdf2XNv23nvv7fXeey+7v3PuTQi7O3/n+5k5ZeaeMG7x42uv/+r0oVcObmdjF+JuGnsQv/znI2+/+fP73X/visNfPP/Cwb17Pbjg8Xhr1gT4+PisXRu0erWXl5fv7dsX/viLK2/c9XV4//tP3Ld9bwJVGpZCgnLS13fF8uXe5y58/933Di+Bdz3zxemDznwJcbCA35Te3suWXf7oynm3xA9fe+iQs9IEjSYuTpNA5GK1i3LZylsfP3vpYVfOa1/e50zpAYgAdZcrFuXKlZGfvvwnZ95nHlqUrNVwMiiIbpA7XBm5YcOnz57nduhHh9wkWapG4yZZCMdCyE2bnr7D7tXvT7tOhE3L43kskSkpOl07IpIEkdHRD/yHlHz4Cefe4ijJkSzZWgptNovFUlAQG7sBQeSOV3/zBuj7znJ5GxEBAQ4kdJe69qLpSfvgVFFBMjCB0Ts2b754h2FuPr/dTU6XIRxrEUSSYnVdk1KJRKIV5liykpOdMuazD55k/vECu1Iia6XjDV1dVVVlQVgmJ6dFkvDwYIlSNdSUlZVMIJERER++xLx+kN4+HmitWinsaOgtAl7tksJwIrXi5tLyrVnJOwjcHBERIbvxGPMXLumagBqVVKTUSsd7h4raqnyxt5BFcshwiVZVMlANGkODSNmNBxnuZHgbHeMKMbHKjkrYNnKDdDZ7MEmqVdQPUwrb2NhIpCzqOYbbX97G6YZBYoVKaX3lUMpySByniJarqrcOD3RvBc0qaKyAg0z9GfMKRwMcXTM5CrFcLZKXNI/qUnCFdLYyJA0OVp60WoeRFLYsYGtFRUUUIvUqw94HLNXR1TtrgJWKS0paYb292y1zhEqU0rOg3bCOGk15f39hIaSgmKGniksU4Kgq6p03KFRyaUd9faWtXaezWcTBZHeVIvFZFNxd7thdo+lOi4dNFQgElBLp46jqGuqdaThpEEvtza2VFlu7xSQPDpZIlEK11NA8MNBdBunRbU5LDwVks9KJ4LO2rK1otLm+pNcglsO2WiwmkwJUKxSp5WJDc3VD7e64BN6A0RxPaDGf2U5vPLnvq6tgK2FzxGJ7a1+rydQ3Tm4gkSpF3WxtLZI6Jnaa45G2mM9ndnESPebVlgLbWt+boxJ3tDb19TX1CbWkXLlYociZh0zgjSaB5oeG8vl+zC6XDPLybUODVbaWNOSoVPaSpqbS0g6hUASpUhjqDqBcj43VSXpzYj4fklLnFGJvrc3C2kHI6iE1Wy5kLQYlrzIpU7+NpYHMLtLXrGRHAvL2UTtZWl06pablGmi5Hrwqa09m9rbcfOQMJNRdrsAdwqH0NeFmwdpFbLk5tFxeF6Q+LzHXD9Lfn7mbm0KumblM115gamqaxq1Uk91VdBjYhQaMtkBmbyM0MNB/HaHOjwo7bTH5Yk19paUzCqVSpJYqPm9ZmMFdKCud6FkiQV2fI5eMjDVllZeeFCmxu6qzY2NjLS0tSYhMKhNptevWrQJ1fhqwTnZOR8YmZ/VNEamWD1rHWj639vQQp8/OIxIpiQT9Vlk5icuAcsWKmYUO+eAAzoRAVJvrlKuYPdwGcRLzPTbZZJvDtBCq5fY6hWFOLhTah1ErUubmunKuCmH2LC5zUcq16BeRfN7aUEe6H9bIUnaDqKT067ILgxe3Xmq3jlnH69DBsIOsRUo2aUiIJ7OHLtNdzgpJewulHQtjY0UJu+sM1E4a9SN5eetyi9HlfkQSuigjYwuSTeMSNCkWaihp6ZkI8NDUzBtUZNxNGTNH8hILU1Nh+as8QW8vlZZBOlOEIlV9S9LEziKeR0LNAWpFU/pjI+kYLqTNAwn9+3Lu88lKg3MaQe40Go3Exh3ApZSK1OOZ2ejy0FC0OT/EM4P5nbvUYY6Fk2kkP0uk2Ww0pxBbS8esdCotLT6d9jkq7mT+fY771McWFJSJ6PDUCqUnrZBp8fHmbHMbrIazs7D5pFtBjzKPnGMl9nZaKSFbpFWqp1iZnh6fl21kLTkkqbjanIhuJQVnHGfePsfJAtOc1t47RxY6ycnQ0PTEbL0e1kNDDkk1a6SNzucHhmS8yLx5gT4vNuBA5eqS4WZ0Wsdw0gRkf6EgND9xW3amvgo2oWY+ZzbzGEv9Qjw7TzCXPrpFXzSbkrMGRc0LMziWhaQBM3JWxESE5ucm5o3A0pdNQ8/+I/vyQP2xv6feYm6+e5nK6Jgsm1g6pxYaqpMmustRbUyMoFiQn5s3su+YvgyDvvLI/v33bFkfQm6SZ+fj32WYKx/fIi+a6JjGraMKrdDQPIF1lleEFsZsjoqSoa2pdfAsRIKGhYWBHj1DHj8vXyZyB2h509BQ9U6cJ6qVCWLw4U9l6b4jx4xH9v+fSFCS9L83yZPrvT9DsrQ7LQ23gO6tDN/uiChI9AnslnsQW5wy4/gn9JV4752nWdpY0d8fj0MnUiCLkEVhTtMWCwlbv4UGJz1PncFKSfzt+kXyFoporIBNTyfXFDJVJkvlJkIILPB6pzx64lHno/b89YvkLSSTVRQWFhIowCr5sAJulniGwRLIyneecj2mf/q96x9+Rt4l+NCjpwTIiWL9UmVR/uwsAWWDrPPUiad+4PaAv/TrB15lKf1gRxEZGCjw46RbdB4/8+jSfw73/u+x1244Jf2QuSafm8zoPPrOJ9wOuSV+8q8f/OQqHiYUclu7RGZkdP7r8TM//MafFZr5pd8++NxrV4shv0OCyAwuOjtPHX/xxFt/cPv5V2NnxQvnX78NAAAAAElFTkSuQmCC"
 
 /***/ })
 

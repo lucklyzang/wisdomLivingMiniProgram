@@ -5,6 +5,7 @@
   "backgroundColorBottom": "#f7f7f7",
   "navigationStyle": "custom",
   "usingComponents": {
+    "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
     "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon"
   }
 }

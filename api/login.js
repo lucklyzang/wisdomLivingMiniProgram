@@ -36,6 +36,15 @@ export function resetPassword(data) {
 	  })
 }
 
+// 设置密码
+export function setPassword(data) {
+	return request({
+	    url: '/app-api/member/auth/set-password',
+	    method: 'post',
+	    data
+	  })
+}
+
 // 用户退出登录
 export function userSignOut() {
   return request({

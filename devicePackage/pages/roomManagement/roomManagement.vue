@@ -7,14 +7,9 @@
 			</nav-bar> 
 		</view>
 		<view class="content-area">
-			<view class="room-list">
-				<text>客厅</text>
-			</view>
-			<view class="room-list">
-				<text>主卧</text>
-			</view>
-			<view class="room-list">
-				<text>卫生间</text>
+			<u-empty text="暂无数据" v-if="isShowNoData"></u-empty>
+			<view class="room-list" v-for="(item,index) in roomList" :key="index">
+				<text>{{ item.name }}</text>
 			</view>
 		</view>
 		<view class="operation-area">
@@ -30,6 +25,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { getUserRoomList } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -38,6 +34,7 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
+				isShowNoData: false,
 				roomAddIconPng: require("@/static/img/room-add-icon.png"),
 				roomEditIconPng: require("@/static/img/room-edit-icon.png")
 			}
@@ -62,12 +59,44 @@
 			}
 		},
 		mounted() {
+			this.queryUserRoomList()
 		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
 				'changeEnterAddRoomPageSource'
 			]),
+			
+			// 获取用户房间列表列表
+			queryUserRoomList () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.roomList = [];
+				getUserRoomList().then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data.length == 0) {
+							this.isShowNoData = true
+							return
+						};
+						this.roomList = res.data.data
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
 			
 			// 房间编辑事件
 			roomEditEvent () {

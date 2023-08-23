@@ -8,12 +8,13 @@
 		</view>
 		<view class="content-area">
 			<view class="content-top">
+				<u-empty text="暂无数据" v-if="isShowNoData"></u-empty>
 				<view class="family-list" v-for="(item,index) in familyList" :key="index">
 					<view class="list-left">
-						<text>{{ item }}</text>
+						<text>{{ item.name }}</text>
 					</view>
 					<view class="list-right">
-						<image :src="editGreenIconPng" @click="editEvent"></image>
+						<image :src="editGreenIconPng" @click="editEvent(item)"></image>
 						<image :src="deleteRedSquareIconPng" @click="deleteEvent"></image>
 					</view>
 				</view>
@@ -33,14 +34,16 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { getUserFamilyList, deleteUserFamily } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
 		},
 		data() {
 			return {
-				infoText: '',
-				familyList: ['后院','阳台','浴室','卧室','餐厅'],
+				infoText: '加载中...',
+				isShowNoData: false,
+				familyList: [],
 				editGreenIconPng: require("@/static/img/edit-green-icon.png"),
 				deleteRedSquareIconPng: require("@/static/img/delete-red-square-icon.png"),
 				showLoadingHint: false
@@ -66,16 +69,49 @@
 			}
 		},
 		mounted() {
+			this.queryUserFamilyList()
 		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay'
 			]),
 			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.familyList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data.length == 0) {
+							this.isShowNoData = true
+							return
+						};
+						this.familyList = res.data.data
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 编辑事件
-			editEvent () {
+			editEvent (item) {
+				let mynavData = JSON.stringify(item);
 				uni.redirectTo({
-					url: '/generalSetPackage/pages/editFamily/editFamily'
+					url: '/generalSetPackage/pages/editFamily/editFamily?transmitData='+mynavData
 				})
 			},
 			
@@ -87,7 +123,35 @@
 			},
 			
 			// 删除事件
-			deleteEvent () {},
+			deleteEvent () {
+				this.showLoadingHint = true;
+				this.infoText = '删除中...';
+				deleteUserFamily().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '删除成功',
+							type: 'success',
+							position: 'bottom'
+						});
+						this.queryUserFamilyList()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
 			
 			backTo () {
 				uni.switchTab({

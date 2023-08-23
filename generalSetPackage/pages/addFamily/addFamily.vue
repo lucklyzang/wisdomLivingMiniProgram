@@ -20,6 +20,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { createUserFamily } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -59,7 +60,47 @@
 			]),
 			
 			// 添加事件
-			addEvent () {},
+			addEvent () {
+				if (!this.familyNameValue) {
+					this.$refs.uToast.show({
+						title: '家庭名称不能为空!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				this.showLoadingHint = true;
+				this.infoText = '添加中...';
+				createUserFamily({
+						userId: this.userInfo.userId,
+						name: this.familyNameValue,
+						phones: "[]"
+					}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '添加成功',
+							type: 'success',
+							position: 'bottom'
+						});
+						this.backTo()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
 			
 			backTo () {
 				uni.redirectTo({

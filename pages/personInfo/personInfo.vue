@@ -1,5 +1,7 @@
 <template>
 	<view class="content-box">
+		<u-toast ref="uToast" />
+		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area-box">
 			<image :src="loginBackgroundPng"></image>
 			<view class="user-info">
@@ -41,14 +43,14 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
-	import {
-		userSignOut
-	} from '@/api/login.js'
+	import { getUserMessage } from '@/api/user.js'
 	export default {
 		data() {
 			return {
 				loginBackgroundPng: require("@/static/img/login-background.png"),
 				userPhotoPng: require("@/static/img/user-photo.png"),
+				infoText: '',
+				showLoadingHint: false,
 				functionList: [
 					{
 						name: '上门护理',
@@ -87,7 +89,7 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userBasicInfo'
 			]),
 			userName() {
 			},
@@ -103,16 +105,46 @@
 			}
 		},
 		mounted() {
+			// 初次进入该页面时，查询用户基本信息
+			if (!this.userBasicInfo) {
+				this.queryUserBasicMessage()
+			}
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeUserBasicInfo'
 			]),
 			
 			// 头像点击事件
 			enterPersonMessagePageEvent () {
 				uni.redirectTo({
 					url: '/generalSetPackage/pages/privateInfo/privateInfo'
+				})
+			},
+			
+			// 获取用户基本信息
+			queryUserBasicMessage () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				getUserMessage().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.changeUserBasicInfo(res.data.data);
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			
@@ -172,6 +204,7 @@
 					width: 76px;
 					height: 76px;
 					margin-right: 15px;
+					border-radius: 50%;
 					z-index:1;
 					image {
 						width: 76px;

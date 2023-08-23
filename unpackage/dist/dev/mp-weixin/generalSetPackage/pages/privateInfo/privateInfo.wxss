@@ -59,7 +59,12 @@ page {
   justify-content: center;
   align-items: center;
 }
-.content-box .content-area .edit-top > image {
+.content-box .content-area .edit-top .user-photo-box {
+  width: 89px;
+  height: 89px;
+  border-radius: 50%;
+}
+.content-box .content-area .edit-top .user-photo-box image {
   width: 89px;
   height: 89px;
 }

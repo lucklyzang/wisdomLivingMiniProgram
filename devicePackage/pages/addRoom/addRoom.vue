@@ -15,7 +15,7 @@
 					<text>推荐房间名称</text>
 				</view>
 				<view class="recommend-room-list-wrapper">
-					<view class="recommend-room-list" v-for="(item,index) in recommendRoomList" :key="index">
+					<view class="recommend-room-list" v-for="(item,index) in recommendRoomList" :key="index" @click="roomNameClick(item)">
 						<text>{{ item }}</text>
 					</view>
 				</view>
@@ -34,6 +34,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { createUserRoom } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -43,7 +44,7 @@
 				infoText: '',
 				showLoadingHint: false,
 				roomNameValue: '',
-				recommendRoomList: ['后院','阳台','浴室','卧室','餐厅']
+				recommendRoomList: ['后院','阳台','浴室','卧室','餐厅','儿童房','厨房','书房','主卧','办公室']
 			}
 		},
 		onReady() {
@@ -78,9 +79,53 @@
 				this.backTo()
 			},
 			
+			// 推荐房间名点击事件
+			roomNameClick (item) {
+				this.roomNameValue = item
+			},
+			
 			// 保存事件
 			saveEvent () {
-				this.backTo()
+				if (!this.roomNameValue) {
+					this.$refs.uToast.show({
+						title: '房间名称不能为空!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				this.showLoadingHint = true;
+				this.infoText = '新增中...';
+				this.familyList = [];
+				createUserRoom({
+					userId: this.userInfo.userId,
+					familyId: '',
+					name: this.roomNameValue
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '新增房间成功',
+							type: 'success',
+							position: 'bottom'
+						});
+						this.backTo()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			backTo () {

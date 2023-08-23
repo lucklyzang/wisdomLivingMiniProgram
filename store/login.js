@@ -1,18 +1,22 @@
 import { setCache, getCache } from '@/common/js/utils'
 export default {	
 	state: {
-		userInfo: null,
+		userInfo: {},
 		token: null, //请求token,
-		overDueWay: false
+		overDueWay: false,
+		userBasicInfo: null
 	},
 	getters: {
 		 userInfo:(state) => {
-			state.userInfo = JSON.parse(getCache('userInfo')) ? JSON.parse(getCache('userInfo')) : null;
+			state.userInfo = getCache('userInfo') ? getCache('userInfo') : {};
 			return state.userInfo
 		},
 		token:(state) => {
 			state.userInfo = getCache('token') ? getCache('token') : null;
 			return state.token
+		},
+		userBasicInfo:(state) => {
+			return state.userBasicInfo
 		},
 		overDueWay: state => state.overDueWay
 	},
@@ -21,6 +25,12 @@ export default {
 			if (playLoad && playLoad != 'null') {
 				setCache('userInfo', playLoad);
 				state.userInfo = playLoad
+			}
+		},
+		// 存储用户基本信息
+		changeUserBasicInfo(state, playLoad) {
+			if (playLoad && playLoad != 'null') {
+				state.userBasicInfo = playLoad
 			}
 		},
 		// 修改token状态
