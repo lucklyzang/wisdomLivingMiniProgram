@@ -12,7 +12,7 @@
 					<u-empty text="暂无数据" v-if="isShowNoData"></u-empty>
 					<view class="recommend-room-list" v-for="(item,index) in roomList" :key="index">
 						<text>{{ item.name }}</text>
-						<image :src="deleteRedIconPng" @click="deleteEvent"></image>
+						<image :src="deleteRedIconPng" @click="deleteEvent(item.id)"></image>
 					</view>
 				</view>
 			</view>
@@ -44,11 +44,13 @@
 				deleteRedIconPng: require("@/static/img/delete-red-icon.png"),
 			}
 		},
-		onReady() {
+		onLoad (object) {
+			this.queryUserRoomList(this.familyId)
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId'
 			]),
 			userName() {
 			},
@@ -63,20 +65,17 @@
 			accountName() {
 			}
 		},
-		mounted() {
-			this.queryUserRoomList()
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay'
 			]),
 			
 			// 获取用户房间列表列表
-			queryUserRoomList () {
+			queryUserRoomList (familyId) {
 				this.showLoadingHint = true;
 				this.infoText = '加载中...';
 				this.roomList = [];
-				getUserRoomList().then((res) => {
+				getUserRoomList({familyId}).then((res) => {
 					if ( res && res.data.code == 0) {
 						if (res.data.data.length == 0) {
 							this.isShowNoData = true
@@ -110,17 +109,17 @@
 			},
 			
 			// 删除事件
-			deleteEvent () {
+			deleteEvent (id) {
 				this.showLoadingHint = true;
 				this.infoText = '删除中...';
-				deleteUserRoom().then((res) => {
+				deleteUserRoom({id}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({
 							title: '删除成功',
 							type: 'success',
 							position: 'bottom'
 						});
-						this.queryUserRoomList()
+						this.queryUserRoomList(this.familyId)
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,

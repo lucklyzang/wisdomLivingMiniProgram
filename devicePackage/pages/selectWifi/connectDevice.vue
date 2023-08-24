@@ -46,7 +46,8 @@
 				deviceIconPng: require("@/static/img/room-icon.png")
 			}
 		},
-		onReady() {
+		onLoad (object) {
+			
 		},
 		computed: {
 			...mapGetters([
@@ -64,8 +65,6 @@
 			},
 			accountName() {
 			}
-		},
-		mounted() {
 		},
 		methods: {
 			...mapMutations([

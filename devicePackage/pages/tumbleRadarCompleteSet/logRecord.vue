@@ -99,7 +99,7 @@
 			
 			backTo () {
 				uni.redirectTo({
-					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData='+1
 				})
 			}
 		}

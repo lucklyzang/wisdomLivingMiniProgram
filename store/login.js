@@ -12,7 +12,7 @@ export default {
 			return state.userInfo
 		},
 		token:(state) => {
-			state.userInfo = getCache('token') ? getCache('token') : null;
+			state.token = getCache('token') ? getCache('token') : null;
 			return state.token
 		},
 		userBasicInfo:(state) => {

@@ -87,8 +87,12 @@
 			
 			
 			backTo () {
+				let transmitData = JSON.stringify({
+					id: 1,
+					otherParameter: this.setList
+				});
 				uni.redirectTo({
-					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData='+transmitData
 				})
 			}
 		}

@@ -34,16 +34,19 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
+				roomList: [],
 				isShowNoData: false,
 				roomAddIconPng: require("@/static/img/room-add-icon.png"),
 				roomEditIconPng: require("@/static/img/room-edit-icon.png")
 			}
 		},
-		onReady() {
+		onLoad (object) {
+			this.queryUserRoomList(this.familyId)
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId'
 			]),
 			userName() {
 			},
@@ -58,9 +61,6 @@
 			accountName() {
 			}
 		},
-		mounted() {
-			this.queryUserRoomList()
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
@@ -68,24 +68,24 @@
 			]),
 			
 			// 获取用户房间列表列表
-			queryUserRoomList () {
+			queryUserRoomList (familyId) {
 				this.showLoadingHint = true;
 				this.infoText = '加载中...';
 				this.roomList = [];
-				getUserRoomList().then((res) => {
+				getUserRoomList({familyId}).then((res) => {
 					if ( res && res.data.code == 0) {
 						if (res.data.data.length == 0) {
 							this.isShowNoData = true
-							return
-						};
-						this.roomList = res.data.data
+						} else {
+							this.roomList = res.data.data
+						}
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
-					}	
+					};
 					this.showLoadingHint = false;
 				})
 				.catch((err) => {
@@ -171,6 +171,13 @@
 			display: flex;
 			align-items: center;
 			flex-direction: column;
+			position: relative;
+			::v-deep .u-empty {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%)
+			};
 			.room-list {
 				width: 100%;
 				height: 50px;

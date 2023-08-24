@@ -15,7 +15,7 @@
 					</view>
 					<view class="list-right">
 						<image :src="editGreenIconPng" @click="editEvent(item)"></image>
-						<image :src="deleteRedSquareIconPng" @click="deleteEvent"></image>
+						<image :src="deleteRedSquareIconPng" @click="deleteEvent(item.id)"></image>
 					</view>
 				</view>
 			</view>
@@ -53,7 +53,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'enterFamilyManagementPageSource'
 			]),
 			userName() {
 			},
@@ -123,10 +124,10 @@
 			},
 			
 			// 删除事件
-			deleteEvent () {
+			deleteEvent (id) {
 				this.showLoadingHint = true;
 				this.infoText = '删除中...';
-				deleteUserFamily().then((res) => {
+				deleteUserFamily({id}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({
 							title: '删除成功',
@@ -155,7 +156,7 @@
 			
 			backTo () {
 				uni.switchTab({
-					url: '/pages/device/device'
+					url: this.enterFamilyManagementPageSource
 				})
 			}
 		}

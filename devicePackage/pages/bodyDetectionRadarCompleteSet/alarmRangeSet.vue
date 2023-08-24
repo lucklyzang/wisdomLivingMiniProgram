@@ -80,7 +80,7 @@
 			
 			backTo () {
 				uni.redirectTo({
-					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
+					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet?transmitData='+1
 				})
 			}
 		}

@@ -39,7 +39,7 @@
 			}
 		},
 		onLoad(options) {
-			this.receiveData = JSON.parse(options.mynavData);
+			this.receiveData = JSON.parse(options.transmitData);
 			this.familyNameValue = this.receiveData.name
 		},
 		computed: {
@@ -79,9 +79,7 @@
 				this.showLoadingHint = true;
 				this.infoText = '添加中...';
 				updateUserFamily({
-						userId: this.userInfo.userId,
 						name: this.familyNameValue,
-						phones: "[]",
 						id: this.receiveData.id
 					}).then((res) => {
 					if ( res && res.data.code == 0) {

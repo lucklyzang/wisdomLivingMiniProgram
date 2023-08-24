@@ -77,7 +77,7 @@
 				</view>
 			</view>
 			<view class="bottom-btn-area">
-				<text>保存</text>
+				<text :class="{'btnStyle' : alarmRangeValue && acceptAlarmMethod}" @click="updateRadarSet">保存</text>
 			</view>
 		</view>
 	</view>
@@ -89,6 +89,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { getFallAlarmSettings, updateFallAlarmSettings } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
@@ -108,7 +109,8 @@
 				moreIconPng: require("@/static/img/more-icon.png")
 			}
 		},
-		onReady() {
+		onLoad(object) {
+			if (JSON.parse(object.transmitData).id == 1) { return };
 			if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
 				this.wifiListBoxShow = true
 			}
@@ -137,6 +139,92 @@
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 设备状态转换
+			alarmTypeTransition (num) {
+				switch(num) {
+						case '不通知' :
+							return 0
+							break;
+						case '短信' :
+							return 1
+							break;
+						case '电话' :
+							return 2
+							break;
+						case '电话短信' :
+							return 3
+							break;
+						case '微信通知' :
+							return 4
+							break;
+				}
+			},
+			
+			// 更新雷达设置
+			updateRadarSet () {
+				if (this.alarmRangeValue && this.acceptAlarmMethod) {
+					return
+				};
+				this.showLoadingHint = true;
+				this.isShowNoDeviceData = false;
+				this.infoText = '保存中...';
+				updateFallAlarmSettings().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获得雷达设置
+			getRadarSet () {
+				this.showLoadingHint = true;
+				this.isShowNoDeviceData = false;
+				this.infoText = '加载中...';
+				getFallAlarmSettings().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
 			
 			// 拒绝事件
 			refuseEvent () {

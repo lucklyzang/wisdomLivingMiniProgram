@@ -4,6 +4,8 @@ export function getDefaultDeviceState() {
 			timeMessage: {},
 			ossMessage: {},
 			enterAddRoomPageSource: '',
-			enterDeviceSetPageSource: ''
+			enterDeviceSetPageSource: '',
+			enterFamilyManagementPageSource: '',
+			familyId: ''
 		}	
 };

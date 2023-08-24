@@ -75,7 +75,8 @@
 				}
 			}
 		},
-		onReady() {
+		onLoad (object) {
+			this.familyId = object.transmitData
 		},
 		computed: {
 			...mapGetters([
@@ -93,8 +94,6 @@
 			},
 			accountName() {
 			}
-		},
-		mounted() {
 		},
 		methods: {
 			...mapMutations([

@@ -114,7 +114,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var loop = function loop() {__webpack_require__.e(/*! require.ensure | components/our-loading/loaders/loop */ "components/our-loading/loaders/loop").then((function () {return resolve(__webpack_require__(/*! ./loaders/loop.vue */ 763));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var shrinkRect = function shrinkRect() {__webpack_require__.e(/*! require.ensure | components/our-loading/loaders/shrink-rect */ "components/our-loading/loaders/shrink-rect").then((function () {return resolve(__webpack_require__(/*! ./loaders/shrink-rect.vue */ 770));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var loop = function loop() {__webpack_require__.e(/*! require.ensure | components/our-loading/loaders/loop */ "components/our-loading/loaders/loop").then((function () {return resolve(__webpack_require__(/*! ./loaders/loop.vue */ 770));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var shrinkRect = function shrinkRect() {__webpack_require__.e(/*! require.ensure | components/our-loading/loaders/shrink-rect */ "components/our-loading/loaders/shrink-rect").then((function () {return resolve(__webpack_require__(/*! ./loaders/shrink-rect.vue */ 777));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 

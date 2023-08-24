@@ -1,5 +1,7 @@
 <template>
 	<view class="content-box">
+		<u-toast ref="uToast" />
+		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area-box">
 			<image :src="loginBackgroundPng"></image>
 			<view class="operation-area">
@@ -16,6 +18,7 @@
 							 @change="familyMemberChange"
 							placeholder = "请选择家庭"
 							:selectHideType="'hideAll'"
+							:initValue="familyMemberList[0]['value']"
 						>
 						</xfl-select>
 					</view>
@@ -26,11 +29,12 @@
 			</view>
 		</view>
 		<view class="center-content-area" v-if="tabCutActiveIndex == 0">
+			<u-empty text="暂无数据" v-if="isShowNoDeviceData"></u-empty>
 			<view class="device-content-area">
 				<view class="device-list" v-for="(item,index) in deviceList" :key="index" @click="enterDeviceDetails(item)">
 					<view class="device-top">
 						<view class="device-top-left">
-							<image :src="item.imageUrl"></image>
+							<image :src="imageUrl"></image>
 							<text>{{ item.roomName }}</text>
 						</view>
 						<view class="device-top-right">
@@ -48,6 +52,7 @@
 		<view class="center-content-area center-content-area-one" v-if="tabCutActiveIndex == 1">
 			<view class="room-content-area">
 				<view class="room-list-wrapper">
+					<u-empty text="暂无数据" v-if="isShowNoRoomData"></u-empty>
 					<view class="room-list" v-for="(item,index) in roomList" :key="index" @click="enterRoomDetails(item)">
 						<view class="room-left">
 							<view class="room-left-top">
@@ -55,8 +60,8 @@
 								<text>4个设备</text>
 							</view>
 							<view class="room-left-bottom">
-								<image :src="item.imageUrl"></image>
-								<image :src="item.imageUrl"></image>
+								<image :src="imageUrl"></image>
+								<image :src="imageUrl"></image>
 							</view>
 						</view>
 						<view class="room-right">
@@ -78,6 +83,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { getUserDeviceMessage, getUserRoomDevices, getUserFamilyList } from '@/api/user.js'
 	import {
 		setCache,
 		removeAllLocalStorage
@@ -88,122 +94,24 @@
 		},
 		data() {
 			return {
-				familyMemberList: [
-					{
-						id: 1,
-						value: '张三的家'
-					},
-					{
-						id: 2,
-						value: '李四的家'
-					},
-					{
-						id: 3,
-						value: '王强的家'
-					},
-					{
-						iconPath: require("@/static/img/family-management-icon.png"),
-						value: '家庭管理',
-						isClickNoEffect: true
-					}
-				],
+				infoText: '',
+				showLoadingHint: false,
+				initValue: null,
+				isShowNoDeviceData: false,
+				isShowNoRoomData: false,
+				familyMemberList: [],
 				tabCutList: ['设备','房间'],
-				deviceList: [
-					{
-						roomName: '客厅',
-						deviceName: '跌倒监测雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '卫生间',
-						deviceName: '跌倒监测雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '主卧',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '大门',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '客厅',
-						deviceName: '跌倒监测雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '卫生间',
-						deviceName: '跌倒监测雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '主卧',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '大门',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '客厅',
-						deviceName: '跌倒监测雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '卫生间',
-						deviceName: '跌倒监测雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '主卧',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '大门',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					}
-				],
-				roomList: [
-					{
-						roomName: '客厅',
-						deviceName: '跌倒监测雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '卫生间',
-						deviceName: '跌倒监测雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '主卧',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '大门',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					},
-					{
-						roomName: '大门',
-						deviceName: '人员存在感知雷达',
-						imageUrl: require("@/static/img/room-icon.png")
-					}
-				],
+				deviceList: [],
+				imageUrl: require("@/static/img/room-icon.png"),
+				roomList: [],
 				tabCutActiveIndex: 0,
 				loginBackgroundPng: require("@/static/img/login-background.png"),
 				messageIconPng: require("@/static/img/message-icon.png"),
 				addDeviceIconPng: require("@/static/img/add-device-icon.png")
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.queryUserFamilyList()
 		},
 		computed: {
 			...mapGetters([
@@ -222,21 +130,25 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
-				'changeEnterDeviceSetPageSource'
+				'changeEnterDeviceSetPageSource',
+				'changeEnterFamilyManagementPageSource',
+				'changeFamilyId'
 			]),
 			
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
-				console.log(val)
+				this.tabCutActiveIndex = 0;
 				if (val.orignItem.isClickNoEffect) {
 					uni.redirectTo({
 						url: '/generalSetPackage/pages/familyManagement/familyManagement'
-					})
+					});
+					this.changeEnterFamilyManagementPageSource('/pages/device/device')
+				} else {
+					this.initValue = val.orignItem.id;
+					this.getUserDevice(this.initValue)
 				}
 			},
 			
@@ -246,14 +158,123 @@
 			
 			// tab切换点击事件
 			tabCutEvent (item,index) {
-				this.tabCutActiveIndex = index
+				this.tabCutActiveIndex = index;
+				if (index == 0) {
+					this.getUserDevice(this.initValue)
+				} else if (index == 1) {
+					this.getUserRoom(this.initValue)
+				}
+			},
+			
+			// 获取用户设备信息
+			getUserDevice (familyId) {
+				this.deviceList = [];
+				this.showLoadingHint = true;
+				this.isShowNoDeviceData = false;
+				this.infoText = '加载中...';
+				getUserDeviceMessage({familyId}).then((res) => {
+					if ( res && res.data.code == 0) {
+						if ( res.data.data.length > 0) {
+							this.deviceList = res.data.data
+						} else {
+							this.isShowNoDeviceData = true
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取用户房间信息
+			getUserRoom (familyId) {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.isShowNoRoomData = false;
+				getUserRoomDevices({familyId}).then((res) => {
+					if ( res && res.data.code == 0) {
+						if ( res.data.data.length > 0) {
+							this.roomList = res.data.data
+						} else {
+							this.isShowNoRoomData = true
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				this.familyMemberList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						for (let item of res.data.data) {
+							this.familyMemberList.push({
+								id: item.id,
+								value: item.name
+							});
+							this.initValue = this.familyMemberList[0]['id'];
+							this.getUserDevice(this.initValue)
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.familyMemberList.push({
+						iconPath: require("@/static/img/family-management-icon.png"),
+						value: '家庭管理',
+						isClickNoEffect: true
+					})
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					});
+					this.familyMemberList.push({
+						iconPath: require("@/static/img/family-management-icon.png"),
+						value: '家庭管理',
+						isClickNoEffect: true
+					})
+				})
 			},
 			
 			// 房间管理事件
 			roomManagementEvent () {
 				uni.redirectTo({
 					url: '/devicePackage/pages/roomManagement/roomManagement'
-				})
+				});
+				this.changeFamilyId(this.initValue)
 			},
 			
 			// 进入消息详情页
@@ -296,7 +317,8 @@
 			addDeviceEvent () {
 				uni.redirectTo({
 					url: '/devicePackage/pages/addDevices/addDevices'
-				})
+				});
+				this.changeFamilyId(this.initValue)
 			}
 		}
 	}
@@ -401,9 +423,17 @@
 			margin: 0 auto;
 			flex: 1;
 			overflow: auto;
+			position: relative;
+			::v-deep .u-empty {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%)
+			};
 			.device-content-area {
 				width: 98%;
 				padding: 10px;
+				overflow: auto;
 				box-sizing: border-box;
 				display: flex;
 				flex-wrap: wrap;

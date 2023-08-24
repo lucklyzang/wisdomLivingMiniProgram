@@ -63,11 +63,12 @@
 				imageUrl: require("@/static/img/room-icon.png")
 			}
 		},
-		onReady() {
+		onLoad (object) {
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId'
 			]),
 			userName() {
 			},

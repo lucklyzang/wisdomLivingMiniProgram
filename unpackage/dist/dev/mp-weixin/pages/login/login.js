@@ -531,7 +531,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 15);function ownKeys(o
           _this2.changeToken(res.data.data.accessToken);
           // 登录用户信息存入store
           _this2.storeUserInfo(res.data.data);
-          uni.navigateTo({
+          uni.switchTab({
             url: '/pages/index/index' });
 
         } else {
@@ -585,7 +585,7 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 15);function ownKeys(o
           (0, _utils.setCache)('storeOverDueWay', false);
           (0, _utils.setCache)('isLogin', true);
           // token信息存入store
-          _this3.changeToken(c.accessToken);
+          _this3.changeToken(res.data.data.accessToken);
           // 登录用户信息存入store
           _this3.storeUserInfo(res.data.data);
           // 注册成功后进入设置密码环节
@@ -594,6 +594,10 @@ var _utils = __webpack_require__(/*! @/common/js/utils */ 15);function ownKeys(o
             if (res.data.data.first) {
               _this3.isSetPassword = true;
               _this3.form.password = '';
+            } else {
+              uni.switchTab({
+                url: '/pages/index/index' });
+
             }
           }
         } else {

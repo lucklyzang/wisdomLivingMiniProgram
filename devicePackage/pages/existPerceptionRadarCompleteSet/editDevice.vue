@@ -239,7 +239,7 @@
 			
 			backTo () {
 				uni.redirectTo({
-					url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
+					url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet?transmitData='+1
 				})
 			}
 		}

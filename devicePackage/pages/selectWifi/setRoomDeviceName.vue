@@ -15,7 +15,7 @@
 					<image :src="deviceIconPng"></image>
 					<view class="room-list-wrapper">
 						<view class="room-list" v-for="(item,index) in roomList" :key="index" @click="roomClickEvent(item,index)" :class="{'roomListStyle': index == currentIndex}">
-							<text>{{ item }}</text>
+							<text>{{ item.name }}</text>
 						</view>
 					</view>
 					<view class="create-new-room">
@@ -41,6 +41,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { getUserRoomList } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -54,14 +55,16 @@
 				totalPage: 2,
 				showLoadingHint: false,
 				deviceIconPng: require("@/static/img/room-icon.png"),
-				roomList: ['客厅','卧室','厨房','卫生间','主卧']
+				roomList: []
 			}
 		},
-		onReady() {
+		onLoad (object) {
+			this.queryUserRoomList(this.familyId)
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId'
 			]),
 			userName() {
 			},
@@ -76,8 +79,6 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
@@ -88,6 +89,29 @@
 			stepEvent () {
 				uni.redirectTo({
 					url: '/devicePackage/pages/selectWifi/setDeviceName'
+				})
+			},
+			
+			// 获取用户房间列表列表
+			queryUserRoomList (familyId) {
+				this.roomList = [];
+				getUserRoomList({familyId}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.roomList = res.data.data
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			

@@ -78,7 +78,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import { getUserMessage, updateUserMessage } from '@/api/user.js'
+	import { getUserMessage, updateUserMessage, updateUserAvatar } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -87,7 +87,7 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
-				niceNameValue: '',
+				niceNameValue: '张三',
 				isShowYearDropDown: false,
 				isShowMonthDropDown: false,
 				isShowDayDropDown: false,
@@ -152,10 +152,10 @@
 			
 			// 回显用户基本信息
 			echoUserBasciMessage () {
-				this.personPhotoSource = this.userBasicInfo.avatar;
-				this.niceNameValue = this.userBasicInfo.nickname;
+				this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng :  this.userBasicInfo.avatar;
+				this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname;
 				this.gendervalue = this.userBasicInfo.sex == 0 ? '其他' : this.userBasicInfo.sex == 1 ? '男' : '女';
-				this.currentDate = this.userBasicInfo.birthday;
+				this.currentDate = !this.userBasicInfo.birthday ? '1970-01-01' : this.userBasicInfo.birthday;
 				this.disposeDateData(this.currentDate)
 			},
 			
@@ -206,6 +206,39 @@
 				})
 			},
 			
+			// 修改用户头像
+			chnagneUserAvatarMessage () {
+				this.showLoadingHint = true;
+				this.infoText = '修改中...';
+				updateUserAvatar({
+					avatarFile: this.srcImage
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '修改成功',
+							type: 'error',
+							position: 'bottom'
+						});
+						this.queryUserBasicMessage()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 更新用户信息
 			updateUserBasicMessage () {
 				this.showLoadingHint = true;
@@ -215,8 +248,7 @@
 						nickName: this.niceNameValue,
 						birthday: `${this.selectYear}-${this.selectMonth}-${this.selectDay}`,
 						sex: this.gendervalue == '男' ? 1 : this.gendervalue == '女' ? 2 : 0
-					},
-					avatarFile: this.srcImage
+					}
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({
@@ -330,7 +362,9 @@
 								that.imgArr.push(base64);
 							}
 						});
-						that.srcImage = res.tempFiles[0]
+						that.srcImage = res.tempFiles[0];
+						// 上传最新头像到服务端
+						this.chnagneUserAvatarMessage()
 					},
 					fail: function(err) {
 						that.$refs.uToast.show({

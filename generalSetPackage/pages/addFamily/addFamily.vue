@@ -72,9 +72,7 @@
 				this.showLoadingHint = true;
 				this.infoText = '添加中...';
 				createUserFamily({
-						userId: this.userInfo.userId,
-						name: this.familyNameValue,
-						phones: "[]"
+						name: this.familyNameValue
 					}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.$refs.uToast.show({

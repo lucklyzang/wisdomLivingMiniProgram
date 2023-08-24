@@ -239,7 +239,7 @@
 			
 			backTo () {
 				uni.redirectTo({
-					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
+					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData='+1
 				})
 			}
 		}

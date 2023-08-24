@@ -98,26 +98,29 @@ export function deleteExistAlarmSettings() {
 };
 
 // 获得跌倒监测雷达设置
-export function getFallAlarmSettings() {
+export function getFallAlarmSettings(data) {
   return request({
     url: '/app-api/member/fall-alarm-settings/get',
-    method: 'get'
+    method: 'get',
+		params
   })
 };
 
 // 更新跌倒监测雷达设置
-export function updateFallAlarmSettings() {
+export function updateFallAlarmSettings(data) {
   return request({
     url: '/app-api/member/fall-alarm-settings/update',
-    method: 'put'
+    method: 'put',
+		data
   })
 };
 
 // 删除跌倒监测雷达设置
-export function deleteFallAlarmSettings() {
+export function deleteFallAlarmSettings(data) {
   return request({
     url: '/app-api/member/fall-alarm-settings/delete',
-    method: 'delete'
+    method: 'delete',
+		params: data
   })
 };
 
@@ -130,7 +133,7 @@ export function getHealthAlarmSettings() {
 };
 
 // 更新体征检测雷达设置
-export function getHealthAlarmSettings() {
+export function updateHealthAlarmSettings() {
   return request({
     url: '/app-api/member/health-alarm-settings/update',
     method: 'put'

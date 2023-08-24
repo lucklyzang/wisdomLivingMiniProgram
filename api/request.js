@@ -24,12 +24,13 @@ const instance = axios.create({
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
 	config.headers['tenant-id'] = 1;
+	console.log('token',store.getters);
   if (config['url'] == 'auth/login') {
   	config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   };
 	// 请求头添加token
 	if (store.getters.token) {
-	   config.headers['Authorization'] = `Bearer${store.getters.token}`
+	   config.headers['Authorization'] = `Bearer ${store.getters.token}`
 	}; 
 	return config;
 }, function (error) {
@@ -41,7 +42,7 @@ instance.interceptors.request.use(function (config) {
 instance.interceptors.response.use(function (response) {
 	if (response.headers['token']) {
 		store.commit('changeToken', response.headers['token']);
-		setCache('questToken', response.headers['token'])
+		setCache('token', response.headers['token'])
 	};
 	return response
 }, function (error) {

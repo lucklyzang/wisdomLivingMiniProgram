@@ -335,7 +335,7 @@
 						this.changeToken(res.data.data.accessToken);
 						// 登录用户信息存入store
 						this.storeUserInfo(res.data.data);
-						uni.navigateTo({
+						uni.switchTab({
 							url: '/pages/index/index'
 						})
 					} else {
@@ -389,7 +389,7 @@
 						setCache('storeOverDueWay',false);
 						setCache('isLogin', true);
 						// token信息存入store
-						this.changeToken(c.accessToken);
+						this.changeToken(res.data.data.accessToken);
 						// 登录用户信息存入store
 						this.storeUserInfo(res.data.data);
 						// 注册成功后进入设置密码环节
@@ -398,6 +398,10 @@
 							if (res.data.data.first) {
 								this.isSetPassword = true;
 								this.form.password = ''
+							} else {
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
 							}
 						}
 					} else {
@@ -425,7 +429,7 @@
 				};
 				let loginMessage = {
 				  mobile: this.form.username,
-					scene: 1
+					scene: this.isForgetPassword ? 3 : 1
 				};
 				this.showLoadingHint = true;
 				this.loadingText = '获取中...';
@@ -811,6 +815,8 @@
 					align-items: center;
 					color: black;
 					font-size: 26px;
+					padding-top: 12px;
+					box-sizing: border-box;
 				  color: #fff;
 				  font-weight: bold;
 				  >view {
@@ -818,7 +824,8 @@
 						&:first-child {
 							position: relative;
 							width: 100%;
-							padding: 0 10px;
+							height: 44px;
+							line-height: 44px;
 							text-align: center;
 							box-sizing: border-box;
 							font-size: 18px;

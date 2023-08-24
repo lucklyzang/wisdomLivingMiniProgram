@@ -18,6 +18,14 @@ export function updateUserMessage(data) {
   })
 };
 
+// 修改用户头像
+export function updateUserAvatar(data) {
+  return request({
+    url: '/app-api/member/user/update-avatar',
+    method: 'post',
+		data
+  })
+};
 
 // 获取用户房间
 export function getUserRoom() {
@@ -28,10 +36,11 @@ export function getUserRoom() {
 };
 
 // 获取用户房间列表
-export function getUserRoomList() {
+export function getUserRoomList(data) {
   return request({
     url: '/app-api/member/room/list',
-    method: 'get'
+    method: 'get',
+		params: data
   })
 };
 
@@ -54,10 +63,11 @@ export function updateUserRoom(data) {
 };
 
 // 删除用户房间
-export function deleteUserRoom() {
+export function deleteUserRoom(data) {
   return request({
     url: '/app-api/member/room/delete',
-    method: 'delete'
+    method: 'delete',
+		params: data
   })
 };
 
@@ -96,10 +106,11 @@ export function updateUserFamily(data) {
 };
 
 // 删除用户家庭
-export function deleteUserFamily() {
+export function deleteUserFamily(data) {
   return request({
     url: '/app-api/member/family/delete',
-    method: 'delete'
+    method: 'delete',
+		params: data
   })
 };
 
@@ -136,18 +147,20 @@ export function getUserDeviceCount() {
 };
 
 // 获取用户设备信息
-export function getUserDeviceMessage() {
+export function getUserDeviceMessage(data) {
   return request({
     url: '/app-api/member/device-user/devices',
-    method: 'get'
+    method: 'get',
+		params: data
   })
 };
 
 // 获取用户设备和房间列表
-export function getUserRoomDevices() {
+export function getUserRoomDevices(data) {
   return request({
     url: '/app-api/member/device-user/room-devices',
-    method: 'get'
+    method: 'get',
+		params: data
   })
 };
 

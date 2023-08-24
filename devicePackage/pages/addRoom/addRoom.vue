@@ -47,12 +47,13 @@
 				recommendRoomList: ['后院','阳台','浴室','卧室','餐厅','儿童房','厨房','书房','主卧','办公室']
 			}
 		},
-		onReady() {
+		onLoad (object) {
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'enterAddRoomPageSource'
+				'enterAddRoomPageSource',
+				'familyId'
 			]),
 			userName() {
 			},
@@ -99,7 +100,7 @@
 				this.familyList = [];
 				createUserRoom({
 					userId: this.userInfo.userId,
-					familyId: '',
+					familyId: this.familyId,
 					name: this.roomNameValue
 				}).then((res) => {
 					if ( res && res.data.code == 0) {

@@ -234,6 +234,8 @@ page {
   align-items: center;
   color: black;
   font-size: 26px;
+  padding-top: 12px;
+  box-sizing: border-box;
   color: #fff;
   font-weight: bold;
 }
@@ -243,7 +245,8 @@ page {
 .container .container-content .top-area-box .title > view:first-child {
   position: relative;
   width: 100%;
-  padding: 0 10px;
+  height: 44px;
+  line-height: 44px;
   text-align: center;
   box-sizing: border-box;
   font-size: 18px;

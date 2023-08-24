@@ -108,7 +108,8 @@
 				moreIconPng: require("@/static/img/more-icon.png")
 			}
 		},
-		onReady() {
+		onLoad(object) {
+			if (object.transmitData == 1) { return };
 			if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
 				this.wifiListBoxShow = true
 			}
@@ -130,8 +131,6 @@
 			},
 			accountName() {
 			}
-		},
-		mounted() {
 		},
 		methods: {
 			...mapMutations([

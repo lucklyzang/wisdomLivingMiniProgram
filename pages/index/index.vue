@@ -14,6 +14,7 @@
 					 @change="familyMemberChange"
 					placeholder = "请选择家庭"
 					:selectHideType="'hideAll'"
+					:initValue="familyMemberList[0]['value']"
 				>
 				</xfl-select>
 			</view>
@@ -203,6 +204,7 @@
 		mapMutations
 	} from 'vuex'
 	import xflSelect from '@/components/xfl-select/xfl-select.vue';
+	import { getUserFamilyList } from '@/api/user.js'
 	export default {
 		components: {
 			xflSelect
@@ -216,20 +218,7 @@
 				toiletIconPng: require("@/static/img/toilet-icon.png"),
 				tumbleIconPng: require("@/static/img/tumble-icon.png"),
 				leaveHomeIconPng: require("@/static/img/leave-home-icon.png"),
-				familyMemberList: [
-					{
-						id: 1,
-						value: '张三的家'
-					},
-					{
-						id: 2,
-						value: '李四的家'
-					},
-					{
-						id: 3,
-						value: '王强的家'
-					}
-				]
+				familyMemberList: []
 			}
 		},
 		onReady() {
@@ -252,6 +241,7 @@
 			}
 		},
 		mounted() {
+			this.queryUserFamilyList()
 		},
 		methods: {
 			...mapMutations([
@@ -264,6 +254,34 @@
 				if (val.orignItem.isClickNoEffect) {
 					console.log('家庭管理');
 				}
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList (familyId) {
+				this.familyMemberList = [];
+				getUserFamilyList({familyId}).then((res) => {
+					if ( res && res.data.code == 0) {
+						for (let item of res.data.data) {
+							this.familyMemberList.push({
+								id: item.id,
+								value: item.name
+							})
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			// 绑定设备事件

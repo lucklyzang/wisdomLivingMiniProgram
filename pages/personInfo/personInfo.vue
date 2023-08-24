@@ -9,8 +9,8 @@
 					<image :src="userPhotoPng"></image>
 				</view>
 				<view class="user-nickname">
-					<text>张三</text>
-					<text>8个智能设备</text>
+					<text>{{ niceNameValue }}</text>
+					<text>{{ `${deviceNumber}个智能设备` }}</text>
 				</view>
 			</view>
 		</view>
@@ -43,7 +43,7 @@
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
-	import { getUserMessage } from '@/api/user.js'
+	import { getUserMessage, getUserDeviceCount } from '@/api/user.js'
 	export default {
 		data() {
 			return {
@@ -51,6 +51,9 @@
 				userPhotoPng: require("@/static/img/user-photo.png"),
 				infoText: '',
 				showLoadingHint: false,
+				deviceNumber: 0,
+				personPhotoSource: '',
+				niceNameValue: '张三',
 				functionList: [
 					{
 						name: '上门护理',
@@ -108,11 +111,17 @@
 			// 初次进入该页面时，查询用户基本信息
 			if (!this.userBasicInfo) {
 				this.queryUserBasicMessage()
-			}
+			} else {
+				this.personPhotoSource = !this.userBasicInfo.avatar ? this.userPhotoPng :  this.userBasicInfo.avatar;
+				this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
+			};
+			// 获取用户设备数量
+			this.queryUserDeviceNumber()
 		},
 		methods: {
 			...mapMutations([
-				'changeUserBasicInfo'
+				'changeUserBasicInfo',
+				'changeEnterFamilyManagementPageSource'
 			]),
 			
 			// 头像点击事件
@@ -129,6 +138,32 @@
 				getUserMessage().then((res) => {
 					if ( res && res.data.code == 0) {
 						this.changeUserBasicInfo(res.data.data);
+						this.personPhotoSource = !this.userBasicInfo.avatar ? this.userPhotoPng :  this.userBasicInfo.avatar;
+						this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取用户设备数量
+			queryUserDeviceNumber () {
+				getUserDeviceCount().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.deviceNumber = res.data.data
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -161,7 +196,8 @@
 				} else if (name == '家庭管理') {
 					uni.redirectTo({
 						url: '/generalSetPackage/pages/familyManagement/familyManagement'
-					})
+					});
+					this.changeEnterFamilyManagementPageSource('/pages/personInfo/personInfo')
 				} else if (name == '通用设置') {
 					uni.redirectTo({
 						url: '/generalSetPackage/pages/generalSetting/generalSetting'
