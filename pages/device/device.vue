@@ -38,7 +38,7 @@
 							<text>{{ item.roomName }}</text>
 						</view>
 						<view class="device-top-right">
-							<text>在线</text>
+							<text>{{ item.onLine ? '在线' : '离线' }}</text>
 						</view>
 					</view>
 					<view class="device-bottom">
@@ -56,8 +56,8 @@
 					<view class="room-list" v-for="(item,index) in roomList" :key="index" @click="enterRoomDetails(item)">
 						<view class="room-left">
 							<view class="room-left-top">
-								<text>{{ item.roomName }}</text>
-								<text>4个设备</text>
+								<text>{{ item.name }}</text>
+								<text>{{ `${item.deviceRespVOList.length}个设备` }}</text>
 							</view>
 							<view class="room-left-bottom">
 								<image :src="imageUrl"></image>
@@ -115,7 +115,9 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'beforeAddDeviceMessage',
+				'beforeAddBodyDetectionDeviceMessage',
 			]),
 			userName() {
 			},
@@ -135,7 +137,10 @@
 				'changeOverDueWay',
 				'changeEnterDeviceSetPageSource',
 				'changeEnterFamilyManagementPageSource',
-				'changeFamilyId'
+				'changeFamilyId',
+				'changeBeforeAddDeviceMessage',
+				'changeBeforeAddBodyDetectionDeviceMessage',
+				'changeRoomDetails'
 			]),
 			
 			// 家庭选择下拉框下拉选择确定事件
@@ -285,29 +290,49 @@
 			},
 			
 			// 进入设备详情事件
+			// 1-体征雷达，2-存在感知雷达，3-跌倒雷达，4-人体检测雷达
 			enterDeviceDetails (item) {
-				if (item.deviceName == '跌倒监测雷达') {
+				if (item.type == 3) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
-					})
-				} else if (item.deviceName == '人员存在感知雷达') {
+					});
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddDeviceMessage;
+					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['roomName'] = item.roomName;
+					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['customDeviceName'] = item.customName;
+					temporaryMessage['deviceName'] = item.deviceName;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddDeviceMessage(temporaryMessage);
+				} else if (item.type == 2) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
 					})
-				} else if (item.deviceName == '体征监测雷达') {
+				} else if (item.type == 1) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
 					})
-				} else if (item.deviceName == '人体检测雷达') {
+				} else if (item.type == 4) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
-					})
+					});
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['roomName'] = item.roomName;
+					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['customDeviceName'] = item.customName;
+					temporaryMessage['deviceName'] = item.deviceName;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
 				};
 				this.changeEnterDeviceSetPageSource('/pages/device/device')
 			},
 			
 			// 进入房间详情事件
 			enterRoomDetails (item) {
+				this.changeRoomDetails(item);
 				uni.redirectTo({
 					url: '/devicePackage/pages/roomDetails/roomDetails'
 				})
@@ -315,6 +340,8 @@
 			
 			// 添加设备事件
 			addDeviceEvent () {
+				// 清除以前保存的设置房间和自定义设备名称信息
+				this.changeBeforeAddDeviceMessage({});
 				uni.redirectTo({
 					url: '/devicePackage/pages/addDevices/addDevices'
 				});

@@ -80,6 +80,7 @@ page {
 .content-box .content-area .recommend-room-area .recommend-room-list-wrapper {
   width: 100%;
   flex: 1;
+  position: relative;
   overflow: auto;
   flex-wrap: wrap;
   display: flex;
@@ -100,6 +101,13 @@ page {
 }
 .content-box .content-area .recommend-room-area .recommend-room-list-wrapper .recommend-room-list:nth-child(3n) {
   margin-right: 0 !important;
+}
+.content-box .content-area .recommend-room-area .recommend-room-list-wrapper  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .content-area .operation-area {
   height: 80px;

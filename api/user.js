@@ -44,6 +44,14 @@ export function getUserRoomList(data) {
   })
 };
 
+// 获取预设房间
+export function getUserPresetsRoomList() {
+  return request({
+    url: '/app-api/member/room/presets-room',
+    method: 'get'
+  })
+};
+
 // 创建用户房间
 export function createUserRoom(data) {
   return request({
@@ -165,18 +173,20 @@ export function getUserRoomDevices(data) {
 };
 
 // 创建设备和用户绑定
-export function createUserDeviceBind() {
+export function createUserDeviceBind(data) {
   return request({
     url: '/app-api/member/device-user/create',
-    method: 'post'
+    method: 'post',
+		data
   })
 };
 
 // 更新设备和用户绑定
-export function updateUserDeviceBind() {
+export function updateUserDeviceBind(data) {
   return request({
     url: '/app-api/member/device-user/update',
-    method: 'put'
+    method: 'put',
+		data
   })
 };
 

@@ -6,6 +6,9 @@ export function getDefaultDeviceState() {
 			enterAddRoomPageSource: '',
 			enterDeviceSetPageSource: '',
 			enterFamilyManagementPageSource: '',
-			familyId: ''
+			familyId: '',
+			beforeAddDeviceMessage: {},
+			beforeAddBodyDetectionDeviceMessage: {},
+			roomDetails: {}
 		}	
 };

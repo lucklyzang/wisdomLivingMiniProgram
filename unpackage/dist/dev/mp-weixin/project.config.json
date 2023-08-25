@@ -7,8 +7,10 @@
   "setting": {
     "urlCheck": true,
     "es6": true,
-    "minified": true,
     "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "bigPackageSizeSupport": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],

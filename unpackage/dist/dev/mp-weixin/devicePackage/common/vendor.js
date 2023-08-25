@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["devicePackage/common/vendor"],{
 
-/***/ 216:
+/***/ 248:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-inform-icon.png ***!
   \*************************************************************************/
@@ -11,7 +11,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 217:
+/***/ 249:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/system-inform-icon.png ***!
   \*************************************************************************/
@@ -22,7 +22,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 234:
+/***/ 266:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/scan-icon.png ***!
   \****************************************************************/
@@ -33,7 +33,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 235:
+/***/ 267:
 /*!***************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/question-circle-icon.png ***!
   \***************************************************************************/
@@ -44,7 +44,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 236:
+/***/ 268:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/search-for-icon.gif ***!
   \**********************************************************************/
@@ -55,7 +55,7 @@ module.exports = "/static/img/search-for-icon.gif";
 
 /***/ }),
 
-/***/ 261:
+/***/ 293:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/no-query-device.png ***!
   \**********************************************************************/
@@ -66,7 +66,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAABeCAMAAACd
 
 /***/ }),
 
-/***/ 270:
+/***/ 302:
 /*!*********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-binding.gif ***!
   \*********************************************************************/
@@ -77,7 +77,7 @@ module.exports = "/static/img/device-binding.gif";
 
 /***/ }),
 
-/***/ 271:
+/***/ 303:
 /*!**************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-bind-success.png ***!
   \**************************************************************************/
@@ -88,7 +88,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAABeCAMAAACd
 
 /***/ }),
 
-/***/ 272:
+/***/ 304:
 /*!***********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-bind-fail.png ***!
   \***********************************************************************/
@@ -99,7 +99,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAMAAABi
 
 /***/ }),
 
-/***/ 281:
+/***/ 313:
 /*!********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-add-icon.png ***!
   \********************************************************************/
@@ -110,7 +110,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAMAAAC7
 
 /***/ }),
 
-/***/ 282:
+/***/ 314:
 /*!*********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-edit-icon.png ***!
   \*********************************************************************/
@@ -121,7 +121,211 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAMAAABG
 
 /***/ }),
 
-/***/ 315:
+/***/ 347:
+/*!*****************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/api/device.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createDeviceInform = createDeviceInform;
+exports.deleteDetectionAlarmSettings = deleteDetectionAlarmSettings;
+exports.deleteDeviceInformList = deleteDeviceInformList;
+exports.deleteExistAlarmSettings = deleteExistAlarmSettings;
+exports.deleteFallAlarmSettings = deleteFallAlarmSettings;
+exports.deleteHealthAlarmSettings = deleteHealthAlarmSettings;
+exports.getDetectionAlarmSettings = getDetectionAlarmSettings;
+exports.getDeviceInform = getDeviceInform;
+exports.getDeviceInformList = getDeviceInformList;
+exports.getDeviceInformUnread = getDeviceInformUnread;
+exports.getExistAlarmSettings = getExistAlarmSettings;
+exports.getFallAlarmSettings = getFallAlarmSettings;
+exports.getHealthAlarmSettings = getHealthAlarmSettings;
+exports.updateDetectionAlarmSettings = updateDetectionAlarmSettings;
+exports.updateDeviceInform = updateDeviceInform;
+exports.updateExistAlarmSettings = updateExistAlarmSettings;
+exports.updateFallAlarmSettings = updateFallAlarmSettings;
+exports.updateHealthAlarmSettings = updateHealthAlarmSettings;
+var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 75));
+var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 77));
+// 获取设备通知
+function getDeviceInform() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/get',
+    method: 'get'
+  });
+}
+;
+
+// 获取设备通知列表
+function getDeviceInformList() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/list',
+    method: 'get'
+  });
+}
+;
+
+// 删除设备通知
+function deleteDeviceInformList() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/delete',
+    method: 'delete'
+  });
+}
+;
+
+// 查询未读消息数量
+function getDeviceInformUnread() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/unRead',
+    method: 'get'
+  });
+}
+;
+
+// 创建设备通知
+function createDeviceInform() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/create',
+    method: 'post'
+  });
+}
+;
+
+// 更新设备通知设备通知
+function updateDeviceInform() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/update',
+    method: 'put'
+  });
+}
+;
+
+// 获得人体监测雷达设置
+function getDetectionAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/detection-alarm-settings/get',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 更新人体监测雷达设置
+function updateDetectionAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/detection-alarm-settings/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除人体监测雷达设置
+function deleteDetectionAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/detection-alarm-settings/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 获得人员存在感知雷达设置
+function getExistAlarmSettings() {
+  return (0, _request.default)({
+    url: '/app-api/member/exist-alarm-settings/get',
+    method: 'get'
+  });
+}
+;
+
+// 更新人员存在感知雷达设置
+function updateExistAlarmSettings() {
+  return (0, _request.default)({
+    url: '/app-api/member/exist-alarm-settings/update',
+    method: 'put'
+  });
+}
+;
+
+// 删除人员存在感知雷达设置
+function deleteExistAlarmSettings() {
+  return (0, _request.default)({
+    url: '/app-api/member/exist-alarm-settings/delete',
+    method: 'delete'
+  });
+}
+;
+
+// 获得跌倒监测雷达设置
+function getFallAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/fall-alarm-settings/get',
+    method: 'get',
+    params: params
+  });
+}
+;
+
+// 更新跌倒监测雷达设置
+function updateFallAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/fall-alarm-settings/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除跌倒监测雷达设置
+function deleteFallAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/fall-alarm-settings/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 获得体征检测雷达设置
+function getHealthAlarmSettings() {
+  return (0, _request.default)({
+    url: '/app-api/member/health-alarm-settings/get',
+    method: 'get'
+  });
+}
+;
+
+// 更新体征检测雷达设置
+function updateHealthAlarmSettings() {
+  return (0, _request.default)({
+    url: '/app-api/member/health-alarm-settings/update',
+    method: 'put'
+  });
+}
+;
+
+// 删除体征检测雷达设置
+function deleteHealthAlarmSettings() {
+  return (0, _request.default)({
+    url: '/app-api/member/health-alarm-settings/delete',
+    method: 'delete'
+  });
+}
+;
+
+/***/ }),
+
+/***/ 348:
 /*!***************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/log-icon.png ***!
   \***************************************************************/
@@ -132,7 +336,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 316:
+/***/ 349:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/more-icon.png ***!
   \****************************************************************/
@@ -143,18 +347,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 341:
-/*!************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/exclamation-point.png ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAb1BMVEX/VVXob1DpbVDka1Hpb1Hpb1HocFHob0/oblDpb1Dob1Hnb0/pblHrcFLpcFDobVHpcFDob1DpcFDoblDob1HpblDoblDob0/ocFDrblLob1DocFDob1DqcFDpcFDpbVHpb07mbFPob1DpcFDpcFEOI1LyAAAAJXRSTlMD/yMToYFC0dDvkcFyMvBigPOgsLGWwHGQQd/hujCJUhcopaJSbzKpDwAAAr9JREFUeJzlWNm6ozAI1li11qVqW23Pvsz7P+NoIS4EUGd6cb7vcCeQXyCEQLxfSqYty6Z58v2npinL1vwbSn7d+4T213yzLXVCUYCSeotdQc2jANXBWphSsGawqlwFdVyAuUMdl3Gu0wXxIYuiLigmirJDPJWUS26dRt1zRuJqsvMoPanumXHHd6xisBsU9sr25UN4dqKWGaASMamMxYkjzezIBisR/hZYv9KF3Q1S6x2vaOO8I/xLVV0Iy7p34nAOKKQpcumZFOmIyqGLY0VOqlU9t1qtHmCgqV+eB3yHjd4lNEwhxtk1VQDyMOLEOTQoZrZBAgogC4hJaCiXPxKQFzHBMFKANCAPT940LdEgNlNlIOb3ECHWIAUI/5+MjByU+YRXgAKQjYcXkvrMKmtAGKXD8A2nNdsOlN1le/uJQROKggZEVgJuzOuqQB4kpfUFjsfo6QYgiK49JgAkhEgHgqUWCI6fVF5VIDgm9qg/DKjrW+RN04Egle3+q6pbpA8Dev5f12wK/rxdg/R8QEI+7IiQYkCIvyCR5gVILyPslS2snBcDB8ltIizRAqSWWo1oqVWLv0JO8feKO4O/jhSC66hYeUF+flXV1ycnYS5I5cr+uJ/E5w9GhC3e7PdyE1GChGnQuSbCCyBKTHf5AuovjgB714IswUarcfS/QfDtCBoQ0C4STfJrqv8O/HfKx0mMGqR0l289901S/+NYKrbH3mvbvko4THs8NGCudy7ZCZNPYewuu4gvjRAYZ7Z37clgwP29PtTYmaUQR6jcIvknecwaRsNCmd3NOG7ys/Rk/pb8QsXpsEmfHkw7GVT5CXNCNgvw6aG83ToP8tutnD9MsPs+p+MQKJkKJg8Z98IFqCJc/RYxztIMLUZnSmYnWFXI87dE+fzpoaf4sPnZxz49hGGadnhxmoYhfZj4NfQXcogV2WeB+AMAAAAASUVORK5CYII="
-
-/***/ }),
-
-/***/ 358:
+/***/ 391:
 /*!*****************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/exist-perception-radar.png ***!
   \*****************************************************************************/
@@ -165,7 +358,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANIAAACJCAMAAABu
 
 /***/ }),
 
-/***/ 399:
+/***/ 432:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/sign-monitor-radar.png ***!
   \*************************************************************************/
@@ -176,7 +369,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAACYCAMAAAAm
 
 /***/ }),
 
-/***/ 496:
+/***/ 529:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/delete-red-icon.png ***!
   \**********************************************************************/

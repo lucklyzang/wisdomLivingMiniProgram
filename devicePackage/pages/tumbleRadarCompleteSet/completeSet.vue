@@ -37,6 +37,7 @@
 			</u-popup>
 		</view>
 		<u-toast ref="uToast" />
+		<y-toast ref="ytoast"></y-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" @backClick="backTo">
@@ -51,8 +52,8 @@
 				<view class="top-title">
 					<image :src="deviceIconPng"></image>
 					<view class="title-text">
-						<text>跌倒监测雷达</text>
-						<text>客厅</text>
+						<text>{{ beforeAddDeviceMessage.customDeviceName }}</text>
+						<text>{{ beforeAddDeviceMessage.roomName }}</text>
 					</view>
 				</view>
 			</view>
@@ -89,20 +90,29 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import yToast from "@/components/y-toast/y-toast.vue"
 	import { getFallAlarmSettings, updateFallAlarmSettings } from '@/api/device.js'
 	export default {
 		components: {
-			navBar
+			navBar,
+			yToast
 		},
 		data() {
 			return {
 				infoText: '',
 				currentIndex: null,
 				showLoadingHint: false,
-				alarmRangeValue: '跌倒报警',
-				acceptAlarmMethod: '电话+短信',
+				alarmRangeValue: '',
+				acceptAlarmMethod: '',
 				acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
 				wifiListBoxShow: false,
+				alarmRangeValueList: [],
+				enter: false,
+				leave: false,
+				fall: false,
+				getUp: false,
+				deviceNumber: '',
+				deviceSetBasicMessage: {},
 				cceptAlarmMethodBoxShow: false,
 				deviceIconPng: require("@/static/img/room-icon.png"),
 				logIconPng: require("@/static/img/log-icon.png"),
@@ -110,7 +120,10 @@
 			}
 		},
 		onLoad(object) {
-			if (JSON.parse(object.transmitData).id == 1) { return };
+			// 获取雷达设置
+			// this.getRadarSet(this.beforeAddDeviceMessage.deviceId);
+			if (!object.hasOwnProperty('transmitData')) { this.wifiListBoxShow = true; return };
+			if (object.transmitData == 1) { return };
 			if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
 				this.wifiListBoxShow = true
 			}
@@ -118,7 +131,8 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'enterDeviceSetPageSource'
+				'enterDeviceSetPageSource',
+				'beforeAddDeviceMessage'
 			]),
 			userName() {
 			},
@@ -133,14 +147,13 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeBeforeAddDeviceMessage'
 			]),
 			
-			// 设备状态转换
+			// 设备接收报警方式转换
 			alarmTypeTransition (num) {
 				switch(num) {
 						case '不通知' :
@@ -161,52 +174,99 @@
 				}
 			},
 			
+			// 设备接收报警方式转换
+			alarmTypeTransitionText (num) {
+				let temporaryNum = num.toString();
+				switch(temporaryNum) {
+						case 0 :
+							return '不通知'
+							break;
+						case 1 :
+							return '短信'
+							break;
+						case 2 :
+							return '电话'
+							break;
+						case 3 :
+							return '电话短信'
+							break;
+						case 4 :
+							return '微信通知'
+							break;
+				}
+			},
+			
 			// 更新雷达设置
 			updateRadarSet () {
-				if (this.alarmRangeValue && this.acceptAlarmMethod) {
+				if (!this.alarmRangeValue || !this.acceptAlarmMethod) {
 					return
 				};
 				this.showLoadingHint = true;
-				this.isShowNoDeviceData = false;
 				this.infoText = '保存中...';
-				updateFallAlarmSettings().then((res) => {
+				updateFallAlarmSettings({
+					deviceId: this.beforeAddDeviceMessage.deviceId,
+					notice: this.alarmTypeTransition(this.acceptAlarmMethod),
+					enter: this.enter,
+					leave: this.leave,
+					fall: this.fall,
+					getUp: this.getUp
+				}).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
+						this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
+						let temporaryMessage = this.beforeAddDeviceMessage;
+						temporaryMessage['isSaveAlarmRanageInfo'] = false;
+						this.changeBeforeAddDeviceMessage(temporaryMessage);
 					} else {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
+						this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' });
 					};	
 					this.showLoadingHint = false;
 				})
 				.catch((err) => {
 					this.showLoadingHint = false;
-					this.$refs.uToast.show({
-						title: err,
-						type: 'error',
-						position: 'bottom'
-					})
+					this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' })
 				})
 			},
 			
 			// 获得雷达设置
-			getRadarSet () {
+			getRadarSet (deviceId) {
 				this.showLoadingHint = true;
 				this.isShowNoDeviceData = false;
 				this.infoText = '加载中...';
-				getFallAlarmSettings().then((res) => {
+				this.alarmRangeValueList = [];
+				getFallAlarmSettings({deviceId}).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
+						this.deviceNumber = res.data.data.sn;
+						this.acceptAlarmMethod = this.alarmTypeTransitionText(res.data.data.notice);
+						if (res.data.data.enter) {
+							this.enter = true;
+							this.alarmRangeValueList.push('人员进入报警')
+						} else {
+							this.enter = false
+						};
+						if (res.data.data.leave) {
+							this.leave = true;
+							this.alarmRangeValueList.push('人员离开报警')
+						} else {
+							this.leave = false
+						};
+						if (res.data.data.fall) {
+							this.fall = true;
+							this.alarmRangeValueList.push('跌倒报警')
+						} else {
+							this.fall = false;
+						};
+						if (res.data.data.getUp) {
+							this.getUp = true;
+							this.alarmRangeValueList.push('起身报警')
+						} else {
+							this.getUp = false
+						};
+						this.alarmRangeValue = this.alarmRangeValueList.join("、");
+						this.deviceSetBasicMessage = res.data.data;
+						// 回显保存的报警范围设置信息
+						if (this.beforeAddDeviceMessage['isSaveAlarmRanageInfo']) {
+							this.echoAlarmRanageMessage()
+						};
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -245,16 +305,54 @@
 			
 			// 更多点击事件
 			moreEvent () {
+				let temporaryMessage = this.beforeAddDeviceMessage;
+				temporaryMessage['deviceNumber'] = this.deviceNumber;
+				this.changeBeforeAddDeviceMessage(temporaryMessage);
 				uni.redirectTo({
 					url: '/devicePackage/pages/tumbleRadarCompleteSet/editDevice'
 				})
 			},
 			
+			// 回显报警范围设置页面设置的报警范围信息
+			echoAlarmRanageMessage () {
+				this.alarmRangeValueList = [];
+				if (this.beforeAddDeviceMessage.enter) {
+					this.enter = true;
+					this.alarmRangeValueList.push('人员进入报警')
+				} else {
+					this.enter = false
+				};
+				if (this.beforeAddDeviceMessage.leave) {
+					this.leave = true;
+					this.alarmRangeValueList.push('人员离开报警')
+				} else {
+					this.leave = false
+				};
+				if (this.beforeAddDeviceMessage.fall) {
+					this.fall = true;
+					this.alarmRangeValueList.push('跌倒报警')
+				} else {
+					this.fall = false;
+				};
+				if (this.beforeAddDeviceMessage.getUp) {
+					this.getUp = true;
+					this.alarmRangeValueList.push('起身报警')
+				} else {
+					this.getUp = false
+				};
+				this.alarmRangeValue = this.alarmRangeValueList.join("、");
+				this.deviceSetBasicMessage = this.beforeAddDeviceMessage
+			},
 			
 			// 报警范围点击事件
 			alarmRangeEvent () {
+				let temporaryMessage = this.beforeAddDeviceMessage;
+				temporaryMessage['isSaveAlarmRanageInfo'] = false;
+				this.changeBeforeAddDeviceMessage(temporaryMessage);
+				// 传递报警范围信息
+				let mynavData = JSON.stringify(this.deviceSetBasicMessage);
 				uni.redirectTo({
-					url: '/devicePackage/pages/tumbleRadarCompleteSet/alarmRangeSet'
+					url: '/devicePackage/pages/tumbleRadarCompleteSet/alarmRangeSet?transmitData='+mynavData
 				})
 			},
 			
@@ -444,19 +542,26 @@
 					flex-direction: column;
 					align-items: center;
 					justify-content: center;
+					width: 100%;
 					>image {
 						width: 124px;
 						height: 149px;
 						margin-bottom: 5px
 					};
 					.title-text {
+						width: 100%;
+						text-align: center;
+						@include no-wrap;
 						>text {
 							font-size: 20px;
 							color: #101010;
+							&:first-child {
+							};
 							&:last-child {
+								width: 100px;
 								margin-left: 6px;
 								font-size: 14px;
-								vertical-align: bottom;
+								margin-top: 6px;
 							}
 						}
 					}
@@ -464,15 +569,18 @@
 			};
 			.center-content-area {
 				background: #f5f5f5;
+				width: 100%;
 				flex: 1;
 				padding: 16px;
 				box-sizing: border-box;
 				margin-top: 10px;
 				overflow: auto;
 				.alarm-range {
-					margin-bottom: 10px
+					margin-bottom: 10px;
+					width: 100%;
 				};
 				.alarm-type {
+					width: 100%;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
@@ -481,6 +589,7 @@
 					padding: 0 6px;
 					box-sizing: border-box;
 					.alarm-type-left {
+						width: 100px;
 							>text {
 								font-size: 16px;
 								color: #101010
@@ -493,7 +602,6 @@
 						flex: 1;
 						>text {
 							flex: 1;
-							margin-top: -3px;
 							margin-right: 2px;
 							padding-left: 6px;
 							text-align: right;
@@ -501,6 +609,10 @@
 							@include no-wrap;
 							font-size: 16px;
 							color: #888888
+						};
+						::v-deep .u-icon {
+							margin-top: 2px;
+							width: 20px;
 						}
 					}
 				}

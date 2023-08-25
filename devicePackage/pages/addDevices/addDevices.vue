@@ -33,9 +33,9 @@
 						<image :src="imageUrl" ></image>
 						<text>跌倒监测雷达</text>
 					</view>
-					<view class="device-list">
+					<view class="device-list" @click="chooseWifiEvent">
 						<image :src="imageUrl" ></image>
-						<text>跌倒监测雷达</text>
+						<text>人体检测雷达</text>
 					</view>
 				</view>
 			</view>
@@ -87,7 +87,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeBeforeAddDeviceMessage'
 			]),
 			
 			backTo () {
@@ -98,6 +99,8 @@
 			
 			// 选择wifi事件
 			chooseWifiEvent () {
+				// 清除以前保存的设置房间和自定义设备名称信息
+				this.changeBeforeAddDeviceMessage({});
 				uni.redirectTo({
 					url: '/devicePackage/pages/selectWifi/selectWifi'
 				})

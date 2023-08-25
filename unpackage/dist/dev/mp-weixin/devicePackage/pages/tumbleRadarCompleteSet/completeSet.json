@@ -6,6 +6,7 @@
   "usingComponents": {
     "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "y-toast": "/components/y-toast/y-toast",
     "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
     "nav-bar": "/components/zhouWei-navBar/index"
   }

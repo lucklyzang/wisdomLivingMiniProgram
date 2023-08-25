@@ -39,6 +39,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { createUserDeviceBind } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -54,11 +55,18 @@
 				deviceIconPng: require("@/static/img/room-icon.png")
 			}
 		},
-		onReady() {
+		onLoad() {
+			// 回显自定义过的设备名称
+			if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
+				let temporaryMessage = this.beforeAddDeviceMessage;
+				this.deviceNameValue = this.beforeAddDeviceMessage.customDeviceName
+			}
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId',
+				'beforeAddDeviceMessage'
 			]),
 			userName() {
 			},
@@ -73,19 +81,66 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
-				'changeEnterDeviceSetPageSource'
+				'changeEnterDeviceSetPageSource',
+				'changeBeforeAddDeviceMessage'
 			]),
 			
 			// 开始体验事件
 			startExperienceEvent () {
+				if (!this.deviceNameValue) {
+					this.$refs.uToast.show({
+						title: '请输入设备名称',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				let temporaryMessage = this.beforeAddDeviceMessage;
+				temporaryMessage['customDeviceName'] = this.deviceNameValue;
+				this.changeBeforeAddDeviceMessage(temporaryMessage);
 				this.changeEnterDeviceSetPageSource('/devicePackage/pages/selectWifi/setDeviceName');
 				uni.redirectTo({
 					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+				})
+			},
+			
+			// 设备绑定用户
+			bindUser (familyId) {
+				this.showLoadingHint = true;
+				this.infoText = '绑定中...';
+				createUserDeviceBind({
+					userId: this.userInfo.userId,
+					deviceId: 0,
+					familyId: this.familyId,
+					roomId: this.beforeAddDeviceMessage['roomId'],
+					customName: this.beforeAddDeviceMessage['customDeviceName'], //用户自定义的设备名称
+					deviceCode: ""
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						});
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			

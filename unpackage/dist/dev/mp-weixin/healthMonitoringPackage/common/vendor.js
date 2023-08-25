@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["healthMonitoringPackage/common/vendor"],{
 
-/***/ 114:
+/***/ 146:
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/sleep-icon.png ***!
   \*****************************************************************/
@@ -11,7 +11,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 115:
+/***/ 147:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/copy-icon.png ***!
   \****************************************************************/
@@ -22,7 +22,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6
 
 /***/ }),
 
-/***/ 116:
+/***/ 148:
 /*!******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/delete-icon.png ***!
   \******************************************************************/
@@ -33,7 +33,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6
 
 /***/ }),
 
-/***/ 117:
+/***/ 149:
 /*!*********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/menu-move-icon.png ***!
   \*********************************************************************/
@@ -44,7 +44,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYAQMAAADa
 
 /***/ }),
 
-/***/ 126:
+/***/ 158:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/data-overview-icon.png ***!
   \*************************************************************************/
@@ -55,7 +55,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 127:
+/***/ 159:
 /*!***********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/daytime-nap-icon.png ***!
   \***********************************************************************/
@@ -66,7 +66,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 152:
+/***/ 184:
 /*!***************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/leave-home-list-icon.png ***!
   \***************************************************************************/
@@ -77,7 +77,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXBAMAAAAS
 
 /***/ }),
 
-/***/ 153:
+/***/ 185:
 /*!*******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/go-home-icon.png ***!
   \*******************************************************************/
@@ -88,7 +88,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 170:
+/***/ 202:
 /*!***********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-tips-icon.png ***!
   \***********************************************************************/
@@ -99,7 +99,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQkAAACuCAMAAAAS
 
 /***/ }),
 
-/***/ 179:
+/***/ 211:
 /*!**************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-breathe-tips.png ***!
   \**************************************************************************/
@@ -110,7 +110,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUYAAACtCAMAAAD7
 
 /***/ }),
 
-/***/ 188:
+/***/ 220:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-toilet-tips.png ***!
   \*************************************************************************/
@@ -121,7 +121,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASoAAADGCAMAAABS
 
 /***/ }),
 
-/***/ 197:
+/***/ 229:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-tumble-tips.png ***!
   \*************************************************************************/
@@ -132,7 +132,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVYAAADMCAMAAAAf
 
 /***/ }),
 
-/***/ 206:
+/***/ 238:
 /*!*********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-leave-home-tips-one.png ***!
   \*********************************************************************************/
@@ -143,7 +143,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAC1CAMAAADb
 
 /***/ }),
 
-/***/ 207:
+/***/ 239:
 /*!*********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-leave-home-tips-two.png ***!
   \*********************************************************************************/

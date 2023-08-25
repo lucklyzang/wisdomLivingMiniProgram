@@ -353,6 +353,7 @@
 				box-sizing: border-box;
 				flex-direction: column;
 				.top-title {
+					width: 100%;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
@@ -363,13 +364,19 @@
 						margin-bottom: 5px
 					};
 					.title-text {
+						width: 100%;
+						text-align: center;
+						@include no-wrap;
 						>text {
 							font-size: 20px;
 							color: #101010;
+							&:first-child {
+							};
 							&:last-child {
+								width: 100px;
 								margin-left: 6px;
 								font-size: 14px;
-								vertical-align: bottom;
+								margin-top: 6px;
 							}
 						}
 					}
@@ -377,15 +384,18 @@
 			};
 			.center-content-area {
 				background: #f5f5f5;
+				width: 100%;
 				flex: 1;
 				padding: 16px;
 				box-sizing: border-box;
 				margin-top: 10px;
 				overflow: auto;
 				.alarm-range {
-					margin-bottom: 10px
+					margin-bottom: 10px;
+					width: 100%;
 				};
 				.alarm-type {
+					width: 100%;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
@@ -394,6 +404,7 @@
 					padding: 0 6px;
 					box-sizing: border-box;
 					.alarm-type-left {
+						width: 100px;
 							>text {
 								font-size: 16px;
 								color: #101010
@@ -406,7 +417,6 @@
 						flex: 1;
 						>text {
 							flex: 1;
-							margin-top: -3px;
 							margin-right: 2px;
 							padding-left: 6px;
 							text-align: right;
@@ -414,6 +424,10 @@
 							@include no-wrap;
 							font-size: 16px;
 							color: #888888
+						};
+						::v-deep .u-icon {
+							margin-top: 2px;
+							width: 20px;
 						}
 					}
 				}

@@ -14,7 +14,7 @@
 				<view class="content-center-top">
 					<image :src="deviceIconPng"></image>
 					<view class="room-list-wrapper">
-						<view class="room-list" v-for="(item,index) in roomList" :key="index" @click="roomClickEvent(item,index)" :class="{'roomListStyle': index == currentIndex}">
+						<view class="room-list" v-for="(item,index) in roomList" :key="index" @click="roomClickEvent(item,index)" :class="{'roomListStyle': index === currentIndex}">
 							<text>{{ item.name }}</text>
 						</view>
 					</view>
@@ -50,7 +50,9 @@
 		data() {
 			return {
 				infoText: '',
-				currentIndex: 0,
+				currentIndex: null,
+				currentRoomId: '',
+				currentRoomName: '',
 				currentPage: 1,
 				totalPage: 2,
 				showLoadingHint: false,
@@ -64,7 +66,8 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'familyId'
+				'familyId',
+				'beforeAddDeviceMessage'
 			]),
 			userName() {
 			},
@@ -82,11 +85,24 @@
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
-				'changeEnterAddRoomPageSource'
+				'changeEnterAddRoomPageSource',
+				'changeBeforeAddDeviceMessage'
 			]),
 			
 			// 下一步事件
 			stepEvent () {
+				if (this.currentIndex === null) {
+					this.$refs.uToast.show({
+						title: '请选择房间',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				let temporaryMessage = this.beforeAddDeviceMessage;
+				temporaryMessage['roomId'] = this.currentRoomId;
+				temporaryMessage['roomName'] = this.currentRoomName;
+				this.changeBeforeAddDeviceMessage(temporaryMessage);
 				uni.redirectTo({
 					url: '/devicePackage/pages/selectWifi/setDeviceName'
 				})
@@ -97,7 +113,13 @@
 				this.roomList = [];
 				getUserRoomList({familyId}).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.roomList = res.data.data
+						this.roomList = res.data.data;
+						// 回显选过的房间
+						if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
+							let temporaryMessage = this.beforeAddDeviceMessage;
+							this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddDeviceMessage.roomId });
+							this.currentRoomId = this.beforeAddDeviceMessage.roomId
+						}
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -125,7 +147,9 @@
 			
 			// 房间点击事件
 			roomClickEvent (item,index) {
-				this.currentIndex = index
+				this.currentIndex = index;
+				this.currentRoomName = item.name;
+				this.currentRoomId = item.id;
 			},
 			
 			backTo () {

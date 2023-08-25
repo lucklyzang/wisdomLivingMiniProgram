@@ -15,6 +15,7 @@
 					<text>推荐房间名称</text>
 				</view>
 				<view class="recommend-room-list-wrapper">
+					<u-empty text="暂无数据" v-if="isShowNoRoomData"></u-empty>
 					<view class="recommend-room-list" v-for="(item,index) in recommendRoomList" :key="index" @click="roomNameClick(item)">
 						<text>{{ item }}</text>
 					</view>
@@ -34,7 +35,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import { createUserRoom } from '@/api/user.js'
+	import { createUserRoom, getUserPresetsRoomList } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -42,12 +43,14 @@
 		data() {
 			return {
 				infoText: '',
+				isShowNoRoomData: false,
 				showLoadingHint: false,
 				roomNameValue: '',
-				recommendRoomList: ['后院','阳台','浴室','卧室','餐厅','儿童房','厨房','书房','主卧','办公室']
+				recommendRoomList: []
 			}
 		},
 		onLoad (object) {
+			this.getPresetsRoomList()
 		},
 		computed: {
 			...mapGetters([
@@ -68,8 +71,6 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay'
@@ -83,6 +84,38 @@
 			// 推荐房间名点击事件
 			roomNameClick (item) {
 				this.roomNameValue = item
+			},
+			
+			// 获取预设房间
+			getPresetsRoomList () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.recommendRoomList = [];
+				getUserPresetsRoomList().then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data.length > 0) {
+							this.isShowNoRoomData = false;
+							this.recommendRoomList = res.data.data
+						} else {
+							this.isShowNoRoomData = true
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			// 保存事件
@@ -191,6 +224,7 @@
 				.recommend-room-list-wrapper {
 					width: 100%;
 					flex: 1;
+					position: relative;
 					overflow: auto;
 					flex-wrap: wrap;
 					display: flex;
@@ -210,6 +244,12 @@
 						&:nth-child(3n) {
 							margin-right: 0 !important
 						}
+					};
+					::v-deep .u-empty {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%,-50%)
 					}
 				}
 			};

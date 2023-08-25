@@ -74,6 +74,14 @@ page {
   display: flex;
   align-items: center;
   flex-direction: column;
+  position: relative;
+}
+.content-box .content-area  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .content-area .room-list {
   width: 100%;

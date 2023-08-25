@@ -18,12 +18,12 @@
 							<image :src="deviceIconPng"></image>
 						</view>
 						<view class="list-top-right">
-							<text>在线</text>
+							<text>{{ item.onLine ? '在线' : '离线' }}</text>
 						</view>
 					</view>
 					<view class="list-bottom">
-						<text>{{ item.room }}</text>
-						<text>{{ item.deviceName }}</text>
+						<text>{{ roomName }}</text>
+						<text>{{ item.customName }}</text>
 					</view>
 				</view>
 			</view>
@@ -44,33 +44,24 @@
 		data() {
 			return {
 				infoText: '',
+				roomName: '',
+				roomId: '',
 				deviceIconPng: require("@/static/img/room-icon.png"),
 				showLoadingHint: false,
-				deviceList: [
-					{
-						room: '主卧',
-						deviceName: '跌倒监测雷达'
-					},
-					{
-						room: '主卧',
-						deviceName: '人员存在感知雷达'
-					},
-					{
-						room: '主卧',
-						deviceName: '体征监测雷达'
-					},
-					{
-						room: '主卧',
-						deviceName: '人体检测雷达'
-					}
-				]
+				deviceList: []
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.roomName = this.roomDetails['name'];
+			this.roomId = this.roomDetails['roomId'];
+			this.deviceList = this.roomDetails['deviceRespVOList']
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'roomDetails',
+				'beforeAddDeviceMessage',
+				'beforeAddBodyDetectionDeviceMessage'
 			]),
 			userName() {
 			},
@@ -90,29 +81,50 @@
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
-				'changeEnterDeviceSetPageSource'
+				'changeEnterDeviceSetPageSource',
+				'changeBeforeAddDeviceMessage',
+				'changeBeforeAddBodyDetectionDeviceMessage'
 			]),
 			
 			// 进入设备事件
+			// 1-体征雷达，2-存在感知雷达，3-跌倒雷达，4-人体检测雷达
 			enterDeviceEvent (item) {
-				if (item.deviceName == '跌倒监测雷达') {
+				if (item.type == 3) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
-					})
-				} else if (item.deviceName == '人员存在感知雷达') {
+					});
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddDeviceMessage;
+					temporaryMessage['roomId'] = this.roomId;
+					temporaryMessage['roomName'] = this.roomDetails['name'];
+					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['customDeviceName'] = item.customName;
+					temporaryMessage['deviceName'] = item.name;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddDeviceMessage(temporaryMessage);
+					this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails')
+				} else if (item.type == 2) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
 					})
-				} else if (item.deviceName == '体征监测雷达') {
+				} else if (item.type == 1) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
 					})
-				} else if (item.deviceName == '人体检测雷达') {
+				} else if (item.type == 4) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
-					})
-				};
-				this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails')
+					});
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['roomName'] = item.roomName;
+					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['customDeviceName'] = item.customName;
+					temporaryMessage['deviceName'] = item.deviceName;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+				}
 			},
 			
 			backTo () {

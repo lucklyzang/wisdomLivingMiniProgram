@@ -1,6 +1,7 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<y-toast ref="ytoast"></y-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" title="报警范围设置" @backClick="backTo">
@@ -18,7 +19,7 @@
 				</view>
 			</view>
 			<view class="bottom-btn">
-				<text>保存</text>
+				<text @click="saveEvent">保存</text>
 			</view>
 		</view>
 	</view>
@@ -29,24 +30,27 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import yToast from "@/components/y-toast/y-toast.vue"
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
-			navBar
+			navBar,
+			yToast
 		},
 		data() {
 			return {
 				infoText: '',
 				checked: false,
 				showLoadingHint: false,
+				receiveData: {},
 				setList: [
 					{
 						name: '跌倒报警',
-						checked: false
+						checked: true
 					},
 					{
 						name: '起身报警',
-						checked: false
+						checked: true
 					},
 					{
 						name: '人员进入报警',
@@ -54,16 +58,24 @@
 					},
 					{
 						name: '人员离开报警',
-						checked: true
+						checked: false
 					}
 				]
 			}
 		},
-		onReady() {
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			this.receiveData = JSON.parse(options.transmitData);
+			// 回显报警范围信息
+			this.setList[0]['checked'] = this.receiveData['fall'];
+			this.setList[1]['checked'] = this.receiveData['getUp'];
+			this.setList[2]['checked'] = this.receiveData['enter'];
+			this.setList[3]['checked'] = this.receiveData['leave'];
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'beforeAddDeviceMessage'
 			]),
 			userName() {
 			},
@@ -82,17 +94,32 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeBeforeAddDeviceMessage'
 			]),
 			
+			// 保存事件
+			saveEvent () {
+				this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
+				// 保存进入设备设置界面的报警范围信息
+				let temporaryMessage = this.beforeAddDeviceMessage;
+				temporaryMessage['enter'] = this.setList[2]['checked'];
+				temporaryMessage['leave'] = this.setList[3]['checked'];
+				temporaryMessage['fall'] = this.setList[0]['checked'];
+				temporaryMessage['getUp'] = this.setList[1]['checked'];
+				temporaryMessage['isSaveAlarmRanageInfo'] = true;
+				this.changeBeforeAddDeviceMessage(temporaryMessage);
+				uni.redirectTo({
+					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData='+1
+				})
+			},
 			
 			backTo () {
-				let transmitData = JSON.stringify({
-					id: 1,
-					otherParameter: this.setList
-				});
+				let temporaryMessage = this.beforeAddDeviceMessage;
+				temporaryMessage['isSaveAlarmRanageInfo'] = false;
+				this.changeBeforeAddDeviceMessage(temporaryMessage);
 				uni.redirectTo({
-					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData='+transmitData
+					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData='+1
 				})
 			}
 		}

@@ -50,26 +50,29 @@ export function updateDeviceInform() {
 };
 
 // 获得人体监测雷达设置
-export function getDetectionAlarmSettings() {
+export function getDetectionAlarmSettings(data) {
   return request({
     url: '/app-api/member/detection-alarm-settings/get',
-    method: 'get'
+    method: 'get',
+		params: data
   })
 };
 
 // 更新人体监测雷达设置
-export function updateDetectionAlarmSettings() {
+export function updateDetectionAlarmSettings(data) {
   return request({
     url: '/app-api/member/detection-alarm-settings/update',
-    method: 'put'
+    method: 'put',
+		data
   })
 };
 
 // 删除人体监测雷达设置
-export function deleteDetectionAlarmSettings() {
+export function deleteDetectionAlarmSettings(data) {
   return request({
     url: '/app-api/member/detection-alarm-settings/delete',
-    method: 'delete'
+    method: 'delete',
+		params: data
   })
 };
 
