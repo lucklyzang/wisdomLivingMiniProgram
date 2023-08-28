@@ -315,6 +315,7 @@
 			background: #f5f5f5;
 			box-sizing: border-box;
 			flex: 1;
+			overflow: auto;
 			.show-home-content {
 				.show-title {
 					display: flex;
