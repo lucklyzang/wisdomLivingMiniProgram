@@ -103,8 +103,11 @@ try {
     uToast: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
     },
+    yToast: function () {
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 772))
+    },
     uSwitch: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */ "node-modules/uview-ui/components/u-switch/u-switch").then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 772))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */ "node-modules/uview-ui/components/u-switch/u-switch").then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 780))
     },
     uForm: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-form/u-form */ "node-modules/uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! uview-ui/components/u-form/u-form.vue */ 691))
@@ -186,33 +189,59 @@ var navBar = function navBar() {
     return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 751));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var yToast = function yToast() {
+  Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 772));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
   components: {
-    navBar: navBar
+    navBar: navBar,
+    yToast: yToast
   },
   data: function data() {
     return {
       infoText: '',
-      personRetentionAlarmValue: false,
       showLoadingHint: false,
-      retentionTimeMinValue: '',
-      retentionTimeMaxValue: '',
-      noPersonTimeMinValue: '',
-      noPersonTimeMaxValue: '',
-      retentionTimeList: ['较缓', '正常', '较急'],
-      retentionTimeIndex: null,
-      retentionTimeInputShow: false,
-      noPersonAlarmValue: false,
-      noPersonTimeList: ['较缓', '正常', '较急'],
-      noPersonTimeIndex: null,
-      noPersonTimeInputShow: false,
+      heartRateAbnormalAlarmValue: false,
+      heartRateMinValue: '',
+      heartRateMaxValue: '',
+      heartRateTimeList: ['较缓', '正常', '较急'],
+      heartRateValueList: ['50-100', '60-100', '60-110'],
+      heartRateTimeIndex: null,
+      heartRateInputShow: false,
+      breatheAbnormalAlarmValue: false,
+      breatheMinValue: '',
+      breatheMaxValue: '',
+      breatheTimeList: ['较缓', '正常', '较急'],
+      breatheValueList: ['14-24', '16-24', '16-26'],
+      breatheTimeIndex: null,
+      breatheInputShow: false,
       kinesiaDetectionAlarmValue: false,
       situpDetectionAlarmValue: false,
       leaveBedDetectionAlarmValue: false
     };
   },
-  onReady: function onReady() {},
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  onLoad: function onLoad(options) {
+    if (options.transmitData == '{}') {
+      return;
+    }
+    ;
+    this.receiveData = JSON.parse(options.transmitData);
+    // 回显报警范围信息
+    this.heartRateAbnormalAlarmValue = this.receiveData['heart'];
+    this.breatheAbnormalAlarmValue = this.receiveData['breathe'];
+    this.kinesiaDetectionAlarmValue = this.receiveData['move'];
+    this.situpDetectionAlarmValue = this.receiveData['sitUp'];
+    this.leaveBedDetectionAlarmValue = this.receiveData['outBed'];
+    var heartRateRanageArr = this.receiveData['heartRange'].split('-');
+    this.heartRateMinValue = heartRateRanageArr.length > 0 ? heartRateRanageArr[0] : '';
+    this.heartRateMaxValue = heartRateRanageArr.length > 0 ? heartRateRanageArr[1] : '';
+    var breatheRanageArr = this.receiveData['breatheRange'].split('-');
+    this.breatheMinValue = breatheRanageArr.length > 0 ? breatheRanageArr[0] : '';
+    this.breatheMaxValue = breatheRanageArr.length > 0 ? breatheRanageArr[1] : '';
+  },
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -221,22 +250,107 @@ var _default = {
     accountName: function accountName() {}
   }),
   mounted: function mounted() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
-    // 滞留时间自定义点击事件
-    personRetentionAlarmTimeCustomEvent: function personRetentionAlarmTimeCustomEvent() {
-      this.retentionTimeInputShow = !this.retentionTimeInputShow;
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddSignMonitorRadarCompleteSet'])), {}, {
+    // 心率次数点击事件
+    heartRateTimeClickEvent: function heartRateTimeClickEvent(item, index) {
+      this.heartRateTimeIndex = index;
+      var heartValue = this.heartRateValueList[index].split('-');
+      this.heartRateMinValue = heartValue[0];
+      this.heartRateMaxValue = heartValue[1];
     },
-    // 滞留时间点击事件
-    retentionTimeClickEvent: function retentionTimeClickEvent(item, index) {
-      this.retentionTimeIndex = index;
+    // 心率自定义点击事件
+    heartRateAbnormalAlarmTimeCustomEvent: function heartRateAbnormalAlarmTimeCustomEvent() {
+      this.heartRateInputShow = !this.heartRateInputShow;
     },
-    // 无人时间自定义点击事件
-    noPersonAlarmTimeCustomEvent: function noPersonAlarmTimeCustomEvent() {
-      this.noPersonTimeInputShow = !this.noPersonTimeInputShow;
+    // 呼吸次数点击事件
+    breatheTimeClickEvent: function breatheTimeClickEvent(item, index) {
+      this.breatheTimeIndex = index;
+      var breatheValue = this.breatheValueList[index].split('-');
+      this.breatheMinValue = breatheValue[0];
+      this.breatheMaxValue = breatheValue[1];
     },
-    // 无人时间点击事件
-    noPersonTimeClickEvent: function noPersonTimeClickEvent(item, index) {
-      this.nopersonTimeIndex = index;
+    // 呼吸自定义点击事件
+    breatheAbnormalAlarmTimeCustomEvent: function breatheAbnormalAlarmTimeCustomEvent() {
+      this.breatheInputShow = !this.breatheInputShow;
+    },
+    // 保存事件
+    saveEvent: function saveEvent() {
+      if (this.heartRateAbnormalAlarmValue) {
+        if (!this.heartRateMinValue) {
+          this.$refs.uToast.show({
+            title: '心率最小值不能为空,请重新输入!',
+            type: 'error',
+            position: 'bottom'
+          });
+          return;
+        }
+        ;
+        if (!this.heartRateMaxValue) {
+          this.$refs.uToast.show({
+            title: '心率最大值不能为空,请重新输入!',
+            type: 'error',
+            position: 'bottom'
+          });
+          return;
+        }
+        ;
+        if (this.heartRateMaxValue < this.heartRateMinValue) {
+          this.$refs.uToast.show({
+            title: '心率最大值不能小于最小值,请重新输入!',
+            type: 'error',
+            position: 'bottom'
+          });
+          return;
+        }
+      }
+      ;
+      if (this.breatheAbnormalAlarmValue) {
+        if (!this.breatheMinValue) {
+          this.$refs.uToast.show({
+            title: '呼吸最小值不能为空,请重新输入!',
+            type: 'error',
+            position: 'bottom'
+          });
+          return;
+        }
+        ;
+        if (!this.breatheMaxValue) {
+          this.$refs.uToast.show({
+            title: '呼吸最大值不能为空,请重新输入!',
+            type: 'error',
+            position: 'bottom'
+          });
+          return;
+        }
+        ;
+        if (this.breatheMaxValue < this.breatheMinValue) {
+          this.$refs.uToast.show({
+            title: '呼吸最大值不能小于最小值,请重新输入!',
+            type: 'error',
+            position: 'bottom'
+          });
+          return;
+        }
+      }
+      ;
+      this.$refs['ytoast'].show({
+        message: '保存成功!',
+        type: 'success'
+      });
+      // 保存进入设备设置界面的报警范围信息
+      var temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+      temporaryMessage['heart'] = this.heartRateAbnormalAlarmValue;
+      temporaryMessage['breathe'] = this.breatheAbnormalAlarmValue;
+      temporaryMessage['move'] = this.kinesiaDetectionAlarmValue;
+      temporaryMessage['sitUp'] = this.situpDetectionAlarmValue;
+      temporaryMessage['outBed'] = this.leaveBedDetectionAlarmValue;
+      temporaryMessage['isSaveAlarmRanageInfo'] = true;
+      temporaryMessage['heartRange'] = this.heartRateAbnormalAlarmValue ? "".concat(this.heartRateMinValue, "-").concat(this.heartRateMaxValue) : '';
+      temporaryMessage['breatheRange'] = this.breatheAbnormalAlarmValue ? "".concat(this.breatheMinValue, "-").concat(this.breatheMaxValue) : '';
+      this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
+      uni.redirectTo({
+        url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData=' + 1
+      });
     },
     backTo: function backTo() {
       uni.redirectTo({

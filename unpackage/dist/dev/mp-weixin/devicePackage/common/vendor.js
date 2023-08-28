@@ -240,28 +240,31 @@ function deleteDetectionAlarmSettings(data) {
 ;
 
 // 获得人员存在感知雷达设置
-function getExistAlarmSettings() {
+function getExistAlarmSettings(data) {
   return (0, _request.default)({
     url: '/app-api/member/exist-alarm-settings/get',
-    method: 'get'
+    method: 'get',
+    params: data
   });
 }
 ;
 
 // 更新人员存在感知雷达设置
-function updateExistAlarmSettings() {
+function updateExistAlarmSettings(data) {
   return (0, _request.default)({
     url: '/app-api/member/exist-alarm-settings/update',
-    method: 'put'
+    method: 'put',
+    data: data
   });
 }
 ;
 
 // 删除人员存在感知雷达设置
-function deleteExistAlarmSettings() {
+function deleteExistAlarmSettings(data) {
   return (0, _request.default)({
     url: '/app-api/member/exist-alarm-settings/delete',
-    method: 'delete'
+    method: 'delete',
+    params: data
   });
 }
 ;
@@ -297,28 +300,31 @@ function deleteFallAlarmSettings(data) {
 ;
 
 // 获得体征检测雷达设置
-function getHealthAlarmSettings() {
+function getHealthAlarmSettings(data) {
   return (0, _request.default)({
     url: '/app-api/member/health-alarm-settings/get',
-    method: 'get'
+    method: 'get',
+    params: data
   });
 }
 ;
 
 // 更新体征检测雷达设置
-function updateHealthAlarmSettings() {
+function updateHealthAlarmSettings(data) {
   return (0, _request.default)({
     url: '/app-api/member/health-alarm-settings/update',
-    method: 'put'
+    method: 'put',
+    data: data
   });
 }
 ;
 
 // 删除体征检测雷达设置
-function deleteHealthAlarmSettings() {
+function deleteHealthAlarmSettings(data) {
   return (0, _request.default)({
     url: '/app-api/member/health-alarm-settings/delete',
-    method: 'delete'
+    method: 'delete',
+    params: data
   });
 }
 ;

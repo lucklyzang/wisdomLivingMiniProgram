@@ -200,12 +200,28 @@ var _default = {
   },
   onLoad: function onLoad() {
     // 回显自定义过的设备名称
-    if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
-      var temporaryMessage = this.beforeAddDeviceMessage;
-      this.deviceNameValue = this.beforeAddDeviceMessage.customDeviceName;
+    // 跌倒监测雷达
+    // if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
+    // 	let temporaryMessage = this.beforeAddDeviceMessage;
+    // 	this.deviceNameValue = this.beforeAddDeviceMessage.customDeviceName
+    // };
+    // 人体检测雷达
+    // if (JSON.stringify(this.beforeAddBodyDetectionDeviceMessage) != '{}') {
+    // 	let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+    // 	this.deviceNameValue = this.beforeAddBodyDetectionDeviceMessage.customDeviceName
+    // };
+    // 人员存在感知雷达
+    // if (JSON.stringify(this.beforeAddExistPerceptionRadarCompleteSet) != '{}') {
+    // 	let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+    // 	this.deviceNameValue = this.beforeAddExistPerceptionRadarCompleteSet.customDeviceName
+    // };
+    // 体征监测雷达
+    if (JSON.stringify(this.beforeAddSignMonitorRadarCompleteSet) != '{}') {
+      var temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+      this.deviceNameValue = this.beforeAddSignMonitorRadarCompleteSet.customDeviceName;
     }
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'beforeAddDeviceMessage'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -213,7 +229,7 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeEnterDeviceSetPageSource', 'changeBeforeAddDeviceMessage'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeEnterDeviceSetPageSource', 'changeBeforeAddDeviceMessage', 'changeBeforeAddBodyDetectionDeviceMessage', 'changeBeforeAddExistPerceptionRadarCompleteSet', 'changeBeforeAddSignMonitorRadarCompleteSet'])), {}, {
     // 开始体验事件
     startExperienceEvent: function startExperienceEvent() {
       if (!this.deviceNameValue) {
@@ -225,13 +241,35 @@ var _default = {
         return;
       }
       ;
-      var temporaryMessage = this.beforeAddDeviceMessage;
+      // 绑定跌倒监测雷达
+      // let temporaryMessage = this.beforeAddDeviceMessage;
+      // temporaryMessage['customDeviceName'] = this.deviceNameValue;
+      // this.changeBeforeAddDeviceMessage(temporaryMessage);
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+      // });
+      // 绑定人体检测雷达
+      // let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+      // temporaryMessage['customDeviceName'] = this.deviceNameValue;
+      // this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
+      // });
+      // 绑定人员存在感知雷达
+      // let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+      // temporaryMessage['customDeviceName'] = this.deviceNameValue;
+      // this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
+      // });
+      // 绑定体征监测雷达
+      var temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
       temporaryMessage['customDeviceName'] = this.deviceNameValue;
-      this.changeBeforeAddDeviceMessage(temporaryMessage);
-      this.changeEnterDeviceSetPageSource('/devicePackage/pages/selectWifi/setDeviceName');
+      this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
       uni.redirectTo({
-        url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+        url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
       });
+      this.changeEnterDeviceSetPageSource('/devicePackage/pages/selectWifi/setDeviceName');
     },
     // 设备绑定用户
     bindUser: function bindUser(familyId) {

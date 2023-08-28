@@ -107,7 +107,7 @@ try {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
     },
     yToast: function () {
-      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 912))
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 772))
     },
     uIcon: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 670))
@@ -186,7 +186,7 @@ var navBar = function navBar() {
 };
 var yToast = function yToast() {
   Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 912));
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 772));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -195,21 +195,22 @@ var _default = {
     yToast: yToast
   },
   data: function data() {
-    return {
+    var _ref;
+    return _ref = {
       infoText: '',
       currentIndex: null,
       showLoadingHint: false,
-      alarmRangeValue: '跌倒报警',
-      acceptAlarmMethod: '电话+短信',
+      alarmRangeValue: '',
+      acceptAlarmMethod: '',
+      alarmRangeValueList: [],
       acceptAlarmMethodList: ['不通知', '仅短信通知', '仅电话通知', '电话和短信'],
-      wifiListBoxShow: false,
-      cceptAlarmMethodBoxShow: false,
-      existPerceptionRadarPng: __webpack_require__(/*! @/static/img/exist-perception-radar.png */ 391),
-      logIconPng: __webpack_require__(/*! @/static/img/log-icon.png */ 348),
-      moreIconPng: __webpack_require__(/*! @/static/img/more-icon.png */ 349)
-    };
+      enter: false,
+      leave: false,
+      deviceNumber: ''
+    }, (0, _defineProperty2.default)(_ref, "alarmRangeValueList", []), (0, _defineProperty2.default)(_ref, "deviceSetBasicMessage", {}), (0, _defineProperty2.default)(_ref, "wifiListBoxShow", false), (0, _defineProperty2.default)(_ref, "cceptAlarmMethodBoxShow", false), (0, _defineProperty2.default)(_ref, "existPerceptionRadarPng", __webpack_require__(/*! @/static/img/exist-perception-radar.png */ 391)), (0, _defineProperty2.default)(_ref, "logIconPng", __webpack_require__(/*! @/static/img/log-icon.png */ 348)), (0, _defineProperty2.default)(_ref, "moreIconPng", __webpack_require__(/*! @/static/img/more-icon.png */ 349)), _ref;
   },
   onLoad: function onLoad(object) {
+    console.log('数据', this.beforeAddBodyDetectionDeviceMessage);
     // 获取雷达设置
     // this.getDetectionAlarmSettings(this.beforeAddBodyDetectionDeviceMessage.deviceId);
     if (!object.hasOwnProperty('transmitData')) {
@@ -343,20 +344,6 @@ var _default = {
             _this2.leave = false;
           }
           ;
-          if (res.data.data.fall) {
-            _this2.fall = true;
-            _this2.alarmRangeValueList.push('跌倒报警');
-          } else {
-            _this2.fall = false;
-          }
-          ;
-          if (res.data.data.getUp) {
-            _this2.getUp = true;
-            _this2.alarmRangeValueList.push('起身报警');
-          } else {
-            _this2.getUp = false;
-          }
-          ;
           _this2.alarmRangeValue = _this2.alarmRangeValueList.join("、");
           _this2.deviceSetBasicMessage = res.data.data;
           // 回显保存的报警范围设置信息
@@ -382,6 +369,26 @@ var _default = {
         });
       });
     },
+    // 回显报警范围设置页面设置的报警范围信息
+    echoAlarmRanageMessage: function echoAlarmRanageMessage() {
+      this.alarmRangeValueList = [];
+      if (this.beforeAddBodyDetectionDeviceMessage.enter) {
+        this.enter = true;
+        this.alarmRangeValueList.push('人员进入报警');
+      } else {
+        this.enter = false;
+      }
+      ;
+      if (this.beforeAddBodyDetectionDeviceMessage.leave) {
+        this.leave = true;
+        this.alarmRangeValueList.push('人员离开报警');
+      } else {
+        this.leave = false;
+      }
+      ;
+      this.alarmRangeValue = this.alarmRangeValueList.join("、");
+      this.deviceSetBasicMessage = this.beforeAddBodyDetectionDeviceMessage;
+    },
     // 拒绝事件
     refuseEvent: function refuseEvent() {
       this.backTo();
@@ -398,14 +405,22 @@ var _default = {
     },
     // 更多点击事件
     moreEvent: function moreEvent() {
+      var temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+      temporaryMessage['deviceNumber'] = this.deviceNumber;
+      this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
       uni.redirectTo({
         url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/editDevice'
       });
     },
     // 报警范围点击事件
     alarmRangeEvent: function alarmRangeEvent() {
+      var temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+      temporaryMessage['isSaveAlarmRanageInfo'] = false;
+      this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+      // 传递报警范围信息
+      var mynavData = JSON.stringify(this.deviceSetBasicMessage);
       uni.redirectTo({
-        url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/alarmRangeSet'
+        url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/alarmRangeSet?transmitData=' + mynavData
       });
     },
     // 接收报警方式点击事件
@@ -415,6 +430,7 @@ var _default = {
     // 报警方式点击事件
     alarmMethodEvent: function alarmMethodEvent(item, index) {
       this.currentIndex = index;
+      this.acceptAlarmMethod = item;
       this.cceptAlarmMethodBoxShow = false;
     },
     // 取消选择接收报警方式事件

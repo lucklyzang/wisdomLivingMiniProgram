@@ -106,6 +106,9 @@ try {
     uToast: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
     },
+    yToast: function () {
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 772))
+    },
     uIcon: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 670))
     },
@@ -173,8 +176,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _device = __webpack_require__(/*! @/api/device.js */ 347);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+var yToast = function yToast() {
+  Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 772));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
     return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 751));
@@ -182,24 +191,42 @@ var navBar = function navBar() {
 };
 var _default = {
   components: {
-    navBar: navBar
+    navBar: navBar,
+    yToast: yToast
   },
   data: function data() {
     return {
       infoText: '',
       currentIndex: null,
       showLoadingHint: false,
-      alarmRangeValue: '跌倒报警',
-      acceptAlarmMethod: '电话+短信',
+      alarmRangeValue: '',
+      acceptAlarmMethod: '',
       acceptAlarmMethodList: ['不通知', '仅短信通知', '仅电话通知', '电话和短信'],
       wifiListBoxShow: false,
       cceptAlarmMethodBoxShow: false,
+      alarmRangeValueList: [],
+      enter: false,
+      leave: false,
+      stop: false,
+      nobody: false,
+      stopTime: '',
+      nobodyTime: '',
+      deviceNumber: '',
+      deviceSetBasicMessage: {},
       existPerceptionRadarPng: __webpack_require__(/*! @/static/img/exist-perception-radar.png */ 391),
       logIconPng: __webpack_require__(/*! @/static/img/log-icon.png */ 348),
       moreIconPng: __webpack_require__(/*! @/static/img/more-icon.png */ 349)
     };
   },
   onLoad: function onLoad(object) {
+    console.log('数据', this.beforeAddExistPerceptionRadarCompleteSet);
+    // 获取雷达设置
+    // this.getDetectionAlarmSettings(this.beforeAddBodyDetectionDeviceMessage.deviceId);
+    if (!object.hasOwnProperty('transmitData')) {
+      this.wifiListBoxShow = true;
+      return;
+    }
+    ;
     if (object.transmitData == 1) {
       return;
     }
@@ -208,7 +235,7 @@ var _default = {
       this.wifiListBoxShow = true;
     }
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'enterDeviceSetPageSource'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'enterDeviceSetPageSource', 'beforeAddExistPerceptionRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -217,7 +244,195 @@ var _default = {
     accountName: function accountName() {}
   }),
   mounted: function mounted() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddExistPerceptionRadarCompleteSet'])), {}, {
+    // 设备接收报警方式转换
+    alarmTypeTransition: function alarmTypeTransition(num) {
+      switch (num) {
+        case '不通知':
+          return 0;
+          break;
+        case '短信':
+          return 1;
+          break;
+        case '电话':
+          return 2;
+          break;
+        case '电话短信':
+          return 3;
+          break;
+        case '微信通知':
+          return 4;
+          break;
+      }
+    },
+    // 设备接收报警方式转换
+    alarmTypeTransitionText: function alarmTypeTransitionText(num) {
+      var temporaryNum = num.toString();
+      switch (temporaryNum) {
+        case 0:
+          return '不通知';
+          break;
+        case 1:
+          return '短信';
+          break;
+        case 2:
+          return '电话';
+          break;
+        case 3:
+          return '电话短信';
+          break;
+        case 4:
+          return '微信通知';
+          break;
+      }
+    },
+    // 更新雷达设置
+    updateRadarSet: function updateRadarSet() {
+      var _this = this;
+      if (!this.alarmRangeValue || !this.acceptAlarmMethod) {
+        return;
+      }
+      ;
+      this.showLoadingHint = true;
+      this.infoText = '保存中...';
+      (0, _device.updateExistAlarmSettings)({
+        deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
+        notice: this.alarmTypeTransition(this.acceptAlarmMethod),
+        enter: this.enter,
+        leave: this.leave,
+        stop: this.stop,
+        nobody: this.nobody,
+        stopTime: this.stop ? this.stopTime : '',
+        nobodyTime: this.nobody ? this.nobodyTime : ''
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this.$refs['ytoast'].show({
+            message: '保存成功!',
+            type: 'success'
+          });
+          var temporaryMessage = _this.beforeAddExistPerceptionRadarCompleteSet;
+          temporaryMessage['isSaveAlarmRanageInfo'] = false;
+          _this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+        } else {
+          _this.$refs['ytoast'].show({
+            message: '保存失败!',
+            type: 'error'
+          });
+        }
+        ;
+        _this.showLoadingHint = false;
+      }).catch(function (err) {
+        _this.showLoadingHint = false;
+        _this.$refs['ytoast'].show({
+          message: '保存失败!',
+          type: 'error'
+        });
+      });
+    },
+    // 获得雷达设置
+    getRadarSet: function getRadarSet(deviceId) {
+      var _this2 = this;
+      this.showLoadingHint = true;
+      this.isShowNoDeviceData = false;
+      this.infoText = '加载中...';
+      this.alarmRangeValueList = [];
+      (0, _device.getExistAlarmSettings)({
+        deviceId: deviceId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this2.deviceNumber = res.data.data.sn;
+          _this2.acceptAlarmMethod = _this2.alarmTypeTransitionText(res.data.data.notice);
+          if (res.data.data.enter) {
+            _this2.enter = true;
+            _this2.alarmRangeValueList.push('人员进入报警');
+          } else {
+            _this2.enter = false;
+          }
+          ;
+          if (res.data.data.leave) {
+            _this2.leave = true;
+            _this2.alarmRangeValueList.push('人员离开报警');
+          } else {
+            _this2.leave = false;
+          }
+          ;
+          if (res.data.data.stop) {
+            _this2.stop = true;
+            _this2.stopTime = res.data.data.stopTime;
+            _this2.alarmRangeValueList.push('人员滞留报警');
+          } else {
+            _this2.stop = false;
+          }
+          ;
+          if (res.data.data.nobody) {
+            _this2.nobody = true;
+            _this2.nobodyTime = res.data.data.nobodyTime;
+            _this2.alarmRangeValueList.push('无人报警');
+          } else {
+            _this2.nobody = false;
+          }
+          ;
+          _this2.alarmRangeValue = _this2.alarmRangeValueList.join("、");
+          _this2.deviceSetBasicMessage = res.data.data;
+          // 回显保存的报警范围设置信息
+          if (_this2.beforeAddExistPerceptionRadarCompleteSet['isSaveAlarmRanageInfo']) {
+            _this2.echoAlarmRanageMessage();
+          }
+          ;
+        } else {
+          _this2.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this2.showLoadingHint = false;
+      }).catch(function (err) {
+        _this2.showLoadingHint = false;
+        _this2.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 回显报警范围设置页面设置的报警范围信息
+    echoAlarmRanageMessage: function echoAlarmRanageMessage() {
+      this.alarmRangeValueList = [];
+      if (this.beforeAddExistPerceptionRadarCompleteSet.enter) {
+        this.enter = true;
+        this.alarmRangeValueList.push('人员进入报警');
+      } else {
+        this.enter = false;
+      }
+      ;
+      if (this.beforeAddExistPerceptionRadarCompleteSet.leave) {
+        this.leave = true;
+        this.alarmRangeValueList.push('人员离开报警');
+      } else {
+        this.leave = false;
+      }
+      ;
+      if (this.beforeAddExistPerceptionRadarCompleteSet.stop) {
+        this.stop = true;
+        this.stopTime = this.beforeAddExistPerceptionRadarCompleteSet.stopTime;
+        this.alarmRangeValueList.push('人员滞留报警');
+      } else {
+        this.stop = false;
+      }
+      ;
+      if (this.beforeAddExistPerceptionRadarCompleteSet.nobody) {
+        this.nobody = true;
+        this.nobodyTime = this.beforeAddExistPerceptionRadarCompleteSet.nobodyTime;
+        this.alarmRangeValueList.push('无人报警');
+      } else {
+        this.nobody = false;
+      }
+      ;
+      this.alarmRangeValue = this.alarmRangeValueList.join("、");
+      this.deviceSetBasicMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+    },
     // 拒绝事件
     refuseEvent: function refuseEvent() {
       this.backTo();
@@ -234,14 +449,22 @@ var _default = {
     },
     // 更多点击事件
     moreEvent: function moreEvent() {
+      var temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+      temporaryMessage['deviceNumber'] = this.deviceNumber;
+      this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
       uni.redirectTo({
         url: '/devicePackage/pages/existPerceptionRadarCompleteSet/editDevice'
       });
     },
     // 报警范围点击事件
     alarmRangeEvent: function alarmRangeEvent() {
+      var temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+      temporaryMessage['isSaveAlarmRanageInfo'] = false;
+      this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+      // 传递报警范围信息
+      var mynavData = JSON.stringify(this.deviceSetBasicMessage);
       uni.redirectTo({
-        url: '/devicePackage/pages/existPerceptionRadarCompleteSet/alarmRangeSet'
+        url: '/devicePackage/pages/existPerceptionRadarCompleteSet/alarmRangeSet?transmitData=' + mynavData
       });
     },
     // 接收报警方式点击事件
@@ -251,6 +474,7 @@ var _default = {
     // 报警方式点击事件
     alarmMethodEvent: function alarmMethodEvent(item, index) {
       this.currentIndex = index;
+      this.acceptAlarmMethod = item;
       this.cceptAlarmMethodBoxShow = false;
     },
     // 取消选择接收报警方式事件

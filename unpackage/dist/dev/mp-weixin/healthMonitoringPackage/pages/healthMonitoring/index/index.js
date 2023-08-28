@@ -103,6 +103,9 @@ try {
     uToast: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
     },
+    yToast: function () {
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 772))
+    },
   }
 } catch (e) {
   if (
@@ -167,8 +170,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _home = __webpack_require__(/*! @/api/home.js */ 921);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+var yToast = function yToast() {
+  Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 772));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
     return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 751));
@@ -176,12 +185,14 @@ var navBar = function navBar() {
 };
 var _default = {
   components: {
-    navBar: navBar
+    navBar: navBar,
+    yToast: yToast
   },
   data: function data() {
     return {
       infoText: '',
       showLoadingHint: false,
+      showHomeList: [],
       sleepIconPng: __webpack_require__(/*! @/static/img/sleep-icon.png */ 146),
       toiletIconPng: __webpack_require__(/*! @/static/img/toilet-icon.png */ 107),
       tumbleIconPng: __webpack_require__(/*! @/static/img/tumble-icon.png */ 108),
@@ -192,7 +203,7 @@ var _default = {
     };
   },
   onReady: function onReady() {},
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -201,15 +212,108 @@ var _default = {
     accountName: function accountName() {}
   }),
   mounted: function mounted() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, (0, _defineProperty2.default)({
     backTo: function backTo() {
       uni.switchTab({
         url: '/pages/index/index'
       });
     },
-    // 保存事件
-    saveEvent: function saveEvent() {}
-  })
+    // 获取首页配置列表
+    queryHomePageList: function queryHomePageList(familyId) {
+      var _this = this;
+      this.showLoadingHint = true;
+      this.infoText = '加载中...';
+      this.roomList = [];
+      (0, _home.getHomePageList)({
+        familyId: familyId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {} else {
+          _this.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this.showLoadingHint = false;
+      }).catch(function (err) {
+        _this.showLoadingHint = false;
+        _this.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 创建或更新首页配置列表
+    saveEvent: function saveEvent() {
+      var _this2 = this;
+      this.showLoadingHint = true;
+      this.infoText = '保存中...';
+      this.familyList = [];
+      (0, _home.saveOrUpdateHomePage)({
+        userId: this.userInfo.userId,
+        familyId: this.familyId,
+        name: this.roomNameValue,
+        type: "",
+        status: "",
+        sort: "",
+        mold: "",
+        devices: ""
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this2.queryHomePageList(_this2.familyId);
+          _this2.$refs['ytoast'].show({
+            message: '保存成功!',
+            type: 'success'
+          });
+        } else {
+          _this2.$refs['ytoast'].show({
+            message: '保存失败!',
+            type: 'error'
+          });
+        }
+      }).catch(function (err) {
+        _this2.showLoadingHint = false;
+        _this2.$refs['ytoast'].show({
+          message: '保存失败!',
+          type: 'error'
+        });
+      });
+    },
+    // 删除首页数据卡片事件
+    deleteEvent: function deleteEvent(id) {
+      var _this3 = this;
+      this.showLoadingHint = true;
+      this.infoText = '删除中...';
+      (0, _home.deleteHomePage)({
+        id: id
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this3.$refs.uToast.show({
+            title: '删除成功',
+            type: 'success',
+            position: 'bottom'
+          });
+          _this3.queryHomePageList(_this3.familyId);
+        } else {
+          _this3.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        _this3.showLoadingHint = false;
+      }).catch(function (err) {
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    }
+  }, "saveEvent", function saveEvent() {}))
 };
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))

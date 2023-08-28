@@ -212,6 +212,7 @@
 		data() {
 			return {
 				infoText: '',
+				initValue: '',
 				showLoadingHint: false,
 				heartRateIconPng: require("@/static/img/heart-rate-icon.png"),
 				breatheIconPng: require("@/static/img/breathe-icon.png"),
@@ -245,7 +246,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeFamilyId'
 			]),
 			
 			// 家庭选择下拉框下拉选择确定事件
@@ -266,7 +268,9 @@
 								id: item.id,
 								value: item.name
 							})
-						}
+						};
+						this.initValue = this.familyMemberList[0]['id'];
+						this.changeFamilyId(this.initValue)
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -286,9 +290,10 @@
 			
 			// 绑定设备事件
 			bindDeviceEvent () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/bingDevices/bingDevices'
-				})
+				this.editDataCardEvent()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/bingDevices/bingDevices'
+				// })
 			},
 			
 			// 进入数据详情事件

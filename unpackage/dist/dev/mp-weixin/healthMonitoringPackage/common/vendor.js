@@ -152,6 +152,90 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAC1CAMAAADb
 
 module.exports = "/static/img/health-leave-home-tips-two.png";
 
+/***/ }),
+
+/***/ 921:
+/*!***************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/api/home.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createHomePage = createHomePage;
+exports.deleteHomePage = deleteHomePage;
+exports.getHomePage = getHomePage;
+exports.getHomePageList = getHomePageList;
+exports.homePageBindDevice = homePageBindDevice;
+exports.saveOrUpdateHomePage = saveOrUpdateHomePage;
+var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 75));
+var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 77));
+// 获取首页配置
+function getHomePage(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/home-page/get',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 获取首页配置列表
+function getHomePageList(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/home-page/list',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 删除首页数据卡片
+function deleteHomePage(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/home-page/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 创建首页数据卡片
+function createHomePage(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/home-page/create',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 保存或更新首页数据卡片
+function saveOrUpdateHomePage(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/home-page/saveOrUpdate',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 首页数据卡片绑定设备
+function homePageBindDevice(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/home-page/bind-device',
+    method: 'put',
+    data: data
+  });
+}
+;
+
 /***/ })
 
 }]);

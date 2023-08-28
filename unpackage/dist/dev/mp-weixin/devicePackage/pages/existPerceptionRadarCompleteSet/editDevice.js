@@ -182,6 +182,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _device = __webpack_require__(/*! @/api/device.js */ 347);
+var _user = __webpack_require__(/*! @/api/user.js */ 104);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
@@ -201,14 +203,26 @@ var _default = {
       chooseRoomShow: false,
       networkShow: false,
       currentIndex: null,
-      roomList: ['主卧', '客厅', '卫生间', '次卧'],
+      roomList: [],
       deviceNameValue: '',
+      deviceName: '',
+      roomId: '',
+      roomName: '',
+      deviceNumber: '',
       checked: false,
-      showLoadingHint: false
+      showLoadingHint: false,
+      onLine: ''
     };
   },
-  onReady: function onReady() {},
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  onLoad: function onLoad(options) {
+    this.deviceNameValue = this.beforeAddExistPerceptionRadarCompleteSet.customDeviceName;
+    this.deviceName = this.beforeAddExistPerceptionRadarCompleteSet.deviceName;
+    this.deviceNumber = this.beforeAddExistPerceptionRadarCompleteSet.deviceNumber;
+    this.roomId = this.beforeAddExistPerceptionRadarCompleteSet.roomId;
+    this.roomName = this.beforeAddExistPerceptionRadarCompleteSet.roomName;
+    this.onLine = this.beforeAddExistPerceptionRadarCompleteSet.onLine;
+  },
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'beforeAddExistPerceptionRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -217,7 +231,107 @@ var _default = {
     accountName: function accountName() {}
   }),
   mounted: function mounted() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddExistPerceptionRadarCompleteSet'])), {}, {
+    // 获取用户房间列表列表
+    queryUserRoomList: function queryUserRoomList(familyId) {
+      var _this = this;
+      this.showLoadingHint = true;
+      this.infoText = '加载中...';
+      this.roomList = [];
+      (0, _user.getUserRoomList)({
+        familyId: familyId
+      }).then(function (res) {
+        _this.chooseRoomShow = true;
+        if (res && res.data.code == 0) {
+          _this.roomList = res.data.data;
+        } else {
+          _this.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this.showLoadingHint = false;
+      }).catch(function (err) {
+        _this.showLoadingHint = false;
+        _this.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 更新雷达设置
+    updateRadarSet: function updateRadarSet() {
+      var _this2 = this;
+      this.showLoadingHint = true;
+      this.infoText = '保存中...';
+      (0, _user.updateUserDeviceBind)({
+        deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
+        userId: this.userInfo.userId,
+        familyId: this.familyId,
+        roomId: this.roomId,
+        customName: this.deviceNameValue
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          var temporaryMessage = _this2.beforeAddExistPerceptionRadarCompleteSet;
+          temporaryMessage['roomId'] = _this2.roomId;
+          temporaryMessage['roomName'] = _this2.roomName;
+          temporaryMessage['customDeviceName'] = _this2.deviceNameValue;
+          temporaryMessage['deviceName'] = _this2.deviceName;
+          _this2.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+          _this2.$refs['ytoast'].show({
+            message: '保存成功!',
+            type: 'success'
+          });
+        } else {
+          _this2.$refs['ytoast'].show({
+            message: '保存失败!',
+            type: 'error'
+          });
+        }
+        ;
+        _this2.showLoadingHint = false;
+      }).catch(function (err) {
+        _this2.showLoadingHint = false;
+        _this2.$refs['ytoast'].show({
+          message: '保存失败!',
+          type: 'error'
+        });
+      });
+    },
+    // 删除事件
+    deleteEvent: function deleteEvent(deviceId) {
+      var _this3 = this;
+      this.showLoadingHint = true;
+      this.infoText = '删除中...';
+      (0, _device.deleteExistAlarmSettings)({
+        deviceId: deviceId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this3.$refs.uToast.show({
+            title: '删除成功',
+            type: 'success',
+            position: 'bottom'
+          });
+        } else {
+          _this3.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        _this3.showLoadingHint = false;
+      }).catch(function (err) {
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 操作设备点击事件
     operationManualClickEvent: function operationManualClickEvent() {
       uni.redirectTo({
@@ -235,13 +349,11 @@ var _default = {
     // 解绑设备确定事件
     unbindDeviceSureEvent: function unbindDeviceSureEvent() {
       this.unbindDeviceShow = false;
+      this.deleteEvent(this.beforeAddExistPerceptionRadarCompleteSet.deviceId);
     },
     // 保存事件
     saveEvent: function saveEvent() {
-      this.$refs.uToast.show({
-        title: '保存成功!',
-        type: 'error'
-      });
+      this.updateRadarSet();
     },
     // 网络状态点击事件
     networkClickEvent: function networkClickEvent() {
@@ -305,5 +417,5 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ })
 
-},[[402,"common/runtime","common/vendor"]]]);
+},[[402,"common/runtime","common/vendor","devicePackage/common/vendor"]]]);
 //# sourceMappingURL=../../../../.sourcemap/mp-weixin/devicePackage/pages/existPerceptionRadarCompleteSet/editDevice.js.map

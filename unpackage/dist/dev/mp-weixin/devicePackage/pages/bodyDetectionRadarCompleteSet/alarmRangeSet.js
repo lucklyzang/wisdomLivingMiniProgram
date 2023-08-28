@@ -103,8 +103,11 @@ try {
     uToast: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
     },
+    yToast: function () {
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 772))
+    },
     uSwitch: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */ "node-modules/uview-ui/components/u-switch/u-switch").then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 772))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */ "node-modules/uview-ui/components/u-switch/u-switch").then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 780))
     },
   }
 } catch (e) {
@@ -177,14 +180,21 @@ var navBar = function navBar() {
     return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 751));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var yToast = function yToast() {
+  Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 772));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
   components: {
-    navBar: navBar
+    navBar: navBar,
+    yToast: yToast
   },
   data: function data() {
     return {
       infoText: '',
       checked: false,
+      receiveData: {},
       showLoadingHint: false,
       setList: [{
         name: '人员进入报警',
@@ -195,8 +205,17 @@ var _default = {
       }]
     };
   },
-  onReady: function onReady() {},
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  onLoad: function onLoad(options) {
+    if (options.transmitData == '{}') {
+      return;
+    }
+    ;
+    this.receiveData = JSON.parse(options.transmitData);
+    // 回显报警范围信息
+    this.setList[0]['checked'] = this.receiveData['enter'];
+    this.setList[1]['checked'] = this.receiveData['leave'];
+  },
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddBodyDetectionDeviceMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -205,8 +224,27 @@ var _default = {
     accountName: function accountName() {}
   }),
   mounted: function mounted() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddBodyDetectionDeviceMessage'])), {}, {
+    // 保存事件
+    saveEvent: function saveEvent() {
+      this.$refs['ytoast'].show({
+        message: '保存成功!',
+        type: 'success'
+      });
+      // 保存进入设备设置界面的报警范围信息
+      var temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+      temporaryMessage['enter'] = this.setList[0]['checked'];
+      temporaryMessage['leave'] = this.setList[1]['checked'];
+      temporaryMessage['isSaveAlarmRanageInfo'] = true;
+      this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+      uni.redirectTo({
+        url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet?transmitData=' + 1
+      });
+    },
     backTo: function backTo() {
+      var temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+      temporaryMessage['isSaveAlarmRanageInfo'] = false;
+      this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
       uni.redirectTo({
         url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet?transmitData=' + 1
       });

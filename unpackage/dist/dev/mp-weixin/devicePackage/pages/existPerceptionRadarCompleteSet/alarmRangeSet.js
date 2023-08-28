@@ -103,8 +103,11 @@ try {
     uToast: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
     },
+    yToast: function () {
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 772))
+    },
     uSwitch: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */ "node-modules/uview-ui/components/u-switch/u-switch").then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 772))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */ "node-modules/uview-ui/components/u-switch/u-switch").then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 780))
     },
     uForm: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-form/u-form */ "node-modules/uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! uview-ui/components/u-form/u-form.vue */ 691))
@@ -186,29 +189,50 @@ var navBar = function navBar() {
     return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 751));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var yToast = function yToast() {
+  Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 772));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
   components: {
-    navBar: navBar
+    navBar: navBar,
+    yToast: yToast
   },
   data: function data() {
     return {
       infoText: '',
       personRetentionAlarmValue: false,
       showLoadingHint: false,
+      receiveData: {},
       retentionTimeValue: '',
-      retentionTimeList: ['1分钟', '5分钟', '10分钟', '30分钟'],
+      retentionTimeList: ['1', '5', '10', '30'],
       retentionTimeIndex: null,
       retentionTimeInputShow: false,
       noPersonAlarmValue: false,
-      noPersonTimeList: ['1分钟', '5分钟', '10分钟', '30分钟'],
+      noPersonTimeValue: '',
+      noPersonTimeList: ['1', '5', '10', '30'],
       noPersonTimeIndex: null,
       noPersonTimeInputShow: false,
       personEnterAlarmValue: false,
       personLeaveAlarmValue: false
     };
   },
-  onReady: function onReady() {},
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  onLoad: function onLoad(options) {
+    if (options.transmitData == '{}') {
+      return;
+    }
+    ;
+    this.receiveData = JSON.parse(options.transmitData);
+    // 回显报警范围信息
+    this.personEnterAlarmValue = this.receiveData['enter'];
+    this.personLeaveAlarmValue = this.receiveData['leave'];
+    this.noPersonAlarmValue = this.receiveData['nobody'];
+    this.noPersonTimeValue = this.receiveData['nobodyTime'];
+    this.personRetentionAlarmValue = this.receiveData['stop'];
+    this.retentionTimeValue = this.receiveData['stopTime'];
+  },
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddExistPerceptionRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -217,7 +241,7 @@ var _default = {
     accountName: function accountName() {}
   }),
   mounted: function mounted() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddExistPerceptionRadarCompleteSet'])), {}, {
     // 滞留时间自定义点击事件
     personRetentionAlarmTimeCustomEvent: function personRetentionAlarmTimeCustomEvent() {
       this.retentionTimeInputShow = !this.retentionTimeInputShow;
@@ -225,6 +249,7 @@ var _default = {
     // 滞留时间点击事件
     retentionTimeClickEvent: function retentionTimeClickEvent(item, index) {
       this.retentionTimeIndex = index;
+      this.retentionTimeValue = item;
     },
     // 无人时间自定义点击事件
     noPersonAlarmTimeCustomEvent: function noPersonAlarmTimeCustomEvent() {
@@ -233,9 +258,54 @@ var _default = {
     // 无人时间点击事件
     noPersonTimeClickEvent: function noPersonTimeClickEvent(item, index) {
       this.nopersonTimeIndex = index;
-      console.log(this.nopersonTimeIndex);
+      this.noPersonTimeValue = item;
+    },
+    // 保存事件
+    saveEvent: function saveEvent() {
+      if (this.personRetentionAlarmValue) {
+        if (!this.retentionTimeValue) {
+          this.$refs.uToast.show({
+            title: '人员滞留报警时间不能为空,请重新输入!',
+            type: 'error',
+            position: 'bottom'
+          });
+          return;
+        }
+      }
+      ;
+      if (this.noPersonAlarmValue) {
+        if (!this.noPersonTimeValue) {
+          this.$refs.uToast.show({
+            title: '无人报警时间不能为空,请重新输入!',
+            type: 'error',
+            position: 'bottom'
+          });
+          return;
+        }
+      }
+      ;
+      this.$refs['ytoast'].show({
+        message: '保存成功!',
+        type: 'success'
+      });
+      // 保存进入设备设置界面的报警范围信息
+      var temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+      temporaryMessage['enter'] = this.personEnterAlarmValue;
+      temporaryMessage['leave'] = this.personLeaveAlarmValue;
+      temporaryMessage['nobody'] = this.noPersonAlarmValue;
+      temporaryMessage['stop'] = this.personRetentionAlarmValue;
+      temporaryMessage['nobodyTime'] = this.noPersonTimeValue;
+      temporaryMessage['stopTime'] = this.retentionTimeValue;
+      temporaryMessage['isSaveAlarmRanageInfo'] = true;
+      this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+      uni.redirectTo({
+        url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet?transmitData=' + 1
+      });
     },
     backTo: function backTo() {
+      var temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+      temporaryMessage['isSaveAlarmRanageInfo'] = false;
+      this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
       uni.redirectTo({
         url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet?transmitData=' + 1
       });

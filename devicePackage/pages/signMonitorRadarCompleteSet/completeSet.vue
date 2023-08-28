@@ -37,6 +37,7 @@
 			</u-popup>
 		</view>
 		<u-toast ref="uToast" />
+		<y-toast ref="ytoast"></y-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" @backClick="backTo">
@@ -51,8 +52,8 @@
 				<view class="top-title">
 					<image :src="signMonitorRadarPng"></image>
 					<view class="title-text">
-						<text>体征监测雷达</text>
-						<text>客厅</text>
+						<text>{{ beforeAddSignMonitorRadarCompleteSet.customDeviceName }}</text>
+						<text>{{ beforeAddSignMonitorRadarCompleteSet.roomName }}</text>
 					</view>
 				</view>
 			</view>
@@ -89,19 +90,32 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import yToast from "@/components/y-toast/y-toast.vue"
+	import { getHealthAlarmSettings, updateHealthAlarmSettings } from '@/api/device.js'
 	export default {
 		components: {
-			navBar
+			navBar,
+			yToast
 		},
 		data() {
 			return {
 				infoText: '',
 				currentIndex: null,
 				showLoadingHint: false,
-				alarmRangeValue: '跌倒报警',
-				acceptAlarmMethod: '电话+短信',
+				alarmRangeValue: '',
+				acceptAlarmMethod: '',
 				acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
 				wifiListBoxShow: false,
+				alarmRangeValueList: [],
+				heart: false,
+				breathe: false,
+				move: false,
+				sitUp: false,
+				outBed: false,
+				heartRange: '',
+				breatheRange: '',
+				deviceNumber: '',
+				deviceSetBasicMessage: {},
 				cceptAlarmMethodBoxShow: false,
 				signMonitorRadarPng: require("@/static/img/sign-monitor-radar.png"),
 				logIconPng: require("@/static/img/log-icon.png"),
@@ -109,6 +123,9 @@
 			}
 		},
 		onLoad(object) {
+			// 获取雷达设置
+			// this.getRadarSet(this.beforeAddSignMonitorRadarCompleteSet.deviceId);
+			if (!object.hasOwnProperty('transmitData')) { this.wifiListBoxShow = true; return };
 			if (object.transmitData == 1) { return };
 			if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
 				this.wifiListBoxShow = true
@@ -117,7 +134,8 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'enterDeviceSetPageSource'
+				'enterDeviceSetPageSource',
+				'beforeAddSignMonitorRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -132,12 +150,194 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeBeforeAddSignMonitorRadarCompleteSet'
 			]),
+			
+			// 设备接收报警方式转换
+			alarmTypeTransition (num) {
+				switch(num) {
+						case '不通知' :
+							return 0
+							break;
+						case '短信' :
+							return 1
+							break;
+						case '电话' :
+							return 2
+							break;
+						case '电话短信' :
+							return 3
+							break;
+						case '微信通知' :
+							return 4
+							break;
+				}
+			},
+			
+			// 设备接收报警方式转换
+			alarmTypeTransitionText (num) {
+				let temporaryNum = num.toString();
+				switch(temporaryNum) {
+						case 0 :
+							return '不通知'
+							break;
+						case 1 :
+							return '短信'
+							break;
+						case 2 :
+							return '电话'
+							break;
+						case 3 :
+							return '电话短信'
+							break;
+						case 4 :
+							return '微信通知'
+							break;
+				}
+			},
+			
+			// 更新雷达设置
+			updateRadarSet () {
+				if (!this.alarmRangeValue || !this.acceptAlarmMethod) {
+					return
+				};
+				this.showLoadingHint = true;
+				this.infoText = '保存中...';
+				updateHealthAlarmSettings({
+					deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
+					notice: this.alarmTypeTransition(this.acceptAlarmMethod),
+					heart: this.heart,
+					heartRange: this.heart ? this.heartRange : '',
+					breathe: this.breathe,
+					breatheRange: this.breathe ? this.breatheRange : '',
+					move: this.move,
+					sitUp: this.sitUp,
+					outBed: this.outBed,
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
+						let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+						temporaryMessage['isSaveAlarmRanageInfo'] = false;
+						this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
+					} else {
+						this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' });
+					};	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' })
+				})
+			},
+			
+			// 获得雷达设置
+			getRadarSet (deviceId) {
+				this.showLoadingHint = true;
+				this.isShowNoDeviceData = false;
+				this.infoText = '加载中...';
+				this.alarmRangeValueList = [];
+				getHealthAlarmSettings({deviceId}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.deviceNumber = res.data.data.sn;
+						this.acceptAlarmMethod = this.alarmTypeTransitionText(res.data.data.notice);
+						if (res.data.data.heart) {
+							this.heart = true;
+							this.heartRange = res.data.data.heartRange;
+							this.alarmRangeValueList.push('心率异常报警')
+						} else {
+							this.heart = false
+						};
+						if (res.data.data.breathe) {
+							this.breathe = true;
+							this.breatheRange = res.data.data.breatheRange;
+							this.alarmRangeValueList.push('呼吸异常报警')
+						} else {
+							this.breathe = false
+						};
+						if (res.data.data.move) {
+							this.move = true;
+							this.alarmRangeValueList.push('体动检测报警')
+						} else {
+							this.move = false;
+						};
+						if (res.data.data.sitUp) {
+							this.sitUp = true;
+							this.alarmRangeValueList.push('坐起检测报警')
+						} else {
+							this.sitUp = false
+						};
+						if (res.data.data.outBed) {
+							this.outBed = true;
+							this.alarmRangeValueList.push('离床检测报警')
+						} else {
+							this.outBed = false
+						};
+						this.alarmRangeValue = this.alarmRangeValueList.join("、");
+						this.deviceSetBasicMessage = res.data.data;
+						// 回显保存的报警范围设置信息
+						if (this.beforeAddSignMonitorRadarCompleteSet['isSaveAlarmRanageInfo']) {
+							this.echoAlarmRanageMessage()
+						};
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 回显报警范围设置页面设置的报警范围信息
+			echoAlarmRanageMessage () {
+				this.alarmRangeValueList = [];
+				if (this.beforeAddSignMonitorRadarCompleteSet.heart) {
+					this.heart = true;
+					this.heartRange = this.beforeAddSignMonitorRadarCompleteSet.heartRange;
+					this.alarmRangeValueList.push('心率异常报警')
+				} else {
+					this.heart = false
+				};
+				if (this.beforeAddSignMonitorRadarCompleteSet.breathe) {
+					this.breathe = true;
+					this.breatheRange = this.beforeAddSignMonitorRadarCompleteSet.breatheRange;
+					this.alarmRangeValueList.push('呼吸异常报警')
+				} else {
+					this.breathe = false
+				};
+				if (this.beforeAddSignMonitorRadarCompleteSet.move) {
+					this.move = true;
+					this.alarmRangeValueList.push('体动检测报警')
+				} else {
+					this.move = false;
+				};
+				if (this.beforeAddSignMonitorRadarCompleteSet.sitUp) {
+					this.sitUp = true;
+					this.alarmRangeValueList.push('坐起检测报警')
+				} else {
+					this.sitUp = false
+				};
+				if (this.beforeAddSignMonitorRadarCompleteSet.outBed) {
+					this.outBed = true;
+					this.alarmRangeValueList.push('离床检测报警')
+				} else {
+					this.outBed = false
+				};
+				this.alarmRangeValue = this.alarmRangeValueList.join("、");
+				this.deviceSetBasicMessage = this.beforeAddSignMonitorRadarCompleteSet
+			},
 			
 			// 拒绝事件
 			refuseEvent () {
@@ -158,6 +358,9 @@
 			
 			// 更多点击事件
 			moreEvent () {
+				let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+				temporaryMessage['deviceNumber'] = this.deviceNumber;
+				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 				uni.redirectTo({
 					url: '/devicePackage/pages/signMonitorRadarCompleteSet/editDevice'
 				})
@@ -166,8 +369,13 @@
 			
 			// 报警范围点击事件
 			alarmRangeEvent () {
+				let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+				temporaryMessage['isSaveAlarmRanageInfo'] = false;
+				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
+				// 传递报警范围信息
+				let mynavData = JSON.stringify(this.deviceSetBasicMessage);
 				uni.redirectTo({
-					url: '/devicePackage/pages/signMonitorRadarCompleteSet/alarmRangeSet'
+					url: '/devicePackage/pages/signMonitorRadarCompleteSet/alarmRangeSet?transmitData='+mynavData
 				})
 			},
 			
@@ -179,6 +387,7 @@
 			// 报警方式点击事件
 			alarmMethodEvent (item,index) {
 				this.currentIndex = index;
+				this.acceptAlarmMethod = item;
 				this.cceptAlarmMethodBoxShow = false
 			},
 			

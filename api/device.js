@@ -77,26 +77,29 @@ export function deleteDetectionAlarmSettings(data) {
 };
 
 // 获得人员存在感知雷达设置
-export function getExistAlarmSettings() {
+export function getExistAlarmSettings(data) {
   return request({
     url: '/app-api/member/exist-alarm-settings/get',
-    method: 'get'
+    method: 'get',
+		params: data
   })
 };
 
 // 更新人员存在感知雷达设置
-export function updateExistAlarmSettings() {
+export function updateExistAlarmSettings(data) {
   return request({
     url: '/app-api/member/exist-alarm-settings/update',
-    method: 'put'
+    method: 'put',
+		data
   })
 };
 
 // 删除人员存在感知雷达设置
-export function deleteExistAlarmSettings() {
+export function deleteExistAlarmSettings(data) {
   return request({
     url: '/app-api/member/exist-alarm-settings/delete',
-    method: 'delete'
+    method: 'delete',
+		params: data
   })
 };
 
@@ -128,25 +131,28 @@ export function deleteFallAlarmSettings(data) {
 };
 
 // 获得体征检测雷达设置
-export function getHealthAlarmSettings() {
+export function getHealthAlarmSettings(data) {
   return request({
     url: '/app-api/member/health-alarm-settings/get',
-    method: 'get'
+    method: 'get',
+		params: data
   })
 };
 
 // 更新体征检测雷达设置
-export function updateHealthAlarmSettings() {
+export function updateHealthAlarmSettings(data) {
   return request({
     url: '/app-api/member/health-alarm-settings/update',
-    method: 'put'
+    method: 'put',
+		data
   })
 };
 
 // 删除体征检测雷达设置
-export function deleteHealthAlarmSettings() {
+export function deleteHealthAlarmSettings(data) {
   return request({
     url: '/app-api/member/health-alarm-settings/delete',
-    method: 'delete'
+    method: 'delete',
+		params: data
   })
 };

@@ -37,6 +37,14 @@
 						<image :src="imageUrl" ></image>
 						<text>人体检测雷达</text>
 					</view>
+					<view class="device-list" @click="chooseWifiEvent">
+						<image :src="imageUrl" ></image>
+						<text>人员存在感知雷达</text>
+					</view>
+					<view class="device-list" @click="chooseWifiEvent">
+						<image :src="imageUrl" ></image>
+						<text>体征监测雷达</text>
+					</view>
 				</view>
 			</view>
 		</view>

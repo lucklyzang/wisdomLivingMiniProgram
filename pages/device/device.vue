@@ -118,6 +118,8 @@
 				'userInfo',
 				'beforeAddDeviceMessage',
 				'beforeAddBodyDetectionDeviceMessage',
+				'beforeAddExistPerceptionRadarCompleteSet',
+				'beforeAddSignMonitorRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -140,6 +142,8 @@
 				'changeFamilyId',
 				'changeBeforeAddDeviceMessage',
 				'changeBeforeAddBodyDetectionDeviceMessage',
+				'changeBeforeAddExistPerceptionRadarCompleteSet',
+				'changeBeforeAddSignMonitorRadarCompleteSet',
 				'changeRoomDetails'
 			]),
 			
@@ -243,10 +247,10 @@
 							this.familyMemberList.push({
 								id: item.id,
 								value: item.name
-							});
-							this.initValue = this.familyMemberList[0]['id'];
-							this.getUserDevice(this.initValue)
-						}
+							})
+						};
+						this.initValue = this.familyMemberList[0]['id'];
+						this.getUserDevice(this.initValue)
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -308,8 +312,26 @@
 				} else if (item.type == 2) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
-					})
+					});
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['roomName'] = item.roomName;
+					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['customDeviceName'] = item.customName;
+					temporaryMessage['deviceName'] = item.deviceName;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
 				} else if (item.type == 1) {
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['roomName'] = item.roomName;
+					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['customDeviceName'] = item.customName;
+					temporaryMessage['deviceName'] = item.deviceName;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 					uni.redirectTo({
 						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
 					})
@@ -317,7 +339,7 @@
 					uni.redirectTo({
 						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
 					});
-					// 保存进入设备设置界面的设备部分相关信息
+					//保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 					temporaryMessage['roomId'] = item.roomId;
 					temporaryMessage['roomName'] = item.roomName;
@@ -342,6 +364,9 @@
 			addDeviceEvent () {
 				// 清除以前保存的设置房间和自定义设备名称信息
 				this.changeBeforeAddDeviceMessage({});
+				this.changeBeforeAddBodyDetectionDeviceMessage({});
+				this.changeBeforeAddExistPerceptionRadarCompleteSet({});
+				this.changeBeforeAddSignMonitorRadarCompleteSet({});
 				uni.redirectTo({
 					url: '/devicePackage/pages/addDevices/addDevices'
 				});

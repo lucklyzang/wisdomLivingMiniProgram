@@ -9,6 +9,8 @@ export function getDefaultDeviceState() {
 			familyId: '',
 			beforeAddDeviceMessage: {},
 			beforeAddBodyDetectionDeviceMessage: {},
+			beforeAddExistPerceptionRadarCompleteSet: {},
+			beforeAddSignMonitorRadarCompleteSet: {},
 			roomDetails: {}
 		}	
 };

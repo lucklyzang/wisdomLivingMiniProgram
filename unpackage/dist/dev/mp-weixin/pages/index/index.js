@@ -195,9 +195,10 @@ var _default = {
     },
     // 绑定设备事件
     bindDeviceEvent: function bindDeviceEvent() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/bingDevices/bingDevices'
-      });
+      this.editDataCardEvent();
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/bingDevices/bingDevices'
+      // })
     },
     // 进入数据详情事件
     enterDetailsEvent: function enterDetailsEvent(text) {

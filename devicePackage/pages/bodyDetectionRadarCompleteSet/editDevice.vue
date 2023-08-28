@@ -54,6 +54,7 @@
 			</u-popup>
 		</view>
 		<u-toast ref="uToast" />
+		<y-toast ref="ytoast"></y-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" title="更多" @backClick="backTo">
@@ -66,7 +67,7 @@
 						<text>设备编号</text>
 					</view>
 					<view class="set-list-right">
-						<text>65885555LA45266Y00002</text>
+						<text>{{ deviceNumber }}</text>
 					</view>
 				</view>
 				<view class="set-list">
@@ -74,7 +75,7 @@
 						<text>设备</text>
 					</view>
 					<view class="set-list-right">
-						<text>人体检测雷达</text>
+						<text>{{ deviceName }}</text>
 					</view>
 				</view>
 				<view class="set-list edit-device-name">
@@ -110,7 +111,7 @@
 						<text>设备房间</text>
 					</view>
 					<view class="set-list-right" @click="roomClickEvent">
-						<text>主卧</text>
+						<text>{{ roomName }}</text>
 						<u-icon name="arrow-right" size="40" color="#0E2442"></u-icon>
 					</view>
 				</view>
@@ -137,9 +138,13 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import yToast from "@/components/y-toast/y-toast.vue"
+	import { deleteDetectionAlarmSettings} from '@/api/device.js'
+	import { updateUserDeviceBind, getUserRoomList } from '@/api/user.js'
 	export default {
 		components: {
-			navBar
+			navBar,
+			yToast
 		},
 		data() {
 			return {
@@ -149,17 +154,30 @@
 				chooseRoomShow: false,
 				networkShow: false,
 				currentIndex: null,
-				roomList: ['主卧','客厅','卫生间','次卧'],
+				roomList: [],
 				deviceNameValue: '',
+				deviceName: '',
+				roomId: '',
+				roomName: '',
+				deviceNumber: '',
 				checked: false,
-				showLoadingHint: false
+				showLoadingHint: false,
+				onLine: ''
 			}
 		},
-		onReady() {
+		onLoad(options) {
+			this.deviceNameValue = this.beforeAddBodyDetectionDeviceMessage.customDeviceName;
+			this.deviceName = this.beforeAddBodyDetectionDeviceMessage.deviceName;
+			this.deviceNumber = this.beforeAddBodyDetectionDeviceMessage.deviceNumber;
+			this.roomId = this.beforeAddBodyDetectionDeviceMessage.roomId;
+			this.roomName = this.beforeAddBodyDetectionDeviceMessage.roomName;
+			this.onLine = this.beforeAddBodyDetectionDeviceMessage.onLine
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId',
+				'beforeAddBodyDetectionDeviceMessage'
 			]),
 			userName() {
 			},
@@ -178,7 +196,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeBeforeAddBodyDetectionDeviceMessage'
 			]),
 			
 			// 操作设备点击事件
@@ -187,6 +206,65 @@
 					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/operationManual'
 				})
 			},
+			
+			// 获取用户房间列表列表
+			queryUserRoomList (familyId) {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.roomList = [];
+				getUserRoomList({familyId}).then((res) => {
+					this.chooseRoomShow = true;
+					if ( res && res.data.code == 0) {
+						this.roomList = res.data.data
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 更新雷达设置
+			updateRadarSet () {
+				this.showLoadingHint = true;
+				this.infoText = '保存中...';
+				updateUserDeviceBind({
+					deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+					userId: this.userInfo.userId,
+					familyId: this.familyId,
+					roomId: this.roomId,
+					customName: this.deviceNameValue
+				}).then((res) => {
+					if ( res && res.data.code == 0) {
+						let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+						temporaryMessage['roomId'] = this.roomId;
+						temporaryMessage['roomName'] = this.roomName;
+						temporaryMessage['customDeviceName'] = this.deviceNameValue;
+						temporaryMessage['deviceName'] = this.deviceName;
+						this.changeBeforeAddDeviceMessage(temporaryMessage);
+						this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
+					} else {
+						this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' });
+					};	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' })
+				})
+			},
+			
 			
 			// 解绑设备点击事件
 			unbindDeviceClickEvent () {
@@ -198,17 +276,45 @@
 				this.unbindDeviceShow = false
 			},
 			
+			// 删除事件
+			deleteEvent (deviceId ) {
+				this.showLoadingHint = true;
+				this.infoText = '删除中...';
+				deleteDetectionAlarmSettings({deviceId}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '删除成功',
+							type: 'success',
+							position: 'bottom'
+						})
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 解绑设备确定事件
 			unbindDeviceSureEvent () {
-				this.unbindDeviceShow = false
+				this.unbindDeviceShow = false;
+				this.deleteEvent(this.beforeAddBodyDetectionDeviceMessage.deviceId)
 			},
 			
 			// 保存事件
 			saveEvent () {
-				this.$refs.uToast.show({
-					title: '保存成功!',
-					type: 'error'
-				})
+				this.updateRadarSet()
 			},
 			
 			// 网络状态点击事件

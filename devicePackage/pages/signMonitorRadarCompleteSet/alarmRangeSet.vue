@@ -1,6 +1,7 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<y-toast ref="ytoast"></y-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" title="报警范围设置" @backClick="backTo">
@@ -13,7 +14,7 @@
 						<text>心率异常报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="personRetentionAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="heartRateAbnormalAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 				<view class="person-retention-alarm-time-box">
@@ -21,33 +22,33 @@
 						<view class="person-retention-alarm-time-left">
 							<text>监测对象正常状况下的心率</text>
 						</view>
-						<view class="person-retention-alarm-time-right" @click="personRetentionAlarmTimeCustomEvent">
+						<view class="person-retention-alarm-time-right" @click="heartRateAbnormalAlarmTimeCustomEvent">
 							<text>自定义</text>
 						</view>
 					</view>
 					<view class="person-retention-alarm-time-bottom">
 						<view class="retention-time-list-box">
-							<view class="retention-time-list" v-for="(item,index) in retentionTimeList" :key="index">
-								<view class="retention-time-list-top" :class="{'retentionTimeStyle' : retentionTimeIndex == index }" @click="retentionTimeClickEvent(item,index)">
+							<view class="retention-time-list" v-for="(item,index) in heartRateTimeList" :key="index">
+								<view class="retention-time-list-top" :class="{'retentionTimeStyle' : heartRateTimeIndex == index }" @click="heartRateTimeClickEvent(item,index)">
 									<text>{{ item }}</text>
 								</view>
 								<view class="retention-time-list-bottom">
-									<text v-if="index == 0">50-100次/分</text>
-									<text v-if="index == 1">60-100次/分</text>
-									<text v-if="index == 2">60-110次/分</text>
+									<text v-if="index == 0">{{`${heartRateValueList[0]}次/分钟`}}</text>
+									<text v-if="index == 1">{{`${heartRateValueList[1]}次/分钟`}}</text>
+									<text v-if="index == 2">{{`${heartRateValueList[2]}次/分钟`}}</text>
 								</view>
 							</view>
 						</view>	
-						<view class="time-input" v-if="retentionTimeInputShow">
+						<view class="time-input" v-if="heartRateInputShow">
 							<u-form ref="uForm">
 								<u-form-item>
-									<u-input v-model="retentionTimeMinValue" height="50" placeholder="请输入" type="number" />
+									<u-input v-model="heartRateMinValue" height="50" placeholder="请输入" type="number" />
 								</u-form-item>
 							</u-form>
 							<text>-</text>
 							<u-form ref="uForm">
 								<u-form-item>
-									<u-input v-model="retentionTimeMaxValue" height="50" placeholder="请输入" type="number" />
+									<u-input v-model="heartRateMaxValue" height="50" placeholder="请输入" type="number" />
 								</u-form-item>
 							</u-form>
 							<text>次/分钟</text>
@@ -59,7 +60,7 @@
 						<text>呼吸异常报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="noPersonAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="breatheAbnormalAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 				<view class="person-retention-alarm-time-box">
@@ -67,36 +68,36 @@
 						<view class="person-retention-alarm-time-left">
 							<text>监测对象正常状况下的呼吸</text>
 						</view>
-						<view class="person-retention-alarm-time-right" @click="noPersonAlarmTimeCustomEvent">
+						<view class="person-retention-alarm-time-right" @click="breatheAbnormalAlarmTimeCustomEvent">
 							<text>自定义</text>
 						</view>
 					</view>
 					<view class="person-retention-alarm-time-bottom">
 						<view class="retention-time-list-box">
-							<view class="retention-time-list" v-for="(item,index) in noPersonTimeList" :key="index">
-								<view class="retention-time-list-top" :class="{'retentionTimeStyle' : noPersonTimeIndex == index }"  @click="noPersonTimeClickEvent(item,index)">
+							<view class="retention-time-list" v-for="(item,index) in breatheTimeList" :key="index">
+								<view class="retention-time-list-top" :class="{'retentionTimeStyle' : breatheTimeIndex == index }"  @click="breatheTimeClickEvent(item,index)">
 									<text>{{ item }}</text>
 								</view>
 								<view class="retention-time-list-bottom">
-									<text v-if="index == 0">14-24次/分</text>
-									<text v-if="index == 1">16-24次/分</text>
-									<text v-if="index == 2">16-26次/分</text>
+									<text v-if="index == 0">{{`${breatheValueList[0]}次/分钟`}}</text>
+									<text v-if="index == 1">{{`${breatheValueList[1]}次/分钟`}}</text>
+									<text v-if="index == 2">{{`${breatheValueList[2]}次/分钟`}}</text>
 								</view>
 							</view>
 						</view>	
-						<view class="time-input" v-if="noPersonTimeInputShow">
+						<view class="time-input" v-if="breatheInputShow">
 							<u-form ref="uForm">
 								<u-form-item>
-									<u-input v-model="noPersonTimeMinValue" height="50" placeholder="请输入" type="number" />
+									<u-input v-model="breatheMinValue" height="50" placeholder="请输入" type="number" />
 								</u-form-item>
 							</u-form>
 							<text>-</text>
 							<u-form ref="uForm">
 								<u-form-item>
-									<u-input v-model="noPersonTimeMaxValue" height="50" placeholder="请输入" type="number" />
+									<u-input v-model="breatheMaxValue" height="50" placeholder="请输入" type="number" />
 								</u-form-item>
 							</u-form>
-							<text>分钟</text>
+							<text>次/分钟</text>
 						</view>
 					</view>
 				</view>
@@ -126,7 +127,7 @@
 				</view>
 			</view>
 			<view class="bottom-btn">
-				<text>保存</text>
+				<text @click="saveEvent">保存</text>
 			</view>
 		</view>
 	</view>
@@ -138,36 +139,55 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import yToast from "@/components/y-toast/y-toast.vue"
 	export default {
 		components: {
-			navBar
+			navBar,
+			yToast
 		},
 		data() {
 			return {
 				infoText: '',
-				personRetentionAlarmValue: false,
 				showLoadingHint: false,
-				retentionTimeMinValue: '',
-				retentionTimeMaxValue: '',
-				noPersonTimeMinValue: '',
-				noPersonTimeMaxValue: '',
-				retentionTimeList: ['较缓','正常','较急'],
-				retentionTimeIndex : null,
-				retentionTimeInputShow: false,
-				noPersonAlarmValue: false,
-				noPersonTimeList: ['较缓','正常','较急'],
-				noPersonTimeIndex : null,
-				noPersonTimeInputShow: false,
+				heartRateAbnormalAlarmValue: false,
+				heartRateMinValue: '',
+				heartRateMaxValue: '',
+				heartRateTimeList: ['较缓','正常','较急'],
+				heartRateValueList: ['50-100','60-100','60-110'],
+				heartRateTimeIndex : null,
+				heartRateInputShow: false,
+				breatheAbnormalAlarmValue: false,
+				breatheMinValue: '',
+				breatheMaxValue: '',
+				breatheTimeList: ['较缓','正常','较急'],
+				breatheValueList: ['14-24','16-24','16-26'],
+				breatheTimeIndex : null,
+				breatheInputShow: false,
 				kinesiaDetectionAlarmValue: false,
 				situpDetectionAlarmValue: false,
 				leaveBedDetectionAlarmValue: false
 			}
 		},
-		onReady() {
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			this.receiveData = JSON.parse(options.transmitData);
+			// 回显报警范围信息
+			this.heartRateAbnormalAlarmValue = this.receiveData['heart'];
+			this.breatheAbnormalAlarmValue = this.receiveData['breathe'];
+			this.kinesiaDetectionAlarmValue = this.receiveData['move'];
+			this.situpDetectionAlarmValue = this.receiveData['sitUp'];
+			this.leaveBedDetectionAlarmValue = this.receiveData['outBed'];
+			let heartRateRanageArr = this.receiveData['heartRange'].split('-');
+			this.heartRateMinValue = heartRateRanageArr.length > 0 ? heartRateRanageArr[0] : '';
+			this.heartRateMaxValue = heartRateRanageArr.length > 0 ? heartRateRanageArr[1] : '';
+			let breatheRanageArr = this.receiveData['breatheRange'].split('-');
+			this.breatheMinValue = breatheRanageArr.length > 0 ? breatheRanageArr[0] : '';
+			this.breatheMaxValue = breatheRanageArr.length > 0 ? breatheRanageArr[1] : ''
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'beforeAddSignMonitorRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -186,27 +206,105 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeBeforeAddSignMonitorRadarCompleteSet'
 			]),
 			
-			// 滞留时间自定义点击事件
-			personRetentionAlarmTimeCustomEvent () {
-				this.retentionTimeInputShow = !this.retentionTimeInputShow
+			// 心率次数点击事件
+			heartRateTimeClickEvent(item,index) {
+				this.heartRateTimeIndex = index;
+				let heartValue = this.heartRateValueList[index].split('-');
+				this.heartRateMinValue = heartValue[0];
+				this.heartRateMaxValue = heartValue[1]
 			},
 			
-			// 滞留时间点击事件
-			retentionTimeClickEvent(item,index) {
-				this.retentionTimeIndex = index
+			// 心率自定义点击事件
+			heartRateAbnormalAlarmTimeCustomEvent () {
+				this.heartRateInputShow = !this.heartRateInputShow
 			},
 			
-			// 无人时间自定义点击事件
-			noPersonAlarmTimeCustomEvent () {
-				this.noPersonTimeInputShow = !this.noPersonTimeInputShow
+			// 呼吸次数点击事件
+			breatheTimeClickEvent(item,index) {
+				this.breatheTimeIndex = index;
+				let breatheValue = this.breatheValueList[index].split('-');
+				this.breatheMinValue = breatheValue[0];
+				this.breatheMaxValue = breatheValue[1]
 			},
 			
-			// 无人时间点击事件
-			noPersonTimeClickEvent(item,index) {
-				this.nopersonTimeIndex = index
+			// 呼吸自定义点击事件
+			breatheAbnormalAlarmTimeCustomEvent () {
+				this.breatheInputShow = !this.breatheInputShow
+			},
+			
+			// 保存事件
+			saveEvent () {
+				if (this.heartRateAbnormalAlarmValue) {
+					if (!this.heartRateMinValue) {
+						this.$refs.uToast.show({
+							title: '心率最小值不能为空,请重新输入!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					};
+					if (!this.heartRateMaxValue) {
+						this.$refs.uToast.show({
+							title: '心率最大值不能为空,请重新输入!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					};
+					if (this.heartRateMaxValue < this.heartRateMinValue) {
+						this.$refs.uToast.show({
+							title: '心率最大值不能小于最小值,请重新输入!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					}
+				};
+				if (this.breatheAbnormalAlarmValue) {
+					if (!this.breatheMinValue) {
+						this.$refs.uToast.show({
+							title: '呼吸最小值不能为空,请重新输入!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					};
+					if (!this.breatheMaxValue) {
+						this.$refs.uToast.show({
+							title: '呼吸最大值不能为空,请重新输入!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					};
+					if (this.breatheMaxValue < this.breatheMinValue) {
+						this.$refs.uToast.show({
+							title: '呼吸最大值不能小于最小值,请重新输入!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					}
+				};
+				this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
+				// 保存进入设备设置界面的报警范围信息
+				let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+				temporaryMessage['heart'] = this.heartRateAbnormalAlarmValue;
+				temporaryMessage['breathe'] = this.breatheAbnormalAlarmValue;
+				temporaryMessage['move'] = this.kinesiaDetectionAlarmValue;
+				temporaryMessage['sitUp'] = this.situpDetectionAlarmValue;
+				temporaryMessage['outBed'] = this.leaveBedDetectionAlarmValue;
+				temporaryMessage['isSaveAlarmRanageInfo'] = true;
+				temporaryMessage['heartRange'] = this.heartRateAbnormalAlarmValue ? `${this.heartRateMinValue}-${this.heartRateMaxValue}` : '';
+				temporaryMessage['breatheRange'] = this.breatheAbnormalAlarmValue ? `${this.breatheMinValue}-${this.breatheMaxValue}` : '';
+				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
+				uni.redirectTo({
+					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData='+1
+				})
 			},
 			
 			backTo () {

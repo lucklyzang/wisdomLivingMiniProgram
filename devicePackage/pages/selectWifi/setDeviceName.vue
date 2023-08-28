@@ -57,16 +57,35 @@
 		},
 		onLoad() {
 			// 回显自定义过的设备名称
-			if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
-				let temporaryMessage = this.beforeAddDeviceMessage;
-				this.deviceNameValue = this.beforeAddDeviceMessage.customDeviceName
+			// 跌倒监测雷达
+			// if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
+			// 	let temporaryMessage = this.beforeAddDeviceMessage;
+			// 	this.deviceNameValue = this.beforeAddDeviceMessage.customDeviceName
+			// };
+			// 人体检测雷达
+			// if (JSON.stringify(this.beforeAddBodyDetectionDeviceMessage) != '{}') {
+			// 	let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+			// 	this.deviceNameValue = this.beforeAddBodyDetectionDeviceMessage.customDeviceName
+			// };
+			// 人员存在感知雷达
+			// if (JSON.stringify(this.beforeAddExistPerceptionRadarCompleteSet) != '{}') {
+			// 	let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+			// 	this.deviceNameValue = this.beforeAddExistPerceptionRadarCompleteSet.customDeviceName
+			// };
+			// 体征监测雷达
+			if (JSON.stringify(this.beforeAddSignMonitorRadarCompleteSet) != '{}') {
+				let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+				this.deviceNameValue = this.beforeAddSignMonitorRadarCompleteSet.customDeviceName
 			}
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
 				'familyId',
-				'beforeAddDeviceMessage'
+				'beforeAddDeviceMessage',
+				'beforeAddBodyDetectionDeviceMessage',
+				'beforeAddExistPerceptionRadarCompleteSet',
+				'beforeAddSignMonitorRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -85,7 +104,10 @@
 			...mapMutations([
 				'changeOverDueWay',
 				'changeEnterDeviceSetPageSource',
-				'changeBeforeAddDeviceMessage'
+				'changeBeforeAddDeviceMessage',
+				'changeBeforeAddBodyDetectionDeviceMessage',
+				'changeBeforeAddExistPerceptionRadarCompleteSet',
+				'changeBeforeAddSignMonitorRadarCompleteSet'
 			]),
 			
 			// 开始体验事件
@@ -98,13 +120,35 @@
 					});
 					return
 				};
-				let temporaryMessage = this.beforeAddDeviceMessage;
+				// 绑定跌倒监测雷达
+				// let temporaryMessage = this.beforeAddDeviceMessage;
+				// temporaryMessage['customDeviceName'] = this.deviceNameValue;
+				// this.changeBeforeAddDeviceMessage(temporaryMessage);
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+				// });
+				// 绑定人体检测雷达
+				// let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+				// temporaryMessage['customDeviceName'] = this.deviceNameValue;
+				// this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
+				// });
+				// 绑定人员存在感知雷达
+				// let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+				// temporaryMessage['customDeviceName'] = this.deviceNameValue;
+				// this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
+				// });
+				// 绑定体征监测雷达
+				let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
 				temporaryMessage['customDeviceName'] = this.deviceNameValue;
-				this.changeBeforeAddDeviceMessage(temporaryMessage);
-				this.changeEnterDeviceSetPageSource('/devicePackage/pages/selectWifi/setDeviceName');
+				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 				uni.redirectTo({
-					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
-				})
+					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
+				});
+				this.changeEnterDeviceSetPageSource('/devicePackage/pages/selectWifi/setDeviceName');
 			},
 			
 			// 设备绑定用户

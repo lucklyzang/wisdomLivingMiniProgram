@@ -1,6 +1,7 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<y-toast ref="ytoast"></y-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" title="报警范围设置" @backClick="backTo">
@@ -27,8 +28,8 @@
 					</view>
 					<view class="person-retention-alarm-time-bottom">
 						<view class="retention-time-list-box">
-							<view class="retention-time-list" :class="{'retentionTimeStyle': retentionTimeIndex === index }" v-for="(item,index) in retentionTimeList" :key="index" @click="retentionTimeClickEvent(item,index)">
-								<text>{{ item }}</text>
+							<view class="retention-time-list" :class="{'retentionTimeStyle': retentionTimeIndex == index }" v-for="(item,index) in retentionTimeList" :key="index" @click="retentionTimeClickEvent(item,index)">
+								<text>{{ `${item}分钟` }}</text>
 							</view>
 						</view>	
 						<view class="time-input" v-if="retentionTimeInputShow">
@@ -60,14 +61,14 @@
 					</view>
 					<view class="person-retention-alarm-time-bottom">
 						<view class="retention-time-list-box">
-							<view class="retention-time-list" :class="{'retentionTimeStyle': noPersonTimeIndex === index }" v-for="(item,index) in noPersonTimeList" :key="index" @click="noPersonTimeClickEvent(item,index)">
-								<text>{{ item }}</text>
+							<view class="retention-time-list" :class="{'retentionTimeStyle': noPersonTimeIndex == index }" v-for="(item,index) in noPersonTimeList" :key="index" @click="noPersonTimeClickEvent(item,index)">
+								<text>{{ `${item}分钟` }}</text>
 							</view>
 						</view>	
 						<view class="time-input" v-if="noPersonTimeInputShow">
 							<u-form ref="uForm">
 								<u-form-item>
-									<u-input v-model="retentionTimeValue" height="50" placeholder="请输入" type="number" />
+									<u-input v-model="noPersonTimeValue" height="50" placeholder="请输入" type="number" />
 								</u-form-item>
 							</u-form>
 							<text>分钟</text>
@@ -92,7 +93,7 @@
 				</view>
 			</view>
 			<view class="bottom-btn">
-				<text>保存</text>
+				<text @click="saveEvent">保存</text>
 			</view>
 		</view>
 	</view>
@@ -104,32 +105,46 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import yToast from "@/components/y-toast/y-toast.vue"
 	export default {
 		components: {
-			navBar
+			navBar,
+			yToast
 		},
 		data() {
 			return {
 				infoText: '',
 				personRetentionAlarmValue: false,
 				showLoadingHint: false,
+				receiveData: {},
 				retentionTimeValue: '',
-				retentionTimeList: ['1分钟','5分钟','10分钟','30分钟'],
+				retentionTimeList: ['1','5','10','30'],
 				retentionTimeIndex : null,
 				retentionTimeInputShow: false,
 				noPersonAlarmValue: false,
-				noPersonTimeList: ['1分钟','5分钟','10分钟','30分钟'],
+				noPersonTimeValue: '',
+				noPersonTimeList: ['1','5','10','30'],
 				noPersonTimeIndex : null,
 				noPersonTimeInputShow: false,
 				personEnterAlarmValue: false,
 				personLeaveAlarmValue: false
 			}
 		},
-		onReady() {
+		onLoad(options) {
+			if (options.transmitData == '{}') { return };
+			this.receiveData = JSON.parse(options.transmitData);
+			// 回显报警范围信息
+			this.personEnterAlarmValue = this.receiveData['enter'];
+			this.personLeaveAlarmValue = this.receiveData['leave'];
+			this.noPersonAlarmValue = this.receiveData['nobody'];
+			this.noPersonTimeValue = this.receiveData['nobodyTime'];
+			this.personRetentionAlarmValue = this.receiveData['stop'];
+			this.retentionTimeValue = this.receiveData['stopTime'];
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'beforeAddExistPerceptionRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -148,7 +163,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeBeforeAddExistPerceptionRadarCompleteSet'
 			]),
 			
 			// 滞留时间自定义点击事件
@@ -158,7 +174,8 @@
 			
 			// 滞留时间点击事件
 			retentionTimeClickEvent(item,index) {
-				this.retentionTimeIndex = index
+				this.retentionTimeIndex = index;
+				this.retentionTimeValue = item
 			},
 			
 			// 无人时间自定义点击事件
@@ -169,10 +186,51 @@
 			// 无人时间点击事件
 			noPersonTimeClickEvent(item,index) {
 				this.nopersonTimeIndex = index;
-				console.log(this.nopersonTimeIndex)
+				this.noPersonTimeValue = item
+			},
+			
+			// 保存事件
+			saveEvent () {
+				if (this.personRetentionAlarmValue) {
+					if (!this.retentionTimeValue) {
+						this.$refs.uToast.show({
+							title: '人员滞留报警时间不能为空,请重新输入!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					}
+				};
+				if (this.noPersonAlarmValue) {
+					if (!this.noPersonTimeValue) {
+						this.$refs.uToast.show({
+							title: '无人报警时间不能为空,请重新输入!',
+							type: 'error',
+							position: 'bottom'
+						});
+						return
+					}
+				};	
+				this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
+				// 保存进入设备设置界面的报警范围信息
+				let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+				temporaryMessage['enter'] = this.personEnterAlarmValue;
+				temporaryMessage['leave'] = this.personLeaveAlarmValue;
+				temporaryMessage['nobody'] = this.noPersonAlarmValue;
+				temporaryMessage['stop'] = this.personRetentionAlarmValue;
+				temporaryMessage['nobodyTime'] = this.noPersonTimeValue;
+				temporaryMessage['stopTime'] = this.retentionTimeValue;
+				temporaryMessage['isSaveAlarmRanageInfo'] = true;
+				this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+				uni.redirectTo({
+					url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet?transmitData='+1
+				})
 			},
 			
 			backTo () {
+				let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+				temporaryMessage['isSaveAlarmRanageInfo'] = false;
+				this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
 				uni.redirectTo({
 					url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet?transmitData='+1
 				})

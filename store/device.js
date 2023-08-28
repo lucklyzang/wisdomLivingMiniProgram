@@ -10,6 +10,8 @@ export default {
 		familyId: state => state.familyId,
 		beforeAddDeviceMessage: state => state.beforeAddDeviceMessage,
 		beforeAddBodyDetectionDeviceMessage: state => state.beforeAddBodyDetectionDeviceMessage,
+		beforeAddExistPerceptionRadarCompleteSet: state => state.beforeAddExistPerceptionRadarCompleteSet,
+		beforeAddSignMonitorRadarCompleteSet: state => state.beforeAddSignMonitorRadarCompleteSet,
 		roomDetails: state => state.roomDetails
   },
   mutations:{
@@ -38,6 +40,14 @@ export default {
 		// 保存添加人体检测设备前选择的房间和自定义设备名称信息
 		changeBeforeAddBodyDetectionDeviceMessage (state, playLoad) {
 			state.beforeAddBodyDetectionDeviceMessage = playLoad
+		},
+		// 保存添加人员存在感知设备前选择的房间和自定义设备名称信息
+		changeBeforeAddExistPerceptionRadarCompleteSet (state, playLoad) {
+			state.beforeAddExistPerceptionRadarCompleteSet = playLoad
+		},
+		// 保存体征监测设备前选择的房间和自定义设备名称信息
+		changeBeforeAddSignMonitorRadarCompleteSet (state, playLoad) {
+			state.beforeAddSignMonitorRadarCompleteSet = playLoad
 		},
 		// 保存房间详情信息
 		changeRoomDetails (state, playLoad) {

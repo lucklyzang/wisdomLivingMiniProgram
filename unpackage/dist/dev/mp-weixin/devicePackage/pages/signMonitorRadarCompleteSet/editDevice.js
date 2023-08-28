@@ -106,6 +106,9 @@ try {
     uToast: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
     },
+    yToast: function () {
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 772))
+    },
     uForm: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-form/u-form */ "node-modules/uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! uview-ui/components/u-form/u-form.vue */ 691))
     },
@@ -182,6 +185,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _device = __webpack_require__(/*! @/api/device.js */ 347);
+var _user = __webpack_require__(/*! @/api/user.js */ 104);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
@@ -189,9 +194,15 @@ var navBar = function navBar() {
     return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 751));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var yToast = function yToast() {
+  Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 772));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
   components: {
-    navBar: navBar
+    navBar: navBar,
+    yToast: yToast
   },
   data: function data() {
     return {
@@ -201,14 +212,26 @@ var _default = {
       chooseRoomShow: false,
       networkShow: false,
       currentIndex: null,
-      roomList: ['主卧', '客厅', '卫生间', '次卧'],
+      roomList: [],
       deviceNameValue: '',
+      deviceName: '',
+      roomId: '',
+      roomName: '',
+      deviceNumber: '',
       checked: false,
-      showLoadingHint: false
+      showLoadingHint: false,
+      onLine: ''
     };
   },
-  onReady: function onReady() {},
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  onLoad: function onLoad(options) {
+    this.deviceNameValue = this.beforeAddSignMonitorRadarCompleteSet.customDeviceName;
+    this.deviceName = this.beforeAddSignMonitorRadarCompleteSet.deviceName;
+    this.deviceNumber = this.beforeAddSignMonitorRadarCompleteSet.deviceNumber;
+    this.roomId = this.beforeAddSignMonitorRadarCompleteSet.roomId;
+    this.roomName = this.beforeAddSignMonitorRadarCompleteSet.roomName;
+    this.onLine = this.beforeAddSignMonitorRadarCompleteSet.onLine;
+  },
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddSignMonitorRadarCompleteSet', 'familyId'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -217,7 +240,107 @@ var _default = {
     accountName: function accountName() {}
   }),
   mounted: function mounted() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddSignMonitorRadarCompleteSet'])), {}, {
+    // 获取用户房间列表列表
+    queryUserRoomList: function queryUserRoomList(familyId) {
+      var _this = this;
+      this.showLoadingHint = true;
+      this.infoText = '加载中...';
+      this.roomList = [];
+      (0, _user.getUserRoomList)({
+        familyId: familyId
+      }).then(function (res) {
+        _this.chooseRoomShow = true;
+        if (res && res.data.code == 0) {
+          _this.roomList = res.data.data;
+        } else {
+          _this.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this.showLoadingHint = false;
+      }).catch(function (err) {
+        _this.showLoadingHint = false;
+        _this.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 更新雷达设置
+    updateRadarSet: function updateRadarSet() {
+      var _this2 = this;
+      this.showLoadingHint = true;
+      this.infoText = '保存中...';
+      (0, _user.updateUserDeviceBind)({
+        deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
+        userId: this.userInfo.userId,
+        familyId: this.familyId,
+        roomId: this.roomId,
+        customName: this.deviceNameValue
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          var temporaryMessage = _this2.beforeAddSignMonitorRadarCompleteSet;
+          temporaryMessage['roomId'] = _this2.roomId;
+          temporaryMessage['roomName'] = _this2.roomName;
+          temporaryMessage['customDeviceName'] = _this2.deviceNameValue;
+          temporaryMessage['deviceName'] = _this2.deviceName;
+          _this2.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
+          _this2.$refs['ytoast'].show({
+            message: '保存成功!',
+            type: 'success'
+          });
+        } else {
+          _this2.$refs['ytoast'].show({
+            message: '保存失败!',
+            type: 'error'
+          });
+        }
+        ;
+        _this2.showLoadingHint = false;
+      }).catch(function (err) {
+        _this2.showLoadingHint = false;
+        _this2.$refs['ytoast'].show({
+          message: '保存失败!',
+          type: 'error'
+        });
+      });
+    },
+    // 删除事件
+    deleteEvent: function deleteEvent(deviceId) {
+      var _this3 = this;
+      this.showLoadingHint = true;
+      this.infoText = '删除中...';
+      (0, _device.deleteHealthAlarmSettings)({
+        deviceId: deviceId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this3.$refs.uToast.show({
+            title: '删除成功',
+            type: 'success',
+            position: 'bottom'
+          });
+        } else {
+          _this3.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        _this3.showLoadingHint = false;
+      }).catch(function (err) {
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 操作设备点击事件
     operationManualClickEvent: function operationManualClickEvent() {
       uni.redirectTo({
@@ -235,6 +358,7 @@ var _default = {
     // 解绑设备确定事件
     unbindDeviceSureEvent: function unbindDeviceSureEvent() {
       this.unbindDeviceShow = false;
+      this.deleteEvent(this.beforeAddSignMonitorRadarCompleteSet.deviceId);
     },
     // 保存事件
     saveEvent: function saveEvent() {
@@ -253,12 +377,13 @@ var _default = {
     },
     // 房间点击事件
     roomClickEvent: function roomClickEvent() {
-      this.chooseRoomShow = true;
+      this.queryUserRoomList(this.familyId);
     },
     // 房间名称点击事件
     roomNameClickEvent: function roomNameClickEvent(item, index) {
       this.currentIndex = index;
       this.chooseRoomShow = false;
+      this.roomId = item.id, this.roomName = item.name;
     },
     // 房间取消选择事件
     cancelChooseEvent: function cancelChooseEvent() {
@@ -305,5 +430,5 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ })
 
-},[[443,"common/runtime","common/vendor"]]]);
+},[[443,"common/runtime","common/vendor","devicePackage/common/vendor"]]]);
 //# sourceMappingURL=../../../../.sourcemap/mp-weixin/devicePackage/pages/signMonitorRadarCompleteSet/editDevice.js.map

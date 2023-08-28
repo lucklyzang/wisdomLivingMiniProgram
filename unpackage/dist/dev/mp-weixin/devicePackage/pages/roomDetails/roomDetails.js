@@ -193,7 +193,7 @@ var _default = {
     this.roomId = this.roomDetails['roomId'];
     this.deviceList = this.roomDetails['deviceRespVOList'];
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'roomDetails', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'roomDetails', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -202,7 +202,7 @@ var _default = {
     accountName: function accountName() {}
   }),
   mounted: function mounted() {},
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeEnterDeviceSetPageSource', 'changeBeforeAddDeviceMessage', 'changeBeforeAddBodyDetectionDeviceMessage'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeEnterDeviceSetPageSource', 'changeBeforeAddDeviceMessage', 'changeBeforeAddBodyDetectionDeviceMessage', 'changeBeforeAddExistPerceptionRadarCompleteSet', 'changeBeforeAddSignMonitorRadarCompleteSet'])), {}, {
     // 进入设备事件
     // 1-体征雷达，2-存在感知雷达，3-跌倒雷达，4-人体检测雷达
     enterDeviceEvent: function enterDeviceEvent(item) {
@@ -219,12 +219,29 @@ var _default = {
         temporaryMessage['deviceName'] = item.name;
         temporaryMessage['onLine'] = item.onLine;
         this.changeBeforeAddDeviceMessage(temporaryMessage);
-        this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails');
       } else if (item.type == 2) {
         uni.redirectTo({
           url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
         });
+        // 保存进入设备设置界面的设备部分相关信息
+        var _temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+        _temporaryMessage['roomId'] = this.roomId;
+        _temporaryMessage['roomName'] = this.roomDetails['name'];
+        _temporaryMessage['deviceId'] = item.id;
+        _temporaryMessage['customDeviceName'] = item.customName;
+        _temporaryMessage['deviceName'] = item.name;
+        _temporaryMessage['onLine'] = item.onLine;
+        this.changeBeforeAddExistPerceptionRadarCompleteSet(_temporaryMessage);
       } else if (item.type == 1) {
+        // 保存进入设备设置界面的设备部分相关信息
+        var _temporaryMessage2 = this.beforeAddSignMonitorRadarCompleteSet;
+        _temporaryMessage2['roomId'] = item.roomId;
+        _temporaryMessage2['roomName'] = item.roomName;
+        _temporaryMessage2['deviceId'] = item.deviceId;
+        _temporaryMessage2['customDeviceName'] = item.customName;
+        _temporaryMessage2['deviceName'] = item.deviceName;
+        _temporaryMessage2['onLine'] = item.onLine;
+        this.changeBeforeAddSignMonitorRadarCompleteSet(_temporaryMessage2);
         uni.redirectTo({
           url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
         });
@@ -233,15 +250,17 @@ var _default = {
           url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
         });
         // 保存进入设备设置界面的设备部分相关信息
-        var _temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
-        _temporaryMessage['roomId'] = item.roomId;
-        _temporaryMessage['roomName'] = item.roomName;
-        _temporaryMessage['deviceId'] = item.deviceId;
-        _temporaryMessage['customDeviceName'] = item.customName;
-        _temporaryMessage['deviceName'] = item.deviceName;
-        _temporaryMessage['onLine'] = item.onLine;
-        this.changeBeforeAddBodyDetectionDeviceMessage(_temporaryMessage);
+        var _temporaryMessage3 = this.beforeAddBodyDetectionDeviceMessage;
+        _temporaryMessage3['roomId'] = item.roomId;
+        _temporaryMessage3['roomName'] = item.roomName;
+        _temporaryMessage3['deviceId'] = item.deviceId;
+        _temporaryMessage3['customDeviceName'] = item.customName;
+        _temporaryMessage3['deviceName'] = item.deviceName;
+        _temporaryMessage3['onLine'] = item.onLine;
+        this.changeBeforeAddBodyDetectionDeviceMessage(_temporaryMessage3);
       }
+      ;
+      this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails');
     },
     backTo: function backTo() {
       uni.switchTab({

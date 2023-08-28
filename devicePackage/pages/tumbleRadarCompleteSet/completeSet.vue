@@ -364,6 +364,7 @@
 			// 报警方式点击事件
 			alarmMethodEvent (item,index) {
 				this.currentIndex = index;
+				this.acceptAlarmMethod = item;
 				this.cceptAlarmMethodBoxShow = false
 			},
 			

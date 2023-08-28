@@ -198,7 +198,7 @@ var _default = {
   onLoad: function onLoad(object) {
     this.queryUserRoomList(this.familyId);
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'beforeAddDeviceMessage'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -206,7 +206,7 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeEnterAddRoomPageSource', 'changeBeforeAddDeviceMessage'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeEnterAddRoomPageSource', 'changeBeforeAddDeviceMessage', 'changeBeforeAddBodyDetectionDeviceMessage', 'changeBeforeAddExistPerceptionRadarCompleteSet', 'changeBeforeAddSignMonitorRadarCompleteSet', 'changeEnterDeviceSetPageSource'])), {}, {
     // 下一步事件
     stepEvent: function stepEvent() {
       if (this.currentIndex === null) {
@@ -218,10 +218,26 @@ var _default = {
         return;
       }
       ;
-      var temporaryMessage = this.beforeAddDeviceMessage;
+      // 跌倒监测雷达
+      // let temporaryMessage = this.beforeAddDeviceMessage;
+      // temporaryMessage['roomId'] = this.currentRoomId;
+      // temporaryMessage['roomName'] = this.currentRoomName;
+      // this.changeBeforeAddDeviceMessage(temporaryMessage);
+      // 人体检测雷达
+      // let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+      // temporaryMessage['roomId'] = this.currentRoomId;
+      // temporaryMessage['roomName'] = this.currentRoomName;
+      // this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+      // 人员存在感知雷达
+      // let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+      // temporaryMessage['roomId'] = this.currentRoomId;
+      // temporaryMessage['roomName'] = this.currentRoomName;
+      // this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+      // 体征监测雷达
+      var temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
       temporaryMessage['roomId'] = this.currentRoomId;
       temporaryMessage['roomName'] = this.currentRoomName;
-      this.changeBeforeAddDeviceMessage(temporaryMessage);
+      this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
       uni.redirectTo({
         url: '/devicePackage/pages/selectWifi/setDeviceName'
       });
@@ -236,12 +252,31 @@ var _default = {
         if (res && res.data.code == 0) {
           _this.roomList = res.data.data;
           // 回显选过的房间
-          if (JSON.stringify(_this.beforeAddDeviceMessage) != '{}') {
-            var temporaryMessage = _this.beforeAddDeviceMessage;
+          // 跌倒检测雷达
+          // if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
+          // 	let temporaryMessage = this.beforeAddDeviceMessage;
+          // 	this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddDeviceMessage.roomId });
+          // 	this.currentRoomId = this.beforeAddDeviceMessage.roomId;
+          // };
+          // 人体检测雷达
+          // if (JSON.stringify(this.beforeAddBodyDetectionDeviceMessage) != '{}') {
+          // 	let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+          // 	this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddBodyDetectionDeviceMessage.roomId });
+          // 	this.currentRoomId = this.beforeAddBodyDetectionDeviceMessage.roomId;
+          // };
+          // 人员存在感知雷达
+          // if (JSON.stringify(this.beforeAddExistPerceptionRadarCompleteSet) != '{}') {
+          // 	let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+          // 	this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddExistPerceptionRadarCompleteSet.roomId });
+          // 	this.currentRoomId = this.beforeAddExistPerceptionRadarCompleteSet.roomId;
+          // };
+          // 体征监测雷达
+          if (JSON.stringify(_this.beforeAddSignMonitorRadarCompleteSet) != '{}') {
+            var temporaryMessage = _this.beforeAddSignMonitorRadarCompleteSet;
             _this.currentIndex = _this.roomList.findIndex(function (item) {
-              return item.id == _this.beforeAddDeviceMessage.roomId;
+              return item.id == _this.beforeAddSignMonitorRadarCompleteSet.roomId;
             });
-            _this.currentRoomId = _this.beforeAddDeviceMessage.roomId;
+            _this.currentRoomId = _this.beforeAddSignMonitorRadarCompleteSet.roomId;
           }
         } else {
           _this.$refs.uToast.show({

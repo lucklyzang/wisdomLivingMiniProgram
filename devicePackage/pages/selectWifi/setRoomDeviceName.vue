@@ -67,7 +67,10 @@
 			...mapGetters([
 				'userInfo',
 				'familyId',
-				'beforeAddDeviceMessage'
+				'beforeAddDeviceMessage',
+				'beforeAddBodyDetectionDeviceMessage',
+				'beforeAddExistPerceptionRadarCompleteSet',
+				'beforeAddSignMonitorRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -86,7 +89,11 @@
 			...mapMutations([
 				'changeOverDueWay',
 				'changeEnterAddRoomPageSource',
-				'changeBeforeAddDeviceMessage'
+				'changeBeforeAddDeviceMessage',
+				'changeBeforeAddBodyDetectionDeviceMessage',
+				'changeBeforeAddExistPerceptionRadarCompleteSet',
+				'changeBeforeAddSignMonitorRadarCompleteSet',
+				'changeEnterDeviceSetPageSource'
 			]),
 			
 			// 下一步事件
@@ -99,10 +106,26 @@
 					});
 					return
 				};
-				let temporaryMessage = this.beforeAddDeviceMessage;
+				// 跌倒监测雷达
+				// let temporaryMessage = this.beforeAddDeviceMessage;
+				// temporaryMessage['roomId'] = this.currentRoomId;
+				// temporaryMessage['roomName'] = this.currentRoomName;
+				// this.changeBeforeAddDeviceMessage(temporaryMessage);
+				// 人体检测雷达
+				// let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+				// temporaryMessage['roomId'] = this.currentRoomId;
+				// temporaryMessage['roomName'] = this.currentRoomName;
+				// this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+				// 人员存在感知雷达
+				// let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+				// temporaryMessage['roomId'] = this.currentRoomId;
+				// temporaryMessage['roomName'] = this.currentRoomName;
+				// this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+				// 体征监测雷达
+				let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
 				temporaryMessage['roomId'] = this.currentRoomId;
 				temporaryMessage['roomName'] = this.currentRoomName;
-				this.changeBeforeAddDeviceMessage(temporaryMessage);
+				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 				uni.redirectTo({
 					url: '/devicePackage/pages/selectWifi/setDeviceName'
 				})
@@ -115,10 +138,29 @@
 					if ( res && res.data.code == 0) {
 						this.roomList = res.data.data;
 						// 回显选过的房间
-						if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
-							let temporaryMessage = this.beforeAddDeviceMessage;
-							this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddDeviceMessage.roomId });
-							this.currentRoomId = this.beforeAddDeviceMessage.roomId
+						// 跌倒检测雷达
+						// if (JSON.stringify(this.beforeAddDeviceMessage) != '{}') {
+						// 	let temporaryMessage = this.beforeAddDeviceMessage;
+						// 	this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddDeviceMessage.roomId });
+						// 	this.currentRoomId = this.beforeAddDeviceMessage.roomId;
+						// };
+						// 人体检测雷达
+						// if (JSON.stringify(this.beforeAddBodyDetectionDeviceMessage) != '{}') {
+						// 	let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+						// 	this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddBodyDetectionDeviceMessage.roomId });
+						// 	this.currentRoomId = this.beforeAddBodyDetectionDeviceMessage.roomId;
+						// };
+						// 人员存在感知雷达
+						// if (JSON.stringify(this.beforeAddExistPerceptionRadarCompleteSet) != '{}') {
+						// 	let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+						// 	this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddExistPerceptionRadarCompleteSet.roomId });
+						// 	this.currentRoomId = this.beforeAddExistPerceptionRadarCompleteSet.roomId;
+						// };
+						// 体征监测雷达
+						if (JSON.stringify(this.beforeAddSignMonitorRadarCompleteSet) != '{}') {
+							let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+							this.currentIndex = this.roomList.findIndex((item) => { return item.id == this.beforeAddSignMonitorRadarCompleteSet.roomId });
+							this.currentRoomId = this.beforeAddSignMonitorRadarCompleteSet.roomId;
 						}
 					} else {
 						this.$refs.uToast.show({

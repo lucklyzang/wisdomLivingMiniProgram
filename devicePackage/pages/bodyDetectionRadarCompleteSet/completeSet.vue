@@ -52,8 +52,8 @@
 				<view class="top-title">
 					<image :src="existPerceptionRadarPng"></image>
 					<view class="title-text">
-						<text>人体检测雷达</text>
-						<text>客厅</text>
+						<text>{{ beforeAddBodyDetectionDeviceMessage.customDeviceName }}</text>
+						<text>{{ beforeAddBodyDetectionDeviceMessage.roomName }}</text>
 					</view>
 				</view>
 			</view>
@@ -102,9 +102,15 @@
 				infoText: '',
 				currentIndex: null,
 				showLoadingHint: false,
-				alarmRangeValue: '跌倒报警',
-				acceptAlarmMethod: '电话+短信',
+				alarmRangeValue: '',
+				acceptAlarmMethod: '',
+				alarmRangeValueList: [],
 				acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话和短信'],
+				enter: false,
+				leave: false,
+				deviceNumber: '',
+				alarmRangeValueList: [],
+				deviceSetBasicMessage: {},
 				wifiListBoxShow: false,
 				cceptAlarmMethodBoxShow: false,
 				existPerceptionRadarPng: require("@/static/img/exist-perception-radar.png"),
@@ -113,6 +119,7 @@
 			}
 		},
 		onLoad(object) {
+			console.log('数据',this.beforeAddBodyDetectionDeviceMessage);
 			// 获取雷达设置
 			// this.getDetectionAlarmSettings(this.beforeAddBodyDetectionDeviceMessage.deviceId);
 			if (!object.hasOwnProperty('transmitData')) { this.wifiListBoxShow = true; return };
@@ -242,18 +249,6 @@
 						} else {
 							this.leave = false
 						};
-						if (res.data.data.fall) {
-							this.fall = true;
-							this.alarmRangeValueList.push('跌倒报警')
-						} else {
-							this.fall = false;
-						};
-						if (res.data.data.getUp) {
-							this.getUp = true;
-							this.alarmRangeValueList.push('起身报警')
-						} else {
-							this.getUp = false
-						};
 						this.alarmRangeValue = this.alarmRangeValueList.join("、");
 						this.deviceSetBasicMessage = res.data.data;
 						// 回显保存的报警范围设置信息
@@ -279,6 +274,25 @@
 				})
 			},
 			
+			// 回显报警范围设置页面设置的报警范围信息
+			echoAlarmRanageMessage () {
+				this.alarmRangeValueList = [];
+				if (this.beforeAddBodyDetectionDeviceMessage.enter) {
+					this.enter = true;
+					this.alarmRangeValueList.push('人员进入报警')
+				} else {
+					this.enter = false
+				};
+				if (this.beforeAddBodyDetectionDeviceMessage.leave) {
+					this.leave = true;
+					this.alarmRangeValueList.push('人员离开报警')
+				} else {
+					this.leave = false
+				};
+				this.alarmRangeValue = this.alarmRangeValueList.join("、");
+				this.deviceSetBasicMessage = this.beforeAddBodyDetectionDeviceMessage
+			},
+			
 			// 拒绝事件
 			refuseEvent () {
 				this.backTo()
@@ -298,6 +312,9 @@
 			
 			// 更多点击事件
 			moreEvent () {
+				let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+				temporaryMessage['deviceNumber'] = this.deviceNumber;
+				this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
 				uni.redirectTo({
 					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/editDevice'
 				})
@@ -306,8 +323,13 @@
 			
 			// 报警范围点击事件
 			alarmRangeEvent () {
+				let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+				temporaryMessage['isSaveAlarmRanageInfo'] = false;
+				this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+				// 传递报警范围信息
+				let mynavData = JSON.stringify(this.deviceSetBasicMessage);
 				uni.redirectTo({
-					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/alarmRangeSet'
+					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/alarmRangeSet?transmitData='+mynavData
 				})
 			},
 			
@@ -319,6 +341,7 @@
 			// 报警方式点击事件
 			alarmMethodEvent (item,index) {
 				this.currentIndex = index;
+				this.acceptAlarmMethod = item;
 				this.cceptAlarmMethodBoxShow = false
 			},
 			

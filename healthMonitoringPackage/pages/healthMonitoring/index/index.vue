@@ -1,6 +1,7 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
+		<y-toast ref="ytoast"></y-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" title="编辑数据卡片">
@@ -16,62 +17,15 @@
 					<text>点击右侧按钮即可对场景进行删除、复制和排序</text>
 				</view>
 				<view class="show-list-wrapper">
-					<view class="show-list">
+					<u-empty text="暂无数据" v-if="isShowHomeNoData"></u-empty>
+					<view class="show-list" v-else v-for="(item,index) in showHomeList" :key="index">
 						<view class="list-left">
-							<image :src="sleepIconPng"></image>
-							<text class="scene">睡眠</text>
-							<text class="scene-box">-</text>
-						</view>
-						<view class="list-right">
-							<view class="delete-box"><image :src="deleteIconPng"></image></view>
-							<view class="copy-box"><image :src="copyIconPng"></image></view>
-							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
-						</view>
-					</view>
-					<view class="show-list">
-						<view class="list-left">
-							<image :src="sleepIconPng"></image>
-							<text class="scene">睡眠</text>
+							<image :src="showImage(item.type)"></image>
+							<text class="scene">{{ item.name }}</text>
 							<text class="scene-box">-场景二</text>
 						</view>
 						<view class="list-right">
-							<view class="delete-box"><image :src="deleteIconPng"></image></view>
-							<view class="copy-box"><image :src="copyIconPng"></image></view>
-							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
-						</view>
-					</view>
-					<view class="show-list">
-						<view class="list-left">
-							<image :src="toiletIconPng"></image>
-							<text class="scene">入厕</text>
-							<text class="scene-box"></text>
-						</view>
-						<view class="list-right">
-							<view class="delete-box"><image :src="deleteIconPng"></image></view>
-							<view class="copy-box"><image :src="copyIconPng"></image></view>
-							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
-						</view>
-					</view>
-					<view class="show-list">
-						<view class="list-left">
-							<image :src="tumbleIconPng"></image>
-							<text class="scene">跌倒</text>
-							<text class="scene-box"></text>
-						</view>
-						<view class="list-right">
-							<view class="delete-box"><image :src="deleteIconPng"></image></view>
-							<view class="copy-box"><image :src="copyIconPng"></image></view>
-							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
-						</view>
-					</view>
-					<view class="show-list">
-						<view class="list-left">
-							<image :src="leaveHomeIconPng"></image>
-							<text class="scene">离家和回家</text>
-							<text class="scene-box"></text>
-						</view>
-						<view class="list-right">
-							<view class="delete-box"><image :src="deleteIconPng"></image></view>
+							<view class="delete-box" @click="deleteEvent(item.id)" v-if="item.mode == 1"><image :src="deleteIconPng"></image></view>
 							<view class="copy-box"><image :src="copyIconPng"></image></view>
 							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
 						</view>
@@ -83,16 +37,17 @@
 					<text>不显示在首页</text>
 				</view>
 				<view class="show-list-wrapper">
-					<view class="show-list">
+					<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
+					<view class="show-list" v-else v-for="(item,index) in noShowHomeList" :key="index">
 						<view class="list-left">
-							<image :src="sleepIconPng"></image>
-							<text class="scene">睡眠</text>
-							<text class="scene-box">-</text>
+							<image :src="showImage(item.type)"></image>
+							<text class="scene">{{ item.name }}</text>
+							<text class="scene-box">-场景二</text>
 						</view>
 						<view class="list-right">
-							<view class="delete-box"><image :src="sleepIconPng"></image></view>
-							<view class="copy-box"><image :src="sleepIconPng"></image></view>
-							<view class="move-box"><image :src="sleepIconPng"></image></view>
+							<view class="delete-box"  @click="deleteEvent(item.id)" v-if="item.mode == 1"><image :src="deleteIconPng"></image></view>
+							<view class="copy-box"><image :src="copyIconPng"></image></view>
+							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
 						</view>
 					</view>
 				</view>
@@ -111,15 +66,22 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import yToast from "@/components/y-toast/y-toast.vue"
+	import { getHomePageList, deleteHomePage, saveOrUpdateHomePage } from '@/api/home.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
-			navBar
+			navBar,
+			yToast
 		},
 		data() {
 			return {
 				infoText: '',
 				showLoadingHint: false,
+				isShowHomeNoData: false,
+				isShowNoHomeNoData: false,
+				showHomeList: [],
+				noShowHomeList: [],
 				sleepIconPng: require("@/static/img/sleep-icon.png"),
 				toiletIconPng: require("@/static/img/toilet-icon.png"),
 				tumbleIconPng: require("@/static/img/tumble-icon.png"),
@@ -129,11 +91,13 @@
 				menuMoveIconPng: require("@/static/img/menu-move-icon.png")
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.queryHomePageList(this.familyId)
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId'
 			]),
 			userName() {
 			},
@@ -148,8 +112,6 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay'
@@ -161,8 +123,158 @@
 				})
 			},
 			
+			showImage (num) {
+				if (num == 0) {
+					return this.sleepIconPng
+				} else if (num == 1) {
+					return this.toiletIconPng
+				} else if (num == 2) {
+					return this.tumbleIconPng
+				} else if (num == 3) {
+					return this.leaveHomeIconPng
+				}
+			},
+			
+			// 获取首页配置列表
+			queryHomePageList (familyId) {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.showHomeList = [];
+				this.noShowHomeList = [];
+				getHomePageList({familyId}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.showHomeList = res.data.data.filter((item) => { return item.status == 0 });
+						if (this.showHomeList.length == 0) {
+							this.isShowHomeNoData = true
+						} else {
+							this.isShowHomeNoData = false
+						};
+						this.noShowHomeList = res.data.data.filter((item) => { return item.status == 1 });
+						if (this.noShowHomeList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 创建或更新首页配置列表
+			saveOrUpdateHomePageEvent () {
+				this.showLoadingHint = true;
+				this.infoText = '保存中...';
+				this.familyList = [];
+				saveOrUpdateHomePage([{
+					userId: this.userInfo.userId,
+					familyId: this.familyId,
+					name: '',
+					type: "",
+					status: "",
+					sort: "",
+					mold: "",
+					devices: ""
+				}]).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.queryHomePageList(this.familyId);
+						this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' })
+					} else {
+						this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' })
+					}	
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' })
+				})
+			},
+			
+			// 删除首页数据卡片事件
+			deleteEvent (id) {
+				this.showLoadingHint = true;
+				this.infoText = '删除中...';
+				deleteHomePage({id}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.$refs.uToast.show({
+							title: '删除成功',
+							type: 'success',
+							position: 'bottom'
+						});
+						this.queryHomePageList(this.familyId)
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			
+			// 数据类型转换
+			dataTypeTransition (num) {
+				switch(num) {
+					case '睡眠' :
+						return 0
+						break;
+					case '入厕' :
+						return 1
+						break;
+					case '跌倒' :
+						return 2
+						break;
+					case '离/回家' :
+						return 3
+						break
+				}
+			},
+			
+			// 数据类型转换文本
+			dataTypeTransitionText(num) {
+				let temporaryNum = num.toString();
+				switch(temporaryNum) {
+					case 0 :
+						return '睡眠'
+						break;
+					case 1 :
+						return '入厕'
+						break;
+					case 2 :
+						return '跌倒'
+						break;
+					case 3 :
+						return '离/回家'
+						break
+				}
+			},
+			
 			// 保存事件
-			saveEvent () {}
+			saveEvent () {
+				this.saveOrUpdateHomePageEvent()
+			}
 		}
 	}
 </script>
@@ -220,6 +332,14 @@
 					}
 				};
 				.show-list-wrapper {
+					min-height: 200px;
+					position: relative;
+					::v-deep .u-empty {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%,-50%)
+					};
 					.show-list {
 						display: flex;
 						padding: 0 6px;
@@ -287,7 +407,18 @@
 					}
 				}
 			};
-			.no-show-home-content {}
+			.no-show-home-content {
+				.show-title {
+					display: flex;
+					flex-direction: column;
+					>text {
+						&:first-child {
+							font-size: 18px;
+							color: #101010
+						}
+					}
+				}
+			}
 		};
 		.bottom-area {
 			background: #f5f5f5;

@@ -61,7 +61,9 @@
 				'userInfo',
 				'roomDetails',
 				'beforeAddDeviceMessage',
-				'beforeAddBodyDetectionDeviceMessage'
+				'beforeAddBodyDetectionDeviceMessage',
+				'beforeAddExistPerceptionRadarCompleteSet',
+				'beforeAddSignMonitorRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -83,7 +85,9 @@
 				'changeOverDueWay',
 				'changeEnterDeviceSetPageSource',
 				'changeBeforeAddDeviceMessage',
-				'changeBeforeAddBodyDetectionDeviceMessage'
+				'changeBeforeAddBodyDetectionDeviceMessage',
+				'changeBeforeAddExistPerceptionRadarCompleteSet',
+				'changeBeforeAddSignMonitorRadarCompleteSet'
 			]),
 			
 			// 进入设备事件
@@ -102,12 +106,29 @@
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddDeviceMessage(temporaryMessage);
-					this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails')
 				} else if (item.type == 2) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
-					})
+					});
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+					temporaryMessage['roomId'] = this.roomId;
+					temporaryMessage['roomName'] = this.roomDetails['name'];
+					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['customDeviceName'] = item.customName;
+					temporaryMessage['deviceName'] = item.name;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
 				} else if (item.type == 1) {
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['roomName'] = item.roomName;
+					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['customDeviceName'] = item.customName;
+					temporaryMessage['deviceName'] = item.deviceName;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 					uni.redirectTo({
 						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
 					})
@@ -124,7 +145,8 @@
 					temporaryMessage['deviceName'] = item.deviceName;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
-				}
+				};
+				this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails')
 			},
 			
 			backTo () {

@@ -2216,7 +2216,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -9259,7 +9259,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -9280,14 +9280,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9383,7 +9383,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -11529,6 +11529,12 @@ var _default = {
     beforeAddBodyDetectionDeviceMessage: function beforeAddBodyDetectionDeviceMessage(state) {
       return state.beforeAddBodyDetectionDeviceMessage;
     },
+    beforeAddExistPerceptionRadarCompleteSet: function beforeAddExistPerceptionRadarCompleteSet(state) {
+      return state.beforeAddExistPerceptionRadarCompleteSet;
+    },
+    beforeAddSignMonitorRadarCompleteSet: function beforeAddSignMonitorRadarCompleteSet(state) {
+      return state.beforeAddSignMonitorRadarCompleteSet;
+    },
     roomDetails: function roomDetails(state) {
       return state.roomDetails;
     }
@@ -11559,6 +11565,14 @@ var _default = {
     // 保存添加人体检测设备前选择的房间和自定义设备名称信息
     changeBeforeAddBodyDetectionDeviceMessage: function changeBeforeAddBodyDetectionDeviceMessage(state, playLoad) {
       state.beforeAddBodyDetectionDeviceMessage = playLoad;
+    },
+    // 保存添加人员存在感知设备前选择的房间和自定义设备名称信息
+    changeBeforeAddExistPerceptionRadarCompleteSet: function changeBeforeAddExistPerceptionRadarCompleteSet(state, playLoad) {
+      state.beforeAddExistPerceptionRadarCompleteSet = playLoad;
+    },
+    // 保存体征监测设备前选择的房间和自定义设备名称信息
+    changeBeforeAddSignMonitorRadarCompleteSet: function changeBeforeAddSignMonitorRadarCompleteSet(state, playLoad) {
+      state.beforeAddSignMonitorRadarCompleteSet = playLoad;
     },
     // 保存房间详情信息
     changeRoomDetails: function changeRoomDetails(state, playLoad) {
@@ -11616,6 +11630,8 @@ function getDefaultDeviceState() {
     familyId: '',
     beforeAddDeviceMessage: {},
     beforeAddBodyDetectionDeviceMessage: {},
+    beforeAddExistPerceptionRadarCompleteSet: {},
+    beforeAddSignMonitorRadarCompleteSet: {},
     roomDetails: {}
   };
 }
@@ -14141,7 +14157,7 @@ function _extends() {
 var formatRegExp = /%[sdj%]/g;
 var warning = function warning() {}; // don't print warning message when in production env or node runtime
 
-if (typeof process !== 'undefined' && Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}) && "development" !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
+if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
   warning = function warning(type, errors) {
     if (typeof console !== 'undefined' && console.warn) {
       if (errors.every(function (e) {
@@ -17073,6 +17089,17 @@ module.exports = {
 
 /***/ }),
 
+/***/ 777:
+/*!*************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/passed.png ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAATlBMVEUAAAAono4wn48qn48nno4ono4on48ono4onY0onY0pno4ono4pn48nno4ono4pnY0ono4pno4nnY0on48on48nn44nn48on48nno4ono6z46sZAAAAGnRSTlMA/xAw7/Ag0IBgkMBQz6Bw37Cvf0Bvj59PXz3kzCcAAALbSURBVHic7VhZgoMgDLXgWpdal057/4tOk4DsCDP9bP5UeGZ/geIr/xP2XJd+vrxl7pf1yf6Gwh8jQOgyPni2Ljsq4sq85+jF1tIPA1KuyVCvA6a5dlsNr+qtuzYH1CsJpu7F+vtg/ZoNd/GpR/S4DKRO1XoNYG1FSg1nOI8YjA71iOP8kFFRzWsy8Ce2ZsElt/jPiuJ2hoT6VAlJx9G8INIVI54QkLd5mAtX/8cBcRKzjSGSN3Y1xL1K0geXg3WlbznmYUZRcsxM932XFC9dMHad/ZaBYfccnKKAfCptn7ZZDiJBN7Uehax35wJ/t1QCe6vsVspAJdOv0A/TFWJLSU4GlWb9C4YyWSEOvyVEO2WgOJJD1oE/RXVA4PRCAb44bVVCsGPJzZB9o/qGGqZZxpCjjjS0dkK5Nkk4HBuxls5Qu8oWcH5SzHbsaHpZgHfVVnCZUzSuMGrExkpIwOl4gsLfTnFqonDzj5vRAiAvTutM8JSlOWSgChssOMNZiRodDxh7HaD6aS1nxC+V64Ao0DvIJiljUfgJJgoE28pdPWNRBIjK2Gs7m8aIXu4jGvfjgLNVLtvhJ665XFZVFCHiNMPvJKREGrkoiiABmwkJJWKypkS6yDkyRORmiUDRas3AQCKZQ4RnNiBfG2GThhMkcnun2QyEKKTwQACNTW9A/lYrkSKDhd1qA82fkCI4TvMP0REgxQYdCLfZWiEdHBqHlc0UwUF+NgkSOfNPlG3zM9J47hDhGxhQpSUPCHqUOzB8atD63OgXmS69EpldcTweU8djbAuBeQEH9jFJJ444gYFdlESZcoTAbqcaWqC4tLbvFxoBIjgSaYkfs4jjojjCT7EDsDw4B/0jZRBnTT+UhKkS5rvjcLzYVw/sRUalHY7f0pFSePWwbxhEvu3qYqJKmKXMA7BXIgdnH9QtcKXR3LLPB1xdPaiLiexLFqHX0E49wjX91NoXE1/JlV9YdhN0rA5m9gAAAABJRU5ErkJggg=="
+
+/***/ }),
+
 /***/ 78:
 /*!******************************************!*\
   !*** ./node_modules/qs/lib/stringify.js ***!
@@ -17411,7 +17438,143 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 784:
+/***/ 79:
+/*!********************************************!*\
+  !*** ./node_modules/side-channel/index.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 80);
+var callBound = __webpack_require__(/*! call-bind/callBound */ 86);
+var inspect = __webpack_require__(/*! object-inspect */ 88);
+
+var $TypeError = GetIntrinsic('%TypeError%');
+var $WeakMap = GetIntrinsic('%WeakMap%', true);
+var $Map = GetIntrinsic('%Map%', true);
+
+var $weakMapGet = callBound('WeakMap.prototype.get', true);
+var $weakMapSet = callBound('WeakMap.prototype.set', true);
+var $weakMapHas = callBound('WeakMap.prototype.has', true);
+var $mapGet = callBound('Map.prototype.get', true);
+var $mapSet = callBound('Map.prototype.set', true);
+var $mapHas = callBound('Map.prototype.has', true);
+
+/*
+ * This function traverses the list returning the node corresponding to the
+ * given key.
+ *
+ * That node is also moved to the head of the list, so that if it's accessed
+ * again we don't need to traverse the whole list. By doing so, all the recently
+ * used nodes can be accessed relatively quickly.
+ */
+var listGetNode = function (list, key) { // eslint-disable-line consistent-return
+	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
+		if (curr.key === key) {
+			prev.next = curr.next;
+			curr.next = list.next;
+			list.next = curr; // eslint-disable-line no-param-reassign
+			return curr;
+		}
+	}
+};
+
+var listGet = function (objects, key) {
+	var node = listGetNode(objects, key);
+	return node && node.value;
+};
+var listSet = function (objects, key, value) {
+	var node = listGetNode(objects, key);
+	if (node) {
+		node.value = value;
+	} else {
+		// Prepend the new node to the beginning of the list
+		objects.next = { // eslint-disable-line no-param-reassign
+			key: key,
+			next: objects.next,
+			value: value
+		};
+	}
+};
+var listHas = function (objects, key) {
+	return !!listGetNode(objects, key);
+};
+
+module.exports = function getSideChannel() {
+	var $wm;
+	var $m;
+	var $o;
+	var channel = {
+		assert: function (key) {
+			if (!channel.has(key)) {
+				throw new $TypeError('Side channel does not contain ' + inspect(key));
+			}
+		},
+		get: function (key) { // eslint-disable-line consistent-return
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapGet($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapGet($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listGet($o, key);
+				}
+			}
+		},
+		has: function (key) {
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapHas($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapHas($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listHas($o, key);
+				}
+			}
+			return false;
+		},
+		set: function (key, value) {
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if (!$wm) {
+					$wm = new $WeakMap();
+				}
+				$weakMapSet($wm, key, value);
+			} else if ($Map) {
+				if (!$m) {
+					$m = new $Map();
+				}
+				$mapSet($m, key, value);
+			} else {
+				if (!$o) {
+					/*
+					 * Initialize the linked list as an empty node, so that we don't have
+					 * to special-case handling of the first node: we can always refer to
+					 * it as (previous node).next, instead of something like (list).head
+					 */
+					$o = { key: {}, next: null };
+				}
+				listSet($o, key, value);
+			}
+		}
+	};
+	return channel;
+};
+
+
+/***/ }),
+
+/***/ 792:
 /*!***********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/province.js ***!
   \***********************************************************************************/
@@ -17533,7 +17696,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 785:
+/***/ 793:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/city.js ***!
   \*******************************************************************************/
@@ -18654,7 +18817,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 786:
+/***/ 794:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/area.js ***!
   \*******************************************************************************/
@@ -27773,142 +27936,6 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 79:
-/*!********************************************!*\
-  !*** ./node_modules/side-channel/index.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 80);
-var callBound = __webpack_require__(/*! call-bind/callBound */ 86);
-var inspect = __webpack_require__(/*! object-inspect */ 88);
-
-var $TypeError = GetIntrinsic('%TypeError%');
-var $WeakMap = GetIntrinsic('%WeakMap%', true);
-var $Map = GetIntrinsic('%Map%', true);
-
-var $weakMapGet = callBound('WeakMap.prototype.get', true);
-var $weakMapSet = callBound('WeakMap.prototype.set', true);
-var $weakMapHas = callBound('WeakMap.prototype.has', true);
-var $mapGet = callBound('Map.prototype.get', true);
-var $mapSet = callBound('Map.prototype.set', true);
-var $mapHas = callBound('Map.prototype.has', true);
-
-/*
- * This function traverses the list returning the node corresponding to the
- * given key.
- *
- * That node is also moved to the head of the list, so that if it's accessed
- * again we don't need to traverse the whole list. By doing so, all the recently
- * used nodes can be accessed relatively quickly.
- */
-var listGetNode = function (list, key) { // eslint-disable-line consistent-return
-	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
-		if (curr.key === key) {
-			prev.next = curr.next;
-			curr.next = list.next;
-			list.next = curr; // eslint-disable-line no-param-reassign
-			return curr;
-		}
-	}
-};
-
-var listGet = function (objects, key) {
-	var node = listGetNode(objects, key);
-	return node && node.value;
-};
-var listSet = function (objects, key, value) {
-	var node = listGetNode(objects, key);
-	if (node) {
-		node.value = value;
-	} else {
-		// Prepend the new node to the beginning of the list
-		objects.next = { // eslint-disable-line no-param-reassign
-			key: key,
-			next: objects.next,
-			value: value
-		};
-	}
-};
-var listHas = function (objects, key) {
-	return !!listGetNode(objects, key);
-};
-
-module.exports = function getSideChannel() {
-	var $wm;
-	var $m;
-	var $o;
-	var channel = {
-		assert: function (key) {
-			if (!channel.has(key)) {
-				throw new $TypeError('Side channel does not contain ' + inspect(key));
-			}
-		},
-		get: function (key) { // eslint-disable-line consistent-return
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if ($wm) {
-					return $weakMapGet($wm, key);
-				}
-			} else if ($Map) {
-				if ($m) {
-					return $mapGet($m, key);
-				}
-			} else {
-				if ($o) { // eslint-disable-line no-lonely-if
-					return listGet($o, key);
-				}
-			}
-		},
-		has: function (key) {
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if ($wm) {
-					return $weakMapHas($wm, key);
-				}
-			} else if ($Map) {
-				if ($m) {
-					return $mapHas($m, key);
-				}
-			} else {
-				if ($o) { // eslint-disable-line no-lonely-if
-					return listHas($o, key);
-				}
-			}
-			return false;
-		},
-		set: function (key, value) {
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if (!$wm) {
-					$wm = new $WeakMap();
-				}
-				$weakMapSet($wm, key, value);
-			} else if ($Map) {
-				if (!$m) {
-					$m = new $Map();
-				}
-				$mapSet($m, key, value);
-			} else {
-				if (!$o) {
-					/*
-					 * Initialize the linked list as an empty node, so that we don't have
-					 * to special-case handling of the first node: we can always refer to
-					 * it as (previous node).next, instead of something like (list).head
-					 */
-					$o = { key: {}, next: null };
-				}
-				listSet($o, key, value);
-			}
-		}
-	};
-	return channel;
-};
-
-
-/***/ }),
-
 /***/ 8:
 /*!***************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
@@ -29386,17 +29413,6 @@ module.exports = {
     RFC3986: Format.RFC3986
 };
 
-
-/***/ }),
-
-/***/ 917:
-/*!*************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/passed.png ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAATlBMVEUAAAAono4wn48qn48nno4ono4on48ono4onY0onY0pno4ono4pn48nno4ono4pnY0ono4pno4nnY0on48on48nn44nn48on48nno4ono6z46sZAAAAGnRSTlMA/xAw7/Ag0IBgkMBQz6Bw37Cvf0Bvj59PXz3kzCcAAALbSURBVHic7VhZgoMgDLXgWpdal057/4tOk4DsCDP9bP5UeGZ/geIr/xP2XJd+vrxl7pf1yf6Gwh8jQOgyPni2Ljsq4sq85+jF1tIPA1KuyVCvA6a5dlsNr+qtuzYH1CsJpu7F+vtg/ZoNd/GpR/S4DKRO1XoNYG1FSg1nOI8YjA71iOP8kFFRzWsy8Ce2ZsElt/jPiuJ2hoT6VAlJx9G8INIVI54QkLd5mAtX/8cBcRKzjSGSN3Y1xL1K0geXg3WlbznmYUZRcsxM932XFC9dMHad/ZaBYfccnKKAfCptn7ZZDiJBN7Uehax35wJ/t1QCe6vsVspAJdOv0A/TFWJLSU4GlWb9C4YyWSEOvyVEO2WgOJJD1oE/RXVA4PRCAb44bVVCsGPJzZB9o/qGGqZZxpCjjjS0dkK5Nkk4HBuxls5Qu8oWcH5SzHbsaHpZgHfVVnCZUzSuMGrExkpIwOl4gsLfTnFqonDzj5vRAiAvTutM8JSlOWSgChssOMNZiRodDxh7HaD6aS1nxC+V64Ao0DvIJiljUfgJJgoE28pdPWNRBIjK2Gs7m8aIXu4jGvfjgLNVLtvhJ665XFZVFCHiNMPvJKREGrkoiiABmwkJJWKypkS6yDkyRORmiUDRas3AQCKZQ4RnNiBfG2GThhMkcnun2QyEKKTwQACNTW9A/lYrkSKDhd1qA82fkCI4TvMP0REgxQYdCLfZWiEdHBqHlc0UwUF+NgkSOfNPlG3zM9J47hDhGxhQpSUPCHqUOzB8atD63OgXmS69EpldcTweU8djbAuBeQEH9jFJJ444gYFdlESZcoTAbqcaWqC4tLbvFxoBIjgSaYkfs4jjojjCT7EDsDw4B/0jZRBnTT+UhKkS5rvjcLzYVw/sRUalHY7f0pFSePWwbxhEvu3qYqJKmKXMA7BXIgdnH9QtcKXR3LLPB1xdPaiLiexLFqHX0E49wjX91NoXE1/JlV9YdhN0rA5m9gAAAABJRU5ErkJggg=="
 
 /***/ }),
 

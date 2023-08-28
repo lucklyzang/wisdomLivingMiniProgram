@@ -5,6 +5,7 @@
   "backgroundColorBottom": "#fff",
   "usingComponents": {
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "y-toast": "/components/y-toast/y-toast",
     "u-switch": "/node-modules/uview-ui/components/u-switch/u-switch",
     "u-form": "/node-modules/uview-ui/components/u-form/u-form",
     "u-form-item": "/node-modules/uview-ui/components/u-form-item/u-form-item",
