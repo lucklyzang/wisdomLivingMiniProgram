@@ -8,10 +8,22 @@
 		</view>
 		<view class="content-area">
 			<view class="family-name-area">
-				<text>张三的家人</text>
+				<view class="dropdown-area">
+					<xfl-select
+						:list="familyMemberList"
+						:clearable="false"
+						:showItemNum="8"
+						 @change="familyMemberChange"
+						placeholder = "请选择家庭"
+						:selectHideType="'hideAll'"
+						:initValue="familyMemberList[0]['value']"
+					>
+					</xfl-select>
+				</view>
 			</view>
 			<view class="phone-number-list-area">
-				<view class="family-list" v-for="(item,index) in familyList" :key="index">
+				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
+				<view class="family-list" v-for="(item,index) in phoneList" :key="index">
 					<view class="list-serial">
 						<text>报警信息接收手机{{ index + 1 }}</text>
 					</view>
@@ -20,8 +32,8 @@
 							<text>{{ item }}</text>
 						</view>
 						<view class="list-right">
-							<image :src="editGreenIconPng" @click="editEvent"></image>
-							<image :src="deleteRedSquareIconPng" @click="deleteEvent"></image>
+							<image :src="editGreenIconPng" @click="editEvent(item)"></image>
+							<image :src="deleteRedSquareIconPng" @click="deleteEvent(item)"></image>
 						</view>
 					</view>
 				</view>
@@ -41,26 +53,35 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import xflSelect from '@/components/xfl-select/xfl-select.vue'
+	import { getUserFamilyList } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
-			navBar
+			navBar,
+			xflSelect
 		},
 		data() {
 			return {
 				infoText: '',
 				checked: false,
+				isShowNoHomeNoData: false,
 				showLoadingHint: false,
-				familyList: ['后院','阳台','浴室','卧室','餐厅'],
+				initValue: '',
+				familyMemberList: [],
+				fullFamilyMemberList: [],
+				phoneList: [],
 				editGreenIconPng: require("@/static/img/edit-green-icon.png"),
 				deleteRedSquareIconPng: require("@/static/img/delete-red-square-icon.png"),
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.queryUserFamilyList()
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'warningMessagePhoneNumber'
 			]),
 			userName() {
 			},
@@ -79,18 +100,82 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeWarningMessagePhoneNumber'
 			]),
 			
+			// 家庭选择下拉框下拉选择确定事件
+			familyMemberChange (val) {
+				this.initValue = val.orignItem.id;
+				let temporaryFamilyMemberList = this.fullFamilyMemberList.filter((item) => { return item.id ==  this.initValue });
+				this.phoneList = temporaryFamilyMemberList[0]['phones'];
+				if (this.phoneList.length > 0) {
+					this.isShowNoHomeNoData = false
+				} else {
+					this.isShowNoHomeNoData = true
+				}
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.roomList = [];
+				this.familyMemberList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.fullFamilyMemberList = res.data.data;
+						for (let item of res.data.data) {
+							this.familyMemberList.push({
+								id: item.id,
+								value: item.name
+							})
+						};
+						this.initValue = this.familyMemberList[0]['id'];
+						this.phoneList = this.fullFamilyMemberList[0]['phones'];
+						if (this.phoneList.length > 0) {
+							this.isShowNoHomeNoData = false
+						} else {
+							this.isShowNoHomeNoData = true
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					});
+					this.showLoadingHint = false
+				})
+			},
+			
 			// 编辑事件
-			editEvent () {
+			editEvent (item) {
+				let temporaryNumberMessage = this.warningMessagePhoneNumber;
+				temporaryNumberMessage['type'] = '编辑';
+				temporaryNumberMessage['familyId'] = this.initValue;
+				temporaryNumberMessage['mobile'] = item;
+				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
 				uni.redirectTo({
 					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure'
 				})
 			},
 			
 			// 删除事件
-			deleteEvent () {
+			deleteEvent (item) {
+				let temporaryNumberMessage = this.warningMessagePhoneNumber;
+				temporaryNumberMessage['type'] = '删除';
+				temporaryNumberMessage['familyId'] = this.initValue;
+				temporaryNumberMessage['mobile'] = item;
+				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
 				uni.redirectTo({
 					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure'
 				})
@@ -98,6 +183,10 @@
 			
 			// 添加事件
 			addEvent () {
+				let temporaryNumberMessage = this.warningMessagePhoneNumber;
+				temporaryNumberMessage['familyId'] = this.initValue;
+				temporaryNumberMessage['type'] = '添加';
+				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
 				uni.redirectTo({
 					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberAdd'
 				})
@@ -141,12 +230,41 @@
 			display: flex;
 			flex-direction: column;
 			.family-name-area {
-				height: 30px;
-				display: flex;
-				align-items: center;
-				font-size: 16px;
-				color: #0E2442;
-				margin-bottom: 10px
+				margin-bottom: 10px;
+				.dropdown-area {
+					width: 100px;
+					::v-deep .show-box {
+						border: none !important;
+						font-size: 16px;
+						padding: 0 !important;
+						height: 40px;
+						color: #0E2442 !important;
+						background: transparent !important;
+						.input {
+							@include no-wrap;
+							display: inline-block;
+							line-height: 40px;
+							padding-right: 4px;
+							box-sizing: border-box
+						};
+						.list {
+							color: #101010;
+						};
+						.list-container {
+							width: 150px !important;
+							top: -10px;
+							.popper__arrow {
+								display: none !important;
+							}
+						};
+						.placeholder {
+							color: #0E2442 !important
+						};
+						.right-arrow {
+							color: #0E2442 !important
+						}
+					}
+				}
 			};
 			.phone-number-list-area {
 				width: 100%;
@@ -155,6 +273,13 @@
 				flex-direction: column;
 				align-items: center;
 				overflow: auto;
+				position: relative;
+				::v-deep .u-empty {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%,-50%)
+				};
 				.family-list {
 					width: 100%;
 					margin-bottom: 10px;

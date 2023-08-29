@@ -57,12 +57,43 @@ page {
   flex-direction: column;
 }
 .content-box .content-area .family-name-area {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #0E2442;
   margin-bottom: 10px;
+}
+.content-box .content-area .family-name-area .dropdown-area {
+  width: 100px;
+}
+.content-box .content-area .family-name-area .dropdown-area  .show-box {
+  border: none !important;
+  font-size: 16px;
+  padding: 0 !important;
+  height: 40px;
+  color: #0E2442 !important;
+  background: transparent !important;
+}
+.content-box .content-area .family-name-area .dropdown-area  .show-box .input {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 40px;
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+.content-box .content-area .family-name-area .dropdown-area  .show-box .list {
+  color: #101010;
+}
+.content-box .content-area .family-name-area .dropdown-area  .show-box .list-container {
+  width: 150px !important;
+  top: -10px;
+}
+.content-box .content-area .family-name-area .dropdown-area  .show-box .list-container .popper__arrow {
+  display: none !important;
+}
+.content-box .content-area .family-name-area .dropdown-area  .show-box .placeholder {
+  color: #0E2442 !important;
+}
+.content-box .content-area .family-name-area .dropdown-area  .show-box .right-arrow {
+  color: #0E2442 !important;
 }
 .content-box .content-area .phone-number-list-area {
   width: 100%;
@@ -71,6 +102,14 @@ page {
   flex-direction: column;
   align-items: center;
   overflow: auto;
+  position: relative;
+}
+.content-box .content-area .phone-number-list-area  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .content-area .phone-number-list-area .family-list {
   width: 100%;

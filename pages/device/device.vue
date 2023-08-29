@@ -9,6 +9,9 @@
 					<view class="image-area">
 						<image :src="messageIconPng" @click="enterMessagePageDetails"></image>
 						<image :src="addDeviceIconPng" @click="addDeviceEvent"></image>
+						<view class="no-read-box">
+							<text>{{ noReadMessageNum }}</text>
+						</view>
 					</view>
 					<view class="dropdown-area">
 						<xfl-select
@@ -18,7 +21,7 @@
 							 @change="familyMemberChange"
 							placeholder = "请选择家庭"
 							:selectHideType="'hideAll'"
-							:initValue="familyMemberList[0]['value']"
+							:initValue="initValue"
 						>
 						</xfl-select>
 					</view>
@@ -83,6 +86,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { getDeviceInformUnread } from '@/api/device.js'
 	import { getUserDeviceMessage, getUserRoomDevices, getUserFamilyList } from '@/api/user.js'
 	import {
 		setCache,
@@ -102,6 +106,7 @@
 				familyMemberList: [],
 				tabCutList: ['设备','房间'],
 				deviceList: [],
+				noReadMessageNum: 0,
 				imageUrl: require("@/static/img/room-icon.png"),
 				roomList: [],
 				tabCutActiveIndex: 0,
@@ -116,6 +121,7 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
+				'familyId',
 				'beforeAddDeviceMessage',
 				'beforeAddBodyDetectionDeviceMessage',
 				'beforeAddExistPerceptionRadarCompleteSet',
@@ -156,8 +162,9 @@
 					});
 					this.changeEnterFamilyManagementPageSource('/pages/device/device')
 				} else {
-					this.initValue = val.orignItem.id;
-					this.getUserDevice(this.initValue)
+					this.initValue = val.orignItem.value;
+					this.changeFamilyId(val.orignItem.id);
+					this.getUserDevice(val.orignItem.id)
 				}
 			},
 			
@@ -173,6 +180,28 @@
 				} else if (index == 1) {
 					this.getUserRoom(this.initValue)
 				}
+			},
+			
+			// 查询未读消息数量
+			queryDeviceInformUnread (familyId) {
+				getDeviceInformUnread({familyId}).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.noReadMessageNum = res.data.data
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			// 获取用户设备信息
@@ -249,8 +278,17 @@
 								value: item.name
 							})
 						};
-						this.initValue = this.familyMemberList[0]['id'];
-						this.getUserDevice(this.initValue)
+						if (this.familyId) {
+							this.changeFamilyId(this.familyId);
+							this.getUserDevice(this.familyId);
+							this.queryDeviceInformUnread(this.familyId);
+							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
+						} else {
+							this.changeFamilyId(this.familyMemberList[0]['id']);
+							this.getUserDevice(this.familyMemberList[0]['id']);
+							this.queryDeviceInformUnread(this.familyMemberList[0]['id']);
+							this.initValue = this.familyMemberList[0]['value']
+						};
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -283,7 +321,7 @@
 				uni.redirectTo({
 					url: '/devicePackage/pages/roomManagement/roomManagement'
 				});
-				this.changeFamilyId(this.initValue)
+				this.changeFamilyId(this.familyId)
 			},
 			
 			// 进入消息详情页
@@ -370,7 +408,7 @@
 				uni.redirectTo({
 					url: '/devicePackage/pages/addDevices/addDevices'
 				});
-				this.changeFamilyId(this.initValue)
+				this.changeFamilyId(this.familyId)
 			}
 		}
 	}
@@ -409,6 +447,26 @@
 					display: flex;
 					align-items: center;
 					.image-area {
+						position: relative;
+						.no-read-box {
+							position: absolute;
+							width: 16px;
+							height: 16px;
+							border-radius: 50%;
+							background: #F50057;
+							color: #fff;
+							font-size: 12px;
+							left: 24px;
+							top: -4px;
+							>text {
+								text-align: center;
+								line-height: 16px;
+								width: 16px;
+								height: 16px;
+								display: inline-block;
+								@include no-wrap
+							};
+						};
 						image {
 							width: 29px;
 							height: 29px;

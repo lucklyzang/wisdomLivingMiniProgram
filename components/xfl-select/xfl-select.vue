@@ -122,6 +122,10 @@
 		watch: { // 监听变化 ，注意，初始的值是不会被监听到的，只有在mounted回调中手动赋值
 			listShow(newVal, oldVal){
 				this.onDataChange_listShow(newVal, oldVal);
+			},
+			initValue(newVal, oldVal){
+				this.setInput(newVal); // 在输入框中显示初始值
+				this.changeActiveIndex(newVal) // 根据初始值设置列表框中的活动项
 			}
 		},
 		computed:{

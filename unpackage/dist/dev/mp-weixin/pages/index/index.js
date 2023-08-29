@@ -39,10 +39,10 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 678))
     },
     xflSelect: function () {
-      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 737))
+      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 738))
     },
   }
 } catch (e) {
@@ -116,7 +116,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var xflSelect = function xflSelect() {
   __webpack_require__.e(/*! require.ensure | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then((function () {
-    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 737));
+    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 738));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -126,6 +126,7 @@ var _default = {
   data: function data() {
     return {
       infoText: '',
+      initValue: null,
       showLoadingHint: false,
       heartRateIconPng: __webpack_require__(/*! @/static/img/heart-rate-icon.png */ 105),
       breatheIconPng: __webpack_require__(/*! @/static/img/breathe-icon.png */ 106),
@@ -135,8 +136,10 @@ var _default = {
       familyMemberList: []
     };
   },
-  onReady: function onReady() {},
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  onLoad: function onLoad() {
+    this.queryUserFamilyList();
+  },
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'currentNeedBindDevicesMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -144,24 +147,18 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  mounted: function mounted() {
-    this.queryUserFamilyList();
-  },
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeFamilyId', 'changeCurrentNeedBindDevicesMessage'])), {}, {
     // 家庭选择下拉框下拉选择确定事件
     familyMemberChange: function familyMemberChange(val) {
-      console.log(val);
-      if (val.orignItem.isClickNoEffect) {
-        console.log('家庭管理');
-      }
+      this.tabCutActiveIndex = 0;
+      this.initValue = val.orignItem.value;
+      this.changeFamilyId(val.orignItem.id);
     },
     // 获取用户家庭列表
-    queryUserFamilyList: function queryUserFamilyList(familyId) {
+    queryUserFamilyList: function queryUserFamilyList() {
       var _this = this;
       this.familyMemberList = [];
-      (0, _user.getUserFamilyList)({
-        familyId: familyId
-      }).then(function (res) {
+      (0, _user.getUserFamilyList)().then(function (res) {
         if (res && res.data.code == 0) {
           var _iterator = _createForOfIteratorHelper(res.data.data),
             _step;
@@ -178,6 +175,16 @@ var _default = {
           } finally {
             _iterator.f();
           }
+          ;
+          if (_this.familyId) {
+            _this.initValue = _this.familyMemberList.filter(function (el) {
+              return el.id == _this.familyId;
+            })[0]['value'];
+          } else {
+            _this.initValue = _this.familyMemberList[0]['value'];
+          }
+          ;
+          _this.changeFamilyId(_this.familyMemberList[0]['id']);
         } else {
           _this.$refs.uToast.show({
             title: res.data.msg,
@@ -194,11 +201,15 @@ var _default = {
       });
     },
     // 绑定设备事件
-    bindDeviceEvent: function bindDeviceEvent() {
-      this.editDataCardEvent();
-      // uni.redirectTo({
-      // 	url: '/devicePackage/pages/bingDevices/bingDevices'
-      // })
+    bindDeviceEvent: function bindDeviceEvent(type) {
+      // this.editDataCardEvent();
+      // 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
+      var temporaryMessage = this.currentNeedBindDevicesMessage;
+      temporaryMessage['type'] = type;
+      this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
+      uni.redirectTo({
+        url: '/devicePackage/pages/bingDevices/bingDevices'
+      });
     },
     // 进入数据详情事件
     enterDetailsEvent: function enterDetailsEvent(text) {

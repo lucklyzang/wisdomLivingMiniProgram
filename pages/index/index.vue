@@ -14,7 +14,7 @@
 					 @change="familyMemberChange"
 					placeholder = "请选择家庭"
 					:selectHideType="'hideAll'"
-					:initValue="familyMemberList[0]['value']"
+					:initValue="initValue"
 				>
 				</xfl-select>
 			</view>
@@ -30,7 +30,7 @@
 					</view>
 					<view>
 						<text>立即</text>
-						<text @click="bindDeviceEvent">绑定设备</text>
+						<text @click="bindDeviceEvent(1)">绑定设备</text>
 						<text>获取检测数据</text>
 					</view>
 				</view>
@@ -45,7 +45,7 @@
 					</view>
 					<view>
 						<text>立即</text>
-						<text @click="bindDeviceEvent">绑定设备</text>
+						<text @click="bindDeviceEvent(2)">绑定设备</text>
 						<text>获取检测数据</text>
 					</view>
 				</view>
@@ -60,7 +60,7 @@
 					</view>
 					<view>
 						<text>立即</text>
-						<text @click="bindDeviceEvent">绑定设备</text>
+						<text @click="bindDeviceEvent(3)">绑定设备</text>
 						<text>获取检测数据</text>
 					</view>
 				</view>
@@ -75,7 +75,7 @@
 					</view>
 					<view>
 						<text>立即</text>
-						<text @click="bindDeviceEvent">绑定设备</text>
+						<text @click="bindDeviceEvent(4)">绑定设备</text>
 						<text>获取检测数据</text>
 					</view>
 				</view>
@@ -212,7 +212,7 @@
 		data() {
 			return {
 				infoText: '',
-				initValue: '',
+				initValue: null,
 				showLoadingHint: false,
 				heartRateIconPng: require("@/static/img/heart-rate-icon.png"),
 				breatheIconPng: require("@/static/img/breathe-icon.png"),
@@ -222,11 +222,14 @@
 				familyMemberList: []
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.queryUserFamilyList()
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId',
+				'currentNeedBindDevicesMessage'
 			]),
 			userName() {
 			},
@@ -241,27 +244,24 @@
 			accountName() {
 			}
 		},
-		mounted() {
-			this.queryUserFamilyList()
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
-				'changeFamilyId'
+				'changeFamilyId',
+				'changeCurrentNeedBindDevicesMessage'
 			]),
 			
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
-				console.log(val)
-				if (val.orignItem.isClickNoEffect) {
-					console.log('家庭管理');
-				}
+				this.tabCutActiveIndex = 0;
+				this.initValue = val.orignItem.value;
+				this.changeFamilyId(val.orignItem.id)
 			},
 			
 			// 获取用户家庭列表
-			queryUserFamilyList (familyId) {
+			queryUserFamilyList () {
 				this.familyMemberList = [];
-				getUserFamilyList({familyId}).then((res) => {
+				getUserFamilyList().then((res) => {
 					if ( res && res.data.code == 0) {
 						for (let item of res.data.data) {
 							this.familyMemberList.push({
@@ -269,8 +269,12 @@
 								value: item.name
 							})
 						};
-						this.initValue = this.familyMemberList[0]['id'];
-						this.changeFamilyId(this.initValue)
+						if (this.familyId) {
+							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
+						} else {
+							this.initValue = this.familyMemberList[0]['value']
+						};
+						this.changeFamilyId(this.familyMemberList[0]['id'])
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -289,11 +293,15 @@
 			},
 			
 			// 绑定设备事件
-			bindDeviceEvent () {
-				this.editDataCardEvent()
-				// uni.redirectTo({
-				// 	url: '/devicePackage/pages/bingDevices/bingDevices'
-				// })
+			bindDeviceEvent (type) {
+				// this.editDataCardEvent();
+				// 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
+				let temporaryMessage = this.currentNeedBindDevicesMessage;
+				temporaryMessage['type'] = type;
+				this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
+				uni.redirectTo({
+					url: '/devicePackage/pages/bingDevices/bingDevices'
+				})
 			},
 			
 			// 进入数据详情事件

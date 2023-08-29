@@ -592,6 +592,15 @@
 					}
 				},
 				{
+					"path": "pages/warningMessagePhoneNumber/warningMessagePhoneNumberEdit",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
 					"path": "pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure",
 					"style": {
 						"navigationBarTitleText": "",

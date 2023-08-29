@@ -1,4 +1,4 @@
-// 质量管理信息store的初始值
+// 设备信息store的初始值
 export function getDefaultDeviceState() {
     return {
 			timeMessage: {},
@@ -11,6 +11,8 @@ export function getDefaultDeviceState() {
 			beforeAddBodyDetectionDeviceMessage: {},
 			beforeAddExistPerceptionRadarCompleteSet: {},
 			beforeAddSignMonitorRadarCompleteSet: {},
-			roomDetails: {}
+			roomDetails: {},
+			warningMessagePhoneNumber: {},
+			currentNeedBindDevicesMessage: {}
 		}	
 };

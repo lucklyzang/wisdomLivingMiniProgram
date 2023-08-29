@@ -61,7 +61,7 @@
 					</view>
 					<view class="person-retention-alarm-time-bottom">
 						<view class="retention-time-list-box">
-							<view class="retention-time-list" :class="{'retentionTimeStyle': noPersonTimeIndex == index }" v-for="(item,index) in noPersonTimeList" :key="index" @click="noPersonTimeClickEvent(item,index)">
+							<view class="retention-time-list" :class="{'retentionTimeStyle': unmannedTimeIndex == index }" v-for="(item,index) in noPersonTimeList" :key="index" @click="noPersonTimeClickEvent(item,index)">
 								<text>{{ `${item}分钟` }}</text>
 							</view>
 						</view>	
@@ -124,7 +124,7 @@
 				noPersonAlarmValue: false,
 				noPersonTimeValue: '',
 				noPersonTimeList: ['1','5','10','30'],
-				noPersonTimeIndex : null,
+				unmannedTimeIndex : null,
 				noPersonTimeInputShow: false,
 				personEnterAlarmValue: false,
 				personLeaveAlarmValue: false
@@ -185,7 +185,7 @@
 			
 			// 无人时间点击事件
 			noPersonTimeClickEvent(item,index) {
-				this.nopersonTimeIndex = index;
+				this.unmannedTimeIndex = index;
 				this.noPersonTimeValue = item
 			},
 			

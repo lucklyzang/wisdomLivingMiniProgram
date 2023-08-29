@@ -123,26 +123,29 @@ export function deleteUserFamily(data) {
 };
 
 // 新增手机号
-export function addMobile() {
+export function addMobile(data) {
   return request({
     url: '/app-api/member/family/add-mobile',
-    method: 'post'
+    method: 'post',
+		data
   })
 };
 
 // 修改手机号
-export function uodateMobile() {
+export function updateMobile(data) {
   return request({
     url: '/app-api/member/family/update-mobile',
-    method: 'put'
+    method: 'put',
+		data
   })
 };
 
 // 删除手机号
-export function deleteMobile() {
+export function deleteMobile(data) {
   return request({
     url: '/app-api/member/family/delete-mobile',
-    method: 'delete'
+    method: 'delete',
+		data
   })
 };
 

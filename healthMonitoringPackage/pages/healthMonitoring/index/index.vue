@@ -26,7 +26,7 @@
 						</view>
 						<view class="list-right">
 							<view class="delete-box" @click="deleteEvent(item.id)" v-if="item.mode == 1"><image :src="deleteIconPng"></image></view>
-							<view class="copy-box"><image :src="copyIconPng"></image></view>
+							<view class="copy-box" @click="copyEvent(item.id)"><image :src="copyIconPng"></image></view>
 							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
 						</view>
 					</view>
@@ -175,7 +175,7 @@
 			},
 			
 			// 创建或更新首页配置列表
-			saveOrUpdateHomePageEvent () {
+			saveOrUpdateHomePageEvent (familyId) {
 				this.showLoadingHint = true;
 				this.infoText = '保存中...';
 				this.familyList = [];
@@ -200,6 +200,11 @@
 					this.showLoadingHint = false;
 					this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' })
 				})
+			},
+			
+			// 复制事件
+			copyEvent (id) {
+				this.saveOrUpdateHomePageEvent(id)
 			},
 			
 			// 删除首页数据卡片事件

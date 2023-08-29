@@ -80,6 +80,7 @@
         "pages/warningSetting/warningSetting",
         "pages/warningMessagePhoneNumber/warningMessagePhoneNumber",
         "pages/warningMessagePhoneNumber/warningMessagePhoneNumberAdd",
+        "pages/warningMessagePhoneNumber/warningMessagePhoneNumberEdit",
         "pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure"
       ],
       "name": "rootGeneralSetPackage"

@@ -5,6 +5,8 @@
   "backgroundColorBottom": "#fff",
   "usingComponents": {
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
+    "xfl-select": "/components/xfl-select/xfl-select",
+    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty",
     "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
     "nav-bar": "/components/zhouWei-navBar/index"
   }

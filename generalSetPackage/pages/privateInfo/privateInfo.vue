@@ -116,8 +116,6 @@
 				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png")
 			}
 		},
-		onReady() {
-		},
 		computed: {
 			...mapGetters([
 				'userBasicInfo'
@@ -135,7 +133,7 @@
 			accountName() {
 			}
 		},
-		mounted() {
+		onload() {
 			this.generateYears(this.selectYear,new Date().getFullYear());
 			this.generateDays(new Date(this.selectYear, this.selectMonth, 0).getDate());
 			// 回显用户基本信息

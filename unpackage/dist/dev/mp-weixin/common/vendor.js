@@ -90,7 +90,7 @@ exports.getUserPresetsRoomList = getUserPresetsRoomList;
 exports.getUserRoom = getUserRoom;
 exports.getUserRoomDevices = getUserRoomDevices;
 exports.getUserRoomList = getUserRoomList;
-exports.uodateMobile = uodateMobile;
+exports.updateMobile = updateMobile;
 exports.updateUserAvatar = updateUserAvatar;
 exports.updateUserDeviceBind = updateUserDeviceBind;
 exports.updateUserFamily = updateUserFamily;
@@ -234,28 +234,31 @@ function deleteUserFamily(data) {
 ;
 
 // 新增手机号
-function addMobile() {
+function addMobile(data) {
   return (0, _request.default)({
     url: '/app-api/member/family/add-mobile',
-    method: 'post'
+    method: 'post',
+    data: data
   });
 }
 ;
 
 // 修改手机号
-function uodateMobile() {
+function updateMobile(data) {
   return (0, _request.default)({
     url: '/app-api/member/family/update-mobile',
-    method: 'put'
+    method: 'put',
+    data: data
   });
 }
 ;
 
 // 删除手机号
-function deleteMobile() {
+function deleteMobile(data) {
   return (0, _request.default)({
     url: '/app-api/member/family/delete-mobile',
-    method: 'delete'
+    method: 'delete',
+    data: data
   });
 }
 ;
@@ -11263,6 +11266,217 @@ exports.default = _default;
 
 /***/ }),
 
+/***/ 348:
+/*!*****************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/api/device.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createDeviceInform = createDeviceInform;
+exports.deleteDetectionAlarmSettings = deleteDetectionAlarmSettings;
+exports.deleteDeviceInformList = deleteDeviceInformList;
+exports.deleteExistAlarmSettings = deleteExistAlarmSettings;
+exports.deleteFallAlarmSettings = deleteFallAlarmSettings;
+exports.deleteHealthAlarmSettings = deleteHealthAlarmSettings;
+exports.getDetectionAlarmSettings = getDetectionAlarmSettings;
+exports.getDeviceInform = getDeviceInform;
+exports.getDeviceInformList = getDeviceInformList;
+exports.getDeviceInformUnread = getDeviceInformUnread;
+exports.getExistAlarmSettings = getExistAlarmSettings;
+exports.getFallAlarmSettings = getFallAlarmSettings;
+exports.getHealthAlarmSettings = getHealthAlarmSettings;
+exports.updateDetectionAlarmSettings = updateDetectionAlarmSettings;
+exports.updateDeviceInform = updateDeviceInform;
+exports.updateExistAlarmSettings = updateExistAlarmSettings;
+exports.updateFallAlarmSettings = updateFallAlarmSettings;
+exports.updateHealthAlarmSettings = updateHealthAlarmSettings;
+var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 75));
+var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 77));
+// 获取设备通知
+function getDeviceInform() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/get',
+    method: 'get'
+  });
+}
+;
+
+// 获取设备通知列表
+function getDeviceInformList() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/list',
+    method: 'get'
+  });
+}
+;
+
+// 删除设备通知
+function deleteDeviceInformList() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/delete',
+    method: 'delete'
+  });
+}
+;
+
+// 查询未读消息数量
+function getDeviceInformUnread(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/unRead',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 创建设备通知
+function createDeviceInform() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/create',
+    method: 'post'
+  });
+}
+;
+
+// 更新设备通知设备通知
+function updateDeviceInform() {
+  return (0, _request.default)({
+    url: '/app-api/member/device-notice/update',
+    method: 'put'
+  });
+}
+;
+
+// 获得人体监测雷达设置
+function getDetectionAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/detection-alarm-settings/get',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 更新人体监测雷达设置
+function updateDetectionAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/detection-alarm-settings/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除人体监测雷达设置
+function deleteDetectionAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/detection-alarm-settings/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 获得人员存在感知雷达设置
+function getExistAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/exist-alarm-settings/get',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 更新人员存在感知雷达设置
+function updateExistAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/exist-alarm-settings/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除人员存在感知雷达设置
+function deleteExistAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/exist-alarm-settings/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 获得跌倒监测雷达设置
+function getFallAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/fall-alarm-settings/get',
+    method: 'get',
+    params: params
+  });
+}
+;
+
+// 更新跌倒监测雷达设置
+function updateFallAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/fall-alarm-settings/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除跌倒监测雷达设置
+function deleteFallAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/fall-alarm-settings/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+// 获得体征检测雷达设置
+function getHealthAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/health-alarm-settings/get',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 更新体征检测雷达设置
+function updateHealthAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/health-alarm-settings/update',
+    method: 'put',
+    data: data
+  });
+}
+;
+
+// 删除体征检测雷达设置
+function deleteHealthAlarmSettings(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/health-alarm-settings/delete',
+    method: 'delete',
+    params: data
+  });
+}
+;
+
+/***/ }),
+
 /***/ 35:
 /*!******************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/store/login.js ***!
@@ -11537,6 +11751,12 @@ var _default = {
     },
     roomDetails: function roomDetails(state) {
       return state.roomDetails;
+    },
+    warningMessagePhoneNumber: function warningMessagePhoneNumber(state) {
+      return state.warningMessagePhoneNumber;
+    },
+    currentNeedBindDevicesMessage: function currentNeedBindDevicesMessage(state) {
+      return state.currentNeedBindDevicesMessage;
     }
   },
   mutations: {
@@ -11578,6 +11798,14 @@ var _default = {
     changeRoomDetails: function changeRoomDetails(state, playLoad) {
       state.roomDetails = playLoad;
     },
+    // 保存报警手机号信息
+    changeWarningMessagePhoneNumber: function changeWarningMessagePhoneNumber(state, playLoad) {
+      state.warningMessagePhoneNumber = playLoad;
+    },
+    // 保存当前需要绑定设备的信息
+    changeCurrentNeedBindDevicesMessage: function changeCurrentNeedBindDevicesMessage(state, playLoad) {
+      state.currentNeedBindDevicesMessage = playLoad;
+    },
     //重置设备的状态
     resetDeviceInfoState: function resetDeviceInfoState(state) {
       Object.assign(state, (0, _resetStore.getDefaultDeviceState)());
@@ -11594,7 +11822,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 374:
+/***/ 375:
 /*!************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/exclamation-point.png ***!
   \************************************************************************/
@@ -11619,7 +11847,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getDefaultDeviceState = getDefaultDeviceState;
-// 质量管理信息store的初始值
+// 设备信息store的初始值
 function getDefaultDeviceState() {
   return {
     timeMessage: {},
@@ -11632,7 +11860,9 @@ function getDefaultDeviceState() {
     beforeAddBodyDetectionDeviceMessage: {},
     beforeAddExistPerceptionRadarCompleteSet: {},
     beforeAddSignMonitorRadarCompleteSet: {},
-    roomDetails: {}
+    roomDetails: {},
+    warningMessagePhoneNumber: {},
+    currentNeedBindDevicesMessage: {}
   };
 }
 ;
@@ -14053,7 +14283,7 @@ module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module
 
 /***/ }),
 
-/***/ 703:
+/***/ 704:
 /*!**********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/emitter.js ***!
   \**********************************************************************************/
@@ -14122,7 +14352,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 704:
+/***/ 705:
 /*!******************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/async-validator.js ***!
   \******************************************************************************************/
@@ -15300,11 +15530,11 @@ Schema.warning = warning;
 Schema.messages = messages;
 var _default = Schema;
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 705)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 706)))
 
 /***/ }),
 
-/***/ 705:
+/***/ 706:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -15335,7 +15565,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 706);
+        if (!path) path = __webpack_require__(/*! path */ 707);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -15349,7 +15579,7 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 706:
+/***/ 707:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -15659,7 +15889,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 705)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 706)))
 
 /***/ }),
 
@@ -15935,6 +16165,17 @@ instance.interceptors.response.use(function (response) {
 var _default = instance;
 exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+
+/***/ 757:
+/*!*************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/passed.png ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAATlBMVEUAAAAono4wn48qn48nno4ono4on48ono4onY0onY0pno4ono4pn48nno4ono4pnY0ono4pno4nnY0on48on48nn44nn48on48nno4ono6z46sZAAAAGnRSTlMA/xAw7/Ag0IBgkMBQz6Bw37Cvf0Bvj59PXz3kzCcAAALbSURBVHic7VhZgoMgDLXgWpdal057/4tOk4DsCDP9bP5UeGZ/geIr/xP2XJd+vrxl7pf1yf6Gwh8jQOgyPni2Ljsq4sq85+jF1tIPA1KuyVCvA6a5dlsNr+qtuzYH1CsJpu7F+vtg/ZoNd/GpR/S4DKRO1XoNYG1FSg1nOI8YjA71iOP8kFFRzWsy8Ce2ZsElt/jPiuJ2hoT6VAlJx9G8INIVI54QkLd5mAtX/8cBcRKzjSGSN3Y1xL1K0geXg3WlbznmYUZRcsxM932XFC9dMHad/ZaBYfccnKKAfCptn7ZZDiJBN7Uehax35wJ/t1QCe6vsVspAJdOv0A/TFWJLSU4GlWb9C4YyWSEOvyVEO2WgOJJD1oE/RXVA4PRCAb44bVVCsGPJzZB9o/qGGqZZxpCjjjS0dkK5Nkk4HBuxls5Qu8oWcH5SzHbsaHpZgHfVVnCZUzSuMGrExkpIwOl4gsLfTnFqonDzj5vRAiAvTutM8JSlOWSgChssOMNZiRodDxh7HaD6aS1nxC+V64Ao0DvIJiljUfgJJgoE28pdPWNRBIjK2Gs7m8aIXu4jGvfjgLNVLtvhJ665XFZVFCHiNMPvJKREGrkoiiABmwkJJWKypkS6yDkyRORmiUDRas3AQCKZQ4RnNiBfG2GThhMkcnun2QyEKKTwQACNTW9A/lYrkSKDhd1qA82fkCI4TvMP0REgxQYdCLfZWiEdHBqHlc0UwUF+NgkSOfNPlG3zM9J47hDhGxhQpSUPCHqUOzB8atD63OgXmS69EpldcTweU8djbAuBeQEH9jFJJ444gYFdlESZcoTAbqcaWqC4tLbvFxoBIjgSaYkfs4jjojjCT7EDsDw4B/0jZRBnTT+UhKkS5rvjcLzYVw/sRUalHY7f0pFSePWwbxhEvu3qYqJKmKXMA7BXIgdnH9QtcKXR3LLPB1xdPaiLiexLFqHX0E49wjX91NoXE1/JlV9YdhN0rA5m9gAAAABJRU5ErkJggg=="
 
 /***/ }),
 
@@ -17089,17 +17330,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ 777:
-/*!*************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/passed.png ***!
-  \*************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAATlBMVEUAAAAono4wn48qn48nno4ono4on48ono4onY0onY0pno4ono4pn48nno4ono4pnY0ono4pno4nnY0on48on48nn44nn48on48nno4ono6z46sZAAAAGnRSTlMA/xAw7/Ag0IBgkMBQz6Bw37Cvf0Bvj59PXz3kzCcAAALbSURBVHic7VhZgoMgDLXgWpdal057/4tOk4DsCDP9bP5UeGZ/geIr/xP2XJd+vrxl7pf1yf6Gwh8jQOgyPni2Ljsq4sq85+jF1tIPA1KuyVCvA6a5dlsNr+qtuzYH1CsJpu7F+vtg/ZoNd/GpR/S4DKRO1XoNYG1FSg1nOI8YjA71iOP8kFFRzWsy8Ce2ZsElt/jPiuJ2hoT6VAlJx9G8INIVI54QkLd5mAtX/8cBcRKzjSGSN3Y1xL1K0geXg3WlbznmYUZRcsxM932XFC9dMHad/ZaBYfccnKKAfCptn7ZZDiJBN7Uehax35wJ/t1QCe6vsVspAJdOv0A/TFWJLSU4GlWb9C4YyWSEOvyVEO2WgOJJD1oE/RXVA4PRCAb44bVVCsGPJzZB9o/qGGqZZxpCjjjS0dkK5Nkk4HBuxls5Qu8oWcH5SzHbsaHpZgHfVVnCZUzSuMGrExkpIwOl4gsLfTnFqonDzj5vRAiAvTutM8JSlOWSgChssOMNZiRodDxh7HaD6aS1nxC+V64Ao0DvIJiljUfgJJgoE28pdPWNRBIjK2Gs7m8aIXu4jGvfjgLNVLtvhJ665XFZVFCHiNMPvJKREGrkoiiABmwkJJWKypkS6yDkyRORmiUDRas3AQCKZQ4RnNiBfG2GThhMkcnun2QyEKKTwQACNTW9A/lYrkSKDhd1qA82fkCI4TvMP0REgxQYdCLfZWiEdHBqHlc0UwUF+NgkSOfNPlG3zM9J47hDhGxhQpSUPCHqUOzB8atD63OgXmS69EpldcTweU8djbAuBeQEH9jFJJ444gYFdlESZcoTAbqcaWqC4tLbvFxoBIjgSaYkfs4jjojjCT7EDsDw4B/0jZRBnTT+UhKkS5rvjcLzYVw/sRUalHY7f0pFSePWwbxhEvu3qYqJKmKXMA7BXIgdnH9QtcKXR3LLPB1xdPaiLiexLFqHX0E49wjX91NoXE1/JlV9YdhN0rA5m9gAAAABJRU5ErkJggg=="
-
-/***/ }),
-
 /***/ 78:
 /*!******************************************!*\
   !*** ./node_modules/qs/lib/stringify.js ***!
@@ -17574,7 +17804,7 @@ module.exports = function getSideChannel() {
 
 /***/ }),
 
-/***/ 792:
+/***/ 793:
 /*!***********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/province.js ***!
   \***********************************************************************************/
@@ -17696,7 +17926,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 793:
+/***/ 794:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/city.js ***!
   \*******************************************************************************/
@@ -18817,7 +19047,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 794:
+/***/ 795:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/area.js ***!
   \*******************************************************************************/

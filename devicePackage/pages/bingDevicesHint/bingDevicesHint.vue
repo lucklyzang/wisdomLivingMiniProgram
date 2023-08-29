@@ -1,19 +1,19 @@
 <template>
 	<view class="content-box">
 		<u-toast ref="uToast" />
-		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
+		<!-- <ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/> -->
 		<view class="content-area">
 			<view class="content-top">
-				<!-- <view class="device-binding">
+				<view class="device-binding" v-if="showLoadingHint">
 					<image :src="deviceBindingGif"></image>
-				</view> -->
-			<!-- 	<view class="device-success">
+				</view>
+				<view class="device-success" v-if="!showLoadingHint && isSuccess">
 					<image :src="deviceBindSuccessPng"></image>
-				</view> -->
-				<view class="device-fail">
+				</view>
+				<view class="device-fail" v-if="!showLoadingHint && isFail">
 					<image :src="deviceBindFailPng"></image>
 				</view>
-				<text>绑定中</text>
+				<text>{{ infoText }}</text>
 			</view>
 			<view class="content-bottom">
 				<text @click="backTo">返回</text>
@@ -27,23 +27,36 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { createUserDeviceBind } from '@/api/user.js'
 	export default {
 		components: {
 		},
 		data() {
 			return {
-				infoText: '',
+				infoText: '绑定中',
 				showLoadingHint: false,
+				isSuccess: false,
+				isFail: false,
 				deviceBindingGif: require("@/static/img/device-binding.gif"),
 				deviceBindSuccessPng: require("@/static/img/device-bind-success.png"),
 				deviceBindFailPng: require("@/static/img/device-bind-fail.png")
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.createUserDeviceBindEvent({
+				userId: this.userInfo.userId,
+				deviceId: this.currentNeedBindDevicesMessage.message.deviceId,
+				familyId: this.familyId,
+				roomId: this.currentNeedBindDevicesMessage.message.roomId,
+				customName: this.currentNeedBindDevicesMessage.message.customName,
+				deviceCode: this.currentNeedBindDevicesMessage.message.sn
+			})
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId',
+				'currentNeedBindDevicesMessage'
 			]),
 			userName() {
 			},
@@ -58,12 +71,40 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 用户绑定设备
+			createUserDeviceBindEvent (data) {
+				this.showLoadingHint = true;
+				createUserDeviceBind(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.infoText = '绑定成功!';
+						this.isSuccess = true
+					} else {
+						this.isFail = true;
+						this.infoText = '绑定失败!'
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.isFail = true;
+					this.infoText = '绑定失败!';
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
 			
 			backTo () {
 				uni.redirectTo({

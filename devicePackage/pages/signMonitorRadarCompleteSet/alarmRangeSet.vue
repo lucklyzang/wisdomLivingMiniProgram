@@ -178,11 +178,11 @@
 			this.situpDetectionAlarmValue = this.receiveData['sitUp'];
 			this.leaveBedDetectionAlarmValue = this.receiveData['outBed'];
 			let heartRateRanageArr = this.receiveData['heartRange'].split('-');
-			this.heartRateMinValue = heartRateRanageArr.length > 0 ? heartRateRanageArr[0] : '';
-			this.heartRateMaxValue = heartRateRanageArr.length > 0 ? heartRateRanageArr[1] : '';
+			this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
+			this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : '';
 			let breatheRanageArr = this.receiveData['breatheRange'].split('-');
-			this.breatheMinValue = breatheRanageArr.length > 0 ? breatheRanageArr[0] : '';
-			this.breatheMaxValue = breatheRanageArr.length > 0 ? breatheRanageArr[1] : ''
+			this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';
+			this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : ''
 		},
 		computed: {
 			...mapGetters([
@@ -214,8 +214,8 @@
 			heartRateTimeClickEvent(item,index) {
 				this.heartRateTimeIndex = index;
 				let heartValue = this.heartRateValueList[index].split('-');
-				this.heartRateMinValue = heartValue[0];
-				this.heartRateMaxValue = heartValue[1]
+				this.heartRateMinValue = Number(heartValue[0]);
+				this.heartRateMaxValue = Number(heartValue[1])
 			},
 			
 			// 心率自定义点击事件
@@ -227,8 +227,8 @@
 			breatheTimeClickEvent(item,index) {
 				this.breatheTimeIndex = index;
 				let breatheValue = this.breatheValueList[index].split('-');
-				this.breatheMinValue = breatheValue[0];
-				this.breatheMaxValue = breatheValue[1]
+				this.breatheMinValue = Number(breatheValue[0]);
+				this.breatheMaxValue = Number(breatheValue[1])
 			},
 			
 			// 呼吸自定义点击事件
@@ -255,7 +255,7 @@
 						});
 						return
 					};
-					if (this.heartRateMaxValue < this.heartRateMinValue) {
+					if (Number(this.heartRateMaxValue) < Number(this.heartRateMinValue)) {
 						this.$refs.uToast.show({
 							title: '心率最大值不能小于最小值,请重新输入!',
 							type: 'error',
@@ -281,7 +281,7 @@
 						});
 						return
 					};
-					if (this.breatheMaxValue < this.breatheMinValue) {
+					if (Number(this.breatheMaxValue) < Number(this.breatheMinValue)) {
 						this.$refs.uToast.show({
 							title: '呼吸最大值不能小于最小值,请重新输入!',
 							type: 'error',

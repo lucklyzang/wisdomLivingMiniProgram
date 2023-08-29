@@ -12,7 +12,9 @@ export default {
 		beforeAddBodyDetectionDeviceMessage: state => state.beforeAddBodyDetectionDeviceMessage,
 		beforeAddExistPerceptionRadarCompleteSet: state => state.beforeAddExistPerceptionRadarCompleteSet,
 		beforeAddSignMonitorRadarCompleteSet: state => state.beforeAddSignMonitorRadarCompleteSet,
-		roomDetails: state => state.roomDetails
+		roomDetails: state => state.roomDetails,
+		warningMessagePhoneNumber: state => state.warningMessagePhoneNumber,
+		currentNeedBindDevicesMessage: state => state.currentNeedBindDevicesMessage
   },
   mutations:{
 		changeTimeMessage (state, playLoad) {
@@ -52,6 +54,14 @@ export default {
 		// 保存房间详情信息
 		changeRoomDetails (state, playLoad) {
 			state.roomDetails = playLoad
+		},
+		// 保存报警手机号信息
+		changeWarningMessagePhoneNumber (state, playLoad) {
+			state.warningMessagePhoneNumber = playLoad
+		},
+		// 保存当前需要绑定设备的信息
+		changeCurrentNeedBindDevicesMessage (state, playLoad) {
+			state.currentNeedBindDevicesMessage = playLoad
 		},
 		//重置设备的状态
 		resetDeviceInfoState(state) {

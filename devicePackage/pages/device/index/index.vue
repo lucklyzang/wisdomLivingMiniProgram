@@ -19,6 +19,7 @@
 					 @change="familyMemberChange"
 					placeholder = "请选择家庭"
 					:selectHideType="'hideAll'"
+					:initValue="familyMemberList[0]['value']"
 				>
 				</xfl-select>
 			</view>
@@ -99,6 +100,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import xflSelect from '@/components/xfl-select/xfl-select.vue';
+	import { getUserFamilyList } from '@/api/user.js'
 	export default {
 		components: {
 			navBar,
@@ -110,27 +112,16 @@
 				showLoadingHint: false,
 				deviceInformIconPng: require("@/static/img/device-inform-icon.png"),
 				systemInformIconPng: require("@/static/img/system-inform-icon.png"),
-				familyMemberList: [
-					{
-						id: 1,
-						value: '张三的家'
-					},
-					{
-						id: 2,
-						value: '李四的家'
-					},
-					{
-						id: 3,
-						value: '王强的家'
-					}
-				],
+				familyMemberList: [],
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.queryUserFamilyList()
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId'
 			]),
 			userName() {
 			},
@@ -161,6 +152,39 @@
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
 				console.log(val)
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				this.familyMemberList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						for (let item of res.data.data) {
+							this.familyMemberList.push({
+								id: item.id,
+								value: item.name
+							})
+						};
+						if (this.familyId) {
+							this.initValue = this.familyId
+						} else {
+							this.initValue = this.familyMemberList[0]['id']
+						};
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			// 进入消息详情事件

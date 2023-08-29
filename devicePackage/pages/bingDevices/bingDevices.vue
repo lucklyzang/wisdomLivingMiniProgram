@@ -6,43 +6,29 @@
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" @backClick="backTo">
 			</nav-bar> 
 		</view>
-		<view class="content-area" v-if="false">
+		<view class="content-area" v-if="!isShowNoDeviceData">
 			<view class="content-top">
 				<text>已为您检测到2个睡眠相关雷达</text>
 				<text>请选择其中一个进行绑定</text>
 			</view>
 			<view class="content-bottom">
-				<view class="devices-list" @click="bindDeviceEvent">
+				<view class="devices-list" v-for="(item,index) in deviceList" :key="index" @click="bindDeviceEvent(item)">
 					<view class="list-top">
 						<view class="list-top-left">
 							<image :src="deviceIconPng"></image>
 						</view>
 						<view class="list-top-right">
-							<text>在线</text>
+							<text>{{ item.onLine ? '在线' : '离线' }}</text>
 						</view>
 					</view>
 					<view class="list-bottom">
-						<text>主卧</text>
-						<text>体征监测雷达1</text>
-					</view>
-				</view>
-				<view class="devices-list">
-					<view class="list-top">
-						<view class="list-top-left">
-							<image :src="deviceIconPng"></image>
-						</view>
-						<view class="list-top-right">
-							<text>在线</text>
-						</view>
-					</view>
-					<view class="list-bottom">
-						<text>主卧</text>
-						<text>体征监测雷达1</text>
+						<text>{{ item.roomName }}</text>
+						<text>{{ item.deviceName }}</text>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="content-no-query-device-area">
+		<view class="content-no-query-device-area" v-else>
 			<view class="content-top">
 				<view class="no-query-device">
 					<image :src="noQueryDevice"></image>
@@ -66,6 +52,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { getUserDeviceMessage } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -73,16 +60,24 @@
 		data() {
 			return {
 				infoText: '',
+				deviceList: [],
 				showLoadingHint: false,
+				isShowNoDeviceData: false,
 				deviceIconPng: require("@/static/img/room-icon.png"),
 				noQueryDevice: require("@/static/img/no-query-device.png")
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.getUserDevice({
+				familyId: this.familyId,
+				type: this.currentNeedBindDevicesMessage.type
+			})
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyId',
+				'currentNeedBindDevicesMessage'
 			]),
 			userName() {
 			},
@@ -101,13 +96,50 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeCurrentNeedBindDevicesMessage'
 			]),
 			
 			// 绑定设备事件
-			bindDeviceEvent () {
+			bindDeviceEvent (item) {
 				uni.redirectTo({
 					url: '/devicePackage/pages/bingDevicesHint/bingDevicesHint'
+				});
+				let temporaryMessage = this.currentNeedBindDevicesMessage;
+				temporaryMessage['type'] = type;
+				temporaryMessage['message'] = item;
+				this.changeCurrentNeedBindDevicesMessage(item)
+			},
+			
+			// 获取用户设备信息
+			getUserDevice (data) {
+				this.deviceList = [];
+				this.showLoadingHint = true;
+				this.isShowNoDeviceData = false;
+				this.infoText = '加载中...';
+				getUserDeviceMessage(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						if ( res.data.data.length > 0) {
+							this.deviceList = res.data.data
+						} else {
+							this.isShowNoDeviceData = true
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			

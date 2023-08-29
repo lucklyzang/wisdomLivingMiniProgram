@@ -62,6 +62,30 @@ page {
   display: flex;
   align-items: center;
 }
+.content-box .top-area-box .operation-area .operation-top-area .image-area {
+  position: relative;
+}
+.content-box .top-area-box .operation-area .operation-top-area .image-area .no-read-box {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #F50057;
+  color: #fff;
+  font-size: 12px;
+  left: 24px;
+  top: -4px;
+}
+.content-box .top-area-box .operation-area .operation-top-area .image-area .no-read-box > text {
+  text-align: center;
+  line-height: 16px;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .content-box .top-area-box .operation-area .operation-top-area .image-area image {
   width: 29px;
   height: 29px;

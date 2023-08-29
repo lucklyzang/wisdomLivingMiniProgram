@@ -37,6 +37,8 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { sendPhoneCode } from '@/api/login.js'
+	import { deleteMobile } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -54,11 +56,13 @@
 				}
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.form.phoneNumber = this.warningMessagePhoneNumber.mobile
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'warningMessagePhoneNumber'
 			]),
 			userName() {
 			},
@@ -73,22 +77,107 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeWarningMessagePhoneNumber'
 			]),
 			
 			// 确认事件
 			sureEvent () {
-				uni.redirectTo({
-					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
+				if (!this.form.phoneNumber) {
+					this.$refs.uToast.show({
+						title: '请输入手机号码!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+				if (!myreg.test(this.form.phoneNumber)) {
+					this.$refs.uToast.show({
+						title: '手机号格式有误,请重新输入!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
+				if (!this.form.verificationCode) {
+					this.$refs.uToast.show({
+						title: '请输入验证码!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				if (this.warningMessagePhoneNumber.type == '编辑') {
+					let temporaryNumberMessage = this.warningMessagePhoneNumber;
+					temporaryNumberMessage['oldCode'] = this.form.verificationCode;
+					this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
+					uni.redirectTo({
+						url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberEdit'
+					})
+				} else if (this.warningMessagePhoneNumber.type == '删除') {
+					this.deleteMobileEvent({
+						id: this.warningMessagePhoneNumber.familyId,
+						code: this.form.verificationCode,
+						mobile: this.form.phoneNumber,
+					})
+				}
+			},
+			
+			// 删除手机号
+			deleteMobileEvent (data) {
+				this.showLoadingHint = true;
+				this.infoText = '删除中...';
+				deleteMobile(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						uni.redirectTo({
+							url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
+						});
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					});
+					this.showLoadingHint = false
 				})
 			},
 			
 			// 获取验证码事件
 			getVerificationCodeEvent () {
+				if (!this.form.phoneNumber) {
+					this.$refs.uToast.show({
+						title: '请输入手机号码!',
+						type: 'warning',
+						position: 'bottom'
+					});
+					return
+				};
+				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+				if (!myreg.test(this.form.phoneNumber)) {
+					this.$refs.uToast.show({
+						title: '手机号格式有误,请重新输入!',
+						type: 'error',
+						position: 'bottom'
+					});
+					return
+				};
 				const TIME_COUNT = 60;
 				if (!this.timer) {
 					this.count = TIME_COUNT;
@@ -101,8 +190,51 @@
 							clearInterval(this.timer);
 							this.timer = null
 						}
-					}, 1000)
+					}, 1000);
+					this.sendCodeEvent()
 				}
+			},
+			
+			// 发送验证码事件
+			sendCodeEvent () {
+				let loginMessage = {
+				  mobile: this.form.phoneNumber,
+					scene: 2
+				};
+				this.showLoadingHint = true;
+				this.infoText = '获取中...';
+				sendPhoneCode(loginMessage).then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data == true) {
+							this.$refs.uToast.show({
+								title: res.data.msg,
+								type: 'error',
+								position: 'bottom'
+							})
+						} else {
+							this.$refs.uToast.show({
+								title: res.data.msg,
+								type: 'error',
+								position: 'bottom'
+							})
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			backTo () {

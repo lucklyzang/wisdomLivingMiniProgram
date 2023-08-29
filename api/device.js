@@ -26,10 +26,11 @@ export function deleteDeviceInformList() {
 };
 
 // 查询未读消息数量
-export function getDeviceInformUnread() {
+export function getDeviceInformUnread(data) {
   return request({
     url: '/app-api/member/device-notice/unRead',
-    method: 'get'
+    method: 'get',
+		params: data
   })
 };
 

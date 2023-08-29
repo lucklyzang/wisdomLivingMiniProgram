@@ -44,7 +44,7 @@
 		data() {
 			return {
 				infoText: '退出中...',
-				checked: false,
+				checked: true,
 				showLoadingHint: false,
 				modalShow: false,
 				modalContent: '',

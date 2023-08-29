@@ -101,16 +101,16 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 677))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 678))
     },
     xflSelect: function () {
-      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 737))
+      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 738))
     },
     uEmpty: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 744))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 745))
     },
     uIcon: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 670))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 671))
     },
   }
 } catch (e) {
@@ -195,6 +195,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _device = __webpack_require__(/*! @/api/device.js */ 348);
 var _user = __webpack_require__(/*! @/api/user.js */ 104);
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
@@ -204,7 +205,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var xflSelect = function xflSelect() {
   __webpack_require__.e(/*! require.ensure | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then((function () {
-    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 737));
+    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 738));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -221,6 +222,7 @@ var _default = {
       familyMemberList: [],
       tabCutList: ['设备', '房间'],
       deviceList: [],
+      noReadMessageNum: 0,
       imageUrl: __webpack_require__(/*! @/static/img/room-icon.png */ 118),
       roomList: [],
       tabCutActiveIndex: 0,
@@ -232,7 +234,7 @@ var _default = {
   onLoad: function onLoad() {
     this.queryUserFamilyList();
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -250,8 +252,9 @@ var _default = {
         });
         this.changeEnterFamilyManagementPageSource('/pages/device/device');
       } else {
-        this.initValue = val.orignItem.id;
-        this.getUserDevice(this.initValue);
+        this.initValue = val.orignItem.value;
+        this.changeFamilyId(val.orignItem.id);
+        this.getUserDevice(val.orignItem.id);
       }
     },
     // 家庭下拉框下拉确定事件
@@ -265,9 +268,32 @@ var _default = {
         this.getUserRoom(this.initValue);
       }
     },
+    // 查询未读消息数量
+    queryDeviceInformUnread: function queryDeviceInformUnread(familyId) {
+      var _this = this;
+      (0, _device.getDeviceInformUnread)({
+        familyId: familyId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this.noReadMessageNum = res.data.data;
+        } else {
+          _this.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 获取用户设备信息
     getUserDevice: function getUserDevice(familyId) {
-      var _this = this;
+      var _this2 = this;
       this.deviceList = [];
       this.showLoadingHint = true;
       this.isShowNoDeviceData = false;
@@ -277,41 +303,9 @@ var _default = {
       }).then(function (res) {
         if (res && res.data.code == 0) {
           if (res.data.data.length > 0) {
-            _this.deviceList = res.data.data;
+            _this2.deviceList = res.data.data;
           } else {
-            _this.isShowNoDeviceData = true;
-          }
-        } else {
-          _this.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-        _this.showLoadingHint = false;
-      }).catch(function (err) {
-        _this.showLoadingHint = false;
-        _this.$refs.uToast.show({
-          title: err,
-          type: 'error',
-          position: 'bottom'
-        });
-      });
-    },
-    // 获取用户房间信息
-    getUserRoom: function getUserRoom(familyId) {
-      var _this2 = this;
-      this.showLoadingHint = true;
-      this.infoText = '加载中...';
-      this.isShowNoRoomData = false;
-      (0, _user.getUserRoomDevices)({
-        familyId: familyId
-      }).then(function (res) {
-        if (res && res.data.code == 0) {
-          if (res.data.data.length > 0) {
-            _this2.roomList = res.data.data;
-          } else {
-            _this2.isShowNoRoomData = true;
+            _this2.isShowNoDeviceData = true;
           }
         } else {
           _this2.$refs.uToast.show({
@@ -330,28 +324,20 @@ var _default = {
         });
       });
     },
-    // 获取用户家庭列表
-    queryUserFamilyList: function queryUserFamilyList() {
+    // 获取用户房间信息
+    getUserRoom: function getUserRoom(familyId) {
       var _this3 = this;
-      this.familyMemberList = [];
-      (0, _user.getUserFamilyList)().then(function (res) {
+      this.showLoadingHint = true;
+      this.infoText = '加载中...';
+      this.isShowNoRoomData = false;
+      (0, _user.getUserRoomDevices)({
+        familyId: familyId
+      }).then(function (res) {
         if (res && res.data.code == 0) {
-          var _iterator = _createForOfIteratorHelper(res.data.data),
-            _step;
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var item = _step.value;
-              _this3.familyMemberList.push({
-                id: item.id,
-                value: item.name
-              });
-              _this3.initValue = _this3.familyMemberList[0]['id'];
-              _this3.getUserDevice(_this3.initValue);
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
+          if (res.data.data.length > 0) {
+            _this3.roomList = res.data.data;
+          } else {
+            _this3.isShowNoRoomData = true;
           }
         } else {
           _this3.$refs.uToast.show({
@@ -360,19 +346,72 @@ var _default = {
             position: 'bottom'
           });
         }
-        ;
-        _this3.familyMemberList.push({
-          iconPath: __webpack_require__(/*! @/static/img/family-management-icon.png */ 121),
-          value: '家庭管理',
-          isClickNoEffect: true
-        });
+        _this3.showLoadingHint = false;
       }).catch(function (err) {
+        _this3.showLoadingHint = false;
         _this3.$refs.uToast.show({
           title: err,
           type: 'error',
           position: 'bottom'
         });
-        _this3.familyMemberList.push({
+      });
+    },
+    // 获取用户家庭列表
+    queryUserFamilyList: function queryUserFamilyList() {
+      var _this4 = this;
+      this.familyMemberList = [];
+      (0, _user.getUserFamilyList)().then(function (res) {
+        if (res && res.data.code == 0) {
+          var _iterator = _createForOfIteratorHelper(res.data.data),
+            _step;
+          try {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+              var item = _step.value;
+              _this4.familyMemberList.push({
+                id: item.id,
+                value: item.name
+              });
+            }
+          } catch (err) {
+            _iterator.e(err);
+          } finally {
+            _iterator.f();
+          }
+          ;
+          if (_this4.familyId) {
+            _this4.changeFamilyId(_this4.familyId);
+            _this4.getUserDevice(_this4.familyId);
+            _this4.queryDeviceInformUnread(_this4.familyId);
+            _this4.initValue = _this4.familyMemberList.filter(function (el) {
+              return el.id == _this4.familyId;
+            })[0]['value'];
+          } else {
+            _this4.changeFamilyId(_this4.familyMemberList[0]['id']);
+            _this4.getUserDevice(_this4.familyMemberList[0]['id']);
+            _this4.queryDeviceInformUnread(_this4.familyMemberList[0]['id']);
+            _this4.initValue = _this4.familyMemberList[0]['value'];
+          }
+          ;
+        } else {
+          _this4.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this4.familyMemberList.push({
+          iconPath: __webpack_require__(/*! @/static/img/family-management-icon.png */ 121),
+          value: '家庭管理',
+          isClickNoEffect: true
+        });
+      }).catch(function (err) {
+        _this4.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+        _this4.familyMemberList.push({
           iconPath: __webpack_require__(/*! @/static/img/family-management-icon.png */ 121),
           value: '家庭管理',
           isClickNoEffect: true
@@ -384,7 +423,7 @@ var _default = {
       uni.redirectTo({
         url: '/devicePackage/pages/roomManagement/roomManagement'
       });
-      this.changeFamilyId(this.initValue);
+      this.changeFamilyId(this.familyId);
     },
     // 进入消息详情页
     enterMessagePageDetails: function enterMessagePageDetails() {
@@ -468,7 +507,7 @@ var _default = {
       uni.redirectTo({
         url: '/devicePackage/pages/addDevices/addDevices'
       });
-      this.changeFamilyId(this.initValue);
+      this.changeFamilyId(this.familyId);
     }
   })
 };
