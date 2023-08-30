@@ -7,6 +7,7 @@
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
     "y-toast": "/components/y-toast/y-toast",
     "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty",
+    "u-input": "/node-modules/uview-ui/components/u-input/u-input",
     "nav-bar": "/components/zhouWei-navBar/index"
   }
 }

@@ -14,7 +14,9 @@ export default {
 		beforeAddSignMonitorRadarCompleteSet: state => state.beforeAddSignMonitorRadarCompleteSet,
 		roomDetails: state => state.roomDetails,
 		warningMessagePhoneNumber: state => state.warningMessagePhoneNumber,
-		currentNeedBindDevicesMessage: state => state.currentNeedBindDevicesMessage
+		currentNeedBindDevicesMessage: state => state.currentNeedBindDevicesMessage,
+		deviceNoticeDetails: state => state.deviceNoticeDetails,
+		familyMessage: state => state.familyMessage
   },
   mutations:{
 		changeTimeMessage (state, playLoad) {
@@ -62,6 +64,14 @@ export default {
 		// 保存当前需要绑定设备的信息
 		changeCurrentNeedBindDevicesMessage (state, playLoad) {
 			state.currentNeedBindDevicesMessage = playLoad
+		},
+		// 保存设备通知信息
+		changeDeviceNoticeDetails (state, playLoad) {
+			state.deviceNoticeDetails = playLoad
+		},
+		// 保存家庭信息
+		changeFamilyMessage (state, playLoad) {
+			state.familyMessage = playLoad
 		},
 		//重置设备的状态
 		resetDeviceInfoState(state) {

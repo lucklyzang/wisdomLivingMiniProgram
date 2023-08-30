@@ -101,13 +101,13 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 678))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 686))
     },
     yToast: function () {
-      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 752))
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 760))
     },
     uSwitch: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */ "node-modules/uview-ui/components/u-switch/u-switch").then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 781))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */ "node-modules/uview-ui/components/u-switch/u-switch").then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 789))
     },
   }
 } catch (e) {
@@ -177,12 +177,12 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 760));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 768));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var yToast = function yToast() {
   Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 752));
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 760));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

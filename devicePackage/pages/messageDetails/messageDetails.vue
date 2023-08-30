@@ -8,22 +8,25 @@
 		</view>
 		<view class="content-area">
 			<view>
-				<text>设备通知</text>
+				<text>{{ deviceNoticeDetails.content.category == 0 ? '设备通知' : '系统通知' }}</text>
 			</view>
-			<view>
-				<text>张三的家</text>
-				<text>体征监测雷达</text>
-				<text>客厅</text>
-				<text>2023-07-20 20：00</text>
+			<view v-if="deviceNoticeDetails.content.category == 0">
+				<text></text>
+				<text>{{ deviceTypeTransitionText(deviceNoticeDetails.content.type) }}</text>
+				<text>{{ deviceNoticeDetails.content.roomName }}</text>
+				<text>{{ deviceNoticeDetails.time }}</text>
 			</view>
-			<view>
-				<text>张三的家</text>
-				<text>2023-07-20 20：00</text>
+			<view v-else>
+				<text>{{ deviceNoticeDetails.content.familyName }}</text>
+				<text>{{ deviceNoticeDetails.time }}</text>
 			</view>
-			<view>
+			<view v-if="deviceNoticeDetails.content.category == 0">
 				<text>
-					今天23点50分识别到今日最大心率153，最大心率值略高于正常值
+					{{ deviceNoticeDetails.content.content }}
 				</text>
+			</view>
+			<view v-if="deviceNoticeDetails.content.category == 1">
+				<u-parse :html="deviceNoticeDetails.content.content"></u-parse>
 			</view>
 		</view>
 	</view>
@@ -45,11 +48,13 @@
 				showLoadingHint: false
 			}
 		},
-		onReady() {
+		onLoad() {
+			console.log('详情信息',this.deviceNoticeDetails);
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'deviceNoticeDetails'
 			]),
 			userName() {
 			},
@@ -64,12 +69,29 @@
 			accountName() {
 			}
 		},
-		mounted() {
-		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 设备名称转换
+			deviceTypeTransitionText (num) {
+				let temporaryNum = num.toString();
+				switch(temporaryNum) {
+					case '1' :
+						return '体征检测雷达'
+						break;
+					case '2' :
+						return '存在感知雷达'
+						break;
+					case '3' :
+						return '跌倒雷达'
+						break;
+					case '4' :
+						return '人体检测雷达'
+						break
+				}
+			},
 			
 			backTo () {
 				uni.redirectTo({

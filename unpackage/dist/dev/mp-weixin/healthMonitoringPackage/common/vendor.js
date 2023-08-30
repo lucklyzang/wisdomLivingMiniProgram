@@ -1,90 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["healthMonitoringPackage/common/vendor"],{
 
-/***/ 146:
-/*!***************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/api/home.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.createHomePage = createHomePage;
-exports.deleteHomePage = deleteHomePage;
-exports.getHomePage = getHomePage;
-exports.getHomePageList = getHomePageList;
-exports.homePageBindDevice = homePageBindDevice;
-exports.saveOrUpdateHomePage = saveOrUpdateHomePage;
-var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 75));
-var _qs = _interopRequireDefault(__webpack_require__(/*! qs */ 77));
-// 获取首页配置
-function getHomePage(data) {
-  return (0, _request.default)({
-    url: '/app-api/member/home-page/get',
-    method: 'get',
-    params: data
-  });
-}
-;
-
-// 获取首页配置列表
-function getHomePageList(data) {
-  return (0, _request.default)({
-    url: '/app-api/member/home-page/list',
-    method: 'get',
-    params: data
-  });
-}
-;
-
-// 删除首页数据卡片
-function deleteHomePage(data) {
-  return (0, _request.default)({
-    url: '/app-api/member/home-page/delete',
-    method: 'delete',
-    params: data
-  });
-}
-;
-
-// 创建首页数据卡片
-function createHomePage(data) {
-  return (0, _request.default)({
-    url: '/app-api/member/home-page/create',
-    method: 'post',
-    data: data
-  });
-}
-;
-
-// 保存或更新首页数据卡片
-function saveOrUpdateHomePage(data) {
-  return (0, _request.default)({
-    url: '/app-api/member/home-page/saveOrUpdate',
-    method: 'put',
-    data: data
-  });
-}
-;
-
-// 首页数据卡片绑定设备
-function homePageBindDevice(data) {
-  return (0, _request.default)({
-    url: '/app-api/member/home-page/bind-device',
-    method: 'put',
-    data: data
-  });
-}
-;
-
-/***/ }),
-
-/***/ 147:
+/***/ 148:
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/sleep-icon.png ***!
   \*****************************************************************/
@@ -95,7 +11,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 148:
+/***/ 149:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/copy-icon.png ***!
   \****************************************************************/
@@ -106,7 +22,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6
 
 /***/ }),
 
-/***/ 149:
+/***/ 150:
 /*!******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/delete-icon.png ***!
   \******************************************************************/
@@ -117,7 +33,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6
 
 /***/ }),
 
-/***/ 150:
+/***/ 151:
 /*!*********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/menu-move-icon.png ***!
   \*********************************************************************/
@@ -128,7 +44,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYAQMAAADa
 
 /***/ }),
 
-/***/ 159:
+/***/ 160:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/data-overview-icon.png ***!
   \*************************************************************************/
@@ -139,7 +55,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 160:
+/***/ 161:
 /*!***********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/daytime-nap-icon.png ***!
   \***********************************************************************/
@@ -150,7 +66,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 185:
+/***/ 186:
 /*!***************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/leave-home-list-icon.png ***!
   \***************************************************************************/
@@ -161,7 +77,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXBAMAAAAS
 
 /***/ }),
 
-/***/ 186:
+/***/ 187:
 /*!*******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/go-home-icon.png ***!
   \*******************************************************************/
@@ -172,7 +88,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 203:
+/***/ 204:
 /*!***********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-tips-icon.png ***!
   \***********************************************************************/
@@ -183,7 +99,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQkAAACuCAMAAAAS
 
 /***/ }),
 
-/***/ 212:
+/***/ 213:
 /*!**************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-breathe-tips.png ***!
   \**************************************************************************/
@@ -194,7 +110,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUYAAACtCAMAAAD7
 
 /***/ }),
 
-/***/ 221:
+/***/ 222:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-toilet-tips.png ***!
   \*************************************************************************/
@@ -205,7 +121,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASoAAADGCAMAAABS
 
 /***/ }),
 
-/***/ 230:
+/***/ 231:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-tumble-tips.png ***!
   \*************************************************************************/
@@ -216,7 +132,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVYAAADMCAMAAAAf
 
 /***/ }),
 
-/***/ 239:
+/***/ 240:
 /*!*********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-leave-home-tips-one.png ***!
   \*********************************************************************************/
@@ -227,7 +143,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAC1CAMAAADb
 
 /***/ }),
 
-/***/ 240:
+/***/ 241:
 /*!*********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/health-leave-home-tips-two.png ***!
   \*********************************************************************************/

@@ -19,75 +19,39 @@
 					 @change="familyMemberChange"
 					placeholder = "请选择家庭"
 					:selectHideType="'hideAll'"
-					:initValue="familyMemberList[0]['value']"
+					:initValue="initValue"
 				>
 				</xfl-select>
 			</view>
 		</view>
 		<view class="message-content-area">
-			<view class="message-list">
+			<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
+			<view class="message-list" v-for="(item,index) in fullNoticeList" :key="index">
 				<text>
-					2023-07-20 14:21
+					{{ item.time }}
 				</text>
-				<view class="message-inner-list" @click="enterMessageDetailsPageEvent">
+				<view class="message-inner-list" v-for="(innerItem,innerIndex) in item.respVOS" :key="innerIndex" @click="enterMessageDetailsPageEvent(item,innerItem)">
+					<view class="is-read-sign" v-if="innerItem.status == 0"></view>
 					<view class="message-inner-list-top">
 						<view class="inner-list-left">
-							<image :src="systemInformIconPng"></image>
-							<text>设备通知</text>
+							<image :src="innerItem.category == 0 ? deviceInformIconPng : systemInformIconPng"></image>
+							<text>{{ innerItem.category == 0 ? '设备通知' : '系统通知' }}</text>
 						</view>
 						<view class="inner-list-right">
-							<text>张和大家都的家</text>
-							<text>体征监测雷达</text>
-							<text>卧室</text>
+							<text>{{ innerItem.familyName }}</text>
+							<text v-if="innerItem.category == 0">{{ deviceTypeTransitionText(innerItem.type) }}</text>
+							<text v-if="innerItem.category == 0">{{ innerItem.roomName }}</text>
 						</view>
 					</view>
-					<view class="message-inner-list-bottom">
-						<text>
-							今天23点50分识别到今日最大心率153，最大心率值略高于正常值
-						</text>
+					<view class="message-inner-list-bottom" v-if="innerItem.category == 1">
+						<u-parse :html="innerItem.content"></u-parse>
+					</view>
+					<view class="message-inner-list-bottom" v-else>
+						<text>{{ innerItem.content }}</text>
 					</view>
 				</view>
 			</view>
-			<view class="message-list">
-				<text>
-					2023-07-20 14:21
-				</text>
-				<view class="message-inner-list">
-					<view class="message-inner-list-top">
-						<view class="inner-list-left">
-							<image :src="deviceInformIconPng"></image>
-							<text>设备通知</text>
-						</view>
-						<view class="inner-list-right">
-							<text>张三的家</text>
-							<text>体征监测雷达</text>
-							<text>卧室</text>
-						</view>
-					</view>
-					<view class="message-inner-list-bottom">
-						<text>
-							今天23点50分识别到今日最大心率153，最大心率值略高于正常值
-						</text>
-					</view>
-				</view>
-				<view class="message-inner-list">
-					<view class="message-inner-list-top">
-						<view class="inner-list-left">
-							<image :src="deviceInformIconPng"></image>
-							<text>设备通知</text>
-						</view>
-						<view class="inner-list-right">
-							<text>张三的家</text>
-							<text>体征监测雷达</text>
-							<text>卧室</text>
-						</view>
-					</view>
-					<view class="message-inner-list-bottom">
-						<text>
-							今天23点50分识别到今日最大心率153，最大心率值略高于正常值
-						</text>
-					</view>
-				</view>
+			<u-loadmore :status="status" />
 			</view>
 		</view>
 	</view>
@@ -99,7 +63,8 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import xflSelect from '@/components/xfl-select/xfl-select.vue';
+	import xflSelect from '@/components/xfl-select/xfl-select.vue'
+	import { getDeviceInforPage } from '@/api/device.js'
 	import { getUserFamilyList } from '@/api/user.js'
 	export default {
 		components: {
@@ -108,20 +73,42 @@
 		},
 		data() {
 			return {
-				infoText: '',
+				infoText: '加载中',
+				currentPage: 1,
+				pageSize: 15,
+				totalCount: 0,
+				status: 'loadmore',
+				initValue: null,
+				initValueId: null,
+				noticeList: [],
+				fullNoticeList: [],
 				showLoadingHint: false,
+				isShowNoHomeNoData: false,
 				deviceInformIconPng: require("@/static/img/device-inform-icon.png"),
 				systemInformIconPng: require("@/static/img/system-inform-icon.png"),
-				familyMemberList: [],
+				familyMemberList: []
 			}
 		},
 		onLoad() {
-			this.queryUserFamilyList()
+			this.queryUserFamilyList();
+			if (this.deviceNoticeDetails.familyId) {
+				this.queryDeviceNoticeList({
+					pageNo: this.currentPage,
+					pageSize: this.pageSize,
+					familyId: this.deviceNoticeDetails.familyId
+				},true)
+			} else {
+				this.queryDeviceNoticeList({
+					pageNo: this.currentPage,
+					pageSize: this.pageSize,
+					familyId: ''
+				},true)
+			}
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'familyId'
+				'deviceNoticeDetails'
 			]),
 			userName() {
 			},
@@ -136,27 +123,71 @@
 			accountName() {
 			}
 		},
-		mounted() {
+		onReachBottom() {
+		 let totalPage = Math.ceil(this.totalCount/this.pageSize);
+		 if (this.currentPage >= totalPage) {
+				this.status = 'nomore'
+			} else {
+				this.status = 'loading';
+				this.currentPage = this.currentPage + 1;
+				this.queryDeviceNoticeList({
+					pageNo: this.currentPage,
+					pageSize: this.pageSize,
+					familyId: this.initValueId
+				},false)
+			}
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeDeviceNoticeDetails'
 			]),
 			
 			backTo () {
+				this.changeDeviceNoticeDetails({});
 				uni.switchTab({
 					url: '/pages/device/device'
 				})
 			},
 			
+			// 设备名称转换
+			deviceTypeTransitionText (num) {
+				let temporaryNum = num.toString();
+				switch(temporaryNum) {
+					case '1' :
+						return '体征检测雷达'
+						break;
+					case '2' :
+						return '存在感知雷达'
+						break;
+					case '3' :
+						return '跌倒雷达'
+						break;
+					case '4' :
+						return '人体检测雷达'
+						break
+				}
+			},
+			
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
-				console.log(val)
+				this.initValue = val.orignItem.value;
+				this.initValueId = val.orignItem.id;
+				this.currentPage = 1;
+				this.fullNoticeList = [];
+				this.queryDeviceNoticeList({
+					pageNo: this.currentPage,
+					pageSize: this.pageSize,
+					familyId: this.initValueId
+				},true)
 			},
 			
 			// 获取用户家庭列表
 			queryUserFamilyList () {
-				this.familyMemberList = [];
+				this.familyMemberList = [{
+					id: '',
+					value: '所有家庭'
+				}];
 				getUserFamilyList().then((res) => {
 					if ( res && res.data.code == 0) {
 						for (let item of res.data.data) {
@@ -165,10 +196,12 @@
 								value: item.name
 							})
 						};
-						if (this.familyId) {
-							this.initValue = this.familyId
+						if (this.deviceNoticeDetails.familyId) {
+							this.initValueId = this.deviceNoticeDetails.familyId;
+							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.deviceNoticeDetails.familyId })[0]['value'];
 						} else {
-							this.initValue = this.familyMemberList[0]['id']
+							this.initValueId = this.familyMemberList[0]['id'];
+							this.initValue = this.familyMemberList[0]['value']
 						};
 					} else {
 						this.$refs.uToast.show({
@@ -187,8 +220,59 @@
 				})
 			},
 			
+			// 获取设备通知列表
+			queryDeviceNoticeList (data,flag) {
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.infoText = ''
+				};
+				this.noticeList = [];
+				getDeviceInforPage(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.noticeList = res.data.data.list;
+						this.fullNoticeList = this.fullNoticeList.concat(this.noticeList);
+						if (this.fullNoticeList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 进入消息详情事件
-			enterMessageDetailsPageEvent () {
+			enterMessageDetailsPageEvent (item,innerItem) {
+				let temporaryDeviceNoticeDetails = this.deviceNoticeDetails;
+				temporaryDeviceNoticeDetails['familyId'] = this.initValueId;
+				temporaryDeviceNoticeDetails['time'] = item.time;
+				temporaryDeviceNoticeDetails['content'] = innerItem;
+				this.changeDeviceNoticeDetails(temporaryDeviceNoticeDetails);
 				uni.redirectTo({
 					url: '/devicePackage/pages/messageDetails/messageDetails'
 				})
@@ -281,8 +365,15 @@
 			overflow: auto;
 			display: flex;
 			flex-direction: column;
-			padding: 0 16px 16px 16px;
-			box-sizing: border-box; 
+			padding: 16px 16px 16px 16px;
+			box-sizing: border-box;
+			position: relative;
+			 ::v-deep .u-empty {
+			 	position: absolute;
+			 	top: 50%;
+			 	left: 50%;
+			 	transform: translate(-50%,-50%)
+			 };
 			.message-list {
 				text-align: center;
 				>text {
@@ -296,13 +387,23 @@
 					color: #fff;
 					line-height: 25px;
 				};
-				margin-top: 15px;
+				margin-bottom: 15px;
 				.message-inner-list {
 					margin-top: 15px;
 					padding: 0 10px 10px 10px;
 					box-sizing: border-box;
 					box-shadow: 0px 2px 6px 0 rgba(92, 133, 136, 0.29);
 					border-radius: 8px;
+					position: relative;
+					.is-read-sign {
+						position: absolute;
+						width: 8px;
+						height: 8px;
+						border-radius: 50%;
+						background: red;
+						top: 4px;
+						right: 10px
+					};
 					.message-inner-list-top {
 						display: flex;
 						align-items: center;

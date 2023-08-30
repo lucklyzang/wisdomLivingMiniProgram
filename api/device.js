@@ -17,6 +17,15 @@ export function getDeviceInformList() {
   })
 };
 
+// 获取设备通知分页
+export function getDeviceInforPage(data) {
+  return request({
+    url: '/app-api/member/device-notice/page',
+    method: 'get',
+		params: data
+  })
+};
+
 // 删除设备通知
 export function deleteDeviceInformList() {
   return request({

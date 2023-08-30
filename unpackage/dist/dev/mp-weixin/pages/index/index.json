@@ -5,6 +5,7 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
-    "xfl-select": "/components/xfl-select/xfl-select"
+    "xfl-select": "/components/xfl-select/xfl-select",
+    "uni-ec-canvas": "/components/uni-ec-canvas/uni-ec-canvas"
   }
 }

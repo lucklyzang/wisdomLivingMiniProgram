@@ -11,11 +11,13 @@
       "pages": [
         "pages/healthMonitoring/index/index",
         "pages/heartRate/heartRate",
+        "pages/sleep/sleep",
         "pages/toilet/toilet",
         "pages/tumble/tumble",
         "pages/leaveHome/leaveHome",
         "pages/breathe/breathe",
         "pages/healthHeartRateTips/healthHeartRateTips",
+        "pages/healthSleepTips/healthSleepTips",
         "pages/healthBreatheTips/healthBreatheTips",
         "pages/healthToiletTips/healthToiletTips",
         "pages/healthTumbleTips/healthTumbleTips",

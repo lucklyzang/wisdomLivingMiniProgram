@@ -16,7 +16,7 @@
 						 @change="familyMemberChange"
 						placeholder = "请选择家庭"
 						:selectHideType="'hideAll'"
-						:initValue="familyMemberList[0]['value']"
+						:initValue="initValue"
 					>
 					</xfl-select>
 				</view>
@@ -67,7 +67,8 @@
 				checked: false,
 				isShowNoHomeNoData: false,
 				showLoadingHint: false,
-				initValue: '',
+				initValue: null,
+				initValueId: null,
 				familyMemberList: [],
 				fullFamilyMemberList: [],
 				phoneList: [],
@@ -81,6 +82,7 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
+				'familyId',
 				'warningMessagePhoneNumber'
 			]),
 			userName() {
@@ -106,8 +108,9 @@
 			
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
-				this.initValue = val.orignItem.id;
-				let temporaryFamilyMemberList = this.fullFamilyMemberList.filter((item) => { return item.id ==  this.initValue });
+				this.initValue = val.orignItem.value;
+				this.initValueId = val.orignItem.id;
+				let temporaryFamilyMemberList = this.fullFamilyMemberList.filter((item) => { return item.id ==  this.initValueId });
 				this.phoneList = temporaryFamilyMemberList[0]['phones'];
 				if (this.phoneList.length > 0) {
 					this.isShowNoHomeNoData = false
@@ -131,8 +134,23 @@
 								value: item.name
 							})
 						};
-						this.initValue = this.familyMemberList[0]['id'];
-						this.phoneList = this.fullFamilyMemberList[0]['phones'];
+						if (this.warningMessagePhoneNumber.familyId) {
+							this.initValueId = this.warningMessagePhoneNumber.familyId;
+							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.warningMessagePhoneNumber.familyId })[0]['value'];
+							let temporaryIndex = this.fullFamilyMemberList.findIndex((el) => { return el.id == this.warningMessagePhoneNumber.familyId });
+							this.phoneList = this.fullFamilyMemberList[temporaryIndex]['phones']
+						} else {
+							if (this.familyId) {
+								this.initValueId = this.familyId;
+								this.initValue = this.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
+								let temporaryIndex = this.fullFamilyMemberList.findIndex((el) => { return el.id == this.familyId });
+								this.phoneList = this.fullFamilyMemberList[temporaryIndex]['phones']
+							} else {
+								this.initValueId = this.familyMemberList[0]['id'];
+								this.initValue = this.familyMemberList[0]['value'];
+								this.phoneList = this.fullFamilyMemberList[0]['phones']
+							}
+						};
 						if (this.phoneList.length > 0) {
 							this.isShowNoHomeNoData = false
 						} else {
@@ -161,7 +179,7 @@
 			editEvent (item) {
 				let temporaryNumberMessage = this.warningMessagePhoneNumber;
 				temporaryNumberMessage['type'] = '编辑';
-				temporaryNumberMessage['familyId'] = this.initValue;
+				temporaryNumberMessage['familyId'] = this.initValueId;
 				temporaryNumberMessage['mobile'] = item;
 				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
 				uni.redirectTo({
@@ -173,7 +191,7 @@
 			deleteEvent (item) {
 				let temporaryNumberMessage = this.warningMessagePhoneNumber;
 				temporaryNumberMessage['type'] = '删除';
-				temporaryNumberMessage['familyId'] = this.initValue;
+				temporaryNumberMessage['familyId'] = this.initValueId;
 				temporaryNumberMessage['mobile'] = item;
 				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
 				uni.redirectTo({
@@ -184,7 +202,7 @@
 			// 添加事件
 			addEvent () {
 				let temporaryNumberMessage = this.warningMessagePhoneNumber;
-				temporaryNumberMessage['familyId'] = this.initValue;
+				temporaryNumberMessage['familyId'] = this.initValueId;
 				temporaryNumberMessage['type'] = '添加';
 				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
 				uni.redirectTo({
@@ -193,6 +211,7 @@
 			},
 			
 			backTo () {
+				this.changeWarningMessagePhoneNumber({});
 				uni.redirectTo({
 					url: '/generalSetPackage/pages/generalSetting/generalSetting'
 				})

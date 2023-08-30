@@ -13,6 +13,8 @@ export function getDefaultDeviceState() {
 			beforeAddSignMonitorRadarCompleteSet: {},
 			roomDetails: {},
 			warningMessagePhoneNumber: {},
-			currentNeedBindDevicesMessage: {}
+			currentNeedBindDevicesMessage: {},
+			deviceNoticeDetails: {},
+			familyMessage: {}
 		}	
 };

@@ -67,6 +67,15 @@
 					}
 				},
 				{
+					"path": "pages/sleep/sleep",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
 					"path": "pages/toilet/toilet",
 					"style": {
 						"navigationBarTitleText": "",
@@ -104,6 +113,15 @@
 				},
 				{
 					"path": "pages/healthHeartRateTips/healthHeartRateTips",
+					"style": {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor": "#ffffff",
+						"backgroundColorTop": "#fff,",
+						"backgroundColorBottom": "#fff"
+					}
+				},
+				{
+					"path": "pages/healthSleepTips/healthSleepTips",
 					"style": {
 						"navigationBarTitleText": "",
 						"navigationBarBackgroundColor": "#ffffff",

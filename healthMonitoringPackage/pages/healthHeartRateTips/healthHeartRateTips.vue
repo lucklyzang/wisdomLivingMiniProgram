@@ -16,9 +16,76 @@
 				<image :src="healthTipsIconPng"></image>
 			</view>
 			<view class="paragraph-two">
-				<text>
-					 一般来说，年龄越小，心率越快，老年人的心跳比年轻慢，这是比较正常的现象。在安静的状态下，正常成人的心率也比在清醒或活动时的心率要偏慢一点。另外，经常运动的运动员，其心率也会比正常的频率要慢一点。只要没有很特殊的原因，比如胸闷、气短等症状，一般来说保持每分钟60-100次左右就可以。
-				</text>
+				<view>
+					<text></text>
+					<text>
+						一般来说，年龄越小，心率越快，老年人的心跳比年轻慢，这是比较正常的现象。在安静的状态下，正常成人的心率也比在清醒或活动时的心率要偏慢一点。另外，经常运动的运动员，其心率也会比正常的频率要慢一点。只要没有很特殊的原因，比如胸闷、气短等症状，一般来说保持每分钟60-100次左右就可以。
+					</text>
+				</view>
+				<view>
+					<text>
+						
+					</text>
+					<text>
+						 异常的心率可能表明心脏健康问题。以下是一些需要注意的情况：
+					</text>
+				</view>
+				<view>
+					<text>
+						心跳过速（心动过速）：
+					</text>
+					<text>
+						如果您的心率持续高于正常范围，有可能出现心动过速。这可能导致心脏不正常地快速跳动，引起心悸、胸闷或头晕等症状。
+					</text>
+				</view>
+				<view>
+					<text>
+						心跳过缓（心动过缓）：
+					</text>
+					<text>
+						如果您的心率持续低于正常范围，有可能出现心动过缓。这可能导致疲劳、头晕或晕厥等症状。
+					</text>
+				</view>
+				<view>
+					<text></text>
+					<text>定期测量和监测心率对于心脏健康的评估非常重要。您可以使用心率监测设备，如体征监测雷达，跟踪您的心率变化。</text>
+				</view>
+				<view>
+					<text></text>
+					<text>一些健康的生活习惯有助于保持正常的心率和心脏健康：</text>
+				</view>
+				<view>
+					<text>
+						有规律的锻炼 ：
+					</text>
+					<text>
+						 适度的有氧运动，如慢跑、游泳或快步走，可以提高心脏健康并降低心率。
+					</text>
+				</view>
+				<view>
+					<text>
+						健康饮食：
+					</text>
+					<text>
+						均衡的膳食可以维持血液中的健康胆固醇水平，促进心脏健康。
+					</text>
+				</view>
+				<view>
+					<text>
+						减轻压力 ：
+					</text>
+					<text>
+						减轻压力和焦虑有助于维护正常的心率。尝试放松技巧，如冥想、深呼吸或瑜伽。
+					</text>
+				</view>
+				<view>
+					<text>
+						戒烟和限制酒精摄入 ：
+					</text>
+					<text>
+						吸烟和过量饮酒可能对心脏健康产生负面影响。戒烟并限制酒精摄入对于心率和整体健康非常重要。
+					</text>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -103,9 +170,9 @@
 			flex-direction: column;
 			.paragraph-one {
 				text-indent: 12px;
-				>tetx {
+				>text {
 					font-size: 14px;
-					color: #1F1F1F;
+					color: #898C8C;
 					line-height: 20px;
 					text-align: justify;
 				}
@@ -124,11 +191,19 @@
 				text-indent: 12px;
 				flex: 1;
 				overflow: auto;
-				>tetx {
-					font-size: 14px;
-					color: #1F1F1F;
-					line-height: 20px;
-					text-align: justify;
+				>view {
+					margin-bottom: 6px;
+					>text {
+						font-size: 14px;
+						color: #898C8C;
+						line-height: 20px;
+						text-align: justify;
+						&:first-child {
+							font-size: 16px;
+							color: #898C8C;
+							font-weight: bold;
+						}
+					}
 				}
 			}
 		}

@@ -14,7 +14,7 @@
 		<view class="content-area">
 			<view class="top-title">
 				<text>检测中</text>
-				<image :src="moreIconPng"></image>
+				<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/28faa5a2010595fd16449e97b5973cb9d44d0fc46a9cacf1b604b31fcf2eea9d.gif"></image>
 			</view>
 			<view class="bottom-area">
 				<view class="statistics-area">
@@ -71,7 +71,6 @@
 					day: true
 				},
 				showLoadingHint: false,
-				moreIconPng: require("@/static/img/more-icon.png"),
 				logList: [
 					{
 						date: '2023-03-06 18:59'
@@ -174,11 +173,9 @@
 				align-items: center;
 				>image {
 					width: 100%;
-					height: 80px
 				};
 				>text {
 					font-size: 14px;
-					margin-bottom: 60px;
 					color: #101010;
 				}
 			};

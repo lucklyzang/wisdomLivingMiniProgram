@@ -101,16 +101,16 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 678))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 686))
     },
     xflSelect: function () {
-      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 738))
+      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 746))
     },
     uEmpty: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 745))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 753))
     },
     uIcon: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 671))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 679))
     },
   }
 } catch (e) {
@@ -184,12 +184,12 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var xflSelect = function xflSelect() {
   __webpack_require__.e(/*! require.ensure | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then((function () {
-    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 738));
+    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 746));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 760));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 768));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -203,7 +203,8 @@ var _default = {
       checked: false,
       isShowNoHomeNoData: false,
       showLoadingHint: false,
-      initValue: '',
+      initValue: null,
+      initValueId: null,
       familyMemberList: [],
       fullFamilyMemberList: [],
       phoneList: [],
@@ -214,7 +215,7 @@ var _default = {
   onLoad: function onLoad() {
     this.queryUserFamilyList();
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'warningMessagePhoneNumber'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'warningMessagePhoneNumber'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -227,9 +228,10 @@ var _default = {
     // 家庭选择下拉框下拉选择确定事件
     familyMemberChange: function familyMemberChange(val) {
       var _this = this;
-      this.initValue = val.orignItem.id;
+      this.initValue = val.orignItem.value;
+      this.initValueId = val.orignItem.id;
       var temporaryFamilyMemberList = this.fullFamilyMemberList.filter(function (item) {
-        return item.id == _this.initValue;
+        return item.id == _this.initValueId;
       });
       this.phoneList = temporaryFamilyMemberList[0]['phones'];
       if (this.phoneList.length > 0) {
@@ -264,8 +266,32 @@ var _default = {
             _iterator.f();
           }
           ;
-          _this2.initValue = _this2.familyMemberList[0]['id'];
-          _this2.phoneList = _this2.fullFamilyMemberList[0]['phones'];
+          if (_this2.warningMessagePhoneNumber.familyId) {
+            _this2.initValueId = _this2.warningMessagePhoneNumber.familyId;
+            _this2.initValue = _this2.familyMemberList.filter(function (el) {
+              return el.id == _this2.warningMessagePhoneNumber.familyId;
+            })[0]['value'];
+            var temporaryIndex = _this2.fullFamilyMemberList.findIndex(function (el) {
+              return el.id == _this2.warningMessagePhoneNumber.familyId;
+            });
+            _this2.phoneList = _this2.fullFamilyMemberList[temporaryIndex]['phones'];
+          } else {
+            if (_this2.familyId) {
+              _this2.initValueId = _this2.familyId;
+              _this2.initValue = _this2.familyMemberList.filter(function (el) {
+                return el.id == _this2.familyId;
+              })[0]['value'];
+              var _temporaryIndex = _this2.fullFamilyMemberList.findIndex(function (el) {
+                return el.id == _this2.familyId;
+              });
+              _this2.phoneList = _this2.fullFamilyMemberList[_temporaryIndex]['phones'];
+            } else {
+              _this2.initValueId = _this2.familyMemberList[0]['id'];
+              _this2.initValue = _this2.familyMemberList[0]['value'];
+              _this2.phoneList = _this2.fullFamilyMemberList[0]['phones'];
+            }
+          }
+          ;
           if (_this2.phoneList.length > 0) {
             _this2.isShowNoHomeNoData = false;
           } else {
@@ -293,7 +319,7 @@ var _default = {
     editEvent: function editEvent(item) {
       var temporaryNumberMessage = this.warningMessagePhoneNumber;
       temporaryNumberMessage['type'] = '编辑';
-      temporaryNumberMessage['familyId'] = this.initValue;
+      temporaryNumberMessage['familyId'] = this.initValueId;
       temporaryNumberMessage['mobile'] = item;
       this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
       uni.redirectTo({
@@ -304,7 +330,7 @@ var _default = {
     deleteEvent: function deleteEvent(item) {
       var temporaryNumberMessage = this.warningMessagePhoneNumber;
       temporaryNumberMessage['type'] = '删除';
-      temporaryNumberMessage['familyId'] = this.initValue;
+      temporaryNumberMessage['familyId'] = this.initValueId;
       temporaryNumberMessage['mobile'] = item;
       this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
       uni.redirectTo({
@@ -314,7 +340,7 @@ var _default = {
     // 添加事件
     addEvent: function addEvent() {
       var temporaryNumberMessage = this.warningMessagePhoneNumber;
-      temporaryNumberMessage['familyId'] = this.initValue;
+      temporaryNumberMessage['familyId'] = this.initValueId;
       temporaryNumberMessage['type'] = '添加';
       this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
       uni.redirectTo({
@@ -322,6 +348,7 @@ var _default = {
       });
     },
     backTo: function backTo() {
+      this.changeWarningMessagePhoneNumber({});
       uni.redirectTo({
         url: '/generalSetPackage/pages/generalSetting/generalSetting'
       });

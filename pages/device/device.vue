@@ -101,6 +101,7 @@
 				infoText: '',
 				showLoadingHint: false,
 				initValue: null,
+				initValueId: null,
 				isShowNoDeviceData: false,
 				isShowNoRoomData: false,
 				familyMemberList: [],
@@ -163,8 +164,9 @@
 					this.changeEnterFamilyManagementPageSource('/pages/device/device')
 				} else {
 					this.initValue = val.orignItem.value;
-					this.changeFamilyId(val.orignItem.id);
-					this.getUserDevice(val.orignItem.id)
+					this.initValueId = val.orignItem.id;
+					this.changeFamilyId(this.initValueId);
+					this.getUserDevice(this.initValueId)
 				}
 			},
 			
@@ -176,9 +178,9 @@
 			tabCutEvent (item,index) {
 				this.tabCutActiveIndex = index;
 				if (index == 0) {
-					this.getUserDevice(this.initValue)
+					this.getUserDevice(this.initValueId)
 				} else if (index == 1) {
-					this.getUserRoom(this.initValue)
+					this.getUserRoom(this.initValueId)
 				}
 			},
 			
@@ -282,11 +284,13 @@
 							this.changeFamilyId(this.familyId);
 							this.getUserDevice(this.familyId);
 							this.queryDeviceInformUnread(this.familyId);
+							this.initValueId = this.familyId;
 							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
 						} else {
 							this.changeFamilyId(this.familyMemberList[0]['id']);
 							this.getUserDevice(this.familyMemberList[0]['id']);
 							this.queryDeviceInformUnread(this.familyMemberList[0]['id']);
+							this.initValueId = this.familyMemberList[0]['id'];
 							this.initValue = this.familyMemberList[0]['value']
 						};
 					} else {

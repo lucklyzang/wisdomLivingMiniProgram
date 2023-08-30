@@ -56,9 +56,9 @@ page {
 .content-box .content-area .paragraph-one {
   text-indent: 12px;
 }
-.content-box .content-area .paragraph-one > tetx {
+.content-box .content-area .paragraph-one > text {
   font-size: 14px;
-  color: #1F1F1F;
+  color: #898C8C;
   line-height: 20px;
   text-align: justify;
 }
@@ -77,10 +77,18 @@ page {
   flex: 1;
   overflow: auto;
 }
-.content-box .content-area .paragraph-two > tetx {
+.content-box .content-area .paragraph-two > view {
+  margin-bottom: 6px;
+}
+.content-box .content-area .paragraph-two > view > text {
   font-size: 14px;
-  color: #1F1F1F;
+  color: #898C8C;
   line-height: 20px;
   text-align: justify;
+}
+.content-box .content-area .paragraph-two > view > text:first-child {
+  font-size: 16px;
+  color: #898C8C;
+  font-weight: bold;
 }
 

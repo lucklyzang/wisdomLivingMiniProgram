@@ -22,11 +22,12 @@
 						<view class="list-left">
 							<image :src="showImage(item.type)"></image>
 							<text class="scene">{{ item.name }}</text>
-							<text class="scene-box">-场景二</text>
+							<text class="small-bridge" v-if="item.mold == 1">-</text>
+							<u-input v-model="item.suffixValue"  v-if="item.mold == 1" @click="suffixClickEvent(item,index)" type="text" placeholder="" :disabled="item.disabled" />
 						</view>
 						<view class="list-right">
-							<view class="delete-box" @click="deleteEvent(item.id)" v-if="item.mode == 1"><image :src="deleteIconPng"></image></view>
-							<view class="copy-box" @click="copyEvent(item.id)"><image :src="copyIconPng"></image></view>
+							<view class="delete-box" @click="deleteEvent(item,index)" v-if="item.mold == 1"><image :src="deleteIconPng"></image></view>
+							<view class="copy-box" @click="copyEvent(item,index)" v-if="item.mold == 0"><image :src="copyIconPng"></image></view>
 							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
 						</view>
 					</view>
@@ -42,11 +43,12 @@
 						<view class="list-left">
 							<image :src="showImage(item.type)"></image>
 							<text class="scene">{{ item.name }}</text>
-							<text class="scene-box">-场景二</text>
+							<text class="small-bridge" v-if="item.mold == 1">-</text>
+							<u-input v-if="item.mold == 1" v-model="value"  @click="suffixClickEvent(item,index)" type="text" placeholder="" :disabled="item.disabled" />
 						</view>
 						<view class="list-right">
-							<view class="delete-box"  @click="deleteEvent(item.id)" v-if="item.mode == 1"><image :src="deleteIconPng"></image></view>
-							<view class="copy-box"><image :src="copyIconPng"></image></view>
+							<view class="delete-box"  @click="deleteEvent(item,index)" v-if="item.mold == 1"><image :src="deleteIconPng"></image></view>
+							<view class="copy-box" @click="copyEvent(item,index)" v-if="item.mold == 0"><image :src="copyIconPng"></image></view>
 							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
 						</view>
 					</view>
@@ -80,8 +82,9 @@
 				showLoadingHint: false,
 				isShowHomeNoData: false,
 				isShowNoHomeNoData: false,
-				showHomeList: [],
+				value: '',
 				noShowHomeList: [],
+				showHomeList: [],
 				sleepIconPng: require("@/static/img/sleep-icon.png"),
 				toiletIconPng: require("@/static/img/toilet-icon.png"),
 				tumbleIconPng: require("@/static/img/tumble-icon.png"),
@@ -135,6 +138,11 @@
 				}
 			},
 			
+			// 后缀名点击事件
+			suffixClickEvent(item,index) {
+				item.disabled = item.disabled
+			},
+			
 			// 获取首页配置列表
 			queryHomePageList (familyId) {
 				this.showLoadingHint = true;
@@ -144,12 +152,14 @@
 				getHomePageList({familyId}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.showHomeList = res.data.data.filter((item) => { return item.status == 0 });
+						this.showHomeList.forEach((el) => { el.disabled = false });
 						if (this.showHomeList.length == 0) {
 							this.isShowHomeNoData = true
 						} else {
 							this.isShowHomeNoData = false
 						};
 						this.noShowHomeList = res.data.data.filter((item) => { return item.status == 1 });
+						this.noShowHomeList.forEach((el) => { el.disabled = false });
 						if (this.noShowHomeList.length == 0) {
 							this.isShowNoHomeNoData = true
 						} else {
@@ -179,22 +189,15 @@
 				this.showLoadingHint = true;
 				this.infoText = '保存中...';
 				this.familyList = [];
-				saveOrUpdateHomePage([{
-					userId: this.userInfo.userId,
-					familyId: this.familyId,
-					name: '',
-					type: "",
-					status: "",
-					sort: "",
-					mold: "",
-					devices: ""
-				}]).then((res) => {
+				let temporaryData = this.showHomeList.concat(this.noShowHomeList);
+				saveOrUpdateHomePage(temporaryData).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.queryHomePageList(this.familyId);
 						this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' })
 					} else {
 						this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' })
-					}	
+					};
+					this.showLoadingHint = false
 				})
 				.catch((err) => {
 					this.showLoadingHint = false;
@@ -203,39 +206,81 @@
 			},
 			
 			// 复制事件
-			copyEvent (id) {
-				this.saveOrUpdateHomePageEvent(id)
+			copyEvent (item,index) {
+				// status: 0-正常 1-停用
+				console.log('打印数据',item);
+				if (item.status == 0) {
+					let insertMessage = {
+						createTime: new Date().getTime(),
+						disabled: false,
+						familyId: this.familyId,
+						id: 0,
+						mold: 1,
+						name: item.name,
+						sort: index + 1,
+						status: 0,
+						suffixValue: '',
+						type: item.type,
+						userId: this.userInfo.userId
+					};
+					let temporaryLength = this.showHomeList.filter((el) => { return el.name == item.name}).length;
+					insertMessage['suffixValue'] = `场景${temporaryLength}`;
+					this.showHomeList.splice(index + 1, 0, insertMessage);
+				} else if (item.status == 1) {
+					let insertMessage = {
+						createTime: new Date().getTime(),
+						disabled: false,
+						familyId: this.familyId,
+						id: 0,
+						mold: 1,
+						name: item.name,
+						sort: index + 1,
+						status: 1,
+						suffixValue: '',
+						type: item.type,
+						userId: this.userInfo.userId
+					};
+					let temporaryLength = this.noShowHomeList.filter((el) => { return el.name == item.name}).length;
+					insertMessage['suffixValue'] = `场景${temporaryLength}`;
+					this.noShowHomeList.splice(index + 1, 0, insertMessage);
+				}
+				// this.saveOrUpdateHomePageEvent(id)
 			},
 			
 			// 删除首页数据卡片事件
-			deleteEvent (id) {
-				this.showLoadingHint = true;
-				this.infoText = '删除中...';
-				deleteHomePage({id}).then((res) => {
-					if ( res && res.data.code == 0) {
-						this.$refs.uToast.show({
-							title: '删除成功',
-							type: 'success',
-							position: 'bottom'
-						});
-						this.queryHomePageList(this.familyId)
-					} else {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
-					}	
-					this.showLoadingHint = false;
-				})
-				.catch((err) => {
-					this.showLoadingHint = false;
-					this.$refs.uToast.show({
-						title: err,
-						type: 'error',
-						position: 'bottom'
-					})
-				})
+			deleteEvent (item,index) {
+				if (item.status == 0) {
+					this.showHomeList.splice(index,1)
+				} else if (item.status == 1) {
+					this.noShowHomeList.splice(index,1)
+				};
+				// this.showLoadingHint = true;
+				// this.infoText = '删除中...';
+				// deleteHomePage({id}).then((res) => {
+				// 	if ( res && res.data.code == 0) {
+				// 		this.$refs.uToast.show({
+				// 			title: '删除成功',
+				// 			type: 'success',
+				// 			position: 'bottom'
+				// 		});
+				// 		this.queryHomePageList(this.familyId)
+				// 	} else {
+				// 		this.$refs.uToast.show({
+				// 			title: res.data.msg,
+				// 			type: 'error',
+				// 			position: 'bottom'
+				// 		})
+				// 	}	
+				// 	this.showLoadingHint = false;
+				// })
+				// .catch((err) => {
+				// 	this.showLoadingHint = false;
+				// 	this.$refs.uToast.show({
+				// 		title: err,
+				// 		type: 'error',
+				// 		position: 'bottom'
+				// 	})
+				// })
 			},
 			
 			
@@ -359,6 +404,17 @@
 							margin-bottom: 0 !important;
 						};
 						.list-left {
+							display: flex;
+							flex: 1;
+							align-items: center;
+							::v-deep .u-input {
+								padding-right: 10px !important;
+								box-sizing: border-box;
+								.u-input__input {
+									font-size: 16px !important;
+									color: #898C8C;
+								}
+							};
 							>image {
 								width: 24px;
 								height: 24px;
@@ -368,9 +424,6 @@
 							.scene {
 								color: #101010;
 							};
-							.scene-box {
-								color: #898C8C;
-							}
 							>text {
 								font-size: 16px;
 								vertical-align: middle

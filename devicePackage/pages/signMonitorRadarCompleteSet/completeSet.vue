@@ -181,19 +181,19 @@
 			alarmTypeTransitionText (num) {
 				let temporaryNum = num.toString();
 				switch(temporaryNum) {
-						case 0 :
+						case '0' :
 							return '不通知'
 							break;
-						case 1 :
+						case '1' :
 							return '短信'
 							break;
-						case 2 :
+						case '2' :
 							return '电话'
 							break;
-						case 3 :
+						case '3' :
 							return '电话短信'
 							break;
-						case 4 :
+						case '4' :
 							return '微信通知'
 							break;
 				}

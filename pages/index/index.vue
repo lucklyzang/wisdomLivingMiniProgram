@@ -19,7 +19,7 @@
 				</xfl-select>
 			</view>
 		</view>
-		<view class="center-area">
+		<view class="center-area" v-show="true">
 			<view class="bind-sleep-device-area">
 				<view>
 					<text>睡眠</text>
@@ -104,7 +104,7 @@
 						</view>
 					</view>
 					<view class="heart-rate-chart">
-						
+						<uni-ec-canvas class="uni-ec-canvas" id="line-chart" ref="canvas" canvas-id="lazy-load-chart" :ec="ec"></uni-ec-canvas>
 					</view>
 				</view>
 				<view class="heart-rate-box breathe-box">
@@ -115,6 +115,21 @@
 							<text>呼吸正常</text>
 						</view>
 						<view class="heart-rate-title-right" @click="enterDetailsEvent('呼吸')">
+							详情
+						</view>
+					</view>
+					<view class="heart-rate-chart">
+						
+					</view>
+				</view>
+				<view class="heart-rate-box sleep-box">
+					<view class="heart-rate-title">
+						<view class="heart-rate-title-left">
+							<image :src="sleepSmallIconPng"></image>
+							<text>睡眠 7小时45分钟</text>
+							<text></text>
+						</view>
+						<view class="heart-rate-title-right" @click="enterDetailsEvent('睡眠')">
 							详情
 						</view>
 					</view>
@@ -203,8 +218,11 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
-	import xflSelect from '@/components/xfl-select/xfl-select.vue';
-	import { getUserFamilyList } from '@/api/user.js'
+	import uniEcCanvas from '@/components/uni-ec-canvas/uni-ec-canvas'
+	import * as echarts from '@/components/uni-ec-canvas/echarts'
+	import xflSelect from '@/components/xfl-select/xfl-select.vue'
+	import { getHomePageList } from '@/api/home.js'
+	let chart = null
 	export default {
 		components: {
 			xflSelect
@@ -219,16 +237,91 @@
 				toiletIconPng: require("@/static/img/toilet-icon.png"),
 				tumbleIconPng: require("@/static/img/tumble-icon.png"),
 				leaveHomeIconPng: require("@/static/img/leave-home-icon.png"),
-				familyMemberList: []
+				sleepSmallIconPng: require("@/static/img/sleep-small-icon.png"),
+				familyMemberList: [],
+				showHomeList: [],
+				ec: {
+				  lazyLoad: true
+				},
+				option: {
+					title: {
+						text: ''
+					},
+					tooltip: {
+						trigger: 'axis',
+						formatter: '{b}\r\n{c0}人',
+						axisPointer: {
+							type: 'line',
+							axis: 'x',
+							label: {
+								backgroundColor: '#000000'
+							}
+						}
+					},
+					grid: {
+						left: '6%',
+						right: '6%',
+						top: '6%',
+						bottom: '6%',
+						containLabel: true
+					},
+					xAxis: {
+						type: 'category',
+						boundaryGap: false,
+						data: ['2-12', '2-14', '2-16', '2-18', '2-20', '2-22', '2-24'],
+						axisLine: {
+							// y轴
+							show: false
+						},
+						axisTick: {
+							// y轴刻度线
+							show: false
+						},
+						splitLine: {
+							// 网格线
+							show: false
+						}
+					},
+					yAxis: {
+						type: 'value',
+						axisLine: {
+							// y轴
+							show: false
+						},
+						axisTick: {
+							// y轴刻度线
+							show: false
+						},
+						splitLine: {
+							// 网格线
+							show: false
+						}
+					},
+					series: [{
+						name: '浏览量',
+						type: 'line',
+						smooth: true,
+						lineStyle: {
+							color: '#EF5959'
+						},
+						data: [120, 132, 101, 134, 90, 230, 210]
+					}]
+				}
 			}
 		},
+		onUnload() {
+			chart = null
+		},
 		onLoad() {
-			this.queryUserFamilyList()
+			console.log('家庭信息',this.familyMessage);
+			this.initFamilyInfo();
+			// this.$refs.canvas.init(this.initChart)
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
 				'familyId',
+				'familyMessage',
 				'currentNeedBindDevicesMessage'
 			]),
 			userName() {
@@ -251,6 +344,18 @@
 				'changeCurrentNeedBindDevicesMessage'
 			]),
 			
+			initChart(canvas, width, height, canvasDpr) {
+				console.log(canvas, width, height, canvasDpr)
+				chart = echarts.init(canvas, null, {
+					width: width,
+					height: height,
+					devicePixelRatio: canvasDpr
+				})
+				canvas.setChart(chart)
+				chart.setOption(this.option)
+				return chart
+			},
+			
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
 				this.tabCutActiveIndex = 0;
@@ -258,32 +363,39 @@
 				this.changeFamilyId(val.orignItem.id)
 			},
 			
-			// 获取用户家庭列表
-			queryUserFamilyList () {
-				this.familyMemberList = [];
-				getUserFamilyList().then((res) => {
+			// 获取首页配置列表
+			queryHomePageList (familyId) {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.showHomeList = [];
+				this.noShowHomeList = [];
+				getHomePageList({familyId}).then((res) => {
 					if ( res && res.data.code == 0) {
-						for (let item of res.data.data) {
-							this.familyMemberList.push({
-								id: item.id,
-								value: item.name
-							})
-						};
-						if (this.familyId) {
-							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
+						this.showHomeList = res.data.data.filter((item) => { return item.status == 0 });
+						this.showHomeList.forEach((el) => { el.disabled = false });
+						if (this.showHomeList.length == 0) {
+							this.isShowHomeNoData = true
 						} else {
-							this.initValue = this.familyMemberList[0]['value']
+							this.isShowHomeNoData = false
 						};
-						this.changeFamilyId(this.familyMemberList[0]['id'])
+						this.noShowHomeList = res.data.data.filter((item) => { return item.status == 1 });
+						this.noShowHomeList.forEach((el) => { el.disabled = false });
+						if (this.noShowHomeList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
-					}
+					};
+					this.showLoadingHint = false;
 				})
 				.catch((err) => {
+					this.showLoadingHint = false;
 					this.$refs.uToast.show({
 						title: err,
 						type: 'error',
@@ -292,16 +404,27 @@
 				})
 			},
 			
+			// 初始家庭信息
+			initFamilyInfo () {
+				this.familyMemberList = [];
+				this.familyMemberList = this.familyMessage.familyMemberList;
+				if (this.familyId) {
+					this.initValue = this.familyMessage.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
+				} else {
+					this.initValue = this.familyMemberList[0]['value']
+				}
+			},
+			
 			// 绑定设备事件
 			bindDeviceEvent (type) {
-				// this.editDataCardEvent();
+				this.editDataCardEvent();
 				// 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
-				let temporaryMessage = this.currentNeedBindDevicesMessage;
-				temporaryMessage['type'] = type;
-				this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
-				uni.redirectTo({
-					url: '/devicePackage/pages/bingDevices/bingDevices'
-				})
+				// let temporaryMessage = this.currentNeedBindDevicesMessage;
+				// temporaryMessage['type'] = type;
+				// this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/bingDevices/bingDevices'
+				// })
 			},
 			
 			// 进入数据详情事件
@@ -313,6 +436,10 @@
 				} else if (text == '呼吸') {
 					uni.redirectTo({
 						url: '/healthMonitoringPackage/pages/breathe/breathe'
+					})
+				} else if (text == '睡眠') {
+					uni.redirectTo({
+						url: '/healthMonitoringPackage/pages/sleep/sleep'
 					})
 				} else if (text == '入厕') {
 					uni.redirectTo({
@@ -354,7 +481,12 @@
 			width: 0;
 			height: 0;
 			background-color: transparent;
-		}
+		};
+		.uni-ec-canvas {
+			width: 100%;
+			height: 100px; 
+			display: block;
+		};
 		.top-area {
 			height: 50px;
 			display: flex;
@@ -492,7 +624,7 @@
 				}
 			};
 			.sleep-area-data {
-				height: 275px;
+				height: 397px;
 				background: #fff;
 				border-radius: 10px;
 				margin-top: 6px;

@@ -146,6 +146,7 @@
 	import { mapGetters, mapMutations } from 'vuex'
 	import {logIn, logInByCode, sendPhoneCode, resetPassword, setPassword } from '@/api/login.js'
 	import { setCache, getCache, removeCache } from '@/common/js/utils'
+	import { getUserFamilyList } from '@/api/user.js'
 	export default {
 	components: {
 	 },
@@ -162,6 +163,9 @@
 					newPassword: '',
 					againPassword: ''
 				},
+				familyMemberList: [],
+				initValue: '',
+				fullFamilyMemberList: [],
 				showGetVerificationCode: true,
 				isSetPassword: false,
 				isPasswordLogin: true,
@@ -180,7 +184,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyMessage'
 			])
 		},
 		mounted () {
@@ -191,7 +196,9 @@
 			...mapMutations([
 				'storeUserInfo',
 				'changeOverDueWay',
-				'changeToken'
+				'changeToken',
+				'changeFamilyId',
+				'changeFamilyMessage'
 			]),
 			
 			// 返回事件
@@ -335,9 +342,8 @@
 						this.changeToken(res.data.data.accessToken);
 						// 登录用户信息存入store
 						this.storeUserInfo(res.data.data);
-						uni.switchTab({
-							url: '/pages/index/index'
-						})
+						// 获取家庭设备信息
+						this.queryUserFamilyList()
 					} else {
 					 this.modalShow = true;
 					 this.modalContent = res.data.msg
@@ -399,9 +405,8 @@
 								this.isSetPassword = true;
 								this.form.password = ''
 							} else {
-								uni.switchTab({
-									url: '/pages/index/index'
-								})
+								// 获取家庭设备信息
+								this.queryUserFamilyList()
 							}
 						}
 					} else {
@@ -555,9 +560,8 @@
 									type: 'success',
 									position: 'bottom'
 								});
-								uni.switchTab({
-									url: '/pages/index/index'
-								})
+								// 获取家庭设备信息
+								this.queryUserFamilyList()
 							} else {
 							 this.modalShow = true;
 							 this.modalContent = `${res.data.msg}`
@@ -571,6 +575,45 @@
 						})
 					}
 				}
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				this.familyMemberList = [];
+				this.fullFamilyMemberList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.fullFamilyMemberList = res.data.data;
+						for (let item of res.data.data) {
+							this.familyMemberList.push({
+								id: item.id,
+								value: item.name
+							})
+						};
+						this.initValue = this.familyMemberList[0]['value'];
+						this.changeFamilyId(this.familyMemberList[0]['id']);
+						let temporaryFamilyMessage = this.familyMessage;
+						temporaryFamilyMessage['familyMemberList'] = this.familyMemberList;
+						temporaryFamilyMessage['fullFamilyMemberList'] = this.fullFamilyMemberList;
+						this.changeFamilyMessage(temporaryFamilyMessage);
+						uni.switchTab({
+							url: '/pages/index/index'
+						})
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
       
       // 微信授权登录事件

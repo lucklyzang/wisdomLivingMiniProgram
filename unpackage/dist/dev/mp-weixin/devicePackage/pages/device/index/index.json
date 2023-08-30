@@ -6,6 +6,9 @@
   "usingComponents": {
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
     "xfl-select": "/components/xfl-select/xfl-select",
+    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty",
+    "u-parse": "/node-modules/uview-ui/components/u-parse/u-parse",
+    "u-loadmore": "/node-modules/uview-ui/components/u-loadmore/u-loadmore",
     "nav-bar": "/components/zhouWei-navBar/index"
   }
 }
