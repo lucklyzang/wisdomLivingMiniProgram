@@ -25,7 +25,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import { updateUserFamily } from '@/api/user.js'
+	import { updateUserFamily, getUserFamilyList } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -40,11 +40,12 @@
 		},
 		onLoad(options) {
 			this.receiveData = JSON.parse(options.transmitData);
-			this.familyNameValue = this.receiveData.name
+			this.familyNameValue = this.receiveData.value
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyMessage'
 			]),
 			userName() {
 			},
@@ -63,7 +64,9 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeFamilyId',
+				'changeFamilyMessage'
 			]),
 			
 			// 完成事件
@@ -88,7 +91,7 @@
 							type: 'success',
 							position: 'bottom'
 						});
-						this.backTo()
+						this.queryUserFamilyList()
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -96,6 +99,46 @@
 							position: 'bottom'
 						})
 					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				let familyMemberList = [];
+				let fullFamilyMemberList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						fullFamilyMemberList = res.data.data;
+						for (let item of res.data.data) {
+							familyMemberList.push({
+								id: item.id,
+								value: item.name
+							})
+						};
+						this.changeFamilyId(familyMemberList[0]['id']);
+						let temporaryFamilyMessage = this.familyMessage;
+						temporaryFamilyMessage['familyMemberList'] = familyMemberList;
+						temporaryFamilyMessage['fullFamilyMemberList'] = fullFamilyMemberList;
+						this.changeFamilyMessage(temporaryFamilyMessage);
+						this.backTo()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
 					this.showLoadingHint = false;
 				})
 				.catch((err) => {

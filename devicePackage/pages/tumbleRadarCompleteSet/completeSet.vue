@@ -121,7 +121,7 @@
 		},
 		onLoad(object) {
 			// 获取雷达设置
-			// this.getRadarSet(this.beforeAddDeviceMessage.deviceId);
+			this.getRadarSet(this.beforeAddDeviceMessage.deviceId);
 			if (!object.hasOwnProperty('transmitData')) { this.wifiListBoxShow = true; return };
 			if (object.transmitData == 1) { return };
 			if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {

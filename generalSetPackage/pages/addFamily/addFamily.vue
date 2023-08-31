@@ -20,7 +20,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
-	import { createUserFamily } from '@/api/user.js'
+	import { createUserFamily, getUserFamilyList } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -37,7 +37,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'familyMessage'
 			]),
 			userName() {
 			},
@@ -56,7 +57,9 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeFamilyId',
+				'changeFamilyMessage'
 			]),
 			
 			// 添加事件
@@ -80,7 +83,7 @@
 							type: 'success',
 							position: 'bottom'
 						});
-						this.backTo()
+						this.queryUserFamilyList()
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -88,6 +91,46 @@
 							position: 'bottom'
 						})
 					}	
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				let familyMemberList = [];
+				let fullFamilyMemberList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						fullFamilyMemberList = res.data.data;
+						for (let item of res.data.data) {
+							familyMemberList.push({
+								id: item.id,
+								value: item.name
+							})
+						};
+						this.changeFamilyId(familyMemberList[0]['id']);
+						let temporaryFamilyMessage = this.familyMessage;
+						temporaryFamilyMessage['familyMemberList'] = familyMemberList;
+						temporaryFamilyMessage['fullFamilyMemberList'] = fullFamilyMemberList;
+						this.changeFamilyMessage(temporaryFamilyMessage);
+						this.backTo()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
 					this.showLoadingHint = false;
 				})
 				.catch((err) => {

@@ -1,4 +1,5 @@
 import { getDefaultDeviceState } from '@/common/js/resetStore/resetStore.js'
+import { setCache, getCache } from '@/common/js/utils'
 export default {
   state: getDefaultDeviceState(),
   getters:{
@@ -7,7 +8,10 @@ export default {
 		enterAddRoomPageSource: state => state.enterAddRoomPageSource,
 		enterDeviceSetPageSource: state => state.enterDeviceSetPageSource,
 		enterFamilyManagementPageSource: state => state.enterFamilyManagementPageSource,
-		familyId: state => state.familyId,
+		familyId:(state) => {
+			state.familyId = getCache('familyId') ? getCache('familyId') : '';
+			return state.familyId
+		},
 		beforeAddDeviceMessage: state => state.beforeAddDeviceMessage,
 		beforeAddBodyDetectionDeviceMessage: state => state.beforeAddBodyDetectionDeviceMessage,
 		beforeAddExistPerceptionRadarCompleteSet: state => state.beforeAddExistPerceptionRadarCompleteSet,
@@ -16,7 +20,11 @@ export default {
 		warningMessagePhoneNumber: state => state.warningMessagePhoneNumber,
 		currentNeedBindDevicesMessage: state => state.currentNeedBindDevicesMessage,
 		deviceNoticeDetails: state => state.deviceNoticeDetails,
-		familyMessage: state => state.familyMessage
+		familyMessage:(state) => {
+			state.familyMessage = getCache('familyMessage') ? getCache('familyMessage') : {};
+			return state.familyMessage
+		},
+		currentDeviceType: state => state.currentDeviceType
   },
   mutations:{
 		changeTimeMessage (state, playLoad) {
@@ -26,6 +34,7 @@ export default {
 			state.ossMessage = playLoad
 		},
 		changeFamilyId (state, playLoad) {
+			setCache('familyId', playLoad);
 			state.familyId = playLoad
 		},
 		changeEnterAddRoomPageSource (state, playLoad) {
@@ -65,12 +74,17 @@ export default {
 		changeCurrentNeedBindDevicesMessage (state, playLoad) {
 			state.currentNeedBindDevicesMessage = playLoad
 		},
+		// 保存当前设备类型
+		changeCurrentDeviceType (state, playLoad) {
+			state.currentDeviceType = playLoad
+		},
 		// 保存设备通知信息
 		changeDeviceNoticeDetails (state, playLoad) {
 			state.deviceNoticeDetails = playLoad
 		},
 		// 保存家庭信息
 		changeFamilyMessage (state, playLoad) {
+			setCache('familyMessage', playLoad);
 			state.familyMessage = playLoad
 		},
 		//重置设备的状态

@@ -87,11 +87,12 @@
 		mapMutations
 	} from 'vuex'
 	import { getDeviceInformUnread } from '@/api/device.js'
-	import { getUserDeviceMessage, getUserRoomDevices, getUserFamilyList } from '@/api/user.js'
+	import { getUserDeviceMessage, getUserRoomDevices } from '@/api/user.js'
 	import {
 		setCache,
 		removeAllLocalStorage
 	} from '@/common/js/utils'
+	import _ from 'lodash'
 	export default {
 		components: {
 			xflSelect
@@ -117,12 +118,13 @@
 			}
 		},
 		onLoad() {
-			this.queryUserFamilyList()
+			this.initFamilyInfo()
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
 				'familyId',
+				'familyMessage',
 				'beforeAddDeviceMessage',
 				'beforeAddBodyDetectionDeviceMessage',
 				'beforeAddExistPerceptionRadarCompleteSet',
@@ -269,55 +271,29 @@
 				})
 			},
 			
-			// 获取用户家庭列表
-			queryUserFamilyList () {
+			// 初始家庭信息
+			initFamilyInfo () {
 				this.familyMemberList = [];
-				getUserFamilyList().then((res) => {
-					if ( res && res.data.code == 0) {
-						for (let item of res.data.data) {
-							this.familyMemberList.push({
-								id: item.id,
-								value: item.name
-							})
-						};
-						if (this.familyId) {
-							this.changeFamilyId(this.familyId);
-							this.getUserDevice(this.familyId);
-							this.queryDeviceInformUnread(this.familyId);
-							this.initValueId = this.familyId;
-							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
-						} else {
-							this.changeFamilyId(this.familyMemberList[0]['id']);
-							this.getUserDevice(this.familyMemberList[0]['id']);
-							this.queryDeviceInformUnread(this.familyMemberList[0]['id']);
-							this.initValueId = this.familyMemberList[0]['id'];
-							this.initValue = this.familyMemberList[0]['value']
-						};
-					} else {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
-					};
+				this.familyMemberList = _.cloneDeep(this.familyMessage.familyMemberList);
+				if (this.familyMemberList.filter((el) => { return el.isClickNoEffect == true}).length == 0) {
 					this.familyMemberList.push({
 						iconPath: require("@/static/img/family-management-icon.png"),
 						value: '家庭管理',
 						isClickNoEffect: true
 					})
-				})
-				.catch((err) => {
-					this.$refs.uToast.show({
-						title: err,
-						type: 'error',
-						position: 'bottom'
-					});
-					this.familyMemberList.push({
-						iconPath: require("@/static/img/family-management-icon.png"),
-						value: '家庭管理',
-						isClickNoEffect: true
-					})
-				})
+				};
+				if (this.familyId) {
+					this.getUserDevice(this.familyId);
+					this.queryDeviceInformUnread(this.familyId);
+					this.initValue = this.familyMessage.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
+					this.initValueId = this.familyId
+				} else {
+					this.changeFamilyId(this.familyMemberList[0]['id']);
+					this.getUserDevice(this.familyMemberList[0]['id']);
+					this.queryDeviceInformUnread(this.familyMemberList[0]['id']);
+					this.initValue = this.familyMemberList[0]['value'];
+					this.initValueId = this.familyMemberList[0]['id']
+				}
 			},
 			
 			// 房间管理事件

@@ -16,6 +16,7 @@ export default {
 			return state.token
 		},
 		userBasicInfo:(state) => {
+			state.userInfo = getCache('userBasicInfo') ? getCache('userBasicInfo') : {};
 			return state.userBasicInfo
 		},
 		overDueWay: state => state.overDueWay
@@ -30,6 +31,7 @@ export default {
 		// 存储用户基本信息
 		changeUserBasicInfo(state, playLoad) {
 			if (playLoad && playLoad != 'null') {
+				setCache('userBasicInfo',playLoad);
 				state.userBasicInfo = playLoad
 			}
 		},

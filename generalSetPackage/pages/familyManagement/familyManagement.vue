@@ -11,7 +11,7 @@
 				<u-empty text="暂无数据" v-if="isShowNoData"></u-empty>
 				<view class="family-list" v-for="(item,index) in familyList" :key="index">
 					<view class="list-left">
-						<text>{{ item.name }}</text>
+						<text>{{ item.value }}</text>
 					</view>
 					<view class="list-right">
 						<image :src="editGreenIconPng" @click="editEvent(item)"></image>
@@ -34,7 +34,9 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import { getUserFamilyList, deleteUserFamily } from '@/api/user.js'
+	import { deleteUserFamily } from '@/api/user.js'
+	import { getUserFamilyList } from '@/api/user.js'
+	import _ from 'lodash'
 	export default {
 		components: {
 			navBar
@@ -49,11 +51,13 @@
 				showLoadingHint: false
 			}
 		},
-		onReady() {
+		onLoad() {
+			this.initFamilyInfo()
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
+				'familyMessage',
 				'enterFamilyManagementPageSource'
 			]),
 			userName() {
@@ -69,43 +73,17 @@
 			accountName() {
 			}
 		},
-		mounted() {
-			this.queryUserFamilyList()
-		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeFamilyMessage',
+				'changeFamilyId'
 			]),
 			
-			// 获取用户家庭列表
-			queryUserFamilyList () {
-				this.showLoadingHint = true;
-				this.infoText = '加载中...';
+			// 初始家庭信息
+			initFamilyInfo () {
 				this.familyList = [];
-				getUserFamilyList().then((res) => {
-					if ( res && res.data.code == 0) {
-						if (res.data.data.length == 0) {
-							this.isShowNoData = true
-							return
-						};
-						this.familyList = res.data.data
-					} else {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
-					}	
-					this.showLoadingHint = false;
-				})
-				.catch((err) => {
-					this.showLoadingHint = false;
-					this.$refs.uToast.show({
-						title: err,
-						type: 'error',
-						position: 'bottom'
-					})
-				})
+				this.familyList = _.cloneDeep(this.familyMessage.familyMemberList)
 			},
 			
 			// 编辑事件
@@ -120,6 +98,42 @@
 			addEvent () {
 				uni.redirectTo({
 					url: '/generalSetPackage/pages/addFamily/addFamily'
+				})
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				let familyMemberList = [];
+				let fullFamilyMemberList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						fullFamilyMemberList = res.data.data;
+						for (let item of res.data.data) {
+							familyMemberList.push({
+								id: item.id,
+								value: item.name
+							})
+						};
+						this.changeFamilyId(familyMemberList[0]['id']);
+						let temporaryFamilyMessage = this.familyMessage;
+						temporaryFamilyMessage['familyMemberList'] = familyMemberList;
+						temporaryFamilyMessage['fullFamilyMemberList'] = fullFamilyMemberList;
+						this.changeFamilyMessage(temporaryFamilyMessage);
+						this.initFamilyInfo()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			

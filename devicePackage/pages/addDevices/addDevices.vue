@@ -5,7 +5,7 @@
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" title="" @backClick="backTo">
 				<slot name="default">
-					<image :src="scanIconPng"></image>
+					<image :src="scanIconPng" @click="scanCodeEvent"></image>
 					<image :src="questionCircleIconPng" @click="enterInfoEvent"></image>
 				</slot>
 			</nav-bar> 
@@ -29,21 +29,9 @@
 					<text>手动添加设备</text>
 				</view>
 				<view class="device-list-area">
-					<view class="device-list" @click="chooseWifiEvent">
+					<view class="device-list" v-for="(item,index) in scanCodeDeviceList" :key="index" @click="chooseWifiEvent(item)">
 						<image :src="imageUrl" ></image>
-						<text>跌倒监测雷达</text>
-					</view>
-					<view class="device-list" @click="chooseWifiEvent">
-						<image :src="imageUrl" ></image>
-						<text>人体检测雷达</text>
-					</view>
-					<view class="device-list" @click="chooseWifiEvent">
-						<image :src="imageUrl" ></image>
-						<text>人员存在感知雷达</text>
-					</view>
-					<view class="device-list" @click="chooseWifiEvent">
-						<image :src="imageUrl" ></image>
-						<text>体征监测雷达</text>
+						<text>{{ item.name }}</text>
 					</view>
 				</view>
 			</view>
@@ -56,6 +44,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
+	import { checkDeviceIsExist } from '@/api/device.js'
 	import navBar from "@/components/zhouWei-navBar"
 	export default {
 		components: {
@@ -65,6 +54,7 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
+				scanCodeDeviceList: [],
 				scanIconPng: require("@/static/img/scan-icon.png"),
 				questionCircleIconPng: require("@/static/img/question-circle-icon.png"),
 				searchForIconPng: require("@/static/img/search-for-icon.gif"),
@@ -76,7 +66,11 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'familyId'
+				'familyId',
+				'beforeAddDeviceMessage',
+				'beforeAddExistPerceptionRadarCompleteSet',
+				'beforeAddSignMonitorRadarCompleteSet',
+				'beforeAddBodyDetectionDeviceMessage'
 			]),
 			userName() {
 			},
@@ -96,7 +90,11 @@
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
-				'changeBeforeAddDeviceMessage'
+				'changeBeforeAddDeviceMessage',
+				'changeBeforeAddExistPerceptionRadarCompleteSet',
+				'changeBeforeAddSignMonitorRadarCompleteSet',
+				'changeBeforeAddBodyDetectionDeviceMessage',
+				'changeCurrentDeviceType'
 			]),
 			
 			backTo () {
@@ -106,9 +104,45 @@
 			},
 			
 			// 选择wifi事件
-			chooseWifiEvent () {
-				// 清除以前保存的设置房间和自定义设备名称信息
-				this.changeBeforeAddDeviceMessage({});
+			chooseWifiEvent (item) {
+				this.changeCurrentDeviceType(item.type);
+				// 1-体征雷达，2-存在感知雷达，3-跌倒雷达，4-人体检测雷达
+				if (item.type == 3) {
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddDeviceMessage;
+					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceName'] = item.name;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddDeviceMessage({});
+					this.changeBeforeAddDeviceMessage(temporaryMessage);
+				} else if (item.type == 2) {
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceName'] = item.name;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddExistPerceptionRadarCompleteSet({});
+					this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
+				} else if (item.type == 1) {
+					// 保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceName'] = item.name;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddSignMonitorRadarCompleteSet({});
+					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
+					uni.redirectTo({
+						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
+					})
+				} else if (item.type == 4) {
+					//保存进入设备设置界面的设备部分相关信息
+					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceName'] = item.name;
+					temporaryMessage['onLine'] = item.onLine;
+					this.changeBeforeAddBodyDetectionDeviceMessage({});
+					this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
+				};
 				uni.redirectTo({
 					url: '/devicePackage/pages/selectWifi/selectWifi'
 				})
@@ -118,6 +152,41 @@
 			enterInfoEvent () {
 				uni.redirectTo({
 					url: '/devicePackage/pages/addDevicesInfo/addDevicesInfo'
+				})
+			},
+			
+			// 扫码事件
+			scanCodeEvent () {
+				uni.scanCode({
+					success(res) {
+						this.checkDeviceEvent({ deviceSn: res.result })
+					}
+				})
+			},
+			
+			// 校验设备合法性
+			checkDeviceEvent (data) {
+				this.showLoadingHint = true;
+				this.infoText = '校验中...';
+				checkDeviceIsExist(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.scanCodeDeviceList.push(res.data.data)
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			

@@ -166,3 +166,30 @@ export function deleteHealthAlarmSettings(data) {
 		params: data
   })
 };
+
+// 校验设备是否存在
+export function checkDeviceIsExist(data) {
+  return request({
+    url: '/app-api/member/device-user/check-device',
+    method: 'get',
+		params: data
+  })
+};
+
+// 获取睡眠统计记录(首页专用)
+export function sleepStatisticsHome(data) {
+  return request({
+    url: '/app-api/radar/health-statistics/list',
+    method: 'get',
+		params: data
+  })
+};
+
+// 获取体征统计数据(详情专用)
+export function sleepStatisticsDetails(data) {
+  return request({
+    url: '/app-api/radar/health-data/list',
+    method: 'get',
+		params: data
+  })
+};

@@ -13,7 +13,7 @@
 				</text>
 			</view>
 			<view class="paragraph-image-one">
-				<image :src="healthTumblePng"></image>
+				<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/53d334cd889a0e00585e3e714aceed2b1dcd041d3ef84548b98dba994f1cf86a.png"></image>
 			</view>
 			<view class="paragraph-two">
 				<view>

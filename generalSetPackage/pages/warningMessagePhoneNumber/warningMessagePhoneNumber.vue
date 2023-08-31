@@ -56,6 +56,7 @@
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
 	import { getUserFamilyList } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
+	import _ from 'lodash'
 	export default {
 		components: {
 			navBar,
@@ -77,13 +78,14 @@
 			}
 		},
 		onLoad() {
-			this.queryUserFamilyList()
+			this.initFamilyInfo()
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
 				'familyId',
-				'warningMessagePhoneNumber'
+				'warningMessagePhoneNumber',
+				'familyMessage'
 			]),
 			userName() {
 			},
@@ -97,8 +99,6 @@
 			},
 			accountName() {
 			}
-		},
-		mounted() {
 		},
 		methods: {
 			...mapMutations([
@@ -119,60 +119,29 @@
 				}
 			},
 			
-			// 获取用户家庭列表
-			queryUserFamilyList () {
-				this.showLoadingHint = true;
-				this.infoText = '加载中...';
-				this.roomList = [];
+			// 初始家庭信息
+			initFamilyInfo () {
 				this.familyMemberList = [];
-				getUserFamilyList().then((res) => {
-					if ( res && res.data.code == 0) {
-						this.fullFamilyMemberList = res.data.data;
-						for (let item of res.data.data) {
-							this.familyMemberList.push({
-								id: item.id,
-								value: item.name
-							})
-						};
-						if (this.warningMessagePhoneNumber.familyId) {
-							this.initValueId = this.warningMessagePhoneNumber.familyId;
-							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.warningMessagePhoneNumber.familyId })[0]['value'];
-							let temporaryIndex = this.fullFamilyMemberList.findIndex((el) => { return el.id == this.warningMessagePhoneNumber.familyId });
-							this.phoneList = this.fullFamilyMemberList[temporaryIndex]['phones']
-						} else {
-							if (this.familyId) {
-								this.initValueId = this.familyId;
-								this.initValue = this.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
-								let temporaryIndex = this.fullFamilyMemberList.findIndex((el) => { return el.id == this.familyId });
-								this.phoneList = this.fullFamilyMemberList[temporaryIndex]['phones']
-							} else {
-								this.initValueId = this.familyMemberList[0]['id'];
-								this.initValue = this.familyMemberList[0]['value'];
-								this.phoneList = this.fullFamilyMemberList[0]['phones']
-							}
-						};
-						if (this.phoneList.length > 0) {
-							this.isShowNoHomeNoData = false
-						} else {
-							this.isShowNoHomeNoData = true
-						}
+				this.fullFamilyMemberLis = [];
+				this.familyMemberList = _.cloneDeep(this.familyMessage.familyMemberList);
+				this.fullFamilyMemberList = _.cloneDeep(this.familyMessage.fullFamilyMemberList);
+				if (this.warningMessagePhoneNumber.familyId) {
+					this.initValueId = this.warningMessagePhoneNumber.familyId;
+					this.initValue = this.familyMemberList.filter((el) => { return el.id == this.warningMessagePhoneNumber.familyId })[0]['value'];
+					let temporaryIndex = this.fullFamilyMemberList.findIndex((el) => { return el.id == this.warningMessagePhoneNumber.familyId });
+					this.phoneList = this.fullFamilyMemberList[temporaryIndex]['phones']
+				} else {
+					if (this.familyId) {
+						this.initValueId = this.familyId;
+						this.initValue = this.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
+						let temporaryIndex = this.fullFamilyMemberList.findIndex((el) => { return el.id == this.familyId });
+						this.phoneList = this.fullFamilyMemberList[temporaryIndex]['phones']
 					} else {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
-					};
-					this.showLoadingHint = false
-				})
-				.catch((err) => {
-					this.$refs.uToast.show({
-						title: err,
-						type: 'error',
-						position: 'bottom'
-					});
-					this.showLoadingHint = false
-				})
+						this.initValueId = this.familyMemberList[0]['id'];
+						this.initValue = this.familyMemberList[0]['value'];
+						this.phoneList = this.fullFamilyMemberList[0]['phones']
+					}
+				}
 			},
 			
 			// 编辑事件

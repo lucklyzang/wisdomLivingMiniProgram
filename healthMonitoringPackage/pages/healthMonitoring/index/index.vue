@@ -23,7 +23,7 @@
 							<image :src="showImage(item.type)"></image>
 							<text class="scene">{{ item.name }}</text>
 							<text class="small-bridge" v-if="item.mold == 1">-</text>
-							<u-input v-model="item.suffixValue"  v-if="item.mold == 1" @click="suffixClickEvent(item,index)" type="text" placeholder="" :disabled="item.disabled" />
+							<u-input v-model="item.subtitle"  v-if="item.mold == 1" @click="suffixClickEvent(item,index)" type="text" placeholder="" :disabled="item.disabled" />
 						</view>
 						<view class="list-right">
 							<view class="delete-box" @click="deleteEvent(item,index)" v-if="item.mold == 1"><image :src="deleteIconPng"></image></view>
@@ -44,7 +44,7 @@
 							<image :src="showImage(item.type)"></image>
 							<text class="scene">{{ item.name }}</text>
 							<text class="small-bridge" v-if="item.mold == 1">-</text>
-							<u-input v-if="item.mold == 1" v-model="value"  @click="suffixClickEvent(item,index)" type="text" placeholder="" :disabled="item.disabled" />
+							<u-input v-if="item.mold == 1" v-model="item.subtitle"  @click="suffixClickEvent(item,index)" type="text" placeholder="" :disabled="item.disabled" />
 						</view>
 						<view class="list-right">
 							<view class="delete-box"  @click="deleteEvent(item,index)" v-if="item.mold == 1"><image :src="deleteIconPng"></image></view>
@@ -83,6 +83,7 @@
 				isShowHomeNoData: false,
 				isShowNoHomeNoData: false,
 				value: '',
+				delIds: [],
 				noShowHomeList: [],
 				showHomeList: [],
 				sleepIconPng: require("@/static/img/sleep-icon.png"),
@@ -190,9 +191,14 @@
 				this.infoText = '保存中...';
 				this.familyList = [];
 				let temporaryData = this.showHomeList.concat(this.noShowHomeList);
-				saveOrUpdateHomePage(temporaryData).then((res) => {
+				let neenParams = {
+					updateReqVOS: temporaryData,
+					delIds: this.delIds
+				};
+				saveOrUpdateHomePage(neenParams).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.queryHomePageList(this.familyId);
+						this.delIds = [];
 						this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' })
 					} else {
 						this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' })
@@ -219,12 +225,12 @@
 						name: item.name,
 						sort: index + 1,
 						status: 0,
-						suffixValue: '',
+						subtitle: '',
 						type: item.type,
 						userId: this.userInfo.userId
 					};
 					let temporaryLength = this.showHomeList.filter((el) => { return el.name == item.name}).length;
-					insertMessage['suffixValue'] = `场景${temporaryLength}`;
+					insertMessage['subtitle'] = `场景${temporaryLength}`;
 					this.showHomeList.splice(index + 1, 0, insertMessage);
 				} else if (item.status == 1) {
 					let insertMessage = {
@@ -236,12 +242,12 @@
 						name: item.name,
 						sort: index + 1,
 						status: 1,
-						suffixValue: '',
+						subtitle: '',
 						type: item.type,
 						userId: this.userInfo.userId
 					};
 					let temporaryLength = this.noShowHomeList.filter((el) => { return el.name == item.name}).length;
-					insertMessage['suffixValue'] = `场景${temporaryLength}`;
+					insertMessage['subtitle'] = `场景${temporaryLength}`;
 					this.noShowHomeList.splice(index + 1, 0, insertMessage);
 				}
 				// this.saveOrUpdateHomePageEvent(id)
@@ -254,6 +260,7 @@
 				} else if (item.status == 1) {
 					this.noShowHomeList.splice(index,1)
 				};
+				this.delIds.push(item.id)
 				// this.showLoadingHint = true;
 				// this.infoText = '删除中...';
 				// deleteHomePage({id}).then((res) => {

@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["devicePackage/common/vendor"],{
 
-/***/ 250:
+/***/ 270:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-inform-icon.png ***!
   \*************************************************************************/
@@ -11,7 +11,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 251:
+/***/ 271:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/system-inform-icon.png ***!
   \*************************************************************************/
@@ -22,7 +22,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 268:
+/***/ 288:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/scan-icon.png ***!
   \****************************************************************/
@@ -33,7 +33,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 269:
+/***/ 289:
 /*!***************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/question-circle-icon.png ***!
   \***************************************************************************/
@@ -44,7 +44,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 270:
+/***/ 290:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/search-for-icon.gif ***!
   \**********************************************************************/
@@ -55,7 +55,7 @@ module.exports = "/static/img/search-for-icon.gif";
 
 /***/ }),
 
-/***/ 295:
+/***/ 315:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/no-query-device.png ***!
   \**********************************************************************/
@@ -66,7 +66,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAABeCAMAAACd
 
 /***/ }),
 
-/***/ 304:
+/***/ 324:
 /*!*********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-binding.gif ***!
   \*********************************************************************/
@@ -77,7 +77,7 @@ module.exports = "/static/img/device-binding.gif";
 
 /***/ }),
 
-/***/ 305:
+/***/ 325:
 /*!**************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-bind-success.png ***!
   \**************************************************************************/
@@ -88,7 +88,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF4AAABeCAMAAACd
 
 /***/ }),
 
-/***/ 306:
+/***/ 326:
 /*!***********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-bind-fail.png ***!
   \***********************************************************************/
@@ -99,7 +99,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAABHCAMAAABi
 
 /***/ }),
 
-/***/ 315:
+/***/ 335:
 /*!********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-add-icon.png ***!
   \********************************************************************/
@@ -110,7 +110,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAMAAAC7
 
 /***/ }),
 
-/***/ 316:
+/***/ 336:
 /*!*********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-edit-icon.png ***!
   \*********************************************************************/
@@ -121,7 +121,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAMAAABG
 
 /***/ }),
 
-/***/ 349:
+/***/ 369:
 /*!***************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/log-icon.png ***!
   \***************************************************************/
@@ -132,7 +132,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 350:
+/***/ 370:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/more-icon.png ***!
   \****************************************************************/
@@ -143,7 +143,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 392:
+/***/ 412:
 /*!*****************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/exist-perception-radar.png ***!
   \*****************************************************************************/
@@ -154,7 +154,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANIAAACJCAMAAABu
 
 /***/ }),
 
-/***/ 433:
+/***/ 453:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/sign-monitor-radar.png ***!
   \*************************************************************************/
@@ -165,7 +165,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJwAAACYCAMAAAAm
 
 /***/ }),
 
-/***/ 530:
+/***/ 550:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/delete-red-icon.png ***!
   \**********************************************************************/

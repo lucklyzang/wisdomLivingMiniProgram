@@ -19,194 +19,194 @@
 				</xfl-select>
 			</view>
 		</view>
-		<view class="center-area" v-show="true">
-			<view class="bind-sleep-device-area">
-				<view>
-					<text>睡眠</text>
-				</view>
-				<view>
-					<view>
-						<text>暂无睡眠数据</text>
-					</view>
-					<view>
-						<text>立即</text>
-						<text @click="bindDeviceEvent(1)">绑定设备</text>
-						<text>获取检测数据</text>
-					</view>
-				</view>
-			</view>
-			<view class="bind-sleep-device-area bind-toileting-device-area">
-				<view>
-					<text>入厕</text>
-				</view>
-				<view>
-					<view>
-						<text>暂无入厕数据</text>
-					</view>
-					<view>
-						<text>立即</text>
-						<text @click="bindDeviceEvent(2)">绑定设备</text>
-						<text>获取检测数据</text>
-					</view>
-				</view>
-			</view>
-			<view class="bind-sleep-device-area tumble-toileting-device-area">
-				<view>
-					<text>跌倒</text>
-				</view>
-				<view>
-					<view>
-						<text>暂无跌倒数据</text>
-					</view>
-					<view>
-						<text>立即</text>
-						<text @click="bindDeviceEvent(3)">绑定设备</text>
-						<text>获取检测数据</text>
-					</view>
-				</view>
-			</view>
-			<view class="bind-sleep-device-area leave-home-device-area">
-				<view>
-					<text>离家和回家</text>
-				</view>
-				<view>
-					<view>
-						<text>暂无离/回家数据</text>
-					</view>
-					<view>
-						<text>立即</text>
-						<text @click="bindDeviceEvent(4)">绑定设备</text>
-						<text>获取检测数据</text>
-					</view>
-				</view>
-			</view>
+		<view class="banner-area-box">
+			<u-swiper :list="bannerList"></u-swiper>
 		</view>
-		<view class="center-area-data" v-show="false">
-			<view class="banner-area-box">
-				<view class="banner-area"></view>
-			</view>
-			<view class="sleep-area-data">
-				<view class="sleep-data-title">
-					<text>睡眠</text>
-					<text>7月8日</text>
-					<text class="room-name">主卧</text>
-					<text>睡眠8小时、睡眠状态良好</text>
-				</view>
-				<view class="heart-rate-box">
-					<view class="heart-rate-title">
-						<view class="heart-rate-title-left">
-							<image :src="heartRateIconPng"></image>
-							<text>心率 70次/分</text>
-							<text>心率正常</text>
-						</view>
-						<view class="heart-rate-title-right" @click="enterDetailsEvent('心率')">
-							详情
-						</view>
+		<view class="center-area">
+			<uni-ec-canvas class="uni-ec-canvas" id="line-chart" ref="canvas" canvas-id="lazy-load-chart" :ec="ec"></uni-ec-canvas>
+			<u-empty text="暂无数据" v-if="isShowHomeNoData"></u-empty>
+			<view class="device-list" v-for="(item,index) in deviceList" :key="index"> 
+				<view class="bind-sleep-device-area" v-if="item.type == 0 && !item.hasOwnProperty('devices')">
+					<view>
+						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 					</view>
-					<view class="heart-rate-chart">
-						<uni-ec-canvas class="uni-ec-canvas" id="line-chart" ref="canvas" canvas-id="lazy-load-chart" :ec="ec"></uni-ec-canvas>
+					<view>
+						<view>
+							<text>{{ `暂无${item.mold == 0 ? item.name : `${item.name}-${item.subtitle}`}数据` }}</text>
+						</view>
+						<view>
+							<text>立即</text>
+							<text @click="bindDeviceEvent(1)">绑定设备</text>
+							<text>获取检测数据</text>
+						</view>
 					</view>
 				</view>
-				<view class="heart-rate-box breathe-box">
-					<view class="heart-rate-title">
-						<view class="heart-rate-title-left">
-							<image :src="breatheIconPng"></image>
-							<text>呼吸 16次/分</text>
-							<text>呼吸正常</text>
-						</view>
-						<view class="heart-rate-title-right" @click="enterDetailsEvent('呼吸')">
-							详情
-						</view>
+				<view class="bind-sleep-device-area bind-toileting-device-area" v-if="item.type == 1 && !item.hasOwnProperty('devices')">
+					<view>
+						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 					</view>
-					<view class="heart-rate-chart">
-						
+					<view>
+						<view>
+							<text>{{ `暂无${item.mold == 0 ? item.name : `${item.name}-${item.subtitle}`}数据` }}</text>
+						</view>
+						<view>
+							<text>立即</text>
+							<text @click="bindDeviceEvent(2)">绑定设备</text>
+							<text>获取检测数据</text>
+						</view>
 					</view>
 				</view>
-				<view class="heart-rate-box sleep-box">
-					<view class="heart-rate-title">
-						<view class="heart-rate-title-left">
-							<image :src="sleepSmallIconPng"></image>
-							<text>睡眠 7小时45分钟</text>
-							<text></text>
-						</view>
-						<view class="heart-rate-title-right" @click="enterDetailsEvent('睡眠')">
-							详情
-						</view>
+				<view class="bind-sleep-device-area tumble-toileting-device-area" v-if="item.type == 2 && !item.hasOwnProperty('devices')">
+					<view>
+						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 					</view>
-					<view class="heart-rate-chart">
-						
+					<view>
+						<view>
+							<text>{{ `暂无${item.mold == 0 ? item.name : `${item.name}-${item.subtitle}`}数据` }}</text>
+						</view>
+						<view>
+							<text>立即</text>
+							<text @click="bindDeviceEvent(3)">绑定设备</text>
+							<text>获取检测数据</text>
+						</view>
 					</view>
 				</view>
-			</view>
-			<view class="sleep-area-data toilet-area-data">
-				<view class="sleep-data-title">
-					<text>入厕</text>
-					<text>7月8日</text>
-					<text class="room-name">卫生间</text>
-					<text>入厕两次</text>
-				</view>
-				<view class="heart-rate-box">
-					<view class="heart-rate-title">
-						<view class="heart-rate-title-left">
-							<image :src="toiletIconPng"></image>
-							<text>平均入厕时间 15分钟</text>
-							<text>入厕时间正常</text>
+				<view class="bind-sleep-device-area leave-home-device-area" v-if="item.type == 3 && !item.hasOwnProperty('devices')">
+					<view>
+						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
+					</view>
+					<view>
+						<view>
+							<text>{{ `暂无${item.mold == 0 ? item.name : `${item.name}-${item.subtitle}`}数据` }}</text>
 						</view>
-						<view class="heart-rate-title-right" @click="enterDetailsEvent('入厕')">
-							详情
+						<view>
+							<text>立即</text>
+							<text @click="bindDeviceEvent(4)">绑定设备</text>
+							<text>获取检测数据</text>
 						</view>
 					</view>
-					<view class="heart-rate-chart">
-						
+				</view>
+				<view class="sleep-area-data" v-if="item.type == 0 && item.hasOwnProperty('devices')">
+					<view class="sleep-data-title">
+						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
+						<text>7月8日</text>
+						<text class="room-name">主卧</text>
+						<text>睡眠8小时、睡眠状态良好</text>
 					</view>
-				</view>
-			</view>
-			<view class="sleep-area-data tumble-area-data">
-				<view class="sleep-data-title">
-					<text>跌倒</text>
-					<text>7月8日</text>
-					<text class="room-name">主卧、客厅</text>
-					<text>跌倒一次</text>
-				</view>
-				<view class="heart-rate-box">
-					<view class="heart-rate-title">
-						<view class="heart-rate-title-left">
-							<image :src="tumbleIconPng"></image>
-							<text>跌倒1次</text>
-							<text>已自行站起</text>
+					<view class="heart-rate-box">
+						<view class="heart-rate-title">
+							<view class="heart-rate-title-left">
+								<image :src="heartRateIconPng"></image>
+								<text>心率 70次/分</text>
+								<text>心率正常</text>
+							</view>
+							<view class="heart-rate-title-right" @click="enterDetailsEvent('心率',item)">
+								详情
+							</view>
 						</view>
-						<view class="heart-rate-title-right" @click="enterDetailsEvent('跌倒')">
-							详情
-						</view>
-					</view>
-					<view class="heart-rate-chart">
-						
-					</view>
-				</view>
-			</view>
-			<view class="sleep-area-data leave-home-area-data">
-				<view class="sleep-data-title">
-					<text>离家和回家</text>
-					<text>7月8日</text>
-					<text class="room-name">主卧、客厅</text>
-				</view>
-				<view class="heart-rate-box">
-					<view class="heart-rate-title">
-						<view class="heart-rate-title-left">
-							<image :src="leaveHomeIconPng"></image>
-							<text>最近离家时间</text>
-							<text>22：37</text>
-						</view>
-						<view class="heart-rate-title-right" @click="enterDetailsEvent('离家和回家')">
-							详情
+						<view class="heart-rate-chart">
+							<uni-ec-canvas class="uni-ec-canvas" id="line-chart" ref="canvas" canvas-id="lazy-load-chart" :ec="ec"></uni-ec-canvas>
 						</view>
 					</view>
-					<view class="heart-rate-chart">
-						
+					<view class="heart-rate-box breathe-box">
+						<view class="heart-rate-title">
+							<view class="heart-rate-title-left">
+								<image :src="breatheIconPng"></image>
+								<text>呼吸 16次/分</text>
+								<text>呼吸正常</text>
+							</view>
+							<view class="heart-rate-title-right" @click="enterDetailsEvent('呼吸',item)">
+								详情
+							</view>
+						</view>
+						<view class="heart-rate-chart">
+							
+						</view>
+					</view>
+					<view class="heart-rate-box sleep-box">
+						<view class="heart-rate-title">
+							<view class="heart-rate-title-left">
+								<image :src="sleepSmallIconPng"></image>
+								<text>睡眠 7小时45分钟</text>
+								<text></text>
+							</view>
+							<view class="heart-rate-title-right" @click="enterDetailsEvent('睡眠',item)">
+								详情
+							</view>
+						</view>
+						<view class="heart-rate-chart">
+							
+						</view>
 					</view>
 				</view>
-			</view>
-		</view>
+				<view class="sleep-area-data toilet-area-data" v-if="item.type == 1 && item.hasOwnProperty('devices')">
+					<view class="sleep-data-title">
+						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
+						<text>7月8日</text>
+						<text class="room-name">卫生间</text>
+						<text>入厕两次</text>
+					</view>
+					<view class="heart-rate-box">
+						<view class="heart-rate-title">
+							<view class="heart-rate-title-left">
+								<image :src="toiletIconPng"></image>
+								<text>平均入厕时间 15分钟</text>
+								<text>入厕时间正常</text>
+							</view>
+							<view class="heart-rate-title-right" @click="enterDetailsEvent('入厕',item)">
+								详情
+							</view>
+						</view>
+						<view class="heart-rate-chart">
+							
+						</view>
+					</view>
+				</view>
+				<view class="sleep-area-data tumble-area-data" v-if="item.type == 2 && item.hasOwnProperty('devices')">
+					<view class="sleep-data-title">
+						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
+						<text>7月8日</text>
+						<text class="room-name">主卧、客厅</text>
+						<text>跌倒一次</text>
+					</view>
+					<view class="heart-rate-box">
+						<view class="heart-rate-title">
+							<view class="heart-rate-title-left">
+								<image :src="tumbleIconPng"></image>
+								<text>跌倒1次</text>
+								<text>已自行站起</text>
+							</view>
+							<view class="heart-rate-title-right" @click="enterDetailsEvent('跌倒',item)">
+								详情
+							</view>
+						</view>
+						<view class="heart-rate-chart">
+						</view>
+					</view>
+				</view>
+				<view class="sleep-area-data leave-home-area-data" v-if="item.type == 3 && item.hasOwnProperty('devices')">
+					<view class="sleep-data-title">
+						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
+						<text>7月8日</text>
+						<text class="room-name">主卧、客厅</text>
+					</view>
+					<view class="heart-rate-box">
+						<view class="heart-rate-title">
+							<view class="heart-rate-title-left">
+								<image :src="leaveHomeIconPng"></image>
+								<text>最近离家时间</text>
+								<text>22：37</text>
+							</view>
+							<view class="heart-rate-title-right" @click="enterDetailsEvent('离家和回家',item)">
+								详情
+							</view>
+						</view>
+						<view class="heart-rate-chart">	
+						</view>
+					</view>
+				</view>
+			</view>	
+		</view>	
 		<view class="bottom-area">
 			<text @click="editDataCardEvent">编辑数据卡片</text>
 		</view>
@@ -221,17 +221,23 @@
 	import uniEcCanvas from '@/components/uni-ec-canvas/uni-ec-canvas'
 	import * as echarts from '@/components/uni-ec-canvas/echarts'
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
-	import { getHomePageList } from '@/api/home.js'
+	import { getHomePageList } from '@/api/home.js' 
+	import { getUserBannerList } from '@/api/user.js'
+	import { sleepStatisticsHome } from '@/api/device.js'
+	import _ from 'lodash'
 	let chart = null
 	export default {
 		components: {
-			xflSelect
+			xflSelect,
+			uniEcCanvas
 		},
 		data() {
 			return {
 				infoText: '',
 				initValue: null,
+				bannerList: [],
 				showLoadingHint: false,
+				isShowHomeNoData: false,
 				heartRateIconPng: require("@/static/img/heart-rate-icon.png"),
 				breatheIconPng: require("@/static/img/breathe-icon.png"),
 				toiletIconPng: require("@/static/img/toilet-icon.png"),
@@ -239,7 +245,8 @@
 				leaveHomeIconPng: require("@/static/img/leave-home-icon.png"),
 				sleepSmallIconPng: require("@/static/img/sleep-small-icon.png"),
 				familyMemberList: [],
-				showHomeList: [],
+				deviceList: [],
+				sceneDataList: [],
 				ec: {
 				  lazyLoad: true
 				},
@@ -312,10 +319,14 @@
 		onUnload() {
 			chart = null
 		},
+		mounted () {
+			// this.$refs.canvas.init(this.initChart)
+		},
 		onLoad() {
 			console.log('家庭信息',this.familyMessage);
-			this.initFamilyInfo();
-			// this.$refs.canvas.init(this.initChart)
+			this.queryHomePageList(this.familyId);
+			this.queryUserBannerList();
+			this.initFamilyInfo()
 		},
 		computed: {
 			...mapGetters([
@@ -363,27 +374,117 @@
 				this.changeFamilyId(val.orignItem.id)
 			},
 			
+			// 格式化时间
+			getNowFormatDate(currentDate) {
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "-";
+				let seperator2 = ":";
+				let month = currentDate.getMonth() + 1;
+				let hour = currentDate.getHours();
+				let minutes = currentDate.getMinutes();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				};
+				if (hour >= 0 && hour <= 9) {
+					hour = "0" + hour;
+				};
+				if (minutes >= 0 && minutes <= 9) {
+					minutes = "0" + minutes;
+				};
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				};
+				currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				return currentdate
+			},
+			
+			// 格式化时间(带中文)
+			getNowFormatDateText(currentDate) {
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "月";
+				let seperator2 = "日";
+				let month = currentDate.getMonth() + 1;
+				let hour = currentDate.getHours();
+				currentdate = month + seperator1 + strDate + seperator2
+				return currentdate
+			},
+			
+			// 获取睡眠日数据
+			querySleepDayDataList (data,deviceId) {
+				sleepStatisticsHome(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						let temporaryData = {
+							deviceId,
+							content: res.data.data
+						};
+						this.sceneDataList.push(temporaryData)
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取首页banner列表
+			queryUserBannerList () {
+				this.showLoadingHint = true;
+				this.infoText = '加载中...';
+				this.bannerList = [];
+				getUserBannerList().then((res) => {
+					if ( res && res.data.code == 0) {
+						if (res.data.data.length > 0) {
+							for (let item of res.data.data) {
+								this.bannerList.push({
+									image: item.picUrl,
+									title: item.title
+								})
+							}
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 获取首页配置列表
 			queryHomePageList (familyId) {
 				this.showLoadingHint = true;
 				this.infoText = '加载中...';
-				this.showHomeList = [];
-				this.noShowHomeList = [];
+				this.deviceList = [];
 				getHomePageList({familyId}).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.showHomeList = res.data.data.filter((item) => { return item.status == 0 });
-						this.showHomeList.forEach((el) => { el.disabled = false });
-						if (this.showHomeList.length == 0) {
+						this.deviceList = res.data.data.filter((item) => { return item.status == 0 });
+						console.log('设备数据',this.deviceList);
+						if (this.deviceList.length == 0) {
 							this.isShowHomeNoData = true
 						} else {
+							this.questSceneDataQueue(this.deviceList);
 							this.isShowHomeNoData = false
-						};
-						this.noShowHomeList = res.data.data.filter((item) => { return item.status == 1 });
-						this.noShowHomeList.forEach((el) => { el.disabled = false });
-						if (this.noShowHomeList.length == 0) {
-							this.isShowNoHomeNoData = true
-						} else {
-							this.isShowNoHomeNoData = false
 						};
 					} else {
 						this.$refs.uToast.show({
@@ -404,10 +505,32 @@
 				})
 			},
 			
+			// 请求场景数据队列
+			questSceneDataQueue (data) {
+				data.forEach((item,index,array) => {
+					// 有设备的场景进行请求数据
+					if (item.hasOwnProperty('devices')) {
+						// 0-睡眠,1-如厕,2-跌倒,3-离/回家
+						if (item.type == 0) {
+							this.requestSleepDeviceStatisticsData(item.id)
+						}
+					}
+				})
+			},
+			
+			// 为绑定设备的场景请求设备统计日数据(睡眠场景)
+			requestSleepDeviceStatisticsData (deviceId) {
+				this.querySleepDayDataList({
+					deviceId,
+					startDate: this.getNowFormatDate(new Date()),
+					endDate: this.getNowFormatDate(new Date())
+				},deviceId)
+			},
+			
 			// 初始家庭信息
 			initFamilyInfo () {
 				this.familyMemberList = [];
-				this.familyMemberList = this.familyMessage.familyMemberList;
+				this.familyMemberList = _.cloneDeep(this.familyMessage.familyMemberList);
 				if (this.familyId) {
 					this.initValue = this.familyMessage.familyMemberList.filter((el) => { return el.id == this.familyId })[0]['value'];
 				} else {
@@ -417,18 +540,17 @@
 			
 			// 绑定设备事件
 			bindDeviceEvent (type) {
-				this.editDataCardEvent();
 				// 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
-				// let temporaryMessage = this.currentNeedBindDevicesMessage;
-				// temporaryMessage['type'] = type;
-				// this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
-				// uni.redirectTo({
-				// 	url: '/devicePackage/pages/bingDevices/bingDevices'
-				// })
+				let temporaryMessage = this.currentNeedBindDevicesMessage;
+				temporaryMessage['type'] = type;
+				this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
+				uni.redirectTo({
+					url: '/devicePackage/pages/bingDevices/bingDevices'
+				})
 			},
 			
 			// 进入数据详情事件
-			enterDetailsEvent (text) {
+			enterDetailsEvent (text,item) {
 				if (text == '心率') {
 					uni.redirectTo({
 						url: '/healthMonitoringPackage/pages/heartRate/heartRate'
@@ -540,10 +662,23 @@
 				}
 			}
 		};
+		.banner-area-box {
+			padding: 0 10px 10px 10px;
+			min-height: 135px;
+			box-sizing: border-box;
+			background: #fff
+		};
 		.center-area {
 			flex: 1;
 			overflow: auto;
 			background: #f5f5f5;
+			position: relative;
+			::v-deep .u-empty {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%)
+			};
 			.bind-sleep-device-area {
 				margin-top: 2px;
 				padding: 4px 10px;
@@ -556,7 +691,8 @@
 				>view {
 					&:nth-child(1) {
 						font-size: 14px;
-						color: #101010
+						color: #101010;
+						@include no-wrap
 					};
 					&:nth-child(2) {
 						flex: 1;
@@ -565,12 +701,24 @@
 						justify-content: center;
 						align-items: center;
 						>view {
+							width: 100%;
 							&:nth-child(1) {
+								@include no-wrap;
+								display: flex;
+								align-items: center;
+								justify-content: center;
 								font-size: 14px;
 								color: #101010;
-								margin-bottom: 20px
+								margin-bottom: 20px;
+								>text {
+									text-align: center;
+									display: inline-block;
+									width: 100%;
+									@include no-wrap
+								}
 							};
 							&:nth-child(2) {
+								justify-content: center;
 								font-size: 14px;
 								display: flex;
 								align-items: center;
@@ -606,22 +754,6 @@
 				height: 159px !important;
 				margin-top: 4px;
 				margin-bottom: 4px;
-			}
-		};
-		.center-area-data {
-			flex: 1;
-			overflow: auto;
-			background: #f5f5f5;
-			.banner-area-box {
-				padding: 0 10px;
-				box-sizing: border-box;
-				background: #fff;
-				.banner-area {
-					width: 100%;
-					height: 144px;
-					background: #BBBBBB;
-					border-radius: 7px;
-				}
 			};
 			.sleep-area-data {
 				height: 397px;

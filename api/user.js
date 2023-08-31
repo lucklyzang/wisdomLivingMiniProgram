@@ -1,6 +1,14 @@
 import request from '@/api/request';
 import Qs from 'qs'
 
+// 获的banner列表
+export function getUserBannerList() {
+  return request({
+    url: '/app-api/radar/banner/list',
+    method: 'get'
+  })
+};
+
 // 获取用户基本信息
 export function getUserMessage() {
   return request({

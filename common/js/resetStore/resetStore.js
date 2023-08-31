@@ -15,6 +15,7 @@ export function getDefaultDeviceState() {
 			warningMessagePhoneNumber: {},
 			currentNeedBindDevicesMessage: {},
 			deviceNoticeDetails: {},
-			familyMessage: {}
+			familyMessage: {},
+			currentDeviceType: ''
 		}	
 };

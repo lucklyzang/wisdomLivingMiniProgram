@@ -579,6 +579,8 @@
 			
 			// 获取用户家庭列表
 			queryUserFamilyList () {
+				this.showLoadingHint = true;
+				this.loadingText = '加载中...';
 				this.familyMemberList = [];
 				this.fullFamilyMemberList = [];
 				getUserFamilyList().then((res) => {
@@ -605,9 +607,11 @@
 							type: 'error',
 							position: 'bottom'
 						})
-					}
+					};
+					this.showLoadingHint = false;
 				})
 				.catch((err) => {
+					this.showLoadingHint = false;
 					this.$refs.uToast.show({
 						title: err,
 						type: 'error',
