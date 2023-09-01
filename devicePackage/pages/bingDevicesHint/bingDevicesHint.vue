@@ -5,13 +5,13 @@
 		<view class="content-area">
 			<view class="content-top">
 				<view class="device-binding" v-if="showLoadingHint">
-					<image :src="deviceBindingGif"></image>
+					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/5ae75f4793c5ae4a3b8002752f0473019cd36b2e13bf716c8755670329c3e486.gif"></image>
 				</view>
 				<view class="device-success" v-if="!showLoadingHint && isSuccess">
-					<image :src="deviceBindSuccessPng"></image>
+					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/0c004ac2cd5b0943c8887f1011165046c0b7554962b8a628bee7dbb58a95cfa6.png"></image>
 				</view>
 				<view class="device-fail" v-if="!showLoadingHint && isFail">
-					<image :src="deviceBindFailPng"></image>
+					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/276a8524193cb2010e34a5d40f4540fea181445f99ab77017261bc1c9661b5a7.png"></image>
 				</view>
 				<text>{{ infoText }}</text>
 			</view>
@@ -36,10 +36,7 @@
 				infoText: '绑定中',
 				showLoadingHint: false,
 				isSuccess: false,
-				isFail: false,
-				deviceBindingGif: require("@/static/img/device-binding.gif"),
-				deviceBindSuccessPng: require("@/static/img/device-bind-success.png"),
-				deviceBindFailPng: require("@/static/img/device-bind-fail.png")
+				isFail: false
 			}
 		},
 		onLoad() {

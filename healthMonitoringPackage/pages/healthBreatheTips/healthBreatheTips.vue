@@ -13,7 +13,7 @@
 				</text>
 			</view>
 			<view class="paragraph-image-one">
-				<image :src="healthBreathePng"></image>
+				<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/07c5984c6ee458f21bd1bd3b11df29252d770fbcf3e69331536ede5b3f0188fb.png"></image>
 			</view>
 			<view class="paragraph-two">
 				<view>
@@ -167,8 +167,7 @@
 		data() {
 			return {
 				infoText: '',
-				showLoadingHint: false,
-				healthBreathePng: require("@/static/img/health-breathe-tips.png")
+				showLoadingHint: false
 			}
 		},
 		onReady() {

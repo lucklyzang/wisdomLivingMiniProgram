@@ -3,7 +3,7 @@
 		<u-toast ref="uToast" />
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="top-area">
-			<view>
+			<view>	
 				<text>健康</text>
 			</view>
 			<view class="dropdown-area">
@@ -23,7 +23,9 @@
 			<u-swiper :list="bannerList"></u-swiper>
 		</view>
 		<view class="center-area">
-			<uni-ec-canvas class="uni-ec-canvas" id="line-chart" ref="canvas" canvas-id="lazy-load-chart" :ec="ec"></uni-ec-canvas>
+			<view class="charts-box">
+				<qiun-data-charts type="column" :chartData="chartData" />
+			</view>
 			<u-empty text="暂无数据" v-if="isShowHomeNoData"></u-empty>
 			<view class="device-list" v-for="(item,index) in deviceList" :key="index"> 
 				<view class="bind-sleep-device-area" v-if="item.type == 0 && !item.hasOwnProperty('devices')">
@@ -218,18 +220,14 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
-	import uniEcCanvas from '@/components/uni-ec-canvas/uni-ec-canvas'
-	import * as echarts from '@/components/uni-ec-canvas/echarts'
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
 	import { getHomePageList } from '@/api/home.js' 
 	import { getUserBannerList } from '@/api/user.js'
 	import { sleepStatisticsHome } from '@/api/device.js'
 	import _ from 'lodash'
-	let chart = null
 	export default {
 		components: {
-			xflSelect,
-			uniEcCanvas
+			xflSelect
 		},
 		data() {
 			return {
@@ -247,81 +245,14 @@
 				familyMemberList: [],
 				deviceList: [],
 				sceneDataList: [],
-				ec: {
-				  lazyLoad: true
-				},
-				option: {
-					title: {
-						text: ''
-					},
-					tooltip: {
-						trigger: 'axis',
-						formatter: '{b}\r\n{c0}人',
-						axisPointer: {
-							type: 'line',
-							axis: 'x',
-							label: {
-								backgroundColor: '#000000'
-							}
-						}
-					},
-					grid: {
-						left: '6%',
-						right: '6%',
-						top: '6%',
-						bottom: '6%',
-						containLabel: true
-					},
-					xAxis: {
-						type: 'category',
-						boundaryGap: false,
-						data: ['2-12', '2-14', '2-16', '2-18', '2-20', '2-22', '2-24'],
-						axisLine: {
-							// y轴
-							show: false
-						},
-						axisTick: {
-							// y轴刻度线
-							show: false
-						},
-						splitLine: {
-							// 网格线
-							show: false
-						}
-					},
-					yAxis: {
-						type: 'value',
-						axisLine: {
-							// y轴
-							show: false
-						},
-						axisTick: {
-							// y轴刻度线
-							show: false
-						},
-						splitLine: {
-							// 网格线
-							show: false
-						}
-					},
-					series: [{
-						name: '浏览量',
-						type: 'line',
-						smooth: true,
-						lineStyle: {
-							color: '#EF5959'
-						},
-						data: [120, 132, 101, 134, 90, 230, 210]
-					}]
-				}
+				chartData: {}
 			}
 		},
 		onUnload() {
-			chart = null
 		},
-		mounted () {
-			// this.$refs.canvas.init(this.initChart)
-		},
+		 onReady() {
+		    this.getServerData();
+		  },
 		onLoad() {
 			console.log('家庭信息',this.familyMessage);
 			this.queryHomePageList(this.familyId);
@@ -355,17 +286,25 @@
 				'changeCurrentNeedBindDevicesMessage'
 			]),
 			
-			initChart(canvas, width, height, canvasDpr) {
-				console.log(canvas, width, height, canvasDpr)
-				chart = echarts.init(canvas, null, {
-					width: width,
-					height: height,
-					devicePixelRatio: canvasDpr
-				})
-				canvas.setChart(chart)
-				chart.setOption(this.option)
-				return chart
-			},
+			 getServerData() {
+			      //模拟从服务器获取数据时的延时
+			      setTimeout(() => {
+			        let res = {
+			            categories: ["2016","2017","2018","2019","2020","2021"],
+			            series: [
+			              {
+			                name: "目标值",
+			                data: [35,36,31,33,13,34]
+			              },
+			              {
+			                name: "完成量",
+			                data: [18,27,21,24,6,28]
+			              }
+			            ]
+			          };
+			        this.chartData = JSON.parse(JSON.stringify(res));
+			      }, 500);
+			    },
 			
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
@@ -673,6 +612,10 @@
 			overflow: auto;
 			background: #f5f5f5;
 			position: relative;
+			.charts-box {
+			    width: 100%;
+			    height: 150px;
+			  };
 			::v-deep .u-empty {
 				position: absolute;
 				top: 50%;

@@ -14,7 +14,7 @@
 				</text>
 			</view>
 			<view class="paragraph-image-one">
-				<image :src="healthLeaveHomeTipsOnePng"></image>
+				<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/efa3b6fc409b8cd5849b472624d4b6dee0b5b35d876d98e8d1246cdcb3145117.png"></image>
 			</view>
 			<view class="paragraph-two">
 				<view>
@@ -99,7 +99,7 @@
 				</view>
 			</view>
 			<view class="paragraph-image-two">
-				<image :src="healthLeaveHomeTipsTwoPng"></image>
+				<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/e0efb5f7440d5430bbc5d63e9c1f001236f98f6632322d9bd1c9b1d4485bdcfd.png"></image>
 			</view>
 		</view>
 	</view>
@@ -118,9 +118,7 @@
 		data() {
 			return {
 				infoText: '',
-				showLoadingHint: false,
-				healthLeaveHomeTipsOnePng: require("@/static/img/health-leave-home-tips-one.png"),
-				healthLeaveHomeTipsTwoPng: require("@/static/img/health-leave-home-tips-two.png")
+				showLoadingHint: false
 			}
 		},
 		onReady() {

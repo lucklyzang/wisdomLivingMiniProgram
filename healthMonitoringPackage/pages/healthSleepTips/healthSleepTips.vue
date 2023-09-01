@@ -99,8 +99,7 @@
 		data() {
 			return {
 				infoText: '',
-				showLoadingHint: false,
-				healthTumblePng: require("@/static/img/health-tumble-tips.png")
+				showLoadingHint: false
 			}
 		},
 		onReady() {

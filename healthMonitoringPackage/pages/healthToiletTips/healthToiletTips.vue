@@ -13,7 +13,7 @@
 				</text>
 			</view>
 			<view class="paragraph-image-one">
-				<image :src="healthToiletPng"></image>
+				<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/5602cdaef5290c5cefb8e287411bb10d3a9c235c34379cd371a2a070eb6c40c3.png"></image>
 			</view>
 			<view class="paragraph-two">
 				<view>
@@ -50,8 +50,7 @@
 		data() {
 			return {
 				infoText: '',
-				showLoadingHint: false,
-				healthToiletPng: require("@/static/img/health-toilet-tips.png")
+				showLoadingHint: false
 			}
 		},
 		onReady() {

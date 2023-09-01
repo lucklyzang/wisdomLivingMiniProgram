@@ -16,7 +16,7 @@
 					<text>添加设备</text>
 				</view>
 				<view>
-					<image :src="searchForIconPng"></image>
+					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/3131a72d2618fe9c61c413fb5e357fb45a9e80e16df605585da4773fd5ddf4c1.gif"></image>
 					<text>自动搜寻附近设备中…</text>
 					<text>部分设备需Wi-Fi扫描，请开启WLAN</text>
 				</view>
@@ -57,7 +57,6 @@
 				scanCodeDeviceList: [],
 				scanIconPng: require("@/static/img/scan-icon.png"),
 				questionCircleIconPng: require("@/static/img/question-circle-icon.png"),
-				searchForIconPng: require("@/static/img/search-for-icon.gif"),
 				imageUrl: require("@/static/img/room-icon.png")
 			}
 		},
