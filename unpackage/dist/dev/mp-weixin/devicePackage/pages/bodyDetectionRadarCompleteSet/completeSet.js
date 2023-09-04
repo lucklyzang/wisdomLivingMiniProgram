@@ -321,7 +321,6 @@ var _default = {
     getRadarSet: function getRadarSet(deviceId) {
       var _this2 = this;
       this.showLoadingHint = true;
-      this.isShowNoDeviceData = false;
       this.infoText = '加载中...';
       this.alarmRangeValueList = [];
       (0, _device.getDetectionAlarmSettings)({

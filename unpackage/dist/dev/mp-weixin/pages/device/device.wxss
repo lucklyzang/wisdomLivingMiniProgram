@@ -197,7 +197,7 @@ page {
 }
 .content-box .center-content-area .device-content-area .device-list .device-top .device-top-left > text {
   font-size: 12px;
-  color: #BBBBBB;
+  color: #909090;
 }
 .content-box .center-content-area .device-content-area .device-list .device-top .device-top-right > text {
   font-size: 14px;
@@ -232,7 +232,6 @@ page {
 }
 .content-box .center-content-area .room-content-area .room-list-wrapper .room-list {
   display: flex;
-  height: 110px;
   justify-content: space-between;
   margin-bottom: 10px;
   border-radius: 10px;
@@ -250,6 +249,7 @@ page {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 .content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-left .room-left-top > text:first-child {
   font-size: 14px;
@@ -258,7 +258,7 @@ page {
 }
 .content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-left .room-left-top > text:last-child {
   font-size: 12px;
-  color: #BBBBBB;
+  color: #909090;
 }
 .content-box .center-content-area .room-content-area .room-list-wrapper .room-list .room-left .room-left-bottom > image {
   width: 34px;

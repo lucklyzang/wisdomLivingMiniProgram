@@ -136,58 +136,65 @@
 					let temporaryMessage = this.beforeAddDeviceMessage;
 					temporaryMessage['customDeviceName'] = this.deviceNameValue;
 					this.changeBeforeAddDeviceMessage(temporaryMessage);
-					uni.redirectTo({
-						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
-					});
+					this.bindUser(this.beforeAddDeviceMessage.deviceId,this.beforeAddDeviceMessage.roomId,this.beforeAddDeviceMessage.customDeviceName,this.beforeAddDeviceMessage.deviceCode);
 				};
 				if (this.currentDeviceType == 4) {
 					// 绑定人体检测雷达
 					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 					temporaryMessage['customDeviceName'] = this.deviceNameValue;
 					this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
-					uni.redirectTo({
-						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
-					});
+					this.bindUser(this.beforeAddBodyDetectionDeviceMessage.deviceId,this.beforeAddBodyDetectionDeviceMessage.roomId,this.beforeAddBodyDetectionDeviceMessage.customDeviceName,this.beforeAddBodyDetectionDeviceMessage.deviceCode);
 				};
 				if (this.currentDeviceType == 2) {
 					// 绑定人员存在感知雷达
 					let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
 					temporaryMessage['customDeviceName'] = this.deviceNameValue;
 					this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
-					uni.redirectTo({
-						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
-					});
+					this.bindUser(this.beforeAddExistPerceptionRadarCompleteSet.deviceId,this.beforeAddExistPerceptionRadarCompleteSet.roomId,this.beforeAddExistPerceptionRadarCompleteSet.customDeviceName,this.beforeAddExistPerceptionRadarCompleteSet.deviceCode);
 				};
 				if (this.currentDeviceType == 1) {
 					// 绑定体征监测雷达
 					let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
 					temporaryMessage['customDeviceName'] = this.deviceNameValue;
 					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-					uni.redirectTo({
-						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
-					})
+					this.bindUser(this.beforeAddSignMonitorRadarCompleteSet.deviceId,this.beforeAddSignMonitorRadarCompleteSet.roomId,this.beforeAddSignMonitorRadarCompleteSet.customDeviceName,this.beforeAddSignMonitorRadarCompleteSet.deviceCode);
 				};
 				this.changeEnterDeviceSetPageSource('/devicePackage/pages/selectWifi/setDeviceName');
 			},
 			
 			// 设备绑定用户
-			bindUser (familyId) {
+			bindUser (deviceId,roomId,customName,deviceCode) {
 				this.showLoadingHint = true;
 				this.infoText = '绑定中...';
 				createUserDeviceBind({
 					userId: this.userInfo.userId,
-					deviceId: 0,
+					deviceId: deviceId,
 					familyId: this.familyId,
-					roomId: this.beforeAddDeviceMessage['roomId'],
-					customName: this.beforeAddDeviceMessage['customDeviceName'], //用户自定义的设备名称
-					deviceCode: ""
+					roomId: roomId,
+					customName: customName, //用户自定义的设备名称
+					deviceCode: deviceCode
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						});
+						if (this.currentDeviceType == 3) {
+							uni.redirectTo({
+								url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+							})
+						};
+						if (this.currentDeviceType == 4) {
+							uni.redirectTo({
+								url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
+							})
+						};
+						if (this.currentDeviceType == 2) {
+							uni.redirectTo({
+								url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
+							})
+						};
+						if (this.currentDeviceType == 1) {
+							uni.redirectTo({
+								url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
+							})
+						}
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,

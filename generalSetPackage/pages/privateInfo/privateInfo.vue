@@ -78,6 +78,8 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import store from '@/store'
+	import { dataURItoBlob } from '@/common/js/utils'
 	import { getUserMessage, updateUserMessage, updateUserAvatar } from '@/api/user.js'
 	export default {
 		components: {
@@ -133,7 +135,7 @@
 			accountName() {
 			}
 		},
-		onload() {
+		onLoad() {
 			this.generateYears(this.selectYear,new Date().getFullYear());
 			this.generateDays(new Date(this.selectYear, this.selectMonth, 0).getDate());
 			// 回显用户基本信息
@@ -351,18 +353,32 @@
 					sizeType: ['original', 'compressed'],
 					sourceType: ['album', 'camera'],
 					success: function(res) {
-						that.imgArr = [];
+						that.srcImage = res.tempFiles[0]['path'];
 						uni.getFileSystemManager().readFile({
 							filePath: res.tempFilePaths[0],
 							encoding: 'base64',
-							success: res => {
+							success: (res) => {
 								let base64 = 'data:image/jpeg;base64,' + res.data;
-								that.imgArr.push(base64);
+								that.personPhotoSource = base64
 							}
 						});
-						that.srcImage = res.tempFiles[0];
+						uni.uploadFile({
+							 url: 'https://blink.blinktech.cn/radar/app-api/member/user/update-avatar',
+							 filePath: that.srcImage,
+							 name: 'file',
+							 header: {
+									'content-type': 'multipart/form-data',
+									'Authorization': `Bearer ${store.getters.token}`
+							 },
+							 success: res => {
+								 console.log('upload success', res)
+							 },
+							 fail: err => {
+								 console.log('upload fail', err)
+							 }
+						});
 						// 上传最新头像到服务端
-						this.chnagneUserAvatarMessage()
+						// that.chnagneUserAvatarMessage()
 					},
 					fail: function(err) {
 						that.$refs.uToast.show({

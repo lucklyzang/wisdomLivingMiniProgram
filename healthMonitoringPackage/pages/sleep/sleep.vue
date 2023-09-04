@@ -142,7 +142,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'deviceDataMessage'
 			]),
 			userName() {
 			},

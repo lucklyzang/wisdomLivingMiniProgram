@@ -125,6 +125,15 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 = !_vm.isShowNoDeviceData ? _vm.deviceList.length : null
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        g0: g0,
+      },
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -211,7 +220,7 @@ var _default = {
         url: '/devicePackage/pages/bingDevicesHint/bingDevicesHint'
       });
       var temporaryMessage = this.currentNeedBindDevicesMessage;
-      temporaryMessage['type'] = type;
+      temporaryMessage['type'] = item.type;
       temporaryMessage['message'] = item;
       this.changeCurrentNeedBindDevicesMessage(item);
     },

@@ -118,7 +118,7 @@ export function getFallAlarmSettings(data) {
   return request({
     url: '/app-api/member/fall-alarm-settings/get',
     method: 'get',
-		params
+		params: data
   })
 };
 

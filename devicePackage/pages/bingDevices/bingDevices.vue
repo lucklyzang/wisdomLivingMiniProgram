@@ -8,7 +8,7 @@
 		</view>
 		<view class="content-area" v-if="!isShowNoDeviceData">
 			<view class="content-top">
-				<text>已为您检测到2个睡眠相关雷达</text>
+				<text>{{`已为您检测到${deviceList.length}个睡眠相关雷达`}}</text>
 				<text>请选择其中一个进行绑定</text>
 			</view>
 			<view class="content-bottom">
@@ -18,7 +18,7 @@
 							<image :src="deviceIconPng"></image>
 						</view>
 						<view class="list-top-right">
-							<text>{{ item.onLine ? '在线' : '离线' }}</text>
+							<text :class="{'onLineStyle' : item.onLine }">{{ item.onLine ? '在线' : '离线' }}</text>
 						</view>
 					</view>
 					<view class="list-bottom">
@@ -106,7 +106,7 @@
 					url: '/devicePackage/pages/bingDevicesHint/bingDevicesHint'
 				});
 				let temporaryMessage = this.currentNeedBindDevicesMessage;
-				temporaryMessage['type'] = type;
+				temporaryMessage['type'] = item.type;
 				temporaryMessage['message'] = item;
 				this.changeCurrentNeedBindDevicesMessage(item)
 			},
@@ -217,7 +217,10 @@
 						.list-top-right {
 							>text {
 								font-size: 14px;
-								color: #0079FF
+								color: #BBBBBB
+							};
+							.onLineStyle {
+								coloe: #0079FF !important
 							}
 						}
 					};
@@ -232,7 +235,7 @@
 								margin-bottom: 4px
 							};
 							&:last-child {
-								font-size: 16px
+								font-size: 14px
 							};
 						}
 					}

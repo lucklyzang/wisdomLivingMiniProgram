@@ -20,6 +20,7 @@ export default {
 		warningMessagePhoneNumber: state => state.warningMessagePhoneNumber,
 		currentNeedBindDevicesMessage: state => state.currentNeedBindDevicesMessage,
 		deviceNoticeDetails: state => state.deviceNoticeDetails,
+		deviceDataMessage: state => state.deviceDataMessage,
 		familyMessage:(state) => {
 			state.familyMessage = getCache('familyMessage') ? getCache('familyMessage') : {};
 			return state.familyMessage
@@ -49,6 +50,10 @@ export default {
 		// 保存添加设备前选择的房间和自定义设备名称信息
 		changeBeforeAddDeviceMessage (state, playLoad) {
 			state.beforeAddDeviceMessage = playLoad
+		},
+		// 保存进入设备数据页的信息
+		changeDeviceDataMessage (state, playLoad) {
+			state.deviceDataMessage = playLoad
 		},
 		// 保存添加人体检测设备前选择的房间和自定义设备名称信息
 		changeBeforeAddBodyDetectionDeviceMessage (state, playLoad) {

@@ -110,6 +110,7 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddDeviceMessage;
 					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceCode'] = item.sn;
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddDeviceMessage({});
@@ -118,6 +119,7 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
 					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceCode'] = item.sn;
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddExistPerceptionRadarCompleteSet({});
@@ -126,17 +128,16 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
 					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceCode'] = item.sn;
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddSignMonitorRadarCompleteSet({});
 					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-					uni.redirectTo({
-						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
-					})
 				} else if (item.type == 4) {
 					//保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceCode'] = item.sn;
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddBodyDetectionDeviceMessage({});
@@ -156,9 +157,10 @@
 			
 			// 扫码事件
 			scanCodeEvent () {
+				let that = this;
 				uni.scanCode({
-					success(res) {
-						this.checkDeviceEvent({ deviceSn: res.result })
+					success: function (res) {
+						that.checkDeviceEvent({deviceSn: res.result})
 					}
 				})
 			},

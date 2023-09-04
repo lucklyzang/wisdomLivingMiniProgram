@@ -93,7 +93,10 @@ page {
 }
 .content-box .content-area .content-bottom .devices-list .list-top .list-top-right > text {
   font-size: 14px;
-  color: #0079FF;
+  color: #BBBBBB;
+}
+.content-box .content-area .content-bottom .devices-list .list-top .list-top-right .onLineStyle {
+  coloe: #0079FF !important;
 }
 .content-box .content-area .content-bottom .devices-list .list-bottom {
   display: flex;
@@ -108,7 +111,7 @@ page {
   margin-bottom: 4px;
 }
 .content-box .content-area .content-bottom .devices-list .list-bottom > text:last-child {
-  font-size: 16px;
+  font-size: 14px;
 }
 .content-box .content-no-query-device-area {
   padding: 16px;

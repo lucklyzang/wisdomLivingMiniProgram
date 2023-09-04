@@ -88,11 +88,11 @@ try {
     uSwiper: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */ "node-modules/uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 762))
     },
-    qiunDataCharts: function () {
-      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 769))
-    },
     uEmpty: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 787))
+    },
+    qiunDataCharts: function () {
+      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 769))
     },
   }
 } catch (e) {
@@ -122,20 +122,12 @@ var render = function () {
     var g1 = item.type == 1 && !item.hasOwnProperty("devices")
     var g2 = item.type == 2 && !item.hasOwnProperty("devices")
     var g3 = item.type == 3 && !item.hasOwnProperty("devices")
-    var g4 = item.type == 0 && item.hasOwnProperty("devices")
-    var g5 = item.type == 1 && item.hasOwnProperty("devices")
-    var g6 = item.type == 2 && item.hasOwnProperty("devices")
-    var g7 = item.type == 3 && item.hasOwnProperty("devices")
     return {
       $orig: $orig,
       g0: g0,
       g1: g1,
       g2: g2,
       g3: g3,
-      g4: g4,
-      g5: g5,
-      g6: g6,
-      g7: g7,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -230,7 +222,6 @@ var _default = {
     this.getServerData();
   },
   onLoad: function onLoad() {
-    console.log('家庭信息', this.familyMessage);
     this.queryHomePageList(this.familyId);
     this.queryUserBannerList();
     this.initFamilyInfo();
@@ -243,7 +234,7 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeFamilyId', 'changeCurrentNeedBindDevicesMessage'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeFamilyId', 'changeCurrentNeedBindDevicesMessage', 'changeDeviceDataMessage'])), {}, {
     getServerData: function getServerData() {
       var _this = this;
       //模拟从服务器获取数据时的延时
@@ -448,10 +439,11 @@ var _default = {
       }
     },
     // 绑定设备事件
-    bindDeviceEvent: function bindDeviceEvent(type) {
+    bindDeviceEvent: function bindDeviceEvent(type, item) {
       // 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
       var temporaryMessage = this.currentNeedBindDevicesMessage;
       temporaryMessage['type'] = type;
+      temporaryMessage['content'] = item;
       this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
       uni.redirectTo({
         url: '/devicePackage/pages/bingDevices/bingDevices'
@@ -484,6 +476,8 @@ var _default = {
           url: '/healthMonitoringPackage/pages/leaveHome/leaveHome'
         });
       }
+      ;
+      this.changeDeviceDataMessage(item);
     },
     // 编辑数据卡片事件
     editDataCardEvent: function editDataCardEvent() {

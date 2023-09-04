@@ -23,9 +23,6 @@
 			<u-swiper :list="bannerList"></u-swiper>
 		</view>
 		<view class="center-area">
-			<view class="charts-box">
-				<qiun-data-charts type="column" :chartData="chartData" />
-			</view>
 			<u-empty text="暂无数据" v-if="isShowHomeNoData"></u-empty>
 			<view class="device-list" v-for="(item,index) in deviceList" :key="index"> 
 				<view class="bind-sleep-device-area" v-if="item.type == 0 && !item.hasOwnProperty('devices')">
@@ -38,7 +35,7 @@
 						</view>
 						<view>
 							<text>立即</text>
-							<text @click="bindDeviceEvent(1)">绑定设备</text>
+							<text @click="bindDeviceEvent(1,item)">绑定设备</text>
 							<text>获取检测数据</text>
 						</view>
 					</view>
@@ -53,7 +50,7 @@
 						</view>
 						<view>
 							<text>立即</text>
-							<text @click="bindDeviceEvent(2)">绑定设备</text>
+							<text @click="bindDeviceEvent(2,item)">绑定设备</text>
 							<text>获取检测数据</text>
 						</view>
 					</view>
@@ -68,7 +65,7 @@
 						</view>
 						<view>
 							<text>立即</text>
-							<text @click="bindDeviceEvent(3)">绑定设备</text>
+							<text @click="bindDeviceEvent(3,item)">绑定设备</text>
 							<text>获取检测数据</text>
 						</view>
 					</view>
@@ -83,12 +80,13 @@
 						</view>
 						<view>
 							<text>立即</text>
-							<text @click="bindDeviceEvent(4)">绑定设备</text>
+							<text @click="bindDeviceEvent(4,item)">绑定设备</text>
 							<text>获取检测数据</text>
 						</view>
 					</view>
 				</view>
-				<view class="sleep-area-data" v-if="item.type == 0 && item.hasOwnProperty('devices')">
+				<!-- && item.hasOwnProperty('devices') -->
+				<view class="sleep-area-data" v-if="item.type == 0">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>7月8日</text>
@@ -107,7 +105,7 @@
 							</view>
 						</view>
 						<view class="heart-rate-chart">
-							<uni-ec-canvas class="uni-ec-canvas" id="line-chart" ref="canvas" canvas-id="lazy-load-chart" :ec="ec"></uni-ec-canvas>
+							<qiun-data-charts type="column" :chartData="chartData" />
 						</view>
 					</view>
 					<view class="heart-rate-box breathe-box">
@@ -121,7 +119,7 @@
 								详情
 							</view>
 						</view>
-						<view class="heart-rate-chart">
+						<view class="breathe-chart">
 							
 						</view>
 					</view>
@@ -136,12 +134,13 @@
 								详情
 							</view>
 						</view>
-						<view class="heart-rate-chart">
+						<view class="sleep-chart">
 							
 						</view>
 					</view>
 				</view>
-				<view class="sleep-area-data toilet-area-data" v-if="item.type == 1 && item.hasOwnProperty('devices')">
+				<!-- && item.hasOwnProperty('devices') -->
+				<view class="sleep-area-data toilet-area-data" v-if="item.type == 1">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>7月8日</text>
@@ -159,12 +158,13 @@
 								详情
 							</view>
 						</view>
-						<view class="heart-rate-chart">
-							
+						<view class="toilet-chart">
+							<qiun-data-charts type="column" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
-				<view class="sleep-area-data tumble-area-data" v-if="item.type == 2 && item.hasOwnProperty('devices')">
+				<!-- && item.hasOwnProperty('devices') -->
+				<view class="sleep-area-data tumble-area-data" v-if="item.type == 2">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>7月8日</text>
@@ -182,11 +182,13 @@
 								详情
 							</view>
 						</view>
-						<view class="heart-rate-chart">
+						<view class="tumble-chart">
+							<qiun-data-charts type="column" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
-				<view class="sleep-area-data leave-home-area-data" v-if="item.type == 3 && item.hasOwnProperty('devices')">
+				<!-- && item.hasOwnProperty('devices') -->
+				<view class="sleep-area-data leave-home-area-data" v-if="item.type == 3">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>7月8日</text>
@@ -203,7 +205,8 @@
 								详情
 							</view>
 						</view>
-						<view class="heart-rate-chart">	
+						<view class="leave-home-chart">	
+							<qiun-data-charts type="column" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
@@ -254,7 +257,6 @@
 		    this.getServerData();
 		  },
 		onLoad() {
-			console.log('家庭信息',this.familyMessage);
 			this.queryHomePageList(this.familyId);
 			this.queryUserBannerList();
 			this.initFamilyInfo()
@@ -283,7 +285,8 @@
 			...mapMutations([
 				'changeOverDueWay',
 				'changeFamilyId',
-				'changeCurrentNeedBindDevicesMessage'
+				'changeCurrentNeedBindDevicesMessage',
+				'changeDeviceDataMessage'
 			]),
 			
 			 getServerData() {
@@ -478,10 +481,11 @@
 			},
 			
 			// 绑定设备事件
-			bindDeviceEvent (type) {
+			bindDeviceEvent (type,item) {
 				// 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
 				let temporaryMessage = this.currentNeedBindDevicesMessage;
 				temporaryMessage['type'] = type;
+				temporaryMessage['content'] = item;
 				this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
 				uni.redirectTo({
 					url: '/devicePackage/pages/bingDevices/bingDevices'
@@ -514,7 +518,8 @@
 					uni.redirectTo({
 						url: '/healthMonitoringPackage/pages/leaveHome/leaveHome'
 					})
-				}
+				};
+				this.changeDeviceDataMessage(item)
 			},
 			
 			// 编辑数据卡片事件
@@ -612,10 +617,6 @@
 			overflow: auto;
 			background: #f5f5f5;
 			position: relative;
-			.charts-box {
-			    width: 100%;
-			    height: 150px;
-			  };
 			::v-deep .u-empty {
 				position: absolute;
 				top: 50%;
@@ -699,9 +700,10 @@
 				margin-bottom: 4px;
 			};
 			.sleep-area-data {
-				height: 397px;
 				background: #fff;
 				border-radius: 10px;
+				display: flex;
+				flex-direction: column;
 				margin-top: 6px;
 				padding: 4px 10px;
 				box-sizing: border-box;
@@ -709,6 +711,7 @@
 					height: 32px;
 					display: flex;
 					align-items: center;
+					margin-bottom: 6px;
 					>text {
 						margin-right: 10px;
 						margin-top: 2px;
@@ -739,7 +742,9 @@
 					border: 1px dashed #BBBBBB;
 					border-radius: 10px;
 					box-shadow: 0px 2px 6px 0 rgba(0, 0, 9, 0.1);
-					height: 111px;
+					height: 140px;
+					display: flex;
+					flex-direction: column;
 					margin-bottom: 8px;
 					.heart-rate-title {
 						display: flex;
@@ -766,24 +771,66 @@
 							color: #007AFF;
 						}
 					};
-					.heart-rate-chart {}
+					.heart-rate-chart {
+						height: 104px;
+					}
+				};
+				.breathe-box {
+					height: 130px;
+					.breathe-chart {
+						height: 94px
+					}
+				};
+				.sleep-box {
+					height: 130px;
+					.sleep-chart {
+						height: 94px
+					}
 				}
 			};
 			.toilet-area-data {
-				height: 159px;
-				margin-top: 8px
+				height: 184px;
+				.heart-rate-box {
+					height: 0;
+					flex: 1 !important;
+					display: flex;
+					flex-direction: column;
+					.toilet-chart {
+						height: 94px
+					}
+				};
+				.sleep-data-title {};
+				margin-top: 8px;
+				.toilet-chart {
+					flex: 1
+				}
 			};
 			.tumble-area-data {
-				height: 132px;
+				height: 174px;
 				margin-top: 8px;
 				.heart-rate-box {
-					height: 87px !important;
+					height: 0;
+					flex: 1 !important;
+					display: flex;
+					flex-direction: column;
+					.tumble-chart {
+						height: 84px
+					}
 				}
 			};
 			.leave-home-area-data {
-				height: 159px;
+				height: 184px;
 				margin-top: 8px;
-				margin-bottom: 8px
+				margin-bottom: 8px;
+				.heart-rate-box {
+					height: 0;
+					flex: 1 !important;
+					display: flex;
+					flex-direction: column;
+					.leave-home-chart {
+						height: 94px
+					}
+				};
 			}
 		};
 		.bottom-area {

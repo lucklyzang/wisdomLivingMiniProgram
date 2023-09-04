@@ -74,7 +74,6 @@ page {
 }
 .content-box .content-area .content-bottom .devices-list {
   width: 48%;
-  height: 102px;
   border-radius: 10px;
   box-shadow: 0px 1px 6px 0 rgba(0, 0, 0, 0.1);
   padding: 6px 16px;
@@ -91,7 +90,10 @@ page {
 }
 .content-box .content-area .content-bottom .devices-list .list-top .list-top-right > text {
   font-size: 14px;
-  color: #0079FF;
+  color: #BBBBBB;
+}
+.content-box .content-area .content-bottom .devices-list .list-top .list-top-right .onLineStyle {
+  coloe: #0079FF !important;
 }
 .content-box .content-area .content-bottom .devices-list .list-bottom {
   display: flex;
@@ -102,10 +104,10 @@ page {
   color: #101010;
 }
 .content-box .content-area .content-bottom .devices-list .list-bottom > text:first-child {
-  font-size: 18px;
+  font-size: 12px;
   margin-bottom: 4px;
 }
 .content-box .content-area .content-bottom .devices-list .list-bottom > text:last-child {
-  font-size: 16px;
+  font-size: 14px;
 }
 

@@ -122,7 +122,12 @@
 		onLoad(object) {
 			// 获取雷达设置
 			this.getRadarSet(this.beforeAddDeviceMessage.deviceId);
-			if (!object.hasOwnProperty('transmitData')) { this.wifiListBoxShow = true; return };
+			if (!object.hasOwnProperty('transmitData')) { 
+				if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+					this.wifiListBoxShow = true;
+					return
+				}
+			};
 			if (object.transmitData == 1) { return };
 			if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
 				this.wifiListBoxShow = true
@@ -230,10 +235,10 @@
 			// 获得雷达设置
 			getRadarSet (deviceId) {
 				this.showLoadingHint = true;
-				this.isShowNoDeviceData = false;
 				this.infoText = '加载中...';
 				this.alarmRangeValueList = [];
 				getFallAlarmSettings({deviceId}).then((res) => {
+					this.showLoadingHint = false;
 					if ( res && res.data.code == 0) {
 						this.deviceNumber = res.data.data.sn;
 						this.acceptAlarmMethod = this.alarmTypeTransitionText(res.data.data.notice);
@@ -273,8 +278,7 @@
 							type: 'error',
 							position: 'bottom'
 						})
-					};	
-					this.showLoadingHint = false;
+					}
 				})
 				.catch((err) => {
 					this.showLoadingHint = false;

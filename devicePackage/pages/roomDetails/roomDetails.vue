@@ -9,7 +9,7 @@
 		</view>
 		<view class="content-area">
 			<view class="room-name">
-				<text>主卧</text>
+				<text>{{ this.roomName }}</text>
 			</view>
 			<view class="content-bottom">
 				<view class="devices-list" @click="enterDeviceEvent(item)" v-for="(item,index) in deviceList" :key="index">
@@ -18,7 +18,7 @@
 							<image :src="deviceIconPng"></image>
 						</view>
 						<view class="list-top-right">
-							<text>{{ item.onLine ? '在线' : '离线' }}</text>
+							<text :class="{'onLineStyle' : item.onLine }">{{ item.onLine ? '在线' : '离线' }}</text>
 						</view>
 					</view>
 					<view class="list-bottom">
@@ -203,7 +203,6 @@
 				align-content: flex-start;
 				.devices-list {
 					width: 48%;
-					height: 102px;
 					border-radius: 10px;
 					box-shadow: 0px 1px 6px 0 rgba(0, 0, 0, 0.1);
 					padding: 6px 16px;
@@ -221,7 +220,10 @@
 						.list-top-right {
 							>text {
 								font-size: 14px;
-								color: #0079FF
+								color: #BBBBBB
+							};
+							.onLineStyle {
+								coloe: #0079FF !important
 							}
 						}
 					};
@@ -232,11 +234,11 @@
 						>text {
 							color: #101010;
 							&:first-child {
-								font-size: 18px;
+								font-size: 12px;
 								margin-bottom: 4px
 							};
 							&:last-child {
-								font-size: 16px
+								font-size: 14px
 							};
 						}
 					}

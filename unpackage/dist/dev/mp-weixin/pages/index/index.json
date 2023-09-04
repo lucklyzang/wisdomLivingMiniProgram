@@ -7,7 +7,7 @@
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
     "xfl-select": "/components/xfl-select/xfl-select",
     "u-swiper": "/node-modules/uview-ui/components/u-swiper/u-swiper",
-    "qiun-data-charts": "/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts",
-    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty"
+    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty",
+    "qiun-data-charts": "/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts"
   }
 }

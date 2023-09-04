@@ -27,26 +27,22 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
-	import { createUserDeviceBind } from '@/api/user.js'
+	import { homePageBindDevice } from '@/api/user.js'
 	export default {
 		components: {
 		},
 		data() {
 			return {
 				infoText: '绑定中',
-				showLoadingHint: false,
+				showLoadingHint: true,
 				isSuccess: false,
 				isFail: false
 			}
 		},
 		onLoad() {
 			this.createUserDeviceBindEvent({
-				userId: this.userInfo.userId,
-				deviceId: this.currentNeedBindDevicesMessage.message.deviceId,
-				familyId: this.familyId,
-				roomId: this.currentNeedBindDevicesMessage.message.roomId,
-				customName: this.currentNeedBindDevicesMessage.message.customName,
-				deviceCode: this.currentNeedBindDevicesMessage.message.sn
+				id: this.currentNeedBindDevicesMessage.content.id, // 卡片id,
+				devices: this.currentNeedBindDevicesMessage.message.id // 设备idExample : 1,2
 			})
 		},
 		computed: {
@@ -73,10 +69,13 @@
 				'changeOverDueWay'
 			]),
 			
-			// 用户绑定设备
+			// 首页用户数据卡片绑定设备
 			createUserDeviceBindEvent (data) {
 				this.showLoadingHint = true;
-				createUserDeviceBind(data).then((res) => {
+				this.isSuccess = false;
+				this.isFail = false;
+				this.infoText = '绑定中';
+				homePageBindDevice(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.infoText = '绑定成功!';
 						this.isSuccess = true

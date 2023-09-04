@@ -41,7 +41,7 @@
 							<text>{{ item.roomName }}</text>
 						</view>
 						<view class="device-top-right">
-							<text>{{ item.onLine ? '在线' : '离线' }}</text>
+							<text :class="{'onLineStyle' : item.onLine }">{{ item.onLine ? '在线' : '离线' }}</text>
 						</view>
 					</view>
 					<view class="device-bottom">
@@ -63,8 +63,7 @@
 								<text>{{ `${item.deviceRespVOList.length}个设备` }}</text>
 							</view>
 							<view class="room-left-bottom">
-								<image :src="imageUrl"></image>
-								<image :src="imageUrl"></image>
+								<image :src="imageUrl" v-for="( innerItem,innerIndex) in item.deviceRespVOList" :key="innerIndex"></image>
 							</view>
 						</view>
 						<view class="room-right">
@@ -552,7 +551,7 @@
 							};
 							>text {
 								font-size: 12px;
-								color: #BBBBBB
+								color: #909090
 							}
 						};
 						.device-top-right {
@@ -589,7 +588,6 @@
 					overflow: auto;
 					.room-list {
 						display: flex;
-						height: 110px;
 						justify-content: space-between;
 						margin-bottom: 10px;
 						border-radius: 10px;;
@@ -605,6 +603,7 @@
 								display: flex;
 								flex-direction: column;
 								justify-content: space-between;
+								margin-bottom: 10px;
 								>text {
 									&:first-child {
 										font-size: 14px;
@@ -613,7 +612,7 @@
 									};
 									&:last-child {
 										font-size: 12px;
-										color: #BBBBBB
+										color: #909090
 									}
 								}
 							};

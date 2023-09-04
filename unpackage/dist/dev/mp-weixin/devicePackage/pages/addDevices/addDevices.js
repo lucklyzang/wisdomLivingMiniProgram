@@ -213,6 +213,7 @@ var _default = {
         // 保存进入设备设置界面的设备部分相关信息
         var temporaryMessage = this.beforeAddDeviceMessage;
         temporaryMessage['deviceId'] = item.id;
+        temporaryMessage['deviceCode'] = item.sn;
         temporaryMessage['deviceName'] = item.name;
         temporaryMessage['onLine'] = item.onLine;
         this.changeBeforeAddDeviceMessage({});
@@ -221,6 +222,7 @@ var _default = {
         // 保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
         _temporaryMessage['deviceId'] = item.id;
+        _temporaryMessage['deviceCode'] = item.sn;
         _temporaryMessage['deviceName'] = item.name;
         _temporaryMessage['onLine'] = item.onLine;
         this.changeBeforeAddExistPerceptionRadarCompleteSet({});
@@ -229,17 +231,16 @@ var _default = {
         // 保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage2 = this.beforeAddSignMonitorRadarCompleteSet;
         _temporaryMessage2['deviceId'] = item.id;
+        _temporaryMessage2['deviceCode'] = item.sn;
         _temporaryMessage2['deviceName'] = item.name;
         _temporaryMessage2['onLine'] = item.onLine;
         this.changeBeforeAddSignMonitorRadarCompleteSet({});
         this.changeBeforeAddSignMonitorRadarCompleteSet(_temporaryMessage2);
-        uni.redirectTo({
-          url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
-        });
       } else if (item.type == 4) {
         //保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage3 = this.beforeAddBodyDetectionDeviceMessage;
         _temporaryMessage3['deviceId'] = item.id;
+        _temporaryMessage3['deviceCode'] = item.sn;
         _temporaryMessage3['deviceName'] = item.name;
         _temporaryMessage3['onLine'] = item.onLine;
         this.changeBeforeAddBodyDetectionDeviceMessage({});
@@ -258,9 +259,10 @@ var _default = {
     },
     // 扫码事件
     scanCodeEvent: function scanCodeEvent() {
+      var that = this;
       uni.scanCode({
         success: function success(res) {
-          this.checkDeviceEvent({
+          that.checkDeviceEvent({
             deviceSn: res.result
           });
         }

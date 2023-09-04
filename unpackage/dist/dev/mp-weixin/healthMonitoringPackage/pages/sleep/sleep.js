@@ -251,7 +251,7 @@ var _default = {
       this.isDayPlusCanCilck = false;
     }
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'deviceDataMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},

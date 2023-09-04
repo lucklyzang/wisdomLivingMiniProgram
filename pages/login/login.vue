@@ -914,25 +914,29 @@
 				flex-direction: column;
 				position: relative;
 				::v-deep .u-form {
-					.u-form-item {
+					u-form-item {
+						.u-form-item {
+							margin-bottom: 20px;
+							.u-input {
+								background: #fff;
+							};
+							.u-form-item--right__content__icon {
+								font-size: 14px;
+								color: #289E8E
+							};
+							.uni-input-placeholder {
+								color: #101010 !important;
+								font-size: 14px !important
+							}
+						};
 						&:last-child {
-							margin-bottom: 0
-						};
-						margin-bottom: 30px;
-						.u-input {
-							background: #fff;
-						};
-						.u-form-item--right__content__icon {
-							font-size: 14px;
-							color: #289E8E
-						};
-						.uni-input-placeholder {
-							color: #101010 !important;
-							font-size: 14px !important
+							.u-form-item {
+								margin-bottom: 0 !important
+							}
 						}
 					};
-					.uni-input-placeholder::after {
-						border: 0 solid #989898 !important
+					.u-border-bottom:after {
+						border-bottom-color: #989898 !important
 					}
 				};
 				.form-bottom-info-text {

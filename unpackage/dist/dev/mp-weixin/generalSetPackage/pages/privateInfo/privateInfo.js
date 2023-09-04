@@ -179,6 +179,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 34));
+var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
 var _user = __webpack_require__(/*! @/api/user.js */ 93);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -228,7 +230,7 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  onload: function onload() {
+  onLoad: function onLoad() {
     this.generateYears(this.selectYear, new Date().getFullYear());
     this.generateDays(new Date(this.selectYear, this.selectMonth, 0).getDate());
     // 回显用户基本信息
@@ -427,19 +429,34 @@ var _default = {
         sizeType: ['original', 'compressed'],
         sourceType: ['album', 'camera'],
         success: function success(res) {
-          that.imgArr = [];
+          that.srcImage = res.tempFiles[0]['path'];
           uni.getFileSystemManager().readFile({
             filePath: res.tempFilePaths[0],
             encoding: 'base64',
             success: function success(res) {
               var base64 = 'data:image/jpeg;base64,' + res.data;
-              that.imgArr.push(base64);
+              that.personPhotoSource = base64;
             }
           });
-          that.srcImage = res.tempFiles[0];
+          uni.uploadFile({
+            url: 'https://blink.blinktech.cn/radar/app-api/member/user/update-avatar',
+            filePath: that.srcImage,
+            name: 'file',
+            header: {
+              'content-type': 'multipart/form-data',
+              'Authorization': "Bearer ".concat(_store.default.getters.token)
+            },
+            success: function success(res) {
+              console.log('upload success', res);
+            },
+            fail: function fail(err) {
+              console.log('upload fail', err);
+            }
+          });
           // 上传最新头像到服务端
-          this.chnagneUserAvatarMessage();
+          // that.chnagneUserAvatarMessage()
         },
+
         fail: function fail(err) {
           that.$refs.uToast.show({
             title: err,

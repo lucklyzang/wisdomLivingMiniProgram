@@ -237,7 +237,6 @@
 			// 获得雷达设置
 			getRadarSet (deviceId) {
 				this.showLoadingHint = true;
-				this.isShowNoDeviceData = false;
 				this.infoText = '加载中...';
 				this.alarmRangeValueList = [];
 				getExistAlarmSettings({deviceId}).then((res) => {

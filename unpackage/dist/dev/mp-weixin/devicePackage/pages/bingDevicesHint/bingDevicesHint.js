@@ -175,21 +175,19 @@ var _default = {
   data: function data() {
     return {
       infoText: '绑定中',
-      showLoadingHint: false,
+      showLoadingHint: true,
       isSuccess: false,
       isFail: false
     };
   },
   onLoad: function onLoad() {
     this.createUserDeviceBindEvent({
-      userId: this.userInfo.userId,
-      deviceId: this.currentNeedBindDevicesMessage.message.deviceId,
-      familyId: this.familyId,
-      roomId: this.currentNeedBindDevicesMessage.message.roomId,
-      customName: this.currentNeedBindDevicesMessage.message.customName,
-      deviceCode: this.currentNeedBindDevicesMessage.message.sn
+      id: this.currentNeedBindDevicesMessage.content.id,
+      // 卡片id,
+      devices: this.currentNeedBindDevicesMessage.message.id // 设备idExample : 1,2
     });
   },
+
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'currentNeedBindDevicesMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
@@ -199,11 +197,14 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
-    // 用户绑定设备
+    // 首页用户数据卡片绑定设备
     createUserDeviceBindEvent: function createUserDeviceBindEvent(data) {
       var _this = this;
       this.showLoadingHint = true;
-      (0, _user.createUserDeviceBind)(data).then(function (res) {
+      this.isSuccess = false;
+      this.isFail = false;
+      this.infoText = '绑定中';
+      (0, _user.homePageBindDevice)(data).then(function (res) {
         if (res && res.data.code == 0) {
           _this.infoText = '绑定成功!';
           _this.isSuccess = true;

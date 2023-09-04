@@ -262,9 +262,7 @@ var _default = {
         var temporaryMessage = this.beforeAddDeviceMessage;
         temporaryMessage['customDeviceName'] = this.deviceNameValue;
         this.changeBeforeAddDeviceMessage(temporaryMessage);
-        uni.redirectTo({
-          url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
-        });
+        this.bindUser(this.beforeAddDeviceMessage.deviceId, this.beforeAddDeviceMessage.roomId, this.beforeAddDeviceMessage.customDeviceName, this.beforeAddDeviceMessage.deviceCode);
       }
       ;
       if (this.currentDeviceType == 4) {
@@ -272,9 +270,7 @@ var _default = {
         var _temporaryMessage4 = this.beforeAddBodyDetectionDeviceMessage;
         _temporaryMessage4['customDeviceName'] = this.deviceNameValue;
         this.changeBeforeAddBodyDetectionDeviceMessage(_temporaryMessage4);
-        uni.redirectTo({
-          url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
-        });
+        this.bindUser(this.beforeAddBodyDetectionDeviceMessage.deviceId, this.beforeAddBodyDetectionDeviceMessage.roomId, this.beforeAddBodyDetectionDeviceMessage.customDeviceName, this.beforeAddBodyDetectionDeviceMessage.deviceCode);
       }
       ;
       if (this.currentDeviceType == 2) {
@@ -282,9 +278,7 @@ var _default = {
         var _temporaryMessage5 = this.beforeAddExistPerceptionRadarCompleteSet;
         _temporaryMessage5['customDeviceName'] = this.deviceNameValue;
         this.changeBeforeAddExistPerceptionRadarCompleteSet(_temporaryMessage5);
-        uni.redirectTo({
-          url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
-        });
+        this.bindUser(this.beforeAddExistPerceptionRadarCompleteSet.deviceId, this.beforeAddExistPerceptionRadarCompleteSet.roomId, this.beforeAddExistPerceptionRadarCompleteSet.customDeviceName, this.beforeAddExistPerceptionRadarCompleteSet.deviceCode);
       }
       ;
       if (this.currentDeviceType == 1) {
@@ -292,33 +286,49 @@ var _default = {
         var _temporaryMessage6 = this.beforeAddSignMonitorRadarCompleteSet;
         _temporaryMessage6['customDeviceName'] = this.deviceNameValue;
         this.changeBeforeAddSignMonitorRadarCompleteSet(_temporaryMessage6);
-        uni.redirectTo({
-          url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
-        });
+        this.bindUser(this.beforeAddSignMonitorRadarCompleteSet.deviceId, this.beforeAddSignMonitorRadarCompleteSet.roomId, this.beforeAddSignMonitorRadarCompleteSet.customDeviceName, this.beforeAddSignMonitorRadarCompleteSet.deviceCode);
       }
       ;
       this.changeEnterDeviceSetPageSource('/devicePackage/pages/selectWifi/setDeviceName');
     },
     // 设备绑定用户
-    bindUser: function bindUser(familyId) {
+    bindUser: function bindUser(deviceId, roomId, customName, deviceCode) {
       var _this = this;
       this.showLoadingHint = true;
       this.infoText = '绑定中...';
       (0, _user.createUserDeviceBind)({
         userId: this.userInfo.userId,
-        deviceId: 0,
+        deviceId: deviceId,
         familyId: this.familyId,
-        roomId: this.beforeAddDeviceMessage['roomId'],
-        customName: this.beforeAddDeviceMessage['customDeviceName'],
+        roomId: roomId,
+        customName: customName,
         //用户自定义的设备名称
-        deviceCode: ""
+        deviceCode: deviceCode
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
+          if (_this.currentDeviceType == 3) {
+            uni.redirectTo({
+              url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
+            });
+          }
+          ;
+          if (_this.currentDeviceType == 4) {
+            uni.redirectTo({
+              url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
+            });
+          }
+          ;
+          if (_this.currentDeviceType == 2) {
+            uni.redirectTo({
+              url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
+            });
+          }
+          ;
+          if (_this.currentDeviceType == 1) {
+            uni.redirectTo({
+              url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
+            });
+          }
         } else {
           _this.$refs.uToast.show({
             title: res.data.msg,
