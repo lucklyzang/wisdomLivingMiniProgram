@@ -202,10 +202,11 @@ export function updateUserDeviceBind(data) {
 };
 
 // 删除设备和用户绑定
-export function deleteUserDeviceBind() {
+export function deleteUserDeviceBind(data) {
   return request({
     url: '/app-api/member/device-user/delete',
-    method: 'delete'
+    method: 'delete',
+		params: data
   })
 };
 

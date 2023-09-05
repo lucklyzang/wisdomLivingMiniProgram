@@ -89,10 +89,10 @@ try {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */ "node-modules/uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 762))
     },
     uEmpty: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 787))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 769))
     },
     qiunDataCharts: function () {
-      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 769))
+      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 776))
     },
   }
 } catch (e) {
@@ -122,12 +122,20 @@ var render = function () {
     var g1 = item.type == 1 && !item.hasOwnProperty("devices")
     var g2 = item.type == 2 && !item.hasOwnProperty("devices")
     var g3 = item.type == 3 && !item.hasOwnProperty("devices")
+    var g4 = item.type == 0 ? item.id.toString() : null
+    var g5 = item.type == 1 ? item.id.toString() : null
+    var g6 = item.type == 2 ? item.id.toString() : null
+    var g7 = item.type == 3 ? item.id.toString() : null
     return {
       $orig: $orig,
       g0: g0,
       g1: g1,
       g2: g2,
       g3: g3,
+      g4: g4,
+      g5: g5,
+      g6: g6,
+      g7: g7,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -214,7 +222,32 @@ var _default = {
       familyMemberList: [],
       deviceList: [],
       sceneDataList: [],
-      chartData: {}
+      chartData: {},
+      opts: {
+        color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"],
+        padding: [15, 30, 0, 5],
+        enableScroll: false,
+        legend: {},
+        xAxis: {
+          boundaryGap: "justify",
+          disableGrid: false,
+          min: 0,
+          axisLine: false,
+          max: 70
+        },
+        yAxis: {},
+        extra: {
+          bar: {
+            type: "stack",
+            width: 30,
+            meterBorde: 1,
+            meterFillColor: "#FFFFFF",
+            activeBgColor: "#000000",
+            activeBgOpacity: 0.08,
+            categoryGap: 2
+          }
+        }
+      }
     };
   },
   onUnload: function onUnload() {},
@@ -240,13 +273,13 @@ var _default = {
       //模拟从服务器获取数据时的延时
       setTimeout(function () {
         var res = {
-          categories: ["2016", "2017", "2018", "2019", "2020", "2021"],
+          categories: ["9-5"],
           series: [{
-            name: "目标值",
-            data: [35, 36, 31, 33, 13, 34]
+            name: "正常",
+            data: [35]
           }, {
-            name: "完成量",
-            data: [18, 27, 21, 24, 6, 28]
+            name: "跌倒",
+            data: [18]
           }]
         };
         _this.chartData = JSON.parse(JSON.stringify(res));
@@ -443,7 +476,7 @@ var _default = {
       // 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
       var temporaryMessage = this.currentNeedBindDevicesMessage;
       temporaryMessage['type'] = type;
-      temporaryMessage['content'] = item;
+      this.changeDeviceDataMessage(item);
       this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
       uni.redirectTo({
         url: '/devicePackage/pages/bingDevices/bingDevices'

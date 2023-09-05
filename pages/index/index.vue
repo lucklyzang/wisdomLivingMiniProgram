@@ -105,7 +105,7 @@
 							</view>
 						</view>
 						<view class="heart-rate-chart">
-							<qiun-data-charts type="column" :chartData="chartData" />
+							<qiun-data-charts type="column" :canvas-id="item.id.toString()" anvas2d="true" :chartData="chartData" />
 						</view>
 					</view>
 					<view class="heart-rate-box breathe-box">
@@ -159,7 +159,7 @@
 							</view>
 						</view>
 						<view class="toilet-chart">
-							<qiun-data-charts type="column" :chartData="chartData" />
+							<qiun-data-charts type="column" :canvas-id="item.id.toString()" anvas2d="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
@@ -183,7 +183,7 @@
 							</view>
 						</view>
 						<view class="tumble-chart">
-							<qiun-data-charts type="column" :chartData="chartData" />
+							<qiun-data-charts type="bar" :opts="opts" :canvas-id="item.id.toString()" anvas2d="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
@@ -206,7 +206,7 @@
 							</view>
 						</view>
 						<view class="leave-home-chart">	
-							<qiun-data-charts type="column" :chartData="chartData" />
+							<qiun-data-charts type="column" :canvas-id="item.id.toString()" :anvas2d="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
@@ -248,7 +248,32 @@
 				familyMemberList: [],
 				deviceList: [],
 				sceneDataList: [],
-				chartData: {}
+				chartData: {},
+				 opts: {
+					color: ["#1890FF","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
+					padding: [15,30,0,5],
+					enableScroll: false,
+					legend: {},
+					xAxis: {
+						boundaryGap: "justify",
+						disableGrid: false,
+						min: 0,
+						axisLine: false,
+						max: 70
+					},
+					yAxis: {},
+					extra: {
+						bar: {
+							type: "stack",
+							width: 30,
+							meterBorde: 1,
+							meterFillColor: "#FFFFFF",
+							activeBgColor: "#000000",
+							activeBgOpacity: 0.08,
+							categoryGap: 2
+						}
+					}
+				}
 			}
 		},
 		onUnload() {
@@ -293,15 +318,15 @@
 			      //模拟从服务器获取数据时的延时
 			      setTimeout(() => {
 			        let res = {
-			            categories: ["2016","2017","2018","2019","2020","2021"],
+			            categories: ["9-5"],
 			            series: [
 			              {
-			                name: "目标值",
-			                data: [35,36,31,33,13,34]
+			                name: "正常",
+			                data: [35]
 			              },
 			              {
-			                name: "完成量",
-			                data: [18,27,21,24,6,28]
+			                name: "跌倒",
+			                data: [18]
 			              }
 			            ]
 			          };
@@ -485,7 +510,7 @@
 				// 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
 				let temporaryMessage = this.currentNeedBindDevicesMessage;
 				temporaryMessage['type'] = type;
-				temporaryMessage['content'] = item;
+				this.changeDeviceDataMessage(item);
 				this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
 				uni.redirectTo({
 					url: '/devicePackage/pages/bingDevices/bingDevices'
@@ -588,6 +613,9 @@
 						};
 						.list {
 							color: #101010;
+							.item.active {
+								color: #11D183 !important
+							}
 						};
 						.list-container {
 							width: 150px !important;

@@ -192,6 +192,7 @@ var _default = {
     this.roomName = this.roomDetails['name'];
     this.roomId = this.roomDetails['roomId'];
     this.deviceList = this.roomDetails['deviceRespVOList'];
+    console.log('房间信息', this.roomDetails);
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'roomDetails', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
     userName: function userName() {},
@@ -214,7 +215,8 @@ var _default = {
         var temporaryMessage = this.beforeAddDeviceMessage;
         temporaryMessage['roomId'] = this.roomId;
         temporaryMessage['roomName'] = this.roomDetails['name'];
-        temporaryMessage['deviceId'] = item.id;
+        temporaryMessage['deviceId'] = item.deviceId;
+        temporaryMessage['id'] = item.id;
         temporaryMessage['customDeviceName'] = item.customName;
         temporaryMessage['deviceName'] = item.name;
         temporaryMessage['onLine'] = item.onLine;

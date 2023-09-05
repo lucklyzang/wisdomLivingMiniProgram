@@ -107,7 +107,7 @@ try {
       return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 755))
     },
     uEmpty: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 787))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 769))
     },
     uIcon: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 688))
@@ -336,6 +336,7 @@ var _default = {
         if (res && res.data.code == 0) {
           if (res.data.data.length > 0) {
             _this3.roomList = res.data.data;
+            console.log('房间信息', _this3.roomList);
           } else {
             _this3.isShowNoRoomData = true;
           }
@@ -409,6 +410,7 @@ var _default = {
         // 保存进入设备设置界面的设备部分相关信息
         var temporaryMessage = this.beforeAddDeviceMessage;
         temporaryMessage['roomId'] = item.roomId;
+        temporaryMessage['id'] = item.id;
         temporaryMessage['roomName'] = item.roomName;
         temporaryMessage['deviceId'] = item.deviceId;
         temporaryMessage['customDeviceName'] = item.customName;
@@ -422,6 +424,7 @@ var _default = {
         // 保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
         _temporaryMessage['roomId'] = item.roomId;
+        _temporaryMessage['id'] = item.id;
         _temporaryMessage['roomName'] = item.roomName;
         _temporaryMessage['deviceId'] = item.deviceId;
         _temporaryMessage['customDeviceName'] = item.customName;
@@ -432,6 +435,7 @@ var _default = {
         // 保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage2 = this.beforeAddSignMonitorRadarCompleteSet;
         _temporaryMessage2['roomId'] = item.roomId;
+        _temporaryMessage2['id'] = item.id;
         _temporaryMessage2['roomName'] = item.roomName;
         _temporaryMessage2['deviceId'] = item.deviceId;
         _temporaryMessage2['customDeviceName'] = item.customName;
@@ -448,6 +452,7 @@ var _default = {
         //保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage3 = this.beforeAddBodyDetectionDeviceMessage;
         _temporaryMessage3['roomId'] = item.roomId;
+        _temporaryMessage3['id'] = item.id;
         _temporaryMessage3['roomName'] = item.roomName;
         _temporaryMessage3['deviceId'] = item.deviceId;
         _temporaryMessage3['customDeviceName'] = item.customName;

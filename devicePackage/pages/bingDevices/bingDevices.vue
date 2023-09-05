@@ -108,7 +108,7 @@
 				let temporaryMessage = this.currentNeedBindDevicesMessage;
 				temporaryMessage['type'] = item.type;
 				temporaryMessage['message'] = item;
-				this.changeCurrentNeedBindDevicesMessage(item)
+				this.changeCurrentNeedBindDevicesMessage(temporaryMessage)
 			},
 			
 			// 获取用户设备信息

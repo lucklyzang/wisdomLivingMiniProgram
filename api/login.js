@@ -61,4 +61,12 @@ export function weixinLogIn(code) {
 	})
 }
 
+// 微信小程序一键登录
+export function weixinMiniAppLogin(data) {
+	return request({
+	    url: '/app-api/member/auth/weixin-mini-app-login',
+	    method: 'post',
+			data
+	})
+}
 

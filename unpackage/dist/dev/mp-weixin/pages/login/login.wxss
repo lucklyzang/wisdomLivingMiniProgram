@@ -386,4 +386,7 @@ page {
   width: 24px;
   height: 24px;
 }
+.container .container-content .weixin-login .image-wrapper button {
+  width: 100%;
+}
 

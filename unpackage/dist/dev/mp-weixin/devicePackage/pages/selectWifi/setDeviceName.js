@@ -307,24 +307,36 @@ var _default = {
       }).then(function (res) {
         if (res && res.data.code == 0) {
           if (_this.currentDeviceType == 3) {
+            var temporaryMessage = _this.beforeAddDeviceMessage;
+            temporaryMessage['id'] = res.data.data;
+            _this.changeBeforeAddDeviceMessage(temporaryMessage);
             uni.redirectTo({
               url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
             });
           }
           ;
           if (_this.currentDeviceType == 4) {
+            var _temporaryMessage7 = _this.beforeAddBodyDetectionDeviceMessage;
+            _temporaryMessage7['id'] = res.data.data;
+            _this.changeBeforeAddBodyDetectionDeviceMessage(_temporaryMessage7);
             uni.redirectTo({
               url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
             });
           }
           ;
           if (_this.currentDeviceType == 2) {
+            var _temporaryMessage8 = _this.beforeAddExistPerceptionRadarCompleteSet;
+            _temporaryMessage8['id'] = res.data.data;
+            _this.changeBeforeAddExistPerceptionRadarCompleteSet(_temporaryMessage8);
             uni.redirectTo({
               url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
             });
           }
           ;
           if (_this.currentDeviceType == 1) {
+            var _temporaryMessage9 = _this.beforeAddSignMonitorRadarCompleteSet;
+            _temporaryMessage9['id'] = res.data.data;
+            _this.changeBeforeAddSignMonitorRadarCompleteSet(_temporaryMessage9);
             uni.redirectTo({
               url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
             });

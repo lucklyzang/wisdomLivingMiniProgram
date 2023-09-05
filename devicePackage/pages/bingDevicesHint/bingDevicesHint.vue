@@ -27,7 +27,7 @@
 		mapGetters,
 		mapMutations
 	} from 'vuex'
-	import { homePageBindDevice } from '@/api/user.js'
+	import { homePageBindDevice } from '@/api/home.js'
 	export default {
 		components: {
 		},
@@ -41,14 +41,15 @@
 		},
 		onLoad() {
 			this.createUserDeviceBindEvent({
-				id: this.currentNeedBindDevicesMessage.content.id, // 卡片id,
-				devices: this.currentNeedBindDevicesMessage.message.id // 设备idExample : 1,2
+				id: this.deviceDataMessage.id, // 卡片id,
+				devices: [this.currentNeedBindDevicesMessage.message.deviceId] // 设备idExample : 1,2
 			})
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
 				'familyId',
+				'deviceDataMessage',
 				'currentNeedBindDevicesMessage'
 			]),
 			userName() {

@@ -46,7 +46,7 @@
 					</view>
 					<view class="device-bottom">
 						<text>
-							{{ item.deviceName }}
+							{{ item.customName }}
 						</text>
 					</view>
 				</view>
@@ -247,7 +247,8 @@
 				getUserRoomDevices({familyId}).then((res) => {
 					if ( res && res.data.code == 0) {
 						if ( res.data.data.length > 0) {
-							this.roomList = res.data.data
+							this.roomList = res.data.data;
+							console.log('房间信息',this.roomList)
 						} else {
 							this.isShowNoRoomData = true
 						}
@@ -320,6 +321,7 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddDeviceMessage;
 					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['id'] = item.id;
 					temporaryMessage['roomName'] = item.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
 					temporaryMessage['customDeviceName'] = item.customName;
@@ -333,6 +335,7 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
 					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['id'] = item.id;
 					temporaryMessage['roomName'] = item.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
 					temporaryMessage['customDeviceName'] = item.customName;
@@ -343,6 +346,7 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
 					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['id'] = item.id;
 					temporaryMessage['roomName'] = item.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
 					temporaryMessage['customDeviceName'] = item.customName;
@@ -359,6 +363,7 @@
 					//保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['id'] = item.id;
 					temporaryMessage['roomName'] = item.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
 					temporaryMessage['customDeviceName'] = item.customName;
@@ -471,6 +476,9 @@
 							};
 							.list {
 								color: #101010;
+								.item.active {
+									color: #11D183 !important
+								}
 							};
 							.list-container {
 								width: 150px !important;

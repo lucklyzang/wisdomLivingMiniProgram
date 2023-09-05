@@ -82,6 +82,9 @@ page {
 .content-box .content-area .family-name-area .dropdown-area  .show-box .list {
   color: #101010;
 }
+.content-box .content-area .family-name-area .dropdown-area  .show-box .list .item.active {
+  color: #11D183 !important;
+}
 .content-box .content-area .family-name-area .dropdown-area  .show-box .list-container {
   width: 150px !important;
   top: -10px;

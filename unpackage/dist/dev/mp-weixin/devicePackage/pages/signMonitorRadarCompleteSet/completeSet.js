@@ -250,13 +250,13 @@ var _default = {
         case '不通知':
           return 0;
           break;
-        case '短信':
+        case '仅短信通知':
           return 1;
           break;
-        case '电话':
+        case '仅电话通知':
           return 2;
           break;
-        case '电话短信':
+        case '电话+短信':
           return 3;
           break;
         case '微信通知':
@@ -264,7 +264,7 @@ var _default = {
           break;
       }
     },
-    // 设备接收报警方式转换
+    // 设备接收报警方式转换文字
     alarmTypeTransitionText: function alarmTypeTransitionText(num) {
       var temporaryNum = num.toString();
       switch (temporaryNum) {
@@ -272,13 +272,13 @@ var _default = {
           return '不通知';
           break;
         case '1':
-          return '短信';
+          return '仅短信通知';
           break;
         case '2':
-          return '电话';
+          return '仅电话通知';
           break;
         case '3':
-          return '电话短信';
+          return '电话+短信';
           break;
         case '4':
           return '微信通知';

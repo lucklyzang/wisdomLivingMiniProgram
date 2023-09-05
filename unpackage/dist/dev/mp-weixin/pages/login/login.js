@@ -224,6 +224,7 @@ var _default = {
       loginLogoPng: __webpack_require__(/*! @/static/img/login-logo.png */ 95),
       logoSmallIcon: __webpack_require__(/*! @/static/img/logo-small-icon.png */ 96),
       loadingText: '登录中,请稍候···',
+      userCode: '',
       form: {
         username: '',
         password: '',
@@ -409,9 +410,36 @@ var _default = {
         _this2.modalContent = "".concat(err);
       });
     },
+    // 微信一键登录
+    weixinMiniAppLoginEvent: function weixinMiniAppLoginEvent(data) {
+      var _this3 = this;
+      this.showLoadingHint = true;
+      this.loadingText = '登录中...';
+      (0, _login.weixinMiniAppLogin)(data).then(function (res) {
+        _this3.showLoadingHint = false;
+        if (res && res.data.code == 0) {
+          _this3.changeOverDueWay(false);
+          (0, _utils.setCache)('storeOverDueWay', false);
+          (0, _utils.setCache)('isLogin', true);
+          // token信息存入store
+          _this3.changeToken(res.data.data.accessToken);
+          // 登录用户信息存入store
+          _this3.storeUserInfo(res.data.data);
+          // 获取家庭设备信息
+          _this3.queryUserFamilyList();
+        } else {
+          _this3.modalShow = true;
+          _this3.modalContent = res.data.msg;
+        }
+      }).catch(function (err) {
+        _this3.showLoadingHint = false;
+        _this3.modalShow = true;
+        _this3.modalContent = "".concat(err);
+      });
+    },
     // 手机号验证码登录
     codeLogin: function codeLogin() {
-      var _this3 = this;
+      var _this4 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
           title: '请输入手机号',
@@ -447,39 +475,39 @@ var _default = {
       this.loadingText = '登录中...';
       (0, _login.logInByCode)(loginMessage).then(function (res) {
         if (res && res.data.code == 0) {
-          _this3.changeOverDueWay(false);
+          _this4.changeOverDueWay(false);
           (0, _utils.setCache)('storeOverDueWay', false);
           (0, _utils.setCache)('isLogin', true);
           // token信息存入store
-          _this3.changeToken(res.data.data.accessToken);
+          _this4.changeToken(res.data.data.accessToken);
           // 登录用户信息存入store
-          _this3.storeUserInfo(res.data.data);
+          _this4.storeUserInfo(res.data.data);
           // 注册成功后进入设置密码环节
-          if (!_this3.isPasswordLogin) {
+          if (!_this4.isPasswordLogin) {
             // 第一次手机号验证码登录时，跳到密码设置界面
             if (res.data.data.first) {
-              _this3.isSetPassword = true;
-              _this3.form.password = '';
+              _this4.isSetPassword = true;
+              _this4.form.password = '';
             } else {
               // 获取家庭设备信息
-              _this3.queryUserFamilyList();
+              _this4.queryUserFamilyList();
             }
           }
         } else {
-          _this3.modalShow = true;
-          _this3.modalContent = res.data.msg;
+          _this4.modalShow = true;
+          _this4.modalContent = res.data.msg;
         }
         ;
-        _this3.showLoadingHint = false;
+        _this4.showLoadingHint = false;
       }).catch(function (err) {
-        _this3.showLoadingHint = false;
-        _this3.modalShow = true;
-        _this3.modalContent = "".concat(err);
+        _this4.showLoadingHint = false;
+        _this4.modalShow = true;
+        _this4.modalContent = "".concat(err);
       });
     },
     // 发送验证码事件
     sendCodeEvent: function sendCodeEvent() {
-      var _this4 = this;
+      var _this5 = this;
       if (!this.form.username) {
         this.$refs.uToast.show({
           title: '请输入手机号',
@@ -498,28 +526,28 @@ var _default = {
       (0, _login.sendPhoneCode)(loginMessage).then(function (res) {
         if (res && res.data.code == 0) {
           if (res.data.data == true) {
-            _this4.$refs.uToast.show({
+            _this5.$refs.uToast.show({
               title: '发送成功!',
               type: 'success',
               position: 'bottom'
             });
           } else {
-            _this4.$refs.uToast.show({
+            _this5.$refs.uToast.show({
               title: res.data.msg,
               type: 'error',
               position: 'bottom'
             });
           }
         } else {
-          _this4.modalShow = true;
-          _this4.modalContent = res.data.msg;
+          _this5.modalShow = true;
+          _this5.modalContent = res.data.msg;
         }
         ;
-        _this4.showLoadingHint = false;
+        _this5.showLoadingHint = false;
       }).catch(function (err) {
-        _this4.showLoadingHint = false;
-        _this4.modalShow = true;
-        _this4.modalContent = "".concat(err);
+        _this5.showLoadingHint = false;
+        _this5.modalShow = true;
+        _this5.modalContent = "".concat(err);
       });
     },
     // 跳过事件
@@ -530,7 +558,7 @@ var _default = {
     },
     // 密码重置和设置密码事件
     resetPasswordEvent: function resetPasswordEvent() {
-      var _this5 = this;
+      var _this6 = this;
       // 密码重置
       if (this.isForgetPassword) {
         if (!this.form.username) {
@@ -569,32 +597,32 @@ var _default = {
         this.loadingText = '密码重置中...';
         (0, _login.resetPassword)(loginMessage).then(function (res) {
           if (res && res.data.code == 0) {
-            _this5.$refs.uToast.show({
+            _this6.$refs.uToast.show({
               title: '密码重置成功!',
               type: 'success',
               position: 'bottom'
             });
-            _this5.form = {
+            _this6.form = {
               username: '',
               password: '',
               verificationCode: '',
               newPassword: '',
               againPassword: ''
             };
-            _this5.showGetVerificationCode = true;
-            _this5.isSetPassword = false;
-            _this5.isPasswordLogin = true;
-            _this5.isForgetPassword = false;
+            _this6.showGetVerificationCode = true;
+            _this6.isSetPassword = false;
+            _this6.isPasswordLogin = true;
+            _this6.isForgetPassword = false;
           } else {
-            _this5.modalShow = true;
-            _this5.modalContent = "".concat(res.data.msg);
+            _this6.modalShow = true;
+            _this6.modalContent = "".concat(res.data.msg);
           }
           ;
-          _this5.showLoadingHint = false;
+          _this6.showLoadingHint = false;
         }).catch(function (err) {
-          _this5.showLoadingHint = false;
-          _this5.modalShow = true;
-          _this5.modalContent = "".concat(err);
+          _this6.showLoadingHint = false;
+          _this6.modalShow = true;
+          _this6.modalContent = "".concat(err);
         });
       } else {
         // 设置密码
@@ -615,43 +643,43 @@ var _default = {
           };
           (0, _login.setPassword)(_loginMessage).then(function (res) {
             if (res && (res.data.code == 0 || res.data.code == 401)) {
-              _this5.$refs.uToast.show({
+              _this6.$refs.uToast.show({
                 title: '密码设置成功!',
                 type: 'success',
                 position: 'bottom'
               });
               // 获取家庭设备信息
-              _this5.queryUserFamilyList();
+              _this6.queryUserFamilyList();
             } else {
-              _this5.modalShow = true;
-              _this5.modalContent = "".concat(res.data.msg);
+              _this6.modalShow = true;
+              _this6.modalContent = "".concat(res.data.msg);
             }
             ;
-            _this5.showLoadingHint = false;
+            _this6.showLoadingHint = false;
           }).catch(function (err) {
-            _this5.showLoadingHint = false;
-            _this5.modalShow = true;
-            _this5.modalContent = "".concat(err);
+            _this6.showLoadingHint = false;
+            _this6.modalShow = true;
+            _this6.modalContent = "".concat(err);
           });
         }
       }
     },
     // 获取用户家庭列表
     queryUserFamilyList: function queryUserFamilyList() {
-      var _this6 = this;
+      var _this7 = this;
       this.showLoadingHint = true;
       this.loadingText = '加载中...';
       this.familyMemberList = [];
       this.fullFamilyMemberList = [];
       (0, _user.getUserFamilyList)().then(function (res) {
         if (res && res.data.code == 0) {
-          _this6.fullFamilyMemberList = res.data.data;
+          _this7.fullFamilyMemberList = res.data.data;
           var _iterator = _createForOfIteratorHelper(res.data.data),
             _step;
           try {
             for (_iterator.s(); !(_step = _iterator.n()).done;) {
               var item = _step.value;
-              _this6.familyMemberList.push({
+              _this7.familyMemberList.push({
                 id: item.id,
                 value: item.name
               });
@@ -662,27 +690,27 @@ var _default = {
             _iterator.f();
           }
           ;
-          _this6.initValue = _this6.familyMemberList[0]['value'];
-          _this6.changeFamilyId(_this6.familyMemberList[0]['id']);
-          var temporaryFamilyMessage = _this6.familyMessage;
-          temporaryFamilyMessage['familyMemberList'] = _this6.familyMemberList;
-          temporaryFamilyMessage['fullFamilyMemberList'] = _this6.fullFamilyMemberList;
-          _this6.changeFamilyMessage(temporaryFamilyMessage);
+          _this7.initValue = _this7.familyMemberList[0]['value'];
+          _this7.changeFamilyId(_this7.familyMemberList[0]['id']);
+          var temporaryFamilyMessage = _this7.familyMessage;
+          temporaryFamilyMessage['familyMemberList'] = _this7.familyMemberList;
+          temporaryFamilyMessage['fullFamilyMemberList'] = _this7.fullFamilyMemberList;
+          _this7.changeFamilyMessage(temporaryFamilyMessage);
           uni.switchTab({
             url: '/pages/index/index'
           });
         } else {
-          _this6.$refs.uToast.show({
+          _this7.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
         ;
-        _this6.showLoadingHint = false;
+        _this7.showLoadingHint = false;
       }).catch(function (err) {
-        _this6.showLoadingHint = false;
-        _this6.$refs.uToast.show({
+        _this7.showLoadingHint = false;
+        _this7.$refs.uToast.show({
           title: err,
           type: 'error',
           position: 'bottom'
@@ -691,7 +719,38 @@ var _default = {
     },
     // 微信授权登录事件
     weixinLoginEvent: function weixinLoginEvent() {
-      this.weixinAuthorizationInfoBoxShow = true;
+      // this.weixinAuthorizationInfoBoxShow = true
+      // 获取用户code
+      var that = this;
+      uni.login({
+        provider: 'weixin',
+        //使用微信登录
+        success: function success(loginRes) {
+          that.userCode = loginRes.code;
+          console.log('用户code', loginRes.code);
+        }
+      });
+    },
+    // 绑定手机号码
+    bindPhone: function bindPhone(e) {
+      var that = this;
+      var param = {
+        "iv": e.detail.iv,
+        "encryptedData": e.detail.encryptedData,
+        code: this.code
+      };
+      console.log('数据', e);
+      // 执行后端接口 这里就是请求后端接口
+      // loginService.bindPhone(param).then(result => { 
+      // 	if (result !== '' && result.errno === 0) { 
+      // 		uni.showToast({ 
+      // 				title: '登录成功',
+      // 				icon: 'none'
+      // 		})
+      // 	}
+      // })
+      // .catch((error) => { 
+      // })
     },
     // 弹框确定事件
     sureCancel: function sureCancel() {},

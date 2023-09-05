@@ -213,7 +213,7 @@ var _default = {
     this.receiveData = JSON.parse(options.transmitData);
     // 回显报警范围信息
     this.setList[0]['checked'] = this.receiveData['enter'];
-    this.setList[1]['checked'] = this.receiveData['leave'];
+    this.setList[1]['checked'] = this.receiveData['goOut'];
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddBodyDetectionDeviceMessage'])), {}, {
     userName: function userName() {},
@@ -234,7 +234,7 @@ var _default = {
       // 保存进入设备设置界面的报警范围信息
       var temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
       temporaryMessage['enter'] = this.setList[0]['checked'];
-      temporaryMessage['leave'] = this.setList[1]['checked'];
+      temporaryMessage['goOut'] = this.setList[1]['checked'];
       temporaryMessage['isSaveAlarmRanageInfo'] = true;
       this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
       uni.redirectTo({

@@ -237,6 +237,9 @@
 						};
 						.list {
 							color: #101010;
+							.item.active {
+								color: #11D183 !important
+							}
 						};
 						.list-container {
 							width: 150px !important;

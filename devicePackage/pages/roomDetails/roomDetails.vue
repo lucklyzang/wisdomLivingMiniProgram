@@ -54,7 +54,8 @@
 		onLoad() {
 			this.roomName = this.roomDetails['name'];
 			this.roomId = this.roomDetails['roomId'];
-			this.deviceList = this.roomDetails['deviceRespVOList']
+			this.deviceList = this.roomDetails['deviceRespVOList'];
+			console.log('房间信息',this.roomDetails)
 		},
 		computed: {
 			...mapGetters([
@@ -101,7 +102,8 @@
 					let temporaryMessage = this.beforeAddDeviceMessage;
 					temporaryMessage['roomId'] = this.roomId;
 					temporaryMessage['roomName'] = this.roomDetails['name'];
-					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['id'] = item.id;
 					temporaryMessage['customDeviceName'] = item.customName;
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;

@@ -206,7 +206,7 @@ var _default = {
       cceptAlarmMethodBoxShow: false,
       alarmRangeValueList: [],
       enter: false,
-      leave: false,
+      goOut: false,
       stop: false,
       nobody: false,
       stopTime: '',
@@ -251,13 +251,13 @@ var _default = {
         case '不通知':
           return 0;
           break;
-        case '短信':
+        case '仅短信通知':
           return 1;
           break;
-        case '电话':
+        case '仅电话通知':
           return 2;
           break;
-        case '电话短信':
+        case '电话+短信':
           return 3;
           break;
         case '微信通知':
@@ -273,13 +273,13 @@ var _default = {
           return '不通知';
           break;
         case '1':
-          return '短信';
+          return '仅短信通知';
           break;
         case '2':
-          return '电话';
+          return '仅电话通知';
           break;
         case '3':
-          return '电话短信';
+          return '电话+短信';
           break;
         case '4':
           return '微信通知';
@@ -299,7 +299,7 @@ var _default = {
         deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
         notice: this.alarmTypeTransition(this.acceptAlarmMethod),
         enter: this.enter,
-        leave: this.leave,
+        goOut: this.goOut,
         stop: this.stop,
         nobody: this.nobody,
         stopTime: this.stop ? this.stopTime : '',
@@ -348,11 +348,11 @@ var _default = {
             _this2.enter = false;
           }
           ;
-          if (res.data.data.leave) {
-            _this2.leave = true;
+          if (res.data.data.goOut) {
+            _this2.goOut = true;
             _this2.alarmRangeValueList.push('人员离开报警');
           } else {
-            _this2.leave = false;
+            _this2.goOut = false;
           }
           ;
           if (res.data.data.stop) {
@@ -406,11 +406,11 @@ var _default = {
         this.enter = false;
       }
       ;
-      if (this.beforeAddExistPerceptionRadarCompleteSet.leave) {
-        this.leave = true;
+      if (this.beforeAddExistPerceptionRadarCompleteSet.goOut) {
+        this.goOut = true;
         this.alarmRangeValueList.push('人员离开报警');
       } else {
-        this.leave = false;
+        this.goOut = false;
       }
       ;
       if (this.beforeAddExistPerceptionRadarCompleteSet.stop) {

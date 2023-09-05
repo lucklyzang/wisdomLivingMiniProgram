@@ -87,7 +87,7 @@
 				]
 			}
 		},
-		onReady() {
+		onLoad() {
 		},
 		computed: {
 			...mapGetters([
@@ -105,8 +105,6 @@
 			},
 			accountName() {
 			}
-		},
-		mounted() {
 		},
 		methods: {
 			...mapMutations([

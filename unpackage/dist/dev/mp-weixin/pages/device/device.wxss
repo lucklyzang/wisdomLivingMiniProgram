@@ -116,6 +116,9 @@ page {
 .content-box .top-area-box .operation-area .operation-top-area .dropdown-area  .show-box .list {
   color: #101010;
 }
+.content-box .top-area-box .operation-area .operation-top-area .dropdown-area  .show-box .list .item.active {
+  color: #11D183 !important;
+}
 .content-box .top-area-box .operation-area .operation-top-area .dropdown-area  .show-box .list-container {
   width: 150px !important;
   top: -10px;

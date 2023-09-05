@@ -293,37 +293,63 @@ var _default = {
       });
     },
     // 修改用户头像
-    chnagneUserAvatarMessage: function chnagneUserAvatarMessage() {
+    changeUserAvatarMessage: function changeUserAvatarMessage() {
       var _this2 = this;
       this.showLoadingHint = true;
       this.infoText = '修改中...';
-      (0, _user.updateUserAvatar)({
-        avatarFile: this.srcImage
-      }).then(function (res) {
-        if (res && res.data.code == 0) {
+      uni.uploadFile({
+        url: 'https://blink.blinktech.cn/radar/app-api/member/user/update-avatar',
+        filePath: this.srcImage,
+        name: 'avatarFile',
+        header: {
+          'content-type': 'multipart/form-data',
+          'Authorization': "Bearer ".concat(_store.default.getters.token)
+        },
+        success: function success(res) {
+          _this2.showLoadingHint = false;
           _this2.$refs.uToast.show({
             title: '修改成功',
-            type: 'error',
+            type: 'success',
             position: 'bottom'
           });
           _this2.queryUserBasicMessage();
-        } else {
+        },
+        fail: function fail(err) {
+          _this2.showLoadingHint = false;
           _this2.$refs.uToast.show({
-            title: res.data.msg,
+            title: err,
             type: 'error',
             position: 'bottom'
           });
         }
-        ;
-        _this2.showLoadingHint = false;
-      }).catch(function (err) {
-        _this2.showLoadingHint = false;
-        _this2.$refs.uToast.show({
-          title: err,
-          type: 'error',
-          position: 'bottom'
-        });
       });
+      // updateUserAvatar({
+      // 	avatarFile: this.srcImage
+      // }).then((res) => {
+      // 	if ( res && res.data.code == 0) {
+      // 		this.$refs.uToast.show({
+      // 			title: '修改成功',
+      // 			type: 'error',
+      // 			position: 'bottom'
+      // 		});
+      // 		this.queryUserBasicMessage()
+      // 	} else {
+      // 		this.$refs.uToast.show({
+      // 			title: res.data.msg,
+      // 			type: 'error',
+      // 			position: 'bottom'
+      // 		})
+      // 	};	
+      // 	this.showLoadingHint = false;
+      // })
+      // .catch((err) => {
+      // 	this.showLoadingHint = false;
+      // 	this.$refs.uToast.show({
+      // 		title: err,
+      // 		type: 'error',
+      // 		position: 'bottom'
+      // 	})
+      // })
     },
     // 更新用户信息
     updateUserBasicMessage: function updateUserBasicMessage() {
@@ -331,16 +357,14 @@ var _default = {
       this.showLoadingHint = true;
       this.infoText = '修改中...';
       (0, _user.updateUserMessage)({
-        reqVO: {
-          nickName: this.niceNameValue,
-          birthday: "".concat(this.selectYear, "-").concat(this.selectMonth, "-").concat(this.selectDay),
-          sex: this.gendervalue == '男' ? 1 : this.gendervalue == '女' ? 2 : 0
-        }
+        nickname: this.niceNameValue,
+        birthday: "".concat(this.selectYear, "-").concat(this.selectMonth, "-").concat(this.selectDay),
+        sex: this.gendervalue == '男' ? 1 : this.gendervalue == '女' ? 2 : 0
       }).then(function (res) {
         if (res && res.data.code == 0) {
           _this3.$refs.uToast.show({
             title: '修改成功',
-            type: 'error',
+            type: 'success',
             position: 'bottom'
           });
           _this3.queryUserBasicMessage();
@@ -438,25 +462,9 @@ var _default = {
               that.personPhotoSource = base64;
             }
           });
-          uni.uploadFile({
-            url: 'https://blink.blinktech.cn/radar/app-api/member/user/update-avatar',
-            filePath: that.srcImage,
-            name: 'file',
-            header: {
-              'content-type': 'multipart/form-data',
-              'Authorization': "Bearer ".concat(_store.default.getters.token)
-            },
-            success: function success(res) {
-              console.log('upload success', res);
-            },
-            fail: function fail(err) {
-              console.log('upload fail', err);
-            }
-          });
           // 上传最新头像到服务端
-          // that.chnagneUserAvatarMessage()
+          that.changeUserAvatarMessage();
         },
-
         fail: function fail(err) {
           that.$refs.uToast.show({
             title: err,
@@ -507,5 +515,5 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ })
 
-},[[593,"common/runtime","common/vendor","generalSetPackage/common/vendor"]]]);
+},[[593,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../../.sourcemap/mp-weixin/generalSetPackage/pages/privateInfo/privateInfo.js.map

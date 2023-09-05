@@ -207,7 +207,7 @@ var _default = {
       }]
     };
   },
-  onReady: function onReady() {},
+  onLoad: function onLoad() {},
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
@@ -216,7 +216,6 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  mounted: function mounted() {},
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     // 日期图标点击事件
     dateIconClickEvent: function dateIconClickEvent() {

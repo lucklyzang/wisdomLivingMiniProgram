@@ -178,7 +178,7 @@ var _default = {
   data: function data() {
     return {
       loginBackgroundPng: __webpack_require__(/*! @/static/img/login-background.png */ 94),
-      userPhotoPng: __webpack_require__(/*! @/static/img/user-photo.png */ 135),
+      defaultPersonPhotoIconPng: __webpack_require__(/*! @/static/img/default-person-photo.png */ 599),
       infoText: '',
       showLoadingHint: false,
       deviceNumber: 0,
@@ -209,7 +209,6 @@ var _default = {
       }]
     };
   },
-  onReady: function onReady() {},
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userBasicInfo'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
@@ -218,12 +217,12 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  mounted: function mounted() {
+  onLoad: function onLoad() {
     // 初次进入该页面时，查询用户基本信息
     if (!this.userBasicInfo) {
       this.queryUserBasicMessage();
     } else {
-      this.personPhotoSource = !this.userBasicInfo.avatar ? this.userPhotoPng : this.userBasicInfo.avatar;
+      this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;
       this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname;
     }
     ;
@@ -245,7 +244,7 @@ var _default = {
       (0, _user.getUserMessage)().then(function (res) {
         if (res && res.data.code == 0) {
           _this.changeUserBasicInfo(res.data.data);
-          _this.personPhotoSource = !_this.userBasicInfo.avatar ? _this.userPhotoPng : _this.userBasicInfo.avatar;
+          _this.personPhotoSource = !_this.userBasicInfo.avatar ? _this.defaultPersonPhotoIconPng : _this.userBasicInfo.avatar;
           _this.niceNameValue = !_this.userBasicInfo.nickname ? _this.niceNameValue : _this.userBasicInfo.nickname;
         } else {
           _this.$refs.uToast.show({

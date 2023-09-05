@@ -239,6 +239,7 @@ page {
   justify-content: flex-end;
   align-items: center;
   flex: 1;
+  width: 0;
 }
 .content-box .content-area .center-content-area .alarm-type .alarm-type-right > text {
   flex: 1;

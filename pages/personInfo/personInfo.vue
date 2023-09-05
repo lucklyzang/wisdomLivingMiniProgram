@@ -6,7 +6,7 @@
 			<image :src="loginBackgroundPng"></image>
 			<view class="user-info">
 				<view class="user-photo" @click="enterPersonMessagePageEvent">
-					<image :src="userPhotoPng"></image>
+					<image :src="personPhotoSource"></image>
 				</view>
 				<view class="user-nickname">
 					<text>{{ niceNameValue }}</text>
@@ -48,7 +48,7 @@
 		data() {
 			return {
 				loginBackgroundPng: require("@/static/img/login-background.png"),
-				userPhotoPng: require("@/static/img/user-photo.png"),
+				defaultPersonPhotoIconPng: require("@/static/img/default-person-photo.png"),
 				infoText: '',
 				showLoadingHint: false,
 				deviceNumber: 0,
@@ -88,8 +88,6 @@
 				]
 			}
 		},
-		onReady() {
-		},
 		computed: {
 			...mapGetters([
 				'userBasicInfo'
@@ -107,12 +105,12 @@
 			accountName() {
 			}
 		},
-		mounted() {
+		onLoad() {
 			// 初次进入该页面时，查询用户基本信息
 			if (!this.userBasicInfo) {
 				this.queryUserBasicMessage()
 			} else {
-				this.personPhotoSource = !this.userBasicInfo.avatar ? this.userPhotoPng :  this.userBasicInfo.avatar;
+				this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng : this.userBasicInfo.avatar;
 				this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
 			};
 			// 获取用户设备数量
@@ -138,7 +136,7 @@
 				getUserMessage().then((res) => {
 					if ( res && res.data.code == 0) {
 						this.changeUserBasicInfo(res.data.data);
-						this.personPhotoSource = !this.userBasicInfo.avatar ? this.userPhotoPng :  this.userBasicInfo.avatar;
+						this.personPhotoSource = !this.userBasicInfo.avatar ? this.defaultPersonPhotoIconPng :  this.userBasicInfo.avatar;
 						this.niceNameValue = !this.userBasicInfo.nickname ? this.niceNameValue : this.userBasicInfo.nickname
 					} else {
 						this.$refs.uToast.show({
@@ -239,12 +237,14 @@
 				.user-photo {
 					width: 76px;
 					height: 76px;
+					background: #fff;
 					margin-right: 15px;
 					border-radius: 50%;
 					z-index:1;
 					image {
 						width: 76px;
-						height: 76px
+						height: 76px;
+						border-radius: 50%;
 					}
 				}
 			};

@@ -107,7 +107,7 @@
 				alarmRangeValueList: [],
 				acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话和短信'],
 				enter: false,
-				leave: false,
+				goOut: false,
 				deviceNumber: '',
 				alarmRangeValueList: [],
 				deviceSetBasicMessage: {},
@@ -159,13 +159,13 @@
 						case '不通知' :
 							return 0
 							break;
-						case '短信' :
+						case '仅短信通知' :
 							return 1
 							break;
-						case '电话' :
+						case '仅电话通知' :
 							return 2
 							break;
-						case '电话短信' :
+						case '电话+短信' :
 							return 3
 							break;
 						case '微信通知' :
@@ -182,13 +182,13 @@
 							return '不通知'
 							break;
 						case '1' :
-							return '短信'
+							return '仅短信通知'
 							break;
 						case '2' :
-							return '电话'
+							return '仅电话通知'
 							break;
 						case '3' :
-							return '电话短信'
+							return '电话+短信'
 							break;
 						case '4' :
 							return '微信通知'
@@ -207,7 +207,7 @@
 					deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
 					notice: this.alarmTypeTransition(this.acceptAlarmMethod),
 					enter: this.enter,
-					leave: this.leave,
+					goOut: this.goOut,
 					fall: this.fall,
 					getUp: this.getUp
 				}).then((res) => {
@@ -242,11 +242,11 @@
 						} else {
 							this.enter = false
 						};
-						if (res.data.data.leave) {
-							this.leave = true;
+						if (res.data.data.goOut) {
+							this.goOut = true;
 							this.alarmRangeValueList.push('人员离开报警')
 						} else {
-							this.leave = false
+							this.goOut = false
 						};
 						this.alarmRangeValue = this.alarmRangeValueList.join("、");
 						this.deviceSetBasicMessage = res.data.data;
@@ -282,11 +282,11 @@
 				} else {
 					this.enter = false
 				};
-				if (this.beforeAddBodyDetectionDeviceMessage.leave) {
-					this.leave = true;
+				if (this.beforeAddBodyDetectionDeviceMessage.goOut) {
+					this.goOut = true;
 					this.alarmRangeValueList.push('人员离开报警')
 				} else {
-					this.leave = false
+					this.goOut = false
 				};
 				this.alarmRangeValue = this.alarmRangeValueList.join("、");
 				this.deviceSetBasicMessage = this.beforeAddBodyDetectionDeviceMessage
@@ -577,6 +577,7 @@
 						justify-content: flex-end;
 						align-items: center;
 						flex: 1;
+						width: 0;
 						>text {
 							flex: 1;
 							margin-right: 2px;

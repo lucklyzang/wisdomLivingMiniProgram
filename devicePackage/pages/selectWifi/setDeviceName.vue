@@ -176,21 +176,33 @@
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
 						if (this.currentDeviceType == 3) {
+							let temporaryMessage = this.beforeAddDeviceMessage;
+							temporaryMessage['id'] = res.data.data;
+							this.changeBeforeAddDeviceMessage(temporaryMessage);
 							uni.redirectTo({
 								url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
 							})
 						};
 						if (this.currentDeviceType == 4) {
+							let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
+							temporaryMessage['id'] = res.data.data;
+							this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
 							uni.redirectTo({
 								url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
 							})
 						};
 						if (this.currentDeviceType == 2) {
+							let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
+							temporaryMessage['id'] = res.data.data;
+							this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
 							uni.redirectTo({
 								url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
 							})
 						};
 						if (this.currentDeviceType == 1) {
+							let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+							temporaryMessage['id'] = res.data.data;
+							this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 							uni.redirectTo({
 								url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
 							})

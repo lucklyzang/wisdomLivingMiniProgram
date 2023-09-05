@@ -70,7 +70,7 @@
 			this.setList[0]['checked'] = this.receiveData['fall'];
 			this.setList[1]['checked'] = this.receiveData['getUp'];
 			this.setList[2]['checked'] = this.receiveData['enter'];
-			this.setList[3]['checked'] = this.receiveData['leave'];
+			this.setList[3]['checked'] = this.receiveData['goOut'];
 		},
 		computed: {
 			...mapGetters([
@@ -104,7 +104,7 @@
 				// 保存进入设备设置界面的报警范围信息
 				let temporaryMessage = this.beforeAddDeviceMessage;
 				temporaryMessage['enter'] = this.setList[2]['checked'];
-				temporaryMessage['leave'] = this.setList[3]['checked'];
+				temporaryMessage['goOut'] = this.setList[3]['checked'];
 				temporaryMessage['fall'] = this.setList[0]['checked'];
 				temporaryMessage['getUp'] = this.setList[1]['checked'];
 				temporaryMessage['isSaveAlarmRanageInfo'] = true;

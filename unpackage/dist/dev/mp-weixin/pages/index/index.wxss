@@ -88,6 +88,9 @@ page {
 .content-box .top-area > view:nth-child(2)  .show-box .list {
   color: #101010;
 }
+.content-box .top-area > view:nth-child(2)  .show-box .list .item.active {
+  color: #11D183 !important;
+}
 .content-box .top-area > view:nth-child(2)  .show-box .list-container {
   width: 150px !important;
   top: -10px;

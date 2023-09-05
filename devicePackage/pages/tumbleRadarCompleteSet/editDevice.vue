@@ -120,7 +120,7 @@
 						<text>网络状态</text>
 					</view>
 					<view class="set-list-right" @click="networkClickEvent">
-						<text>在线</text>
+						<text>{{ onLine ? '在线' : '离线' }}</text>
 						<u-icon name="arrow-right" size="40" color="#0E2442"></u-icon>
 					</view>
 				</view>
@@ -138,7 +138,7 @@
 		mapMutations
 	} from 'vuex'
 	import { deleteFallAlarmSettings} from '@/api/device.js'
-	import { updateUserDeviceBind, getUserRoomList } from '@/api/user.js'
+	import { updateUserDeviceBind, getUserRoomList, deleteUserDeviceBind } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
 	import yToast from "@/components/y-toast/y-toast.vue"
 	export default {
@@ -242,7 +242,8 @@
 					userId: this.userInfo.userId,
 					familyId: this.familyId,
 					roomId: this.roomId,
-					customName: this.deviceNameValue
+					customName: this.deviceNameValue,
+					id: this.beforeAddDeviceMessage.id
 				}).then((res) => {
 					if ( res && res.data.code == 0) {
 						let temporaryMessage = this.beforeAddDeviceMessage;
@@ -272,8 +273,8 @@
 			deleteEvent (deviceId ) {
 				this.showLoadingHint = true;
 				this.infoText = '删除中...';
-				deleteFallAlarmSettings({deviceId}).then((res) => {
-					if ( res && res.data.code == 0) {
+				deleteUserDeviceBind({deviceId}).then((res) => {
+					if ( res && res.data.code == 0 && res.data.data) {
 						this.$refs.uToast.show({
 							title: '删除成功',
 							type: 'success',
@@ -316,6 +317,7 @@
 			
 			// 网络状态点击事件
 			networkClickEvent () {
+				if (!this.onLine) { return };
 				this.networkShow = true
 			},
 			

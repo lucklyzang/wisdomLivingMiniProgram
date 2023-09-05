@@ -17816,17 +17816,6 @@ module.exports = _typeof, module.exports.__esModule = true, module.exports["defa
 
 /***/ }),
 
-/***/ 135:
-/*!*****************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/user-photo.png ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMCAMAAADwSaEZAAADAFBMVEUAAAC87uy56+qr5OOu5+a57Oun4uCh4N+y6emP0tKk4eC16uqb2tmc396o5OKT1NOj392Lzc2e3NuOz8+26eiKycmZ1tOa2diW2Nio4d+U1tah3NrRxaDb2r+S0M6tmHDO0LvU2MPMxqbMzLTl3Ly15OHa4NLO1sfa1rmGeFyYhmWHxcPJya/j6dvDtI66up7GxKvZ0rHGyrbe4tCusJhkVDvIwqGksqLYyqbKupShl3e/roSPf1+snXnq7uGlk3Dn4MLQv5a4tJe0nXPq583LvZmQhGfSyqrh59fFq3yAb1Hd3cSvrY/j4smQim3Yzqvg17ax5uTX3c3Cu52+y7vB0cegjWq7pXuSkHV5c1i/pHWBvr2jnoG1xri4nG6vt6Ozq4iywbOxo4CeiWScvrXCv6ahoo59t7Sm2terpYbJtYmoqY29xLLU07iLeVrOuYypva+nkGe4poB+eV+cqpajuardyJ27rYx6ak5uYERsc2W8tZHI2tC6vqqUnYqqyLx0ZUmRwryh0sxeTzXh06+cnYW02tKr2NGJknyBg2l4qqOKqZ2fmYCiqZ7dz6iVlXrOs4Cq6upWRy647Ou87eye399pW0G67Ow4PTVFSDylglPWvpCAiHXHz7/O3NDkz6BlZVFwiH2X3Nx6fWdYWEZxblcjJR6XtKdoe2+yz8S97u6Xgl6v39sYGhSO0tGm4+GXy8WXfFRvaE9mbmGf3997j32jycC87u5tmZORclVIPSkwMCOFta677euN09OW2dmf39++7+l8lYeR1tOt5OSf3t5tt7ed3tya29u47Oue3tvG8fGm5OKL0dGp5uKSmoWO09Ot5eS98e6f3t5RUEC77u6w6OiO0NB6nZSEnI2S2dRmmZmExcWN1M6vuKFqubeq5eO+uJtqt7XMxKS7spmP1tSMzs5GNiCr5eSv5ubX1bPD0b+CcVZlr69qpqawo4az5uxyaFCz6+fNx6mOnomJysptrq3Z2b+spYRme3OqsJy+vp3Tz6tms7OCvsHAt5OzgwfkAAABAHRSTlMA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////DP/jrqX/Xf////////////9C/////////6P///+lpP////84//+F+//////KTOcQL/+7fLf/jCvvZBLDC0friulJff94rxv//zYP3y+peGNe56keZHj/2lNa51ZWeLEo4JbnYaSxKOB4yYWFClbJil6RIgAACzpJREFUeJyV13dck2cCB/AAChStRRuwKQnZ05CdkIWQRMIIe+8Nyt5bNsgeRUUQsFp31XNV62it19ZWex3X6x7X612v4/be83nelYE4fho+/MHn+/k9433eJ6R75/f7nt/z4u477mvX3tn94p7n933/Pn+/ap768sPd69zRrAVxA//ddj+77wcPT/3iQ2/vdSDuawkMz559D1fq1e+8YRAMaEgvAgP9Pnjqga1X312zZg2m2TFHze3OBw84wO88gIVqAENGCShnDLR7gME+ddYDZDWMzOW6E9yz91uKt99FJXyU+HIiS+DO7WnO3UW2l/vRvWcLr2XHkNV0R6qRj3d0VHY5aG73mrk/boCYk4YVc4Nm4oljF5dyKk/bR+r27KrWWc8NUFuzBnKuw4TYxTNHjhyM63HAVtXOenp6ItWIZmQ7BkM+dGZhfiEumOu4qntWsShAI8Z5F8y97/qxYx1H44Ydq9212+s+gELHiWHwaSIT0Gnw2TF/7Mz7B4V1DksA8vwK6w0fBLOPE/Qik+0YuQ/8Sr547MzCkcayXU7V3Fy373M+GOYwTCds1+QwnLT5M/PzmdM9ztXcXE6mN3GM2BwIRiawlNw6rrv7yx3zx663x9U5LYGb24tO1nuEhWOJqIVqidzT7OXCk+7uJRcPzi9k6lUumNO03fZywZBqmEZO3FHSXBWhSCnkunO7Dx+8MJpT6TJpTgPd6+WLYhtAcA12SyRzT/cfH0mjS8KTS7tSueSejIUjmRk5J10mzWG3PeflBaohzbA58/CgUBITyd4ewz3dxfXn83Tp5UK9obPn9K7p69ePZOS4bA4Q4pm/BTBfFyxw/OQubuJwU0joflPtDNX8/vu99PripuHKowsX9OUrJo2oBouBZnD/E3PmsaMpuCvlZK4hPdmi0c7kiRqX4oos9aJgVcxQTkFMzIpJw2dtry+iuQwz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"
-
-/***/ }),
-
 /***/ 136:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/home-care.png ***!
@@ -19541,7 +19530,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -26584,7 +26573,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -26605,14 +26594,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -26708,7 +26697,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -31079,6 +31068,17 @@ exports.default = _default;
 
 /***/ }),
 
+/***/ 599:
+/*!***************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/default-person-photo.png ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFkAAABZCAMAAABi1XidAAAC2VBMVEW41P////8AAAD9/v+51f/////G3P+61f+71v/I3v/3+v/x9v/5+//8/f/E2//P4v+51f+91/++2P/u9f/j7v/z+P/1+f/C2v/p8v+51P/////H3f/Z6P/A2f/h7f/r8/+71v/W5v/////U5f/k7//s9P/M4P/n8f+/3//////////////////////g7P+81/////++1//S5P/e6//B2v/B2f////+81v/K3//A2v////////+41f/o6P////+71//H3v++2f/I3v+71v/V5f/E2P/////L3v/W6/////+61f/////C2v/C2/++2P+81//////E2P/m///C2/+71v////////+/2P/G3P/K4P+71v/I3f/E2//V3/+91//A2P/////N4v/E2//////A2P/H3f+91//I3v/J3v/G3P/A2f/////////M5v/M3/8A//+qqv/B2f/1+P/////b2//F3P////////////////+/2f+81/+/1P/U///C2v+/6v/f6v/////n8//////N4//L4P////+81//////U6v/D4f/D3f/H3v/A1//B2f/K3//C2v////++1f/O4v/////O4P/I4P/b2//////D3f/////b7f/D2v/O4v/E6//A2v/Z5v/////D2f++1//J3v+71v/////B2v/Q4//B2v/C2//////////////b6f/J3f8AAP+q//++1//X5P9/f/+81v+91v/R6P/j7v/F3P/N4/+////I3f/S4f+/v//O2P/G3P/U4//F3P/J3v/g6//O5v/j7//C2//j8f/c6P/M///R4f/D2//F2/+/2P/H3P/H3//G4//U6P/C4P/I5P/b7f/b6//b///////D3P/I3f/B2//T5v+53P/J1//E3P/F3f/I3v/E2//U5f/G3//I3v/n8//K4f/S4//A2P+/3f/F2//U5P/L3//J3/++2P/K4f/C2v/N4P8Jh0TDAAAA83RSTlP//wD//wH//////////////v//////////++P///////n/CP//////CNwFEBdP/+j+rf//5qn7/P/T/IvrC5vjZJkX5jEN4DYZj+kMksXgc1kaCnHbr/f3olvwleQYsdj1k6RetWjl3VW/mSWlCigBA17mSwdY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"
+
+/***/ }),
+
 /***/ 6:
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
@@ -31560,7 +31560,7 @@ function _extends() {
 var formatRegExp = /%[sdj%]/g;
 var warning = function warning() {}; // don't print warning message when in production env or node runtime
 
-if (typeof process !== 'undefined' && Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}) && "development" !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
+if (typeof process !== 'undefined' && Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"qualityControl","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}) && "development" !== 'production' && typeof window !== 'undefined' && typeof document !== 'undefined') {
   warning = function warning(type, errors) {
     if (typeof console !== 'undefined' && console.warn) {
       if (errors.every(function (e) {
@@ -33087,6 +33087,7 @@ exports.sendPhoneCode = sendPhoneCode;
 exports.setPassword = setPassword;
 exports.userSignOut = userSignOut;
 exports.weixinLogIn = weixinLogIn;
+exports.weixinMiniAppLogin = weixinMiniAppLogin;
 var _request = _interopRequireDefault(__webpack_require__(/*! @/api/request */ 75));
 // 账号密码登录
 function logIn(data) {
@@ -33147,6 +33148,15 @@ function weixinLogIn(code) {
   return (0, _request.default)({
     url: "login/wx/".concat(code),
     method: 'get'
+  });
+}
+
+// 微信小程序一键登录
+function weixinMiniAppLogin(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/auth/weixin-mini-app-login',
+    method: 'post',
+    data: data
   });
 }
 
@@ -34492,7 +34502,345 @@ module.exports = {
 
 /***/ }),
 
-/***/ 774:
+/***/ 78:
+/*!******************************************!*\
+  !*** ./node_modules/qs/lib/stringify.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var getSideChannel = __webpack_require__(/*! side-channel */ 79);
+var utils = __webpack_require__(/*! ./utils */ 90);
+var formats = __webpack_require__(/*! ./formats */ 91);
+var has = Object.prototype.hasOwnProperty;
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) {
+        return prefix + '[]';
+    },
+    comma: 'comma',
+    indices: function indices(prefix, key) {
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) {
+        return prefix;
+    }
+};
+
+var isArray = Array.isArray;
+var split = String.prototype.split;
+var push = Array.prototype.push;
+var pushToArray = function (arr, valueOrArray) {
+    push.apply(arr, isArray(valueOrArray) ? valueOrArray : [valueOrArray]);
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaultFormat = formats['default'];
+var defaults = {
+    addQueryPrefix: false,
+    allowDots: false,
+    charset: 'utf-8',
+    charsetSentinel: false,
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    encodeValuesOnly: false,
+    format: defaultFormat,
+    formatter: formats.formatters[defaultFormat],
+    // deprecated
+    indices: false,
+    serializeDate: function serializeDate(date) {
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var isNonNullishPrimitive = function isNonNullishPrimitive(v) {
+    return typeof v === 'string'
+        || typeof v === 'number'
+        || typeof v === 'boolean'
+        || typeof v === 'symbol'
+        || typeof v === 'bigint';
+};
+
+var sentinel = {};
+
+var stringify = function stringify(
+    object,
+    prefix,
+    generateArrayPrefix,
+    commaRoundTrip,
+    strictNullHandling,
+    skipNulls,
+    encoder,
+    filter,
+    sort,
+    allowDots,
+    serializeDate,
+    format,
+    formatter,
+    encodeValuesOnly,
+    charset,
+    sideChannel
+) {
+    var obj = object;
+
+    var tmpSc = sideChannel;
+    var step = 0;
+    var findFlag = false;
+    while ((tmpSc = tmpSc.get(sentinel)) !== void undefined && !findFlag) {
+        // Where object last appeared in the ref tree
+        var pos = tmpSc.get(object);
+        step += 1;
+        if (typeof pos !== 'undefined') {
+            if (pos === step) {
+                throw new RangeError('Cyclic object value');
+            } else {
+                findFlag = true; // Break while
+            }
+        }
+        if (typeof tmpSc.get(sentinel) === 'undefined') {
+            step = 0;
+        }
+    }
+
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
+        obj = utils.maybeMap(obj, function (value) {
+            if (value instanceof Date) {
+                return serializeDate(value);
+            }
+            return value;
+        });
+    }
+
+    if (obj === null) {
+        if (strictNullHandling) {
+            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder, charset, 'key', format) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
+        if (encoder) {
+            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key', format);
+            if (generateArrayPrefix === 'comma' && encodeValuesOnly) {
+                var valuesArray = split.call(String(obj), ',');
+                var valuesJoined = '';
+                for (var i = 0; i < valuesArray.length; ++i) {
+                    valuesJoined += (i === 0 ? '' : ',') + formatter(encoder(valuesArray[i], defaults.encoder, charset, 'value', format));
+                }
+                return [formatter(keyValue) + (commaRoundTrip && isArray(obj) && valuesArray.length === 1 ? '[]' : '') + '=' + valuesJoined];
+            }
+            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value', format))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (generateArrayPrefix === 'comma' && isArray(obj)) {
+        // we need to join elements in
+        objKeys = [{ value: obj.length > 0 ? obj.join(',') || null : void undefined }];
+    } else if (isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    var adjustedPrefix = commaRoundTrip && isArray(obj) && obj.length === 1 ? prefix + '[]' : prefix;
+
+    for (var j = 0; j < objKeys.length; ++j) {
+        var key = objKeys[j];
+        var value = typeof key === 'object' && typeof key.value !== 'undefined' ? key.value : obj[key];
+
+        if (skipNulls && value === null) {
+            continue;
+        }
+
+        var keyPrefix = isArray(obj)
+            ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(adjustedPrefix, key) : adjustedPrefix
+            : adjustedPrefix + (allowDots ? '.' + key : '[' + key + ']');
+
+        sideChannel.set(object, step);
+        var valueSideChannel = getSideChannel();
+        valueSideChannel.set(sentinel, sideChannel);
+        pushToArray(values, stringify(
+            value,
+            keyPrefix,
+            generateArrayPrefix,
+            commaRoundTrip,
+            strictNullHandling,
+            skipNulls,
+            encoder,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            format,
+            formatter,
+            encodeValuesOnly,
+            charset,
+            valueSideChannel
+        ));
+    }
+
+    return values;
+};
+
+var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
+    if (!opts) {
+        return defaults;
+    }
+
+    if (opts.encoder !== null && typeof opts.encoder !== 'undefined' && typeof opts.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    var charset = opts.charset || defaults.charset;
+    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
+        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
+    }
+
+    var format = formats['default'];
+    if (typeof opts.format !== 'undefined') {
+        if (!has.call(formats.formatters, opts.format)) {
+            throw new TypeError('Unknown format option provided.');
+        }
+        format = opts.format;
+    }
+    var formatter = formats.formatters[format];
+
+    var filter = defaults.filter;
+    if (typeof opts.filter === 'function' || isArray(opts.filter)) {
+        filter = opts.filter;
+    }
+
+    return {
+        addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
+        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
+        charset: charset,
+        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
+        delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
+        encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
+        encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
+        encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
+        filter: filter,
+        format: format,
+        formatter: formatter,
+        serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults.serializeDate,
+        skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults.skipNulls,
+        sort: typeof opts.sort === 'function' ? opts.sort : null,
+        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
+    };
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = normalizeStringifyOptions(opts);
+
+    var objKeys;
+    var filter;
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (opts && opts.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = opts.arrayFormat;
+    } else if (opts && 'indices' in opts) {
+        arrayFormat = opts.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+    if (opts && 'commaRoundTrip' in opts && typeof opts.commaRoundTrip !== 'boolean') {
+        throw new TypeError('`commaRoundTrip` must be a boolean, or absent');
+    }
+    var commaRoundTrip = generateArrayPrefix === 'comma' && opts && opts.commaRoundTrip;
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (options.sort) {
+        objKeys.sort(options.sort);
+    }
+
+    var sideChannel = getSideChannel();
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (options.skipNulls && obj[key] === null) {
+            continue;
+        }
+        pushToArray(keys, stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            commaRoundTrip,
+            options.strictNullHandling,
+            options.skipNulls,
+            options.encode ? options.encoder : null,
+            options.filter,
+            options.sort,
+            options.allowDots,
+            options.serializeDate,
+            options.format,
+            options.formatter,
+            options.encodeValuesOnly,
+            options.charset,
+            sideChannel
+        ));
+    }
+
+    var joined = keys.join(options.delimiter);
+    var prefix = options.addQueryPrefix === true ? '?' : '';
+
+    if (options.charsetSentinel) {
+        if (options.charset === 'iso-8859-1') {
+            // encodeURIComponent('&#10003;'), the "numeric entity" representation of a checkmark
+            prefix += 'utf8=%26%2310003%3B&';
+        } else {
+            // encodeURIComponent('✓')
+            prefix += 'utf8=%E2%9C%93&';
+        }
+    }
+
+    return joined.length > 0 ? prefix + joined : '';
+};
+
+
+/***/ }),
+
+/***/ 781:
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -34508,20 +34856,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 47));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 775));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 782));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 49));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 776));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 777));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 778));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 779));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 783));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 784));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 785));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 786));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
 var _uniI18n = __webpack_require__(/*! @dcloudio/uni-i18n */ 22);
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 781));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 788));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e35) { throw _e35; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e36) { didErr = true; err = _e36; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -34974,7 +35322,7 @@ var b = "development" === "development",
   O = true;
 var x = "";
 try {
-  x = (__webpack_require__(/*! uni-stat-config */ 782).default || __webpack_require__(/*! uni-stat-config */ 782)).appid;
+  x = (__webpack_require__(/*! uni-stat-config */ 789).default || __webpack_require__(/*! uni-stat-config */ 789)).appid;
 } catch (e) {}
 var R = {};
 function U(e) {
@@ -41846,7 +42194,7 @@ exports.default = Ns;
 
 /***/ }),
 
-/***/ 775:
+/***/ 782:
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -41863,7 +42211,7 @@ module.exports = _assertThisInitialized, module.exports.__esModule = true, modul
 
 /***/ }),
 
-/***/ 776:
+/***/ 783:
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -41891,7 +42239,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 
 /***/ }),
 
-/***/ 777:
+/***/ 784:
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -41899,7 +42247,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 775);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 782);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -41912,7 +42260,7 @@ module.exports = _possibleConstructorReturn, module.exports.__esModule = true, m
 
 /***/ }),
 
-/***/ 778:
+/***/ 785:
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -41929,16 +42277,16 @@ module.exports = _getPrototypeOf, module.exports.__esModule = true, module.expor
 
 /***/ }),
 
-/***/ 779:
+/***/ 786:
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 778);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 785);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 780);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 787);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -41970,345 +42318,7 @@ module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.expo
 
 /***/ }),
 
-/***/ 78:
-/*!******************************************!*\
-  !*** ./node_modules/qs/lib/stringify.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var getSideChannel = __webpack_require__(/*! side-channel */ 79);
-var utils = __webpack_require__(/*! ./utils */ 90);
-var formats = __webpack_require__(/*! ./formats */ 91);
-var has = Object.prototype.hasOwnProperty;
-
-var arrayPrefixGenerators = {
-    brackets: function brackets(prefix) {
-        return prefix + '[]';
-    },
-    comma: 'comma',
-    indices: function indices(prefix, key) {
-        return prefix + '[' + key + ']';
-    },
-    repeat: function repeat(prefix) {
-        return prefix;
-    }
-};
-
-var isArray = Array.isArray;
-var split = String.prototype.split;
-var push = Array.prototype.push;
-var pushToArray = function (arr, valueOrArray) {
-    push.apply(arr, isArray(valueOrArray) ? valueOrArray : [valueOrArray]);
-};
-
-var toISO = Date.prototype.toISOString;
-
-var defaultFormat = formats['default'];
-var defaults = {
-    addQueryPrefix: false,
-    allowDots: false,
-    charset: 'utf-8',
-    charsetSentinel: false,
-    delimiter: '&',
-    encode: true,
-    encoder: utils.encode,
-    encodeValuesOnly: false,
-    format: defaultFormat,
-    formatter: formats.formatters[defaultFormat],
-    // deprecated
-    indices: false,
-    serializeDate: function serializeDate(date) {
-        return toISO.call(date);
-    },
-    skipNulls: false,
-    strictNullHandling: false
-};
-
-var isNonNullishPrimitive = function isNonNullishPrimitive(v) {
-    return typeof v === 'string'
-        || typeof v === 'number'
-        || typeof v === 'boolean'
-        || typeof v === 'symbol'
-        || typeof v === 'bigint';
-};
-
-var sentinel = {};
-
-var stringify = function stringify(
-    object,
-    prefix,
-    generateArrayPrefix,
-    commaRoundTrip,
-    strictNullHandling,
-    skipNulls,
-    encoder,
-    filter,
-    sort,
-    allowDots,
-    serializeDate,
-    format,
-    formatter,
-    encodeValuesOnly,
-    charset,
-    sideChannel
-) {
-    var obj = object;
-
-    var tmpSc = sideChannel;
-    var step = 0;
-    var findFlag = false;
-    while ((tmpSc = tmpSc.get(sentinel)) !== void undefined && !findFlag) {
-        // Where object last appeared in the ref tree
-        var pos = tmpSc.get(object);
-        step += 1;
-        if (typeof pos !== 'undefined') {
-            if (pos === step) {
-                throw new RangeError('Cyclic object value');
-            } else {
-                findFlag = true; // Break while
-            }
-        }
-        if (typeof tmpSc.get(sentinel) === 'undefined') {
-            step = 0;
-        }
-    }
-
-    if (typeof filter === 'function') {
-        obj = filter(prefix, obj);
-    } else if (obj instanceof Date) {
-        obj = serializeDate(obj);
-    } else if (generateArrayPrefix === 'comma' && isArray(obj)) {
-        obj = utils.maybeMap(obj, function (value) {
-            if (value instanceof Date) {
-                return serializeDate(value);
-            }
-            return value;
-        });
-    }
-
-    if (obj === null) {
-        if (strictNullHandling) {
-            return encoder && !encodeValuesOnly ? encoder(prefix, defaults.encoder, charset, 'key', format) : prefix;
-        }
-
-        obj = '';
-    }
-
-    if (isNonNullishPrimitive(obj) || utils.isBuffer(obj)) {
-        if (encoder) {
-            var keyValue = encodeValuesOnly ? prefix : encoder(prefix, defaults.encoder, charset, 'key', format);
-            if (generateArrayPrefix === 'comma' && encodeValuesOnly) {
-                var valuesArray = split.call(String(obj), ',');
-                var valuesJoined = '';
-                for (var i = 0; i < valuesArray.length; ++i) {
-                    valuesJoined += (i === 0 ? '' : ',') + formatter(encoder(valuesArray[i], defaults.encoder, charset, 'value', format));
-                }
-                return [formatter(keyValue) + (commaRoundTrip && isArray(obj) && valuesArray.length === 1 ? '[]' : '') + '=' + valuesJoined];
-            }
-            return [formatter(keyValue) + '=' + formatter(encoder(obj, defaults.encoder, charset, 'value', format))];
-        }
-        return [formatter(prefix) + '=' + formatter(String(obj))];
-    }
-
-    var values = [];
-
-    if (typeof obj === 'undefined') {
-        return values;
-    }
-
-    var objKeys;
-    if (generateArrayPrefix === 'comma' && isArray(obj)) {
-        // we need to join elements in
-        objKeys = [{ value: obj.length > 0 ? obj.join(',') || null : void undefined }];
-    } else if (isArray(filter)) {
-        objKeys = filter;
-    } else {
-        var keys = Object.keys(obj);
-        objKeys = sort ? keys.sort(sort) : keys;
-    }
-
-    var adjustedPrefix = commaRoundTrip && isArray(obj) && obj.length === 1 ? prefix + '[]' : prefix;
-
-    for (var j = 0; j < objKeys.length; ++j) {
-        var key = objKeys[j];
-        var value = typeof key === 'object' && typeof key.value !== 'undefined' ? key.value : obj[key];
-
-        if (skipNulls && value === null) {
-            continue;
-        }
-
-        var keyPrefix = isArray(obj)
-            ? typeof generateArrayPrefix === 'function' ? generateArrayPrefix(adjustedPrefix, key) : adjustedPrefix
-            : adjustedPrefix + (allowDots ? '.' + key : '[' + key + ']');
-
-        sideChannel.set(object, step);
-        var valueSideChannel = getSideChannel();
-        valueSideChannel.set(sentinel, sideChannel);
-        pushToArray(values, stringify(
-            value,
-            keyPrefix,
-            generateArrayPrefix,
-            commaRoundTrip,
-            strictNullHandling,
-            skipNulls,
-            encoder,
-            filter,
-            sort,
-            allowDots,
-            serializeDate,
-            format,
-            formatter,
-            encodeValuesOnly,
-            charset,
-            valueSideChannel
-        ));
-    }
-
-    return values;
-};
-
-var normalizeStringifyOptions = function normalizeStringifyOptions(opts) {
-    if (!opts) {
-        return defaults;
-    }
-
-    if (opts.encoder !== null && typeof opts.encoder !== 'undefined' && typeof opts.encoder !== 'function') {
-        throw new TypeError('Encoder has to be a function.');
-    }
-
-    var charset = opts.charset || defaults.charset;
-    if (typeof opts.charset !== 'undefined' && opts.charset !== 'utf-8' && opts.charset !== 'iso-8859-1') {
-        throw new TypeError('The charset option must be either utf-8, iso-8859-1, or undefined');
-    }
-
-    var format = formats['default'];
-    if (typeof opts.format !== 'undefined') {
-        if (!has.call(formats.formatters, opts.format)) {
-            throw new TypeError('Unknown format option provided.');
-        }
-        format = opts.format;
-    }
-    var formatter = formats.formatters[format];
-
-    var filter = defaults.filter;
-    if (typeof opts.filter === 'function' || isArray(opts.filter)) {
-        filter = opts.filter;
-    }
-
-    return {
-        addQueryPrefix: typeof opts.addQueryPrefix === 'boolean' ? opts.addQueryPrefix : defaults.addQueryPrefix,
-        allowDots: typeof opts.allowDots === 'undefined' ? defaults.allowDots : !!opts.allowDots,
-        charset: charset,
-        charsetSentinel: typeof opts.charsetSentinel === 'boolean' ? opts.charsetSentinel : defaults.charsetSentinel,
-        delimiter: typeof opts.delimiter === 'undefined' ? defaults.delimiter : opts.delimiter,
-        encode: typeof opts.encode === 'boolean' ? opts.encode : defaults.encode,
-        encoder: typeof opts.encoder === 'function' ? opts.encoder : defaults.encoder,
-        encodeValuesOnly: typeof opts.encodeValuesOnly === 'boolean' ? opts.encodeValuesOnly : defaults.encodeValuesOnly,
-        filter: filter,
-        format: format,
-        formatter: formatter,
-        serializeDate: typeof opts.serializeDate === 'function' ? opts.serializeDate : defaults.serializeDate,
-        skipNulls: typeof opts.skipNulls === 'boolean' ? opts.skipNulls : defaults.skipNulls,
-        sort: typeof opts.sort === 'function' ? opts.sort : null,
-        strictNullHandling: typeof opts.strictNullHandling === 'boolean' ? opts.strictNullHandling : defaults.strictNullHandling
-    };
-};
-
-module.exports = function (object, opts) {
-    var obj = object;
-    var options = normalizeStringifyOptions(opts);
-
-    var objKeys;
-    var filter;
-
-    if (typeof options.filter === 'function') {
-        filter = options.filter;
-        obj = filter('', obj);
-    } else if (isArray(options.filter)) {
-        filter = options.filter;
-        objKeys = filter;
-    }
-
-    var keys = [];
-
-    if (typeof obj !== 'object' || obj === null) {
-        return '';
-    }
-
-    var arrayFormat;
-    if (opts && opts.arrayFormat in arrayPrefixGenerators) {
-        arrayFormat = opts.arrayFormat;
-    } else if (opts && 'indices' in opts) {
-        arrayFormat = opts.indices ? 'indices' : 'repeat';
-    } else {
-        arrayFormat = 'indices';
-    }
-
-    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
-    if (opts && 'commaRoundTrip' in opts && typeof opts.commaRoundTrip !== 'boolean') {
-        throw new TypeError('`commaRoundTrip` must be a boolean, or absent');
-    }
-    var commaRoundTrip = generateArrayPrefix === 'comma' && opts && opts.commaRoundTrip;
-
-    if (!objKeys) {
-        objKeys = Object.keys(obj);
-    }
-
-    if (options.sort) {
-        objKeys.sort(options.sort);
-    }
-
-    var sideChannel = getSideChannel();
-    for (var i = 0; i < objKeys.length; ++i) {
-        var key = objKeys[i];
-
-        if (options.skipNulls && obj[key] === null) {
-            continue;
-        }
-        pushToArray(keys, stringify(
-            obj[key],
-            key,
-            generateArrayPrefix,
-            commaRoundTrip,
-            options.strictNullHandling,
-            options.skipNulls,
-            options.encode ? options.encoder : null,
-            options.filter,
-            options.sort,
-            options.allowDots,
-            options.serializeDate,
-            options.format,
-            options.formatter,
-            options.encodeValuesOnly,
-            options.charset,
-            sideChannel
-        ));
-    }
-
-    var joined = keys.join(options.delimiter);
-    var prefix = options.addQueryPrefix === true ? '?' : '';
-
-    if (options.charsetSentinel) {
-        if (options.charset === 'iso-8859-1') {
-            // encodeURIComponent('&#10003;'), the "numeric entity" representation of a checkmark
-            prefix += 'utf8=%26%2310003%3B&';
-        } else {
-            // encodeURIComponent('✓')
-            prefix += 'utf8=%E2%9C%93&';
-        }
-    }
-
-    return joined.length > 0 ? prefix + joined : '';
-};
-
-
-/***/ }),
-
-/***/ 780:
+/***/ 787:
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -42322,7 +42332,7 @@ module.exports = _isNativeFunction, module.exports.__esModule = true, module.exp
 
 /***/ }),
 
-/***/ 781:
+/***/ 788:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/pages.json?{"type":"origin-pages-json"} ***!
   \*******************************************************************************/
@@ -42941,7 +42951,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 782:
+/***/ 789:
 /*!******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/pages.json?{"type":"stat"} ***!
   \******************************************************************/
@@ -42962,7 +42972,143 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 783:
+/***/ 79:
+/*!********************************************!*\
+  !*** ./node_modules/side-channel/index.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 80);
+var callBound = __webpack_require__(/*! call-bind/callBound */ 86);
+var inspect = __webpack_require__(/*! object-inspect */ 88);
+
+var $TypeError = GetIntrinsic('%TypeError%');
+var $WeakMap = GetIntrinsic('%WeakMap%', true);
+var $Map = GetIntrinsic('%Map%', true);
+
+var $weakMapGet = callBound('WeakMap.prototype.get', true);
+var $weakMapSet = callBound('WeakMap.prototype.set', true);
+var $weakMapHas = callBound('WeakMap.prototype.has', true);
+var $mapGet = callBound('Map.prototype.get', true);
+var $mapSet = callBound('Map.prototype.set', true);
+var $mapHas = callBound('Map.prototype.has', true);
+
+/*
+ * This function traverses the list returning the node corresponding to the
+ * given key.
+ *
+ * That node is also moved to the head of the list, so that if it's accessed
+ * again we don't need to traverse the whole list. By doing so, all the recently
+ * used nodes can be accessed relatively quickly.
+ */
+var listGetNode = function (list, key) { // eslint-disable-line consistent-return
+	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
+		if (curr.key === key) {
+			prev.next = curr.next;
+			curr.next = list.next;
+			list.next = curr; // eslint-disable-line no-param-reassign
+			return curr;
+		}
+	}
+};
+
+var listGet = function (objects, key) {
+	var node = listGetNode(objects, key);
+	return node && node.value;
+};
+var listSet = function (objects, key, value) {
+	var node = listGetNode(objects, key);
+	if (node) {
+		node.value = value;
+	} else {
+		// Prepend the new node to the beginning of the list
+		objects.next = { // eslint-disable-line no-param-reassign
+			key: key,
+			next: objects.next,
+			value: value
+		};
+	}
+};
+var listHas = function (objects, key) {
+	return !!listGetNode(objects, key);
+};
+
+module.exports = function getSideChannel() {
+	var $wm;
+	var $m;
+	var $o;
+	var channel = {
+		assert: function (key) {
+			if (!channel.has(key)) {
+				throw new $TypeError('Side channel does not contain ' + inspect(key));
+			}
+		},
+		get: function (key) { // eslint-disable-line consistent-return
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapGet($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapGet($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listGet($o, key);
+				}
+			}
+		},
+		has: function (key) {
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapHas($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapHas($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listHas($o, key);
+				}
+			}
+			return false;
+		},
+		set: function (key, value) {
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if (!$wm) {
+					$wm = new $WeakMap();
+				}
+				$weakMapSet($wm, key, value);
+			} else if ($Map) {
+				if (!$m) {
+					$m = new $Map();
+				}
+				$mapSet($m, key, value);
+			} else {
+				if (!$o) {
+					/*
+					 * Initialize the linked list as an empty node, so that we don't have
+					 * to special-case handling of the first node: we can always refer to
+					 * it as (previous node).next, instead of something like (list).head
+					 */
+					$o = { key: {}, next: null };
+				}
+				listSet($o, key, value);
+			}
+		}
+	};
+	return channel;
+};
+
+
+/***/ }),
+
+/***/ 790:
 /*!************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js ***!
   \************************************************************************************************/
@@ -50623,7 +50769,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 784:
+/***/ 791:
 /*!******************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js ***!
   \******************************************************************************************************/
@@ -51242,142 +51388,6 @@ var cfu = {
 };
 var _default = cfu;
 exports.default = _default;
-
-/***/ }),
-
-/***/ 79:
-/*!********************************************!*\
-  !*** ./node_modules/side-channel/index.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 80);
-var callBound = __webpack_require__(/*! call-bind/callBound */ 86);
-var inspect = __webpack_require__(/*! object-inspect */ 88);
-
-var $TypeError = GetIntrinsic('%TypeError%');
-var $WeakMap = GetIntrinsic('%WeakMap%', true);
-var $Map = GetIntrinsic('%Map%', true);
-
-var $weakMapGet = callBound('WeakMap.prototype.get', true);
-var $weakMapSet = callBound('WeakMap.prototype.set', true);
-var $weakMapHas = callBound('WeakMap.prototype.has', true);
-var $mapGet = callBound('Map.prototype.get', true);
-var $mapSet = callBound('Map.prototype.set', true);
-var $mapHas = callBound('Map.prototype.has', true);
-
-/*
- * This function traverses the list returning the node corresponding to the
- * given key.
- *
- * That node is also moved to the head of the list, so that if it's accessed
- * again we don't need to traverse the whole list. By doing so, all the recently
- * used nodes can be accessed relatively quickly.
- */
-var listGetNode = function (list, key) { // eslint-disable-line consistent-return
-	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
-		if (curr.key === key) {
-			prev.next = curr.next;
-			curr.next = list.next;
-			list.next = curr; // eslint-disable-line no-param-reassign
-			return curr;
-		}
-	}
-};
-
-var listGet = function (objects, key) {
-	var node = listGetNode(objects, key);
-	return node && node.value;
-};
-var listSet = function (objects, key, value) {
-	var node = listGetNode(objects, key);
-	if (node) {
-		node.value = value;
-	} else {
-		// Prepend the new node to the beginning of the list
-		objects.next = { // eslint-disable-line no-param-reassign
-			key: key,
-			next: objects.next,
-			value: value
-		};
-	}
-};
-var listHas = function (objects, key) {
-	return !!listGetNode(objects, key);
-};
-
-module.exports = function getSideChannel() {
-	var $wm;
-	var $m;
-	var $o;
-	var channel = {
-		assert: function (key) {
-			if (!channel.has(key)) {
-				throw new $TypeError('Side channel does not contain ' + inspect(key));
-			}
-		},
-		get: function (key) { // eslint-disable-line consistent-return
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if ($wm) {
-					return $weakMapGet($wm, key);
-				}
-			} else if ($Map) {
-				if ($m) {
-					return $mapGet($m, key);
-				}
-			} else {
-				if ($o) { // eslint-disable-line no-lonely-if
-					return listGet($o, key);
-				}
-			}
-		},
-		has: function (key) {
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if ($wm) {
-					return $weakMapHas($wm, key);
-				}
-			} else if ($Map) {
-				if ($m) {
-					return $mapHas($m, key);
-				}
-			} else {
-				if ($o) { // eslint-disable-line no-lonely-if
-					return listHas($o, key);
-				}
-			}
-			return false;
-		},
-		set: function (key, value) {
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if (!$wm) {
-					$wm = new $WeakMap();
-				}
-				$weakMapSet($wm, key, value);
-			} else if ($Map) {
-				if (!$m) {
-					$m = new $Map();
-				}
-				$mapSet($m, key, value);
-			} else {
-				if (!$o) {
-					/*
-					 * Initialize the linked list as an empty node, so that we don't have
-					 * to special-case handling of the first node: we can always refer to
-					 * it as (previous node).next, instead of something like (list).head
-					 */
-					$o = { key: {}, next: null };
-				}
-				listSet($o, key, value);
-			}
-		}
-	};
-	return channel;
-};
-
 
 /***/ }),
 
@@ -64542,10 +64552,11 @@ function updateUserDeviceBind(data) {
 ;
 
 // 删除设备和用户绑定
-function deleteUserDeviceBind() {
+function deleteUserDeviceBind(data) {
   return (0, _request.default)({
     url: '/app-api/member/device-user/delete',
-    method: 'delete'
+    method: 'delete',
+    params: data
   });
 }
 ;

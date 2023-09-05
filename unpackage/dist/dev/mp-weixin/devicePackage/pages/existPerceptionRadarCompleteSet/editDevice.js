@@ -272,7 +272,8 @@ var _default = {
         userId: this.userInfo.userId,
         familyId: this.familyId,
         roomId: this.roomId,
-        customName: this.deviceNameValue
+        customName: this.deviceNameValue,
+        id: this.beforeAddExistPerceptionRadarCompleteSet.id
       }).then(function (res) {
         if (res && res.data.code == 0) {
           var temporaryMessage = _this2.beforeAddExistPerceptionRadarCompleteSet;
@@ -306,10 +307,10 @@ var _default = {
       var _this3 = this;
       this.showLoadingHint = true;
       this.infoText = '删除中...';
-      (0, _device.deleteExistAlarmSettings)({
+      (0, _user.deleteUserDeviceBind)({
         deviceId: deviceId
       }).then(function (res) {
-        if (res && res.data.code == 0) {
+        if (res && res.data.code == 0 && res.data.data) {
           _this3.$refs.uToast.show({
             title: '删除成功',
             type: 'success',
@@ -357,6 +358,10 @@ var _default = {
     },
     // 网络状态点击事件
     networkClickEvent: function networkClickEvent() {
+      if (!this.onLine) {
+        return;
+      }
+      ;
       this.networkShow = true;
     },
     // 网络状态返回事件

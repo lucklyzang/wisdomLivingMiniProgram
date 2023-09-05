@@ -205,7 +205,7 @@ var _default = {
       wifiListBoxShow: false,
       alarmRangeValueList: [],
       enter: false,
-      leave: false,
+      goOut: false,
       fall: false,
       getUp: false,
       deviceNumber: '',
@@ -249,13 +249,13 @@ var _default = {
         case '不通知':
           return 0;
           break;
-        case '短信':
+        case '仅短信通知':
           return 1;
           break;
-        case '电话':
+        case '仅电话通知':
           return 2;
           break;
-        case '电话短信':
+        case '电话+短信':
           return 3;
           break;
         case '微信通知':
@@ -263,7 +263,7 @@ var _default = {
           break;
       }
     },
-    // 设备接收报警方式转换
+    // 设备接收报警方式转换文字
     alarmTypeTransitionText: function alarmTypeTransitionText(num) {
       var temporaryNum = num.toString();
       switch (temporaryNum) {
@@ -271,13 +271,13 @@ var _default = {
           return '不通知';
           break;
         case '1':
-          return '短信';
+          return '仅短信通知';
           break;
         case '2':
-          return '电话';
+          return '仅电话通知';
           break;
         case '3':
-          return '电话短信';
+          return '电话+短信';
           break;
         case '4':
           return '微信通知';
@@ -287,6 +287,7 @@ var _default = {
     // 更新雷达设置
     updateRadarSet: function updateRadarSet() {
       var _this = this;
+      console.log('通知方式', this.acceptAlarmMethod);
       if (!this.alarmRangeValue || !this.acceptAlarmMethod) {
         return;
       }
@@ -297,7 +298,7 @@ var _default = {
         deviceId: this.beforeAddDeviceMessage.deviceId,
         notice: this.alarmTypeTransition(this.acceptAlarmMethod),
         enter: this.enter,
-        leave: this.leave,
+        goOut: this.goOut,
         fall: this.fall,
         getUp: this.getUp
       }).then(function (res) {
@@ -345,11 +346,11 @@ var _default = {
             _this2.enter = false;
           }
           ;
-          if (res.data.data.leave) {
-            _this2.leave = true;
+          if (res.data.data.goOut) {
+            _this2.goOut = true;
             _this2.alarmRangeValueList.push('人员离开报警');
           } else {
-            _this2.leave = false;
+            _this2.goOut = false;
           }
           ;
           if (res.data.data.fall) {
@@ -422,11 +423,11 @@ var _default = {
         this.enter = false;
       }
       ;
-      if (this.beforeAddDeviceMessage.leave) {
-        this.leave = true;
+      if (this.beforeAddDeviceMessage.goOut) {
+        this.goOut = true;
         this.alarmRangeValueList.push('人员离开报警');
       } else {
-        this.leave = false;
+        this.goOut = false;
       }
       ;
       if (this.beforeAddDeviceMessage.fall) {

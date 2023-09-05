@@ -135,7 +135,10 @@
       <view class="weixin-login" v-if="!isForgetPassword && !isSetPassword">
         <u-divider border-color="#DBDBDB" color="#919191" @click="weixinLoginEvent">其他登录方式</u-divider>
         <view class="image-wrapper" @click="weixinLoginEvent">
-          <image src="/static/img/weixin.png">
+					<image src="/static/img/weixin.png">
+					<!-- <button  width="100%" open-type="getPhoneNumber" @getphonenumber="bindPhone">
+						<image src="/static/img/weixin.png">
+					</button> -->
         </view>
       </view>
 		</view>
@@ -144,7 +147,7 @@
 
 <script>
 	import { mapGetters, mapMutations } from 'vuex'
-	import {logIn, logInByCode, sendPhoneCode, resetPassword, setPassword } from '@/api/login.js'
+	import {logIn, logInByCode, weixinMiniAppLogin, sendPhoneCode, resetPassword, setPassword } from '@/api/login.js'
 	import { setCache, getCache, removeCache } from '@/common/js/utils'
 	import { getUserFamilyList } from '@/api/user.js'
 	export default {
@@ -156,6 +159,7 @@
 				loginLogoPng: require("@/static/img/login-logo.png"),
 				logoSmallIcon: require("@/static/img/logo-small-icon.png"),
 				loadingText: '登录中,请稍候···',
+				userCode: '',
 				form: {
 					username: '',
 					password: '',
@@ -349,6 +353,34 @@
 					 this.modalContent = res.data.msg
 					};
 					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.modalShow = true;
+					this.modalContent = `${err}`
+				})
+			},
+			
+			// 微信一键登录
+			weixinMiniAppLoginEvent (data) {
+				this.showLoadingHint = true;
+				this.loadingText = '登录中...';
+				weixinMiniAppLogin(data).then((res) => {
+					this.showLoadingHint = false;
+					if (res && res.data.code == 0) {
+						this.changeOverDueWay(false);
+						setCache('storeOverDueWay',false);
+						setCache('isLogin', true);
+						// token信息存入store
+						this.changeToken(res.data.data.accessToken);
+						// 登录用户信息存入store
+						this.storeUserInfo(res.data.data);
+						// 获取家庭设备信息
+						this.queryUserFamilyList()
+					} else {
+					 this.modalShow = true;
+					 this.modalContent = res.data.msg
+					}
 				})
 				.catch((err) => {
 					this.showLoadingHint = false;
@@ -622,8 +654,39 @@
       
       // 微信授权登录事件
       weixinLoginEvent () {
-        this.weixinAuthorizationInfoBoxShow = true
+        // this.weixinAuthorizationInfoBoxShow = true
+				// 获取用户code
+				let that = this;
+				uni.login({
+					provider: 'weixin', //使用微信登录
+					success: function(loginRes) {
+						that.userCode = loginRes.code;
+　　　　　　　console.log('用户code',loginRes.code)
+　　　　　 }
+				})
       },
+			
+			// 绑定手机号码
+			bindPhone(e) { 
+				let that = this;
+				let param = { 
+					"iv": e.detail.iv,
+					"encryptedData": e.detail.encryptedData,
+					code: this.code
+				};
+				console.log('数据',e);
+				// 执行后端接口 这里就是请求后端接口
+				// loginService.bindPhone(param).then(result => { 
+				// 	if (result !== '' && result.errno === 0) { 
+				// 		uni.showToast({ 
+				// 				title: '登录成功',
+				// 				icon: 'none'
+				// 		})
+				// 	}
+				// })
+				// .catch((error) => { 
+				// })
+			},
 			
 			// 弹框确定事件
 			sureCancel () {},
@@ -1023,7 +1086,10 @@
           image {
             width: 24px;
 						height: 24px
-          }
+          };
+					button {
+						width: 100%
+					}
         }
       }
 		}
