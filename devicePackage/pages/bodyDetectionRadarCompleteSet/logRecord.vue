@@ -30,6 +30,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { getBodyDetectionRadar } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
@@ -39,11 +40,14 @@
 				infoText: '',
 				checked: false,
 				dateShow: false,
+				currentPageNum: 1,
+				pageSize: 20,
 				params: {
 					year: true,
 					month: true,
 					day: true
 				},
+				currentDate: '',
 				showLoadingHint: false,
 				moreIconPng: require("@/static/img/more-icon.png"),
 				logList: [
@@ -63,10 +67,18 @@
 			}
 		},
 		onLoad() {
+			this.currentDate = this.getNowFormatDate(new Date(),2)
+			this.queryBodyDetectionRadar({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+				createDate: this.currentDate
+			})
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'beforeAddBodyDetectionDeviceMessage'
 			]),
 			userName() {
 			},
@@ -93,7 +105,70 @@
 			
 			// 日期选择确定事件
 			dateSure (value) {
+				this.currentDate = `${value.year}-${value.month}-${value.day}`;
+				this.queryBodyDetectionRadar({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+					createDate: this.currentDate
+				});
 				console.log(value)
+			},
+			
+			// 格式化时间
+			getNowFormatDate(currentDate,type) {
+				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "-";
+				let seperator2 = ":";
+				let month = currentDate.getMonth() + 1;
+				let hour = currentDate.getHours();
+				let minutes = currentDate.getMinutes();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				};
+				if (hour >= 0 && hour <= 9) {
+					hour = "0" + hour;
+				};
+				if (minutes >= 0 && minutes <= 9) {
+					minutes = "0" + minutes;
+				};
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				};
+				if (type == 1) {
+					currentdate = hour + seperator2 + minutes
+				};
+				if (type == 2) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				};
+				if (type == 3) {
+					currentdate = currentDate.getFullYear() + seperator1 + month
+				};
+				return currentdate
+			},
+			
+			// 获取人体检测雷达日志
+			queryBodyDetectionRadar (data) {
+				getBodyDetectionRadar(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			backTo () {

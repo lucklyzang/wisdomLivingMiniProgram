@@ -123,8 +123,10 @@
 				currentEndWeekDate: '',
 				initWeekDate: '',
 				currentMonthDate: '',
+				currentMonthDays: '',
 				initMonthDate: '',
-				weekMap: {}
+				weekMap: {},
+				temporaryDevices: []
 			}
 		},
 		onLoad() {
@@ -133,6 +135,11 @@
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
 			if (new Date(this.currentDayTime).getTime() >= new Date(temporaryDate).getTime()) { 
 				this.isDayPlusCanCilck = false
+			};
+			// 获取跌倒数据日
+			this.temporaryDevices = [];
+			for (let el of this.deviceDataMessage.devices) {
+				this.temporaryDevices.push(el.device)
 			}
 		},
 		computed: {
@@ -234,6 +241,12 @@
 				}
 			},
 			
+			// 获取某月的天数
+			getMonthDay(year, month) {
+			  let days = new Date(year, month, 0).getDate()
+			  return days
+			},
+			
 			// 获取上一月和下一月
 			getCurrentMonth (type) {
 				this.isMonthPlusCanCilck = true;
@@ -259,6 +272,7 @@
 							month2 = "0" + month2;
 					};
 					let nextMonth = year2 + "-" + month2;
+					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
@@ -280,6 +294,7 @@
 						month2 = "0" + month2;
 					};
 					let preMonth = year2 + "-" + month2;
+					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(preMonth),3);
 					console.log('当前月',this.currentMonthDate);
 				}
@@ -334,7 +349,7 @@
 				this.isWeekPlusCanCilck = true;
 				if (type == 'plus') {
 					// 当前周不能超过下周
-					let temporaryDate = this.getNowFormatDate(new Date(),3);
+					let temporaryDate = this.getNowFormatDate(new Date(),2);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false;
 						return 
@@ -412,8 +427,23 @@
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
-						return 
-					}
+					};
+					let arr = this.currentMonthDate.split("-");
+					let year = arr[0]; //获取当前日期的年份
+					let month = arr[1]; //获取当前日期的月份
+					let year2 = year;
+					let month2 = parseInt(month) - 1;
+					if (month2 == 0) {
+						//1月的上一月是前一年的12月
+						year2 = parseInt(year2) - 1;
+						month2 = 12;
+					};
+					if (month2 < 10) {
+						//10月之前都需要补0
+						month2 = "0" + month2;
+					};
+					let preMonth = year2 + "-" + month2;
+					this.currentMonthDays = this.getMonthDay(year2,month2);
 				} 
 			},
 			

@@ -193,3 +193,21 @@ export function sleepStatisticsDetails(data) {
 		params: data
   })
 };
+
+// 获取离、回家数据(通用)
+export function enterLeaveHomeDetails(data) {
+  return request({
+    url: '/app-api/radar/line-rule-data/enter-leave',
+    method: 'get',
+		params: data
+  })
+};
+
+// 获取离、回家数据日志
+export function getBodyDetectionRadar(data) {
+  return request({
+    url: '/app-api/radar/line-rule-data/page',
+    method: 'get',
+		params: data
+  })
+};

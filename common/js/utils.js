@@ -141,6 +141,26 @@ export const dataURItoBlob = (urlData) => {
     });
 }
 
+/* 
+ * 生成随机字符串
+ */
+
+export const randomStr = () => {
+	let used = new Set();
+	let result;
+	let map='abcdefghijklmnopqrstuvwxyz0123456789';
+	result = map[Math.floor(Math.random()*26)];
+	for (let i = 0; i < 7; i++) {
+		let random = map[Math.floor(Math.random() * 36)]
+		result += random
+	};
+	if (used.has(result)) {
+		return Random()
+	};
+	used.add(result);
+	return result
+}
+
 export const removeAllLocalStorage = () => {
   // removeStore('userName');
   // removeStore('userPassword');

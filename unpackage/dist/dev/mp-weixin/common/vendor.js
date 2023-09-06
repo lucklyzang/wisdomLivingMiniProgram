@@ -17816,6 +17816,17 @@ module.exports = _typeof, module.exports.__esModule = true, module.exports["defa
 
 /***/ }),
 
+/***/ 135:
+/*!***************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/default-person-photo.png ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFkAAABZCAMAAABi1XidAAAC2VBMVEW41P////8AAAD9/v+51f/////G3P+61f+71v/I3v/3+v/x9v/5+//8/f/E2//P4v+51f+91/++2P/u9f/j7v/z+P/1+f/C2v/p8v+51P/////H3f/Z6P/A2f/h7f/r8/+71v/W5v/////U5f/k7//s9P/M4P/n8f+/3//////////////////////g7P+81/////++1//S5P/e6//B2v/B2f////+81v/K3//A2v////////+41f/o6P////+71//H3v++2f/I3v+71v/V5f/E2P/////L3v/W6/////+61f/////C2v/C2/++2P+81//////E2P/m///C2/+71v////////+/2P/G3P/K4P+71v/I3f/E2//V3/+91//A2P/////N4v/E2//////A2P/H3f+91//I3v/J3v/G3P/A2f/////////M5v/M3/8A//+qqv/B2f/1+P/////b2//F3P////////////////+/2f+81/+/1P/U///C2v+/6v/f6v/////n8//////N4//L4P////+81//////U6v/D4f/D3f/H3v/A1//B2f/K3//C2v////++1f/O4v/////O4P/I4P/b2//////D3f/////b7f/D2v/O4v/E6//A2v/Z5v/////D2f++1//J3v+71v/////B2v/Q4//B2v/C2//////////////b6f/J3f8AAP+q//++1//X5P9/f/+81v+91v/R6P/j7v/F3P/N4/+////I3f/S4f+/v//O2P/G3P/U4//F3P/J3v/g6//O5v/j7//C2//j8f/c6P/M///R4f/D2//F2/+/2P/H3P/H3//G4//U6P/C4P/I5P/b7f/b6//b///////D3P/I3f/B2//T5v+53P/J1//E3P/F3f/I3v/E2//U5f/G3//I3v/n8//K4f/S4//A2P+/3f/F2//U5P/L3//J3/++2P/K4f/C2v/N4P8Jh0TDAAAA83RSTlP//wD//wH//////////////v//////////++P///////n/CP//////CNwFEBdP/+j+rf//5qn7/P/T/IvrC5vjZJkX5jEN4DYZj+kMksXgc1kaCnHbr/f3olvwleQYsdj1k6RetWjl3VW/mSWlCigBA17mSwdY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"
+
+/***/ }),
+
 /***/ 136:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/home-care.png ***!
@@ -28662,7 +28673,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setCache = exports.removeCache = exports.removeAllLocalStorage = exports.getStringLength = exports.getDate = exports.getCache = exports.dataURItoBlob = exports.clearCache = exports.checkCache = void 0;
+exports.setCache = exports.removeCache = exports.removeAllLocalStorage = exports.randomStr = exports.getStringLength = exports.getDate = exports.getCache = exports.dataURItoBlob = exports.clearCache = exports.checkCache = void 0;
 /*
  * 存储uni localStorage
  * @param{String} name key值
@@ -28810,7 +28821,29 @@ var dataURItoBlob = function dataURItoBlob(urlData) {
     type: type
   });
 };
+
+/* 
+ * 生成随机字符串
+ */
 exports.dataURItoBlob = dataURItoBlob;
+var randomStr = function randomStr() {
+  var used = new Set();
+  var result;
+  var map = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  result = map[Math.floor(Math.random() * 26)];
+  for (var i = 0; i < 7; i++) {
+    var random = map[Math.floor(Math.random() * 36)];
+    result += random;
+  }
+  ;
+  if (used.has(result)) {
+    return Random();
+  }
+  ;
+  used.add(result);
+  return result;
+};
+exports.randomStr = randomStr;
 var removeAllLocalStorage = function removeAllLocalStorage() {
   // removeStore('userName');
   // removeStore('userPassword');
@@ -31068,17 +31101,6 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 599:
-/*!***************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/default-person-photo.png ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFkAAABZCAMAAABi1XidAAAC2VBMVEW41P////8AAAD9/v+51f/////G3P+61f+71v/I3v/3+v/x9v/5+//8/f/E2//P4v+51f+91/++2P/u9f/j7v/z+P/1+f/C2v/p8v+51P/////H3f/Z6P/A2f/h7f/r8/+71v/W5v/////U5f/k7//s9P/M4P/n8f+/3//////////////////////g7P+81/////++1//S5P/e6//B2v/B2f////+81v/K3//A2v////////+41f/o6P////+71//H3v++2f/I3v+71v/V5f/E2P/////L3v/W6/////+61f/////C2v/C2/++2P+81//////E2P/m///C2/+71v////////+/2P/G3P/K4P+71v/I3f/E2//V3/+91//A2P/////N4v/E2//////A2P/H3f+91//I3v/J3v/G3P/A2f/////////M5v/M3/8A//+qqv/B2f/1+P/////b2//F3P////////////////+/2f+81/+/1P/U///C2v+/6v/f6v/////n8//////N4//L4P////+81//////U6v/D4f/D3f/H3v/A1//B2f/K3//C2v////++1f/O4v/////O4P/I4P/b2//////D3f/////b7f/D2v/O4v/E6//A2v/Z5v/////D2f++1//J3v+71v/////B2v/Q4//B2v/C2//////////////b6f/J3f8AAP+q//++1//X5P9/f/+81v+91v/R6P/j7v/F3P/N4/+////I3f/S4f+/v//O2P/G3P/U4//F3P/J3v/g6//O5v/j7//C2//j8f/c6P/M///R4f/D2//F2/+/2P/H3P/H3//G4//U6P/C4P/I5P/b7f/b6//b///////D3P/I3f/B2//T5v+53P/J1//E3P/F3f/I3v/E2//U5f/G3//I3v/n8//K4f/S4//A2P+/3f/F2//U5P/L3//J3/++2P/K4f/C2v/N4P8Jh0TDAAAA83RSTlP//wD//wH//////////////v//////////++P///////n/CP//////CNwFEBdP/+j+rf//5qn7/P/T/IvrC5vjZJkX5jEN4DYZj+kMksXgc1kaCnHbr/f3olvwleQYsdj1k6RetWjl3VW/mSWlCigBA17mSwdY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"
-
-/***/ }),
-
 /***/ 6:
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
@@ -31456,7 +31478,7 @@ module.exports = _iterableToArrayLimit, module.exports.__esModule = true, module
 
 /***/ }),
 
-/***/ 721:
+/***/ 720:
 /*!**********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/emitter.js ***!
   \**********************************************************************************/
@@ -31525,7 +31547,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 722:
+/***/ 721:
 /*!******************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/async-validator.js ***!
   \******************************************************************************************/
@@ -32703,11 +32725,11 @@ Schema.warning = warning;
 Schema.messages = messages;
 var _default = Schema;
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 723)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 722)))
 
 /***/ }),
 
-/***/ 723:
+/***/ 722:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -32738,7 +32760,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 724);
+        if (!path) path = __webpack_require__(/*! path */ 723);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -32752,7 +32774,7 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 724:
+/***/ 723:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -33062,7 +33084,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 723)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 722)))
 
 /***/ }),
 
@@ -34840,7 +34862,7 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ 781:
+/***/ 780:
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -34856,20 +34878,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 47));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 782));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 781));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 49));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 783));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 784));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 785));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 786));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 782));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 783));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 784));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 785));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
 var _uniI18n = __webpack_require__(/*! @dcloudio/uni-i18n */ 22);
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 788));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 787));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e35) { throw _e35; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e36) { didErr = true; err = _e36; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -35322,7 +35344,7 @@ var b = "development" === "development",
   O = true;
 var x = "";
 try {
-  x = (__webpack_require__(/*! uni-stat-config */ 789).default || __webpack_require__(/*! uni-stat-config */ 789)).appid;
+  x = (__webpack_require__(/*! uni-stat-config */ 788).default || __webpack_require__(/*! uni-stat-config */ 788)).appid;
 } catch (e) {}
 var R = {};
 function U(e) {
@@ -42194,7 +42216,7 @@ exports.default = Ns;
 
 /***/ }),
 
-/***/ 782:
+/***/ 781:
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -42211,7 +42233,7 @@ module.exports = _assertThisInitialized, module.exports.__esModule = true, modul
 
 /***/ }),
 
-/***/ 783:
+/***/ 782:
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -42239,7 +42261,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 
 /***/ }),
 
-/***/ 784:
+/***/ 783:
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -42247,7 +42269,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 782);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 781);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -42260,7 +42282,7 @@ module.exports = _possibleConstructorReturn, module.exports.__esModule = true, m
 
 /***/ }),
 
-/***/ 785:
+/***/ 784:
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -42277,16 +42299,16 @@ module.exports = _getPrototypeOf, module.exports.__esModule = true, module.expor
 
 /***/ }),
 
-/***/ 786:
+/***/ 785:
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 785);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 784);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 787);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 786);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -42318,7 +42340,7 @@ module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.expo
 
 /***/ }),
 
-/***/ 787:
+/***/ 786:
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -42332,7 +42354,7 @@ module.exports = _isNativeFunction, module.exports.__esModule = true, module.exp
 
 /***/ }),
 
-/***/ 788:
+/***/ 787:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/pages.json?{"type":"origin-pages-json"} ***!
   \*******************************************************************************/
@@ -42951,7 +42973,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 789:
+/***/ 788:
 /*!******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/pages.json?{"type":"stat"} ***!
   \******************************************************************/
@@ -42972,143 +42994,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 79:
-/*!********************************************!*\
-  !*** ./node_modules/side-channel/index.js ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 80);
-var callBound = __webpack_require__(/*! call-bind/callBound */ 86);
-var inspect = __webpack_require__(/*! object-inspect */ 88);
-
-var $TypeError = GetIntrinsic('%TypeError%');
-var $WeakMap = GetIntrinsic('%WeakMap%', true);
-var $Map = GetIntrinsic('%Map%', true);
-
-var $weakMapGet = callBound('WeakMap.prototype.get', true);
-var $weakMapSet = callBound('WeakMap.prototype.set', true);
-var $weakMapHas = callBound('WeakMap.prototype.has', true);
-var $mapGet = callBound('Map.prototype.get', true);
-var $mapSet = callBound('Map.prototype.set', true);
-var $mapHas = callBound('Map.prototype.has', true);
-
-/*
- * This function traverses the list returning the node corresponding to the
- * given key.
- *
- * That node is also moved to the head of the list, so that if it's accessed
- * again we don't need to traverse the whole list. By doing so, all the recently
- * used nodes can be accessed relatively quickly.
- */
-var listGetNode = function (list, key) { // eslint-disable-line consistent-return
-	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
-		if (curr.key === key) {
-			prev.next = curr.next;
-			curr.next = list.next;
-			list.next = curr; // eslint-disable-line no-param-reassign
-			return curr;
-		}
-	}
-};
-
-var listGet = function (objects, key) {
-	var node = listGetNode(objects, key);
-	return node && node.value;
-};
-var listSet = function (objects, key, value) {
-	var node = listGetNode(objects, key);
-	if (node) {
-		node.value = value;
-	} else {
-		// Prepend the new node to the beginning of the list
-		objects.next = { // eslint-disable-line no-param-reassign
-			key: key,
-			next: objects.next,
-			value: value
-		};
-	}
-};
-var listHas = function (objects, key) {
-	return !!listGetNode(objects, key);
-};
-
-module.exports = function getSideChannel() {
-	var $wm;
-	var $m;
-	var $o;
-	var channel = {
-		assert: function (key) {
-			if (!channel.has(key)) {
-				throw new $TypeError('Side channel does not contain ' + inspect(key));
-			}
-		},
-		get: function (key) { // eslint-disable-line consistent-return
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if ($wm) {
-					return $weakMapGet($wm, key);
-				}
-			} else if ($Map) {
-				if ($m) {
-					return $mapGet($m, key);
-				}
-			} else {
-				if ($o) { // eslint-disable-line no-lonely-if
-					return listGet($o, key);
-				}
-			}
-		},
-		has: function (key) {
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if ($wm) {
-					return $weakMapHas($wm, key);
-				}
-			} else if ($Map) {
-				if ($m) {
-					return $mapHas($m, key);
-				}
-			} else {
-				if ($o) { // eslint-disable-line no-lonely-if
-					return listHas($o, key);
-				}
-			}
-			return false;
-		},
-		set: function (key, value) {
-			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-				if (!$wm) {
-					$wm = new $WeakMap();
-				}
-				$weakMapSet($wm, key, value);
-			} else if ($Map) {
-				if (!$m) {
-					$m = new $Map();
-				}
-				$mapSet($m, key, value);
-			} else {
-				if (!$o) {
-					/*
-					 * Initialize the linked list as an empty node, so that we don't have
-					 * to special-case handling of the first node: we can always refer to
-					 * it as (previous node).next, instead of something like (list).head
-					 */
-					$o = { key: {}, next: null };
-				}
-				listSet($o, key, value);
-			}
-		}
-	};
-	return channel;
-};
-
-
-/***/ }),
-
-/***/ 790:
+/***/ 789:
 /*!************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js ***!
   \************************************************************************************************/
@@ -50769,7 +50655,143 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 791:
+/***/ 79:
+/*!********************************************!*\
+  !*** ./node_modules/side-channel/index.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ 80);
+var callBound = __webpack_require__(/*! call-bind/callBound */ 86);
+var inspect = __webpack_require__(/*! object-inspect */ 88);
+
+var $TypeError = GetIntrinsic('%TypeError%');
+var $WeakMap = GetIntrinsic('%WeakMap%', true);
+var $Map = GetIntrinsic('%Map%', true);
+
+var $weakMapGet = callBound('WeakMap.prototype.get', true);
+var $weakMapSet = callBound('WeakMap.prototype.set', true);
+var $weakMapHas = callBound('WeakMap.prototype.has', true);
+var $mapGet = callBound('Map.prototype.get', true);
+var $mapSet = callBound('Map.prototype.set', true);
+var $mapHas = callBound('Map.prototype.has', true);
+
+/*
+ * This function traverses the list returning the node corresponding to the
+ * given key.
+ *
+ * That node is also moved to the head of the list, so that if it's accessed
+ * again we don't need to traverse the whole list. By doing so, all the recently
+ * used nodes can be accessed relatively quickly.
+ */
+var listGetNode = function (list, key) { // eslint-disable-line consistent-return
+	for (var prev = list, curr; (curr = prev.next) !== null; prev = curr) {
+		if (curr.key === key) {
+			prev.next = curr.next;
+			curr.next = list.next;
+			list.next = curr; // eslint-disable-line no-param-reassign
+			return curr;
+		}
+	}
+};
+
+var listGet = function (objects, key) {
+	var node = listGetNode(objects, key);
+	return node && node.value;
+};
+var listSet = function (objects, key, value) {
+	var node = listGetNode(objects, key);
+	if (node) {
+		node.value = value;
+	} else {
+		// Prepend the new node to the beginning of the list
+		objects.next = { // eslint-disable-line no-param-reassign
+			key: key,
+			next: objects.next,
+			value: value
+		};
+	}
+};
+var listHas = function (objects, key) {
+	return !!listGetNode(objects, key);
+};
+
+module.exports = function getSideChannel() {
+	var $wm;
+	var $m;
+	var $o;
+	var channel = {
+		assert: function (key) {
+			if (!channel.has(key)) {
+				throw new $TypeError('Side channel does not contain ' + inspect(key));
+			}
+		},
+		get: function (key) { // eslint-disable-line consistent-return
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapGet($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapGet($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listGet($o, key);
+				}
+			}
+		},
+		has: function (key) {
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapHas($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapHas($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listHas($o, key);
+				}
+			}
+			return false;
+		},
+		set: function (key, value) {
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if (!$wm) {
+					$wm = new $WeakMap();
+				}
+				$weakMapSet($wm, key, value);
+			} else if ($Map) {
+				if (!$m) {
+					$m = new $Map();
+				}
+				$mapSet($m, key, value);
+			} else {
+				if (!$o) {
+					/*
+					 * Initialize the linked list as an empty node, so that we don't have
+					 * to special-case handling of the first node: we can always refer to
+					 * it as (previous node).next, instead of something like (list).head
+					 */
+					$o = { key: {}, next: null };
+				}
+				listSet($o, key, value);
+			}
+		}
+	};
+	return channel;
+};
+
+
+/***/ }),
+
+/***/ 790:
 /*!******************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js ***!
   \******************************************************************************************************/
@@ -51391,7 +51413,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 799:
+/***/ 798:
 /*!*************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/passed.png ***!
   \*************************************************************/
@@ -51847,7 +51869,7 @@ module.exports = function hasSymbols() {
 
 /***/ }),
 
-/***/ 821:
+/***/ 820:
 /*!*****************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/components/u-parse/libs/MpHtmlParser.js ***!
   \*****************************************************************************************************/
@@ -51861,9 +51883,9 @@ module.exports = function hasSymbols() {
  * @author JinYufeng
  * @listens MIT
  */
-var cfg = __webpack_require__(/*! ./config.js */ 822),
+var cfg = __webpack_require__(/*! ./config.js */ 821),
   blankChar = cfg.blankChar,
-  CssHandler = __webpack_require__(/*! ./CssHandler.js */ 823),
+  CssHandler = __webpack_require__(/*! ./CssHandler.js */ 822),
   windowWidth = uni.getSystemInfoSync().windowWidth;
 var emoji;
 function MpHtmlParser(data) {
@@ -52427,7 +52449,7 @@ module.exports = MpHtmlParser;
 
 /***/ }),
 
-/***/ 822:
+/***/ 821:
 /*!***********************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/components/u-parse/libs/config.js ***!
   \***********************************************************************************************/
@@ -52509,14 +52531,14 @@ module.exports = cfg;
 
 /***/ }),
 
-/***/ 823:
+/***/ 822:
 /*!***************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/components/u-parse/libs/CssHandler.js ***!
   \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var cfg = __webpack_require__(/*! ./config.js */ 822),
+var cfg = __webpack_require__(/*! ./config.js */ 821),
   isLetter = function isLetter(c) {
     return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
   };
@@ -52713,7 +52735,7 @@ module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
 /***/ }),
 
-/***/ 852:
+/***/ 851:
 /*!***********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/province.js ***!
   \***********************************************************************************/
@@ -52835,7 +52857,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 853:
+/***/ 852:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/city.js ***!
   \*******************************************************************************/
@@ -53956,7 +53978,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 854:
+/***/ 853:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/area.js ***!
   \*******************************************************************************/

@@ -24,7 +24,7 @@
 					</view>
 					<view class="accept-alarm-method-list-wrapper">
 						<view class="accept-alarm-method-list" v-for="(item,index) in roomList" @click="roomNameClickEvent(item,index)" :key="index">
-							<text :class="{'textMethodStyle':currentIndex === index}">{{ item }}</text>
+							<text :class="{'textMethodStyle':currentIndex === index}">{{ item.name }}</text>
 						</view>
 					</view>
 					<view class="cancel-btn">
@@ -171,7 +171,8 @@
 			this.deviceNumber = this.beforeAddBodyDetectionDeviceMessage.deviceNumber;
 			this.roomId = this.beforeAddBodyDetectionDeviceMessage.roomId;
 			this.roomName = this.beforeAddBodyDetectionDeviceMessage.roomName;
-			this.onLine = this.beforeAddBodyDetectionDeviceMessage.onLine
+			this.onLine = this.beforeAddBodyDetectionDeviceMessage.onLine;
+			console.log('i想你想',this.beforeAddBodyDetectionDeviceMessage);
 		},
 		computed: {
 			...mapGetters([
@@ -246,14 +247,15 @@
 					roomId: this.roomId,
 					customName: this.deviceNameValue,
 					id: this.beforeAddBodyDetectionDeviceMessage.id
-				}).then((res) => {
+				})
+				.then((res) => {
 					if ( res && res.data.code == 0) {
 						let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 						temporaryMessage['roomId'] = this.roomId;
 						temporaryMessage['roomName'] = this.roomName;
 						temporaryMessage['customDeviceName'] = this.deviceNameValue;
 						temporaryMessage['deviceName'] = this.deviceName;
-						this.changeBeforeAddDeviceMessage(temporaryMessage);
+						this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
 						this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
 					} else {
 						this.$refs['ytoast'].show({ message: '保存失败!', type: 'error' });
@@ -331,13 +333,15 @@
 			
 			// 房间点击事件
 			roomClickEvent () {
-				this.chooseRoomShow = true
+				this.queryUserRoomList(this.familyId)
 			},
 			
 			// 房间名称点击事件
 			roomNameClickEvent (item,index) {
 				this.currentIndex = index;
-				this.chooseRoomShow = false
+				this.chooseRoomShow = false;
+				this.roomId = item.id;
+				this.roomName = item.name
 			},
 			
 			// 房间取消选择事件

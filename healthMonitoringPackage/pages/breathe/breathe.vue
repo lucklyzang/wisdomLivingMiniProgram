@@ -26,7 +26,9 @@
 								<text>89次/分钟</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<qiun-data-charts type="line" :ontouch="true" :opts="lineOpts" :chartData="lineChartData" />
+						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
 						<view class="data-top">
@@ -107,6 +109,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { sleepStatisticsDetails } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
@@ -134,17 +137,50 @@
 				currentEndWeekDate: '',
 				initWeekDate: '',
 				currentMonthDate: '',
+				currentMonthDays: '',
 				initMonthDate: '',
-				weekMap: {}
+				weekMap: {},
+				temporaryDevices: [],
+				lineChartData: {},
+				lineOpts: {
+					 color: ["#1890FF"],
+						padding: [15,10,0,15],
+						enableScroll: false,
+						legend: { show: false },
+						yAxis: {
+						},
+						extra: {
+							line: {
+								type: "straight",
+								width: 2,
+								activeType: "hollow"
+							}
+						}
+				}
 			}
 		},
+		
+		onReady() {
+			this.getServerData();
+		},
+		
 		onLoad() {
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
 			if (new Date(this.currentDayTime).getTime() >= new Date(temporaryDate).getTime()) { 
 				this.isDayPlusCanCilck = false
-			}
+			};
+			// 获取呼吸数据日
+			this.temporaryDevices = [];
+			for (let el of this.deviceDataMessage.devices) {
+				this.temporaryDevices.push(el.device)
+			};
+			this.querySleepStatisticsDetails({
+				deviceId: this.temporaryDevices[0],
+				startDate: this.getNowFormatDate(new Date(),2),
+				endDate: this.getNowFormatDate(new Date(),2)
+			},'day') 
 		},
 		computed: {
 			...mapGetters([
@@ -168,6 +204,45 @@
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			getServerData() {
+				setTimeout(() => {
+					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+					let res = {
+							categories: ["23:00","00:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00"],
+							series: [
+								{
+									name: '呼吸',
+									data: [45,70,25,37,40,30,65,54,36]
+								}
+							]
+						};
+					this.lineChartData = JSON.parse(JSON.stringify(res));
+				}, 500)
+			},
+			
+			// 获取体征数据详情
+			querySleepStatisticsDetails (data,type) {
+				console.log('数据',data);
+				sleepStatisticsDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
 			
 			// 格式化时间
 			getNowFormatDate(currentDate,type) {
@@ -201,6 +276,12 @@
 					currentdate = currentDate.getFullYear() + seperator1 + month
 				};
 				return currentdate
+			},
+			
+			// 获取某月的天数
+			getMonthDay(year, month) {
+			  let days = new Date(year, month, 0).getDate()
+			  return days
 			},
 			
 			// 格式化时间(带中文)
@@ -242,7 +323,13 @@
 					let addDay = + time_num - 1000 * 60 * 60 * 24; // 减一天
 					let newTime = new Date(addDay);
 					this.currentDayTime = this.getNowFormatDate(newTime,2)
-				}
+				};
+				// 获取呼吸日数据
+				this.querySleepStatisticsDetails({
+					deviceId: this.temporaryDevices[0],
+					startDate: this.currentDayTime,
+					endDate: this.currentDayTime
+				},'day')
 			},
 			
 			// 获取上一月和下一月
@@ -270,6 +357,7 @@
 							month2 = "0" + month2;
 					};
 					let nextMonth = year2 + "-" + month2;
+					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
@@ -291,9 +379,16 @@
 						month2 = "0" + month2;
 					};
 					let preMonth = year2 + "-" + month2;
+					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(preMonth),3);
 					console.log('当前月',this.currentMonthDate);
-				}
+				};
+				// 获取呼吸月数据
+				this.querySleepStatisticsDetails({
+					deviceId: this.temporaryDevices[0],
+					startDate: `${this.currentMonthDate}-01`,
+					endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
+				},'month')
 			},
 			
 			// 获取当前周
@@ -345,7 +440,7 @@
 				this.isWeekPlusCanCilck = true;
 				if (type == 'plus') {
 					// 当前周不能超过下周
-					let temporaryDate = this.getNowFormatDate(new Date(),3);
+					let temporaryDate = this.getNowFormatDate(new Date(),2);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false;
 						return 
@@ -364,7 +459,13 @@
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
 					console.log('周',this.currentStartWeekDate,this.currentEndWeekDate)
-				}
+				};
+				// 获取呼吸周数据
+				this.querySleepStatisticsDetails({
+					deviceId: this.temporaryDevices[0],
+					startDate: this.currentStartWeekDate,
+					endDate: this.currentEndWeekDate
+				},'week')
 			},
 			
 			// 判断周几
@@ -405,7 +506,13 @@
 					let temporaryDate = this.getNowFormatDate(new Date(),2);
 					if (new Date(this.currentDayTime).getTime() >= new Date(temporaryDate).getTime()) { 
 						this.isDayPlusCanCilck = false
-					}
+					};
+					// 获取呼吸日数据
+					this.querySleepStatisticsDetails({
+						deviceId: this.temporaryDevices[0],
+						startDate: this.getNowFormatDate(new Date(),2),
+						endDate: this.getNowFormatDate(new Date(),2)
+					},'day')
 				};
 				if (index == 1) {
 					this.weekMap = this.getWeek(new Date());
@@ -415,7 +522,14 @@
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
-					}
+					};
+					console.log('数',this.currentStartWeekDate,this.currentEndWeekDate);
+					// 获取呼吸周数据
+					this.querySleepStatisticsDetails({
+						deviceId: this.temporaryDevices[0],
+						startDate: this.currentStartWeekDate,
+						endDate: this.currentEndWeekDate
+					},'week')
 				};
 				if (index == 2) {
 					this.currentMonthDate = this.getNowFormatDate(new Date(),3);
@@ -423,8 +537,29 @@
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
-						return 
-					}
+					};
+					let arr = this.currentMonthDate.split("-");
+					let year = arr[0]; //获取当前日期的年份
+					let month = arr[1]; //获取当前日期的月份
+					let year2 = year;
+					let month2 = parseInt(month) - 1;
+					if (month2 == 0) {
+						//1月的上一月是前一年的12月
+						year2 = parseInt(year2) - 1;
+						month2 = 12;
+					};
+					if (month2 < 10) {
+						//10月之前都需要补0
+						month2 = "0" + month2;
+					};
+					let preMonth = year2 + "-" + month2;
+					this.currentMonthDays = this.getMonthDay(year2,month2);
+					// 获取呼吸月数据
+					this.querySleepStatisticsDetails({
+						deviceId: this.temporaryDevices[0],
+						startDate: `${this.currentMonthDate}-01`,
+						endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
+					},'month')
 				} 
 			},
 			

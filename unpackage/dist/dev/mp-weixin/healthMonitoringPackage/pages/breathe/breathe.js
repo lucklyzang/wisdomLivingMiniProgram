@@ -101,13 +101,13 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 695))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 694))
     },
     uSubsection: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-subsection/u-subsection */ "node-modules/uview-ui/components/u-subsection/u-subsection").then(__webpack_require__.bind(null, /*! uview-ui/components/u-subsection/u-subsection.vue */ 809))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-subsection/u-subsection */ "node-modules/uview-ui/components/u-subsection/u-subsection").then(__webpack_require__.bind(null, /*! uview-ui/components/u-subsection/u-subsection.vue */ 808))
     },
     uIcon: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 688))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 687))
     },
   }
 } catch (e) {
@@ -206,11 +206,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _device = __webpack_require__(/*! @/api/device.js */ 106);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 802));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 801));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -241,7 +245,8 @@ var _default = {
       initWeekDate: '',
       currentMonthDate: '',
       initMonthDate: '',
-      weekMap: {}
+      weekMap: {},
+      temporaryDevices: []
     };
   },
   onLoad: function onLoad() {
@@ -251,6 +256,27 @@ var _default = {
     if (new Date(this.currentDayTime).getTime() >= new Date(temporaryDate).getTime()) {
       this.isDayPlusCanCilck = false;
     }
+    ;
+    // 获取呼吸数据日
+    this.temporaryDevices = [];
+    var _iterator = _createForOfIteratorHelper(this.deviceDataMessage.devices),
+      _step;
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var el = _step.value;
+        this.temporaryDevices.push(el.device);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+    ;
+    this.querySleepStatisticsDetails({
+      deviceId: this.temporaryDevices,
+      startDate: this.getNowFormatDate(new Date(), 2),
+      endDate: this.getNowFormatDate(new Date(), 2)
+    }, 'day');
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'deviceDataMessage'])), {}, {
     userName: function userName() {},
@@ -261,6 +287,26 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+    // 获取体征数据详情
+    querySleepStatisticsDetails: function querySleepStatisticsDetails(data, type) {
+      var _this = this;
+      console.log('数据', data);
+      (0, _device.sleepStatisticsDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {} else {
+          _this.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
       // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)
@@ -342,6 +388,27 @@ var _default = {
         var _newTime = new Date(_addDay);
         this.currentDayTime = this.getNowFormatDate(_newTime, 2);
       }
+      ;
+      // 获取呼吸日数据
+      var temporaryDevices = [];
+      var _iterator2 = _createForOfIteratorHelper(this.deviceDataMessage.devices),
+        _step2;
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var el = _step2.value;
+          temporaryDevices.push(el.device);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+      ;
+      this.querySleepStatisticsDetails({
+        deviceId: this.temporaryDevices,
+        startDate: this.currentDayTime,
+        endDate: this.currentDayTime
+      }, 'day');
     },
     // 获取上一月和下一月
     getCurrentMonth: function getCurrentMonth(type) {
@@ -398,6 +465,13 @@ var _default = {
         this.currentMonthDate = this.getNowFormatDate(new Date(preMonth), 3);
         console.log('当前月', this.currentMonthDate);
       }
+      ;
+      // 获取呼吸月数据
+      this.querySleepStatisticsDetails({
+        deviceId: this.temporaryDevices,
+        startDate: this.currentMonthDate,
+        endDate: this.currentMonthDate
+      }, 'month');
     },
     // 获取当前周
     getWeek: function getWeek(date) {
@@ -451,7 +525,7 @@ var _default = {
       this.isWeekPlusCanCilck = true;
       if (type == 'plus') {
         // 当前周不能超过下周
-        var temporaryDate = this.getNowFormatDate(new Date(), 3);
+        var temporaryDate = this.getNowFormatDate(new Date(), 2);
         if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
           this.isWeekPlusCanCilck = false;
           return;
@@ -473,6 +547,13 @@ var _default = {
         this.currentEndWeekDate = "".concat(this.weekMap['eyear'], "-").concat(this.weekMap["etext"]);
         console.log('周', this.currentStartWeekDate, this.currentEndWeekDate);
       }
+      ;
+      // 获取呼吸周数据
+      this.querySleepStatisticsDetails({
+        deviceId: this.temporaryDevices,
+        startDate: this.currentStartWeekDate,
+        endDate: this.currentEndWeekDate
+      }, 'week');
     },
     // 判断周几
     judgeWeek: function judgeWeek(currentDate) {
@@ -512,6 +593,13 @@ var _default = {
         if (new Date(this.currentDayTime).getTime() >= new Date(temporaryDate).getTime()) {
           this.isDayPlusCanCilck = false;
         }
+        ;
+        // 获取呼吸日数据
+        this.querySleepStatisticsDetails({
+          deviceId: this.temporaryDevices,
+          startDate: this.getNowFormatDate(new Date(), 2),
+          endDate: this.getNowFormatDate(new Date(), 2)
+        }, 'day');
       }
       ;
       if (index == 1) {
@@ -523,6 +611,14 @@ var _default = {
         if (new Date(this.currentEndWeekDate).getTime() >= new Date(_temporaryDate).getTime()) {
           this.isWeekPlusCanCilck = false;
         }
+        ;
+        console.log('数', this.currentStartWeekDate, this.currentEndWeekDate);
+        // 获取呼吸周数据
+        this.querySleepStatisticsDetails({
+          deviceId: this.temporaryDevices,
+          startDate: this.currentStartWeekDate,
+          endDate: this.currentEndWeekDate
+        }, 'week');
       }
       ;
       if (index == 2) {
@@ -531,8 +627,15 @@ var _default = {
         var _temporaryDate2 = this.getNowFormatDate(new Date(), 3);
         if (new Date(this.currentMonthDate).getTime() >= new Date(_temporaryDate2).getTime()) {
           this.isMonthPlusCanCilck = false;
-          return;
         }
+        ;
+        console.log('月', this.currentMonthDate);
+        // 获取呼吸月数据
+        this.querySleepStatisticsDetails({
+          deviceId: this.temporaryDevices,
+          startDate: this.currentMonthDate,
+          endDate: this.currentMonthDate
+        }, 'month');
       }
     },
     // 进入健康小知识详情事件

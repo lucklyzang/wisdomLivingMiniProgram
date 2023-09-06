@@ -105,7 +105,7 @@
 							</view>
 						</view>
 						<view class="heart-rate-chart">
-							<qiun-data-charts type="column" :canvas-id="item.id.toString()" anvas2d="true" :chartData="chartData" />
+							<qiun-data-charts type="column" :ontouch="true" :opts="opts" :chartData="chartData" />
 						</view>
 					</view>
 					<view class="heart-rate-box breathe-box">
@@ -120,7 +120,7 @@
 							</view>
 						</view>
 						<view class="breathe-chart">
-							
+							<qiun-data-charts type="line" :ontouch="true" :opts="lineOpts" :chartData="lineChartData" />
 						</view>
 					</view>
 					<view class="heart-rate-box sleep-box">
@@ -159,7 +159,7 @@
 							</view>
 						</view>
 						<view class="toilet-chart">
-							<qiun-data-charts type="column" :canvas-id="item.id.toString()" anvas2d="true" :chartData="chartData" />
+							<qiun-data-charts type="column" :opts="opts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
@@ -183,7 +183,7 @@
 							</view>
 						</view>
 						<view class="tumble-chart">
-							<qiun-data-charts type="bar" :opts="opts" :canvas-id="item.id.toString()" anvas2d="true" :chartData="chartData" />
+							<qiun-data-charts type="bar" :opts="opts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
@@ -206,7 +206,7 @@
 							</view>
 						</view>
 						<view class="leave-home-chart">	
-							<qiun-data-charts type="column" :canvas-id="item.id.toString()" :anvas2d="true" :chartData="chartData" />
+							<qiun-data-charts type="column" :opts="opts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
@@ -226,7 +226,8 @@
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
 	import { getHomePageList } from '@/api/home.js' 
 	import { getUserBannerList } from '@/api/user.js'
-	import { sleepStatisticsHome } from '@/api/device.js'
+	import { sleepStatisticsHome, enterLeaveHomeDetails } from '@/api/device.js'
+	import { randomStr } from '@/common/js/utils'
 	import _ from 'lodash'
 	export default {
 		components: {
@@ -249,10 +250,31 @@
 				deviceList: [],
 				sceneDataList: [],
 				chartData: {},
-				 opts: {
-					color: ["#1890FF","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
+				lineChartData: {},
+				lineOpts: {
+					 color: ["#1890FF"],
+						padding: [15,10,0,15],
+						enableScroll: false,
+						legend: { show: false },
+						xAxis: {
+							disableGrid: true
+						},
+						yAxis: {
+							disabled: true,
+							disableGrid: true
+						},
+						extra: {
+							line: {
+								type: "straight",
+								width: 2,
+								activeType: "hollow"
+							}
+						}
+				},
+				opts: {
+					color: ["#1890FF"],
 					padding: [15,30,0,5],
-					enableScroll: false,
+					enableScroll: true,
 					legend: {},
 					xAxis: {
 						boundaryGap: "justify",
@@ -278,10 +300,11 @@
 		},
 		onUnload() {
 		},
-		 onReady() {
-		    this.getServerData();
-		  },
+		onReady() {
+			this.getServerData();
+		},
 		onLoad() {
+			console.log('sa',randomStr());
 			this.queryHomePageList(this.familyId);
 			this.queryUserBannerList();
 			this.initFamilyInfo()
@@ -314,25 +337,37 @@
 				'changeDeviceDataMessage'
 			]),
 			
-			 getServerData() {
-			      //模拟从服务器获取数据时的延时
-			      setTimeout(() => {
-			        let res = {
-			            categories: ["9-5"],
-			            series: [
-			              {
-			                name: "正常",
-			                data: [35]
-			              },
-			              {
-			                name: "跌倒",
-			                data: [18]
-			              }
-			            ]
-			          };
-			        this.chartData = JSON.parse(JSON.stringify(res));
-			      }, 500);
-			    },
+			getServerData() {
+				//模拟从服务器获取数据时的延时
+				setTimeout(() => {
+					let res = {
+							categories: ["9-5"],
+							series: [
+								{
+									name: "正常",
+									data: [35]
+								},
+								{
+									name: "跌倒",
+									data: [18]
+								}
+							]
+						};
+					this.chartData = JSON.parse(JSON.stringify(res));
+				}, 500);
+				setTimeout(() => {
+					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+					let res = {
+							categories: ["23:00","00:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00"],
+							series: [
+								{
+									data: [45,70,25,37,40,30,65,54,36]
+								}
+							]
+						};
+					this.lineChartData = JSON.parse(JSON.stringify(res));
+				}, 500)
+			},
 			
 			// 家庭选择下拉框下拉选择确定事件
 			familyMemberChange (val) {
@@ -379,11 +414,37 @@
 			},
 			
 			// 获取睡眠日数据
-			querySleepDayDataList (data,deviceId) {
+			querySleepDayDataList (data,cardId) {
 				sleepStatisticsHome(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						let temporaryData = {
-							deviceId,
+							id: cardId,
+							content: res.data.data
+						};
+						this.sceneDataList.push(temporaryData)
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取离、回家数据
+			queryLeaveHomeDetails (data,cardId) {
+				enterLeaveHomeDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						let temporaryData = {
+							id: cardId,
 							content: res.data.data
 						};
 						this.sceneDataList.push(temporaryData)
@@ -478,20 +539,35 @@
 					// 有设备的场景进行请求数据
 					if (item.hasOwnProperty('devices')) {
 						// 0-睡眠,1-如厕,2-跌倒,3-离/回家
+						let temporaryDevices = [];
+						for (let el of item.devices) {
+							temporaryDevices.push(el.device)
+						};
 						if (item.type == 0) {
-							this.requestSleepDeviceStatisticsData(item.id)
+							this.requestSleepDeviceStatisticsData(temporaryDevices[0],item.id)
+						} else if (item.type == 3) {
+							this.requestEnterLeaveHomeDetails(temporaryDevices[0],item.id)
 						}
 					}
 				})
 			},
 			
 			// 为绑定设备的场景请求设备统计日数据(睡眠场景)
-			requestSleepDeviceStatisticsData (deviceId) {
+			requestSleepDeviceStatisticsData (deviceIdList,cardId) {
 				this.querySleepDayDataList({
-					deviceId,
+					deviceId: deviceIdList,
 					startDate: this.getNowFormatDate(new Date()),
 					endDate: this.getNowFormatDate(new Date())
-				},deviceId)
+				},cardId)
+			},
+			
+			// 为绑定设备的场景请求设备统计日数据(离、回家场景)
+			requestEnterLeaveHomeDetails (deviceIdList,cardId) {
+				this.queryLeaveHomeDetails({
+					deviceId: deviceIdList,
+					startDate: this.getNowFormatDate(new Date()),
+					endDate: this.getNowFormatDate(new Date())
+				},cardId)
 			},
 			
 			// 初始家庭信息

@@ -24,7 +24,7 @@
 					</view>
 					<view class="accept-alarm-method-list-wrapper">
 						<view class="accept-alarm-method-list" v-for="(item,index) in roomList" @click="roomNameClickEvent(item,index)" :key="index">
-							<text :class="{'textMethodStyle':currentIndex === index}">{{ item }}</text>
+							<text :class="{'textMethodStyle':currentIndex === index}">{{ item.name }}</text>
 						</view>
 					</view>
 					<view class="cancel-btn">
@@ -340,7 +340,7 @@
 			roomNameClickEvent (item,index) {
 				this.currentIndex = index;
 				this.chooseRoomShow = false;
-				this.roomId = item.id,
+				this.roomId = item.id;
 				this.roomName = item.name
 			},
 			

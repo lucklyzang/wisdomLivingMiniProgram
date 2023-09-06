@@ -94,6 +94,7 @@
 			// 进入设备事件
 			// 1-体征雷达，2-存在感知雷达，3-跌倒雷达，4-人体检测雷达
 			enterDeviceEvent (item) {
+				console.log('房间详情',item);
 				if (item.type == 3) {
 					uni.redirectTo({
 						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
@@ -101,7 +102,7 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddDeviceMessage;
 					temporaryMessage['roomId'] = this.roomId;
-					temporaryMessage['roomName'] = this.roomDetails['name'];
+					temporaryMessage['roomName'] = this.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
 					temporaryMessage['id'] = item.id;
 					temporaryMessage['customDeviceName'] = item.customName;
@@ -115,7 +116,7 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
 					temporaryMessage['roomId'] = this.roomId;
-					temporaryMessage['roomName'] = this.roomDetails['name'];
+					temporaryMessage['roomName'] = this.roomName;
 					temporaryMessage['deviceId'] = item.id;
 					temporaryMessage['customDeviceName'] = item.customName;
 					temporaryMessage['deviceName'] = item.name;
@@ -125,10 +126,10 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
 					temporaryMessage['roomId'] = item.roomId;
-					temporaryMessage['roomName'] = item.roomName;
+					temporaryMessage['roomName'] = this.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
 					temporaryMessage['customDeviceName'] = item.customName;
-					temporaryMessage['deviceName'] = item.deviceName;
+					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 					uni.redirectTo({
@@ -141,10 +142,10 @@
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 					temporaryMessage['roomId'] = item.roomId;
-					temporaryMessage['roomName'] = item.roomName;
+					temporaryMessage['roomName'] = this.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
 					temporaryMessage['customDeviceName'] = item.customName;
-					temporaryMessage['deviceName'] = item.deviceName;
+					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
 				};

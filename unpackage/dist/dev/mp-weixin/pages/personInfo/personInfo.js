@@ -101,10 +101,10 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 695))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 694))
     },
     uIcon: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 688))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 687))
     },
   }
 } catch (e) {
@@ -178,7 +178,7 @@ var _default = {
   data: function data() {
     return {
       loginBackgroundPng: __webpack_require__(/*! @/static/img/login-background.png */ 94),
-      defaultPersonPhotoIconPng: __webpack_require__(/*! @/static/img/default-person-photo.png */ 599),
+      defaultPersonPhotoIconPng: __webpack_require__(/*! @/static/img/default-person-photo.png */ 135),
       infoText: '',
       showLoadingHint: false,
       deviceNumber: 0,

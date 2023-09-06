@@ -104,7 +104,7 @@
 				showLoadingHint: false,
 				alarmRangeValue: '',
 				acceptAlarmMethod: '',
-				acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话和短信'],
+				acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
 				wifiListBoxShow: false,
 				cceptAlarmMethodBoxShow: false,
 				alarmRangeValueList: [],
@@ -124,8 +124,13 @@
 		onLoad(object) {
 			console.log('数据',this.beforeAddExistPerceptionRadarCompleteSet);
 			// 获取雷达设置
-			// this.getDetectionAlarmSettings(this.beforeAddBodyDetectionDeviceMessage.deviceId);
-			if (!object.hasOwnProperty('transmitData')) { this.wifiListBoxShow = true; return };
+			this.getRadarSet(this.beforeAddExistPerceptionRadarCompleteSet.deviceId);
+			if (!object.hasOwnProperty('transmitData')) { 
+				if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+					this.wifiListBoxShow = true;
+					return
+				}
+			};
 			if (object.transmitData == 1) { return };
 			if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
 				this.wifiListBoxShow = true
@@ -149,8 +154,6 @@
 			},
 			accountName() {
 			}
-		},
-		mounted() {
 		},
 		methods: {
 			...mapMutations([

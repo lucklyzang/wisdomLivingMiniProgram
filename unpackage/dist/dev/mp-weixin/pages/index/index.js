@@ -80,19 +80,19 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 695))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 694))
     },
     xflSelect: function () {
-      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 755))
+      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 754))
     },
     uSwiper: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */ "node-modules/uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 762))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */ "node-modules/uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 761))
     },
     uEmpty: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 769))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 768))
     },
     qiunDataCharts: function () {
-      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 776))
+      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 775))
     },
   }
 } catch (e) {
@@ -122,20 +122,12 @@ var render = function () {
     var g1 = item.type == 1 && !item.hasOwnProperty("devices")
     var g2 = item.type == 2 && !item.hasOwnProperty("devices")
     var g3 = item.type == 3 && !item.hasOwnProperty("devices")
-    var g4 = item.type == 0 ? item.id.toString() : null
-    var g5 = item.type == 1 ? item.id.toString() : null
-    var g6 = item.type == 2 ? item.id.toString() : null
-    var g7 = item.type == 3 ? item.id.toString() : null
     return {
       $orig: $orig,
       g0: g0,
       g1: g1,
       g2: g2,
       g3: g3,
-      g4: g4,
-      g5: g5,
-      g6: g6,
-      g7: g7,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -191,6 +183,7 @@ var _vuex = __webpack_require__(/*! vuex */ 30);
 var _home = __webpack_require__(/*! @/api/home.js */ 105);
 var _user = __webpack_require__(/*! @/api/user.js */ 93);
 var _device = __webpack_require__(/*! @/api/device.js */ 106);
+var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
 var _lodash = _interopRequireDefault(__webpack_require__(/*! lodash */ 107));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -199,7 +192,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var xflSelect = function xflSelect() {
   __webpack_require__.e(/*! require.ensure | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then((function () {
-    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 755));
+    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 754));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -226,7 +219,7 @@ var _default = {
       opts: {
         color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"],
         padding: [15, 30, 0, 5],
-        enableScroll: false,
+        enableScroll: true,
         legend: {},
         xAxis: {
           boundaryGap: "justify",
@@ -255,6 +248,7 @@ var _default = {
     this.getServerData();
   },
   onLoad: function onLoad() {
+    console.log('sa', (0, _utils.randomStr)());
     this.queryHomePageList(this.familyId);
     this.queryUserBannerList();
     this.initFamilyInfo();
@@ -331,12 +325,12 @@ var _default = {
       return currentdate;
     },
     // 获取睡眠日数据
-    querySleepDayDataList: function querySleepDayDataList(data, deviceId) {
+    querySleepDayDataList: function querySleepDayDataList(data, cardId) {
       var _this2 = this;
       (0, _device.sleepStatisticsHome)(data).then(function (res) {
         if (res && res.data.code == 0) {
           var temporaryData = {
-            deviceId: deviceId,
+            id: cardId,
             content: res.data.data
           };
           _this2.sceneDataList.push(temporaryData);
@@ -444,19 +438,33 @@ var _default = {
         // 有设备的场景进行请求数据
         if (item.hasOwnProperty('devices')) {
           // 0-睡眠,1-如厕,2-跌倒,3-离/回家
+          var temporaryDevices = [];
+          var _iterator2 = _createForOfIteratorHelper(item.devices),
+            _step2;
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var el = _step2.value;
+              temporaryDevices.push(el.device);
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+          ;
           if (item.type == 0) {
-            _this5.requestSleepDeviceStatisticsData(item.id);
+            _this5.requestSleepDeviceStatisticsData(temporaryDevices, item.id);
           }
         }
       });
     },
     // 为绑定设备的场景请求设备统计日数据(睡眠场景)
-    requestSleepDeviceStatisticsData: function requestSleepDeviceStatisticsData(deviceId) {
+    requestSleepDeviceStatisticsData: function requestSleepDeviceStatisticsData(deviceIdList, cardId) {
       this.querySleepDayDataList({
-        deviceId: deviceId,
+        deviceId: deviceIdList,
         startDate: this.getNowFormatDate(new Date()),
         endDate: this.getNowFormatDate(new Date())
-      }, deviceId);
+      }, cardId);
     },
     // 初始家庭信息
     initFamilyInfo: function initFamilyInfo() {

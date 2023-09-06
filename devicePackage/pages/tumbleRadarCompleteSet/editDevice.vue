@@ -335,7 +335,7 @@
 			roomNameClickEvent (item,index) {
 				this.currentIndex = index;
 				this.chooseRoomShow = false;
-				this.roomId = item.id,
+				this.roomId = item.id;
 				this.roomName = item.name
 			},
 			
