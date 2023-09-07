@@ -203,7 +203,7 @@ var _default = {
       alarmRangeValue: '',
       acceptAlarmMethod: '',
       alarmRangeValueList: [],
-      acceptAlarmMethodList: ['不通知', '仅短信通知', '仅电话通知', '电话和短信'],
+      acceptAlarmMethodList: ['不通知', '仅短信通知', '仅电话通知', '电话+短信'],
       enter: false,
       goOut: false,
       deviceNumber: ''
@@ -212,10 +212,12 @@ var _default = {
   onLoad: function onLoad(object) {
     console.log('数据', this.beforeAddBodyDetectionDeviceMessage);
     // 获取雷达设置
-    // this.getDetectionAlarmSettings(this.beforeAddBodyDetectionDeviceMessage.deviceId);
+    this.getRadarSet(this.beforeAddBodyDetectionDeviceMessage.deviceId);
     if (!object.hasOwnProperty('transmitData')) {
-      this.wifiListBoxShow = true;
-      return;
+      if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+        this.wifiListBoxShow = true;
+        return;
+      }
     }
     ;
     if (object.transmitData == 1) {

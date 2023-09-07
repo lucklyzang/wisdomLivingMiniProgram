@@ -201,7 +201,7 @@ var _default = {
       showLoadingHint: false,
       alarmRangeValue: '',
       acceptAlarmMethod: '',
-      acceptAlarmMethodList: ['不通知', '仅短信通知', '仅电话通知', '电话和短信'],
+      acceptAlarmMethodList: ['不通知', '仅短信通知', '仅电话通知', '电话+短信'],
       wifiListBoxShow: false,
       cceptAlarmMethodBoxShow: false,
       alarmRangeValueList: [],
@@ -221,10 +221,12 @@ var _default = {
   onLoad: function onLoad(object) {
     console.log('数据', this.beforeAddExistPerceptionRadarCompleteSet);
     // 获取雷达设置
-    // this.getDetectionAlarmSettings(this.beforeAddBodyDetectionDeviceMessage.deviceId);
+    this.getRadarSet(this.beforeAddExistPerceptionRadarCompleteSet.deviceId);
     if (!object.hasOwnProperty('transmitData')) {
-      this.wifiListBoxShow = true;
-      return;
+      if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+        this.wifiListBoxShow = true;
+        return;
+      }
     }
     ;
     if (object.transmitData == 1) {
@@ -243,7 +245,6 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  mounted: function mounted() {},
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddExistPerceptionRadarCompleteSet'])), {}, {
     // 设备接收报警方式转换
     alarmTypeTransition: function alarmTypeTransition(num) {

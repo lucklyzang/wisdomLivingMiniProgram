@@ -109,6 +109,9 @@ try {
     uIcon: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 687))
     },
+    uEmpty: function () {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 768))
+    },
   }
 } catch (e) {
   if (
@@ -131,6 +134,22 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.__map(_vm.logList, function (item, index) {
+    var $orig = _vm.__get_orig(item)
+    var m0 = _vm.getNowFormatDate(new Date(item.createTime), 4)
+    return {
+      $orig: $orig,
+      m0: m0,
+    }
+  })
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0,
+      },
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -173,6 +192,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _device = __webpack_require__(/*! @/api/device.js */ 106);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
@@ -186,9 +206,15 @@ var _default = {
   },
   data: function data() {
     return {
-      infoText: '',
+      infoText: '加载中',
       checked: false,
       dateShow: false,
+      currentPageNum: 1,
+      pageSize: 20,
+      totalCount: 0,
+      recordList: [],
+      fullRecordList: [],
+      status: 'loadmore',
       params: {
         year: true,
         month: true,
@@ -216,13 +242,112 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+    scrolltolower: function scrolltolower() {
+      var totalPage = Math.ceil(this.totalCount / this.pageSize);
+      if (this.currentPageNum >= totalPage) {
+        this.status = 'nomore';
+      } else {
+        this.status = 'loading';
+        this.currentPageNum = this.currentPageNum + 1;
+        this.queryBodyDetectionRadar({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+          createDate: this.currentDate
+        });
+      }
+    },
+    // 格式化时间
+    getNowFormatDate: function getNowFormatDate(currentDate, type) {
+      // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(只显示年月日小时分钟)
+      var currentdate;
+      var strDate = currentDate.getDate();
+      var seperator1 = "-";
+      var seperator2 = ":";
+      var seperator3 = " ";
+      var month = currentDate.getMonth() + 1;
+      var hour = currentDate.getHours();
+      var minutes = currentDate.getMinutes();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      ;
+      if (hour >= 0 && hour <= 9) {
+        hour = "0" + hour;
+      }
+      ;
+      if (minutes >= 0 && minutes <= 9) {
+        minutes = "0" + minutes;
+      }
+      ;
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      ;
+      if (type == 1) {
+        currentdate = hour + seperator2 + minutes;
+      }
+      ;
+      if (type == 2) {
+        currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate;
+      }
+      ;
+      if (type == 3) {
+        currentdate = currentDate.getFullYear() + seperator1 + month;
+      }
+      ;
+      if (type == 4) {
+        currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes;
+      }
+      ;
+      return currentdate;
+    },
     // 日期图标点击事件
     dateIconClickEvent: function dateIconClickEvent() {
       this.dateShow = true;
     },
     // 日期选择确定事件
     dateSure: function dateSure(value) {
-      console.log(value);
+      this.currentDate = "".concat(value.year, "-").concat(value.month, "-").concat(value.day);
+      this.fullRecordList = [];
+      this.queryBodyDetectionRadar({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+        createDate: this.currentDate
+      });
+    },
+    // 获取人体检测雷达日志
+    queryBodyDetectionRadar: function queryBodyDetectionRadar(data) {
+      var _this = this;
+      this.recordList = [];
+      this.showLoadingHint = true;
+      (0, _device.getBodyDetectionRadar)(data).then(function (res) {
+        _this.showLoadingHint = false;
+        if (res && res.data.code == 0) {
+          _this.totalCount = res.data.data.total;
+          _this.recordList = res.data.data.list;
+          _this.fullRecordList = _this.fullRecordList.concat(_this.recordList);
+          if (_this.fullRecordList.length == 0) {
+            _this.isShowNoHomeNoData = true;
+          } else {
+            _this.isShowNoHomeNoData = false;
+          }
+        } else {
+          _this.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this.showLoadingHint = false;
+        _this.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
     },
     backTo: function backTo() {
       uni.redirectTo({

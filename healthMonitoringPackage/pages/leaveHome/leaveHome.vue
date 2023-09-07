@@ -181,7 +181,7 @@
 			
 			// 格式化时间
 			getNowFormatDate(currentDate,type) {
-				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)
+				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)
 				let currentdate;
 				let strDate = currentDate.getDate();
 				let seperator1 = "-";
@@ -215,10 +215,11 @@
 			
 			// 获取离回家数据详情
 			queryEnterLeaveHomeDetails (data,type) {
-				console.log('数据',data);
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						
+						if (type == 'week') {
+							console.log('周数据',res.data.data);
+						}
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,

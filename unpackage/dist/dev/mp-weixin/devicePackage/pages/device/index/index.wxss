@@ -91,6 +91,9 @@ page {
 .content-box .message-title-area .message-atile-area-right  .show-box .list {
   color: #101010;
 }
+.content-box .message-title-area .message-atile-area-right  .show-box .list .item.active {
+  color: #11D183 !important;
+}
 .content-box .message-title-area .message-atile-area-right  .show-box .list-container {
   width: 150px !important;
   top: 0;
@@ -121,6 +124,9 @@ page {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+.content-box .message-content-area .scroll-view {
+  height: 100%;
 }
 .content-box .message-content-area .message-list {
   text-align: center;

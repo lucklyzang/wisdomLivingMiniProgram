@@ -230,6 +230,7 @@ var _default = {
     this.roomId = this.beforeAddBodyDetectionDeviceMessage.roomId;
     this.roomName = this.beforeAddBodyDetectionDeviceMessage.roomName;
     this.onLine = this.beforeAddBodyDetectionDeviceMessage.onLine;
+    console.log('i想你想', this.beforeAddBodyDetectionDeviceMessage);
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'beforeAddBodyDetectionDeviceMessage'])), {}, {
     userName: function userName() {},
@@ -296,7 +297,7 @@ var _default = {
           temporaryMessage['roomName'] = _this2.roomName;
           temporaryMessage['customDeviceName'] = _this2.deviceNameValue;
           temporaryMessage['deviceName'] = _this2.deviceName;
-          _this2.changeBeforeAddDeviceMessage(temporaryMessage);
+          _this2.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
           _this2.$refs['ytoast'].show({
             message: '保存成功!',
             type: 'success'
@@ -379,12 +380,14 @@ var _default = {
     },
     // 房间点击事件
     roomClickEvent: function roomClickEvent() {
-      this.chooseRoomShow = true;
+      this.queryUserRoomList(this.familyId);
     },
     // 房间名称点击事件
     roomNameClickEvent: function roomNameClickEvent(item, index) {
       this.currentIndex = index;
       this.chooseRoomShow = false;
+      this.roomId = item.id;
+      this.roomName = item.name;
     },
     // 房间取消选择事件
     cancelChooseEvent: function cancelChooseEvent() {

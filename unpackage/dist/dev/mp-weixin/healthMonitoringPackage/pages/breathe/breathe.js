@@ -109,6 +109,9 @@ try {
     uIcon: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 687))
     },
+    qiunDataCharts: function () {
+      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 775))
+    },
   }
 } catch (e) {
   if (
@@ -244,10 +247,31 @@ var _default = {
       currentEndWeekDate: '',
       initWeekDate: '',
       currentMonthDate: '',
+      currentMonthDays: '',
       initMonthDate: '',
       weekMap: {},
-      temporaryDevices: []
+      temporaryDevices: [],
+      lineChartData: {},
+      lineOpts: {
+        color: ["#1890FF"],
+        padding: [15, 10, 0, 15],
+        enableScroll: false,
+        legend: {
+          show: false
+        },
+        yAxis: {},
+        extra: {
+          line: {
+            type: "straight",
+            width: 2,
+            activeType: "hollow"
+          }
+        }
+      }
     };
+  },
+  onReady: function onReady() {
+    this.getServerData();
   },
   onLoad: function onLoad() {
     this.initDayTime = this.getNowFormatDate(new Date(), 1);
@@ -273,7 +297,7 @@ var _default = {
     }
     ;
     this.querySleepStatisticsDetails({
-      deviceId: this.temporaryDevices,
+      deviceId: this.temporaryDevices[0],
       startDate: this.getNowFormatDate(new Date(), 2),
       endDate: this.getNowFormatDate(new Date(), 2)
     }, 'day');
@@ -287,20 +311,34 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+    getServerData: function getServerData() {
+      var _this = this;
+      setTimeout(function () {
+        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+        var res = {
+          categories: ["23:00", "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00"],
+          series: [{
+            name: '呼吸',
+            data: [45, 70, 25, 37, 40, 30, 65, 54, 36]
+          }]
+        };
+        _this.lineChartData = JSON.parse(JSON.stringify(res));
+      }, 500);
+    },
     // 获取体征数据详情
     querySleepStatisticsDetails: function querySleepStatisticsDetails(data, type) {
-      var _this = this;
+      var _this2 = this;
       console.log('数据', data);
       (0, _device.sleepStatisticsDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {} else {
-          _this.$refs.uToast.show({
+          _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this.$refs.uToast.show({
+        _this2.$refs.uToast.show({
           title: err,
           type: 'error',
           position: 'bottom'
@@ -347,6 +385,11 @@ var _default = {
       ;
       return currentdate;
     },
+    // 获取某月的天数
+    getMonthDay: function getMonthDay(year, month) {
+      var days = new Date(year, month, 0).getDate();
+      return days;
+    },
     // 格式化时间(带中文)
     getNowFormatDateText: function getNowFormatDateText(currentDate, type) {
       // type: 2(只展示月)
@@ -390,22 +433,8 @@ var _default = {
       }
       ;
       // 获取呼吸日数据
-      var temporaryDevices = [];
-      var _iterator2 = _createForOfIteratorHelper(this.deviceDataMessage.devices),
-        _step2;
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var el = _step2.value;
-          temporaryDevices.push(el.device);
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-      ;
       this.querySleepStatisticsDetails({
-        deviceId: this.temporaryDevices,
+        deviceId: this.temporaryDevices[0],
         startDate: this.currentDayTime,
         endDate: this.currentDayTime
       }, 'day');
@@ -438,6 +467,7 @@ var _default = {
         }
         ;
         var nextMonth = year2 + "-" + month2;
+        this.currentMonthDays = this.getMonthDay(year2, month2);
         this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth), 3);
         if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
           this.isMonthPlusCanCilck = false;
@@ -462,15 +492,16 @@ var _default = {
         }
         ;
         var preMonth = _year2 + "-" + _month2;
+        this.currentMonthDays = this.getMonthDay(_year2, _month2);
         this.currentMonthDate = this.getNowFormatDate(new Date(preMonth), 3);
         console.log('当前月', this.currentMonthDate);
       }
       ;
       // 获取呼吸月数据
       this.querySleepStatisticsDetails({
-        deviceId: this.temporaryDevices,
-        startDate: this.currentMonthDate,
-        endDate: this.currentMonthDate
+        deviceId: this.temporaryDevices[0],
+        startDate: "".concat(this.currentMonthDate, "-01"),
+        endDate: "".concat(this.currentMonthDate, "-").concat(this.currentMonthDays)
       }, 'month');
     },
     // 获取当前周
@@ -550,7 +581,7 @@ var _default = {
       ;
       // 获取呼吸周数据
       this.querySleepStatisticsDetails({
-        deviceId: this.temporaryDevices,
+        deviceId: this.temporaryDevices[0],
         startDate: this.currentStartWeekDate,
         endDate: this.currentEndWeekDate
       }, 'week');
@@ -596,7 +627,7 @@ var _default = {
         ;
         // 获取呼吸日数据
         this.querySleepStatisticsDetails({
-          deviceId: this.temporaryDevices,
+          deviceId: this.temporaryDevices[0],
           startDate: this.getNowFormatDate(new Date(), 2),
           endDate: this.getNowFormatDate(new Date(), 2)
         }, 'day');
@@ -615,7 +646,7 @@ var _default = {
         console.log('数', this.currentStartWeekDate, this.currentEndWeekDate);
         // 获取呼吸周数据
         this.querySleepStatisticsDetails({
-          deviceId: this.temporaryDevices,
+          deviceId: this.temporaryDevices[0],
           startDate: this.currentStartWeekDate,
           endDate: this.currentEndWeekDate
         }, 'week');
@@ -629,12 +660,29 @@ var _default = {
           this.isMonthPlusCanCilck = false;
         }
         ;
-        console.log('月', this.currentMonthDate);
+        var arr = this.currentMonthDate.split("-");
+        var year = arr[0]; //获取当前日期的年份
+        var month = arr[1]; //获取当前日期的月份
+        var year2 = year;
+        var month2 = parseInt(month) - 1;
+        if (month2 == 0) {
+          //1月的上一月是前一年的12月
+          year2 = parseInt(year2) - 1;
+          month2 = 12;
+        }
+        ;
+        if (month2 < 10) {
+          //10月之前都需要补0
+          month2 = "0" + month2;
+        }
+        ;
+        var preMonth = year2 + "-" + month2;
+        this.currentMonthDays = this.getMonthDay(year2, month2);
         // 获取呼吸月数据
         this.querySleepStatisticsDetails({
-          deviceId: this.temporaryDevices,
-          startDate: this.currentMonthDate,
-          endDate: this.currentMonthDate
+          deviceId: this.temporaryDevices[0],
+          startDate: "".concat(this.currentMonthDate, "-01"),
+          endDate: "".concat(this.currentMonthDate, "-").concat(this.currentMonthDays)
         }, 'month');
       }
     },

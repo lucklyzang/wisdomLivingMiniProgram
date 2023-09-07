@@ -221,10 +221,12 @@ var _default = {
   },
   onLoad: function onLoad(object) {
     // 获取雷达设置
-    // this.getRadarSet(this.beforeAddSignMonitorRadarCompleteSet.deviceId);
+    this.getRadarSet(this.beforeAddSignMonitorRadarCompleteSet.deviceId);
     if (!object.hasOwnProperty('transmitData')) {
-      this.wifiListBoxShow = true;
-      return;
+      if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+        this.wifiListBoxShow = true;
+        return;
+      }
     }
     ;
     if (object.transmitData == 1) {

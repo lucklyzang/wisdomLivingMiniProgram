@@ -51,10 +51,18 @@ export function createDeviceInform() {
   })
 };
 
-// 更新设备通知设备通知
+// 更新设备通知
 export function updateDeviceInform() {
   return request({
     url: '/app-api/member/device-notice/update',
+    method: 'put'
+  })
+};
+
+// 更新设备通知为已读
+export function updateDeviceInformRead(id) {
+  return request({
+    url: '/app-api/member/device-notice/read?id='+id,
     method: 'put'
   })
 };

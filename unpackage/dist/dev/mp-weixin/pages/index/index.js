@@ -122,12 +122,22 @@ var render = function () {
     var g1 = item.type == 1 && !item.hasOwnProperty("devices")
     var g2 = item.type == 2 && !item.hasOwnProperty("devices")
     var g3 = item.type == 3 && !item.hasOwnProperty("devices")
+    var g4 = item.type == 0 && item.hasOwnProperty("devices")
+    var g5 = item.type == 1 && item.hasOwnProperty("devices")
+    var g6 = item.type == 2 && item.hasOwnProperty("devices")
+    var g7 = item.type == 3 && item.hasOwnProperty("devices")
+    var g8 = g7 ? _vm.sceneDataList.get(item.id) : null
     return {
       $orig: $orig,
       g0: g0,
       g1: g1,
       g2: g2,
       g3: g3,
+      g4: g4,
+      g5: g5,
+      g6: g6,
+      g7: g7,
+      g8: g8,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -214,13 +224,57 @@ var _default = {
       sleepSmallIconPng: __webpack_require__(/*! @/static/img/sleep-small-icon.png */ 114),
       familyMemberList: [],
       deviceList: [],
-      sceneDataList: [],
+      sceneDataList: new Map(),
       chartData: {},
-      opts: {
-        color: ["#1890FF", "#91CB74", "#FAC858", "#EE6666", "#73C0DE", "#3CA272", "#FC8452", "#9A60B4", "#ea7ccc"],
+      lineChartData: {},
+      breatheOpts: {
+        color: ["#1890FF"],
+        padding: [15, 10, 0, 15],
+        enableScroll: false,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          disableGrid: true
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        extra: {
+          line: {
+            type: "straight",
+            width: 2,
+            activeType: "hollow"
+          }
+        }
+      },
+      leaveHomeOpts: {
+        color: ["#1890FF"],
+        padding: [15, 10, 0, 15],
+        enableScroll: false,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          disableGrid: true
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        extra: {
+          line: {
+            type: "straight",
+            width: 2,
+            activeType: "hollow"
+          }
+        }
+      },
+      heartOpts: {
+        color: ["#1890FF"],
         padding: [15, 30, 0, 5],
         enableScroll: true,
-        legend: {},
         xAxis: {
           boundaryGap: "justify",
           disableGrid: false,
@@ -243,12 +297,7 @@ var _default = {
       }
     };
   },
-  onUnload: function onUnload() {},
-  onReady: function onReady() {
-    this.getServerData();
-  },
   onLoad: function onLoad() {
-    console.log('sa', (0, _utils.randomStr)());
     this.queryHomePageList(this.familyId);
     this.queryUserBannerList();
     this.initFamilyInfo();
@@ -278,6 +327,16 @@ var _default = {
         };
         _this.chartData = JSON.parse(JSON.stringify(res));
       }, 500);
+      setTimeout(function () {
+        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+        var res = {
+          categories: ["23:00", "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00"],
+          series: [{
+            data: [45, 70, 25, 37, 40, 30, 65, 54, 36]
+          }]
+        };
+        _this.lineChartData = JSON.parse(JSON.stringify(res));
+      }, 500);
     },
     // 家庭选择下拉框下拉选择确定事件
     familyMemberChange: function familyMemberChange(val) {
@@ -286,11 +345,13 @@ var _default = {
       this.changeFamilyId(val.orignItem.id);
     },
     // 格式化时间
-    getNowFormatDate: function getNowFormatDate(currentDate) {
+    getNowFormatDate: function getNowFormatDate(currentDate, type) {
+      // type 1-显示年月日  2-显示年月日小时分钟
       var currentdate;
       var strDate = currentDate.getDate();
       var seperator1 = "-";
       var seperator2 = ":";
+      var seperator3 = " ";
       var month = currentDate.getMonth() + 1;
       var hour = currentDate.getHours();
       var minutes = currentDate.getMinutes();
@@ -310,7 +371,14 @@ var _default = {
         strDate = "0" + strDate;
       }
       ;
-      currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate;
+      if (type == 1) {
+        currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate;
+      }
+      ;
+      if (type == 2) {
+        currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes;
+      }
+      ;
       return currentdate;
     },
     // 格式化时间(带中文)
@@ -349,9 +417,47 @@ var _default = {
         });
       });
     },
+    // 获取离、回家数据
+    queryLeaveHomeDetails: function queryLeaveHomeDetails(data, cardId) {
+      var _this3 = this;
+      (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          // let temporaryData = {
+          // 	id: cardId,
+          // 	content: res.data.data
+          // };
+          var _res = {
+            categories: ["9-5"],
+            series: [{
+              name: "正常",
+              data: [35]
+            }, {
+              name: "跌倒",
+              data: [18]
+            }]
+          };
+          var temporaryContent = JSON.parse(JSON.stringify(_res));
+          _this3.sceneDataList.set(cardId, temporaryContent);
+          console.log('图表数据离回家', _this3.sceneDataList.has(9));
+          // this.sceneDataList.push(temporaryData);
+        } else {
+          _this3.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this3.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 获取首页banner列表
     queryUserBannerList: function queryUserBannerList() {
-      var _this3 = this;
+      var _this4 = this;
       this.showLoadingHint = true;
       this.infoText = '加载中...';
       this.bannerList = [];
@@ -363,7 +469,7 @@ var _default = {
             try {
               for (_iterator.s(); !(_step = _iterator.n()).done;) {
                 var item = _step.value;
-                _this3.bannerList.push({
+                _this4.bannerList.push({
                   image: item.picUrl,
                   title: item.title
                 });
@@ -374,45 +480,6 @@ var _default = {
               _iterator.f();
             }
           }
-        } else {
-          _this3.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-        ;
-        _this3.showLoadingHint = false;
-      }).catch(function (err) {
-        _this3.showLoadingHint = false;
-        _this3.$refs.uToast.show({
-          title: err,
-          type: 'error',
-          position: 'bottom'
-        });
-      });
-    },
-    // 获取首页配置列表
-    queryHomePageList: function queryHomePageList(familyId) {
-      var _this4 = this;
-      this.showLoadingHint = true;
-      this.infoText = '加载中...';
-      this.deviceList = [];
-      (0, _home.getHomePageList)({
-        familyId: familyId
-      }).then(function (res) {
-        if (res && res.data.code == 0) {
-          _this4.deviceList = res.data.data.filter(function (item) {
-            return item.status == 0;
-          });
-          console.log('设备数据', _this4.deviceList);
-          if (_this4.deviceList.length == 0) {
-            _this4.isShowHomeNoData = true;
-          } else {
-            _this4.questSceneDataQueue(_this4.deviceList);
-            _this4.isShowHomeNoData = false;
-          }
-          ;
         } else {
           _this4.$refs.uToast.show({
             title: res.data.msg,
@@ -431,9 +498,47 @@ var _default = {
         });
       });
     },
+    // 获取首页配置列表
+    queryHomePageList: function queryHomePageList(familyId) {
+      var _this5 = this;
+      this.showLoadingHint = true;
+      this.infoText = '加载中...';
+      this.deviceList = [];
+      (0, _home.getHomePageList)({
+        familyId: familyId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this5.deviceList = res.data.data.filter(function (item) {
+            return item.status == 0;
+          });
+          if (_this5.deviceList.length == 0) {
+            _this5.isShowHomeNoData = true;
+          } else {
+            _this5.questSceneDataQueue(_this5.deviceList);
+            _this5.isShowHomeNoData = false;
+          }
+          ;
+        } else {
+          _this5.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this5.showLoadingHint = false;
+      }).catch(function (err) {
+        _this5.showLoadingHint = false;
+        _this5.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 请求场景数据队列
     questSceneDataQueue: function questSceneDataQueue(data) {
-      var _this5 = this;
+      var _this6 = this;
       data.forEach(function (item, index, array) {
         // 有设备的场景进行请求数据
         if (item.hasOwnProperty('devices')) {
@@ -452,8 +557,12 @@ var _default = {
             _iterator2.f();
           }
           ;
+          _this6.sceneDataList.set(item.id, {});
+          console.log('map', _this6.sceneDataList);
           if (item.type == 0) {
-            _this5.requestSleepDeviceStatisticsData(temporaryDevices, item.id);
+            _this6.requestSleepDeviceStatisticsData(temporaryDevices[0], item.id);
+          } else if (item.type == 3) {
+            _this6.requestEnterLeaveHomeDetails(temporaryDevices[0], item.id);
           }
         }
       });
@@ -462,18 +571,26 @@ var _default = {
     requestSleepDeviceStatisticsData: function requestSleepDeviceStatisticsData(deviceIdList, cardId) {
       this.querySleepDayDataList({
         deviceId: deviceIdList,
-        startDate: this.getNowFormatDate(new Date()),
-        endDate: this.getNowFormatDate(new Date())
+        startDate: this.getNowFormatDate(new Date(), 1),
+        endDate: this.getNowFormatDate(new Date(), 1)
+      }, cardId);
+    },
+    // 为绑定设备的场景请求设备统计日数据(离、回家场景)this.getNowFormatDate(new Date(),1)
+    requestEnterLeaveHomeDetails: function requestEnterLeaveHomeDetails(deviceIdList, cardId) {
+      this.queryLeaveHomeDetails({
+        deviceId: deviceIdList,
+        startDate: '2023-09-06',
+        endDate: '2023-09-06'
       }, cardId);
     },
     // 初始家庭信息
     initFamilyInfo: function initFamilyInfo() {
-      var _this6 = this;
+      var _this7 = this;
       this.familyMemberList = [];
       this.familyMemberList = _lodash.default.cloneDeep(this.familyMessage.familyMemberList);
       if (this.familyId) {
         this.initValue = this.familyMessage.familyMemberList.filter(function (el) {
-          return el.id == _this6.familyId;
+          return el.id == _this7.familyId;
         })[0]['value'];
       } else {
         this.initValue = this.familyMemberList[0]['value'];

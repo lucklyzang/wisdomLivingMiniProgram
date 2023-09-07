@@ -155,11 +155,13 @@ var render = function () {
       l0: l0,
     }
   })
+  var g0 = _vm.fullNoticeList.length
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         l1: l1,
+        g0: g0,
       },
     }
   )
@@ -206,10 +208,7 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _device = __webpack_require__(/*! @/api/device.js */ 106);
-var _user = __webpack_require__(/*! @/api/user.js */ 93);
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+var _lodash = _interopRequireDefault(__webpack_require__(/*! lodash */ 107));
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
@@ -233,6 +232,8 @@ var _default = {
       currentPage: 1,
       pageSize: 15,
       totalCount: 0,
+      noReadNum: 0,
+      readedNum: 0,
       status: 'loadmore',
       initValue: null,
       initValueId: null,
@@ -246,22 +247,14 @@ var _default = {
     };
   },
   onLoad: function onLoad() {
-    this.queryUserFamilyList();
-    if (this.deviceNoticeDetails.familyId) {
-      this.queryDeviceNoticeList({
-        pageNo: this.currentPage,
-        pageSize: this.pageSize,
-        familyId: this.deviceNoticeDetails.familyId
-      }, true);
-    } else {
-      this.queryDeviceNoticeList({
-        pageNo: this.currentPage,
-        pageSize: this.pageSize,
-        familyId: ''
-      }, true);
-    }
+    this.initFamilyInfo();
+    this.queryDeviceNoticeList({
+      pageNo: this.currentPage,
+      pageSize: this.pageSize,
+      familyId: this.initValueId == 'null' ? '' : this.initValueId
+    }, true);
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'deviceNoticeDetails'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'deviceNoticeDetails', 'familyMessage', 'familyId'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -269,21 +262,21 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  onReachBottom: function onReachBottom() {
-    var totalPage = Math.ceil(this.totalCount / this.pageSize);
-    if (this.currentPage >= totalPage) {
-      this.status = 'nomore';
-    } else {
-      this.status = 'loading';
-      this.currentPage = this.currentPage + 1;
-      this.queryDeviceNoticeList({
-        pageNo: this.currentPage,
-        pageSize: this.pageSize,
-        familyId: this.initValueId
-      }, false);
-    }
-  },
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeDeviceNoticeDetails'])), {}, {
+    scrolltolower: function scrolltolower() {
+      var totalPage = Math.ceil(this.totalCount / this.pageSize);
+      if (this.currentPage >= totalPage) {
+        this.status = 'nomore';
+      } else {
+        this.status = 'loading';
+        this.currentPage = this.currentPage + 1;
+        this.queryDeviceNoticeList({
+          pageNo: this.currentPage,
+          pageSize: this.pageSize,
+          familyId: this.initValueId == 'null' ? '' : this.initValueId
+        }, false);
+      }
+    },
     backTo: function backTo() {
       this.changeDeviceNoticeDetails({});
       uni.switchTab({
@@ -317,58 +310,27 @@ var _default = {
       this.queryDeviceNoticeList({
         pageNo: this.currentPage,
         pageSize: this.pageSize,
-        familyId: this.initValueId
+        familyId: this.initValueId == 'null' ? '' : this.initValueId
       }, true);
     },
-    // 获取用户家庭列表
-    queryUserFamilyList: function queryUserFamilyList() {
+    // 初始家庭信息
+    initFamilyInfo: function initFamilyInfo() {
       var _this = this;
-      this.familyMemberList = [{
-        id: '',
+      this.familyMemberList = [];
+      this.familyMemberList = _lodash.default.cloneDeep(this.familyMessage.familyMemberList);
+      this.familyMemberList.unshift({
+        id: null,
         value: '所有家庭'
-      }];
-      (0, _user.getUserFamilyList)().then(function (res) {
-        if (res && res.data.code == 0) {
-          var _iterator = _createForOfIteratorHelper(res.data.data),
-            _step;
-          try {
-            for (_iterator.s(); !(_step = _iterator.n()).done;) {
-              var item = _step.value;
-              _this.familyMemberList.push({
-                id: item.id,
-                value: item.name
-              });
-            }
-          } catch (err) {
-            _iterator.e(err);
-          } finally {
-            _iterator.f();
-          }
-          ;
-          if (_this.deviceNoticeDetails.familyId) {
-            _this.initValueId = _this.deviceNoticeDetails.familyId;
-            _this.initValue = _this.familyMemberList.filter(function (el) {
-              return el.id == _this.deviceNoticeDetails.familyId;
-            })[0]['value'];
-          } else {
-            _this.initValueId = _this.familyMemberList[0]['id'];
-            _this.initValue = _this.familyMemberList[0]['value'];
-          }
-          ;
-        } else {
-          _this.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-      }).catch(function (err) {
-        _this.$refs.uToast.show({
-          title: err,
-          type: 'error',
-          position: 'bottom'
-        });
       });
+      if (this.deviceNoticeDetails.familyId) {
+        this.initValue = this.familyMessage.familyMemberList.filter(function (el) {
+          return el.id === _this.deviceNoticeDetails.familyId;
+        })[0]['value'];
+        this.initValueId = this.deviceNoticeDetails.familyId;
+      } else {
+        this.initValue = this.familyMemberList[0]['value'];
+        this.initValueId = this.familyMemberList[0]['id'];
+      }
     },
     // 获取设备通知列表
     queryDeviceNoticeList: function queryDeviceNoticeList(data, flag) {
@@ -389,6 +351,20 @@ var _default = {
           if (_this2.fullNoticeList.length == 0) {
             _this2.isShowNoHomeNoData = true;
           } else {
+            _this2.noReadNum = 0;
+            _this2.readedNum = 0;
+            _this2.fullNoticeList.forEach(function (item) {
+              var noReadSum = 0;
+              noReadSum = item.respVOS.filter(function (innerItem) {
+                return innerItem.status == 0;
+              }).length;
+              _this2.noReadNum += noReadSum;
+              var readSum = 0;
+              readSum = item.respVOS.filter(function (innerItem) {
+                return innerItem.status == 1;
+              }).length;
+              _this2.readedNum += readSum;
+            });
             _this2.isShowNoHomeNoData = false;
           }
         } else {
@@ -418,6 +394,30 @@ var _default = {
         });
       });
     },
+    // 更新设备通知为已读
+    updateDeviceInformReadEvent: function updateDeviceInformReadEvent(id) {
+      var _this3 = this;
+      this.showLoadingHint = true;
+      this.infoText = '';
+      (0, _device.updateDeviceInformRead)(id).then(function (res) {
+        if (res && res.data.code == 0) {} else {
+          _this3.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this3.showLoadingHint = false;
+      }).catch(function (err) {
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 进入消息详情事件
     enterMessageDetailsPageEvent: function enterMessageDetailsPageEvent(item, innerItem) {
       var temporaryDeviceNoticeDetails = this.deviceNoticeDetails;
@@ -425,6 +425,7 @@ var _default = {
       temporaryDeviceNoticeDetails['time'] = item.time;
       temporaryDeviceNoticeDetails['content'] = innerItem;
       this.changeDeviceNoticeDetails(temporaryDeviceNoticeDetails);
+      this.updateDeviceInformReadEvent(innerItem.id);
       uni.redirectTo({
         url: '/devicePackage/pages/messageDetails/messageDetails'
       });

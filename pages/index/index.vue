@@ -85,8 +85,7 @@
 						</view>
 					</view>
 				</view>
-				<!-- && item.hasOwnProperty('devices') -->
-				<view class="sleep-area-data" v-if="item.type == 0">
+				<view class="sleep-area-data" v-if="item.type == 0 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>7月8日</text>
@@ -105,7 +104,7 @@
 							</view>
 						</view>
 						<view class="heart-rate-chart">
-							<qiun-data-charts type="column" :ontouch="true" :opts="opts" :chartData="chartData" />
+							<qiun-data-charts type="column" :ontouch="true" :opts="heartOpts" :chartData="chartData" />
 						</view>
 					</view>
 					<view class="heart-rate-box breathe-box">
@@ -120,7 +119,7 @@
 							</view>
 						</view>
 						<view class="breathe-chart">
-							<qiun-data-charts type="line" :ontouch="true" :opts="lineOpts" :chartData="lineChartData" />
+							<qiun-data-charts type="line" :ontouch="true" :opts="breatheOpts" :chartData="lineChartData" />
 						</view>
 					</view>
 					<view class="heart-rate-box sleep-box">
@@ -139,8 +138,7 @@
 						</view>
 					</view>
 				</view>
-				<!-- && item.hasOwnProperty('devices') -->
-				<view class="sleep-area-data toilet-area-data" v-if="item.type == 1">
+				<view class="sleep-area-data toilet-area-data" v-if="item.type == 1 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>7月8日</text>
@@ -159,12 +157,11 @@
 							</view>
 						</view>
 						<view class="toilet-chart">
-							<qiun-data-charts type="column" :opts="opts" :ontouch="true" :chartData="chartData" />
+							<qiun-data-charts type="column" :opts="heartOpts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
-				<!-- && item.hasOwnProperty('devices') -->
-				<view class="sleep-area-data tumble-area-data" v-if="item.type == 2">
+				<view class="sleep-area-data tumble-area-data" v-if="item.type == 2 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>7月8日</text>
@@ -183,12 +180,11 @@
 							</view>
 						</view>
 						<view class="tumble-chart">
-							<qiun-data-charts type="bar" :opts="opts" :ontouch="true" :chartData="chartData" />
+							<qiun-data-charts type="bar" :opts="heartOpts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
-				<!-- && item.hasOwnProperty('devices') -->
-				<view class="sleep-area-data leave-home-area-data" v-if="item.type == 3">
+				<view class="sleep-area-data leave-home-area-data" v-if="item.type == 3 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>7月8日</text>
@@ -206,7 +202,7 @@
 							</view>
 						</view>
 						<view class="leave-home-chart">	
-							<qiun-data-charts type="column" :opts="opts" :ontouch="true" :chartData="chartData" />
+							<qiun-data-charts type="column" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList.get(item.id)" />
 						</view>
 					</view>
 				</view>
@@ -248,34 +244,53 @@
 				sleepSmallIconPng: require("@/static/img/sleep-small-icon.png"),
 				familyMemberList: [],
 				deviceList: [],
-				sceneDataList: [],
+				sceneDataList: new Map(),
 				chartData: {},
 				lineChartData: {},
-				lineOpts: {
-					 color: ["#1890FF"],
-						padding: [15,10,0,15],
-						enableScroll: false,
-						legend: { show: false },
-						xAxis: {
-							disableGrid: true
-						},
-						yAxis: {
-							disabled: true,
-							disableGrid: true
-						},
-						extra: {
-							line: {
-								type: "straight",
-								width: 2,
-								activeType: "hollow"
-							}
+				breatheOpts: {
+				 color: ["#1890FF"],
+					padding: [15,10,0,15],
+					enableScroll: false,
+					legend: { show: false },
+					xAxis: {
+						disableGrid: true
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						line: {
+							type: "straight",
+							width: 2,
+							activeType: "hollow"
 						}
+					}
 				},
-				opts: {
+				leaveHomeOpts: {
+					color: ["#1890FF"],
+					padding: [15,10,0,15],
+					enableScroll: false,
+					legend: { show: false },
+					xAxis: {
+						disableGrid: true
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						line: {
+							type: "straight",
+							width: 2,
+							activeType: "hollow"
+						}
+					}
+				},
+				heartOpts: {
 					color: ["#1890FF"],
 					padding: [15,30,0,5],
 					enableScroll: true,
-					legend: {},
 					xAxis: {
 						boundaryGap: "justify",
 						disableGrid: false,
@@ -298,13 +313,7 @@
 				}
 			}
 		},
-		onUnload() {
-		},
-		onReady() {
-			this.getServerData();
-		},
 		onLoad() {
-			console.log('sa',randomStr());
 			this.queryHomePageList(this.familyId);
 			this.queryUserBannerList();
 			this.initFamilyInfo()
@@ -377,11 +386,13 @@
 			},
 			
 			// 格式化时间
-			getNowFormatDate(currentDate) {
+			getNowFormatDate(currentDate,type) {
+				// type 1-显示年月日  2-显示年月日小时分钟
 				let currentdate;
 				let strDate = currentDate.getDate();
 				let seperator1 = "-";
 				let seperator2 = ":";
+				let seperator3 = " ";
 				let month = currentDate.getMonth() + 1;
 				let hour = currentDate.getHours();
 				let minutes = currentDate.getMinutes();
@@ -397,7 +408,12 @@
 				if (strDate >= 0 && strDate <= 9) {
 					strDate = "0" + strDate;
 				};
-				currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				if (type == 1) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				};
+				if (type == 2) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+				};
 				return currentdate
 			},
 			
@@ -443,11 +459,27 @@
 			queryLeaveHomeDetails (data,cardId) {
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						let temporaryData = {
-							id: cardId,
-							content: res.data.data
+						// let temporaryData = {
+						// 	id: cardId,
+						// 	content: res.data.data
+						// };
+						let res = {
+							categories: ["9-5"],
+							series: [
+								{
+									name: "正常",
+									data: [35]
+								},
+								{
+									name: "跌倒",
+									data: [18]
+								}
+							]
 						};
-						this.sceneDataList.push(temporaryData)
+						let temporaryContent = JSON.parse(JSON.stringify(res));
+						this.sceneDataList.set(cardId,temporaryContent);
+							console.log('图表数据离回家',this.sceneDataList.has(9));
+						// this.sceneDataList.push(temporaryData);
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -507,7 +539,6 @@
 				getHomePageList({familyId}).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.deviceList = res.data.data.filter((item) => { return item.status == 0 });
-						console.log('设备数据',this.deviceList);
 						if (this.deviceList.length == 0) {
 							this.isShowHomeNoData = true
 						} else {
@@ -543,6 +574,8 @@
 						for (let el of item.devices) {
 							temporaryDevices.push(el.device)
 						};
+						this.sceneDataList.set(item.id,{});
+						console.log('map',this.sceneDataList);
 						if (item.type == 0) {
 							this.requestSleepDeviceStatisticsData(temporaryDevices[0],item.id)
 						} else if (item.type == 3) {
@@ -556,17 +589,17 @@
 			requestSleepDeviceStatisticsData (deviceIdList,cardId) {
 				this.querySleepDayDataList({
 					deviceId: deviceIdList,
-					startDate: this.getNowFormatDate(new Date()),
-					endDate: this.getNowFormatDate(new Date())
+					startDate: this.getNowFormatDate(new Date(),1),
+					endDate: this.getNowFormatDate(new Date(),1)
 				},cardId)
 			},
 			
-			// 为绑定设备的场景请求设备统计日数据(离、回家场景)
+			// 为绑定设备的场景请求设备统计日数据(离、回家场景)this.getNowFormatDate(new Date(),1)
 			requestEnterLeaveHomeDetails (deviceIdList,cardId) {
 				this.queryLeaveHomeDetails({
 					deviceId: deviceIdList,
-					startDate: this.getNowFormatDate(new Date()),
-					endDate: this.getNowFormatDate(new Date())
+					startDate: '2023-09-06',
+					endDate: '2023-09-06'
 				},cardId)
 			},
 			

@@ -1,4 +1,5 @@
 {
+  "onReachBottomDistance": 100,
   "navigationBarTitleText": "",
   "navigationBarBackgroundColor": "#ffffff",
   "backgroundColorTop": "#fff,",
@@ -7,6 +8,7 @@
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
     "u-picker": "/node-modules/uview-ui/components/u-picker/u-picker",
     "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty",
     "nav-bar": "/components/zhouWei-navBar/index"
   }
 }

@@ -13,14 +13,17 @@
 		</view>
 		<view class="content-area">
 			<view class="log-list-wrapper">
-				<view class="log-list" v-for="(item,index) in logList" :key="index">
-					<text>{{ item.date }}</text>
-					<text>>>></text>
-					<text>一人进入</text>
-					<text>;</text>
-					<text>当前区域人数</text>
-					<text>1人</text>
-				</view>
+				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
+				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+					<view class="log-list" v-for="(item,index) in logList" :key="index">
+						<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+						<text>>>></text>
+						<text>一人进入</text>
+						<text>;</text>
+						<text>当前区域人数</text>
+						<text>1人</text>
+					</view>
+				</scroll-view>
 			</view>
 		</view>
 	</view>
@@ -32,15 +35,22 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { getBodyDetectionRadar } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
 		},
 		data() {
 			return {
-				infoText: '',
+				infoText: '加载中',
 				checked: false,
 				dateShow: false,
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				recordList: [],
+				fullRecordList: [],
+				status: 'loadmore',
 				params: {
 					year: true,
 					month: true,
@@ -88,6 +98,60 @@
 				'changeOverDueWay'
 			]),
 			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loading';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryBodyDetectionRadar({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+						createDate: this.currentDate
+					})
+				}
+			},
+			
+			// 格式化时间
+			getNowFormatDate(currentDate,type) {
+				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(只显示年月日小时分钟)
+				let currentdate;
+				let strDate = currentDate.getDate();
+				let seperator1 = "-";
+				let seperator2 = ":";
+				let seperator3 = " ";
+				let month = currentDate.getMonth() + 1;
+				let hour = currentDate.getHours();
+				let minutes = currentDate.getMinutes();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				};
+				if (hour >= 0 && hour <= 9) {
+					hour = "0" + hour;
+				};
+				if (minutes >= 0 && minutes <= 9) {
+					minutes = "0" + minutes;
+				};
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				};
+				if (type == 1) {
+					currentdate = hour + seperator2 + minutes
+				};
+				if (type == 2) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+				};
+				if (type == 3) {
+					currentdate = currentDate.getFullYear() + seperator1 + month
+				};
+				if (type == 4) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+				};
+				return currentdate
+			},
+			
 			// 日期图标点击事件
 			dateIconClickEvent () {
 				this.dateShow = true
@@ -95,7 +159,47 @@
 			
 			// 日期选择确定事件
 			dateSure (value) {
-				console.log(value)
+				this.currentDate = `${value.year}-${value.month}-${value.day}`;
+				this.fullRecordList = [];
+				this.queryBodyDetectionRadar({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+					createDate: this.currentDate
+				});
+			},
+			
+			// 获取人体检测雷达日志
+			queryBodyDetectionRadar (data) {
+				this.recordList = [];
+				this.showLoadingHint = true;
+				getBodyDetectionRadar(data).then((res) => {
+					this.showLoadingHint = false;
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.recordList = res.data.data.list;
+						this.fullRecordList = this.fullRecordList.concat(this.recordList);
+						if (this.fullRecordList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
 			},
 			
 			backTo () {
@@ -149,8 +253,19 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				position: relative;
+				.scroll-view {
+					height: 100%
+				};
+				::v-deep .u-empty {
+				 	position: absolute;
+				 	top: 50%;
+				 	left: 50%;
+				 	transform: translate(-50%,-50%)
+				 };
 				.log-list {
 					margin-bottom: 10px;
+					text-align: center;
 					>text {
 						font-size: 14px;
 						color: #101010;

@@ -370,12 +370,14 @@ var _default = {
     },
     // 房间点击事件
     roomClickEvent: function roomClickEvent() {
-      this.chooseRoomShow = true;
+      this.queryUserRoomList(this.familyId);
     },
     // 房间名称点击事件
     roomNameClickEvent: function roomNameClickEvent(item, index) {
       this.currentIndex = index;
       this.chooseRoomShow = false;
+      this.roomId = item.id;
+      this.roomName = item.name;
     },
     // 房间取消选择事件
     cancelChooseEvent: function cancelChooseEvent() {

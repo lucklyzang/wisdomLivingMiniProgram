@@ -444,6 +444,7 @@
 				{
 					"path": "pages/bodyDetectionRadarCompleteSet/logRecord",
 					"style": {
+						"onReachBottomDistance": 100,
 						"navigationBarTitleText": "",
 						"navigationBarBackgroundColor": "#ffffff",
 						"backgroundColorTop": "#fff,",

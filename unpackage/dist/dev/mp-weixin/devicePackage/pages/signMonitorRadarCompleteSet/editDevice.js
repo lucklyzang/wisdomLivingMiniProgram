@@ -388,7 +388,8 @@ var _default = {
     roomNameClickEvent: function roomNameClickEvent(item, index) {
       this.currentIndex = index;
       this.chooseRoomShow = false;
-      this.roomId = item.id, this.roomName = item.name;
+      this.roomId = item.id;
+      this.roomName = item.name;
     },
     // 房间取消选择事件
     cancelChooseEvent: function cancelChooseEvent() {

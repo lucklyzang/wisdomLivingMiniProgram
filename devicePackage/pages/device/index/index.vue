@@ -8,8 +8,8 @@
 		</view>
 		<view class="message-title-area">
 			<view class="message-atile-area-left">
-				<text>一条未读</text>
-				<text>全部已读</text>
+				<text>{{ `${noReadNum}条未读` }}</text>
+				<text>{{ noReadNum == 0 ? '全部已读' : `${readedNum}条已读` }}</text>
 			</view>
 			<view class="message-atile-area-right">
 				<xfl-select
@@ -26,32 +26,34 @@
 		</view>
 		<view class="message-content-area">
 			<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
-			<view class="message-list" v-for="(item,index) in fullNoticeList" :key="index">
-				<text>
-					{{ item.time }}
-				</text>
-				<view class="message-inner-list" v-for="(innerItem,innerIndex) in item.respVOS" :key="innerIndex" @click="enterMessageDetailsPageEvent(item,innerItem)">
-					<view class="is-read-sign" v-if="innerItem.status == 0"></view>
-					<view class="message-inner-list-top">
-						<view class="inner-list-left">
-							<image :src="innerItem.category == 0 ? deviceInformIconPng : systemInformIconPng"></image>
-							<text>{{ innerItem.category == 0 ? '设备通知' : '系统通知' }}</text>
+			<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+				<view class="message-list" v-for="(item,index) in fullNoticeList" :key="index">
+					<text>
+						{{ item.time }}
+					</text>
+					<view class="message-inner-list" v-for="(innerItem,innerIndex) in item.respVOS" :key="innerIndex" @click="enterMessageDetailsPageEvent(item,innerItem)">
+						<view class="is-read-sign" v-if="innerItem.status == 0"></view>
+						<view class="message-inner-list-top">
+							<view class="inner-list-left">
+								<image :src="innerItem.category == 0 ? deviceInformIconPng : systemInformIconPng"></image>
+								<text>{{ innerItem.category == 0 ? '设备通知' : '系统通知' }}</text>
+							</view>
+							<view class="inner-list-right">
+								<text>{{ innerItem.familyName }}</text>
+								<text v-if="innerItem.category == 0">{{ deviceTypeTransitionText(innerItem.type) }}</text>
+								<text v-if="innerItem.category == 0">{{ innerItem.roomName }}</text>
+							</view>
 						</view>
-						<view class="inner-list-right">
-							<text>{{ innerItem.familyName }}</text>
-							<text v-if="innerItem.category == 0">{{ deviceTypeTransitionText(innerItem.type) }}</text>
-							<text v-if="innerItem.category == 0">{{ innerItem.roomName }}</text>
+						<view class="message-inner-list-bottom" v-if="innerItem.category == 1">
+							<u-parse :html="innerItem.content"></u-parse>
 						</view>
-					</view>
-					<view class="message-inner-list-bottom" v-if="innerItem.category == 1">
-						<u-parse :html="innerItem.content"></u-parse>
-					</view>
-					<view class="message-inner-list-bottom" v-else>
-						<text>{{ innerItem.content }}</text>
+						<view class="message-inner-list-bottom" v-else>
+							<text>{{ innerItem.content }}</text>
+						</view>
 					</view>
 				</view>
-			</view>
-			<u-loadmore :status="status" />
+				<u-loadmore :status="status" v-show="fullNoticeList.length > 0" />
+			</scroll-view>
 			</view>
 		</view>
 	</view>
@@ -64,8 +66,8 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
-	import { getDeviceInforPage } from '@/api/device.js'
-	import { getUserFamilyList } from '@/api/user.js'
+	import { getDeviceInforPage, updateDeviceInformRead } from '@/api/device.js'
+	import _ from 'lodash'
 	export default {
 		components: {
 			navBar,
@@ -77,6 +79,8 @@
 				currentPage: 1,
 				pageSize: 15,
 				totalCount: 0,
+				noReadNum: 0,
+				readedNum: 0,
 				status: 'loadmore',
 				initValue: null,
 				initValueId: null,
@@ -90,25 +94,19 @@
 			}
 		},
 		onLoad() {
-			this.queryUserFamilyList();
-			if (this.deviceNoticeDetails.familyId) {
-				this.queryDeviceNoticeList({
-					pageNo: this.currentPage,
-					pageSize: this.pageSize,
-					familyId: this.deviceNoticeDetails.familyId
-				},true)
-			} else {
-				this.queryDeviceNoticeList({
-					pageNo: this.currentPage,
-					pageSize: this.pageSize,
-					familyId: ''
-				},true)
-			}
+			this.initFamilyInfo();
+			this.queryDeviceNoticeList({
+				pageNo: this.currentPage,
+				pageSize: this.pageSize,
+				familyId: this.initValueId == 'null' ? '' : this.initValueId
+			},true)
 		},
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'deviceNoticeDetails'
+				'deviceNoticeDetails',
+				'familyMessage',
+				'familyId'
 			]),
 			userName() {
 			},
@@ -123,25 +121,27 @@
 			accountName() {
 			}
 		},
-		onReachBottom() {
-		 let totalPage = Math.ceil(this.totalCount/this.pageSize);
-		 if (this.currentPage >= totalPage) {
-				this.status = 'nomore'
-			} else {
-				this.status = 'loading';
-				this.currentPage = this.currentPage + 1;
-				this.queryDeviceNoticeList({
-					pageNo: this.currentPage,
-					pageSize: this.pageSize,
-					familyId: this.initValueId
-				},false)
-			}
-		},
+		
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
 				'changeDeviceNoticeDetails'
 			]),
+			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPage >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loading';
+					this.currentPage = this.currentPage + 1;
+					this.queryDeviceNoticeList({
+						pageNo: this.currentPage,
+						pageSize: this.pageSize,
+						familyId: this.initValueId == 'null' ? '' : this.initValueId
+					},false)
+				}
+			},
 			
 			backTo () {
 				this.changeDeviceNoticeDetails({});
@@ -178,46 +178,25 @@
 				this.queryDeviceNoticeList({
 					pageNo: this.currentPage,
 					pageSize: this.pageSize,
-					familyId: this.initValueId
+					familyId: this.initValueId == 'null' ? '' : this.initValueId
 				},true)
 			},
 			
-			// 获取用户家庭列表
-			queryUserFamilyList () {
-				this.familyMemberList = [{
-					id: '',
+			// 初始家庭信息
+			initFamilyInfo () {
+				this.familyMemberList = [];
+				this.familyMemberList = _.cloneDeep(this.familyMessage.familyMemberList);
+				this.familyMemberList.unshift({
+					id: null,
 					value: '所有家庭'
-				}];
-				getUserFamilyList().then((res) => {
-					if ( res && res.data.code == 0) {
-						for (let item of res.data.data) {
-							this.familyMemberList.push({
-								id: item.id,
-								value: item.name
-							})
-						};
-						if (this.deviceNoticeDetails.familyId) {
-							this.initValueId = this.deviceNoticeDetails.familyId;
-							this.initValue = this.familyMemberList.filter((el) => { return el.id == this.deviceNoticeDetails.familyId })[0]['value'];
-						} else {
-							this.initValueId = this.familyMemberList[0]['id'];
-							this.initValue = this.familyMemberList[0]['value']
-						};
-					} else {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
-							position: 'bottom'
-						})
-					}
-				})
-				.catch((err) => {
-					this.$refs.uToast.show({
-						title: err,
-						type: 'error',
-						position: 'bottom'
-					})
-				})
+				});
+				if (this.deviceNoticeDetails.familyId) {
+					this.initValue = this.familyMessage.familyMemberList.filter((el) => { return el.id === this.deviceNoticeDetails.familyId })[0]['value'];
+					this.initValueId = this.deviceNoticeDetails.familyId
+				} else {
+					this.initValue = this.familyMemberList[0]['value'];
+					this.initValueId = this.familyMemberList[0]['id']
+				}
 			},
 			
 			// 获取设备通知列表
@@ -237,6 +216,20 @@
 						if (this.fullNoticeList.length == 0) {
 							this.isShowNoHomeNoData = true
 						} else {
+							this.noReadNum = 0;
+							this.readedNum = 0;
+							this.fullNoticeList.forEach((item) => {
+								let noReadSum = 0;
+								noReadSum = item.respVOS.filter((innerItem) => {
+									return innerItem.status == 0
+								}).length;
+								this.noReadNum += noReadSum;
+								let readSum = 0;
+								readSum = item.respVOS.filter((innerItem) => {
+									return innerItem.status == 1
+								}).length;
+								this.readedNum += readSum
+							});
 							this.isShowNoHomeNoData = false
 						}
 					} else {
@@ -266,6 +259,31 @@
 				})
 			},
 			
+			// 更新设备通知为已读
+			updateDeviceInformReadEvent(id) {
+				this.showLoadingHint = true
+				this.infoText = '';
+				updateDeviceInformRead(id).then((res) => {
+					if ( res && res.data.code == 0) {
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 进入消息详情事件
 			enterMessageDetailsPageEvent (item,innerItem) {
 				let temporaryDeviceNoticeDetails = this.deviceNoticeDetails;
@@ -273,6 +291,7 @@
 				temporaryDeviceNoticeDetails['time'] = item.time;
 				temporaryDeviceNoticeDetails['content'] = innerItem;
 				this.changeDeviceNoticeDetails(temporaryDeviceNoticeDetails);
+				this.updateDeviceInformReadEvent(innerItem.id);
 				uni.redirectTo({
 					url: '/devicePackage/pages/messageDetails/messageDetails'
 				})
@@ -285,7 +304,7 @@
 	@import "~@/common/stylus/variable.scss";
 	page {
 		width: 100%;
-		height: 100%;
+		height: 100%
 	};
 	.content-box {
 		@include content-wrapper;
@@ -341,6 +360,9 @@
 					};
 					.list {
 						color: #101010;
+						.item.active {
+							color: #11D183 !important
+						}
 					};
 					.list-container {
 						width: 150px !important;
@@ -373,6 +395,9 @@
 			 	top: 50%;
 			 	left: 50%;
 			 	transform: translate(-50%,-50%)
+			 };
+			 .scroll-view {
+					height: 100%
 			 };
 			.message-list {
 				text-align: center;
