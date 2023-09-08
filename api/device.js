@@ -219,3 +219,12 @@ export function getBodyDetectionRadar(data) {
 		params: data
   })
 };
+
+// 获取离、回家数据详情
+export function getBodyDetectionRadarDetails(data) {
+  return request({
+    url: '/app-api/radar/line-rule-data/enter-leave-detail',
+    method: 'get',
+		params: data
+  })
+};

@@ -180,7 +180,7 @@
 							</view>
 						</view>
 						<view class="tumble-chart">
-							<qiun-data-charts type="bar" :opts="heartOpts" :ontouch="true" :chartData="chartData" />
+							<qiun-data-charts type="bar" :opts="tumbOpts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
@@ -195,14 +195,14 @@
 							<view class="heart-rate-title-left">
 								<image :src="leaveHomeIconPng"></image>
 								<text>最近离家时间</text>
-								<text>22：37</text>
+								<text v-if="sceneDataList[item.id]['isShow']">{{ getNowFormatDate(sceneDataList[item.id]['lastGoOut'],3) }}</text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('离家和回家',item)">
 								详情
 							</view>
 						</view>
 						<view class="leave-home-chart">	
-							<qiun-data-charts type="column" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList.get(item.id)" />
+							<qiun-data-charts type="column" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList[item.id]['data']" />
 						</view>
 					</view>
 				</view>
@@ -244,30 +244,10 @@
 				sleepSmallIconPng: require("@/static/img/sleep-small-icon.png"),
 				familyMemberList: [],
 				deviceList: [],
-				sceneDataList: new Map(),
+				sceneDataList: {},
 				chartData: {},
 				lineChartData: {},
 				breatheOpts: {
-				 color: ["#1890FF"],
-					padding: [15,10,0,15],
-					enableScroll: false,
-					legend: { show: false },
-					xAxis: {
-						disableGrid: true
-					},
-					yAxis: {
-						disabled: true,
-						disableGrid: true
-					},
-					extra: {
-						line: {
-							type: "straight",
-							width: 2,
-							activeType: "hollow"
-						}
-					}
-				},
-				leaveHomeOpts: {
 					color: ["#1890FF"],
 					padding: [15,10,0,15],
 					enableScroll: false,
@@ -280,11 +260,41 @@
 						disableGrid: true
 					},
 					extra: {
-						line: {
-							type: "straight",
-							width: 2,
-							activeType: "hollow"
+					}
+				},
+				leaveHomeOpts: {
+					color: ["#F2A15F","#289E8E"],
+					dataLabel: false,
+					padding: [15,10,0,15],
+					enableScroll: true,
+					xAxis: {
+						disableGrid: true,
+						itemCount: 8
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						column: {
+							width: 6,
+							categoryGap: 2
 						}
+					}
+				},
+				tumbOpts: {
+					color: ["#F2A15F","#289E8E"],
+					dataLabel: false,
+					padding: [15,10,0,15],
+					enableScroll: false,
+					xAxis: {
+						disableGrid: true
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
 					}
 				},
 				heartOpts: {
@@ -300,15 +310,6 @@
 					},
 					yAxis: {},
 					extra: {
-						bar: {
-							type: "stack",
-							width: 30,
-							meterBorde: 1,
-							meterFillColor: "#FFFFFF",
-							activeBgColor: "#000000",
-							activeBgOpacity: 0.08,
-							categoryGap: 2
-						}
 					}
 				}
 			}
@@ -354,11 +355,11 @@
 							series: [
 								{
 									name: "正常",
-									data: [35]
+									data: [35,36,31,33,13,34]
 								},
 								{
 									name: "跌倒",
-									data: [18]
+									data: [18,27,21,24,6,28]
 								}
 							]
 						};
@@ -387,7 +388,7 @@
 			
 			// 格式化时间
 			getNowFormatDate(currentDate,type) {
-				// type 1-显示年月日  2-显示年月日小时分钟
+				// type 1-显示年月日  2-显示年月日小时分钟 3-显示小时分钟
 				let currentdate;
 				let strDate = currentDate.getDate();
 				let seperator1 = "-";
@@ -413,6 +414,9 @@
 				};
 				if (type == 2) {
 					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+				};
+				if (type == 3) {
+					currentdate = hour + seperator2 + minutes
 				};
 				return currentdate
 			},
@@ -459,27 +463,39 @@
 			queryLeaveHomeDetails (data,cardId) {
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						// let temporaryData = {
-						// 	id: cardId,
-						// 	content: res.data.data
-						// };
-						let res = {
-							categories: ["9-5"],
+						let questData = res.data.data[0]['ruleDataVO'];
+						console.log('离回家数据',res.data.data);
+						let temporaryData = {
+							categories: [],
 							series: [
 								{
-									name: "正常",
-									data: [35]
+									name: "离家",
+									data: []
 								},
 								{
-									name: "跌倒",
-									data: [18]
+									name: "回家",
+									data: []
 								}
 							]
 						};
-						let temporaryContent = JSON.parse(JSON.stringify(res));
-						this.sceneDataList.set(cardId,temporaryContent);
-							console.log('图表数据离回家',this.sceneDataList.has(9));
-						// this.sceneDataList.push(temporaryData);
+						questData.details.forEach((item,index) => {
+							temporaryData['categories'].push(this.getNowFormatDate(new Date(item.createTime),3));
+							if (item.goOut) {
+								temporaryData['series'][0]['data'].push(30)
+							} else {
+								temporaryData['series'][0]['data'].push('')
+							};
+							if (item.enter) {
+								temporaryData['series'][1]['data'].push(30)
+							} else {
+								temporaryData['series'][1]['data'].push('')
+							}
+						});
+						console.log('时间数据',temporaryData);
+						let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+						this.$set(this.sceneDataList[cardId],'data',temporaryContent);
+						this.$set(this.sceneDataList[cardId],'isShow',true);
+						this.$set(this.sceneDataList[cardId],'lastGoOut',new Date(questData['lastGoOut']));
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -574,11 +590,13 @@
 						for (let el of item.devices) {
 							temporaryDevices.push(el.device)
 						};
-						this.sceneDataList.set(item.id,{});
-						console.log('map',this.sceneDataList);
 						if (item.type == 0) {
 							this.requestSleepDeviceStatisticsData(temporaryDevices[0],item.id)
 						} else if (item.type == 3) {
+							this.$set(this.sceneDataList,item.id,{});
+							this.$set(this.sceneDataList[item.id],'data',{});
+							this.$set(this.sceneDataList[item.id],'lastGoOut','');
+							this.$set(this.sceneDataList[item.id],'isShow',false);
 							this.requestEnterLeaveHomeDetails(temporaryDevices[0],item.id)
 						}
 					}
@@ -857,7 +875,9 @@
 						&:first-child {
 							font-size: 14px;
 							color: #101010;
-							margin-top: 0 !important
+							margin-top: 0 !important;
+							@include no-wrap();
+							max-width: 200px;
 						}
 					};
 					.room-name {
@@ -936,7 +956,6 @@
 						height: 94px
 					}
 				};
-				.sleep-data-title {};
 				margin-top: 8px;
 				.toilet-chart {
 					flex: 1
@@ -959,6 +978,11 @@
 				height: 184px;
 				margin-top: 8px;
 				margin-bottom: 8px;
+				.sleep-data-title {
+					.room-name::after {
+						display: none
+					}
+				};
 				.heart-rate-box {
 					height: 0;
 					flex: 1 !important;

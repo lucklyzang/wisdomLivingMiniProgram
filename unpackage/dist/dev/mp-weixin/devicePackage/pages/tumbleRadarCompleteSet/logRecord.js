@@ -112,6 +112,9 @@ try {
     uEmpty: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 768))
     },
+    uLoadmore: function () {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-loadmore/u-loadmore */ "node-modules/uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! uview-ui/components/u-loadmore/u-loadmore.vue */ 825))
+    },
   }
 } catch (e) {
   if (
@@ -142,11 +145,13 @@ var render = function () {
       m0: m0,
     }
   })
+  var g0 = _vm.fullRecordList.length
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         l0: l0,
+        g0: g0,
       },
     }
   )
@@ -210,7 +215,7 @@ var _default = {
       checked: false,
       dateShow: false,
       currentPageNum: 1,
-      pageSize: 20,
+      pageSize: 100,
       totalCount: 0,
       recordList: [],
       fullRecordList: [],

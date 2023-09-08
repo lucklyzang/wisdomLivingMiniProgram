@@ -126,7 +126,10 @@ var render = function () {
     var g5 = item.type == 1 && item.hasOwnProperty("devices")
     var g6 = item.type == 2 && item.hasOwnProperty("devices")
     var g7 = item.type == 3 && item.hasOwnProperty("devices")
-    var g8 = g7 ? _vm.sceneDataList.get(item.id) : null
+    var m0 =
+      g7 && _vm.sceneDataList[item.id]["isShow"]
+        ? _vm.getNowFormatDate(_vm.sceneDataList[item.id]["lastGoOut"], 3)
+        : null
     return {
       $orig: $orig,
       g0: g0,
@@ -137,7 +140,7 @@ var render = function () {
       g5: g5,
       g6: g6,
       g7: g7,
-      g8: g8,
+      m0: m0,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -224,7 +227,7 @@ var _default = {
       sleepSmallIconPng: __webpack_require__(/*! @/static/img/sleep-small-icon.png */ 114),
       familyMemberList: [],
       deviceList: [],
-      sceneDataList: new Map(),
+      sceneDataList: {},
       chartData: {},
       lineChartData: {},
       breatheOpts: {
@@ -241,21 +244,33 @@ var _default = {
           disabled: true,
           disableGrid: true
         },
+        extra: {}
+      },
+      leaveHomeOpts: {
+        color: ["#F2A15F", "#289E8E"],
+        dataLabel: false,
+        padding: [15, 10, 0, 15],
+        enableScroll: true,
+        xAxis: {
+          disableGrid: true,
+          itemCount: 8
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true
+        },
         extra: {
-          line: {
-            type: "straight",
-            width: 2,
-            activeType: "hollow"
+          column: {
+            width: 6,
+            categoryGap: 2
           }
         }
       },
-      leaveHomeOpts: {
-        color: ["#1890FF"],
+      tumbOpts: {
+        color: ["#F2A15F", "#289E8E"],
+        dataLabel: false,
         padding: [15, 10, 0, 15],
         enableScroll: false,
-        legend: {
-          show: false
-        },
         xAxis: {
           disableGrid: true
         },
@@ -263,13 +278,7 @@ var _default = {
           disabled: true,
           disableGrid: true
         },
-        extra: {
-          line: {
-            type: "straight",
-            width: 2,
-            activeType: "hollow"
-          }
-        }
+        extra: {}
       },
       heartOpts: {
         color: ["#1890FF"],
@@ -283,17 +292,7 @@ var _default = {
           max: 70
         },
         yAxis: {},
-        extra: {
-          bar: {
-            type: "stack",
-            width: 30,
-            meterBorde: 1,
-            meterFillColor: "#FFFFFF",
-            activeBgColor: "#000000",
-            activeBgOpacity: 0.08,
-            categoryGap: 2
-          }
-        }
+        extra: {}
       }
     };
   },
@@ -319,10 +318,10 @@ var _default = {
           categories: ["9-5"],
           series: [{
             name: "正常",
-            data: [35]
+            data: [35, 36, 31, 33, 13, 34]
           }, {
             name: "跌倒",
-            data: [18]
+            data: [18, 27, 21, 24, 6, 28]
           }]
         };
         _this.chartData = JSON.parse(JSON.stringify(res));
@@ -346,7 +345,7 @@ var _default = {
     },
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
-      // type 1-显示年月日  2-显示年月日小时分钟
+      // type 1-显示年月日  2-显示年月日小时分钟 3-显示小时分钟
       var currentdate;
       var strDate = currentDate.getDate();
       var seperator1 = "-";
@@ -377,6 +376,10 @@ var _default = {
       ;
       if (type == 2) {
         currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes;
+      }
+      ;
+      if (type == 3) {
+        currentdate = hour + seperator2 + minutes;
       }
       ;
       return currentdate;
@@ -422,24 +425,37 @@ var _default = {
       var _this3 = this;
       (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
-          // let temporaryData = {
-          // 	id: cardId,
-          // 	content: res.data.data
-          // };
-          var _res = {
-            categories: ["9-5"],
+          var questData = res.data.data[0]['ruleDataVO'];
+          console.log('离回家数据', res.data.data);
+          var temporaryData = {
+            categories: [],
             series: [{
-              name: "正常",
-              data: [35]
+              name: "离家",
+              data: []
             }, {
-              name: "跌倒",
-              data: [18]
+              name: "回家",
+              data: []
             }]
           };
-          var temporaryContent = JSON.parse(JSON.stringify(_res));
-          _this3.sceneDataList.set(cardId, temporaryContent);
-          console.log('图表数据离回家', _this3.sceneDataList.has(9));
-          // this.sceneDataList.push(temporaryData);
+          questData.details.forEach(function (item, index) {
+            temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.createTime), 3));
+            if (item.goOut) {
+              temporaryData['series'][0]['data'].push(30);
+            } else {
+              temporaryData['series'][0]['data'].push('');
+            }
+            ;
+            if (item.enter) {
+              temporaryData['series'][1]['data'].push(30);
+            } else {
+              temporaryData['series'][1]['data'].push('');
+            }
+          });
+          console.log('时间数据', temporaryData);
+          var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+          _this3.$set(_this3.sceneDataList[cardId], 'data', temporaryContent);
+          _this3.$set(_this3.sceneDataList[cardId], 'isShow', true);
+          _this3.$set(_this3.sceneDataList[cardId], 'lastGoOut', new Date(questData['lastGoOut']));
         } else {
           _this3.$refs.uToast.show({
             title: res.data.msg,
@@ -557,11 +573,13 @@ var _default = {
             _iterator2.f();
           }
           ;
-          _this6.sceneDataList.set(item.id, {});
-          console.log('map', _this6.sceneDataList);
           if (item.type == 0) {
             _this6.requestSleepDeviceStatisticsData(temporaryDevices[0], item.id);
           } else if (item.type == 3) {
+            _this6.$set(_this6.sceneDataList, item.id, {});
+            _this6.$set(_this6.sceneDataList[item.id], 'data', {});
+            _this6.$set(_this6.sceneDataList[item.id], 'lastGoOut', '');
+            _this6.$set(_this6.sceneDataList[item.id], 'isShow', false);
             _this6.requestEnterLeaveHomeDetails(temporaryDevices[0], item.id);
           }
         }

@@ -64,6 +64,17 @@
 					</view>
 				</view>
 			</view>
+			<view class="content-center-area">
+				<view class="health-tips">
+					<view class="health-tips-top">
+						<image :src="daytimeNapIconPng"></image>
+						<text>健康小知识</text>
+					</view>
+					<view class="health-tips-bottom" @click="healthTipsDetailsEvent">
+						<text>老人摔倒可能是不小心摔倒、腰椎疾病、心脑血管疾病等原因引起的，老人摔倒后怎么护理需要根据摔倒的原因进行判断。具体分析如下：1.不小心摔倒：如.....</text>
+					</view>
+				</view>
+			</view>
 			<view class="content-bottom-area">
 				<view class="data-overview-list">
 					<view class="overview-list-left">
@@ -73,15 +84,6 @@
 					</view>
 					<view class="overview-list-right">
 						<text>7分钟后起身</text>
-					</view>
-				</view>
-				<view class="health-tips">
-					<view class="health-tips-top">
-						<image :src="daytimeNapIconPng"></image>
-						<text>健康小知识</text>
-					</view>
-					<view class="health-tips-bottom" @click="healthTipsDetailsEvent">
-						<text>老人摔倒可能是不小心摔倒、腰椎疾病、心脑血管疾病等原因引起的，老人摔倒后怎么护理需要根据摔倒的原因进行判断。具体分析如下：1.不小心摔倒：如.....</text>
 					</view>
 				</view>
 			</view>
@@ -544,24 +546,57 @@
 					}
 				}
 			};
+			.content-center-area {
+				margin-top: 8px;
+				padding: 10px;
+				box-sizing: border-box;
+				background: #fff;
+				.health-tips {
+					display: flex;
+					flex-direction: column;
+					height: 134px;
+					border-radius: 10px;;
+					box-shadow: 0px 1px 3px 0 rgba(163, 151, 151, 0.4);
+					padding: 8px 12px;
+					box-sizing: border-box;
+					.health-tips-top {
+						>image {
+							width: 24px;
+							height: 24px;
+							margin-right: 10px;
+							vertical-align: middle;
+						};
+						>text {
+							font-size: 14px;
+							color: #101010;
+							vertical-align: middle;
+						}
+					};
+					.health-tips-bottom {
+						flex: 1;
+						display: flex;
+						align-items: center;
+						font-size: 14px;
+						color: #101010;
+						text-align: justify;
+						text-indent: 12px;
+					}
+				}
+			};
 			.content-bottom-area {
 				flex: 1;
 				margin-top: 8px;
 				padding: 10px;
 				box-sizing: border-box;
 				background: #fff;
-				> view {
-					margin-bottom: 10px;
-					border-radius: 10px;;
-					box-shadow: 0px 2px 6px 0 rgba(0, 0, 9, 0.1);
-					padding: 8px 12px;
-					box-sizing: border-box;
-					border: 1px solid #BBBBBB
-				}
 				.data-overview-list {
 					height: 65px;
 					display: flex;
 					padding: 10px;
+					margin-bottom: 10px;
+					border-radius: 10px;;
+					box-shadow: 0px 2px 6px 0 rgba(0, 0, 9, 0.1);
+					padding: 8px 12px;
 					box-sizing: border-box;
 					align-items: center;
 					justify-content: space-between;
@@ -584,35 +619,7 @@
 					.overview-list-right {
 						font-size: 14px;
 						color: #101010;
-					};
-				};
-				.health-tips {
-					height: 91px;
-					display: flex;
-					flex-direction: column;
-					height: 134px;
-					.health-tips-top {
-						>image {
-							width: 24px;
-							height: 24px;
-							margin-right: 10px;
-							vertical-align: middle;
-						};
-						>text {
-							font-size: 14px;
-							color: #101010;
-							vertical-align: middle;
-						}
-					};
-					.health-tips-bottom {
-						flex: 1;
-						display: flex;
-						align-items: center;
-						font-size: 14px;
-						color: #101010;
-						text-align: justify;
-						text-indent: 12px;
-					};
+					}
 				}
 			}
 		}

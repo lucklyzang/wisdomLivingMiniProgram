@@ -175,7 +175,7 @@
 				isPasswordLogin: true,
 				isForgetPassword: false,
 				count: '',
-				privacyPolicyBoxShow: false,
+				privacyPolicyBoxShow: true,
 				weixinAuthorizationInfoBoxShow: false,
 				timer: null,
 				isReadAgreeChecked: false,
@@ -288,6 +288,10 @@
 			
 			// 退出隐私政策概要弹框事件
 			quitEvent () {
+				wx.exitMiniProgram({
+					success: function () {
+					}	
+				}); 
 				this.privacyPolicyBoxShow = false
 			},
 			
@@ -743,7 +747,7 @@
 								font-weight: bold;
 							};
 							&:nth-child(2) {
-								color: blue;
+								color: #0079FF;
 								font-weight: bold;
 							};
 							&:nth-child(3) {
@@ -751,7 +755,7 @@
 								font-weight: bold;
 							};
 							&:nth-child(4) {
-								color: blue;
+								color: #0079FF;
 								font-weight: bold;
 							}
 						}

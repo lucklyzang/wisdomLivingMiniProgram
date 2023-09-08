@@ -23,11 +23,12 @@
 								<text>{{ initDayTime }}</text>
 							</view>
 							<view>
-								<text>89次/分钟</text>
+								<text>离家</text>
 							</view>
 						</view>
 						<view class="data-bottom">
-							
+							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
+							<qiun-data-charts v-if="dayChartData.isShow" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
@@ -64,25 +65,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="content-bottom-area">
-				<view class="data-overview-list">
-					<view class="overview-list-left">
-						<image :src="leaveHomeListIconPng"></image>
-						<text>2023-07-10 07:58</text>
-					</view>
-					<view class="overview-list-right">
-						<text>离家</text>
-					</view>
-				</view>
-				<view class="data-overview-list">
-					<view class="overview-list-left">
-						<image :src="goHomeIconPng"></image>
-						<text>2023-07-10 07:58</text>
-					</view>
-					<view class="overview-list-right">
-						<text>回家</text>
-					</view>
-				</view>
+			<view class="content-center-area">
 				<view class="health-tips">
 					<view class="health-tips-top">
 						<image :src="daytimeNapIconPng"></image>
@@ -92,6 +75,23 @@
 						<text>老年人外出要警惕两件事，可大大降低心梗风险！第一是出门前记得上一次厕所，并且每次上完厕所之后要注意缓慢起身；因为憋尿的时候会让人体的交感神经.....</text>
 					</view>
 				</view>
+			</view>
+			<view class="content-bottom-area">
+				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
+				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+					<view class="data-overview-list" v-for="(item,index) in fullRecordList" :key="index">
+						<view class="overview-list-left">
+							<image :src="leaveHomeListIconPng" v-if="item.goOut"></image>
+							<image :src="goHomeIconPng" v-if="item.enter"></image>
+							<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+						</view>
+						<view class="overview-list-right">
+							<text v-if="item.goOut">离家</text>
+							<text v-if="item.enter">回家</text>
+						</view>
+					</view>
+					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
+				</scroll-view>
 			</view>
 		</view>
 	</view>
@@ -103,7 +103,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import { enterLeaveHomeDetails } from '@/api/device.js'
+	import { enterLeaveHomeDetails, getBodyDetectionRadarDetails } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
@@ -122,6 +122,13 @@
 				}, {
 					name: '月'
 				}],
+				isShowNoHomeNoData: false,
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				fullRecordList: [],
+				recordList: [],
+				status: 'loadmore',
 				currentItem: 0,
 				isDayPlusCanCilck: true,
 				isMonthPlusCanCilck: true,
@@ -135,7 +142,31 @@
 				currentMonthDays: '',
 				initMonthDate: '',
 				weekMap: {},
-				temporaryDevices: []
+				temporaryDevices: [],
+				dayChartData: {
+					isShow: true,
+					data: {}
+				},
+				leaveHomeDayOpts: {
+					color: ["#F2A15F","#289E8E"],
+					dataLabel: false,
+					padding: [15,10,0,15],
+					enableScroll: true,
+					xAxis: {
+						disableGrid: true,
+						itemCount: 8
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						column: {
+							width: 6,
+							categoryGap: 2
+						}
+					}
+				}
 			}
 		},
 		onLoad() {
@@ -154,7 +185,14 @@
 				deviceId: this.temporaryDevices[0],
 				startDate: this.getNowFormatDate(new Date(),2),
 				endDate: this.getNowFormatDate(new Date(),2)
-			},'day') 
+			},'day');
+			// 获取离家回家数据详情
+			this.queryBodyDetectionRadar({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				deviceId: this.temporaryDevices[0],
+				queryDate: this.getNowFormatDate(new Date(),2)
+			},true,false)
 		},
 		computed: {
 			...mapGetters([
@@ -186,6 +224,7 @@
 				let strDate = currentDate.getDate();
 				let seperator1 = "-";
 				let seperator2 = ":";
+				let seperator3 = " ";
 				let month = currentDate.getMonth() + 1;
 				let hour = currentDate.getHours();
 				let minutes = currentDate.getMinutes();
@@ -210,15 +249,59 @@
 				if (type == 3) {
 					currentdate = currentDate.getFullYear() + seperator1 + month
 				};
+				if (type == 4) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+				};
 				return currentdate
 			},
 			
 			// 获取离回家数据详情
 			queryEnterLeaveHomeDetails (data,type) {
+				this.dayChartData['isShow'] = true;
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						if (type == 'week') {
-							console.log('周数据',res.data.data);
+						if (type == 'day') {
+							if (res.data.data.length > 0) {
+								this.dayChartData['isShow'] = true;
+								let questData = res.data.data[0]['ruleDataVO'];
+								let temporaryData = {
+									categories: [],
+									series: [
+										{
+											name: "离家",
+											data: []
+										},
+										{
+											name: "回家",
+											data: []
+										}
+									]
+								};
+								questData.details.forEach((item,index) => {
+									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.createTime),1));
+									if (item.goOut) {
+										temporaryData['series'][0]['data'].push(30)
+									} else {
+										temporaryData['series'][0]['data'].push('')
+									};
+									if (item.enter) {
+										temporaryData['series'][1]['data'].push(30)
+									} else {
+										temporaryData['series'][1]['data'].push('')
+									}
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.dayChartData['data'] = temporaryContent;
+							} else {
+								this.dayChartData = {
+									isShow: false,
+									data: {}
+								}
+							}
+						} else if (type == 'week') {
+							
+						} else if (type == 'month') {
+							
 						}
 					} else {
 						this.$refs.uToast.show({
@@ -282,7 +365,14 @@
 					deviceId: this.temporaryDevices[0],
 					startDate: this.currentDayTime,
 					endDate: this.currentDayTime
-				},'day')
+				},'day');
+				// 获取离、回家天数据详情
+				this.queryBodyDetectionRadar({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceId: this.temporaryDevices[0],
+					queryDate: this.currentDayTime
+				},false,true)
 			},
 			
 			// 获取上一月和下一月
@@ -341,7 +431,14 @@
 					deviceId: this.temporaryDevices[0],
 					startDate: `${this.currentMonthDate}-01`,
 					endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
-				},'month')
+				},'month');
+				// 获取离、回家天数据详情
+				this.queryBodyDetectionRadar({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceId: this.temporaryDevices[0],
+					queryDate: `${this.currentMonthDate}-01`
+				},false,true)
 			},
 			
 			// 获取当前周
@@ -418,7 +515,14 @@
 					deviceId: this.temporaryDevices[0],
 					startDate: this.currentStartWeekDate,
 					endDate: this.currentEndWeekDate
-				},'week')
+				},'week');
+				// 获取离、回家天数据详情
+				this.queryBodyDetectionRadar({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceId: this.temporaryDevices[0],
+					queryDate: this.currentStartWeekDate
+				},false,true)
 			},
 			
 			// 判断周几
@@ -471,7 +575,14 @@
 						deviceId: this.temporaryDevices[0],
 						startDate: this.getNowFormatDate(new Date(),2),
 						endDate: this.getNowFormatDate(new Date(),2)
-					},'day')
+					},'day');
+					// 获取离、回家天数据详情
+					this.queryBodyDetectionRadar({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceId: this.temporaryDevices[0],
+						queryDate: this.getNowFormatDate(new Date(),2)
+					},false,true)
 				};
 				if (index == 1) {
 					this.weekMap = this.getWeek(new Date());
@@ -487,7 +598,14 @@
 						deviceId: this.temporaryDevices[0],
 						startDate: this.currentStartWeekDate,
 						endDate: this.currentEndWeekDate
-					},'week')
+					},'week');
+					// 获取离、回家天数据详情
+					this.queryBodyDetectionRadar({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceId: this.temporaryDevices[0],
+						queryDate: this.currentStartWeekDate
+					},false,true)
 				};
 				if (index == 2) {
 					this.currentMonthDate = this.getNowFormatDate(new Date(),3);
@@ -517,8 +635,71 @@
 						deviceId: this.temporaryDevices[0],
 						startDate: `${this.currentMonthDate}-01`,
 						endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
-					},'month')
+					},'month');
+					// 获取离、回家天数据详情
+					this.queryBodyDetectionRadar({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceId: this.temporaryDevices[0],
+						queryDate: `${this.currentMonthDate}-01`
+					},false,true)
 				} 
+			},
+			
+			// 获取离家回家详情日志
+			queryBodyDetectionRadar (data,flag,isInit) {
+				this.recordList = [];
+				if (isInit) {
+					this.isShowNoHomeNoData = false;
+					this.currentPageNum = 1;
+					this.fullRecordList = []
+				};
+				if (flag) {
+					this.showLoadingHint = true
+				};
+				getBodyDetectionRadarDetails(data).then((res) => {
+					this.showLoadingHint = false;
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.recordList = res.data.data.list;
+						this.fullRecordList = this.fullRecordList.concat(this.recordList);
+						if (this.fullRecordList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loading';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryBodyDetectionRadar({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceId: this.temporaryDevices[0],
+						queryDate: '2023-09-06'
+					},false,false)
+				}
 			},
 			
 			// 进入健康小知识详情事件
@@ -608,60 +789,34 @@
 									margin: 6px 0
 								};
 								&:last-child {
-									font-size: 18px
+									font-size: 14px
 								}
 							}
 						};
 						.data-bottom {
-							flex: 1
+							flex: 1;
+							position: relative;
+							::v-deep .u-empty {
+							 	position: absolute;
+							 	top: 50%;
+							 	left: 50%;
+							 	transform: translate(-50%,-50%)
+							};
 						}
 					}
 				}
 			};
-			.content-bottom-area {
-				flex: 1;
+			.content-center-area {
 				margin-top: 8px;
 				padding: 10px;
 				box-sizing: border-box;
+				margin-bottom: 10px;
 				background: #fff;
-				> view {
-					margin-bottom: 10px;
+				.health-tips {
 					border-radius: 10px;;
-					box-shadow: 0px 2px 6px 0 rgba(0, 0, 9, 0.1);
+					box-shadow: 0px 1px 3px 0 rgba(163, 151, 151, 0.4);
 					padding: 8px 12px;
 					box-sizing: border-box;
-					border: 1px solid #BBBBBB
-				}
-				.data-overview-list {
-					height: 65px;
-					display: flex;
-					padding: 10px;
-					box-sizing: border-box;
-					align-items: center;
-					justify-content: space-between;
-					.overview-list-left {
-						>image {
-							width: 19px;
-							height: 19px;
-							vertical-align: middle;
-							margin-right: 14px;
-						};
-						>text {
-							font-size: 14px;
-							color: #101010;
-							vertical-align: middle;
-							&:nth-of-type(1) {
-								margin-right: 6px
-							}
-						}
-					};
-					.overview-list-right {
-						font-size: 14px;
-						color: #101010;
-					};
-				};
-				.health-tips {
-					height: 91px;
 					display: flex;
 					flex-direction: column;
 					height: 134px;
@@ -686,7 +841,63 @@
 						color: #101010;
 						text-align: justify;
 						text-indent: 12px;
+					}
+				}
+			};
+			.content-bottom-area {
+				flex: 1;
+				padding: 10px;
+				box-sizing: border-box;
+				background: #fff;
+				position: relative;
+				overflow: auto;
+				.scroll-view {
+					height: 100%
+				};
+				::v-deep .u-empty {
+				 	position: absolute;
+				 	top: 50%;
+				 	left: 50%;
+				 	transform: translate(-50%,-50%)
+				};
+				.data-overview-list {
+					margin-bottom: 10px;
+					border-radius: 10px;;
+					box-shadow: 0px 1px 3px 0 rgba(163, 151, 151, 0.4);
+					padding: 8px 12px;
+					box-sizing: border-box;
+					height: 65px;
+					display: flex;
+					padding: 10px;
+					box-sizing: border-box;
+					align-items: center;
+					justify-content: space-between;
+					.overview-list-left {
+						>image {
+							width: 19px;
+							height: 19px;
+							vertical-align: middle;
+							margin-right: 14px;
+							&:nth-child(1) {
+								margin-right: 2px
+							}
+						};
+						>text {
+							font-size: 14px;
+							color: #101010;
+							vertical-align: middle;
+							margin-left: 10px
+						}
 					};
+					.overview-list-right {
+						font-size: 14px;
+						color: #101010;
+						>text {
+							&:nth-child(1) {
+								margin-right: 4px
+							}
+						}
+					}
 				}
 			}
 		}

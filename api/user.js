@@ -217,3 +217,11 @@ export function getUserDeviceBind() {
     method: 'get'
   })
 };
+
+// 创建用户启动数据
+export function createUserBootUpData() {
+  return request({
+    url: '/app-api/member/boot-up/create',
+    method: 'post'
+  })
+};

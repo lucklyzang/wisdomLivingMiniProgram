@@ -20,6 +20,7 @@
 						<text>>>></text>
 						<text>起身</text>
 					</view>
+					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
 				</scroll-view>
 			</view>
 		</view>
@@ -43,7 +44,7 @@
 				checked: false,
 				dateShow: false,
 				currentPageNum: 1,
-				pageSize: 20,
+				pageSize: 100,
 				totalCount: 0,
 				recordList: [],
 				fullRecordList: [],

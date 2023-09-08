@@ -228,6 +228,10 @@ page {
   font-size: 14px;
   color: #101010;
   margin-top: 0 !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 200px;
 }
 .content-box .center-area .sleep-area-data .sleep-data-title .room-name {
   position: relative;
@@ -323,6 +327,9 @@ page {
   height: 184px;
   margin-top: 8px;
   margin-bottom: 8px;
+}
+.content-box .center-area .leave-home-area-data .sleep-data-title .room-name::after {
+  display: none;
 }
 .content-box .center-area .leave-home-area-data .heart-rate-box {
   height: 0;

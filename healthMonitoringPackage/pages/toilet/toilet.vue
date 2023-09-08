@@ -572,11 +572,10 @@
 				> view {
 					margin-bottom: 10px;
 					border-radius: 10px;;
-					box-shadow: 0px 2px 6px 0 rgba(0, 0, 9, 0.1);
+					box-shadow: 0px 1px 3px 0 rgba(163, 151, 151, 0.4);
 					padding: 8px 12px;
 					box-sizing: border-box;
-					border: 1px solid #BBBBBB
-				}
+				};
 				.data-overview {
 					height: 208px;
 					display: flex;

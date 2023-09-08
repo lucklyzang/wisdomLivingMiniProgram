@@ -34,26 +34,6 @@ _App.default.mpType = 'app';
 var app = new _vue.default(_objectSpread(_objectSpread({}, _App.default), {}, {
   store: _store.default,
   created: function created() {
-    // 页面刷新时重新存入用户信息 changePermissionInfo
-    if ((0, _utils.getCache)('userInfo')) {
-      _store.default.commit('storeUserInfo', (0, _utils.getCache)('userInfo'));
-    }
-    ;
-    // 页面刷新时重新存入用户权限信息
-    if ((0, _utils.getCache)('permissionInfo')) {
-      _store.default.commit('changePermissionInfo', (0, _utils.getCache)('permissionInfo'));
-    }
-    ;
-    // 页面刷新重新存入请求token
-    if ((0, _utils.getCache)('questToken')) {
-      _store.default.commit('changeToken', (0, _utils.getCache)('questToken'));
-    }
-    ;
-    // 页面刷新重新存入选择的医院列表信息
-    if ((0, _utils.getCache)('selectHospitalList')) {
-      _store.default.commit('changeSelectHospitalList', (0, _utils.getCache)('selectHospitalList'));
-    }
-    ;
     // 判断是否登录过
     var login = (0, _utils.getCache)('isLogin');
     if (login) {
@@ -145,12 +125,15 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _user = __webpack_require__(/*! @/api/user.js */ 93);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var _default = {
   computed: _objectSpread({}, (0, _vuex.mapGetters)([])),
   onLaunch: function onLaunch() {},
   onShow: function onShow() {
+    // 创建用户启动数据
+    (0, _user.createUserBootUpData)().then(function (res) {}).catch(function (err) {});
     if (uni.canIUse('getUpdateManager')) {
       var updateManager = uni.getUpdateManager();
       updateManager.onCheckForUpdate(function (res) {
