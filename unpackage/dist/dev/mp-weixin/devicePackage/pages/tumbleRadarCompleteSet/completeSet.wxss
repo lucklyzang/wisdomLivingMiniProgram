@@ -154,6 +154,8 @@ page {
 }
 .content-box .nav  .header_title_center {
   left: 240px !important;
+  -webkit-transform: translateX(-55%) !important;
+          transform: translateX(-55%) !important;
 }
 .content-box .nav  .header_title_center > image {
   width: 24px;

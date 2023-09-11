@@ -52,7 +52,7 @@
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullNoticeList.length > 0" />
+				<u-loadmore :status="status" v-show="fullNoticeList.length > 15" />
 			</scroll-view>
 			</view>
 		</view>

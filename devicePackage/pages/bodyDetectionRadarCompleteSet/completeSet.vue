@@ -498,6 +498,7 @@
 			width: 100%;
 			background: #fff;
 			::v-deep .header_title_center {
+				transform: translateX(-55%) !important;
 				left: 240px !important;
 				>image {
 					width: 24px;

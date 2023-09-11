@@ -655,7 +655,13 @@
 							}
 						};
 						.data-bottom {
-							flex: 1
+							flex: 1;
+							::v-deep .u-empty {
+							 	position: absolute;
+							 	top: 40%;
+							 	left: 50%;
+							 	transform: translate(-50%,-50%)
+							}
 						}
 					}
 				}

@@ -23,7 +23,7 @@
 						<text>当前区域人数</text>
 						<text>1人</text>
 					</view>
-					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
+					<u-loadmore :status="status" v-show="fullRecordList.length > 40" />
 				</scroll-view>
 			</view>
 		</view>

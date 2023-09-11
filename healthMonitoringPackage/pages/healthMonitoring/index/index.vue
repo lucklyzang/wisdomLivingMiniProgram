@@ -414,21 +414,25 @@
 							display: flex;
 							flex: 1;
 							align-items: center;
+							width: 0;
 							::v-deep .u-input {
 								padding-right: 10px !important;
 								box-sizing: border-box;
-								.u-input__input {
-									font-size: 16px !important;
-									color: #898C8C;
-								}
+							};
+							::v-deep u-input__input {
+								flex: 1;
+								font-size: 16px !important;
+								color: #898C8C;
 							};
 							>image {
 								width: 24px;
 								height: 24px;
 								vertical-align: middle;
-								margin-right: 10px;
+								margin-right: 6px;
 							};
 							.scene {
+								min-width: 40px;
+								text-align: center;
 								color: #101010;
 							};
 							>text {

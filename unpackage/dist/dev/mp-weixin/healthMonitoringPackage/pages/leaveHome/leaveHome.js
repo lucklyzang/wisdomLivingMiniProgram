@@ -34,7 +34,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _leaveHome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./leaveHome.vue?vue&type=script&lang=js& */ 195);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _leaveHome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _leaveHome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _leaveHome_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./leaveHome.vue?vue&type=style&index=0&lang=scss& */ 199);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 33);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 57);
 
 var renderjs
 
@@ -116,7 +116,7 @@ try {
       return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 775))
     },
     uLoadmore: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-loadmore/u-loadmore */ "node-modules/uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! uview-ui/components/u-loadmore/u-loadmore.vue */ 825))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-loadmore/u-loadmore */ "node-modules/uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! uview-ui/components/u-loadmore/u-loadmore.vue */ 815))
     },
   }
 } catch (e) {
@@ -268,6 +268,7 @@ var _default = {
       isWeekPlusCanCilck: true,
       currentDayTime: '',
       initDayTime: '',
+      initDayText: '',
       currentStartWeekDate: '',
       currentEndWeekDate: '',
       initWeekDate: '',
@@ -285,6 +286,9 @@ var _default = {
         dataLabel: false,
         padding: [15, 10, 0, 15],
         enableScroll: true,
+        tooltip: {
+          showBox: true
+        },
         xAxis: {
           disableGrid: true,
           itemCount: 8
@@ -347,6 +351,21 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+    // 获取日数据当前点击索引
+    getIndexEvent: function getIndexEvent(e) {
+      this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
+      if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']] && !e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]) {
+        this.initDayText = '';
+      } else if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']]) {
+        this.initDayText = '回家';
+      } else if (!e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]) {
+        this.initDayText = '离家';
+      } else {
+        this.initDayText = '回家、离家';
+      }
+      ;
+      console.log('点击数据', this.initDayText);
+    },
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
       // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)

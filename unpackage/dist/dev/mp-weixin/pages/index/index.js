@@ -13,7 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./index.vue?vue&type=script&lang=js& */ 103);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _index_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.vue?vue&type=style&index=0&lang=scss& */ 115);
-/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 33);
+/* harmony import */ var _HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 57);
 
 var renderjs
 
@@ -118,15 +118,22 @@ var render = function () {
   var _c = _vm._self._c || _h
   var l0 = _vm.__map(_vm.deviceList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var g0 = item.type == 0 && !item.hasOwnProperty("devices")
+    var g0 = item.type == 0 && item.hasOwnProperty("devices")
     var g1 = item.type == 1 && !item.hasOwnProperty("devices")
     var g2 = item.type == 2 && !item.hasOwnProperty("devices")
     var g3 = item.type == 3 && !item.hasOwnProperty("devices")
-    var g4 = item.type == 0 && item.hasOwnProperty("devices")
+    var g4 = item.type == 0 && !item.hasOwnProperty("devices")
+    var m0 = g4 ? _vm.getNowFormatDateText(new Date()) : null
     var g5 = item.type == 1 && item.hasOwnProperty("devices")
+    var m1 = g5 ? _vm.getNowFormatDateText(new Date()) : null
+    var m2 = g5 ? _vm.extractRooName(item.devices) : null
     var g6 = item.type == 2 && item.hasOwnProperty("devices")
+    var m3 = g6 ? _vm.getNowFormatDateText(new Date()) : null
+    var m4 = g6 ? _vm.extractRooName(item.devices) : null
     var g7 = item.type == 3 && item.hasOwnProperty("devices")
-    var m0 =
+    var m5 = g7 ? _vm.getNowFormatDateText(new Date()) : null
+    var m6 = g7 ? _vm.extractRooName(item.devices) : null
+    var m7 =
       g7 && _vm.sceneDataList[item.id]["isShow"]
         ? _vm.getNowFormatDate(_vm.sceneDataList[item.id]["lastGoOut"], 3)
         : null
@@ -137,10 +144,17 @@ var render = function () {
       g2: g2,
       g3: g3,
       g4: g4,
-      g5: g5,
-      g6: g6,
-      g7: g7,
       m0: m0,
+      g5: g5,
+      m1: m1,
+      m2: m2,
+      g6: g6,
+      m3: m3,
+      m4: m4,
+      g7: g7,
+      m5: m5,
+      m6: m6,
+      m7: m7,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -194,9 +208,8 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _home = __webpack_require__(/*! @/api/home.js */ 105);
-var _user = __webpack_require__(/*! @/api/user.js */ 93);
+var _user = __webpack_require__(/*! @/api/user.js */ 31);
 var _device = __webpack_require__(/*! @/api/device.js */ 106);
-var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
 var _lodash = _interopRequireDefault(__webpack_require__(/*! lodash */ 107));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -228,17 +241,19 @@ var _default = {
       familyMemberList: [],
       deviceList: [],
       sceneDataList: {},
+      heartChartData: {},
       chartData: {},
       lineChartData: {},
       breatheOpts: {
         color: ["#1890FF"],
-        padding: [15, 10, 0, 15],
-        enableScroll: false,
+        padding: [15, 10, 0, 0],
+        enableScroll: true,
         legend: {
           show: false
         },
         xAxis: {
-          disableGrid: true
+          disableGrid: true,
+          itemCount: 8
         },
         yAxis: {
           disabled: true,
@@ -270,33 +285,67 @@ var _default = {
         color: ["#F2A15F", "#289E8E"],
         dataLabel: false,
         padding: [15, 10, 0, 15],
-        enableScroll: false,
-        xAxis: {
-          disableGrid: true
-        },
-        yAxis: {
-          disabled: true,
-          disableGrid: true
-        },
-        extra: {}
-      },
-      heartOpts: {
-        color: ["#1890FF"],
-        padding: [15, 30, 0, 5],
         enableScroll: true,
         xAxis: {
           boundaryGap: "justify",
-          disableGrid: false,
           min: 0,
           axisLine: false,
           max: 70
         },
-        yAxis: {},
-        extra: {}
+        yAxis: {
+          disableGrid: true,
+          disabled: true
+        },
+        extra: {
+          bar: {
+            type: "stack",
+            width: 30,
+            meterBorde: 1,
+            meterFillColor: "#FFFFFF",
+            activeBgColor: "#000000",
+            activeBgOpacity: 0.08,
+            categoryGap: 2
+          }
+        }
+      },
+      heartOpts: {
+        dataPointShape: false,
+        color: ["#E4496B"],
+        enableScroll: true,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          boundaryGap: "justify",
+          itemCount: 8,
+          disableGrid: true,
+          axisLine: false
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true,
+          gridType: "dash",
+          dashLength: 2,
+          data: [{
+            min: 5,
+            max: 150
+          }]
+        },
+        extra: {
+          area: {
+            type: "straight",
+            opacity: 1,
+            addLine: true,
+            width: 2,
+            gradient: true,
+            activeType: "hollow"
+          }
+        }
       }
     };
   },
   onLoad: function onLoad() {
+    this.getServerData();
     this.queryHomePageList(this.familyId);
     this.queryUserBannerList();
     this.initFamilyInfo();
@@ -310,18 +359,32 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeFamilyId', 'changeCurrentNeedBindDevicesMessage', 'changeDeviceDataMessage'])), {}, {
+    // 提取卧室
+    extractRooName: function extractRooName(roomList) {
+      var temporaryArr = [];
+      if (roomList.length > 0) {
+        roomList.forEach(function (item) {
+          if (item.hasOwnProperty('roomName') && item.roomName) {
+            temporaryArr.push(item.roomName);
+          }
+        });
+        return temporaryArr.join('、');
+      } else {
+        return '';
+      }
+    },
     getServerData: function getServerData() {
       var _this = this;
       //模拟从服务器获取数据时的延时
       setTimeout(function () {
         var res = {
-          categories: ["9-5"],
+          categories: ["8:20", "9:21", "9:23", "9:25"],
           series: [{
             name: "正常",
-            data: [35, 36, 31, 33, 13, 34]
+            data: [35, 36, 31, 33]
           }, {
             name: "跌倒",
-            data: [18, 27, 21, 24, 6, 28]
+            data: [18, 27, 21, 24]
           }]
         };
         _this.chartData = JSON.parse(JSON.stringify(res));
@@ -336,12 +399,23 @@ var _default = {
         };
         _this.lineChartData = JSON.parse(JSON.stringify(res));
       }, 500);
+      setTimeout(function () {
+        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+        var res = {
+          categories: ["23:00", "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "13:00", "13:01", "13:02", "13:03", "13:04", "13:05"],
+          series: [{
+            data: [50, 80, 70, 65, 110, 90, 120, 72, 82, 90, 79, 80, 90, 94, 130]
+          }]
+        };
+        _this.heartChartData = JSON.parse(JSON.stringify(res));
+      }, 500);
     },
     // 家庭选择下拉框下拉选择确定事件
     familyMemberChange: function familyMemberChange(val) {
       this.tabCutActiveIndex = 0;
       this.initValue = val.orignItem.value;
       this.changeFamilyId(val.orignItem.id);
+      this.queryHomePageList(this.familyId);
     },
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
@@ -451,7 +525,6 @@ var _default = {
               temporaryData['series'][1]['data'].push('');
             }
           });
-          console.log('时间数据', temporaryData);
           var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
           _this3.$set(_this3.sceneDataList[cardId], 'data', temporaryContent);
           _this3.$set(_this3.sceneDataList[cardId], 'isShow', true);

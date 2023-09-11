@@ -46,7 +46,7 @@
 							<text>心跳</text>
 							<text>89次/分</text>
 						</view>
-						<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
+						<u-loadmore :status="status" v-show="fullRecordList.length > 40" />
 					</scroll-view>
 				</view>
 			</view>

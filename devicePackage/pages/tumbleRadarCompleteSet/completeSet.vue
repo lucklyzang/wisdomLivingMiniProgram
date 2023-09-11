@@ -523,6 +523,7 @@
 			background: #fff;
 			::v-deep .header_title_center {
 				left: 240px !important;
+				transform: translateX(-55%) !important;
 				>image {
 					width: 24px;
 					height: 24px;

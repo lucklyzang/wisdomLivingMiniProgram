@@ -48,6 +48,8 @@ page {
   background: #fff;
 }
 .content-box .nav  .header_title_center {
+  -webkit-transform: translateX(-55%) !important;
+          transform: translateX(-55%) !important;
   left: 240px !important;
 }
 .content-box .nav  .header_title_center > image {

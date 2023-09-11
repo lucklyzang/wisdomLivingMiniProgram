@@ -575,6 +575,8 @@
 						width: 70% !important;
 						::v-deep .u-form {
 							.u-form-item {
+								line-height: 30px !important;
+								height: 30px;
 								border: 1px solid #BBBBBB;
 								border-radius: 4px;
 								padding: 2px 8px !important

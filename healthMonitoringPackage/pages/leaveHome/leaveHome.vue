@@ -23,12 +23,12 @@
 								<text>{{ initDayTime }}</text>
 							</view>
 							<view>
-								<text>离家</text>
+								<text>{{ initDayText }}</text>
 							</view>
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="dayChartData.isShow" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
+							<qiun-data-charts @getIndex="getIndexEvent" tooltipFormat="tooltipDemo1" v-if="dayChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
@@ -135,6 +135,7 @@
 				isWeekPlusCanCilck: true,
 				currentDayTime: '',
 				initDayTime: '',
+				initDayText: '',
 				currentStartWeekDate: '',
 				currentEndWeekDate: '',
 				initWeekDate: '',
@@ -152,6 +153,7 @@
 					dataLabel: false,
 					padding: [15,10,0,15],
 					enableScroll: true,
+					tooltip: { showBox: true},
 					xAxis: {
 						disableGrid: true,
 						itemCount: 8
@@ -216,6 +218,21 @@
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 获取日数据当前点击索引
+			getIndexEvent (e) {
+				this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
+				if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']] && !e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]){
+					this.initDayText = '';
+				} else if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']]) {
+					this.initDayText = '回家';
+				} else if (!e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]) {
+					this.initDayText = '离家';
+				} else {
+					this.initDayText = '回家、离家';
+				};
+				console.log('点击数据',this.initDayText);
+			},
 			
 			// 格式化时间
 			getNowFormatDate(currentDate,type) {
@@ -795,10 +812,9 @@
 						};
 						.data-bottom {
 							flex: 1;
-							position: relative;
 							::v-deep .u-empty {
 							 	position: absolute;
-							 	top: 50%;
+							 	top: 40%;
 							 	left: 50%;
 							 	transform: translate(-50%,-50%)
 							};

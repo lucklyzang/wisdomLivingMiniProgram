@@ -106,11 +106,10 @@ page {
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-bottom {
   flex: 1;
-  position: relative;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-bottom  .u-empty {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);

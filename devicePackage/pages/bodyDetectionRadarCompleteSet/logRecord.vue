@@ -21,7 +21,7 @@
 						<text>{{ `进: ${item.enter}` }}</text>
 						<text>{{ `出: ${item.goOut}` }}</text>
 					</view>
-					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
+					<u-loadmore :status="status" v-show="fullRecordList.length > 40" />
 				</scroll-view>
 			</view>
 		</view>

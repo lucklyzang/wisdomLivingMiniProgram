@@ -25,7 +25,7 @@
 		<view class="center-area">
 			<u-empty text="暂无数据" v-if="isShowHomeNoData"></u-empty>
 			<view class="device-list" v-for="(item,index) in deviceList" :key="index"> 
-				<view class="bind-sleep-device-area" v-if="item.type == 0 && !item.hasOwnProperty('devices')">
+				<view class="bind-sleep-device-area" v-if="item.type == 0 && item.hasOwnProperty('devices')">
 					<view>
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 					</view>
@@ -85,11 +85,12 @@
 						</view>
 					</view>
 				</view>
-				<view class="sleep-area-data" v-if="item.type == 0 && item.hasOwnProperty('devices')">
+				<!-- extractRooName(item.devices) -->
+				<view class="sleep-area-data" v-if="item.type == 0 && !item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
-						<text>7月8日</text>
-						<text class="room-name">主卧</text>
+						<text>{{ getNowFormatDateText(new Date()) }}</text>
+						<text class="room-name">卧室</text>
 						<text>睡眠8小时、睡眠状态良好</text>
 					</view>
 					<view class="heart-rate-box">
@@ -104,7 +105,7 @@
 							</view>
 						</view>
 						<view class="heart-rate-chart">
-							<qiun-data-charts type="column" :ontouch="true" :opts="heartOpts" :chartData="chartData" />
+							<qiun-data-charts type="area" :canvas2d="true" canvasId="abcdefdhjh23" :ontouch="true" :opts="heartOpts" :chartData="heartChartData" />
 						</view>
 					</view>
 					<view class="heart-rate-box breathe-box">
@@ -119,7 +120,7 @@
 							</view>
 						</view>
 						<view class="breathe-chart">
-							<qiun-data-charts type="line" :ontouch="true" :opts="breatheOpts" :chartData="lineChartData" />
+							<qiun-data-charts type="line" :canvas2d="true" :canvasId="`abcdef${item.id}`" :ontouch="true" :opts="breatheOpts" :chartData="lineChartData" />
 						</view>
 					</view>
 					<view class="heart-rate-box sleep-box">
@@ -141,8 +142,8 @@
 				<view class="sleep-area-data toilet-area-data" v-if="item.type == 1 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
-						<text>7月8日</text>
-						<text class="room-name">卫生间</text>
+						<text>{{ getNowFormatDateText(new Date()) }}</text>
+						<text class="room-name">{{ extractRooName(item.devices) }}</text>
 						<text>入厕两次</text>
 					</view>
 					<view class="heart-rate-box">
@@ -157,15 +158,15 @@
 							</view>
 						</view>
 						<view class="toilet-chart">
-							<qiun-data-charts type="column" :opts="heartOpts" :ontouch="true" :chartData="chartData" />
+							<qiun-data-charts type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
 				<view class="sleep-area-data tumble-area-data" v-if="item.type == 2 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
-						<text>7月8日</text>
-						<text class="room-name">主卧、客厅</text>
+						<text>{{ getNowFormatDateText(new Date()) }}</text>
+						<text class="room-name">{{ extractRooName(item.devices) }}</text>
 						<text>跌倒一次</text>
 					</view>
 					<view class="heart-rate-box">
@@ -180,15 +181,15 @@
 							</view>
 						</view>
 						<view class="tumble-chart">
-							<qiun-data-charts type="bar" :opts="tumbOpts" :ontouch="true" :chartData="chartData" />
+							<qiun-data-charts type="bar" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="tumbOpts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
 				</view>
 				<view class="sleep-area-data leave-home-area-data" v-if="item.type == 3 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
-						<text>7月8日</text>
-						<text class="room-name">主卧、客厅</text>
+						<text>{{ getNowFormatDateText(new Date()) }}</text>
+						<text class="room-name">{{ extractRooName(item.devices) }}</text>
 					</view>
 					<view class="heart-rate-box">
 						<view class="heart-rate-title">
@@ -202,7 +203,7 @@
 							</view>
 						</view>
 						<view class="leave-home-chart">	
-							<qiun-data-charts type="column" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList[item.id]['data']" />
+							<qiun-data-charts tooltipFormat="tooltipDemo1" type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList[item.id]['data']" />
 						</view>
 					</view>
 				</view>
@@ -223,7 +224,6 @@
 	import { getHomePageList } from '@/api/home.js' 
 	import { getUserBannerList } from '@/api/user.js'
 	import { sleepStatisticsHome, enterLeaveHomeDetails } from '@/api/device.js'
-	import { randomStr } from '@/common/js/utils'
 	import _ from 'lodash'
 	export default {
 		components: {
@@ -245,15 +245,17 @@
 				familyMemberList: [],
 				deviceList: [],
 				sceneDataList: {},
+				heartChartData: {},
 				chartData: {},
 				lineChartData: {},
 				breatheOpts: {
 					color: ["#1890FF"],
-					padding: [15,10,0,15],
-					enableScroll: false,
+					padding: [15,10,0,0],
+					enableScroll: true,
 					legend: { show: false },
 					xAxis: {
-						disableGrid: true
+						disableGrid: true,
+						itemCount: 8
 					},
 					yAxis: {
 						disabled: true,
@@ -286,35 +288,67 @@
 					color: ["#F2A15F","#289E8E"],
 					dataLabel: false,
 					padding: [15,10,0,15],
-					enableScroll: false,
-					xAxis: {
-						disableGrid: true
-					},
-					yAxis: {
-						disabled: true,
-						disableGrid: true
-					},
-					extra: {
-					}
-				},
-				heartOpts: {
-					color: ["#1890FF"],
-					padding: [15,30,0,5],
 					enableScroll: true,
-					xAxis: {
+					 xAxis: {
 						boundaryGap: "justify",
-						disableGrid: false,
 						min: 0,
 						axisLine: false,
 						max: 70
 					},
-					yAxis: {},
+					yAxis: {
+						disableGrid: true,
+						disabled: true
+					},
 					extra: {
+						bar: {
+							type: "stack",
+							width: 30,
+							meterBorde: 1,
+							meterFillColor: "#FFFFFF",
+							activeBgColor: "#000000",
+							activeBgOpacity: 0.08,
+							categoryGap: 2
+						}
+					}
+				},
+				heartOpts: {
+					dataPointShape: false,
+					color: ["#E4496B"],
+					enableScroll: true,
+					legend: { show: false },
+					xAxis: {
+						boundaryGap: "justify",
+						itemCount: 8,
+						disableGrid: true,
+						axisLine: false
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true,
+						gridType: "dash",
+						dashLength: 2,
+						 data: [
+							{
+								min: 5,
+								max: 150
+							}
+						]
+					},
+					extra: {
+						area: {
+							type: "straight",
+							opacity: 1,
+							addLine: true,
+							width: 2,
+							gradient: true,
+							activeType: "hollow"
+						}
 					}
 				}
 			}
 		},
 		onLoad() {
+			this.getServerData();
 			this.queryHomePageList(this.familyId);
 			this.queryUserBannerList();
 			this.initFamilyInfo()
@@ -347,19 +381,34 @@
 				'changeDeviceDataMessage'
 			]),
 			
+			// 提取卧室
+			extractRooName (roomList) {
+				let temporaryArr = [];
+				if (roomList.length > 0) {
+					roomList.forEach((item) => {
+						if (item.hasOwnProperty('roomName') && item.roomName) {
+							temporaryArr.push(item.roomName)
+						}
+					});
+					return temporaryArr.join('、')
+				} else {
+					return ''
+				}
+			},
+			
 			getServerData() {
 				//模拟从服务器获取数据时的延时
 				setTimeout(() => {
 					let res = {
-							categories: ["9-5"],
+							categories: ["8:20","9:21","9:23","9:25"],
 							series: [
 								{
 									name: "正常",
-									data: [35,36,31,33,13,34]
+									data: [35,36,31,33]
 								},
 								{
 									name: "跌倒",
-									data: [18,27,21,24,6,28]
+									data: [18,27,21,24]
 								}
 							]
 						};
@@ -376,6 +425,18 @@
 							]
 						};
 					this.lineChartData = JSON.parse(JSON.stringify(res));
+				}, 500);
+				setTimeout(() => {
+					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+					let res = {
+							categories: ["23:00","00:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","13:00","13:01","13:02","13:03","13:04","13:05"],
+							series: [
+								{
+									data: [50,80,70,65,110,90,120,72,82,90,79,80,90,94,130]
+								}
+							]
+						};
+					this.heartChartData = JSON.parse(JSON.stringify(res));
 				}, 500)
 			},
 			
@@ -383,7 +444,8 @@
 			familyMemberChange (val) {
 				this.tabCutActiveIndex = 0;
 				this.initValue = val.orignItem.value;
-				this.changeFamilyId(val.orignItem.id)
+				this.changeFamilyId(val.orignItem.id);
+				this.queryHomePageList(this.familyId)
 			},
 			
 			// 格式化时间
@@ -491,7 +553,6 @@
 								temporaryData['series'][1]['data'].push('')
 							}
 						});
-						console.log('时间数据',temporaryData);
 						let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
 						this.$set(this.sceneDataList[cardId],'data',temporaryContent);
 						this.$set(this.sceneDataList[cardId],'isShow',true);

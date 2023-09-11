@@ -20,7 +20,7 @@
 						<text>>>></text>
 						<text>起身</text>
 					</view>
-					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
+					<u-loadmore :status="status" v-show="fullRecordList.length > 40" />
 				</scroll-view>
 			</view>
 		</view>

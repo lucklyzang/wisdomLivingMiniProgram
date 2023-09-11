@@ -922,14 +922,13 @@
 				};
 				.title {
 					width: 100%;
-					height: 30vh;
 					display: flex;
 					justify-content: center;
 					flex-direction: column;
 					align-items: center;
 					color: black;
 					font-size: 26px;
-					padding-top: 12px;
+					padding-top: 44px;
 					box-sizing: border-box;
 				  color: #fff;
 				  font-weight: bold;
@@ -981,6 +980,12 @@
 				flex-direction: column;
 				position: relative;
 				::v-deep .u-form {
+					.u-form-item {
+						.u-form-item--right__content__icon {
+							font-size: 14px;
+							color: #289E8E
+						}
+					};
 					u-form-item {
 						.u-form-item {
 							margin-bottom: 20px;

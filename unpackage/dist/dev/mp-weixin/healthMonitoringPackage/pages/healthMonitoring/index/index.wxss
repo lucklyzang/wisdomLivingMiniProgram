@@ -102,12 +102,14 @@ page {
   display: flex;
   flex: 1;
   align-items: center;
+  width: 0;
 }
 .content-box .content-area .show-home-content .show-list-wrapper .show-list .list-left  .u-input {
   padding-right: 10px !important;
   box-sizing: border-box;
 }
-.content-box .content-area .show-home-content .show-list-wrapper .show-list .list-left  .u-input .u-input__input {
+.content-box .content-area .show-home-content .show-list-wrapper .show-list .list-left  u-input__input {
+  flex: 1;
   font-size: 16px !important;
   color: #898C8C;
 }
@@ -115,9 +117,11 @@ page {
   width: 24px;
   height: 24px;
   vertical-align: middle;
-  margin-right: 10px;
+  margin-right: 6px;
 }
 .content-box .content-area .show-home-content .show-list-wrapper .show-list .list-left .scene {
+  min-width: 40px;
+  text-align: center;
   color: #101010;
 }
 .content-box .content-area .show-home-content .show-list-wrapper .show-list .list-left > text {

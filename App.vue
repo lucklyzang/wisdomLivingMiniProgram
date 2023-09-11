@@ -9,6 +9,7 @@ export default {
 	onLaunch: function() {
 	},
 	onShow: function() {
+		console.log('启动了');
 		// 创建用户启动数据
 		createUserBootUpData().then((res) => {
 		})
