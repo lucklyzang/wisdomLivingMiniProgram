@@ -112,6 +112,9 @@ try {
     uInput: function () {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 726))
     },
+    HMDragSorts: function () {
+      return __webpack_require__.e(/*! import() | components/HM-dragSorts/HM-dragSorts */ "components/HM-dragSorts/HM-dragSorts").then(__webpack_require__.bind(null, /*! @/components/HM-dragSorts/HM-dragSorts.vue */ 1058))
+    },
   }
 } catch (e) {
   if (
@@ -144,22 +147,11 @@ var render = function () {
         }
       })
     : null
-  var l1 = !_vm.isShowNoHomeNoData
-    ? _vm.__map(_vm.noShowHomeList, function (item, index) {
-        var $orig = _vm.__get_orig(item)
-        var m1 = _vm.showImage(item.type)
-        return {
-          $orig: $orig,
-          m1: m1,
-        }
-      })
-    : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         l0: l0,
-        l1: l1,
       },
     }
   )
@@ -218,10 +210,16 @@ var navBar = function navBar() {
     return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 801));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var dragSorts = function dragSorts() {
+  __webpack_require__.e(/*! require.ensure | components/HM-dragSorts/HM-dragSorts */ "components/HM-dragSorts/HM-dragSorts").then((function () {
+    return resolve(__webpack_require__(/*! @/components/HM-dragSorts/HM-dragSorts.vue */ 1058));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
   components: {
     navBar: navBar,
-    yToast: yToast
+    yToast: yToast,
+    dragSorts: dragSorts
   },
   data: function data() {
     return {
@@ -239,7 +237,20 @@ var _default = {
       leaveHomeIconPng: __webpack_require__(/*! @/static/img/leave-home-icon.png */ 113),
       copyIconPng: __webpack_require__(/*! @/static/img/copy-icon.png */ 152),
       deleteIconPng: __webpack_require__(/*! @/static/img/delete-icon.png */ 153),
-      menuMoveIconPng: __webpack_require__(/*! @/static/img/menu-move-icon.png */ 154)
+      menuMoveIconPng: __webpack_require__(/*! @/static/img/menu-move-icon.png */ 154),
+      list: [{
+        "name": "跌倒",
+        "icon": __webpack_require__(/*! @/static/img/tumble-icon.png */ 112)
+      }, {
+        "name": "入厕",
+        "icon": __webpack_require__(/*! @/static/img/toilet-icon.png */ 111)
+      }, {
+        "name": "离家回家",
+        "icon": __webpack_require__(/*! @/static/img/leave-home-icon.png */ 113)
+      }, {
+        "name": "睡眠",
+        "icon": __webpack_require__(/*! @/static/img/sleep-icon.png */ 151)
+      }]
     };
   },
   onLoad: function onLoad() {
@@ -482,6 +493,48 @@ var _default = {
     // 保存事件
     saveEvent: function saveEvent() {
       this.saveOrUpdateHomePageEvent();
+    },
+    push: function push() {
+      // 和数组的push使用方法一致，可以push单行，也可以push多行
+      this.$refs.dragSorts.push({
+        "name": "push行",
+        "icon": "/static/img/2.png"
+      });
+    },
+    unshit: function unshit() {
+      // 和数组的unshit使用方法一致，可以unshit单行，也可以unshit多行
+      this.$refs.dragSorts.unshit({
+        "name": "unshit行",
+        "icon": "/static/img/2.png"
+      });
+    },
+    splice: function splice() {
+      // 和数组的unshit使用方法一致 下标1开始删除1个并在下标1位置插入行
+      this.$refs.dragSorts.splice(1, 1, {
+        "name": "splice行",
+        "icon": "/static/img/2.png"
+      });
+    },
+    clickItem: function clickItem(e) {
+      console.log('===  start ===');
+      console.log("被点击行: " + JSON.stringify(e.value));
+      console.log("被点击下标: " + JSON.stringify(e.index));
+      console.log('===  end ===');
+    },
+    change: function change(e) {
+      console.log('=== change start ===');
+      console.log("被拖动行: " + JSON.stringify(e.moveRow));
+      console.log('原始下标：', e.index);
+      console.log('移动到：', e.moveTo);
+      console.log('=== change end ===');
+    },
+    confirm: function confirm(e) {
+      console.log('=== confirm start ===');
+      console.log("被拖动行: " + JSON.stringify(e.moveRow));
+      console.log('原始下标：', e.index);
+      console.log('移动到：', e.moveTo);
+      console.log("整列数据: " + JSON.stringify(e.list));
+      console.log('=== confirm end ===');
     }
   })
 };

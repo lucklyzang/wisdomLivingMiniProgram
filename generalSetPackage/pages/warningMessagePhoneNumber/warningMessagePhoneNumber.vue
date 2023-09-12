@@ -141,6 +141,11 @@
 						this.initValue = this.familyMemberList[0]['value'];
 						this.phoneList = this.fullFamilyMemberList[0]['phones']
 					}
+				};
+				if (this.phoneList.length > 0) {
+					this.isShowNoHomeNoData = false
+				} else {
+					this.isShowNoHomeNoData = true
 				}
 			},
 			

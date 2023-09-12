@@ -250,6 +250,7 @@
 				lineChartData: {},
 				breatheOpts: {
 					color: ["#1890FF"],
+					dataPointShapeType: 'hollow',
 					padding: [15,10,0,0],
 					enableScroll: true,
 					legend: { show: false },
@@ -313,12 +314,12 @@
 				},
 				heartOpts: {
 					dataPointShape: false,
-					color: ["#E4496B"],
+					color: ["#ee4f74"],
 					enableScroll: true,
 					legend: { show: false },
 					xAxis: {
 						boundaryGap: "justify",
-						itemCount: 8,
+						itemCount: 9,
 						disableGrid: true,
 						axisLine: false
 					},
@@ -347,7 +348,7 @@
 				}
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.getServerData();
 			this.queryHomePageList(this.familyId);
 			this.queryUserBannerList();

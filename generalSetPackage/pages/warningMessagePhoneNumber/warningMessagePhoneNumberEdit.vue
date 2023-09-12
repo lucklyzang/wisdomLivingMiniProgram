@@ -15,7 +15,7 @@
 					<u-form-item left-icon="email">
 						<u-input v-model="form.verificationCode" placeholder="请输入验证码" type="number"/>
 						<template slot="right">
-							<text v-if="showGetVerificationCode" @click="getVerificationCodeEvent">获取验证码</text>
+							<text v-if="showGetVerificationCode" @click="$noMultipleClicks(getVerificationCodeEvent)">获取验证码</text>
 							<text v-if="!showGetVerificationCode" class="count">{{count}}s后重新获取</text>
 						</template>
 					</u-form-item>
@@ -46,6 +46,7 @@
 		data() {
 			return {
 				infoText: '',
+				noClick: true,
 				checked: false,
 				showLoadingHint: false,
 				showGetVerificationCode: true,

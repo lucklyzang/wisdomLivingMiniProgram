@@ -380,16 +380,31 @@ page {
   font-size: 14px;
 }
 .container .container-content .weixin-login .image-wrapper {
-  width: 24px;
+  width: 40px;
   height: 24px;
   margin: 0 auto;
   margin-top: 10px;
 }
-.container .container-content .weixin-login .image-wrapper image {
+.container .container-content .weixin-login .image-wrapper uni-button {
+  width: 40px;
+  background: #fff;
+}
+.container .container-content .weixin-login .image-wrapper uni-button image {
   width: 24px;
   height: 24px;
 }
+.container .container-content .weixin-login .image-wrapper uni-button:after {
+  border: none;
+}
 .container .container-content .weixin-login .image-wrapper button {
-  width: 100%;
+  width: 40px;
+  background: #fff;
+}
+.container .container-content .weixin-login .image-wrapper button image {
+  width: 24px;
+  height: 24px;
+}
+.container .container-content .weixin-login .image-wrapper button:after {
+  border: none;
 }
 

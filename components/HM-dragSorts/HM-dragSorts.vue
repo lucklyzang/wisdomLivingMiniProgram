@@ -342,7 +342,6 @@
 			}
 
 			.modules {
-				border-bottom: 1rpx $border-color solid;
 
 				.content {
 					color: $text-color;
@@ -462,7 +461,7 @@
 
 			.rowBox {
 				width: 100%;
-
+				margin-bottom: 10px;
 				&:last-child {
 					.row {
 						.modules {

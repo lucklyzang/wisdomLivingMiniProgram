@@ -230,7 +230,7 @@ var _default = {
       addDeviceIconPng: __webpack_require__(/*! @/static/img/add-device-icon.png */ 125)
     };
   },
-  onLoad: function onLoad() {
+  onShow: function onShow() {
     this.initFamilyInfo();
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'familyMessage', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {

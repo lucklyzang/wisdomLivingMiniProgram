@@ -122,8 +122,7 @@ export const getStringLength = (str) => {
 
 /* 
  * base64格式转化为file对象
- * @param{urlData} urlData base64字符串
- * @param{name} base64文件名称
+ * @param{String} urlData base64字符串
  */
 
 export const dataURItoBlob = (urlData) => {
@@ -159,6 +158,28 @@ export const randomStr = () => {
 	};
 	used.add(result);
 	return result
+}
+
+/* 
+ * 防止重复点击
+ * @param{Function} methods 执行的方法
+ * @param{} info  传递的参数
+ */
+export function noMultipleClicks(methods, info) {
+	let that = this;
+	if (that.noClick) {
+			// 第一次点击
+			that.noClick= false;
+			if(info && info !== '') {
+				methods(info)
+			} else {
+				methods()
+			};
+			setTimeout(()=> {
+					that.noClick= true;
+			}, 1000)
+	} else {
+	}
 }
 
 export const removeAllLocalStorage = () => {

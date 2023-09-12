@@ -281,6 +281,16 @@
 							if (res.data.data.length > 0) {
 								this.dayChartData['isShow'] = true;
 								let questData = res.data.data[0]['ruleDataVO'];
+								if (questData.details[0]['enter'] && questData.details[0]['goOut']) {
+									this.initDayText = '离家、回家';
+								} else if (questData.details[0]['enter']) {
+									this.initDayText = '离家';
+								} else if (questData.details[0]['goOut']) {
+									this.initDayText = '回家';
+								} else {
+									this.initDayText = '-';
+								};
+								this.initDayTime = this.getNowFormatDate(new Date(questData.details[0]['createTime']),1);
 								let temporaryData = {
 									categories: [],
 									series: [
@@ -313,7 +323,9 @@
 								this.dayChartData = {
 									isShow: false,
 									data: {}
-								}
+								};
+								this.initDayText = '-';
+								this.initDayTime = '-';
 							}
 						} else if (type == 'week') {
 							
@@ -817,7 +829,7 @@
 							 	top: 40%;
 							 	left: 50%;
 							 	transform: translate(-50%,-50%)
-							};
+							}
 						}
 					}
 				}

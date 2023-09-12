@@ -217,7 +217,7 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  onLoad: function onLoad() {
+  onShow: function onShow() {
     // 初次进入该页面时，查询用户基本信息
     if (!this.userBasicInfo) {
       this.queryUserBasicMessage();

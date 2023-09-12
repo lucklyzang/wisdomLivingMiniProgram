@@ -38,7 +38,12 @@
 					<text>不显示在首页</text>
 				</view>
 				<view class="show-list-wrapper">
-					<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
+					<HM-dragSorts ref="dragSorts" :list="list" :longTouch="true" :autoScroll="true" :feedbackGenerator="true" :listHeight="300" :rowHeight="55" @change="change" @confirm="confirm" @onclick="clickItem" >
+						<template #rowContent="{row}">
+						    <text>{{ row.name }}</text>
+						</template>
+					</HM-dragSorts>  
+					<!-- <u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
 					<view class="show-list" v-else v-for="(item,index) in noShowHomeList" :key="index">
 						<view class="list-left">
 							<image :src="showImage(item.type)"></image>
@@ -51,7 +56,7 @@
 							<view class="copy-box" @click="copyEvent(item,index)" v-if="item.mold == 0"><image :src="copyIconPng"></image></view>
 							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
 						</view>
-					</view>
+					</view> -->
 				</view>
 			</view>
 		</view>
@@ -71,10 +76,12 @@
 	import yToast from "@/components/y-toast/y-toast.vue"
 	import { getHomePageList, deleteHomePage, saveOrUpdateHomePage } from '@/api/home.js'
 	import navBar from "@/components/zhouWei-navBar"
+	import dragSorts from '@/components/HM-dragSorts/HM-dragSorts.vue'
 	export default {
 		components: {
 			navBar,
-			yToast
+			yToast,
+			dragSorts
 		},
 		data() {
 			return {
@@ -92,7 +99,13 @@
 				leaveHomeIconPng: require("@/static/img/leave-home-icon.png"),
 				copyIconPng: require("@/static/img/copy-icon.png"),
 				deleteIconPng: require("@/static/img/delete-icon.png"),
-				menuMoveIconPng: require("@/static/img/menu-move-icon.png")
+				menuMoveIconPng: require("@/static/img/menu-move-icon.png"),
+				list:[
+						{"name": "跌倒", "icon": require("@/static/img/tumble-icon.png")},
+						{"name": "入厕","icon": require("@/static/img/toilet-icon.png")},
+						{"name": "离家回家","icon": require("@/static/img/leave-home-icon.png")},
+						{"name": "睡眠","icon": require("@/static/img/sleep-icon.png")}
+				]
 			}
 		},
 		onLoad() {
@@ -331,6 +344,49 @@
 			// 保存事件
 			saveEvent () {
 				this.saveOrUpdateHomePageEvent()
+			},
+			
+			 push(){
+					// 和数组的push使用方法一致，可以push单行，也可以push多行
+					this.$refs.dragSorts.push({
+									"name": "push行",
+									"icon": "/static/img/2.png"
+							});
+			},
+			unshit(){
+					// 和数组的unshit使用方法一致，可以unshit单行，也可以unshit多行
+					this.$refs.dragSorts.unshit({
+									"name": "unshit行",
+									"icon": "/static/img/2.png"
+							});
+			},
+			splice(){
+					// 和数组的unshit使用方法一致 下标1开始删除1个并在下标1位置插入行
+					this.$refs.dragSorts.splice(1,1,{
+									"name": "splice行",
+									"icon": "/static/img/2.png"
+							});
+			},
+			clickItem(e){
+					console.log('===  start ===');
+					console.log("被点击行: " + JSON.stringify(e.value));
+					console.log("被点击下标: " + JSON.stringify(e.index));
+					console.log('===  end ===');
+			},
+			change(e){
+					console.log('=== change start ===');
+					console.log("被拖动行: " + JSON.stringify(e.moveRow));
+					console.log('原始下标：',e.index);
+					console.log('移动到：',e.moveTo);
+					console.log('=== change end ===');
+			},
+			confirm(e){
+					console.log('=== confirm start ===');
+					console.log("被拖动行: " + JSON.stringify(e.moveRow));
+					console.log('原始下标：',e.index);
+					console.log('移动到：',e.moveTo);
+						console.log("整列数据: " + JSON.stringify(e.list));
+					console.log('=== confirm end ===');
 			}
 		}
 	}
@@ -340,7 +396,7 @@
 	@import "~@/common/stylus/variable.scss";
 	page {
 		width: 100%;
-		height: 100%;
+		height: 100%
 	};
 	.content-box {
 		@include content-wrapper;

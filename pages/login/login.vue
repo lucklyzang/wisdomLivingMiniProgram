@@ -104,7 +104,7 @@
 					<u-form-item v-if="(!isPasswordLogin || isForgetPassword) && !isSetPassword">
 						<u-input v-model="form.verificationCode" placeholder="请输入验证码" type="number"/>
 						<template slot="right">
-							<text v-if="showGetVerificationCode" @click="getVerificationCodeEvent">获取验证码</text>
+							<text v-if="showGetVerificationCode" @click="$noMultipleClicks(getVerificationCodeEvent)">获取验证码</text>
 							<text v-if="!showGetVerificationCode" class="count">{{count}}s后重新获取</text>
 						</template>
 					</u-form-item>
@@ -121,7 +121,7 @@
 				</view>
 			</view>
 			<view class="form-btn" v-if="!isForgetPassword && !isSetPassword">
-				<button @click="sure">{{ isPasswordLogin ? '登 录' : '登 录/注 册' }}</button>
+				<button @click="$noMultipleClicks(sure)">{{ isPasswordLogin ? '登 录' : '登 录/注 册' }}</button>
 				<view class="form-btn-info-text">
 					<u-checkbox-group>
 						<u-checkbox v-model="isReadAgreeChecked" shape="circle" active-color="#289E8E">阅读并同意协议</u-checkbox>
@@ -135,10 +135,9 @@
       <view class="weixin-login" v-if="!isForgetPassword && !isSetPassword">
         <u-divider border-color="#DBDBDB" color="#919191" @click="weixinLoginEvent">其他登录方式</u-divider>
         <view class="image-wrapper" @click="weixinLoginEvent">
-					<image src="/static/img/weixin.png">
-					<!-- <button  width="100%" open-type="getPhoneNumber" @getphonenumber="bindPhone">
+					<button  width="100%" open-type="getPhoneNumber" @getphonenumber="bindPhone">
 						<image src="/static/img/weixin.png">
-					</button> -->
+					</button>
         </view>
       </view>
 		</view>
@@ -158,6 +157,7 @@
 				loginBackgroundPng: require("@/static/img/login-background.png"),
 				loginLogoPng: require("@/static/img/login-logo.png"),
 				logoSmallIcon: require("@/static/img/logo-small-icon.png"),
+				noClick: true,
 				loadingText: '登录中,请稍候···',
 				userCode: '',
 				form: {
@@ -222,6 +222,7 @@
 			
 			// 输入框(账号/手机号)失去焦点事件
 			blurEvent (value) {
+				if (!value) return;
 				let myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 				if (!myreg.test(value)) {
 					this.$refs.uToast.show({
@@ -1088,16 +1089,31 @@
 					}
 				};
         .image-wrapper {
-          width: 24px;
+          width: 40px;
           height: 24px;
           margin: 0 auto;
 					margin-top: 10px;
-          image {
-            width: 24px;
-						height: 24px
-          };
+					uni-button {
+						width: 40px;
+						background: #fff;
+						image {
+						  width: 24px;
+							height: 24px
+						}
+					};
+					uni-button:after {
+						border: none
+					};
 					button {
-						width: 100%
+						width: 40px;
+						background: #fff;
+						image {
+						  width: 24px;
+							height: 24px
+						}
+					};
+					button:after {
+						border: none
 					}
         }
       }

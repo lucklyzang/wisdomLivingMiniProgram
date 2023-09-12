@@ -4,10 +4,13 @@
   "backgroundColorTop": "#fff,",
   "backgroundColorBottom": "#fff",
   "usingComponents": {
+    "index-h-m-drag-sorts-rowContent": "/healthMonitoringPackage/pages/healthMonitoring/index/index-h-m-drag-sorts-rowContent",
     "u-toast": "/node-modules/uview-ui/components/u-toast/u-toast",
     "y-toast": "/components/y-toast/y-toast",
     "u-empty": "/node-modules/uview-ui/components/u-empty/u-empty",
     "u-input": "/node-modules/uview-ui/components/u-input/u-input",
-    "nav-bar": "/components/zhouWei-navBar/index"
+    "h-m-drag-sorts": "/components/HM-dragSorts/HM-dragSorts",
+    "nav-bar": "/components/zhouWei-navBar/index",
+    "drag-sorts": "/components/HM-dragSorts/HM-dragSorts"
   }
 }

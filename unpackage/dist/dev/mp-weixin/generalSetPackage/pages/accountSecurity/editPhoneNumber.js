@@ -191,6 +191,7 @@ var _default = {
   data: function data() {
     return {
       infoText: '',
+      noClick: true,
       checked: false,
       showLoadingHint: false,
       showGetVerificationCode: true,

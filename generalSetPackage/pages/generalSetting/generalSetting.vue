@@ -2,7 +2,7 @@
 	<view class="content-box">
 		<u-toast ref="uToast" />
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
-		<u-modal v-model="modalShow" :content="modalContent"
+		<u-modal v-model="modalShow" :show-title="false" :content="modalContent"
 		 :show-cancel-button="true" @confirm="sureCancel" @cancel="cancelSure">
 		</u-modal>
 		<view class="nav">
@@ -171,6 +171,19 @@
 		padding-bottom: 0;
 		padding-bottom: constant(safe-area-inset-bottom);
 		padding-bottom: env(safe-area-inset-bottom);
+		::v-deep .u-drawer {
+			.u-drawer-content {
+				.u-drawer__scroll-view {
+					.u-model {
+						.u-model__footer {
+							.hairline-left {
+								color: #11D183 !important
+							}
+						}
+					}
+				}
+			}
+		};
 		::-webkit-scrollbar {
 			width: 0;
 			height: 0;

@@ -27,6 +27,7 @@ var ourLoading = function ourLoading() {
     return resolve(__webpack_require__(/*! @/components/our-loading/our-loading.vue */ 673));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+_vue.default.prototype.$noMultipleClicks = _utils.noMultipleClicks;
 _vue.default.use(_uviewUi.default);
 _vue.default.component('ourLoading', ourLoading);
 _vue.default.config.productionTip = false;

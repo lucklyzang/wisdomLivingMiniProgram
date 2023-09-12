@@ -269,6 +269,12 @@ var _default = {
           this.phoneList = this.fullFamilyMemberList[0]['phones'];
         }
       }
+      ;
+      if (this.phoneList.length > 0) {
+        this.isShowNoHomeNoData = false;
+      } else {
+        this.isShowNoHomeNoData = true;
+      }
     },
     // 编辑事件
     editEvent: function editEvent(item) {

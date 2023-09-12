@@ -116,7 +116,7 @@
 				addDeviceIconPng: require("@/static/img/add-device-icon.png")
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.initFamilyInfo()
 		},
 		computed: {

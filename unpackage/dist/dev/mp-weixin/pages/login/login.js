@@ -223,6 +223,7 @@ var _default = {
       loginBackgroundPng: __webpack_require__(/*! @/static/img/login-background.png */ 94),
       loginLogoPng: __webpack_require__(/*! @/static/img/login-logo.png */ 95),
       logoSmallIcon: __webpack_require__(/*! @/static/img/logo-small-icon.png */ 96),
+      noClick: true,
       loadingText: '登录中,请稍候···',
       userCode: '',
       form: {
@@ -272,6 +273,7 @@ var _default = {
     },
     // 输入框(账号/手机号)失去焦点事件
     blurEvent: function blurEvent(value) {
+      if (!value) return;
       var myreg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
       if (!myreg.test(value)) {
         this.$refs.uToast.show({

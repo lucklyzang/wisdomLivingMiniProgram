@@ -105,7 +105,7 @@
 			accountName() {
 			}
 		},
-		onLoad() {
+		onShow() {
 			// 初次进入该页面时，查询用户基本信息
 			if (!this.userBasicInfo) {
 				this.queryUserBasicMessage()
