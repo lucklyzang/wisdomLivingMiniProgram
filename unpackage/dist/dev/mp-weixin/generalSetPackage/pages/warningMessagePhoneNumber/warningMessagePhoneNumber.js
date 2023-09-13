@@ -187,7 +187,7 @@ var xflSelect = function xflSelect() {
 };
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 801));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 810));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {

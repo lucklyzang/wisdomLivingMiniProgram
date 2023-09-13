@@ -109,11 +109,11 @@ try {
     uEmpty: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 768))
     },
+    HMDragSorts: function () {
+      return __webpack_require__.e(/*! import() | components/HM-dragSorts/HM-dragSorts */ "components/HM-dragSorts/HM-dragSorts").then(__webpack_require__.bind(null, /*! @/components/HM-dragSorts/HM-dragSorts.vue */ 801))
+    },
     uInput: function () {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 726))
-    },
-    HMDragSorts: function () {
-      return __webpack_require__.e(/*! import() | components/HM-dragSorts/HM-dragSorts */ "components/HM-dragSorts/HM-dragSorts").then(__webpack_require__.bind(null, /*! @/components/HM-dragSorts/HM-dragSorts.vue */ 1058))
     },
   }
 } catch (e) {
@@ -137,16 +137,14 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = !_vm.isShowHomeNoData
-    ? _vm.__map(_vm.showHomeList, function (item, index) {
-        var $orig = _vm.__get_orig(item)
-        var m0 = _vm.showImage(item.type)
-        return {
-          $orig: $orig,
-          m0: m0,
-        }
-      })
-    : null
+  var l0 = _vm.__map(_vm.noShowHomeList, function (item, index) {
+    var $orig = _vm.__get_orig(item)
+    var m0 = _vm.showImage(item.type)
+    return {
+      $orig: $orig,
+      m0: m0,
+    }
+  })
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -198,6 +196,7 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _home = __webpack_require__(/*! @/api/home.js */ 105);
+var _lodash = _interopRequireDefault(__webpack_require__(/*! lodash */ 107));
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var yToast = function yToast() {
@@ -207,12 +206,12 @@ var yToast = function yToast() {
 };
 var navBar = function navBar() {
   __webpack_require__.e(/*! require.ensure | components/zhouWei-navBar/index */ "components/zhouWei-navBar/index").then((function () {
-    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 801));
+    return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 810));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var dragSorts = function dragSorts() {
   __webpack_require__.e(/*! require.ensure | components/HM-dragSorts/HM-dragSorts */ "components/HM-dragSorts/HM-dragSorts").then((function () {
-    return resolve(__webpack_require__(/*! @/components/HM-dragSorts/HM-dragSorts.vue */ 1058));
+    return resolve(__webpack_require__(/*! @/components/HM-dragSorts/HM-dragSorts.vue */ 801));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -225,6 +224,7 @@ var _default = {
     return {
       infoText: '',
       showLoadingHint: false,
+      isDataLoadComplete: false,
       isShowHomeNoData: false,
       isShowNoHomeNoData: false,
       value: '',
@@ -239,16 +239,16 @@ var _default = {
       deleteIconPng: __webpack_require__(/*! @/static/img/delete-icon.png */ 153),
       menuMoveIconPng: __webpack_require__(/*! @/static/img/menu-move-icon.png */ 154),
       list: [{
-        "name": "跌倒",
+        "text": "跌倒",
         "icon": __webpack_require__(/*! @/static/img/tumble-icon.png */ 112)
       }, {
-        "name": "入厕",
+        "text": "入厕",
         "icon": __webpack_require__(/*! @/static/img/toilet-icon.png */ 111)
       }, {
-        "name": "离家回家",
+        "text": "离家回家",
         "icon": __webpack_require__(/*! @/static/img/leave-home-icon.png */ 113)
       }, {
-        "name": "睡眠",
+        "text": "睡眠",
         "icon": __webpack_require__(/*! @/static/img/sleep-icon.png */ 151)
       }]
     };
@@ -271,6 +271,7 @@ var _default = {
       });
     },
     showImage: function showImage(num) {
+      console.log('type', num);
       if (num == 0) {
         return this.sleepIconPng;
       } else if (num == 1) {
@@ -281,8 +282,9 @@ var _default = {
         return this.leaveHomeIconPng;
       }
     },
-    // 后缀名点击事件
-    suffixClickEvent: function suffixClickEvent(item, index) {
+    // 后缀名点击事件_.cloneDeep
+    suffixClickEvent: function suffixClickEvent(item, index, flag) {
+      console.log('后缀', index);
       item.disabled = item.disabled;
     },
     // 获取首页配置列表
@@ -302,6 +304,7 @@ var _default = {
           _this.showHomeList.forEach(function (el) {
             el.disabled = false;
           });
+          _this.isDataLoadComplete = true;
           if (_this.showHomeList.length == 0) {
             _this.isShowHomeNoData = true;
           } else {
@@ -374,7 +377,7 @@ var _default = {
       });
     },
     // 复制事件
-    copyEvent: function copyEvent(item, index) {
+    copyEvent: function copyEvent(item, index, flag) {
       // status: 0-正常 1-停用
       console.log('打印数据', item);
       if (item.status == 0) {
@@ -416,10 +419,9 @@ var _default = {
         _insertMessage['subtitle'] = "\u573A\u666F".concat(_temporaryLength);
         this.noShowHomeList.splice(index + 1, 0, _insertMessage);
       }
-      // this.saveOrUpdateHomePageEvent(id)
     },
     // 删除首页数据卡片事件
-    deleteEvent: function deleteEvent(item, index) {
+    deleteEvent: function deleteEvent(item, index, flag) {
       if (item.status == 0) {
         this.showHomeList.splice(index, 1);
       } else if (item.status == 1) {
@@ -427,33 +429,6 @@ var _default = {
       }
       ;
       this.delIds.push(item.id);
-      // this.showLoadingHint = true;
-      // this.infoText = '删除中...';
-      // deleteHomePage({id}).then((res) => {
-      // 	if ( res && res.data.code == 0) {
-      // 		this.$refs.uToast.show({
-      // 			title: '删除成功',
-      // 			type: 'success',
-      // 			position: 'bottom'
-      // 		});
-      // 		this.queryHomePageList(this.familyId)
-      // 	} else {
-      // 		this.$refs.uToast.show({
-      // 			title: res.data.msg,
-      // 			type: 'error',
-      // 			position: 'bottom'
-      // 		})
-      // 	}	
-      // 	this.showLoadingHint = false;
-      // })
-      // .catch((err) => {
-      // 	this.showLoadingHint = false;
-      // 	this.$refs.uToast.show({
-      // 		title: err,
-      // 		type: 'error',
-      // 		position: 'bottom'
-      // 	})
-      // })
     },
     // 数据类型转换
     dataTypeTransition: function dataTypeTransition(num) {

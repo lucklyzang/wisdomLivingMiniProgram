@@ -18,7 +18,24 @@
 				</view>
 				<view class="show-list-wrapper">
 					<u-empty text="暂无数据" v-if="isShowHomeNoData"></u-empty>
-					<view class="show-list" v-else v-for="(item,index) in showHomeList" :key="index">
+					<HM-dragSorts ref="dragSorts" v-if="isDataLoadComplete" :list="showHomeList" :longTouch="true" :autoScroll="true" :feedbackGenerator="true" :listHeight="300" :rowHeight="45" @change="change" @confirm="confirm" @onclick="clickItem" >
+						<template #rowContent="{rowData}">
+							<view class="list-left">
+								<image v-if="rowData.content.type == 0" src="@/static/img/sleep-icon.png"></image>
+								<image v-if="rowData.content.type == 1" src="@/static/img/toilet-icon.png"></image>
+								<image v-if="rowData.content.type == 2" src="@/static/img/tumble-icon.png"></image>
+								<image v-if="rowData.content.type == 3" src="@/static/img/leave-home-icon.png"></image>
+								<text class="scene">{{ rowData.content.name }}</text>
+								<text class="small-bridge" v-if="rowData.content.mold == 1">-</text>
+								<u-input v-model="rowData.content.subtitle"  v-if="rowData.content.mold == 1" @click="suffixClickEvent(rowData.content,rowData.index,true)" type="text" placeholder="" :disabled="rowData.content.disabled" />
+							</view>
+							<view class="list-right">
+								<view class="delete-box" @click="deleteEvent(rowData.content,rowData.index,true)" v-if="rowData.content.mold == 1"><image src="@/static/img/delete-icon.png"></image></view>
+								<view class="copy-box" @click="copyEvent(rowData.content,rowData.index,true)" v-if="rowData.content.mold == 0"><image src="@/static/img/copy-icon.png"></image></view>
+							</view>
+						</template>
+					</HM-dragSorts>  
+				<!-- 	<view class="show-list" v-for="(item,index) in showHomeList" :key="index">
 						<view class="list-left">
 							<image :src="showImage(item.type)"></image>
 							<text class="scene">{{ item.name }}</text>
@@ -30,7 +47,7 @@
 							<view class="copy-box" @click="copyEvent(item,index)" v-if="item.mold == 0"><image :src="copyIconPng"></image></view>
 							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
 						</view>
-					</view>
+					</view> -->
 				</view>
 			</view>
 			<view class="show-home-content no-show-home-content">
@@ -38,25 +55,20 @@
 					<text>不显示在首页</text>
 				</view>
 				<view class="show-list-wrapper">
-					<HM-dragSorts ref="dragSorts" :list="list" :longTouch="true" :autoScroll="true" :feedbackGenerator="true" :listHeight="300" :rowHeight="55" @change="change" @confirm="confirm" @onclick="clickItem" >
-						<template #rowContent="{row}">
-						    <text>{{ row.name }}</text>
-						</template>
-					</HM-dragSorts>  
-					<!-- <u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
-					<view class="show-list" v-else v-for="(item,index) in noShowHomeList" :key="index">
+					<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
+					<view class="show-list" v-for="(item,index) in noShowHomeList" :key="index">
 						<view class="list-left">
 							<image :src="showImage(item.type)"></image>
 							<text class="scene">{{ item.name }}</text>
 							<text class="small-bridge" v-if="item.mold == 1">-</text>
-							<u-input v-if="item.mold == 1" v-model="item.subtitle"  @click="suffixClickEvent(item,index)" type="text" placeholder="" :disabled="item.disabled" />
+							<u-input v-if="item.mold == 1" v-model="item.subtitle"  @click="suffixClickEvent(item,index,false)" type="text" placeholder="" :disabled="item.disabled" />
 						</view>
 						<view class="list-right">
-							<view class="delete-box"  @click="deleteEvent(item,index)" v-if="item.mold == 1"><image :src="deleteIconPng"></image></view>
-							<view class="copy-box" @click="copyEvent(item,index)" v-if="item.mold == 0"><image :src="copyIconPng"></image></view>
+							<view class="delete-box"  @click="deleteEvent(item,index,false)" v-if="item.mold == 1"><image :src="deleteIconPng"></image></view>
+							<view class="copy-box" @click="copyEvent(item,index,false)" v-if="item.mold == 0"><image :src="copyIconPng"></image></view>
 							<view class="move-box"><image :src="menuMoveIconPng"></image></view>
 						</view>
-					</view> -->
+					</view>
 				</view>
 			</view>
 		</view>
@@ -77,6 +89,7 @@
 	import { getHomePageList, deleteHomePage, saveOrUpdateHomePage } from '@/api/home.js'
 	import navBar from "@/components/zhouWei-navBar"
 	import dragSorts from '@/components/HM-dragSorts/HM-dragSorts.vue'
+	import _ from 'lodash'
 	export default {
 		components: {
 			navBar,
@@ -87,6 +100,7 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
+				isDataLoadComplete: false,
 				isShowHomeNoData: false,
 				isShowNoHomeNoData: false,
 				value: '',
@@ -101,15 +115,15 @@
 				deleteIconPng: require("@/static/img/delete-icon.png"),
 				menuMoveIconPng: require("@/static/img/menu-move-icon.png"),
 				list:[
-						{"name": "跌倒", "icon": require("@/static/img/tumble-icon.png")},
-						{"name": "入厕","icon": require("@/static/img/toilet-icon.png")},
-						{"name": "离家回家","icon": require("@/static/img/leave-home-icon.png")},
-						{"name": "睡眠","icon": require("@/static/img/sleep-icon.png")}
+						{"text": "跌倒", "icon": require("@/static/img/tumble-icon.png")},
+						{"text": "入厕","icon": require("@/static/img/toilet-icon.png")},
+						{"text": "离家回家","icon": require("@/static/img/leave-home-icon.png")},
+						{"text": "睡眠","icon": require("@/static/img/sleep-icon.png")}
 				]
 			}
 		},
 		onLoad() {
-			this.queryHomePageList(this.familyId)
+			this.queryHomePageList(this.familyId);
 		},
 		computed: {
 			...mapGetters([
@@ -141,6 +155,7 @@
 			},
 			
 			showImage (num) {
+				console.log('type',num);
 				if (num == 0) {
 					return this.sleepIconPng
 				} else if (num == 1) {
@@ -152,8 +167,9 @@
 				}
 			},
 			
-			// 后缀名点击事件
-			suffixClickEvent(item,index) {
+			// 后缀名点击事件_.cloneDeep
+			suffixClickEvent(item,index,flag) {
+				console.log('后缀',index);
 				item.disabled = item.disabled
 			},
 			
@@ -167,6 +183,7 @@
 					if ( res && res.data.code == 0) {
 						this.showHomeList = res.data.data.filter((item) => { return item.status == 0 });
 						this.showHomeList.forEach((el) => { el.disabled = false });
+						this.isDataLoadComplete = true;
 						if (this.showHomeList.length == 0) {
 							this.isShowHomeNoData = true
 						} else {
@@ -225,7 +242,7 @@
 			},
 			
 			// 复制事件
-			copyEvent (item,index) {
+			copyEvent (item,index,flag) {
 				// status: 0-正常 1-停用
 				console.log('打印数据',item);
 				if (item.status == 0) {
@@ -263,44 +280,16 @@
 					insertMessage['subtitle'] = `场景${temporaryLength}`;
 					this.noShowHomeList.splice(index + 1, 0, insertMessage);
 				}
-				// this.saveOrUpdateHomePageEvent(id)
 			},
 			
 			// 删除首页数据卡片事件
-			deleteEvent (item,index) {
+			deleteEvent (item,index,flag) {
 				if (item.status == 0) {
 					this.showHomeList.splice(index,1)
 				} else if (item.status == 1) {
 					this.noShowHomeList.splice(index,1)
 				};
 				this.delIds.push(item.id)
-				// this.showLoadingHint = true;
-				// this.infoText = '删除中...';
-				// deleteHomePage({id}).then((res) => {
-				// 	if ( res && res.data.code == 0) {
-				// 		this.$refs.uToast.show({
-				// 			title: '删除成功',
-				// 			type: 'success',
-				// 			position: 'bottom'
-				// 		});
-				// 		this.queryHomePageList(this.familyId)
-				// 	} else {
-				// 		this.$refs.uToast.show({
-				// 			title: res.data.msg,
-				// 			type: 'error',
-				// 			position: 'bottom'
-				// 		})
-				// 	}	
-				// 	this.showLoadingHint = false;
-				// })
-				// .catch((err) => {
-				// 	this.showLoadingHint = false;
-				// 	this.$refs.uToast.show({
-				// 		title: err,
-				// 		type: 'error',
-				// 		position: 'bottom'
-				// 	})
-				// })
 			},
 			
 			
@@ -446,6 +435,87 @@
 					}
 				};
 				.show-list-wrapper {
+					::v-deep h-m-drag-sorts {
+						.HM-drag-sort {
+							.modules {
+								.scoped-ref {
+									display: flex;
+									padding: 0 6px;
+									align-items: center;
+									justify-content: space-between;
+									background: #fff;
+									width: 100%;
+									height: 45px;
+									.list-left {
+										display: flex;
+										flex: 1;
+										align-items: center;
+										width: 0;
+										::v-deep .u-input {
+											padding-right: 10px !important;
+											box-sizing: border-box;
+										};
+										::v-deep u-input__input {
+											flex: 1;
+											font-size: 16px !important;
+											color: #898C8C;
+										};
+										>image {
+											width: 24px;
+											height: 24px;
+											vertical-align: middle;
+											margin-right: 6px;
+										};
+										.scene {
+											min-width: 40px;
+											text-align: center;
+											color: #101010;
+										};
+										>text {
+											font-size: 16px;
+											vertical-align: middle
+										}
+									};
+									.list-right {
+										display: flex;
+										justify-content: flex-end;
+										>view {
+											margin-right: 24px;
+											position: relative;
+											image {
+												width: 20px;
+												height: 20px;
+												vertical-align: middle
+											}
+										};
+										.delete-box::after {
+											content: "";
+											position: absolute;
+											top: 2px;
+											right: -13px;
+											width: 1px;
+											height: 22px;
+											background: #BBBBBB
+										};
+										.copy-box::after {
+											content: "";
+											position: absolute;
+											top: 2px;
+											right: -13px;
+											width: 1px;
+											height: 22px;
+											background: #BBBBBB
+										};
+										.move-box {
+											margin-right: 0 !important
+										}
+									}
+								}
+							}
+						}	
+					}
+				};	
+				.show-list-wrapper {
 					min-height: 200px;
 					position: relative;
 					::v-deep .u-empty {
@@ -532,7 +602,7 @@
 						}
 					}
 				}
-			};
+			};	
 			.no-show-home-content {
 				.show-title {
 					display: flex;

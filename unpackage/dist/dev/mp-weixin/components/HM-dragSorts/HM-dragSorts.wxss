@@ -24,11 +24,6 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.color.list,
-.rowBox-shadow.list {
-  border-bottom: 1rpx #c8c7cb solid;
-  border-top: 1rpx #c8c7cb solid;
-}
 .color .row,
 .rowBox-shadow .row {
   background-color: white;
@@ -47,19 +42,12 @@
   color: #c7c7cb;
 }
 @media (prefers-color-scheme: dark) {
-.color .rowBox-shadow.list {
-    border-bottom: 1rpx #3d3d40 solid;
-    border-top: 1rpx #3d3d40 solid;
-}
 .color .rowBox-shadow .row {
     background-color: #1c1c1d;
 }
 .color .rowBox-shadow .row.move {
     background-color: rgba(28, 28, 29, 0.8);
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
-}
-.color .rowBox-shadow .row .modules {
-    border-bottom: 1rpx #3d3d40 solid;
 }
 .color .rowBox-shadow .row .modules .content {
     color: #ffffff;
@@ -95,8 +83,7 @@
   border-bottom-width: 0;
 }
 .HM-drag-sort .rowBox-shadow .row .modules {
-  margin-left: 12px;
-  padding-right: 12px;
+  padding: 0 6px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -110,6 +97,11 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.HM-drag-sort .rowBox-shadow .row .modules .drag image {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
 }
 .HM-drag-sort .rowBox-shadow .row .modules .drag .iconfont {
   font-size: 22px;
@@ -159,6 +151,11 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+.HM-drag-sort .list .rowBox .row .modules .drag image {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
 }
 .HM-drag-sort .list .rowBox .row .modules .drag .iconfont {
   font-size: 22px;

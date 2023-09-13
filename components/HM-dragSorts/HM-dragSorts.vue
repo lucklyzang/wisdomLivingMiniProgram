@@ -4,9 +4,12 @@
 			<view class="row" id="shadowRow">
 				<view class="modules">
 					<!-- 内容  -->
-					<slot name="rowContent" :row="shadowRow"></slot>
+					<slot name="rowContent" :rowData="shadowRow"></slot>
 					<!-- 拖拽图标 -->
-					<view class="drag" :style="{'height': rowHeight+'px'}"><text class="iconfont icon-drag"></text></view>
+					<view class="drag" :style="{'height': rowHeight+'px'}">
+						<image src="@/static/img/menu-move-icon.png"></image>
+						<!-- <text class="iconfont icon-drag"></text> -->
+					</view>
 				</view>
 			</view>
 		</view>
@@ -20,7 +23,7 @@
 							<view :class="'row row'+listType" :style="{'height': rowHeight+'px'}" :id="'row'+listType+index">
 								<view class="modules" @tap="triggerClick(index,row)">
 									<!-- 内容  -->
-									<slot name="rowContent" :row="row"></slot>
+									<slot name="rowContent" :rowData="{content:row,index:index}"></slot>
 									<!-- 拖拽图标 -->
 									<view class="drag" :style="{'height': rowHeight+'px'}" 
 									:data-index="index" :data-type="listType" 
@@ -29,7 +32,8 @@
 									@longpress="drag.longpress"
 									<!-- #endif -->
 									>
-										<text class="iconfont icon-drag"></text>
+										<image src="@/static/img/menu-move-icon.png"></image>
+										<!-- <text class="iconfont icon-drag"></text> -->
 									</view>
 								</view>
 							</view>
@@ -51,7 +55,8 @@
 			return {
 				e: null,
 				ScrollView: null,
-				scrollTimer: null
+				scrollTimer: null,
+				menuMoveIconPng: require("@/static/img/menu-move-icon.png")
 			}
 		},
 		methods: {
@@ -200,7 +205,6 @@
 					this.dragList.A = JSON.parse(JSON.stringify(this.list));
 					this.dragList.B = JSON.parse(JSON.stringify(this.list));
 				}
-
 			},
 			triggerClick(index, row) {
 				this.$emit('onclick', {
@@ -329,8 +333,8 @@
 	.color,
 	.rowBox-shadow {
 		&.list{
-			border-bottom: 1rpx $border-color solid;
-			border-top: 1rpx $border-color solid;
+			// border-bottom: 1rpx $border-color solid;
+			// border-top: 1rpx $border-color solid;
 		}
 
 		.row {
@@ -361,8 +365,8 @@
 		//Dark模式
 		.color .rowBox-shadow {
 			&.list{
-				border-bottom: 1rpx $Dark-border-color solid;
-				border-top: 1rpx $Dark-border-color solid;
+				// border-bottom: 1rpx $Dark-border-color solid;
+				// border-top: 1rpx $Dark-border-color solid;
 			}
 
 			.row {
@@ -374,7 +378,7 @@
 				}
 
 				.modules {
-					border-bottom: 1rpx $Dark-border-color solid;
+					// border-bottom: 1rpx $Dark-border-color solid;
 
 					.content {
 						color: $Dark-text-color;
@@ -422,8 +426,7 @@
 				}
 
 				.modules {
-					margin-left: 12px;
-					padding-right: 12px;
+					padding: 0 6px;
 					width: 100%;
 					display: flex;
 					flex-direction: row;
@@ -437,9 +440,13 @@
 						flex-direction: row;
 						justify-content: center;
 						align-items: center;
-
+						image {
+							width: 20px;
+							height: 20px;
+							vertical-align: middle
+						};
 						.iconfont {
-							font-size: 22px;
+							font-size: 22px
 						}
 					}
 				}
@@ -500,7 +507,11 @@
 							flex-direction: row;
 							justify-content: center;
 							align-items: center;
-
+							image {
+								width: 20px;
+								height: 20px;
+								vertical-align: middle
+							};
 							.iconfont {
 								font-size: 22px;
 							}
