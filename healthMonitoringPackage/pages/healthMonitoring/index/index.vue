@@ -18,7 +18,7 @@
 				</view>
 				<view class="show-list-wrapper">
 					<u-empty text="暂无数据" v-if="isShowHomeNoData"></u-empty>
-					<HM-dragSorts ref="dragSorts" v-if="isDataLoadComplete" :list="showHomeList" :longTouch="true" :autoScroll="true" :feedbackGenerator="true" :listHeight="300" :rowHeight="45" @change="change" @confirm="confirm" @onclick="clickItem" >
+					<HM-dragSorts ref="dragSorts" v-if="isDataLoadComplete" :list="showHomeList" :longTouch="true" :autoScroll="true" :feedbackGenerator="true" :listHeight="320" :rowHeight="45" @change="change" @confirm="confirm" @onclick="clickItem" >
 						<template #rowContent="{rowData}">
 							<view class="list-left">
 								<image v-if="rowData.content.type == 0" src="@/static/img/sleep-icon.png"></image>
@@ -27,11 +27,11 @@
 								<image v-if="rowData.content.type == 3" src="@/static/img/leave-home-icon.png"></image>
 								<text class="scene">{{ rowData.content.name }}</text>
 								<text class="small-bridge" v-if="rowData.content.mold == 1">-</text>
-								<u-input v-model="rowData.content.subtitle"  v-if="rowData.content.mold == 1" @click="suffixClickEvent(rowData.content,rowData.index,true)" type="text" placeholder="" :disabled="rowData.content.disabled" />
+								<u-input v-model="rowData.content.subtitle"  v-if="rowData.content.mold == 1" @input="suffixClickEvent(rowData.content,rowData.index,true)" type="text" placeholder="" :disabled="rowData.content.disabled" />
 							</view>
 							<view class="list-right">
-								<view class="delete-box" @click="deleteEvent(rowData.content,rowData.index,true)" v-if="rowData.content.mold == 1"><image src="@/static/img/delete-icon.png"></image></view>
-								<view class="copy-box" @click="copyEvent(rowData.content,rowData.index,true)" v-if="rowData.content.mold == 0"><image src="@/static/img/copy-icon.png"></image></view>
+								<view class="delete-box" @click.stop="deleteEvent(rowData.content,rowData.index,true)" v-if="rowData.content.mold == 1"><image src="@/static/img/delete-icon.png"></image></view>
+								<view class="copy-box" @click.stop="copyEvent(rowData.content,rowData.index,true)" v-if="rowData.content.mold == 0"><image src="@/static/img/copy-icon.png"></image></view>
 							</view>
 						</template>
 					</HM-dragSorts>  
@@ -167,10 +167,11 @@
 				}
 			},
 			
-			// 后缀名点击事件_.cloneDeep
+			// 后缀名点击事件
 			suffixClickEvent(item,index,flag) {
-				console.log('后缀',index);
-				item.disabled = item.disabled
+				console.log('后缀',item,this.showHomeList);
+				this.showHomeList[index]['subtitle'] = item.subtitle;
+				this.showHomeList[index]['disabled'] = item.disabled
 			},
 			
 			// 获取首页配置列表
@@ -376,6 +377,7 @@
 					console.log('移动到：',e.moveTo);
 						console.log("整列数据: " + JSON.stringify(e.list));
 					console.log('=== confirm end ===');
+					this.showHomeList = _.cloneDeep(e.list)
 			}
 		}
 	}

@@ -282,10 +282,11 @@ var _default = {
         return this.leaveHomeIconPng;
       }
     },
-    // 后缀名点击事件_.cloneDeep
+    // 后缀名点击事件
     suffixClickEvent: function suffixClickEvent(item, index, flag) {
-      console.log('后缀', index);
-      item.disabled = item.disabled;
+      console.log('后缀', item, this.showHomeList);
+      this.showHomeList[index]['subtitle'] = item.subtitle;
+      this.showHomeList[index]['disabled'] = item.disabled;
     },
     // 获取首页配置列表
     queryHomePageList: function queryHomePageList(familyId) {
@@ -510,6 +511,7 @@ var _default = {
       console.log('移动到：', e.moveTo);
       console.log("整列数据: " + JSON.stringify(e.list));
       console.log('=== confirm end ===');
+      this.showHomeList = _lodash.default.cloneDeep(e.list);
     }
   })
 };

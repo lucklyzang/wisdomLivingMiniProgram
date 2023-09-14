@@ -281,6 +281,10 @@ var _default = {
         isShow: true,
         data: {}
       },
+      weekChartData: {
+        isShow: true,
+        data: {}
+      },
       leaveHomeDayOpts: {
         color: ["#F2A15F", "#289E8E"],
         dataLabel: false,
@@ -300,6 +304,28 @@ var _default = {
         extra: {
           column: {
             width: 6,
+            categoryGap: 2
+          }
+        }
+      },
+      leaveHomeWeekOpts: {
+        dataLabel: false,
+        padding: [15, 10, 0, 15],
+        enableScroll: true,
+        legend: {
+          show: false
+        },
+        tooltip: {
+          showBox: true
+        },
+        xAxis: {
+          itemCount: 7
+        },
+        yAxis: {},
+        extra: {
+          column: {
+            type: 'stack',
+            width: 20,
             categoryGap: 2
           }
         }
@@ -352,7 +378,7 @@ var _default = {
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     // 获取日数据当前点击索引
-    getIndexEvent: function getIndexEvent(e) {
+    getDayIndexEvent: function getDayIndexEvent(e) {
       this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
       if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']] && !e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]) {
         this.initDayText = '';
@@ -366,6 +392,8 @@ var _default = {
       ;
       console.log('点击数据', this.initDayText);
     },
+    // 获取周数据当前点击索引
+    getWeekIndexEvent: function getWeekIndexEvent(e) {},
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
       // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)
@@ -414,10 +442,10 @@ var _default = {
     // 获取离回家数据详情
     queryEnterLeaveHomeDetails: function queryEnterLeaveHomeDetails(data, type) {
       var _this = this;
-      this.dayChartData['isShow'] = true;
       (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           if (type == 'day') {
+            _this.dayChartData['isShow'] = true;
             if (res.data.data.length > 0) {
               _this.dayChartData['isShow'] = true;
               var questData = res.data.data[0]['ruleDataVO'];
@@ -466,7 +494,45 @@ var _default = {
               _this.initDayText = '-';
               _this.initDayTime = '-';
             }
-          } else if (type == 'week') {} else if (type == 'month') {}
+          } else if (type == 'week') {
+            _this.weekChartData['isShow'] = true;
+            if (res.data.data.length > 0) {
+              var _questData = res.data.data;
+              console.log('周数据', _questData);
+              _this.weekChartData['isShow'] = true;
+              var lengthArr = [];
+              var maxColumn;
+              var _temporaryData = {
+                categories: [],
+                series: []
+              };
+              _questData.forEach(function (item, index) {
+                _temporaryData['categories'].push(_this.judgeWeek(item.date));
+                lengthArr.push(item.ruleDataVO.details.length);
+              });
+              // 按所有天中数据最多的那天算(每天的数据条数不一致)
+              maxColumn = Math.max.apply(null, lengthArr);
+              for (var i = 0; i < maxColumn; i++) {
+                _temporaryData['series'].push({
+                  "data": []
+                });
+              }
+              ;
+              // item.ruleDataVO.details.forEach((innerItem,innerIndex) => {
+              // 	temporaryData['series'].push({
+              // 		"data": [{"value": 1,"color": "#E86F50"},{"value": 1,"color": "#289E8E"}]
+              // 	})
+              // });
+              console.log('周数据处理', _temporaryData);
+              var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
+              _this.weekChartData['data'] = _temporaryContent;
+            } else {
+              _this.weekChartData = {
+                isShow: false,
+                data: {}
+              };
+            }
+          } else if (type == 'month') {}
         } else {
           _this.$refs.uToast.show({
             title: res.data.msg,

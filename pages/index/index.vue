@@ -105,6 +105,7 @@
 							</view>
 						</view>
 						<view class="heart-rate-chart">
+							<!-- <u-empty text="暂无数据"></u-empty> -->
 							<qiun-data-charts type="area" :canvas2d="true" canvasId="abcdefdhjh23" :ontouch="true" :opts="heartOpts" :chartData="heartChartData" />
 						</view>
 					</view>
@@ -120,6 +121,7 @@
 							</view>
 						</view>
 						<view class="breathe-chart">
+						<!-- 	<u-empty text="暂无数据"></u-empty> -->
 							<qiun-data-charts type="line" :canvas2d="true" :canvasId="`abcdef${item.id}`" :ontouch="true" :opts="breatheOpts" :chartData="lineChartData" />
 						</view>
 					</view>
@@ -135,7 +137,7 @@
 							</view>
 						</view>
 						<view class="sleep-chart">
-							
+							<!-- <u-empty text="暂无数据"></u-empty> -->
 						</view>
 					</view>
 				</view>
@@ -158,6 +160,7 @@
 							</view>
 						</view>
 						<view class="toilet-chart">
+							<!-- <u-empty text="暂无数据"></u-empty> -->
 							<qiun-data-charts type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
@@ -181,6 +184,7 @@
 							</view>
 						</view>
 						<view class="tumble-chart">
+							<!-- <u-empty text="暂无数据"></u-empty> -->
 							<qiun-data-charts type="bar" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="tumbOpts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
@@ -203,7 +207,8 @@
 							</view>
 						</view>
 						<view class="leave-home-chart">	
-							<qiun-data-charts tooltipFormat="tooltipDemo1" type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList[item.id]['data']" />
+							<u-empty text="暂无数据" v-if="sceneDataList[item.id]['isShowNoData']"></u-empty>
+							<qiun-data-charts v-if="!sceneDataList[item.id]['isShowNoData']" tooltipFormat="tooltipDemo1" type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList[item.id]['data']" />
 						</view>
 					</view>
 				</view>
@@ -527,7 +532,10 @@
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						let questData = res.data.data[0]['ruleDataVO'];
-						console.log('离回家数据',res.data.data);
+						if (questData.length == 0) {
+							this.$set(this.sceneDataList[cardId],'isShowNoData',true);
+							return
+						};
 						let temporaryData = {
 							categories: [],
 							series: [
@@ -659,6 +667,7 @@
 							this.$set(this.sceneDataList[item.id],'data',{});
 							this.$set(this.sceneDataList[item.id],'lastGoOut','');
 							this.$set(this.sceneDataList[item.id],'isShow',false);
+							this.$set(this.sceneDataList[item.id],'isShowNoData',false);
 							this.requestEnterLeaveHomeDetails(temporaryDevices[0],item.id)
 						}
 					}
@@ -992,35 +1001,60 @@
 					};
 					.heart-rate-chart {
 						height: 104px;
+						position: relative;
+						::v-deep .u-empty {
+						 	position: absolute;
+						 	top: 50%;
+						 	left: 50%;
+						 	transform: translate(-50%,-50%)
+						}
 					}
 				};
 				.breathe-box {
 					height: 130px;
 					.breathe-chart {
-						height: 94px
+						height: 94px;
+						position: relative;
+						::v-deep .u-empty {
+						 	position: absolute;
+						 	top: 50%;
+						 	left: 50%;
+						 	transform: translate(-50%,-50%)
+						}
 					}
 				};
 				.sleep-box {
 					height: 130px;
 					.sleep-chart {
-						height: 94px
+						height: 94px;
+						position: relative;
+						::v-deep .u-empty {
+						 	position: absolute;
+						 	top: 50%;
+						 	left: 50%;
+						 	transform: translate(-50%,-50%)
+						}
 					}
 				}
 			};
 			.toilet-area-data {
 				height: 184px;
+				margin-top: 8px;
 				.heart-rate-box {
 					height: 0;
 					flex: 1 !important;
 					display: flex;
 					flex-direction: column;
 					.toilet-chart {
-						height: 94px
+						height: 94px;
+						position: relative;
+						::v-deep .u-empty {
+						 	position: absolute;
+						 	top: 50%;
+						 	left: 50%;
+						 	transform: translate(-50%,-50%)
+						}
 					}
-				};
-				margin-top: 8px;
-				.toilet-chart {
-					flex: 1
 				}
 			};
 			.tumble-area-data {
@@ -1032,7 +1066,14 @@
 					display: flex;
 					flex-direction: column;
 					.tumble-chart {
-						height: 84px
+						height: 84px;
+						position: relative;
+						::v-deep .u-empty {
+						 	position: absolute;
+						 	top: 50%;
+						 	left: 50%;
+						 	transform: translate(-50%,-50%)
+						}
 					}
 				}
 			};
@@ -1051,9 +1092,16 @@
 					display: flex;
 					flex-direction: column;
 					.leave-home-chart {
-						height: 94px
+						height: 94px;
+						position: relative;
+						::v-deep .u-empty {
+						 	position: absolute;
+						 	top: 50%;
+						 	left: 50%;
+						 	transform: translate(-50%,-50%)
+						}
 					}
-				};
+				}
 			}
 		};
 		.bottom-area {

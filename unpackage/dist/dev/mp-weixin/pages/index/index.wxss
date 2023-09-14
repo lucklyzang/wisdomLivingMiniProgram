@@ -281,18 +281,42 @@ page {
 }
 .content-box .center-area .sleep-area-data .heart-rate-box .heart-rate-chart {
   height: 104px;
+  position: relative;
+}
+.content-box .center-area .sleep-area-data .heart-rate-box .heart-rate-chart  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .center-area .sleep-area-data .breathe-box {
   height: 130px;
 }
 .content-box .center-area .sleep-area-data .breathe-box .breathe-chart {
   height: 94px;
+  position: relative;
+}
+.content-box .center-area .sleep-area-data .breathe-box .breathe-chart  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .center-area .sleep-area-data .sleep-box {
   height: 130px;
 }
 .content-box .center-area .sleep-area-data .sleep-box .sleep-chart {
   height: 94px;
+  position: relative;
+}
+.content-box .center-area .sleep-area-data .sleep-box .sleep-chart  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .center-area .toilet-area-data {
   height: 184px;
@@ -306,9 +330,14 @@ page {
 }
 .content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart {
   height: 94px;
+  position: relative;
 }
-.content-box .center-area .toilet-area-data .toilet-chart {
-  flex: 1;
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .center-area .tumble-area-data {
   height: 174px;
@@ -322,6 +351,14 @@ page {
 }
 .content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart {
   height: 84px;
+  position: relative;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .center-area .leave-home-area-data {
   height: 184px;
@@ -339,6 +376,14 @@ page {
 }
 .content-box .center-area .leave-home-area-data .heart-rate-box .leave-home-chart {
   height: 94px;
+  position: relative;
+}
+.content-box .center-area .leave-home-area-data .heart-rate-box .leave-home-chart  .u-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .content-box .bottom-area {
   margin: 0 auto;

@@ -28,7 +28,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getIndexEvent" tooltipFormat="tooltipDemo1" v-if="dayChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
+							<qiun-data-charts @getIndex="getDayIndexEvent" tooltipFormat="tooltipDemo1" v-if="dayChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
@@ -42,10 +42,12 @@
 								<text>{{ getNowFormatDateText(initWeekDate) }}</text>
 							</view>
 							<view>
-								<text>49-109次/分钟</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
+							<qiun-data-charts @getIndex="getWeekIndexEvent" tooltipFormat="tooltipDemo1" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
 						<view class="data-top">
@@ -58,7 +60,6 @@
 								<text>{{ getNowFormatDateText(initMonthDate) }}</text>
 							</view>
 							<view>
-								<text>49-109次/分钟</text>
 							</view>
 						</view>
 						<view class="data-bottom"></view>
@@ -148,6 +149,10 @@
 					isShow: true,
 					data: {}
 				},
+				weekChartData: {
+					isShow: true,
+					data: {}
+				},
 				leaveHomeDayOpts: {
 					color: ["#F2A15F","#289E8E"],
 					dataLabel: false,
@@ -165,6 +170,27 @@
 					extra: {
 						column: {
 							width: 6,
+							categoryGap: 2
+						}
+					}
+				},
+				leaveHomeWeekOpts: {
+					dataLabel: false,
+					padding: [15,10,0,15],
+					enableScroll: true,
+					legend: {
+						show: false
+					},
+					tooltip: { showBox: true},
+					xAxis: {
+						itemCount: 7
+					},
+					yAxis: {
+					},
+					extra: {
+						column: {
+							type: 'stack',
+							width: 20,
 							categoryGap: 2
 						}
 					}
@@ -220,7 +246,7 @@
 			]),
 			
 			// 获取日数据当前点击索引
-			getIndexEvent (e) {
+			getDayIndexEvent (e) {
 				this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
 				if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']] && !e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]){
 					this.initDayText = '';
@@ -232,6 +258,11 @@
 					this.initDayText = '回家、离家';
 				};
 				console.log('点击数据',this.initDayText);
+			},
+			
+			// 获取周数据当前点击索引
+			getWeekIndexEvent (e) {
+				
 			},
 			
 			// 格式化时间
@@ -274,10 +305,10 @@
 			
 			// 获取离回家数据详情
 			queryEnterLeaveHomeDetails (data,type) {
-				this.dayChartData['isShow'] = true;
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						if (type == 'day') {
+							this.dayChartData['isShow'] = true;
 							if (res.data.data.length > 0) {
 								this.dayChartData['isShow'] = true;
 								let questData = res.data.data[0]['ruleDataVO'];
@@ -328,7 +359,42 @@
 								this.initDayTime = '-';
 							}
 						} else if (type == 'week') {
-							
+							this.weekChartData['isShow'] = true;
+							if (res.data.data.length > 0) {
+								let questData = res.data.data;
+								console.log('周数据',questData);
+								this.weekChartData['isShow'] = true;
+								let lengthArr = [];
+								let maxColumn;
+								let temporaryData = {
+									categories: [],
+									series: []
+								};
+								questData.forEach((item,index) => {
+									temporaryData['categories'].push(this.judgeWeek(item.date));
+									lengthArr.push(item.ruleDataVO.details.length);
+								});
+								// 按所有天中数据最多的那天算(每天的数据条数不一致)
+								maxColumn = Math.max.apply(null,lengthArr);
+								for (let i = 0;i < maxColumn;i++) {
+									temporaryData['series'].push({
+										"data": []
+									})
+								};
+								// item.ruleDataVO.details.forEach((innerItem,innerIndex) => {
+								// 	temporaryData['series'].push({
+								// 		"data": [{"value": 1,"color": "#E86F50"},{"value": 1,"color": "#289E8E"}]
+								// 	})
+								// });
+								console.log('周数据处理',temporaryData);
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.weekChartData['data'] = temporaryContent;
+							} else {
+								this.weekChartData = {
+									isShow: false,
+									data: {}
+								};
+							}
 						} else if (type == 'month') {
 							
 						}

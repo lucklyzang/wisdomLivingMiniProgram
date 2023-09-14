@@ -479,7 +479,16 @@ function dataCombineStack(series, len) {
   }
   for (var i = 0; i < series.length; i++) {
     for (var j = 0; j < sum.length; j++) {
-      sum[j] += series[i].data[j];
+		// 修改当 series的data 数据项为对象时获取 value值处理
+		let sData = series[i].data[j];
+		let cons = sData.constructor.toString();
+		if(cons.indexOf('Number') > -1){
+			  sum[j] += series[i].data[j];
+		}else if(cons.indexOf('Object') > -1){
+			sum[j] += series[i].data[j].value;
+		}else{
+			sum[j] += series[i].data[j];
+		}
     }
   }
   return series.reduce(function(a, b) {
@@ -1832,11 +1841,21 @@ function getStackDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, 
       point.x = xAxisPoints[index] + Math.round(eachSpacing / 2);
 
       if (seriesIndex > 0) {
+		// 此处改动 当 series的data 数据项为 object 类型时 取其value值
         var value = 0;
         for (let i = 0; i <= seriesIndex; i++) {
-          value += stackSeries[i].data[index];
+			let sData = stackSeries[i].data[index];
+			let _val = sData;
+			if (typeof sData === 'object' && item !== null) {
+			  _val = sData.value;
+			}
+			value += _val;
         }
-        var value0 = value - item;
+		let value1 = item;
+		if (typeof item === 'object' && item !== null) {
+		  value1 = item.value;
+		}
+        var value0 = value - value1;
         var height = validHeight * (value - minRange) / (maxRange - minRange);
         var height0 = validHeight * (value0 - minRange) / (maxRange - minRange);
       } else {

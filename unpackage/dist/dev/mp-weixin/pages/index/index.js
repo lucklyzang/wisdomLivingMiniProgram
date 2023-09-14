@@ -501,7 +501,11 @@ var _default = {
       (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           var questData = res.data.data[0]['ruleDataVO'];
-          console.log('离回家数据', res.data.data);
+          if (questData.length == 0) {
+            _this3.$set(_this3.sceneDataList[cardId], 'isShowNoData', true);
+            return;
+          }
+          ;
           var temporaryData = {
             categories: [],
             series: [{
@@ -654,6 +658,7 @@ var _default = {
             _this6.$set(_this6.sceneDataList[item.id], 'data', {});
             _this6.$set(_this6.sceneDataList[item.id], 'lastGoOut', '');
             _this6.$set(_this6.sceneDataList[item.id], 'isShow', false);
+            _this6.$set(_this6.sceneDataList[item.id], 'isShowNoData', false);
             _this6.requestEnterLeaveHomeDetails(temporaryDevices[0], item.id);
           }
         }
