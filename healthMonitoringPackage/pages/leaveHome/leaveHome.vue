@@ -30,6 +30,7 @@
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
 							<qiun-data-charts @getIndex="getDayIndexEvent" tooltipFormat="tooltipDemo1" v-if="dayChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
 						</view>
+						<view class="icon-bar" v-if="dayChartData.isShow"></view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
 						<view class="data-top">
@@ -39,14 +40,24 @@
 								<u-icon name="arrow-right" size="40" :color="isWeekPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentWeek('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ getNowFormatDateText(initWeekDate) }}</text>
+								<text>{{ initWeekDate }}</text>
 							</view>
 							<view>
 							</view>
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getWeekIndexEvent" tooltipFormat="tooltipDemo1" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+							<qiun-data-charts @getIndex="getWeekIndexEvent" tooltipFormat="tooltipDemo1" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67dfdfdf8asfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+						</view>
+						<view class="icon-bar" v-if="weekChartData.isShow">
+							<view>
+								<text></text>
+								<text>离家</text>
+							</view>
+							<view>
+								<text></text>
+								<text>回家</text>
+							</view>
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
@@ -57,12 +68,25 @@
 								<u-icon name="arrow-right" size="40" :color="isMonthPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentMonth('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ getNowFormatDateText(initMonthDate) }}</text>
+								<text>{{ initMonthDate }}</text>
 							</view>
 							<view>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
+							<qiun-data-charts @getIndex="getMonthIndexEvent" tooltipFormat="tooltipDemo1" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdsd8956k" type="column" :opts="leaveHomeMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
+						</view>
+						<view class="icon-bar" v-if="monthChartData.isShow">
+							<view>
+								<text></text>
+								<text>离家</text>
+							</view>
+							<view>
+								<text></text>
+								<text>回家</text>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -140,10 +164,14 @@
 				currentStartWeekDate: '',
 				currentEndWeekDate: '',
 				initWeekDate: '',
+				currentWeekDate: '',
 				currentMonthDate: '',
 				currentMonthDays: '',
 				initMonthDate: '',
+				currentMonthDate: '',
 				weekMap: {},
+				currentWeekXaxisArr: [],
+				currentMonthXaxisArr: [],
 				temporaryDevices: [],
 				dayChartData: {
 					isShow: true,
@@ -153,10 +181,14 @@
 					isShow: true,
 					data: {}
 				},
+				monthChartData: {
+					isShow: true,
+					data: {}
+				},
 				leaveHomeDayOpts: {
 					color: ["#F2A15F","#289E8E"],
 					dataLabel: false,
-					padding: [15,10,0,15],
+					padding: [10,10,10,10],
 					enableScroll: true,
 					tooltip: { showBox: true},
 					xAxis: {
@@ -176,12 +208,11 @@
 				},
 				leaveHomeWeekOpts: {
 					dataLabel: false,
-					padding: [15,10,0,15],
+					padding: [10,10,0,10],
 					enableScroll: true,
 					legend: {
 						show: false
 					},
-					tooltip: { showBox: true},
 					xAxis: {
 						itemCount: 7
 					},
@@ -192,6 +223,32 @@
 							type: 'stack',
 							width: 20,
 							categoryGap: 2
+						},
+						tooltip: {
+							showBox: false
+						}
+					}
+				},
+				leaveHomeMonthOpts: {
+					dataLabel: false,
+					padding: [10,10,0,10],
+					enableScroll: true,
+					legend: {
+						show: false
+					},
+					xAxis: {
+						itemCount: 7
+					},
+					yAxis: {
+					},
+					extra: {
+						column: {
+							type: 'stack',
+							width: 20,
+							categoryGap: 2
+						},
+						tooltip: {
+							showBox: false
 						}
 					}
 				}
@@ -262,12 +319,35 @@
 			
 			// 获取周数据当前点击索引
 			getWeekIndexEvent (e) {
+				this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
+				this.currentWeekDate = this.getNowFormatDate(new Date(this.currentWeekXaxisArr[e.currentIndex['index']]),2);
+				// 获取离、回家天数据详情
+				this.queryBodyDetectionRadar({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceId: this.temporaryDevices[0],
+					queryDate: this.currentWeekDate
+				},false,true)
+				console.log('周当天',this.initWeekDate);
 				
+			},
+			
+			// 获取月数据当前点击索引
+			getMonthIndexEvent (e) {
+				this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
+				this.currentMonthDate = this.getNowFormatDate(new Date(this.currentMonthXaxisArr[e.currentIndex['index']]),2);
+				// 获取离、回家天数据详情
+				this.queryBodyDetectionRadar({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceId: this.temporaryDevices[0],
+					queryDate: this.currentMonthDate
+				},false,true)
 			},
 			
 			// 格式化时间
 			getNowFormatDate(currentDate,type) {
-				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)
+				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)5(显示月日)
 				let currentdate;
 				let strDate = currentDate.getDate();
 				let seperator1 = "-";
@@ -299,6 +379,9 @@
 				};
 				if (type == 4) {
 					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+				};
+				if (type == 5) {
+					currentdate = month + seperator1 + strDate
 				};
 				return currentdate
 			},
@@ -360,9 +443,9 @@
 							}
 						} else if (type == 'week') {
 							this.weekChartData['isShow'] = true;
+							this.currentWeekXaxisArr = [];
 							if (res.data.data.length > 0) {
 								let questData = res.data.data;
-								console.log('周数据',questData);
 								this.weekChartData['isShow'] = true;
 								let lengthArr = [];
 								let maxColumn;
@@ -372,6 +455,7 @@
 								};
 								questData.forEach((item,index) => {
 									temporaryData['categories'].push(this.judgeWeek(item.date));
+									this.currentWeekXaxisArr.push(item.date);
 									lengthArr.push(item.ruleDataVO.details.length);
 								});
 								// 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -381,12 +465,34 @@
 										"data": []
 									})
 								};
-								// item.ruleDataVO.details.forEach((innerItem,innerIndex) => {
-								// 	temporaryData['series'].push({
-								// 		"data": [{"value": 1,"color": "#E86F50"},{"value": 1,"color": "#289E8E"}]
-								// 	})
-								// });
-								console.log('周数据处理',temporaryData);
+								temporaryData['series'].forEach((item,index) => {
+									this.currentWeekXaxisArr.forEach((innerItem,innerIndex) => {
+										let currentData = questData[innerIndex]['ruleDataVO']['details'];
+										if (currentData[index]) {
+											if (currentData[index]['enter']) {
+												item['data'].push(
+													{value:1,color:"green"}
+												)
+											} else if (currentData[index]['goOut']) {
+												item['data'].push(
+													{value:1,color:"orange"}
+												)
+											} else if (!currentData[index]['goOut']) {
+												item['data'].push(
+													{value:1,color:"green"}
+												)
+											} else if (!currentData[index]['enter']) {
+												item['data'].push(
+													{value:1,color:"orange"}
+												)
+											}
+										} else {
+											item['data'].push(
+												{value: 1,color: ''}
+											)
+										}
+									})
+								});
 								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
 								this.weekChartData['data'] = temporaryContent;
 							} else {
@@ -396,7 +502,66 @@
 								};
 							}
 						} else if (type == 'month') {
-							
+							this.currentMonthXaxisArr = [];
+							this.monthChartData['isShow'] = true;
+							if (res.data.data.length > 0) {
+								let questData = res.data.data;
+								this.monthChartData['isShow'] = true;
+								let lengthArr = [];
+								let maxColumn;
+								let temporaryData = {
+									categories: [],
+									series: []
+								};
+								questData.forEach((item,index) => {
+									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.date),5));
+									console.log('月日期',temporaryData['categories']);
+									this.currentMonthXaxisArr.push(item.date);
+									lengthArr.push(item.ruleDataVO.details.length);
+								});
+								// 按所有天中数据最多的那天算(每天的数据条数不一致)
+								maxColumn = Math.max.apply(null,lengthArr);
+								for (let i = 0;i < maxColumn;i++) {
+									temporaryData['series'].push({
+										"data": []
+									})
+								};
+								temporaryData['series'].forEach((item,index) => {
+									this.currentMonthXaxisArr.forEach((innerItem,innerIndex) => {
+										let currentData = questData[innerIndex]['ruleDataVO']['details'];
+										if (currentData[index]) {
+											if (currentData[index]['enter']) {
+												item['data'].push(
+													{value:1,color:"green"}
+												)
+											} else if (currentData[index]['goOut']) {
+												item['data'].push(
+													{value:1,color:"orange"}
+												)
+											} else if (!currentData[index]['goOut']) {
+												item['data'].push(
+													{value:1,color:"green"}
+												)
+											} else if (!currentData[index]['enter']) {
+												item['data'].push(
+													{value:1,color:"orange"}
+												)
+											}
+										} else {
+											item['data'].push(
+												{value: 1,color: ''}
+											)
+										}
+									})
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.monthChartData['data'] = temporaryContent;
+							} else {
+								this.monthChartData = {
+									isShow: false,
+									data: {}
+								};
+							}
 						}
 					} else {
 						this.$refs.uToast.show({
@@ -497,6 +662,7 @@
 					let nextMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
 					};
@@ -519,6 +685,7 @@
 					let preMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(preMonth),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					console.log('当前月',this.currentMonthDate);
 				};
 				// 获取离、回家月数据
@@ -594,6 +761,7 @@
 					this.weekMap = this.getWeek(new Date(time));
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
 					};
@@ -602,6 +770,7 @@
 					let time = this.weekMap["last"]
 					this.weekMap = this.getWeek(new Date(time));
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
 					console.log('周',this.currentStartWeekDate,this.currentEndWeekDate)
 				};
@@ -683,7 +852,7 @@
 					this.weekMap = this.getWeek(new Date());
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
-					this.initWeekDate = this.getNowFormatDate(new Date(),3);
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
@@ -704,7 +873,7 @@
 				};
 				if (index == 2) {
 					this.currentMonthDate = this.getNowFormatDate(new Date(),3);
-					this.initMonthDate = this.getNowFormatDate(new Date(),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
@@ -895,6 +1064,45 @@
 							 	top: 40%;
 							 	left: 50%;
 							 	transform: translate(-50%,-50%)
+							}
+						};
+						.icon-bar {
+							height: 30px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							>view {
+								&:first-child {
+									margin-right: 10px;
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 16px;
+											height: 10px;
+											background: orange;
+											margin-right: 4px;
+										};
+										&:last-child {
+											font-size: 14px;
+											color: #101010
+										}
+									} 
+								};
+								&:last-child {
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 16px;
+											height: 10px;
+											background: green;
+											margin-right: 4px;
+										};
+										&:last-child {
+											font-size: 14px;
+											color: #101010
+										}
+									} 
+								}
 							}
 						}
 					}
