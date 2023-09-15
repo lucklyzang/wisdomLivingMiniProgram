@@ -363,10 +363,7 @@ var _default = {
     },
     // 保存事件
     saveEvent: function saveEvent() {
-      this.$refs.uToast.show({
-        title: '保存成功!',
-        type: 'error'
-      });
+      this.updateRadarSet();
     },
     // 网络状态点击事件
     networkClickEvent: function networkClickEvent() {

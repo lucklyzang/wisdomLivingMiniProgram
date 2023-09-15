@@ -78,7 +78,7 @@
 				</view>
 			</view>
 			<view class="bottom-btn-area">
-				<text>保存</text>
+				<text :class="{'btnStyle' : alarmRangeValue && acceptAlarmMethod}" @click="updateRadarSet">保存</text>
 			</view>
 		</view>
 	</view>

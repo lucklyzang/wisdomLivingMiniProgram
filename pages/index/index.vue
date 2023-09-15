@@ -25,7 +25,7 @@
 		<view class="center-area">
 			<u-empty text="暂无数据" v-if="isShowHomeNoData"></u-empty>
 			<view class="device-list" v-for="(item,index) in deviceList" :key="index"> 
-				<view class="bind-sleep-device-area" v-if="item.type == 0 && item.hasOwnProperty('devices')">
+				<view class="bind-sleep-device-area" v-if="item.type == 0 && !item.hasOwnProperty('devices')">
 					<view>
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 					</view>
@@ -85,51 +85,50 @@
 						</view>
 					</view>
 				</view>
-				<!-- extractRooName(item.devices) -->
-				<view class="sleep-area-data" v-if="item.type == 0 && !item.hasOwnProperty('devices')">
+				<view class="sleep-area-data" v-if="item.type == 0 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>{{ getNowFormatDateText(new Date()) }}</text>
-						<text class="room-name">卧室</text>
+						<text class="room-name">{{ extractRooName(item.devices) }}</text>
 						<text>睡眠8小时、睡眠状态良好</text>
 					</view>
 					<view class="heart-rate-box">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="heartRateIconPng"></image>
-								<text>心率 70次/分</text>
-								<text>心率正常</text>
+								<text v-if="!sceneDataList[item.id]['heart']['isShowNoData']">{{ `心率 ${sceneDataList[item.id]['heart']['average']}次/分` }}</text>
+								<text v-if="!sceneDataList[item.id]['heart']['isShowNoData']">心率正常</text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('心率',item)">
 								详情
 							</view>
 						</view>
 						<view class="heart-rate-chart">
-							<!-- <u-empty text="暂无数据"></u-empty> -->
-							<qiun-data-charts type="area" :canvas2d="true" canvasId="abcdefdhjh23" :ontouch="true" :opts="heartOpts" :chartData="heartChartData" />
+							<u-empty text="暂无数据" v-if="sceneDataList[item.id]['heart']['isShowNoData']"></u-empty>
+							<qiun-data-charts v-if="!sceneDataList[item.id]['heart']['isShowNoData']" tooltipFormat="tooltipDemo1" type="area" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="sceneDataList[item.id]['heart']['data']" />
 						</view>
 					</view>
 					<view class="heart-rate-box breathe-box">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="breatheIconPng"></image>
-								<text>呼吸 16次/分</text>
-								<text>呼吸正常</text>
+								<text v-if="!sceneDataList[item.id]['breath']['isShowNoData']">{{ `呼吸 ${sceneDataList[item.id]['breath']['average']}次/分` }}</text>
+								<text v-if="!sceneDataList[item.id]['breath']['isShowNoData']">呼吸正常</text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('呼吸',item)">
 								详情
 							</view>
 						</view>
 						<view class="breathe-chart">
-						<!-- 	<u-empty text="暂无数据"></u-empty> -->
-							<qiun-data-charts type="line" :canvas2d="true" :canvasId="`abcdef${item.id}`" :ontouch="true" :opts="breatheOpts" :chartData="lineChartData" />
+							<u-empty text="暂无数据" v-if="sceneDataList[item.id]['breath']['isShowNoData']"></u-empty>
+							<qiun-data-charts v-if="!sceneDataList[item.id]['breath']['isShowNoData']" type="line" :canvas2d="true" :canvasId="`abc1245def${item.id}`" :ontouch="true" :opts="breatheOpts" :chartData="sceneDataList[item.id]['breath']['data']" />
 						</view>
 					</view>
 					<view class="heart-rate-box sleep-box">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="sleepSmallIconPng"></image>
-								<text>睡眠 7小时45分钟</text>
+								<text v-if="!sceneDataList[item.id]['sleep']['isShowNoData']">睡眠 7小时45分钟</text>
 								<text></text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('睡眠',item)">
@@ -137,7 +136,7 @@
 							</view>
 						</view>
 						<view class="sleep-chart">
-							<!-- <u-empty text="暂无数据"></u-empty> -->
+							<u-empty text="暂无数据" v-if="sceneDataList[item.id]['sleep']['isShowNoData']"></u-empty>
 						</view>
 					</view>
 				</view>
@@ -160,7 +159,7 @@
 							</view>
 						</view>
 						<view class="toilet-chart">
-							<!-- <u-empty text="暂无数据"></u-empty> -->
+							<u-empty text="暂无数据"></u-empty>
 							<qiun-data-charts type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="chartData" />
 						</view>
 					</view>
@@ -170,22 +169,22 @@
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>{{ getNowFormatDateText(new Date()) }}</text>
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
-						<text>跌倒一次</text>
+						<!-- <text>跌倒一次</text> -->
 					</view>
 					<view class="heart-rate-box">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="tumbleIconPng"></image>
-								<text>跌倒1次</text>
-								<text>已自行站起</text>
+								<!-- <text>跌倒1次</text>
+								<text>已自行站起</text> -->
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('跌倒',item)">
 								详情
 							</view>
 						</view>
 						<view class="tumble-chart">
-							<!-- <u-empty text="暂无数据"></u-empty> -->
-							<qiun-data-charts type="bar" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="tumbOpts" :ontouch="true" :chartData="chartData" />
+							<u-empty text="暂无数据"></u-empty>
+							<!-- <qiun-data-charts type="bar" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="tumbOpts" :ontouch="true" :chartData="chartData" /> -->
 						</view>
 					</view>
 				</view>
@@ -228,7 +227,7 @@
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
 	import { getHomePageList } from '@/api/home.js' 
 	import { getUserBannerList } from '@/api/user.js'
-	import { sleepStatisticsHome, enterLeaveHomeDetails } from '@/api/device.js'
+	import { sleepStatisticsDetails, enterLeaveHomeDetails } from '@/api/device.js'
 	import _ from 'lodash'
 	export default {
 		components: {
@@ -268,6 +267,9 @@
 						disableGrid: true
 					},
 					extra: {
+						tooltip: {
+							showBox: false
+						}
 					}
 				},
 				leaveHomeOpts: {
@@ -333,14 +335,12 @@
 						disableGrid: true,
 						gridType: "dash",
 						dashLength: 2,
-						 data: [
-							{
-								min: 5,
-								max: 150
-							}
-						]
+						 data: []
 					},
 					extra: {
+						tooltip: {
+							showBox: false
+						},
 						area: {
 							type: "straight",
 							opacity: 1,
@@ -354,7 +354,6 @@
 			}
 		},
 		onShow() {
-			this.getServerData();
 			this.queryHomePageList(this.familyId);
 			this.queryUserBannerList();
 			this.initFamilyInfo()
@@ -503,13 +502,56 @@
 			
 			// 获取睡眠日数据
 			querySleepDayDataList (data,cardId) {
-				sleepStatisticsHome(data).then((res) => {
+				sleepStatisticsDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						let temporaryData = {
-							id: cardId,
-							content: res.data.data
+						console.log('睡眠日数据',res.data.data);
+						let questData = res.data.data;
+						// 呼吸
+						if ( JSON.stringify(res.data.data) == '{}' || questData.breath.timeList.length == 0) {
+							this.$set(this.sceneDataList[cardId]['breath'],'isShowNoData',true)
+						} else {
+							let temporaryData = {
+								categories: [],
+								series: [
+									{
+										data: []
+									}
+								]
+							};
+							questData.breath.timeList.forEach((item,index) => {
+								temporaryData['categories'].push(this.getNowFormatDate(new Date(item.time),3));
+								temporaryData['series'][0]['data'].push(Math.floor(item.value))
+							});
+							let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+							this.$set(this.sceneDataList[cardId]['breath'],'data',temporaryContent);
+							this.$set(this.sceneDataList[cardId]['breath'],'isShow',true);
+							this.$set(this.sceneDataList[cardId]['breath'],'average',Math.floor(questData.breath.average));
 						};
-						this.sceneDataList.push(temporaryData)
+						// 心率
+						if ( JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
+							this.$set(this.sceneDataList[cardId]['heart'],'isShowNoData',true)
+						} else {
+							let temporaryData = {
+								categories: [],
+								series: [
+									{
+										data: []
+									}
+								]
+							};
+							questData.heart.timeList.forEach((item,index) => {
+								temporaryData['categories'].push(this.getNowFormatDate(new Date(item.time),3));
+								temporaryData['series'][0]['data'].push(Math.floor(item.value))
+							});
+							let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+							this.$set(this.sceneDataList[cardId]['heart'],'data',temporaryContent);
+							this.$set(this.sceneDataList[cardId]['heart'],'isShow',true);
+							this.$set(this.sceneDataList[cardId]['heart'],'average',Math.floor(questData.heart.average));
+						};
+						// 睡眠
+						if ( JSON.stringify(res.data.data) == '{}' || questData.sleepVO.sleepOrWeekVOS.length == 0) {
+							this.$set(this.sceneDataList[cardId]['sleep'],'isShowNoData',true)
+						}
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -661,6 +703,25 @@
 							temporaryDevices.push(el.device)
 						};
 						if (item.type == 0) {
+							this.$set(this.sceneDataList,item.id,{});
+							// 呼吸数据
+							this.$set(this.sceneDataList[item.id],'breath',{});
+							this.$set(this.sceneDataList[item.id]['breath'],'data',{});
+							this.$set(this.sceneDataList[item.id]['breath'],'average','');
+							this.$set(this.sceneDataList[item.id]['breath'],'isShow',false);
+							this.$set(this.sceneDataList[item.id]['breath'],'isShowNoData',false);
+							// 心率数据
+							this.$set(this.sceneDataList[item.id],'heart',{});
+							this.$set(this.sceneDataList[item.id]['heart'],'data',{});
+							this.$set(this.sceneDataList[item.id]['heart'],'average','');
+							this.$set(this.sceneDataList[item.id]['heart'],'isShow',false);
+							this.$set(this.sceneDataList[item.id]['heart'],'isShowNoData',false);
+							// 睡眠数据
+							this.$set(this.sceneDataList[item.id],'sleep',{});
+							this.$set(this.sceneDataList[item.id]['sleep'],'data',{});
+							this.$set(this.sceneDataList[item.id]['sleep'],'lastGoOut','');
+							this.$set(this.sceneDataList[item.id]['sleep'],'isShow',false);
+							this.$set(this.sceneDataList[item.id]['sleep'],'sleepTime',false);
 							this.requestSleepDeviceStatisticsData(temporaryDevices[0],item.id)
 						} else if (item.type == 3) {
 							this.$set(this.sceneDataList,item.id,{});
@@ -674,12 +735,11 @@
 				})
 			},
 			
-			// 为绑定设备的场景请求设备统计日数据(睡眠场景)
+			// 为绑定设备的场景请求设备统计日数据(睡眠场景)this.getNowFormatDate(new Date(),1)
 			requestSleepDeviceStatisticsData (deviceIdList,cardId) {
 				this.querySleepDayDataList({
 					deviceId: deviceIdList,
-					startDate: this.getNowFormatDate(new Date(),1),
-					endDate: this.getNowFormatDate(new Date(),1)
+					startDate: '2023-09-07'
 				},cardId)
 			},
 			

@@ -27,7 +27,7 @@
 								<image v-if="rowData.content.type == 3" src="@/static/img/leave-home-icon.png"></image>
 								<text class="scene">{{ rowData.content.name }}</text>
 								<text class="small-bridge" v-if="rowData.content.mold == 1">-</text>
-								<u-input v-model="rowData.content.subtitle"  v-if="rowData.content.mold == 1" @input="suffixClickEvent(rowData.content,rowData.index,true)" type="text" placeholder="" :disabled="rowData.content.disabled" />
+								<u-input v-model="rowData.content.subtitle"  v-if="rowData.content.mold == 1" @input="suffixClickEvent(rowData.content,rowData.index,true)" type="text" placeholder="请输入场景后缀" :disabled="rowData.content.disabled" />
 							</view>
 							<view class="list-right">
 								<view class="delete-box" @click.stop="deleteEvent(rowData.content,rowData.index,true)" v-if="rowData.content.mold == 1"><image src="@/static/img/delete-icon.png"></image></view>
@@ -40,7 +40,7 @@
 							<image :src="showImage(item.type)"></image>
 							<text class="scene">{{ item.name }}</text>
 							<text class="small-bridge" v-if="item.mold == 1">-</text>
-							<u-input v-model="item.subtitle"  v-if="item.mold == 1" @click="suffixClickEvent(item,index)" type="text" placeholder="" :disabled="item.disabled" />
+							<u-input v-model="item.subtitle"  v-if="item.mold == 1" @input="suffixClickEvent(item,index)" type="text" placeholder="请输入场景后缀" :disabled="item.disabled" />
 						</view>
 						<view class="list-right">
 							<view class="delete-box" @click="deleteEvent(item,index)" v-if="item.mold == 1"><image :src="deleteIconPng"></image></view>
@@ -61,7 +61,7 @@
 							<image :src="showImage(item.type)"></image>
 							<text class="scene">{{ item.name }}</text>
 							<text class="small-bridge" v-if="item.mold == 1">-</text>
-							<u-input v-if="item.mold == 1" v-model="item.subtitle"  @click="suffixClickEvent(item,index,false)" type="text" placeholder="" :disabled="item.disabled" />
+							<u-input v-if="item.mold == 1" v-model="item.subtitle"  @click="suffixClickEvent(item,index,false)" type="text" placeholder="请输入场景后缀" :disabled="item.disabled" />
 						</view>
 						<view class="list-right">
 							<view class="delete-box"  @click="deleteEvent(item,index,false)" v-if="item.mold == 1"><image :src="deleteIconPng"></image></view>
@@ -169,7 +169,6 @@
 			
 			// 后缀名点击事件
 			suffixClickEvent(item,index,flag) {
-				console.log('后缀',item,this.showHomeList);
 				this.showHomeList[index]['subtitle'] = item.subtitle;
 				this.showHomeList[index]['disabled'] = item.disabled
 			},
@@ -442,7 +441,6 @@
 							.modules {
 								.scoped-ref {
 									display: flex;
-									padding: 0 6px;
 									align-items: center;
 									justify-content: space-between;
 									background: #fff;
@@ -457,7 +455,12 @@
 											padding-right: 10px !important;
 											box-sizing: border-box;
 										};
-										::v-deep u-input__input {
+										u-input {
+											flex: 1;
+											font-size: 16px !important;
+											color: #898C8C;
+										};
+										::v-deep .u-input__input {
 											flex: 1;
 											font-size: 16px !important;
 											color: #898C8C;

@@ -55,6 +55,26 @@ const cfu = {
   //下面是自定义format配置，因除H5端外的其他端无法通过props传递函数，只能通过此属性对应下标的方式来替换
   "formatter":{
     "yAxisDemo1":function(val, index, opts){return val+'元'},
+		"yAxisDemoMix":function(val,index){
+			if (index == 5) {
+				return "00:00"
+			};
+			if (index == 4) {
+				return "05:00"
+			};
+			if (index == 3) {
+				return "10:00"
+			};
+			if (index == 2) {
+				return "15:00"
+			};
+			if (index == 1) {
+				return "20:00"
+			};
+			if (index == 0) {
+				return "23:59"
+			}
+		},
     "yAxisDemo2":function(val, index, opts){return val.toFixed(2)},
     "xAxisDemo1":function(val, index, opts){return val+'年';},
     "xAxisDemo2":function(val, index, opts){return formatDateTime(val,'h:m')},

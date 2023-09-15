@@ -204,9 +204,9 @@ var _default = {
       yearList: [],
       monthList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       dayList: [],
-      selectYear: 1970,
-      selectMonth: 1,
-      selectDay: 1,
+      selectYear: '1970',
+      selectMonth: '1',
+      selectDay: '1',
       currentDate: '',
       srcImage: '',
       imgArr: [],
@@ -251,7 +251,7 @@ var _default = {
     },
     // 处理日期数据
     disposeDateData: function disposeDateData(value) {
-      var temporaryArr = this.getNowFormatDate(new Date(value)).split('-');
+      var temporaryArr = value.replaceAll("-", "/").split('/');
       this.selectYear = temporaryArr[0];
       this.selectMonth = temporaryArr[1];
       this.selectDay = temporaryArr[2];

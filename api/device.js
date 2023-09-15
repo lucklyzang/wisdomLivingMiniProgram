@@ -184,7 +184,7 @@ export function checkDeviceIsExist(data) {
   })
 };
 
-// 获取睡眠统计记录(首页专用)
+// 获取睡眠统计记录(详情周月数据)
 export function sleepStatisticsHome(data) {
   return request({
     url: '/app-api/radar/health-statistics/list',
@@ -193,7 +193,7 @@ export function sleepStatisticsHome(data) {
   })
 };
 
-// 获取体征统计数据(详情专用)
+// 获取体征统计数据(首页专用和详情的日数据调用)
 export function sleepStatisticsDetails(data) {
   return request({
     url: '/app-api/radar/health-data/list',

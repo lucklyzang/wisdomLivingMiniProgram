@@ -247,8 +247,12 @@ var _default = {
         this.changeBeforeAddBodyDetectionDeviceMessage(_temporaryMessage3);
       }
       ;
+      // 现阶段暂时不能选择wifi,直接进入设置设备名称环节
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/selectWifi/selectWifi'
+      // });
       uni.redirectTo({
-        url: '/devicePackage/pages/selectWifi/selectWifi'
+        url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
       });
     },
     // 进入提示页事件
@@ -275,6 +279,15 @@ var _default = {
       this.infoText = '校验中...';
       (0, _device.checkDeviceIsExist)(data).then(function (res) {
         if (res && res.data.code == 0) {
+          if (JSON.stringify(res.data.data) == '{}') {
+            _this.$refs.uToast.show({
+              title: '返回结果为空',
+              type: 'error',
+              position: 'bottom'
+            });
+            return;
+          }
+          ;
           _this.scanCodeDeviceList.push(res.data.data);
         } else {
           _this.$refs.uToast.show({

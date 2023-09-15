@@ -76,7 +76,6 @@ page {
 }
 .content-box .content-area .show-home-content .show-list-wrapper  h-m-drag-sorts .HM-drag-sort .modules .scoped-ref {
   display: flex;
-  padding: 0 6px;
   align-items: center;
   justify-content: space-between;
   background: #fff;
@@ -93,7 +92,12 @@ page {
   padding-right: 10px !important;
   box-sizing: border-box;
 }
-.content-box .content-area .show-home-content .show-list-wrapper  h-m-drag-sorts .HM-drag-sort .modules .scoped-ref .list-left ::v-deep u-input__input {
+.content-box .content-area .show-home-content .show-list-wrapper  h-m-drag-sorts .HM-drag-sort .modules .scoped-ref .list-left u-input {
+  flex: 1;
+  font-size: 16px !important;
+  color: #898C8C;
+}
+.content-box .content-area .show-home-content .show-list-wrapper  h-m-drag-sorts .HM-drag-sort .modules .scoped-ref .list-left ::v-deep .u-input__input {
   flex: 1;
   font-size: 16px !important;
   color: #898C8C;

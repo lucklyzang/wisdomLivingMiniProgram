@@ -284,7 +284,6 @@ var _default = {
     },
     // 后缀名点击事件
     suffixClickEvent: function suffixClickEvent(item, index, flag) {
-      console.log('后缀', item, this.showHomeList);
       this.showHomeList[index]['subtitle'] = item.subtitle;
       this.showHomeList[index]['disabled'] = item.disabled;
     },

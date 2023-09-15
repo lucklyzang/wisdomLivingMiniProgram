@@ -118,22 +118,23 @@ var render = function () {
   var _c = _vm._self._c || _h
   var l0 = _vm.__map(_vm.deviceList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var g0 = item.type == 0 && item.hasOwnProperty("devices")
+    var g0 = item.type == 0 && !item.hasOwnProperty("devices")
     var g1 = item.type == 1 && !item.hasOwnProperty("devices")
     var g2 = item.type == 2 && !item.hasOwnProperty("devices")
     var g3 = item.type == 3 && !item.hasOwnProperty("devices")
-    var g4 = item.type == 0 && !item.hasOwnProperty("devices")
+    var g4 = item.type == 0 && item.hasOwnProperty("devices")
     var m0 = g4 ? _vm.getNowFormatDateText(new Date()) : null
+    var m1 = g4 ? _vm.extractRooName(item.devices) : null
     var g5 = item.type == 1 && item.hasOwnProperty("devices")
-    var m1 = g5 ? _vm.getNowFormatDateText(new Date()) : null
-    var m2 = g5 ? _vm.extractRooName(item.devices) : null
+    var m2 = g5 ? _vm.getNowFormatDateText(new Date()) : null
+    var m3 = g5 ? _vm.extractRooName(item.devices) : null
     var g6 = item.type == 2 && item.hasOwnProperty("devices")
-    var m3 = g6 ? _vm.getNowFormatDateText(new Date()) : null
-    var m4 = g6 ? _vm.extractRooName(item.devices) : null
+    var m4 = g6 ? _vm.getNowFormatDateText(new Date()) : null
+    var m5 = g6 ? _vm.extractRooName(item.devices) : null
     var g7 = item.type == 3 && item.hasOwnProperty("devices")
-    var m5 = g7 ? _vm.getNowFormatDateText(new Date()) : null
-    var m6 = g7 ? _vm.extractRooName(item.devices) : null
-    var m7 =
+    var m6 = g7 ? _vm.getNowFormatDateText(new Date()) : null
+    var m7 = g7 ? _vm.extractRooName(item.devices) : null
+    var m8 =
       g7 && _vm.sceneDataList[item.id]["isShow"]
         ? _vm.getNowFormatDate(_vm.sceneDataList[item.id]["lastGoOut"], 3)
         : null
@@ -145,16 +146,17 @@ var render = function () {
       g3: g3,
       g4: g4,
       m0: m0,
-      g5: g5,
       m1: m1,
+      g5: g5,
       m2: m2,
-      g6: g6,
       m3: m3,
+      g6: g6,
       m4: m4,
-      g7: g7,
       m5: m5,
+      g7: g7,
       m6: m6,
       m7: m7,
+      m8: m8,
     }
   })
   _vm.$mp.data = Object.assign(
@@ -260,7 +262,11 @@ var _default = {
           disabled: true,
           disableGrid: true
         },
-        extra: {}
+        extra: {
+          tooltip: {
+            showBox: false
+          }
+        }
       },
       leaveHomeOpts: {
         color: ["#F2A15F", "#289E8E"],
@@ -327,12 +333,12 @@ var _default = {
           disableGrid: true,
           gridType: "dash",
           dashLength: 2,
-          data: [{
-            min: 5,
-            max: 150
-          }]
+          data: []
         },
         extra: {
+          tooltip: {
+            showBox: false
+          },
           area: {
             type: "straight",
             opacity: 1,
@@ -346,7 +352,6 @@ var _default = {
     };
   },
   onShow: function onShow() {
-    this.getServerData();
     this.queryHomePageList(this.familyId);
     this.queryUserBannerList();
     this.initFamilyInfo();
@@ -473,13 +478,54 @@ var _default = {
     // 获取睡眠日数据
     querySleepDayDataList: function querySleepDayDataList(data, cardId) {
       var _this2 = this;
-      (0, _device.sleepStatisticsHome)(data).then(function (res) {
+      (0, _device.sleepStatisticsDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
-          var temporaryData = {
-            id: cardId,
-            content: res.data.data
-          };
-          _this2.sceneDataList.push(temporaryData);
+          console.log('睡眠日数据', res.data.data);
+          var questData = res.data.data;
+          // 呼吸
+          if (JSON.stringify(res.data.data) == '{}' || questData.breath.timeList.length == 0) {
+            _this2.$set(_this2.sceneDataList[cardId]['breath'], 'isShowNoData', true);
+          } else {
+            var temporaryData = {
+              categories: [],
+              series: [{
+                data: []
+              }]
+            };
+            questData.breath.timeList.forEach(function (item, index) {
+              temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.time), 3));
+              temporaryData['series'][0]['data'].push(Math.floor(item.value));
+            });
+            var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+            _this2.$set(_this2.sceneDataList[cardId]['breath'], 'data', temporaryContent);
+            _this2.$set(_this2.sceneDataList[cardId]['breath'], 'isShow', true);
+            _this2.$set(_this2.sceneDataList[cardId]['breath'], 'average', Math.floor(questData.breath.average));
+          }
+          ;
+          // 心率
+          if (JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
+            _this2.$set(_this2.sceneDataList[cardId]['heart'], 'isShowNoData', true);
+          } else {
+            var _temporaryData = {
+              categories: [],
+              series: [{
+                data: []
+              }]
+            };
+            questData.heart.timeList.forEach(function (item, index) {
+              _temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.time), 3));
+              _temporaryData['series'][0]['data'].push(Math.floor(item.value));
+            });
+            var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
+            _this2.$set(_this2.sceneDataList[cardId]['heart'], 'data', _temporaryContent);
+            _this2.$set(_this2.sceneDataList[cardId]['heart'], 'isShow', true);
+            _this2.$set(_this2.sceneDataList[cardId]['heart'], 'average', Math.floor(questData.heart.average));
+          }
+          ;
+          // 睡眠
+          if (JSON.stringify(res.data.data) == '{}' || questData.sleepVO.sleepOrWeekVOS.length == 0) {
+            _this2.$set(_this2.sceneDataList[cardId]['sleep'], 'isShowNoData', true);
+          }
         } else {
           _this2.$refs.uToast.show({
             title: res.data.msg,
@@ -652,6 +698,25 @@ var _default = {
           }
           ;
           if (item.type == 0) {
+            _this6.$set(_this6.sceneDataList, item.id, {});
+            // 呼吸数据
+            _this6.$set(_this6.sceneDataList[item.id], 'breath', {});
+            _this6.$set(_this6.sceneDataList[item.id]['breath'], 'data', {});
+            _this6.$set(_this6.sceneDataList[item.id]['breath'], 'average', '');
+            _this6.$set(_this6.sceneDataList[item.id]['breath'], 'isShow', false);
+            _this6.$set(_this6.sceneDataList[item.id]['breath'], 'isShowNoData', false);
+            // 心率数据
+            _this6.$set(_this6.sceneDataList[item.id], 'heart', {});
+            _this6.$set(_this6.sceneDataList[item.id]['heart'], 'data', {});
+            _this6.$set(_this6.sceneDataList[item.id]['heart'], 'average', '');
+            _this6.$set(_this6.sceneDataList[item.id]['heart'], 'isShow', false);
+            _this6.$set(_this6.sceneDataList[item.id]['heart'], 'isShowNoData', false);
+            // 睡眠数据
+            _this6.$set(_this6.sceneDataList[item.id], 'sleep', {});
+            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'data', {});
+            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'lastGoOut', '');
+            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'isShow', false);
+            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'sleepTime', false);
             _this6.requestSleepDeviceStatisticsData(temporaryDevices[0], item.id);
           } else if (item.type == 3) {
             _this6.$set(_this6.sceneDataList, item.id, {});
@@ -664,12 +729,11 @@ var _default = {
         }
       });
     },
-    // 为绑定设备的场景请求设备统计日数据(睡眠场景)
+    // 为绑定设备的场景请求设备统计日数据(睡眠场景)this.getNowFormatDate(new Date(),1)
     requestSleepDeviceStatisticsData: function requestSleepDeviceStatisticsData(deviceIdList, cardId) {
       this.querySleepDayDataList({
         deviceId: deviceIdList,
-        startDate: this.getNowFormatDate(new Date(), 1),
-        endDate: this.getNowFormatDate(new Date(), 1)
+        startDate: '2023-09-07'
       }, cardId);
     },
     // 为绑定设备的场景请求设备统计日数据(离、回家场景)this.getNowFormatDate(new Date(),1)

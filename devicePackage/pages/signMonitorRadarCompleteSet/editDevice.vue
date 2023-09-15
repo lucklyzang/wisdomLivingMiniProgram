@@ -312,12 +312,10 @@
 				this.deleteEvent(this.beforeAddSignMonitorRadarCompleteSet.deviceId)
 			},
 			
+			
 			// 保存事件
 			saveEvent () {
-				this.$refs.uToast.show({
-					title: '保存成功!',
-					type: 'error'
-				})
+				this.updateRadarSet()
 			},
 			
 			// 网络状态点击事件

@@ -66,10 +66,6 @@ page {
   margin: 0 auto;
   margin-top: 20px;
 }
-.content-box .content-area .content-top-area .content-top-title  .u-subsection .u-item-bg {
-  height: 24px !important;
-  bottom: 5px !important;
-}
 .content-box .content-area .content-top-area .content-top-content {
   margin-top: 10px;
   flex: 1;

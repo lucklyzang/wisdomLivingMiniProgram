@@ -47,7 +47,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getWeekIndexEvent" tooltipFormat="tooltipDemo1" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67dfdfdf8asfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+							<qiun-data-charts @getIndex="getWeekIndexEvent" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67dfdfdf8asfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
 						</view>
 						<view class="icon-bar" v-if="weekChartData.isShow">
 							<view>
@@ -75,7 +75,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getMonthIndexEvent" tooltipFormat="tooltipDemo1" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdsd8956k" type="column" :opts="leaveHomeMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
+							<qiun-data-charts @getIndex="getMonthIndexEvent" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdsd8956k" type="column" :opts="leaveHomeMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
 						<view class="icon-bar" v-if="monthChartData.isShow">
 							<view>
@@ -207,6 +207,7 @@
 					}
 				},
 				leaveHomeWeekOpts: {
+					color: ["#F0F0F0"],
 					dataLabel: false,
 					padding: [10,10,0,10],
 					enableScroll: true,
@@ -217,6 +218,12 @@
 						itemCount: 7
 					},
 					yAxis: {
+						splitNumber: 5,
+						data: [
+							{
+								format: 'yAxisDemoMix'
+							}
+						]
 					},
 					extra: {
 						column: {
@@ -240,6 +247,12 @@
 						itemCount: 7
 					},
 					yAxis: {
+						splitNumber: 5,
+						data: [
+							{
+								format: 'yAxisDemoMix'
+							}
+						]
 					},
 					extra: {
 						column: {
@@ -388,6 +401,18 @@
 			
 			// 获取离回家数据详情
 			queryEnterLeaveHomeDetails (data,type) {
+				this.dayChartData = {
+					isShow: true,
+					data: {}
+				};
+				this.weekChartData = {
+					isShow: true,
+					data: {}
+				};
+				this.monthChartData = {
+					isShow: true,
+					data: {}
+				};
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						if (type == 'day') {
@@ -471,24 +496,24 @@
 										if (currentData[index]) {
 											if (currentData[index]['enter']) {
 												item['data'].push(
-													{value:1,color:"green"}
+													{value:1,color:"#289E8E"}
 												)
 											} else if (currentData[index]['goOut']) {
 												item['data'].push(
-													{value:1,color:"orange"}
+													{value:1,color:"#E86F50"}
 												)
 											} else if (!currentData[index]['goOut']) {
 												item['data'].push(
-													{value:1,color:"green"}
+													{value:1,color:"#289E8E"}
 												)
 											} else if (!currentData[index]['enter']) {
 												item['data'].push(
-													{value:1,color:"orange"}
+													{value:1,color:"#E86F50"}
 												)
 											}
 										} else {
 											item['data'].push(
-												{value: 1,color: ''}
+												{value: 1,color: '#F0F0F0'}
 											)
 										}
 									})
@@ -515,7 +540,6 @@
 								};
 								questData.forEach((item,index) => {
 									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.date),5));
-									console.log('月日期',temporaryData['categories']);
 									this.currentMonthXaxisArr.push(item.date);
 									lengthArr.push(item.ruleDataVO.details.length);
 								});
@@ -532,24 +556,24 @@
 										if (currentData[index]) {
 											if (currentData[index]['enter']) {
 												item['data'].push(
-													{value:1,color:"green"}
+													{value:1,color:"#289E8E"}
 												)
 											} else if (currentData[index]['goOut']) {
 												item['data'].push(
-													{value:1,color:"orange"}
+													{value:1,color:"#E86F50"}
 												)
 											} else if (!currentData[index]['goOut']) {
 												item['data'].push(
-													{value:1,color:"green"}
+													{value:1,color:"#289E8E"}
 												)
 											} else if (!currentData[index]['enter']) {
 												item['data'].push(
-													{value:1,color:"orange"}
+													{value:1,color:"#E86F50"}
 												)
 											}
 										} else {
 											item['data'].push(
-												{value: 1,color: ''}
+												{value: 1,color: '#F0F0F0'}
 											)
 										}
 									})
@@ -560,7 +584,7 @@
 								this.monthChartData = {
 									isShow: false,
 									data: {}
-								};
+								}
 							}
 						}
 					} else {
@@ -795,25 +819,25 @@
 				let day = date.getDay();
 				switch (day) {
 					case 0:
-						return "星期日"
+						return "周日"
 						break;
 					case 1:
-						return "星期一"
+						return "周一"
 						break;
 					case 2:
-						return "星期二"
+						return "周二"
 						break;
 					case 3:
-						return "星期三"
+						return "周三"
 						break;
 					case 4:
-						return "星期四"
+						return "周四"
 						break;
 					case 5:
-						return "星期五"
+						return "周五"
 						break;
 					case 6:
-						return "星期六"
+						return "周六"
 						break
 					}
 			},
@@ -1019,9 +1043,12 @@
 					margin: 0 auto;
 					margin-top: 20px;
 					::v-deep .u-subsection {
+						.u-item {
+							.u-item-text {}
+						};
 						.u-item-bg {
-							height: 24px !important;
-							bottom: 5px !important
+							// height: 25px !important;
+							// bottom: 5px !important
 						}
 					}
 				};
@@ -1079,7 +1106,7 @@
 										&:first-child {
 											width: 16px;
 											height: 10px;
-											background: orange;
+											background: #E86F50;
 											margin-right: 4px;
 										};
 										&:last-child {
@@ -1094,7 +1121,7 @@
 										&:first-child {
 											width: 16px;
 											height: 10px;
-											background: green;
+											background: #289E8E;
 											margin-right: 4px;
 										};
 										&:last-child {

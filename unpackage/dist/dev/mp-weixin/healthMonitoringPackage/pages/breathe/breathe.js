@@ -109,6 +109,9 @@ try {
     uIcon: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 687))
     },
+    uEmpty: function () {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 768))
+    },
     qiunDataCharts: function () {
       return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 775))
     },
@@ -146,13 +149,9 @@ var render = function () {
       ? _vm.getNowFormatDateText(_vm.currentEndWeekDate)
       : null
   var m4 =
-    _vm.currentItem == 1 ? _vm.getNowFormatDateText(_vm.initWeekDate) : null
-  var m5 =
     _vm.currentItem == 2
       ? _vm.getNowFormatDateText(_vm.currentMonthDate, 2)
       : null
-  var m6 =
-    _vm.currentItem == 2 ? _vm.getNowFormatDateText(_vm.initMonthDate) : null
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -162,8 +161,6 @@ var render = function () {
         m2: m2,
         m3: m3,
         m4: m4,
-        m5: m5,
-        m6: m6,
       },
     }
   )
@@ -250,6 +247,56 @@ var _default = {
       currentMonthDays: '',
       initMonthDate: '',
       weekMap: {},
+      dayChartData: {
+        isShow: true,
+        data: {}
+      },
+      lowest: '',
+      highest: '',
+      average: '',
+      breathDayOpts: {
+        dataPointShape: false,
+        dataLabel: false,
+        color: ["blue"],
+        padding: [10, 10, 10, 10],
+        enableScroll: true,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          boundaryGap: "justify",
+          itemCount: 9,
+          axisLine: false
+        },
+        yAxis: {
+          gridType: "dash",
+          dashLength: 2,
+          data: [{
+            min: 0
+          }]
+        },
+        extra: {
+          tooltip: {
+            showBox: false
+          },
+          area: {
+            type: "straight",
+            opacity: 1,
+            addLine: true,
+            width: 2,
+            gradient: true,
+            activeType: "hollow"
+          }
+        }
+      },
+      weekChartData: {
+        isShow: true,
+        data: {}
+      },
+      monthChartData: {
+        isShow: true,
+        data: {}
+      },
       temporaryDevices: [],
       lineChartData: {},
       lineOpts: {
@@ -269,9 +316,6 @@ var _default = {
         }
       }
     };
-  },
-  onReady: function onReady() {
-    this.getServerData();
   },
   onLoad: function onLoad() {
     this.initDayTime = this.getNowFormatDate(new Date(), 1);
@@ -298,9 +342,8 @@ var _default = {
     ;
     this.querySleepStatisticsDetails({
       deviceId: this.temporaryDevices[0],
-      startDate: this.getNowFormatDate(new Date(), 2),
-      endDate: this.getNowFormatDate(new Date(), 2)
-    }, 'day');
+      startDate: this.getNowFormatDate(new Date(), 2)
+    });
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'deviceDataMessage'])), {}, {
     userName: function userName() {},
@@ -311,40 +354,6 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
-    getServerData: function getServerData() {
-      var _this = this;
-      setTimeout(function () {
-        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-        var res = {
-          categories: ["23:00", "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00"],
-          series: [{
-            name: '呼吸',
-            data: [45, 70, 25, 37, 40, 30, 65, 54, 36]
-          }]
-        };
-        _this.lineChartData = JSON.parse(JSON.stringify(res));
-      }, 500);
-    },
-    // 获取体征数据详情
-    querySleepStatisticsDetails: function querySleepStatisticsDetails(data, type) {
-      var _this2 = this;
-      console.log('数据', data);
-      (0, _device.sleepStatisticsDetails)(data).then(function (res) {
-        if (res && res.data.code == 0) {} else {
-          _this2.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-      }).catch(function (err) {
-        _this2.$refs.uToast.show({
-          title: err,
-          type: 'error',
-          position: 'bottom'
-        });
-      });
-    },
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
       // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)
@@ -435,9 +444,8 @@ var _default = {
       // 获取呼吸日数据
       this.querySleepStatisticsDetails({
         deviceId: this.temporaryDevices[0],
-        startDate: this.currentDayTime,
-        endDate: this.currentDayTime
-      }, 'day');
+        startDate: this.currentDayTime
+      });
     },
     // 获取上一月和下一月
     getCurrentMonth: function getCurrentMonth(type) {
@@ -469,6 +477,7 @@ var _default = {
         var nextMonth = year2 + "-" + month2;
         this.currentMonthDays = this.getMonthDay(year2, month2);
         this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth), 3);
+        this.initMonthDate = this.getNowFormatDateText(new Date("".concat(this.currentMonthDate, "-01")), 3);
         if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
           this.isMonthPlusCanCilck = false;
         }
@@ -494,6 +503,7 @@ var _default = {
         var preMonth = _year2 + "-" + _month2;
         this.currentMonthDays = this.getMonthDay(_year2, _month2);
         this.currentMonthDate = this.getNowFormatDate(new Date(preMonth), 3);
+        this.initMonthDate = this.getNowFormatDateText(new Date("".concat(this.currentMonthDate, "-01")), 3);
         console.log('当前月', this.currentMonthDate);
       }
       ;
@@ -566,6 +576,7 @@ var _default = {
         this.weekMap = this.getWeek(new Date(time));
         this.currentStartWeekDate = "".concat(this.weekMap['syear'], "-").concat(this.weekMap["stext"]);
         this.currentEndWeekDate = "".concat(this.weekMap['eyear'], "-").concat(this.weekMap["etext"]);
+        this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate), 3);
         if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
           this.isWeekPlusCanCilck = false;
         }
@@ -576,6 +587,7 @@ var _default = {
         this.weekMap = this.getWeek(new Date(_time));
         this.currentStartWeekDate = "".concat(this.weekMap['syear'], "-").concat(this.weekMap["stext"]);
         this.currentEndWeekDate = "".concat(this.weekMap['eyear'], "-").concat(this.weekMap["etext"]);
+        this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate), 3);
         console.log('周', this.currentStartWeekDate, this.currentEndWeekDate);
       }
       ;
@@ -628,16 +640,15 @@ var _default = {
         // 获取呼吸日数据
         this.querySleepStatisticsDetails({
           deviceId: this.temporaryDevices[0],
-          startDate: this.getNowFormatDate(new Date(), 2),
-          endDate: this.getNowFormatDate(new Date(), 2)
-        }, 'day');
+          startDate: this.getNowFormatDate(new Date(), 2)
+        });
       }
       ;
       if (index == 1) {
         this.weekMap = this.getWeek(new Date());
         this.currentStartWeekDate = "".concat(this.weekMap['syear'], "-").concat(this.weekMap["stext"]);
         this.currentEndWeekDate = "".concat(this.weekMap['eyear'], "-").concat(this.weekMap["etext"]);
-        this.initWeekDate = this.getNowFormatDate(new Date(), 3);
+        this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate), 3);
         var _temporaryDate = this.getNowFormatDate(new Date(), 3);
         if (new Date(this.currentEndWeekDate).getTime() >= new Date(_temporaryDate).getTime()) {
           this.isWeekPlusCanCilck = false;
@@ -654,7 +665,7 @@ var _default = {
       ;
       if (index == 2) {
         this.currentMonthDate = this.getNowFormatDate(new Date(), 3);
-        this.initMonthDate = this.getNowFormatDate(new Date(), 3);
+        this.initMonthDate = this.getNowFormatDateText(new Date("".concat(this.currentMonthDate, "-01")), 3);
         var _temporaryDate2 = this.getNowFormatDate(new Date(), 3);
         if (new Date(this.currentMonthDate).getTime() >= new Date(_temporaryDate2).getTime()) {
           this.isMonthPlusCanCilck = false;
@@ -685,6 +696,60 @@ var _default = {
           endDate: "".concat(this.currentMonthDate, "-").concat(this.currentMonthDays)
         }, 'month');
       }
+    },
+    // 获取体征数据详情(日)
+    querySleepStatisticsDetails: function querySleepStatisticsDetails(data) {
+      var _this = this;
+      this.dayChartData = {
+        isShow: true,
+        data: {}
+      };
+      this.lowest = '';
+      this.highest = '';
+      this.average = '';
+      (0, _device.sleepStatisticsDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          var questData = res.data.data;
+          _this.dayChartData['isShow'] = true;
+          // 呼吸
+          if (JSON.stringify(res.data.data) == '{}' || questData.breath.timeList.length == 0) {
+            _this.dayChartData = {
+              isShow: false,
+              data: {}
+            };
+          } else {
+            _this.initDayTime = _this.getNowFormatDate(new Date(questData.breath.timeList[0]['time']), 1);
+            _this.lowest = Math.floor(questData.heart.lowest);
+            _this.highest = Math.floor(questData.heart.lowest);
+            _this.average = Math.floor(questData.heart.average);
+            _this.dayChartData['isShow'] = true;
+            var temporaryData = {
+              categories: [],
+              series: [{
+                data: []
+              }]
+            };
+            questData.breath.timeList.forEach(function (item, index) {
+              temporaryData['categories'].push(_this.getNowFormatDate(new Date(item.time), 1));
+              temporaryData['series'][0]['data'].push(Math.floor(item.value));
+            });
+            var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+            _this.dayChartData['data'] = temporaryContent;
+          }
+        } else {
+          _this.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
     },
     // 进入健康小知识详情事件
     healthTipsDetailsEvent: function healthTipsDetailsEvent() {

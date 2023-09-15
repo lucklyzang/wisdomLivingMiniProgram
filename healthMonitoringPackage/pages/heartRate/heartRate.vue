@@ -26,7 +26,10 @@
 								<text>89次/分钟</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
+							<qiun-data-charts v-if="dayChartData.isShow" type="area" :canvas2d="true" canvasId="abcdef123gh" :opts="heartDayOpts" :ontouch="true" :chartData="dayChartData['data']" />
+						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
 						<view class="data-top">
@@ -36,7 +39,7 @@
 								<u-icon name="arrow-right" size="40" :color="isWeekPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentWeek('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ getNowFormatDateText(initWeekDate) }}</text>
+								<text>{{ initWeekDate }}</text>
 							</view>
 							<view>
 								<text>49-109次/分钟</text>
@@ -52,7 +55,7 @@
 								<u-icon name="arrow-right" size="40" :color="isMonthPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentMonth('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ getNowFormatDateText(initMonthDate) }}</text>
+								<text>{{ initMonthDate }}</text>
 							</view>
 							<view>
 								<text>49-109次/分钟</text>
@@ -71,21 +74,21 @@
 					<view class="data-content">
 						<view class="data-content-top">
 							<view class="content-top-left">
-								<text>54次/分</text>
+								<text>{{ `${quietness}次/分` }}</text>
 								<text>静息心率</text>
 							</view>
 							<view class="content-top-right">
-								<text>122次/分</text>
+								<text>{{ `${highest}次/分` }}</text>
 								<text>最高心率</text>
 							</view>
 						</view>
 						<view class="data-content-bottom">
 							<view class="content-bottom-left">
-								<text>14次/分</text>
+								<text>{{ `${lowest}次/分` }}</text>
 								<text>最低心率</text>
 							</view>
 							<view class="content-bottom-right">
-								<text>60次/分</text>
+								<text>{{ `${average}次/分` }}</text>
 								<text>平均心率</text>
 							</view>
 						</view>
@@ -120,7 +123,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import { sleepStatisticsDetails } from '@/api/device.js'
+	import { sleepStatisticsDetails, sleepStatisticsHome } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
@@ -139,6 +142,57 @@
 					name: '月'
 				}],
 				currentItem: 0,
+				dayChartData: {
+					isShow: true,
+					data: {}
+				},
+				lowest: '',
+				highest: '',
+				average: '',
+				quietness: '-',
+				heartDayOpts: {
+					dataPointShape: false,
+					dataLabel: false,
+					color: ["#ee4f74"],
+					padding: [10,10,10,10],
+					enableScroll: true,
+					legend: { show: false },
+					xAxis: {
+						boundaryGap: "justify",
+						itemCount: 9,
+						axisLine: false
+					},
+					yAxis: {
+						gridType: "dash",
+						dashLength: 2,
+						 data: [
+							 {
+								 min: 0
+							 }
+						 ]
+					},
+					extra: {
+						tooltip: {
+							showBox: false
+						},
+						area: {
+							type: "straight",
+							opacity: 1,
+							addLine: true,
+							width: 2,
+							gradient: true,
+							activeType: "hollow"
+						}
+					}
+				},
+				weekChartData: {
+					isShow: true,
+					data: {}
+				},
+				monthChartData: {
+					isShow: true,
+					data: {}
+				},
 				isDayPlusCanCilck: true,
 				isMonthPlusCanCilck: true,
 				isWeekPlusCanCilck: true,
@@ -169,8 +223,7 @@
 			this.querySleepStatisticsDetails({
 				deviceId: this.temporaryDevices[0],
 				startDate: this.getNowFormatDate(new Date(),2),
-				endDate: this.getNowFormatDate(new Date(),2)
-			},'day') 
+			}) 
 		},
 		computed: {
 			...mapGetters([
@@ -195,10 +248,66 @@
 				'changeOverDueWay'
 			]),
 			
-			// 获取体征数据详情
-			querySleepStatisticsDetails (data,type) {
-				console.log('数据',data);
+			// 获取体征数据详情(日)
+			querySleepStatisticsDetails (data) {
+				this.lowest = '';
+				this.highest = '';
+				this.average = '';
+				this.dayChartData = {
+					isShow: true,
+					data: {}
+				};
 				sleepStatisticsDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						let questData = res.data.data;
+						this.dayChartData['isShow'] = true;
+						// 心率
+						if ( JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
+							this.dayChartData = {
+								isShow: false,
+								data: {}
+							}
+						} else {
+							this.initDayTime = this.getNowFormatDate(new Date(questData.heart.timeList[0]['time']),1);
+							this.lowest = Math.floor(questData.heart.lowest);
+							this.highest = Math.floor(questData.heart.lowest);
+							this.average = Math.floor(questData.heart.average);
+							this.dayChartData['isShow'] = true;
+							let temporaryData = {
+								categories: [],
+								series: [
+									{
+										data: []
+									}
+								]
+							};
+							questData.heart.timeList.forEach((item,index) => {
+								temporaryData['categories'].push(this.getNowFormatDate(new Date(item.time),1));
+								temporaryData['series'][0]['data'].push(Math.floor(item.value))
+							});
+							let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+							this.dayChartData['data'] = temporaryContent
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取体征数据详情(周月)
+			querySleepStatisticsDetailsOther (data,type) {
+				sleepStatisticsHome(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						
 					} else {
@@ -295,9 +404,8 @@
 				// 获取心率日数据
 				this.querySleepStatisticsDetails({
 					deviceId: this.temporaryDevices[0],
-					startDate: this.currentDayTime,
-					endDate: this.currentDayTime
-				},'day')
+					startDate: this.currentDayTime
+				})
 			},
 			
 			// 获取某月的天数
@@ -333,6 +441,7 @@
 					let nextMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
 					}
@@ -353,7 +462,8 @@
 					};
 					let preMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
-					this.currentMonthDate = this.getNowFormatDate(new Date(preMonth),3)
+					this.currentMonthDate = this.getNowFormatDate(new Date(preMonth),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 				};
 				// 获取心率月数据
 				this.querySleepStatisticsDetails({
@@ -421,6 +531,7 @@
 					this.weekMap = this.getWeek(new Date(time));
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
 					};
@@ -430,11 +541,12 @@
 					this.weekMap = this.getWeek(new Date(time));
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					console.log('周',this.currentStartWeekDate,this.currentEndWeekDate)
 				};
 				// 获取心率周数据
 				this.querySleepStatisticsDetails({
-					deviceId: this.temporaryDevices[o],
+					deviceId: this.temporaryDevices[0],
 					startDate: this.currentStartWeekDate,
 					endDate: this.currentEndWeekDate
 				},'week')
@@ -482,15 +594,14 @@
 					// 获取心率日数据
 					this.querySleepStatisticsDetails({
 						deviceId: this.temporaryDevices[0],
-						startDate: this.getNowFormatDate(new Date(),2),
-						endDate: this.getNowFormatDate(new Date(),2)
-					},'day')
+						startDate: this.getNowFormatDate(new Date(),2)
+					})
 				};
 				if (index == 1) {
 					this.weekMap = this.getWeek(new Date());
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
-					this.initWeekDate = this.getNowFormatDate(new Date(),3);
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
@@ -504,7 +615,7 @@
 				};
 				if (index == 2) {
 					this.currentMonthDate = this.getNowFormatDate(new Date(),3);
-					this.initMonthDate = this.getNowFormatDate(new Date(),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
@@ -591,10 +702,10 @@
 					margin: 0 auto;
 					margin-top: 20px;
 					::v-deep .u-subsection {
-						.u-item-bg {
-							height: 24px !important;
-							bottom: 5px !important
-						}
+						// .u-item-bg {
+						// 	height: 24px !important;
+						// 	bottom: 5px !important
+						// }
 					}
 				};
 				.content-top-content {

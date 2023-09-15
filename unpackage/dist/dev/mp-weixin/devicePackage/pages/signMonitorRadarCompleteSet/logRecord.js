@@ -220,6 +220,7 @@ var _default = {
       recordList: [],
       fullRecordList: [],
       status: 'loadmore',
+      isShowNoHomeNoData: false,
       params: {
         year: true,
         month: true,
