@@ -21,7 +21,7 @@
 						<text>{{ `进: ${item.enter}` }}</text>
 						<text>{{ `出: ${item.goOut}` }}</text>
 					</view>
-					<u-loadmore :status="status" v-show="fullRecordList.length > 40" />
+					<u-loadmore :status="status" v-show="fullRecordList.length > 100" />
 				</scroll-view>
 			</view>
 		</view>
@@ -68,7 +68,7 @@
 				pageSize: this.pageSize,
 				deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
 				createDate: this.currentDate
-			})
+			},true)
 		},
 		computed: {
 			...mapGetters([
@@ -111,7 +111,7 @@
 						pageSize: this.pageSize,
 						deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
 						createDate: this.currentDate
-					})
+					},false)
 				}
 			},
 			
@@ -124,7 +124,7 @@
 					pageSize: this.pageSize,
 					deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
 					createDate: this.currentDate
-				});
+				},true);
 				console.log(value)
 			},
 			
@@ -167,9 +167,11 @@
 			},
 			
 			// 获取人体检测雷达日志
-			queryBodyDetectionRadar (data) {
+			queryBodyDetectionRadar (data,flag) {
 				this.recordList = [];
-				this.showLoadingHint = true;
+				if (flag) {
+					this.showLoadingHint = true;
+				};
 				getBodyDetectionRadar(data).then((res) => {
 					this.showLoadingHint = false;
 					if ( res && res.data.code == 0) {

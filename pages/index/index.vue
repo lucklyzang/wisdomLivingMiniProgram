@@ -90,7 +90,7 @@
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>{{ getNowFormatDateText(new Date()) }}</text>
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
-						<text>睡眠8小时、睡眠状态良好</text>
+						<text>{{ `睡眠${totalSleepTime}、睡眠状态良好` }}</text>
 					</view>
 					<view class="heart-rate-box">
 						<view class="heart-rate-title">
@@ -128,7 +128,7 @@
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="sleepSmallIconPng"></image>
-								<text v-if="!sceneDataList[item.id]['sleep']['isShowNoData']">睡眠 7小时45分钟</text>
+								<text v-if="!sceneDataList[item.id]['sleep']['isShowNoData']">{{ `睡眠 ${sceneDataList[item.id]['sleep']['sleepTime']}` }}</text>
 								<text></text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('睡眠',item)">
@@ -252,6 +252,7 @@
 				heartChartData: {},
 				chartData: {},
 				lineChartData: {},
+				totalSleepTime: '',
 				breatheOpts: {
 					color: ["#1890FF"],
 					dataPointShapeType: 'hollow',
@@ -278,6 +279,7 @@
 					padding: [15,10,0,15],
 					enableScroll: true,
 					xAxis: {
+						boundaryGap: "justify",
 						disableGrid: true,
 						itemCount: 8
 					},
@@ -401,6 +403,27 @@
 				}
 			},
 			
+			// 分钟转换成小时
+			minutesTransitionHour(min) {
+				if (min <= 0 || !min) {
+					return '0分钟'
+				};
+				let minTime = "";
+				let formatOne = '小时';
+				let formatTwo = '分钟';
+				let h = Math.floor(min / 60);
+				min -= h * 60;
+				if (min == 0) {
+					minTime = h ? "0" + h + ":00" : "";
+				} else {
+					if (min < 10) {
+						min = "0" + min;
+					};
+					minTime = (h ? h + formatOne : "") + (min ? min + formatTwo : "");
+				};
+				return minTime
+			},
+			
 			getServerData() {
 				//模拟从服务器获取数据时的延时
 				setTimeout(() => {
@@ -504,7 +527,6 @@
 			querySleepDayDataList (data,cardId) {
 				sleepStatisticsDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						console.log('睡眠日数据',res.data.data);
 						let questData = res.data.data;
 						// 呼吸
 						if ( JSON.stringify(res.data.data) == '{}' || questData.breath.timeList.length == 0) {
@@ -551,6 +573,9 @@
 						// 睡眠
 						if ( JSON.stringify(res.data.data) == '{}' || questData.sleepVO.sleepOrWeekVOS.length == 0) {
 							this.$set(this.sceneDataList[cardId]['sleep'],'isShowNoData',true)
+						} else {
+							this.totalSleepTime = this.minutesTransitionHour(questData.sleepVO['totalTime']);
+							this.$set(this.sceneDataList[cardId]['sleep'],'sleepTime',this.minutesTransitionHour(questData.sleepVO['totalTime']-questData.sleepVO['dayTime']))
 						}
 					} else {
 						this.$refs.uToast.show({
@@ -721,7 +746,7 @@
 							this.$set(this.sceneDataList[item.id]['sleep'],'data',{});
 							this.$set(this.sceneDataList[item.id]['sleep'],'lastGoOut','');
 							this.$set(this.sceneDataList[item.id]['sleep'],'isShow',false);
-							this.$set(this.sceneDataList[item.id]['sleep'],'sleepTime',false);
+							this.$set(this.sceneDataList[item.id]['sleep'],'sleepTime','');
 							this.requestSleepDeviceStatisticsData(temporaryDevices[0],item.id)
 						} else if (item.type == 3) {
 							this.$set(this.sceneDataList,item.id,{});

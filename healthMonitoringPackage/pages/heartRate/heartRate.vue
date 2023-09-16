@@ -23,12 +23,12 @@
 								<text>{{ initDayTime }}</text>
 							</view>
 							<view>
-								<text>89次/分钟</text>
+								<text>{{ `${initDayText}次/分钟` }}</text>
 							</view>
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="dayChartData.isShow" type="area" :canvas2d="true" canvasId="abcdef123gh" :opts="heartDayOpts" :ontouch="true" :chartData="dayChartData['data']" />
+							<qiun-data-charts @getIndex="getDayIndexEvent" v-if="dayChartData.isShow" type="area" :canvas2d="true" canvasId="abcdef123gh" :opts="heartDayOpts" :ontouch="true" :chartData="dayChartData['data']" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
@@ -42,10 +42,13 @@
 								<text>{{ initWeekDate }}</text>
 							</view>
 							<view>
-								<text>49-109次/分钟</text>
+								<text>{{ `${initWeekText}次/分钟` }}</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+						<!-- 	<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty> -->
+							<qiun-data-charts type="column" @getIndex="getWeekIndexEvent" canvasId="abcdsatef123gh" :opts="heartWeekOpts" :ontouch="true" :chartData="chartWeekData" />
+						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
 						<view class="data-top">
@@ -58,10 +61,13 @@
 								<text>{{ initMonthDate }}</text>
 							</view>
 							<view>
-								<text>49-109次/分钟</text>
+								<text>{{ `${initMonthText}次/分钟` }}</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<!-- 	<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty> -->
+								<qiun-data-charts type="column" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcdghhjjsatef123gh" :opts="heartMonthOpts" :ontouch="true" :chartData="chartWeekData" />
+						</view>
 					</view>
 				</view>
 			</view>
@@ -141,29 +147,99 @@
 				}, {
 					name: '月'
 				}],
+				currentWeekXaxisArr: [],
+				currentMonthXaxisArr: [],
 				currentItem: 0,
 				dayChartData: {
 					isShow: true,
 					data: {}
 				},
+				weekChartData: {
+					isShow: true,
+					data: {}
+				},
+				monthChartData: {
+					isShow: true,
+					data: {}
+				},
+				chartWeekData: {},
+				heartWeekOpts: {
+					dataPointShape: false,
+					dataLabel: false,
+					color: ["#F7A4B6"],
+					padding: [10,10,10,10],
+					legend: { show: false },
+					xAxis: {
+						itemCount: 7,
+						axisLine: false
+					},
+					yAxis: {
+						splitNumber: 5,
+						gridType: "solid",
+						dashLength: 2,
+						data: []
+					},
+					extra: {
+						tooltip: {
+							showBox: false
+						},
+						column: {
+							width: 12,
+							type: "stack",
+							barBorderCircle: true,
+							barBorderRadius: 20
+						}
+					}
+				},
+				heartMonthOpts: {
+					dataPointShape: false,
+					dataLabel: false,
+					color: ["#F7A4B6"],
+					padding: [10,10,10,10],
+					legend: { show: false },
+					enableScroll: true,
+					xAxis: {
+						itemCount: 7,
+						axisLine: false
+					},
+					yAxis: {
+						splitNumber: 5,
+						gridType: "solid",
+						dashLength: 2,
+						data: []
+					},
+					extra: {
+						tooltip: {
+							showBox: false
+						},
+						column: {
+							width: 12,
+							type: "stack",
+							barBorderCircle: true,
+							barBorderRadius: 20
+						}
+					}
+				},
+				initWeekText: '',
+				initMonthText: '',
 				lowest: '',
 				highest: '',
 				average: '',
-				quietness: '-',
+				quietness: '',
+				initDayText: '',
 				heartDayOpts: {
 					dataPointShape: false,
-					dataLabel: false,
 					color: ["#ee4f74"],
 					padding: [10,10,10,10],
 					enableScroll: true,
 					legend: { show: false },
 					xAxis: {
-						boundaryGap: "justify",
 						itemCount: 9,
 						axisLine: false
 					},
 					yAxis: {
-						gridType: "dash",
+						splitNumber: 5,
+						gridType: "solid",
 						dashLength: 2,
 						 data: [
 							 {
@@ -185,14 +261,6 @@
 						}
 					}
 				},
-				weekChartData: {
-					isShow: true,
-					data: {}
-				},
-				monthChartData: {
-					isShow: true,
-					data: {}
-				},
 				isDayPlusCanCilck: true,
 				isMonthPlusCanCilck: true,
 				isWeekPlusCanCilck: true,
@@ -209,6 +277,7 @@
 			}
 		},
 		onLoad() {
+			this.getServerData();
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
@@ -248,11 +317,55 @@
 				'changeOverDueWay'
 			]),
 			
+			getServerData() {
+				//模拟从服务器获取数据时的延时
+				setTimeout(() => {
+					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+					let res = {
+						categories: ["周一","周二","周三","周四","周五","周六","周日"],
+						 series: [
+						   {
+						     data: [{value: 10,color: '#fff'},{value: 20,color: '#fff'},{value: 14,color: '#fff'},
+									{value: 13,color: '#fff'},{value: 15,color: '#fff'},{value: 16,color: '#fff'},
+									{value: 8,color: '#fff'}
+								 ]
+						   },
+							 {
+							   data: [{value: 50,color: '#F7A4B6'},{value: 60,color: '#F7A4B6'},{value: 55,color: '#F7A4B6'},
+									{value: 90,color: '#F7A4B6'},{value: 80,color: '#F7A4B6'},{value: 70,color: '#F7A4B6'},
+									{value: 65,color: '#F7A4B6'}
+								 ]
+							 }
+						 ]
+						};
+					this.chartWeekData = JSON.parse(JSON.stringify(res));
+					console.log('拼接数据',this.chartWeekData);
+				}, 500)
+			},
+			
+			// 获取日数据当前点击索引
+			getDayIndexEvent (e) {
+				this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
+				this.initDayText = this.dayChartData['data']['series'][0]['data'][e.currentIndex['index']];
+			},
+			
+			// 获取周数据当前点击索引
+			getWeekIndexEvent (e) {
+			},
+			
+			// 获取月数据当前点击索引
+			getMonthIndexEvent (e) {
+			
+			},
+			
 			// 获取体征数据详情(日)
 			querySleepStatisticsDetails (data) {
 				this.lowest = '';
 				this.highest = '';
 				this.average = '';
+				this.quietness = '';
+				this.initDayTime = '';
+				this.initDayText = '';
 				this.dayChartData = {
 					isShow: true,
 					data: {}
@@ -263,11 +376,14 @@
 						this.dayChartData['isShow'] = true;
 						// 心率
 						if ( JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
+							this.initDayTime = '-';
+							this.initDayText = '-';
 							this.dayChartData = {
 								isShow: false,
 								data: {}
 							}
 						} else {
+							this.initDayText = Math.floor(questData.heart.timeList[0]['value']);
 							this.initDayTime = this.getNowFormatDate(new Date(questData.heart.timeList[0]['time']),1);
 							this.lowest = Math.floor(questData.heart.lowest);
 							this.highest = Math.floor(questData.heart.lowest);
@@ -307,9 +423,74 @@
 			
 			// 获取体征数据详情(周月)
 			querySleepStatisticsDetailsOther (data,type) {
+				this.lowest = '';
+				this.highest = '';
+				this.average = '';
+				this.quietness = '';
+				if (type == 'week') {
+					this.initWeekText = '';
+					this.weekChartData = {
+						isShow: true,
+						data: {}
+					}
+				} else if (type == 'month') {
+					this.initMonthText = '';
+					this.monthChartData = {
+						isShow: true,
+						data: {}
+					}
+				};
 				sleepStatisticsHome(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						
+						if (type == 'week') {
+							let questData = res.data.data;
+							this.weekChartData['isShow'] = true;
+							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
+								this.initWeekText = '-';
+								this.weekChartData = {
+									isShow: false,
+									data: {}
+								}
+							} else {
+								this.lowest = Math.floor(questData.heartMinValue);
+								this.highest = Math.floor(questData.heartMaxValue);
+								this.average = Math.floor(questData.heartAverage);
+								this.quietness = Math.floor(questData.heartSilent);
+								this.weekChartData['isShow'] = true;
+								let temporaryData = {
+									categories: [],
+									series: [
+										{
+											data: []
+										}
+									]
+								}
+							}	
+						} else if (type == 'month') {
+							let questData = res.data.data;
+							this.monthChartData['isShow'] = true;
+							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
+								this.initMonthText = '-';
+								this.monthChartData = {
+									isShow: false,
+									data: {}
+								}
+							} else {
+								this.lowest = Math.floor(questData.heartMinValue);
+								this.highest = Math.floor(questData.heartMaxValue);
+								this.average = Math.floor(questData.heartAverage);
+								this.quietness = Math.floor(questData.heartSilent);
+								this.monthChartData['isShow'] = true;
+								let temporaryData = {
+									categories: [],
+									series: [
+										{
+											data: []
+										}
+									]
+								}
+							}	
+						}
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -466,7 +647,7 @@
 					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 				};
 				// 获取心率月数据
-				this.querySleepStatisticsDetails({
+				this.querySleepStatisticsDetailsOther({
 					deviceId: this.temporaryDevices[0],
 					startDate: `${this.currentMonthDate}-01`,
 					endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
@@ -545,7 +726,7 @@
 					console.log('周',this.currentStartWeekDate,this.currentEndWeekDate)
 				};
 				// 获取心率周数据
-				this.querySleepStatisticsDetails({
+				this.querySleepStatisticsDetailsOther({
 					deviceId: this.temporaryDevices[0],
 					startDate: this.currentStartWeekDate,
 					endDate: this.currentEndWeekDate
@@ -558,25 +739,25 @@
 				let day = date.getDay();
 				switch (day) {
 					case 0:
-						return "星期日"
+						return "周日"
 						break;
 					case 1:
-						return "星期一"
+						return "周一"
 						break;
 					case 2:
-						return "星期二"
+						return "周二"
 						break;
 					case 3:
-						return "星期三"
+						return "周三"
 						break;
 					case 4:
-						return "星期四"
+						return "周四"
 						break;
 					case 5:
-						return "星期五"
+						return "周五"
 						break;
 					case 6:
-						return "星期六"
+						return "周六"
 						break
 					}
 			},
@@ -607,7 +788,7 @@
 						this.isWeekPlusCanCilck = false
 					};
 					// 获取心率周数据
-					this.querySleepStatisticsDetails({
+					this.querySleepStatisticsDetailsOther({
 						deviceId: this.temporaryDevices[0],
 						startDate: this.currentStartWeekDate,
 						endDate: this.currentEndWeekDate
@@ -641,7 +822,7 @@
 					let preMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
 					// 获取心率月数据
-					this.querySleepStatisticsDetails({
+					this.querySleepStatisticsDetailsOther({
 						deviceId: this.temporaryDevices[0],
 						startDate: `${this.currentMonthDate}-01`,
 						endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
@@ -733,15 +914,18 @@
 									justify-content: space-between;
 								};
 								&:nth-child(2) {
-									margin: 6px 0
+									margin: 6px 0;
+									height: 20px;
 								};
 								&:last-child {
-									font-size: 18px
+									font-size: 18px;
+									height: 20px;
 								}
 							}
 						};
 						.data-bottom {
 							flex: 1;
+							position: relative;
 							::v-deep .u-empty {
 							 	position: absolute;
 							 	top: 40%;

@@ -16,7 +16,7 @@
 				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 					<view class="log-list" v-for="(item,index) in logList" :key="index">
-						<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+						<text>{{ getNowFormatDate(new Date(item.date),4) }}</text>
 						<text>>>></text>
 						<text>起身</text>
 					</view>
@@ -48,6 +48,7 @@
 				totalCount: 0,
 				recordList: [],
 				fullRecordList: [],
+				isShowNoHomeNoData: false,
 				status: 'loadmore',
 				params: {
 					year: true,

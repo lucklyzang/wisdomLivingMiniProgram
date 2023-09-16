@@ -509,6 +509,8 @@ var _default = {
       (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           if (type == 'day') {
+            _this.initDayText = '';
+            _this.initDayTime = '';
             _this.dayChartData['isShow'] = true;
             if (res.data.data.length > 0) {
               _this.dayChartData['isShow'] = true;

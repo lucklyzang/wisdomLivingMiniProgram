@@ -416,6 +416,8 @@
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						if (type == 'day') {
+							this.initDayText = '';
+							this.initDayTime = '';
 							this.dayChartData['isShow'] = true;
 							if (res.data.data.length > 0) {
 								this.dayChartData['isShow'] = true;
@@ -1077,7 +1079,8 @@
 									justify-content: space-between;
 								};
 								&:nth-child(2) {
-									margin: 6px 0
+									margin: 6px 0;
+									height: 20px;
 								};
 								&:last-child {
 									font-size: 14px
@@ -1086,6 +1089,7 @@
 						};
 						.data-bottom {
 							flex: 1;
+							position: relative;
 							::v-deep .u-empty {
 							 	position: absolute;
 							 	top: 40%;

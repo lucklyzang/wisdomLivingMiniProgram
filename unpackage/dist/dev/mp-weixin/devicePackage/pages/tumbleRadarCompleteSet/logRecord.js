@@ -139,7 +139,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   var l0 = _vm.__map(_vm.logList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m0 = _vm.getNowFormatDate(new Date(item.createTime), 4)
+    var m0 = _vm.getNowFormatDate(new Date(item.date), 4)
     return {
       $orig: $orig,
       m0: m0,
@@ -219,6 +219,7 @@ var _default = {
       totalCount: 0,
       recordList: [],
       fullRecordList: [],
+      isShowNoHomeNoData: false,
       status: 'loadmore',
       params: {
         year: true,

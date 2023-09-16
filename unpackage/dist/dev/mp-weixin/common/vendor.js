@@ -174,6 +174,7 @@ exports.getDeviceInformUnread = getDeviceInformUnread;
 exports.getExistAlarmSettings = getExistAlarmSettings;
 exports.getFallAlarmSettings = getFallAlarmSettings;
 exports.getHealthAlarmSettings = getHealthAlarmSettings;
+exports.getsignMonitorRadar = getsignMonitorRadar;
 exports.sleepStatisticsDetails = sleepStatisticsDetails;
 exports.sleepStatisticsHome = sleepStatisticsHome;
 exports.updateDetectionAlarmSettings = updateDetectionAlarmSettings;
@@ -422,6 +423,16 @@ function enterLeaveHomeDetails(data) {
 function getBodyDetectionRadar(data) {
   return (0, _request.default)({
     url: '/app-api/radar/line-rule-data/page',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 获取心率、呼吸数据日志
+function getsignMonitorRadar(data) {
+  return (0, _request.default)({
+    url: '/app-api/radar/health-data/log',
     method: 'get',
     params: data
   });

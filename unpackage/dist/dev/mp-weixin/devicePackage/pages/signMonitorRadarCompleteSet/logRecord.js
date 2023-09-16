@@ -137,9 +137,9 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.__map(_vm.logList, function (item, index) {
+  var l0 = _vm.__map(_vm.fullRecordList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m0 = _vm.getNowFormatDate(new Date(item.createTime), 4)
+    var m0 = _vm.getNowFormatDate(new Date(item.time), 4)
     return {
       $orig: $orig,
       m0: m0,
@@ -215,10 +215,13 @@ var _default = {
       checked: false,
       dateShow: false,
       currentPageNum: 1,
-      pageSize: 20,
+      pageSize: 100,
       totalCount: 0,
       recordList: [],
+      breath: '',
+      heartRate: '',
       fullRecordList: [],
+      currentDate: '',
       status: 'loadmore',
       isShowNoHomeNoData: false,
       params: {
@@ -226,20 +229,19 @@ var _default = {
         month: true,
         day: true
       },
-      showLoadingHint: false,
-      logList: [{
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }]
+      showLoadingHint: false
     };
   },
-  onLoad: function onLoad() {},
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  onLoad: function onLoad() {
+    this.currentDate = this.getNowFormatDate(new Date(), 2);
+    this.querySignMonitorRadar({
+      pageNo: this.currentPageNum,
+      pageSize: this.pageSize,
+      deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
+      queryDate: this.currentDate
+    }, true);
+  },
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -249,18 +251,19 @@ var _default = {
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     scrolltolower: function scrolltolower() {
+      console.log('滚丝那');
       var totalPage = Math.ceil(this.totalCount / this.pageSize);
       if (this.currentPageNum >= totalPage) {
         this.status = 'nomore';
       } else {
         this.status = 'loading';
         this.currentPageNum = this.currentPageNum + 1;
-        this.queryBodyDetectionRadar({
+        this.querySignMonitorRadar({
           pageNo: this.currentPageNum,
           pageSize: this.pageSize,
-          deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
-          createDate: this.currentDate
-        });
+          deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
+          queryDate: this.currentDate
+        }, false);
       }
     },
     // 格式化时间
@@ -316,23 +319,28 @@ var _default = {
     dateSure: function dateSure(value) {
       this.currentDate = "".concat(value.year, "-").concat(value.month, "-").concat(value.day);
       this.fullRecordList = [];
-      this.queryBodyDetectionRadar({
+      this.querySignMonitorRadar({
         pageNo: this.currentPageNum,
         pageSize: this.pageSize,
-        deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
-        createDate: this.currentDate
-      });
+        deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
+        queryDate: this.currentDate
+      }, true);
     },
     // 获取人体检测雷达日志
-    queryBodyDetectionRadar: function queryBodyDetectionRadar(data) {
+    querySignMonitorRadar: function querySignMonitorRadar(data, flag) {
       var _this = this;
       this.recordList = [];
-      this.showLoadingHint = true;
-      (0, _device.getBodyDetectionRadar)(data).then(function (res) {
+      if (flag) {
+        this.showLoadingHint = true;
+      }
+      ;
+      (0, _device.getsignMonitorRadar)(data).then(function (res) {
         _this.showLoadingHint = false;
         if (res && res.data.code == 0) {
-          _this.totalCount = res.data.data.total;
-          _this.recordList = res.data.data.list;
+          _this.breath = res.data.data.breath ? res.data.data.breath : '-';
+          _this.heartRate = res.data.data.heartRate ? res.data.data.heartRate : '-';
+          _this.totalCount = res.data.data['pageResult'].total;
+          _this.recordList = res.data.data['pageResult'].list;
           _this.fullRecordList = _this.fullRecordList.concat(_this.recordList);
           if (_this.fullRecordList.length == 0) {
             _this.isShowNoHomeNoData = true;

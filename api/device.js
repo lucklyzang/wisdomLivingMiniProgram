@@ -220,6 +220,15 @@ export function getBodyDetectionRadar(data) {
   })
 };
 
+// 获取心率、呼吸数据日志
+export function getsignMonitorRadar(data) {
+  return request({
+    url: '/app-api/radar/health-data/log',
+    method: 'get',
+		params: data
+  })
+};
+
 // 获取离、回家数据详情
 export function getBodyDetectionRadarDetails(data) {
   return request({

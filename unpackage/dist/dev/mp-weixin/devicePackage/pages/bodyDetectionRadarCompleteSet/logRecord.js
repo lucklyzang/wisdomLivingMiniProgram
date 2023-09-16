@@ -238,7 +238,7 @@ var _default = {
       pageSize: this.pageSize,
       deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
       createDate: this.currentDate
-    });
+    }, true);
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddBodyDetectionDeviceMessage'])), {}, {
     userName: function userName() {},
@@ -265,7 +265,7 @@ var _default = {
           pageSize: this.pageSize,
           deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
           createDate: this.currentDate
-        });
+        }, false);
       }
     },
     // 日期选择确定事件
@@ -277,7 +277,7 @@ var _default = {
         pageSize: this.pageSize,
         deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
         createDate: this.currentDate
-      });
+      }, true);
       console.log(value);
     },
     // 格式化时间
@@ -326,10 +326,13 @@ var _default = {
       return currentdate;
     },
     // 获取人体检测雷达日志
-    queryBodyDetectionRadar: function queryBodyDetectionRadar(data) {
+    queryBodyDetectionRadar: function queryBodyDetectionRadar(data, flag) {
       var _this = this;
       this.recordList = [];
-      this.showLoadingHint = true;
+      if (flag) {
+        this.showLoadingHint = true;
+      }
+      ;
       (0, _device.getBodyDetectionRadar)(data).then(function (res) {
         _this.showLoadingHint = false;
         if (res && res.data.code == 0) {

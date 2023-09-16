@@ -234,18 +234,92 @@ var _default = {
       }, {
         name: '月'
       }],
+      currentWeekXaxisArr: [],
+      currentMonthXaxisArr: [],
       currentItem: 0,
       dayChartData: {
         isShow: true,
         data: {}
       },
+      weekChartData: {
+        isShow: true,
+        data: {}
+      },
+      monthChartData: {
+        isShow: true,
+        data: {}
+      },
+      chartWeekData: {},
+      heartWeekOpts: {
+        dataPointShape: false,
+        dataLabel: false,
+        color: ["#F7A4B6"],
+        padding: [10, 10, 10, 10],
+        legend: {
+          show: false
+        },
+        xAxis: {
+          itemCount: 7,
+          axisLine: false
+        },
+        yAxis: {
+          splitNumber: 5,
+          gridType: "solid",
+          dashLength: 2,
+          data: []
+        },
+        extra: {
+          tooltip: {
+            showBox: false
+          },
+          column: {
+            width: 12,
+            type: "stack",
+            barBorderCircle: true,
+            barBorderRadius: 20
+          }
+        }
+      },
+      heartMonthOpts: {
+        dataPointShape: false,
+        dataLabel: false,
+        color: ["#F7A4B6"],
+        padding: [10, 10, 10, 10],
+        legend: {
+          show: false
+        },
+        enableScroll: true,
+        xAxis: {
+          itemCount: 7,
+          axisLine: false
+        },
+        yAxis: {
+          splitNumber: 5,
+          gridType: "solid",
+          dashLength: 2,
+          data: []
+        },
+        extra: {
+          tooltip: {
+            showBox: false
+          },
+          column: {
+            width: 12,
+            type: "stack",
+            barBorderCircle: true,
+            barBorderRadius: 20
+          }
+        }
+      },
+      initWeekText: '',
+      initMonthText: '',
       lowest: '',
       highest: '',
       average: '',
-      quietness: '-',
+      quietness: '',
+      initDayText: '',
       heartDayOpts: {
         dataPointShape: false,
-        dataLabel: false,
         color: ["#ee4f74"],
         padding: [10, 10, 10, 10],
         enableScroll: true,
@@ -253,12 +327,12 @@ var _default = {
           show: false
         },
         xAxis: {
-          boundaryGap: "justify",
           itemCount: 9,
           axisLine: false
         },
         yAxis: {
-          gridType: "dash",
+          splitNumber: 5,
+          gridType: "solid",
           dashLength: 2,
           data: [{
             min: 0
@@ -278,14 +352,6 @@ var _default = {
           }
         }
       },
-      weekChartData: {
-        isShow: true,
-        data: {}
-      },
-      monthChartData: {
-        isShow: true,
-        data: {}
-      },
       isDayPlusCanCilck: true,
       isMonthPlusCanCilck: true,
       isWeekPlusCanCilck: true,
@@ -302,6 +368,7 @@ var _default = {
     };
   },
   onLoad: function onLoad() {
+    this.getServerData();
     this.initDayTime = this.getNowFormatDate(new Date(), 1);
     this.currentDayTime = this.getNowFormatDate(new Date(), 2);
     var temporaryDate = this.getNowFormatDate(new Date(), 2);
@@ -338,12 +405,83 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+    getServerData: function getServerData() {
+      var _this = this;
+      //模拟从服务器获取数据时的延时
+      setTimeout(function () {
+        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+        var res = {
+          categories: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+          series: [{
+            data: [{
+              value: 10,
+              color: '#fff'
+            }, {
+              value: 20,
+              color: '#fff'
+            }, {
+              value: 14,
+              color: '#fff'
+            }, {
+              value: 13,
+              color: '#fff'
+            }, {
+              value: 15,
+              color: '#fff'
+            }, {
+              value: 16,
+              color: '#fff'
+            }, {
+              value: 8,
+              color: '#fff'
+            }]
+          }, {
+            data: [{
+              value: 50,
+              color: '#F7A4B6'
+            }, {
+              value: 60,
+              color: '#F7A4B6'
+            }, {
+              value: 55,
+              color: '#F7A4B6'
+            }, {
+              value: 90,
+              color: '#F7A4B6'
+            }, {
+              value: 80,
+              color: '#F7A4B6'
+            }, {
+              value: 70,
+              color: '#F7A4B6'
+            }, {
+              value: 65,
+              color: '#F7A4B6'
+            }]
+          }]
+        };
+        _this.chartWeekData = JSON.parse(JSON.stringify(res));
+        console.log('拼接数据', _this.chartWeekData);
+      }, 500);
+    },
+    // 获取日数据当前点击索引
+    getDayIndexEvent: function getDayIndexEvent(e) {
+      this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
+      this.initDayText = this.dayChartData['data']['series'][0]['data'][e.currentIndex['index']];
+    },
+    // 获取周数据当前点击索引
+    getWeekIndexEvent: function getWeekIndexEvent(e) {},
+    // 获取月数据当前点击索引
+    getMonthIndexEvent: function getMonthIndexEvent(e) {},
     // 获取体征数据详情(日)
     querySleepStatisticsDetails: function querySleepStatisticsDetails(data) {
-      var _this = this;
+      var _this2 = this;
       this.lowest = '';
       this.highest = '';
       this.average = '';
+      this.quietness = '';
+      this.initDayTime = '';
+      this.initDayText = '';
       this.dayChartData = {
         isShow: true,
         data: {}
@@ -351,19 +489,22 @@ var _default = {
       (0, _device.sleepStatisticsDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           var questData = res.data.data;
-          _this.dayChartData['isShow'] = true;
+          _this2.dayChartData['isShow'] = true;
           // 心率
           if (JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
-            _this.dayChartData = {
+            _this2.initDayTime = '-';
+            _this2.initDayText = '-';
+            _this2.dayChartData = {
               isShow: false,
               data: {}
             };
           } else {
-            _this.initDayTime = _this.getNowFormatDate(new Date(questData.heart.timeList[0]['time']), 1);
-            _this.lowest = Math.floor(questData.heart.lowest);
-            _this.highest = Math.floor(questData.heart.lowest);
-            _this.average = Math.floor(questData.heart.average);
-            _this.dayChartData['isShow'] = true;
+            _this2.initDayText = Math.floor(questData.heart.timeList[0]['value']);
+            _this2.initDayTime = _this2.getNowFormatDate(new Date(questData.heart.timeList[0]['time']), 1);
+            _this2.lowest = Math.floor(questData.heart.lowest);
+            _this2.highest = Math.floor(questData.heart.lowest);
+            _this2.average = Math.floor(questData.heart.average);
+            _this2.dayChartData['isShow'] = true;
             var temporaryData = {
               categories: [],
               series: [{
@@ -371,32 +512,13 @@ var _default = {
               }]
             };
             questData.heart.timeList.forEach(function (item, index) {
-              temporaryData['categories'].push(_this.getNowFormatDate(new Date(item.time), 1));
+              temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.time), 1));
               temporaryData['series'][0]['data'].push(Math.floor(item.value));
             });
             var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-            _this.dayChartData['data'] = temporaryContent;
+            _this2.dayChartData['data'] = temporaryContent;
           }
         } else {
-          _this.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-      }).catch(function (err) {
-        _this.$refs.uToast.show({
-          title: err,
-          type: 'error',
-          position: 'bottom'
-        });
-      });
-    },
-    // 获取体征数据详情(周月)
-    querySleepStatisticsDetailsOther: function querySleepStatisticsDetailsOther(data, type) {
-      var _this2 = this;
-      (0, _device.sleepStatisticsHome)(data).then(function (res) {
-        if (res && res.data.code == 0) {} else {
           _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
@@ -405,6 +527,89 @@ var _default = {
         }
       }).catch(function (err) {
         _this2.$refs.uToast.show({
+          title: err,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 获取体征数据详情(周月)
+    querySleepStatisticsDetailsOther: function querySleepStatisticsDetailsOther(data, type) {
+      var _this3 = this;
+      this.lowest = '';
+      this.highest = '';
+      this.average = '';
+      this.quietness = '';
+      if (type == 'week') {
+        this.initWeekText = '';
+        this.weekChartData = {
+          isShow: true,
+          data: {}
+        };
+      } else if (type == 'month') {
+        this.initMonthText = '';
+        this.monthChartData = {
+          isShow: true,
+          data: {}
+        };
+      }
+      ;
+      (0, _device.sleepStatisticsHome)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          if (type == 'week') {
+            var questData = res.data.data;
+            _this3.weekChartData['isShow'] = true;
+            if (JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
+              _this3.initWeekText = '-';
+              _this3.weekChartData = {
+                isShow: false,
+                data: {}
+              };
+            } else {
+              _this3.lowest = Math.floor(questData.heartMinValue);
+              _this3.highest = Math.floor(questData.heartMaxValue);
+              _this3.average = Math.floor(questData.heartAverage);
+              _this3.quietness = Math.floor(questData.heartSilent);
+              _this3.weekChartData['isShow'] = true;
+              var temporaryData = {
+                categories: [],
+                series: [{
+                  data: []
+                }]
+              };
+            }
+          } else if (type == 'month') {
+            var _questData = res.data.data;
+            _this3.monthChartData['isShow'] = true;
+            if (JSON.stringify(res.data.data) == '{}' || _questData.respVOList.length == 0) {
+              _this3.initMonthText = '-';
+              _this3.monthChartData = {
+                isShow: false,
+                data: {}
+              };
+            } else {
+              _this3.lowest = Math.floor(_questData.heartMinValue);
+              _this3.highest = Math.floor(_questData.heartMaxValue);
+              _this3.average = Math.floor(_questData.heartAverage);
+              _this3.quietness = Math.floor(_questData.heartSilent);
+              _this3.monthChartData['isShow'] = true;
+              var _temporaryData = {
+                categories: [],
+                series: [{
+                  data: []
+                }]
+              };
+            }
+          }
+        } else {
+          _this3.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this3.$refs.uToast.show({
           title: err,
           type: 'error',
           position: 'bottom'
@@ -562,7 +767,7 @@ var _default = {
       }
       ;
       // 获取心率月数据
-      this.querySleepStatisticsDetails({
+      this.querySleepStatisticsDetailsOther({
         deviceId: this.temporaryDevices[0],
         startDate: "".concat(this.currentMonthDate, "-01"),
         endDate: "".concat(this.currentMonthDate, "-").concat(this.currentMonthDays)
@@ -646,7 +851,7 @@ var _default = {
       }
       ;
       // 获取心率周数据
-      this.querySleepStatisticsDetails({
+      this.querySleepStatisticsDetailsOther({
         deviceId: this.temporaryDevices[0],
         startDate: this.currentStartWeekDate,
         endDate: this.currentEndWeekDate
@@ -658,25 +863,25 @@ var _default = {
       var day = date.getDay();
       switch (day) {
         case 0:
-          return "星期日";
+          return "周日";
           break;
         case 1:
-          return "星期一";
+          return "周一";
           break;
         case 2:
-          return "星期二";
+          return "周二";
           break;
         case 3:
-          return "星期三";
+          return "周三";
           break;
         case 4:
-          return "星期四";
+          return "周四";
           break;
         case 5:
-          return "星期五";
+          return "周五";
           break;
         case 6:
-          return "星期六";
+          return "周六";
           break;
       }
     },
@@ -709,7 +914,7 @@ var _default = {
         }
         ;
         // 获取心率周数据
-        this.querySleepStatisticsDetails({
+        this.querySleepStatisticsDetailsOther({
           deviceId: this.temporaryDevices[0],
           startDate: this.currentStartWeekDate,
           endDate: this.currentEndWeekDate
@@ -747,7 +952,7 @@ var _default = {
         var preMonth = year2 + "-" + month2;
         this.currentMonthDays = this.getMonthDay(year2, month2);
         // 获取心率月数据
-        this.querySleepStatisticsDetails({
+        this.querySleepStatisticsDetailsOther({
           deviceId: this.temporaryDevices[0],
           startDate: "".concat(this.currentMonthDate, "-01"),
           endDate: "".concat(this.currentMonthDate, "-").concat(this.currentMonthDays)

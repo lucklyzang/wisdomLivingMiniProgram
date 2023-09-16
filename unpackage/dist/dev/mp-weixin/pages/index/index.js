@@ -246,6 +246,7 @@ var _default = {
       heartChartData: {},
       chartData: {},
       lineChartData: {},
+      totalSleepTime: '',
       breatheOpts: {
         color: ["#1890FF"],
         dataPointShapeType: 'hollow',
@@ -274,6 +275,7 @@ var _default = {
         padding: [15, 10, 0, 15],
         enableScroll: true,
         xAxis: {
+          boundaryGap: "justify",
           disableGrid: true,
           itemCount: 8
         },
@@ -379,6 +381,29 @@ var _default = {
         return '';
       }
     },
+    // 分钟转换成小时
+    minutesTransitionHour: function minutesTransitionHour(min) {
+      if (min <= 0 || !min) {
+        return '0分钟';
+      }
+      ;
+      var minTime = "";
+      var formatOne = '小时';
+      var formatTwo = '分钟';
+      var h = Math.floor(min / 60);
+      min -= h * 60;
+      if (min == 0) {
+        minTime = h ? "0" + h + ":00" : "";
+      } else {
+        if (min < 10) {
+          min = "0" + min;
+        }
+        ;
+        minTime = (h ? h + formatOne : "") + (min ? min + formatTwo : "");
+      }
+      ;
+      return minTime;
+    },
     getServerData: function getServerData() {
       var _this = this;
       //模拟从服务器获取数据时的延时
@@ -480,7 +505,6 @@ var _default = {
       var _this2 = this;
       (0, _device.sleepStatisticsDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
-          console.log('睡眠日数据', res.data.data);
           var questData = res.data.data;
           // 呼吸
           if (JSON.stringify(res.data.data) == '{}' || questData.breath.timeList.length == 0) {
@@ -525,6 +549,9 @@ var _default = {
           // 睡眠
           if (JSON.stringify(res.data.data) == '{}' || questData.sleepVO.sleepOrWeekVOS.length == 0) {
             _this2.$set(_this2.sceneDataList[cardId]['sleep'], 'isShowNoData', true);
+          } else {
+            _this2.totalSleepTime = _this2.minutesTransitionHour(questData.sleepVO['totalTime']);
+            _this2.$set(_this2.sceneDataList[cardId]['sleep'], 'sleepTime', _this2.minutesTransitionHour(questData.sleepVO['totalTime'] - questData.sleepVO['dayTime']));
           }
         } else {
           _this2.$refs.uToast.show({
@@ -716,7 +743,7 @@ var _default = {
             _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'data', {});
             _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'lastGoOut', '');
             _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'isShow', false);
-            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'sleepTime', false);
+            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'sleepTime', '');
             _this6.requestSleepDeviceStatisticsData(temporaryDevices[0], item.id);
           } else if (item.type == 3) {
             _this6.$set(_this6.sceneDataList, item.id, {});

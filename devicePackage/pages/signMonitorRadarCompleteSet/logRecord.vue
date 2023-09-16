@@ -22,14 +22,14 @@
 						<view class="statistics-content-left">
 							<text>呼吸</text>
 							<text>
-								20
+								{{ breath }}
 							</text>
 							<text>次/分</text>
 						</view>
 						<view class="statistics-content-right">
 							<text>心跳</text>
 							<text>
-								90
+								{{ heartRate }}
 							</text>
 							<text>次/分</text>
 						</view>
@@ -38,15 +38,22 @@
 				<view class="log-list-wrapper">
 					<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
 					<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-						<view class="log-list" v-for="(item,index) in logList" :key="index">
-							<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
-							<text>>>></text>
-							<text>呼吸</text>
-							<text>20次/分</text>
-							<text>心跳</text>
-							<text>89次/分</text>
+						<view class="log-list" v-for="(item,index) in fullRecordList" :key="index">
+							<view class="log-list-left">
+								<text>{{ getNowFormatDate(new Date(item.time),4) }}</text>
+								<text>>>></text>
+							</view>
+							<view class="log-list-right" v-if="item.hasPeople == $attrs">
+								<text>呼吸</text>
+								<text>{{ `${item.breath}次/分` }}</text>
+								<text>心跳</text>
+								<text>{{ `${item.heart}次/分` }}</text>
+							</view>
+							<view class="log-list-right" v-else>
+								<text>未检测到人体</text>
+							</view>
 						</view>
-						<u-loadmore :status="status" v-show="fullRecordList.length > 40" />
+						<u-loadmore :status="status" v-show="fullRecordList.length > 20" />
 					</scroll-view>
 				</view>
 			</view>
@@ -60,7 +67,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import { getBodyDetectionRadar } from '@/api/device.js'
+	import { getsignMonitorRadar } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
@@ -71,10 +78,13 @@
 				checked: false,
 				dateShow: false,
 				currentPageNum: 1,
-				pageSize: 20,
+				pageSize: 100,
 				totalCount: 0,
 				recordList: [],
+				breath: '',
+				heartRate: '',
 				fullRecordList: [],
+				currentDate: '',
 				status: 'loadmore',
 				isShowNoHomeNoData: false,
 				params: {
@@ -82,28 +92,22 @@
 					month: true,
 					day: true
 				},
-				showLoadingHint: false,
-				logList: [
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					}
-				]
+				showLoadingHint: false
 			}
 		},
 		onLoad() {
+			this.currentDate = this.getNowFormatDate(new Date(),2)
+			this.querySignMonitorRadar({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
+				queryDate: this.currentDate
+			},true)
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'beforeAddSignMonitorRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -124,18 +128,19 @@
 			]),
 			
 			scrolltolower () {
+				console.log('滚丝那');
 				let totalPage = Math.ceil(this.totalCount/this.pageSize);
 				if (this.currentPageNum >= totalPage) {
 					this.status = 'nomore'
 				} else {
 					this.status = 'loading';
 					this.currentPageNum = this.currentPageNum + 1;
-					this.queryBodyDetectionRadar({
+					this.querySignMonitorRadar({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
-						deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
-						createDate: this.currentDate
-					})
+						deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
+						queryDate: this.currentDate
+					},false)
 				}
 			},
 			
@@ -186,23 +191,27 @@
 			dateSure (value) {
 				this.currentDate = `${value.year}-${value.month}-${value.day}`;
 				this.fullRecordList = [];
-				this.queryBodyDetectionRadar({
+				this.querySignMonitorRadar({
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,
-					deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
-					createDate: this.currentDate
-				});
+					deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
+					queryDate: this.currentDate
+				},true);
 			},
 			
 			// 获取人体检测雷达日志
-			queryBodyDetectionRadar (data) {
+			querySignMonitorRadar (data,flag) {
 				this.recordList = [];
-				this.showLoadingHint = true;
-				getBodyDetectionRadar(data).then((res) => {
+				if (flag) {
+						this.showLoadingHint = true
+				};
+				getsignMonitorRadar(data).then((res) => {
 					this.showLoadingHint = false;
 					if ( res && res.data.code == 0) {
-						this.totalCount = res.data.data.total;
-						this.recordList = res.data.data.list;
+						this.breath = res.data.data.breath ? res.data.data.breath : '-';
+						this.heartRate = res.data.data.heartRate ? res.data.data.heartRate : '-';
+						this.totalCount = res.data.data['pageResult'].total;
+						this.recordList = res.data.data['pageResult'].list;
 						this.fullRecordList = this.fullRecordList.concat(this.recordList);
 						if (this.fullRecordList.length == 0) {
 							this.isShowNoHomeNoData = true
@@ -285,6 +294,7 @@
 			};
 			.bottom-area {
 				flex: 1;
+				height: 0;
 				display: flex;
 				flex-direction: column;
 				background: #fff;
@@ -352,23 +362,28 @@
 						text-align: center;
 						box-sizing: border-box;
 						margin-bottom: 10px;
-						>text {
-							font-size: 14px;
-							color: #101010;
-							&:nth-child(2) {
-								margin: 0 4px
-							};
-							&:nth-child(4) {
-								color: #289E8E
-							};
-							&:nth-child(3) {
-								margin: 0 4px
-							};
-							&:nth-child(5) {
-								margin: 0 4px
-							};
-							&:last-child {
-								color: #3B9DF9
+						display: flex;
+						justify-content: center;
+						.log-list-left {
+							margin-right: 4px;
+							>text {
+								font-size: 14px;
+								color: #101010;
+								&:nth-child(1) {
+									margin-right: 4px;
+								}
+							}
+						};
+						.log-list-right {
+							>text {
+								font-size: 14px;
+								color: #101010;
+								&:nth-child(2) {
+									color: #289E8E
+								};
+								&:nth-child(4) {
+									color: #3B9DF9
+								}
 							}
 						}
 					}

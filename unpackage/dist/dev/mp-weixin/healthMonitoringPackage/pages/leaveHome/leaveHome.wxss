@@ -96,12 +96,14 @@ page {
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-top > view:nth-child(2) {
   margin: 6px 0;
+  height: 20px;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-top > view:last-child {
   font-size: 14px;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-bottom {
   flex: 1;
+  position: relative;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-bottom  .u-empty {
   position: absolute;
