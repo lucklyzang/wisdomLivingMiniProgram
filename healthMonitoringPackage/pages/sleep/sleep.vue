@@ -293,7 +293,6 @@
 			}
 		},
 		onLoad() {
-			// this.getServerData();
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
@@ -333,37 +332,6 @@
 				'changeOverDueWay'
 			]),
 			
-			getServerData() {
-				//模拟从服务器获取数据时的延时
-				setTimeout(() => {
-					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-					let res = {
-						categories: ["周一","周二","周三","周四","周五","周六","周日"],
-						 series: [
-						   {
-						     data: [{value: 80,color: '#57B6EE'},{value: 89,color: '#57B6EE'},{value: 65,color: '#57B6EE'},
-									{value: 73,color: '#57B6EE'},{value: 55,color: '#57B6EE'},{value: 76,color: '#57B6EE'},
-									{value: 90,color: '#57B6EE'}
-								 ]
-						   },
-							 {
-							   data: [{value: 10,color: '#F2A15F'},{value: 6,color: '#F2A15F'},{value: 9,color: '#F2A15F'},
-									{value: 9,color: '#F2A15F'},{value: 8,color: '#F2A15F'},{value: 7,color: '#F2A15F'},
-									{value: 7,color: '#F2A15F'}
-								 ]
-							 },
-							 {
-							   data: [{value: 5,color: '#F0F0F0'},{value: 6,color: '#F0F0F0'},{value: 5,color: '#F0F0F0'},
-									{value: 9,color: '#F0F0F0'},{value: 8,color: '#F0F0F0'},{value: 7,color: '#F0F0F0'},
-									{value: 6,color: '#F0F0F0'}
-								 ]
-							 }
-						 ]
-						};
-					this.chartWeekData = JSON.parse(JSON.stringify(res));
-					console.log('拼接数据',this.chartWeekData);
-				}, 500)
-			},
 			
 			// 获取日数据当前点击索引
 			getDayIndexEvent (e) {
