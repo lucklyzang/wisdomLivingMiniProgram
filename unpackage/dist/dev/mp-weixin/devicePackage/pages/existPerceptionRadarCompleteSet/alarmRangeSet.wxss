@@ -138,6 +138,7 @@ page {
 }
 .content-box .content-area .set-list-area .person-retention-alarm-time-box .person-retention-alarm-time-bottom .time-input  .u-form .u-form-item {
   border: 1px solid #888888;
+  line-height: 0 !important;
   border-radius: 4px;
   padding: 2px 8px !important;
 }

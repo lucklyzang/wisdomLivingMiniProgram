@@ -46,8 +46,8 @@
 							</view>
 						</view>
 						<view class="data-bottom">
-						<!-- 	<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty> -->
-							<qiun-data-charts type="column" @getIndex="getWeekIndexEvent" canvasId="abcdsatef123gh" :opts="heartWeekOpts" :ontouch="true" :chartData="chartWeekData" />
+							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
+							<qiun-data-charts type="column" v-if="weekChartData.isShow" @getIndex="getWeekIndexEvent" canvasId="abcdsatef123gh" :opts="heartWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
@@ -65,8 +65,8 @@
 							</view>
 						</view>
 						<view class="data-bottom">
-							<!-- 	<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty> -->
-								<qiun-data-charts type="column" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcdghhjjsatef123gh" :opts="heartMonthOpts" :ontouch="true" :chartData="chartWeekData" />
+								<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
+							<qiun-data-charts type="column" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcasdgdehhjjsatef123gh" :opts="heartMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
 					</view>
 				</view>
@@ -461,10 +461,26 @@
 									categories: [],
 									series: [
 										{
+										  data: []
+										},
+										{
 											data: []
 										}
 									]
-								}
+								};
+								questData.respVOList.forEach((item,index) => {
+									temporaryData['categories'].push(this.judgeWeek(item.createTime));
+									temporaryData['series'][0]['data'].push({
+										color: '#fff',
+										value: Math.floor(item.heartMinValue)
+									});
+									temporaryData['series'][1]['data'].push({
+										color: '#F7A4B6',
+										value: Math.floor(item.heartMaxValue - item.heartMinValue)
+									})
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.weekChartData['data'] = temporaryContent
 							}	
 						} else if (type == 'month') {
 							let questData = res.data.data;
@@ -485,10 +501,26 @@
 									categories: [],
 									series: [
 										{
+										  data: []
+										},
+										{
 											data: []
 										}
 									]
-								}
+								};
+								questData.respVOList.forEach((item,index) => {
+									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.createTime),5));
+									temporaryData['series'][0]['data'].push({
+										color: '#fff',
+										value: Math.floor(item.heartMinValue)
+									});
+									temporaryData['series'][1]['data'].push({
+										color: '#F7A4B6',
+										value: Math.floor(item.heartMaxValue - item.heartMinValue)
+									})
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.monthChartData['data'] = temporaryContent
 							}	
 						}
 					} else {
@@ -508,39 +540,46 @@
 				})
 			},
 			
-			// 格式化时间
-			getNowFormatDate(currentDate,type) {
-				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)
-				let currentdate;
-				let strDate = currentDate.getDate();
-				let seperator1 = "-";
-				let seperator2 = ":";
-				let month = currentDate.getMonth() + 1;
-				let hour = currentDate.getHours();
-				let minutes = currentDate.getMinutes();
-				if (month >= 1 && month <= 9) {
-					month = "0" + month;
-				};
-				if (hour >= 0 && hour <= 9) {
-					hour = "0" + hour;
-				};
-				if (minutes >= 0 && minutes <= 9) {
-					minutes = "0" + minutes;
-				};
-				if (strDate >= 0 && strDate <= 9) {
-					strDate = "0" + strDate;
-				};
-				if (type == 1) {
-					currentdate = hour + seperator2 + minutes
-				};
-				if (type == 2) {
-					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
-				};
-				if (type == 3) {
-					currentdate = currentDate.getFullYear() + seperator1 + month
-				};
-				return currentdate
-			},
+		// 格式化时间
+		getNowFormatDate(currentDate,type) {
+			// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)5(显示月日)
+			let currentdate;
+			let strDate = currentDate.getDate();
+			let seperator1 = "-";
+			let seperator2 = ":";
+			let seperator3 = " ";
+			let month = currentDate.getMonth() + 1;
+			let hour = currentDate.getHours();
+			let minutes = currentDate.getMinutes();
+			if (month >= 1 && month <= 9) {
+				month = "0" + month;
+			};
+			if (hour >= 0 && hour <= 9) {
+				hour = "0" + hour;
+			};
+			if (minutes >= 0 && minutes <= 9) {
+				minutes = "0" + minutes;
+			};
+			if (strDate >= 0 && strDate <= 9) {
+				strDate = "0" + strDate;
+			};
+			if (type == 1) {
+				currentdate = hour + seperator2 + minutes
+			};
+			if (type == 2) {
+				currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate
+			};
+			if (type == 3) {
+				currentdate = currentDate.getFullYear() + seperator1 + month
+			};
+			if (type == 4) {
+				currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+			};
+			if (type == 5) {
+				currentdate = month + seperator1 + strDate
+			};
+			return currentdate
+		},
 			
 			// 格式化时间(带中文)
 			getNowFormatDateText(currentDate,type) {

@@ -210,6 +210,8 @@ var _default = {
       heartRateValueList: ['50-100', '60-100', '60-110'],
       heartRateTimeIndex: null,
       heartRateInputShow: false,
+      heartRateRanage: '',
+      breatheRanage: '',
       breatheAbnormalAlarmValue: false,
       breatheMinValue: '',
       breatheMaxValue: '',
@@ -234,12 +236,15 @@ var _default = {
     this.kinesiaDetectionAlarmValue = this.receiveData['move'];
     this.situpDetectionAlarmValue = this.receiveData['sitUp'];
     this.leaveBedDetectionAlarmValue = this.receiveData['outBed'];
-    var heartRateRanageArr = this.receiveData['heartRange'].split('-');
-    this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
-    this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : '';
-    var breatheRanageArr = this.receiveData['breatheRange'].split('-');
-    this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';
-    this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : '';
+    this.heartRateRanage = this.receiveData['heartRange'];
+    this.breatheRanage = this.receiveData['breatheRange'];
+    // let heartRateRanageArr = this.receiveData['heartRange'].split('-');
+    // this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
+    // this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : '';
+    // let breatheRanageArr = this.receiveData['breatheRange'].split('-');
+    // this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';
+    // this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : '';
+    this.echoRange();
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
     userName: function userName() {},
@@ -251,6 +256,38 @@ var _default = {
   }),
   mounted: function mounted() {},
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddSignMonitorRadarCompleteSet'])), {}, {
+    // 回显保存的呼吸和心率范围
+    echoRange: function echoRange() {
+      if (this.heartRateAbnormalAlarmValue) {
+        var heartIndex = this.heartRateValueList.indexOf(this.heartRateRanage);
+        var heartRateRanageArr = this.heartRateRanage.split('-');
+        if (heartIndex != -1) {
+          this.heartRateTimeIndex = heartIndex;
+          this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
+          this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : '';
+        } else {
+          this.heartRateInputShow = true;
+          this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
+          this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : '';
+        }
+      }
+      ;
+      if (this.breatheAbnormalAlarmValue) {
+        var breathIndex = this.breatheValueList.indexOf(this.breatheRanage);
+        var breatheRanageArr = this.breatheRanage.split('-');
+        if (breathIndex != -1) {
+          this.breatheTimeIndex = breathIndex;
+          this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';
+          ;
+          this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : '';
+        } else {
+          this.breatheInputShow = true;
+          this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';
+          ;
+          this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : '';
+        }
+      }
+    },
     // 心率次数点击事件
     heartRateTimeClickEvent: function heartRateTimeClickEvent(item, index) {
       this.heartRateTimeIndex = index;
@@ -261,6 +298,9 @@ var _default = {
     // 心率自定义点击事件
     heartRateAbnormalAlarmTimeCustomEvent: function heartRateAbnormalAlarmTimeCustomEvent() {
       this.heartRateInputShow = !this.heartRateInputShow;
+      this.heartRateTimeIndex = '';
+      this.heartRateMinValue = '';
+      this.heartRateMaxValue = '';
     },
     // 呼吸次数点击事件
     breatheTimeClickEvent: function breatheTimeClickEvent(item, index) {
@@ -272,6 +312,9 @@ var _default = {
     // 呼吸自定义点击事件
     breatheAbnormalAlarmTimeCustomEvent: function breatheAbnormalAlarmTimeCustomEvent() {
       this.breatheInputShow = !this.breatheInputShow;
+      this.breatheTimeIndex = '';
+      this.breatheMinValue = '';
+      this.breatheMaxValue = '';
     },
     // 保存事件
     saveEvent: function saveEvent() {
@@ -305,6 +348,7 @@ var _default = {
       }
       ;
       if (this.breatheAbnormalAlarmValue) {
+        console.log('呼吸最小值', this.breatheMinValue);
         if (!this.breatheMinValue) {
           this.$refs.uToast.show({
             title: '呼吸最小值不能为空,请重新输入!',

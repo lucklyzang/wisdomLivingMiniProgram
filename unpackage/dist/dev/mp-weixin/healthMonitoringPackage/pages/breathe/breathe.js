@@ -474,11 +474,12 @@ var _default = {
     getMonthIndexEvent: function getMonthIndexEvent(e) {},
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
-      // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)
+      // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)5(显示月日)
       var currentdate;
       var strDate = currentDate.getDate();
       var seperator1 = "-";
       var seperator2 = ":";
+      var seperator3 = " ";
       var month = currentDate.getMonth() + 1;
       var hour = currentDate.getHours();
       var minutes = currentDate.getMinutes();
@@ -508,6 +509,14 @@ var _default = {
       ;
       if (type == 3) {
         currentdate = currentDate.getFullYear() + seperator1 + month;
+      }
+      ;
+      if (type == 4) {
+        currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes;
+      }
+      ;
+      if (type == 5) {
+        currentdate = month + seperator1 + strDate;
       }
       ;
       return currentdate;
@@ -915,8 +924,23 @@ var _default = {
                 categories: [],
                 series: [{
                   data: []
+                }, {
+                  data: []
                 }]
               };
+              questData.respVOList.forEach(function (item, index) {
+                temporaryData['categories'].push(_this3.judgeWeek(item.createTime));
+                temporaryData['series'][0]['data'].push({
+                  color: '#fff',
+                  value: Math.floor(item.breathMinValue)
+                });
+                temporaryData['series'][1]['data'].push({
+                  color: '#F7A4B6',
+                  value: Math.floor(item.breathMaxValue - item.breathMinValue)
+                });
+              });
+              var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+              _this3.weekChartData['data'] = temporaryContent;
             }
           } else if (type == 'month') {
             var _questData = res.data.data;
@@ -936,8 +960,23 @@ var _default = {
                 categories: [],
                 series: [{
                   data: []
+                }, {
+                  data: []
                 }]
               };
+              _questData.respVOList.forEach(function (item, index) {
+                _temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.createTime), 5));
+                _temporaryData['series'][0]['data'].push({
+                  color: '#fff',
+                  value: Math.floor(item.breathMinValue)
+                });
+                _temporaryData['series'][1]['data'].push({
+                  color: '#F7A4B6',
+                  value: Math.floor(item.breathMaxValue - item.breathMinValue)
+                });
+              });
+              var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
+              _this3.monthChartData['data'] = _temporaryContent;
             }
           }
         } else {

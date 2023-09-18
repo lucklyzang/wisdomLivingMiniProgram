@@ -353,6 +353,7 @@
 								background: #fff;
 								.u-form-item {
 									border: 1px solid #888888;
+									line-height: 0 !important;
 									border-radius: 4px;
 									padding: 2px 8px !important
 								}

@@ -96,8 +96,8 @@
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="heartRateIconPng"></image>
-								<text v-if="!sceneDataList[item.id]['heart']['isShowNoData']">{{ `心率 ${sceneDataList[item.id]['heart']['average']}次/分` }}</text>
-								<text v-if="!sceneDataList[item.id]['heart']['isShowNoData']">心率正常</text>
+								<text v-if="sceneDataList[item.id]['heart']['isShow']">{{ `心率 ${sceneDataList[item.id]['heart']['average']}次/分` }}</text>
+								<text v-if="sceneDataList[item.id]['heart']['isShow']">心率正常</text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('心率',item)">
 								详情
@@ -112,8 +112,8 @@
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="breatheIconPng"></image>
-								<text v-if="!sceneDataList[item.id]['breath']['isShowNoData']">{{ `呼吸 ${sceneDataList[item.id]['breath']['average']}次/分` }}</text>
-								<text v-if="!sceneDataList[item.id]['breath']['isShowNoData']">呼吸正常</text>
+								<text v-if="sceneDataList[item.id]['breath']['isShow']">{{ `呼吸 ${sceneDataList[item.id]['breath']['average']}次/分` }}</text>
+								<text v-if="sceneDataList[item.id]['breath']['isShow']">呼吸正常</text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('呼吸',item)">
 								详情
@@ -128,7 +128,7 @@
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="sleepSmallIconPng"></image>
-								<text v-if="!sceneDataList[item.id]['sleep']['isShowNoData']">{{ `睡眠 ${sceneDataList[item.id]['sleep']['sleepTime']}` }}</text>
+								<text v-if="sceneDataList[item.id]['sleep']['isShow']">{{ `睡眠 ${sceneDataList[item.id]['sleep']['sleepTime']}` }}</text>
 								<text></text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('睡眠',item)">
@@ -136,7 +136,32 @@
 							</view>
 						</view>
 						<view class="sleep-chart">
-							<u-empty text="暂无数据" v-if="sceneDataList[item.id]['sleep']['isShowNoData']"></u-empty>
+							<qiun-data-charts v-if="!sceneDataList[item.id]['sleep']['isShowNoData']" type="bar" :canvas2d="true" :canvasId="`abc1fdsd3245def${item.id}`" :ontouch="true" :opts="sleepOpts" :chartData="sceneDataList[item.id]['sleep']['data']" />
+						</view>
+						<u-empty text="暂无数据" v-if="sceneDataList[item.id]['sleep']['isShowNoData']"></u-empty>
+						<view class="sleep-range" v-if="sceneDataList[item.id]['sleep']['isShow']">
+							<view class="sleep-range-left">
+								<text>{{ sceneDataList[item.id]['sleep']['sleepStartDate'] }}</text>
+								<text>{{ `入睡${sceneDataList[item.id]['sleep']['sleepStartTime']}` }}</text>
+							</view>
+							<view class="sleep-range-right">
+								<text>{{ sceneDataList[item.id]['sleep']['sleepEndDate'] }}</text>
+								<text>{{ `醒来${sceneDataList[item.id]['sleep']['sleepEndTime']}` }}</text>
+							</view>
+						</view>
+						<view class="icon-bar" v-if="sceneDataList[item.id]['sleep']['isShow']">
+							<view>
+								<text></text>
+								<text>睡眠</text>
+							</view>
+							<view>
+								<text></text>
+								<text>清醒</text>
+							</view>
+							<view>
+								<text></text>
+								<text>未检测到人体</text>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -160,7 +185,7 @@
 						</view>
 						<view class="toilet-chart">
 							<u-empty text="暂无数据"></u-empty>
-							<qiun-data-charts type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="chartData" />
+							<!-- <qiun-data-charts type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="chartData" /> -->
 						</view>
 					</view>
 				</view>
@@ -250,9 +275,26 @@
 				deviceList: [],
 				sceneDataList: {},
 				heartChartData: {},
-				chartData: {},
 				lineChartData: {},
 				totalSleepTime: '',
+				sleepOpts: {
+					padding: [10,4,10,4],
+					dataLabel: false,
+					legend: { show: false },
+					xAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						bar: {
+							type: 'stack'
+						}
+					}
+				},
 				breatheOpts: {
 					color: ["#1890FF"],
 					dataPointShapeType: 'hollow',
@@ -329,8 +371,7 @@
 					xAxis: {
 						boundaryGap: "justify",
 						itemCount: 9,
-						disableGrid: true,
-						axisLine: false
+						disableGrid: true
 					},
 					yAxis: {
 						disabled: true,
@@ -403,6 +444,13 @@
 				}
 			},
 			
+			// 毫秒转换成分钟
+			msToMinutes(ms) {
+				if (!ms) { return };
+				let minutes = ms / 60000;
+				return minutes
+			},
+			
 			// 分钟转换成小时
 			minutesTransitionHour(min) {
 				if (min <= 0 || !min) {
@@ -422,50 +470,6 @@
 					minTime = (h ? h + formatOne : "") + (min ? min + formatTwo : "");
 				};
 				return minTime
-			},
-			
-			getServerData() {
-				//模拟从服务器获取数据时的延时
-				setTimeout(() => {
-					let res = {
-							categories: ["8:20","9:21","9:23","9:25"],
-							series: [
-								{
-									name: "正常",
-									data: [35,36,31,33]
-								},
-								{
-									name: "跌倒",
-									data: [18,27,21,24]
-								}
-							]
-						};
-					this.chartData = JSON.parse(JSON.stringify(res));
-				}, 500);
-				setTimeout(() => {
-					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-					let res = {
-							categories: ["23:00","00:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00"],
-							series: [
-								{
-									data: [45,70,25,37,40,30,65,54,36]
-								}
-							]
-						};
-					this.lineChartData = JSON.parse(JSON.stringify(res));
-				}, 500);
-				setTimeout(() => {
-					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-					let res = {
-							categories: ["23:00","00:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","13:00","13:01","13:02","13:03","13:04","13:05"],
-							series: [
-								{
-									data: [50,80,70,65,110,90,120,72,82,90,79,80,90,94,130]
-								}
-							]
-						};
-					this.heartChartData = JSON.parse(JSON.stringify(res));
-				}, 500)
 			},
 			
 			// 家庭选择下拉框下拉选择确定事件
@@ -574,7 +578,60 @@
 						if ( JSON.stringify(res.data.data) == '{}' || questData.sleepVO.sleepOrWeekVOS.length == 0) {
 							this.$set(this.sceneDataList[cardId]['sleep'],'isShowNoData',true)
 						} else {
+							console.log('睡眠信息',questData.sleepVO);
+							let nightSleepDuration = 	Math.ceil(this.msToMinutes(questData.sleepVO['end'] - questData.sleepVO['start']));
+							let temporaryDataArr = questData.sleepVO.sleepOrWeekVOS.filter((item) => { return item.type == 0});
+							if (temporaryDataArr.length == 0) {
+								this.totalSleepTime = this.minutesTransitionHour(questData.sleepVO['totalTime']);
+								this.$set(this.sceneDataList[cardId]['sleep'],'isShowNoData',true);
+								return
+							};
+							// status: 0-无人，1-醒着，2-睡眠，type: 0-夜间，1-日间
+							let temporaryData = {
+								categories: ["7-9"],
+								series: []
+							};
+							questData.sleepVO.sleepOrWeekVOS.forEach((item,index) => {
+								if (item.type == 0 && item.status == 0) {
+									let currentDurationPercentage = (item.end - item.start)/nightSleepDuration;
+									let currentDuration = Math.ceil(currentDurationPercentage*100);
+									temporaryData['series'].push(
+										{
+										  name: "未检测到人体",
+										  color: "#F0F0F0",
+										  data: [currentDuration]
+										}
+									)
+								} else if (item.type == 0 && item.status == 1) {
+									let currentDurationPercentage = (item.end - item.start)/nightSleepDuration;
+									let currentDuration = Math.ceil(currentDurationPercentage*100);
+									temporaryData['series'].push(
+										{
+										  name: "清醒",
+										  color: "#F2A15F",
+										  data: [currentDuration]
+										}
+									)
+								} else if (item.type == 0 && item.status == 2) {
+									let currentDurationPercentage = (item.end - item.start)/nightSleepDuration;
+									let currentDuration = Math.ceil(currentDurationPercentage*100);
+									temporaryData['series'].push(
+										{
+										  name: "睡眠",
+										  color: "#57B6EE",
+										  data: [currentDuration]
+										}
+									)
+								}
+							});
+							let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
 							this.totalSleepTime = this.minutesTransitionHour(questData.sleepVO['totalTime']);
+							this.$set(this.sceneDataList[cardId]['sleep'],'data',temporaryContent);
+							this.$set(this.sceneDataList[cardId]['sleep'],'isShow',true);
+							this.$set(this.sceneDataList[cardId]['sleep'],'sleepStartTime',this.getNowFormatDate(new Date(questData.sleepVO['start']),3));
+							this.$set(this.sceneDataList[cardId]['sleep'],'sleepEndTime',this.getNowFormatDate(new Date(questData.sleepVO['end']),3));
+							this.$set(this.sceneDataList[cardId]['sleep'],'sleepStartDate',this.getNowFormatDateText(new Date(questData.sleepVO['start'])));
+							this.$set(this.sceneDataList[cardId]['sleep'],'sleepEndDate',this.getNowFormatDateText(new Date(questData.sleepVO['end'])));
 							this.$set(this.sceneDataList[cardId]['sleep'],'sleepTime',this.minutesTransitionHour(questData.sleepVO['totalTime']-questData.sleepVO['dayTime']))
 						}
 					} else {
@@ -744,8 +801,11 @@
 							// 睡眠数据
 							this.$set(this.sceneDataList[item.id],'sleep',{});
 							this.$set(this.sceneDataList[item.id]['sleep'],'data',{});
-							this.$set(this.sceneDataList[item.id]['sleep'],'lastGoOut','');
 							this.$set(this.sceneDataList[item.id]['sleep'],'isShow',false);
+							this.$set(this.sceneDataList[item.id]['sleep'],'sleepStartTime','');
+							this.$set(this.sceneDataList[item.id]['sleep'],'sleepEndTime','');
+							this.$set(this.sceneDataList[item.id]['sleep'],'sleepStartDate','');
+							this.$set(this.sceneDataList[item.id]['sleep'],'sleepEndDate','');
 							this.$set(this.sceneDataList[item.id]['sleep'],'sleepTime','');
 							this.requestSleepDeviceStatisticsData(temporaryDevices[0],item.id)
 						} else if (item.type == 3) {
@@ -764,7 +824,7 @@
 			requestSleepDeviceStatisticsData (deviceIdList,cardId) {
 				this.querySleepDayDataList({
 					deviceId: deviceIdList,
-					startDate: '2023-09-07'
+					startDate: '2023-09-06'
 				},cardId)
 			},
 			
@@ -1109,15 +1169,100 @@
 					}
 				};
 				.sleep-box {
-					height: 130px;
+					height: 170px;
+					position: relative;
 					.sleep-chart {
-						height: 94px;
-						position: relative;
+						height: 44px;
 						::v-deep .u-empty {
 						 	position: absolute;
 						 	top: 50%;
 						 	left: 50%;
 						 	transform: translate(-50%,-50%)
+						}
+					};
+					.sleep-range {
+						width: 100%;
+						display: flex;
+						justify-content: space-between;
+						.sleep-range-left {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							>text {
+								font-size: 12px;
+								color: #898C8C
+							}
+						};
+						.sleep-range-right {
+							margin-bottom: 10px;
+							display: flex;
+							align-items: center;
+							flex-direction: column;
+							>text {
+								font-size: 12px;
+								color: #898C8C
+							}
+						}
+					};
+					.icon-bar {
+						height: 40px;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						margin-top: 4px;
+						>view {
+							flex: 1;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							justify-content: center;
+							&:first-child {
+								margin-right: 10px;
+								>text {
+									display: inline-block;
+									&:first-child {
+										width: 21px;
+										height: 12px;
+										background: #57B6EE
+									};
+									&:last-child {
+										font-size: 14px;
+										margin-top: 4px;
+										color: #101010
+									}
+								} 
+							};
+							&:nth-child(2) {
+								margin-right: 10px;
+								>text {
+									display: inline-block;
+									&:first-child {
+										width: 21px;
+										height: 12px;
+										background: #F2A15F
+									};
+									&:last-child {
+										font-size: 14px;
+										margin-top: 4px;
+										color: #101010
+									}
+								} 
+							};
+							&:last-child {
+								>text {
+									display: inline-block;
+									&:first-child {
+										width: 21px;
+										height: 12px;
+										background: #F0F0F0
+									};
+									&:last-child {
+										font-size: 14px;
+										margin-top: 4px;
+										color: #101010
+									}
+								} 
+							}
 						}
 					}
 				}

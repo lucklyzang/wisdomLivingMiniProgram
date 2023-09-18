@@ -151,6 +151,7 @@ page {
 .content-box .content-area .set-list-area .person-retention-alarm-time-box .person-retention-alarm-time-bottom .time-input  .u-form .u-form-item {
   border: 1px solid #888888;
   border-radius: 4px;
+  line-height: 0 !important;
   padding: 2px 8px !important;
 }
 .content-box .content-area .set-list-area .person-retention-alarm-time-box .person-retention-alarm-time-bottom .time-input > text:nth-of-type(1) {

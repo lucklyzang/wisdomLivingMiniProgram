@@ -29,7 +29,7 @@
 					<view class="person-retention-alarm-time-bottom">
 						<view class="retention-time-list-box">
 							<view class="retention-time-list" v-for="(item,index) in heartRateTimeList" :key="index">
-								<view class="retention-time-list-top" :class="{'retentionTimeStyle' : heartRateTimeIndex == index }" @click="heartRateTimeClickEvent(item,index)">
+								<view class="retention-time-list-top" :class="{'retentionTimeStyle' : heartRateTimeIndex === index }" @click="heartRateTimeClickEvent(item,index)">
 									<text>{{ item }}</text>
 								</view>
 								<view class="retention-time-list-bottom">
@@ -75,7 +75,7 @@
 					<view class="person-retention-alarm-time-bottom">
 						<view class="retention-time-list-box">
 							<view class="retention-time-list" v-for="(item,index) in breatheTimeList" :key="index">
-								<view class="retention-time-list-top" :class="{'retentionTimeStyle' : breatheTimeIndex == index }"  @click="breatheTimeClickEvent(item,index)">
+								<view class="retention-time-list-top" :class="{'retentionTimeStyle' : breatheTimeIndex === index }"  @click="breatheTimeClickEvent(item,index)">
 									<text>{{ item }}</text>
 								</view>
 								<view class="retention-time-list-bottom">
@@ -101,7 +101,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="set-list">
+				<!-- <view class="set-list">
 					<view class="set-list-left">
 						<text>体动检测报警</text>
 					</view>
@@ -116,7 +116,7 @@
 					<view class="set-list-right">
 						<u-switch v-model="situpDetectionAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
 					</view>
-				</view>
+				</view> -->
 				<view class="set-list">
 					<view class="set-list-left">
 						<text>离床检测报警</text>
@@ -156,6 +156,8 @@
 				heartRateValueList: ['50-100','60-100','60-110'],
 				heartRateTimeIndex : null,
 				heartRateInputShow: false,
+				heartRateRanage: '',
+				breatheRanage: '',
 				breatheAbnormalAlarmValue: false,
 				breatheMinValue: '',
 				breatheMaxValue: '',
@@ -177,12 +179,15 @@
 			this.kinesiaDetectionAlarmValue = this.receiveData['move'];
 			this.situpDetectionAlarmValue = this.receiveData['sitUp'];
 			this.leaveBedDetectionAlarmValue = this.receiveData['outBed'];
-			let heartRateRanageArr = this.receiveData['heartRange'].split('-');
-			this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
-			this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : '';
-			let breatheRanageArr = this.receiveData['breatheRange'].split('-');
-			this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';
-			this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : ''
+			this.heartRateRanage = this.receiveData['heartRange'];
+			this.breatheRanage =  this.receiveData['breatheRange'];
+			// let heartRateRanageArr = this.receiveData['heartRange'].split('-');
+			// this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
+			// this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : '';
+			// let breatheRanageArr = this.receiveData['breatheRange'].split('-');
+			// this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';
+			// this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : '';
+			this.echoRange()
 		},
 		computed: {
 			...mapGetters([
@@ -210,6 +215,36 @@
 				'changeBeforeAddSignMonitorRadarCompleteSet'
 			]),
 			
+			// 回显保存的呼吸和心率范围
+			echoRange () {
+				if (this.heartRateAbnormalAlarmValue) {
+					let heartIndex = this.heartRateValueList.indexOf(this.heartRateRanage);
+					let heartRateRanageArr = this.heartRateRanage.split('-');
+					if (heartIndex != -1) {
+						this.heartRateTimeIndex = heartIndex;
+						this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
+						this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : ''
+					} else {
+						this.heartRateInputShow = true;
+						this.heartRateMinValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[0]) : '';
+						this.heartRateMaxValue = heartRateRanageArr.length > 0 ? Number(heartRateRanageArr[1]) : ''
+					}
+				};
+				if (this.breatheAbnormalAlarmValue) {
+					let breathIndex = this.breatheValueList.indexOf(this.breatheRanage);
+					let breatheRanageArr = this.breatheRanage.split('-');
+					if (breathIndex != -1) {
+						this.breatheTimeIndex = breathIndex;
+						this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';;
+						this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : '';
+					} else {
+						this.breatheInputShow = true;
+						this.breatheMinValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[0]) : '';;
+						this.breatheMaxValue = breatheRanageArr.length > 0 ? Number(breatheRanageArr[1]) : '';
+					}
+				}	
+			},
+			
 			// 心率次数点击事件
 			heartRateTimeClickEvent(item,index) {
 				this.heartRateTimeIndex = index;
@@ -220,7 +255,10 @@
 			
 			// 心率自定义点击事件
 			heartRateAbnormalAlarmTimeCustomEvent () {
-				this.heartRateInputShow = !this.heartRateInputShow
+				this.heartRateInputShow = !this.heartRateInputShow;
+				this.heartRateTimeIndex = '';
+				this.heartRateMinValue = '';
+				this.heartRateMaxValue = ''
 			},
 			
 			// 呼吸次数点击事件
@@ -233,7 +271,10 @@
 			
 			// 呼吸自定义点击事件
 			breatheAbnormalAlarmTimeCustomEvent () {
-				this.breatheInputShow = !this.breatheInputShow
+				this.breatheInputShow = !this.breatheInputShow;
+				this.breatheTimeIndex = '';
+				this.breatheMinValue = '';
+				this.breatheMaxValue = ''
 			},
 			
 			// 保存事件
@@ -265,6 +306,7 @@
 					}
 				};
 				if (this.breatheAbnormalAlarmValue) {
+					console.log('呼吸最小值',this.breatheMinValue);
 					if (!this.breatheMinValue) {
 						this.$refs.uToast.show({
 							title: '呼吸最小值不能为空,请重新输入!',
@@ -443,6 +485,7 @@
 								.u-form-item {
 									border: 1px solid #888888;
 									border-radius: 4px;
+									line-height: 0 !important;
 									padding: 2px 8px !important
 								}
 							};

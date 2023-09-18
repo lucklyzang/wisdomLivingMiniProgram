@@ -5,7 +5,7 @@
 			<u-popup v-model="wifiListBoxShow" mode="bottom" :mask-close-able="false" height="150px" border-radius="30" :safe-area-inset-bottom="true">
 					<view class="top-title">
 						<view class="top-title-one">
-								<text>跌倒监测雷达</text>
+								<text>体征监测雷达</text>
 						</view>
 						<view class="top-title-two">
 								<text>阅读并同意</text>
@@ -104,7 +104,8 @@
 				showLoadingHint: false,
 				alarmRangeValue: '',
 				acceptAlarmMethod: '',
-				acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
+				// acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
+				acceptAlarmMethodList: ['不通知','仅短信通知'],
 				wifiListBoxShow: false,
 				alarmRangeValueList: [],
 				heart: false,

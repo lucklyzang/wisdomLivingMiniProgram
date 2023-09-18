@@ -203,7 +203,8 @@ var _default = {
       alarmRangeValue: '',
       acceptAlarmMethod: '',
       alarmRangeValueList: [],
-      acceptAlarmMethodList: ['不通知', '仅短信通知', '仅电话通知', '电话+短信'],
+      // acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
+      acceptAlarmMethodList: ['不通知', '仅短信通知'],
       enter: false,
       goOut: false,
       deviceNumber: ''

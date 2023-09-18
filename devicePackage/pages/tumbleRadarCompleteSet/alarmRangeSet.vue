@@ -48,10 +48,10 @@
 						name: '跌倒报警',
 						checked: true
 					},
-					{
-						name: '起身报警',
-						checked: true
-					},
+					// {
+					// 	name: '起身报警',
+					// 	checked: true
+					// },
 					{
 						name: '人员进入报警',
 						checked: false
