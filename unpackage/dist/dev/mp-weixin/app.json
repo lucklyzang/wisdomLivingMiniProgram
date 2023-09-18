@@ -1,148 +1,149 @@
 {
-  "pages": [
-    "pages/login/login",
-    "pages/index/index",
-    "pages/device/device",
-    "pages/personInfo/personInfo"
-  ],
-  "subPackages": [
-    {
-      "root": "healthMonitoringPackage",
-      "pages": [
-        "pages/healthMonitoring/index/index",
-        "pages/heartRate/heartRate",
-        "pages/sleep/sleep",
-        "pages/toilet/toilet",
-        "pages/tumble/tumble",
-        "pages/leaveHome/leaveHome",
-        "pages/breathe/breathe",
-        "pages/healthHeartRateTips/healthHeartRateTips",
-        "pages/healthSleepTips/healthSleepTips",
-        "pages/healthBreatheTips/healthBreatheTips",
-        "pages/healthToiletTips/healthToiletTips",
-        "pages/healthTumbleTips/healthTumbleTips",
-        "pages/healthLeaveHomeTips/healthLeaveHomeTips"
-      ],
-      "name": "rootHealthMonitoring"
+    "pages": [
+        "pages/login/login",
+        "pages/index/index",
+        "pages/device/device",
+        "pages/personInfo/personInfo"
+    ],
+    "subPackages": [
+        {
+            "root": "healthMonitoringPackage",
+            "pages": [
+                "pages/healthMonitoring/index/index",
+                "pages/heartRate/heartRate",
+                "pages/sleep/sleep",
+                "pages/toilet/toilet",
+                "pages/tumble/tumble",
+                "pages/leaveHome/leaveHome",
+                "pages/breathe/breathe",
+                "pages/healthHeartRateTips/healthHeartRateTips",
+                "pages/healthSleepTips/healthSleepTips",
+                "pages/healthBreatheTips/healthBreatheTips",
+                "pages/healthToiletTips/healthToiletTips",
+                "pages/healthTumbleTips/healthTumbleTips",
+                "pages/healthLeaveHomeTips/healthLeaveHomeTips"
+            ],
+            "name": "rootHealthMonitoring"
+        },
+        {
+            "root": "devicePackage",
+            "pages": [
+                "pages/device/index/index",
+                "pages/messageDetails/messageDetails",
+                "pages/addDevices/addDevices",
+                "pages/goOpen/goOpen",
+                "pages/addDevicesInfo/addDevicesInfo",
+                "pages/bingDevices/bingDevices",
+                "pages/bingDevicesHint/bingDevicesHint",
+                "pages/roomManagement/roomManagement",
+                "pages/addRoom/addRoom",
+                "pages/selectWifi/selectWifi",
+                "pages/selectWifi/connectDevice",
+                "pages/tumbleRadarCompleteSet/completeSet",
+                "pages/tumbleRadarCompleteSet/alarmRangeSet",
+                "pages/tumbleRadarCompleteSet/logRecord",
+                "pages/tumbleRadarCompleteSet/editDevice",
+                "pages/tumbleRadarCompleteSet/operationManual",
+                "pages/existPerceptionRadarCompleteSet/completeSet",
+                "pages/existPerceptionRadarCompleteSet/logRecord",
+                "pages/existPerceptionRadarCompleteSet/editDevice",
+                "pages/existPerceptionRadarCompleteSet/alarmRangeSet",
+                "pages/existPerceptionRadarCompleteSet/operationManual",
+                "pages/signMonitorRadarCompleteSet/completeSet",
+                "pages/signMonitorRadarCompleteSet/alarmRangeSet",
+                "pages/signMonitorRadarCompleteSet/editDevice",
+                "pages/signMonitorRadarCompleteSet/operationManual",
+                "pages/signMonitorRadarCompleteSet/logRecord",
+                "pages/bodyDetectionRadarCompleteSet/completeSet",
+                "pages/bodyDetectionRadarCompleteSet/alarmRangeSet",
+                "pages/bodyDetectionRadarCompleteSet/editDevice",
+                "pages/bodyDetectionRadarCompleteSet/operationManual",
+                "pages/bodyDetectionRadarCompleteSet/logRecord",
+                "pages/selectWifi/setDeviceName",
+                "pages/selectWifi/setRoomDeviceName",
+                "pages/roomEdit/roomEdit",
+                "pages/roomDetails/roomDetails"
+            ],
+            "name": "rootDevice"
+        },
+        {
+            "root": "generalSetPackage",
+            "pages": [
+                "pages/generalSet/index/index",
+                "pages/aboutApp/aboutApp",
+                "pages/familyManagement/familyManagement",
+                "pages/addFamily/addFamily",
+                "pages/editFamily/editFamily",
+                "pages/privateInfo/privateInfo",
+                "pages/generalSetting/generalSetting",
+                "pages/accountSecurity/accountSecurity",
+                "pages/accountSecurity/editPhoneNumber",
+                "pages/accountSecurity/editPhoneNumberNext",
+                "pages/warningSetting/warningSetting",
+                "pages/warningMessagePhoneNumber/warningMessagePhoneNumber",
+                "pages/warningMessagePhoneNumber/warningMessagePhoneNumberAdd",
+                "pages/warningMessagePhoneNumber/warningMessagePhoneNumberEdit",
+                "pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure"
+            ],
+            "name": "rootGeneralSetPackage"
+        }
+    ],
+    "window": {
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#fff",
+        "backgroundColor": "#FFFFFF",
+        "navigationStyle": "custom"
     },
-    {
-      "root": "devicePackage",
-      "pages": [
-        "pages/device/index/index",
-        "pages/messageDetails/messageDetails",
-        "pages/addDevices/addDevices",
-        "pages/goOpen/goOpen",
-        "pages/addDevicesInfo/addDevicesInfo",
-        "pages/bingDevices/bingDevices",
-        "pages/bingDevicesHint/bingDevicesHint",
-        "pages/roomManagement/roomManagement",
-        "pages/addRoom/addRoom",
-        "pages/selectWifi/selectWifi",
-        "pages/selectWifi/connectDevice",
-        "pages/tumbleRadarCompleteSet/completeSet",
-        "pages/tumbleRadarCompleteSet/alarmRangeSet",
-        "pages/tumbleRadarCompleteSet/logRecord",
-        "pages/tumbleRadarCompleteSet/editDevice",
-        "pages/tumbleRadarCompleteSet/operationManual",
-        "pages/existPerceptionRadarCompleteSet/completeSet",
-        "pages/existPerceptionRadarCompleteSet/logRecord",
-        "pages/existPerceptionRadarCompleteSet/editDevice",
-        "pages/existPerceptionRadarCompleteSet/alarmRangeSet",
-        "pages/existPerceptionRadarCompleteSet/operationManual",
-        "pages/signMonitorRadarCompleteSet/completeSet",
-        "pages/signMonitorRadarCompleteSet/alarmRangeSet",
-        "pages/signMonitorRadarCompleteSet/editDevice",
-        "pages/signMonitorRadarCompleteSet/operationManual",
-        "pages/signMonitorRadarCompleteSet/logRecord",
-        "pages/bodyDetectionRadarCompleteSet/completeSet",
-        "pages/bodyDetectionRadarCompleteSet/alarmRangeSet",
-        "pages/bodyDetectionRadarCompleteSet/editDevice",
-        "pages/bodyDetectionRadarCompleteSet/operationManual",
-        "pages/bodyDetectionRadarCompleteSet/logRecord",
-        "pages/selectWifi/setDeviceName",
-        "pages/selectWifi/setRoomDeviceName",
-        "pages/roomEdit/roomEdit",
-        "pages/roomDetails/roomDetails"
-      ],
-      "name": "rootDevice"
+    "tabBar": {
+        "color": "#909090",
+        "selectedColor": "#34B9C0",
+        "backgroundColor": "#fff",
+        "borderStyle": "white",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "健康",
+                "iconPath": "static/img/health-icon.png",
+                "selectedIconPath": "static/img/health-icon-active.png"
+            },
+            {
+                "pagePath": "pages/device/device",
+                "text": "设备",
+                "iconPath": "static/img/device-icon.png",
+                "selectedIconPath": "static/img/device-icon-active.png"
+            },
+            {
+                "pagePath": "pages/personInfo/personInfo",
+                "text": "我的",
+                "iconPath": "static/img/my-icon.png",
+                "selectedIconPath": "static/img/my-icon-active.png"
+            }
+        ]
     },
-    {
-      "root": "generalSetPackage",
-      "pages": [
-        "pages/generalSet/index/index",
-        "pages/aboutApp/aboutApp",
-        "pages/familyManagement/familyManagement",
-        "pages/addFamily/addFamily",
-        "pages/editFamily/editFamily",
-        "pages/privateInfo/privateInfo",
-        "pages/generalSetting/generalSetting",
-        "pages/accountSecurity/accountSecurity",
-        "pages/accountSecurity/editPhoneNumber",
-        "pages/accountSecurity/editPhoneNumberNext",
-        "pages/warningSetting/warningSetting",
-        "pages/warningMessagePhoneNumber/warningMessagePhoneNumber",
-        "pages/warningMessagePhoneNumber/warningMessagePhoneNumberAdd",
-        "pages/warningMessagePhoneNumber/warningMessagePhoneNumberEdit",
-        "pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure"
-      ],
-      "name": "rootGeneralSetPackage"
-    }
-  ],
-  "window": {
-    "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "",
-    "navigationBarBackgroundColor": "#fff",
-    "backgroundColor": "#FFFFFF",
-    "navigationStyle": "custom"
-  },
-  "tabBar": {
-    "color": "#909090",
-    "selectedColor": "#34B9C0",
-    "backgroundColor": "#fff",
-    "borderStyle": "white",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "健康",
-        "iconPath": "static/img/health-icon.png",
-        "selectedIconPath": "static/img/health-icon-active.png"
-      },
-      {
-        "pagePath": "pages/device/device",
-        "text": "设备",
-        "iconPath": "static/img/device-icon.png",
-        "selectedIconPath": "static/img/device-icon-active.png"
-      },
-      {
-        "pagePath": "pages/personInfo/personInfo",
-        "text": "我的",
-        "iconPath": "static/img/my-icon.png",
-        "selectedIconPath": "static/img/my-icon-active.png"
-      }
-    ]
-  },
-  "preloadRule": {
-    "healthMonitoringPackage/pages/healthMonitoring/index/index": {
-      "network": "all",
-      "packages": [
-        "healthMonitoringPackage"
-      ]
+    "preloadRule": {
+        "healthMonitoringPackage/pages/healthMonitoring/index/index": {
+            "network": "all",
+            "packages": [
+                "healthMonitoringPackage"
+            ]
+        },
+        "devicePackage/pages/device/index/index": {
+            "network": "all",
+            "packages": [
+                "devicePackage"
+            ]
+        },
+        "generalSetPackage/pages/generalSet/index/index": {
+            "network": "all",
+            "packages": [
+                "devicePackage"
+            ]
+        }
     },
-    "devicePackage/pages/device/index/index": {
-      "network": "all",
-      "packages": [
-        "devicePackage"
-      ]
+    "permission": {},
+    "usingComponents": {
+        "our-loading": "/components/our-loading/our-loading"
     },
-    "generalSetPackage/pages/generalSet/index/index": {
-      "network": "all",
-      "packages": [
-        "devicePackage"
-      ]
-    }
-  },
-  "permission": {},
-  "usingComponents": {
-    "our-loading": "/components/our-loading/our-loading"
-  }
+    "sitemapLocation": "sitemap.json"
 }

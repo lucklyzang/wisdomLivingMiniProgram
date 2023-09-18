@@ -28,7 +28,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="dayChartData.isShow" type="bar" canvasId="abc1fdshdjshd3" :ontouch="true" :opts="sleepDayOpts" :chartData="dayChartData.data" />
+							<qiun-data-charts v-if="dayChartData.isShow" type="bar" canvasId="abc1fgfgfdshdjshd3" :ontouch="true" :opts="sleepDayOpts" :chartData="dayChartData.data" />
 						</view>
 						<view class="sleep-range" v-if="dayChartData['isShow']">
 							<view class="sleep-range-left">
@@ -73,8 +73,8 @@
 							</view>
 						</view>
 						<view class="data-bottom">
-								<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts type="column" v-if="weekChartData.isShow" @getIndex="getWeekIndexEvent" canvasId="abcdsatef123gh" :opts="sleepWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
+							<qiun-data-charts v-if="weekChartData.isShow" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdssa12atef123gh" :opts="sleepWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
 						</view>
 						<view class="icon-bar">
 							<view>
@@ -110,7 +110,7 @@
 						</view>
 						<view class="data-bottom">
 								<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
-							<qiun-data-charts type="column" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" canvasId="abcsdghbdfdgsatef123gh" :opts="sleepMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
+							<qiun-data-charts type="column" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" canvasId="abcsdghdsdsbdfdgsatef123gh" :opts="sleepMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
 						<view class="icon-bar">
 							<view>
@@ -194,7 +194,7 @@
 					data: {}
 				},
 				sleepDayOpts: {
-					padding: [10,10,10,10],
+					padding: [0,10,0,10],
 					dataLabel: false,
 					legend: { show: false },
 					xAxis: {
@@ -293,7 +293,7 @@
 			}
 		},
 		onLoad() {
-			// this.getServerData();
+			this.getServerData();
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
@@ -604,7 +604,7 @@
 									]
 								};
 								questData['respVOList'].forEach((item,index) => {
-									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.createTime),5));
+									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.startTime),5));
 									// sleepData-[睡眠时间, 清醒时间, 无人时间] 时间单位:分钟
 									let currentDayData = JSON.parse(item['sleepData']);
 									let currentDayTotalDuration = Math.ceil(currentDayData[0] + currentDayData[1] + currentDayData[2]);
