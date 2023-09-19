@@ -6,7 +6,7 @@
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" @backClick="backTo">
 				<slot name="default">
-					<text>日志</text>
+					<text>跌倒检测雷达</text>
 					<u-icon name="calendar-fill" color="#101010" size="45" @click="dateIconClickEvent"></u-icon>
 				</slot>
 			</nav-bar> 

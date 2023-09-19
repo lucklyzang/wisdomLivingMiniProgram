@@ -301,7 +301,7 @@ var _default = {
       }).catch(function (err) {
         _this.showLoadingHint = false;
         _this.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });

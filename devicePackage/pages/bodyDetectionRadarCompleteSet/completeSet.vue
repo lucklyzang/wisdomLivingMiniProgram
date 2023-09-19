@@ -106,7 +106,7 @@
 				acceptAlarmMethod: '',
 				alarmRangeValueList: [],
 				// acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
-				acceptAlarmMethodList: ['不通知','仅短信通知'],
+				acceptAlarmMethodList: ['不通知','短信通知'],
 				enter: false,
 				goOut: false,
 				deviceNumber: '',
@@ -165,7 +165,7 @@
 						case '不通知' :
 							return 0
 							break;
-						case '仅短信通知' :
+						case '短信通知' :
 							return 1
 							break;
 						case '仅电话通知' :
@@ -188,7 +188,7 @@
 							return '不通知'
 							break;
 						case '1' :
-							return '仅短信通知'
+							return '短信通知'
 							break;
 						case '2' :
 							return '仅电话通知'
@@ -272,7 +272,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})

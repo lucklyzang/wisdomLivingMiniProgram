@@ -227,8 +227,8 @@ var _default = {
     // 回显报警范围信息
     this.personEnterAlarmValue = this.receiveData['enter'];
     this.personLeaveAlarmValue = this.receiveData['leave'];
-    this.noPersonAlarmValue = this.receiveData['nobody'];
-    this.noPersonTimeValue = this.receiveData['nobodyTime'];
+    // this.noPersonAlarmValue = this.receiveData['nobody'];
+    // this.noPersonTimeValue = this.receiveData['nobodyTime'];
     this.personRetentionAlarmValue = this.receiveData['stop'];
     this.retentionTimeValue = this.receiveData['stopTime'];
   },
@@ -273,17 +273,16 @@ var _default = {
         }
       }
       ;
-      if (this.noPersonAlarmValue) {
-        if (!this.noPersonTimeValue) {
-          this.$refs.uToast.show({
-            title: '无人报警时间不能为空,请重新输入!',
-            type: 'error',
-            position: 'bottom'
-          });
-          return;
-        }
-      }
-      ;
+      // if (this.noPersonAlarmValue) {
+      // 	if (!this.noPersonTimeValue) {
+      // 		this.$refs.uToast.show({
+      // 			title: '无人报警时间不能为空,请重新输入!',
+      // 			type: 'error',
+      // 			position: 'bottom'
+      // 		});
+      // 		return
+      // 	}
+      // };	
       this.$refs['ytoast'].show({
         message: '保存成功!',
         type: 'success'
@@ -292,9 +291,9 @@ var _default = {
       var temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
       temporaryMessage['enter'] = this.personEnterAlarmValue;
       temporaryMessage['leave'] = this.personLeaveAlarmValue;
-      temporaryMessage['nobody'] = this.noPersonAlarmValue;
+      // temporaryMessage['nobody'] = this.noPersonAlarmValue;
       temporaryMessage['stop'] = this.personRetentionAlarmValue;
-      temporaryMessage['nobodyTime'] = this.noPersonTimeValue;
+      // temporaryMessage['nobodyTime'] = this.noPersonTimeValue;
       temporaryMessage['stopTime'] = this.retentionTimeValue;
       temporaryMessage['isSaveAlarmRanageInfo'] = true;
       this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);

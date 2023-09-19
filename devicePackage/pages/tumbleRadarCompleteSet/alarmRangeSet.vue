@@ -68,9 +68,9 @@
 			this.receiveData = JSON.parse(options.transmitData);
 			// 回显报警范围信息
 			this.setList[0]['checked'] = this.receiveData['fall'];
-			this.setList[1]['checked'] = this.receiveData['getUp'];
-			this.setList[2]['checked'] = this.receiveData['enter'];
-			this.setList[3]['checked'] = this.receiveData['goOut'];
+			// this.setList[1]['checked'] = this.receiveData['getUp'];
+			this.setList[1]['checked'] = this.receiveData['enter'];
+			this.setList[2]['checked'] = this.receiveData['goOut'];
 		},
 		computed: {
 			...mapGetters([
@@ -103,10 +103,10 @@
 				this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
 				// 保存进入设备设置界面的报警范围信息
 				let temporaryMessage = this.beforeAddDeviceMessage;
-				temporaryMessage['enter'] = this.setList[2]['checked'];
-				temporaryMessage['goOut'] = this.setList[3]['checked'];
+				temporaryMessage['enter'] = this.setList[1]['checked'];
+				temporaryMessage['goOut'] = this.setList[2]['checked'];
 				temporaryMessage['fall'] = this.setList[0]['checked'];
-				temporaryMessage['getUp'] = this.setList[1]['checked'];
+				// temporaryMessage['getUp'] = this.setList[1]['checked'];
 				temporaryMessage['isSaveAlarmRanageInfo'] = true;
 				this.changeBeforeAddDeviceMessage(temporaryMessage);
 				uni.redirectTo({

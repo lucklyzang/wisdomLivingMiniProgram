@@ -157,14 +157,22 @@ page {
 .content-box .content-area .bottom-area .log-list-wrapper .log-list .log-list-left > text:nth-child(1) {
   margin-right: 4px;
 }
+.content-box .content-area .bottom-area .log-list-wrapper .log-list .log-list-right .textStyleOne {
+  color: #b90019 !important;
+}
+.content-box .content-area .bottom-area .log-list-wrapper .log-list .log-list-right .textStyleTwo {
+  color: #E86F50 !important;
+}
 .content-box .content-area .bottom-area .log-list-wrapper .log-list .log-list-right > text {
   font-size: 14px;
   color: #101010;
 }
 .content-box .content-area .bottom-area .log-list-wrapper .log-list .log-list-right > text:nth-child(2) {
+  margin: 0 4px;
   color: #289E8E;
 }
 .content-box .content-area .bottom-area .log-list-wrapper .log-list .log-list-right > text:nth-child(4) {
   color: #3B9DF9;
+  margin-left: 4px;
 }
 

@@ -28,7 +28,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getDayIndexEvent" tooltipFormat="tooltipDemo1" v-if="dayChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
+							<qiun-data-charts @getIndex="getDayIndexEvent" :inScrollView="true" tooltipFormat="tooltipDemo1" v-if="dayChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
 						</view>
 						<view class="icon-bar" v-if="dayChartData.isShow"></view>
 					</view>
@@ -47,7 +47,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getWeekIndexEvent" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67dfdfdf8asfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+							<qiun-data-charts @getIndex="getWeekIndexEvent" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67dfdfdf8asfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :inScrollView="true" :chartData="weekChartData.data" />
 						</view>
 						<view class="icon-bar" v-if="weekChartData.isShow">
 							<view>
@@ -75,7 +75,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getMonthIndexEvent" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdsd8956k" type="column" :opts="leaveHomeMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
+							<qiun-data-charts @getIndex="getMonthIndexEvent" :inScrollView="true" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdsd8956k" type="column" :opts="leaveHomeMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
 						<view class="icon-bar" v-if="monthChartData.isShow">
 							<view>
@@ -193,6 +193,7 @@
 					tooltip: { showBox: true},
 					xAxis: {
 						disableGrid: true,
+						scrollShow: true,
 						itemCount: 8
 					},
 					yAxis: {
@@ -244,6 +245,7 @@
 						show: false
 					},
 					xAxis: {
+						scrollShow: true,
 						itemCount: 7
 					},
 					yAxis: {
@@ -317,6 +319,7 @@
 			
 			// 获取日数据当前点击索引
 			getDayIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
 				this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
 				if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']] && !e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]){
 					this.initDayText = '';
@@ -332,6 +335,7 @@
 			
 			// 获取周数据当前点击索引
 			getWeekIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
 				this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
 				this.currentWeekDate = this.getNowFormatDate(new Date(this.currentWeekXaxisArr[e.currentIndex['index']]),2);
 				// 获取离、回家天数据详情
@@ -347,6 +351,7 @@
 			
 			// 获取月数据当前点击索引
 			getMonthIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
 				this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
 				this.currentMonthDate = this.getNowFormatDate(new Date(this.currentMonthXaxisArr[e.currentIndex['index']]),2);
 				// 获取离、回家天数据详情
@@ -599,7 +604,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -969,7 +974,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})

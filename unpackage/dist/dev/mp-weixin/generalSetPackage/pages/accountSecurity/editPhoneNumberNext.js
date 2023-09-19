@@ -328,7 +328,7 @@ var _default = {
       }).catch(function (err) {
         _this2.showLoadingHint = false;
         _this2.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });
@@ -360,7 +360,7 @@ var _default = {
         _this3.showLoadingHint = false;
       }).catch(function (err) {
         _this3.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });

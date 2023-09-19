@@ -234,8 +234,11 @@ var _default = {
       }, {
         name: '月'
       }],
+      daySleepTime: '',
       currentWeekXaxisArr: [],
+      currentWeekYaxisArr: [],
       currentMonthXaxisArr: [],
+      currentMonthYaxisArr: [],
       currentItem: 0,
       dayChartData: {
         isShow: true,
@@ -291,6 +294,7 @@ var _default = {
         enableScroll: true,
         xAxis: {
           itemCount: 7,
+          scrollShow: true,
           axisLine: false
         },
         yAxis: {
@@ -321,13 +325,14 @@ var _default = {
       heartDayOpts: {
         dataPointShape: false,
         color: ["#ee4f74"],
-        padding: [10, 10, 10, 10],
+        padding: [20, 10, 10, 10],
         enableScroll: true,
         legend: {
           show: false
         },
         xAxis: {
           itemCount: 9,
+          scrollShow: true,
           axisLine: false
         },
         yAxis: {
@@ -335,7 +340,7 @@ var _default = {
           gridType: "solid",
           dashLength: 2,
           data: [{
-            min: 0
+            min: 40
           }]
         },
         extra: {
@@ -368,7 +373,6 @@ var _default = {
     };
   },
   onLoad: function onLoad() {
-    this.getServerData();
     this.initDayTime = this.getNowFormatDate(new Date(), 1);
     this.currentDayTime = this.getNowFormatDate(new Date(), 2);
     var temporaryDate = this.getNowFormatDate(new Date(), 2);
@@ -405,83 +409,76 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
-    getServerData: function getServerData() {
-      var _this = this;
-      //模拟从服务器获取数据时的延时
-      setTimeout(function () {
-        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-        var res = {
-          categories: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-          series: [{
-            data: [{
-              value: 10,
-              color: '#fff'
-            }, {
-              value: 20,
-              color: '#fff'
-            }, {
-              value: 14,
-              color: '#fff'
-            }, {
-              value: 13,
-              color: '#fff'
-            }, {
-              value: 15,
-              color: '#fff'
-            }, {
-              value: 16,
-              color: '#fff'
-            }, {
-              value: 8,
-              color: '#fff'
-            }]
-          }, {
-            data: [{
-              value: 50,
-              color: '#F7A4B6'
-            }, {
-              value: 60,
-              color: '#F7A4B6'
-            }, {
-              value: 55,
-              color: '#F7A4B6'
-            }, {
-              value: 90,
-              color: '#F7A4B6'
-            }, {
-              value: 80,
-              color: '#F7A4B6'
-            }, {
-              value: 70,
-              color: '#F7A4B6'
-            }, {
-              value: 65,
-              color: '#F7A4B6'
-            }]
-          }]
-        };
-        _this.chartWeekData = JSON.parse(JSON.stringify(res));
-        console.log('拼接数据', _this.chartWeekData);
-      }, 500);
-    },
     // 获取日数据当前点击索引
     getDayIndexEvent: function getDayIndexEvent(e) {
+      if (e.currentIndex['index'] == -1) {
+        return;
+      }
+      ;
       this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
       this.initDayText = this.dayChartData['data']['series'][0]['data'][e.currentIndex['index']];
     },
     // 获取周数据当前点击索引
-    getWeekIndexEvent: function getWeekIndexEvent(e) {},
+    getWeekIndexEvent: function getWeekIndexEvent(e) {
+      if (e.currentIndex['index'] == -1) {
+        return;
+      }
+      ;
+      this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
+      this.initWeekText = "".concat(Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartMinValue']), "-").concat(Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartMaxValue']));
+      this.lowest = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartMinValue']);
+      this.highest = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartMaxValue']);
+      this.average = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartAverage']);
+      this.quietness = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartSilent']);
+      this.daySleepTime = this.minutesTransitionHour(this.currentWeekYaxisArr[e.currentIndex['index']]['sleepDayTime']);
+    },
     // 获取月数据当前点击索引
-    getMonthIndexEvent: function getMonthIndexEvent(e) {},
+    getMonthIndexEvent: function getMonthIndexEvent(e) {
+      if (e.currentIndex['index'] == -1) {
+        return;
+      }
+      ;
+      this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
+      this.initMonthText = "".concat(Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartMinValue']), "-").concat(Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartMaxValue']));
+      this.lowest = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartMinValue']);
+      this.highest = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartMaxValue']);
+      this.average = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartAverage']);
+      this.quietness = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartSilent']);
+      this.daySleepTime = this.minutesTransitionHour(this.currentMonthYaxisArr[e.currentIndex['index']]['sleepDayTime']);
+    },
+    // 分钟转换成小时
+    minutesTransitionHour: function minutesTransitionHour(min) {
+      if (min <= 0 || !min) {
+        return '0分钟';
+      }
+      ;
+      var minTime = "";
+      var formatOne = '小时';
+      var formatTwo = '分钟';
+      var h = Math.floor(min / 60);
+      min -= h * 60;
+      if (min == 0) {
+        minTime = h ? "0" + h + ":00" : "";
+      } else {
+        if (min < 10) {
+          min = "0" + min;
+        }
+        ;
+        minTime = (h ? h + formatOne : "") + (min ? min + formatTwo : "");
+      }
+      ;
+      return minTime;
+    },
     // 获取体征数据详情(日)
     querySleepStatisticsDetails: function querySleepStatisticsDetails(data) {
-      var _this2 = this;
+      var _this = this;
       this.lowest = '';
       this.highest = '';
       this.average = '';
       this.quietness = '';
       this.initDayTime = '';
       this.initDayText = '';
+      this.daySleepTime = '';
       this.dayChartData = {
         isShow: true,
         data: {}
@@ -489,22 +486,24 @@ var _default = {
       (0, _device.sleepStatisticsDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           var questData = res.data.data;
-          _this2.dayChartData['isShow'] = true;
+          _this.dayChartData['isShow'] = true;
           // 心率
           if (JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
-            _this2.initDayTime = '-';
-            _this2.initDayText = '-';
-            _this2.dayChartData = {
+            _this.initDayTime = '-';
+            _this.initDayText = '-';
+            _this.daySleepTime = '-';
+            _this.dayChartData = {
               isShow: false,
               data: {}
             };
           } else {
-            _this2.initDayText = Math.floor(questData.heart.timeList[0]['value']);
-            _this2.initDayTime = _this2.getNowFormatDate(new Date(questData.heart.timeList[0]['time']), 1);
-            _this2.lowest = Math.floor(questData.heart.lowest);
-            _this2.highest = Math.floor(questData.heart.lowest);
-            _this2.average = Math.floor(questData.heart.average);
-            _this2.dayChartData['isShow'] = true;
+            _this.initDayText = Math.floor(questData.heart.timeList[0]['value']);
+            _this.initDayTime = _this.getNowFormatDate(new Date(questData.heart.timeList[0]['time']), 1);
+            _this.daySleepTime = _this.minutesTransitionHour(questData.sleepVO['dayTime']);
+            _this.lowest = Math.floor(questData.heart.lowest);
+            _this.highest = Math.floor(questData.heart.highest);
+            _this.average = Math.floor(questData.heart.average);
+            _this.dayChartData['isShow'] = true;
             var temporaryData = {
               categories: [],
               series: [{
@@ -512,22 +511,22 @@ var _default = {
               }]
             };
             questData.heart.timeList.forEach(function (item, index) {
-              temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.time), 1));
+              temporaryData['categories'].push(_this.getNowFormatDate(new Date(item.time), 1));
               temporaryData['series'][0]['data'].push(Math.floor(item.value));
             });
             var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-            _this2.dayChartData['data'] = temporaryContent;
+            _this.dayChartData['data'] = temporaryContent;
           }
         } else {
-          _this2.$refs.uToast.show({
+          _this.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this2.$refs.uToast.show({
-          title: err,
+        _this.$refs.uToast.show({
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });
@@ -535,19 +534,24 @@ var _default = {
     },
     // 获取体征数据详情(周月)
     querySleepStatisticsDetailsOther: function querySleepStatisticsDetailsOther(data, type) {
-      var _this3 = this;
+      var _this2 = this;
       this.lowest = '';
       this.highest = '';
       this.average = '';
       this.quietness = '';
+      this.daySleepTime = '';
       if (type == 'week') {
         this.initWeekText = '';
+        this.currentWeekXaxisArr = [];
+        this.currentWeekYaxisArr = [];
         this.weekChartData = {
           isShow: true,
           data: {}
         };
       } else if (type == 'month') {
         this.initMonthText = '';
+        this.currentMonthXaxisArr = [];
+        this.currentMonthYaxisArr = [];
         this.monthChartData = {
           isShow: true,
           data: {}
@@ -558,19 +562,32 @@ var _default = {
         if (res && res.data.code == 0) {
           if (type == 'week') {
             var questData = res.data.data;
-            _this3.weekChartData['isShow'] = true;
+            _this2.weekChartData['isShow'] = true;
             if (JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
-              _this3.initWeekText = '-';
-              _this3.weekChartData = {
+              _this2.initWeekText = '-';
+              _this2.daySleepTime = '-';
+              _this2.weekChartData = {
                 isShow: false,
                 data: {}
               };
             } else {
-              _this3.lowest = Math.floor(questData.heartMinValue);
-              _this3.highest = Math.floor(questData.heartMaxValue);
-              _this3.average = Math.floor(questData.heartAverage);
-              _this3.quietness = Math.floor(questData.heartSilent);
-              _this3.weekChartData['isShow'] = true;
+              if (questData.respVOList[0]['startTime'] == _this2.currentStartWeekDate) {
+                _this2.daySleepTime = _this2.minutesTransitionHour(questData.respVOList[0]['sleepDayTime']);
+                _this2.initWeekText = "".concat(Math.floor(questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(questData.respVOList[0]['heartMaxValue']));
+                _this2.lowest = Math.floor(questData.respVOList[0]['heartMinValue']);
+                _this2.highest = Math.floor(questData.respVOList[0]['heartMaxValue']);
+                _this2.average = Math.floor(questData.respVOList[0]['heartAverage']);
+                _this2.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
+              } else {
+                _this2.initWeekText = '-';
+                _this2.initMonthText = '-';
+                _this2.daySleepTime = '-';
+                _this2.quietness = '-';
+                _this2.lowest = '-';
+                _this2.highest = '-';
+              }
+              ;
+              _this2.weekChartData['isShow'] = true;
               var temporaryData = {
                 categories: [],
                 series: [{
@@ -580,9 +597,11 @@ var _default = {
                 }]
               };
               questData.respVOList.forEach(function (item, index) {
-                temporaryData['categories'].push(_this3.judgeWeek(item.createTime));
+                _this2.currentWeekYaxisArr.push(item);
+                _this2.currentWeekXaxisArr.push(item.startTime);
+                temporaryData['categories'].push(_this2.judgeWeek(item.createTime));
                 temporaryData['series'][0]['data'].push({
-                  color: '#fff',
+                  color: 'transparent',
                   value: Math.floor(item.heartMinValue)
                 });
                 temporaryData['series'][1]['data'].push({
@@ -591,23 +610,35 @@ var _default = {
                 });
               });
               var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-              _this3.weekChartData['data'] = temporaryContent;
+              _this2.weekChartData['data'] = temporaryContent;
             }
           } else if (type == 'month') {
             var _questData = res.data.data;
-            _this3.monthChartData['isShow'] = true;
+            _this2.monthChartData['isShow'] = true;
             if (JSON.stringify(res.data.data) == '{}' || _questData.respVOList.length == 0) {
-              _this3.initMonthText = '-';
-              _this3.monthChartData = {
+              _this2.initMonthText = '-';
+              _this2.daySleepTime = '-';
+              _this2.monthChartData = {
                 isShow: false,
                 data: {}
               };
             } else {
-              _this3.lowest = Math.floor(_questData.heartMinValue);
-              _this3.highest = Math.floor(_questData.heartMaxValue);
-              _this3.average = Math.floor(_questData.heartAverage);
-              _this3.quietness = Math.floor(_questData.heartSilent);
-              _this3.monthChartData['isShow'] = true;
+              if (_questData.respVOList[0]['startTime'] == "".concat(_this2.currentMonthDate, "-01")) {
+                _this2.daySleepTime = _this2.minutesTransitionHour(_questData.respVOList[0]['sleepDayTime']);
+                _this2.initMonthText = "".concat(Math.floor(_questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(_questData.respVOList[0]['heartMaxValue']));
+                _this2.lowest = Math.floor(_questData.respVOList[0]['heartMinValue']);
+                _this2.highest = Math.floor(_questData.respVOList[0]['heartMaxValue']);
+                _this2.average = Math.floor(_questData.respVOList[0]['heartAverage']);
+                _this2.quietness = Math.floor(_questData.respVOList[0]['heartSilent']);
+              } else {
+                _this2.initMonthText = '-';
+                _this2.initMonthText = '-';
+                _this2.lowest = '-';
+                _this2.daySleepTime = '-';
+                _this2.highest = '-';
+              }
+              ;
+              _this2.monthChartData['isShow'] = true;
               var _temporaryData = {
                 categories: [],
                 series: [{
@@ -617,9 +648,11 @@ var _default = {
                 }]
               };
               _questData.respVOList.forEach(function (item, index) {
-                _temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.startTime), 5));
+                _this2.currentMonthYaxisArr.push(item);
+                _this2.currentMonthXaxisArr.push(item.startTime);
+                _temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.startTime), 5));
                 _temporaryData['series'][0]['data'].push({
-                  color: '#fff',
+                  color: 'transparent',
                   value: Math.floor(item.heartMinValue)
                 });
                 _temporaryData['series'][1]['data'].push({
@@ -628,19 +661,19 @@ var _default = {
                 });
               });
               var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
-              _this3.monthChartData['data'] = _temporaryContent;
+              _this2.monthChartData['data'] = _temporaryContent;
             }
           }
         } else {
-          _this3.$refs.uToast.show({
+          _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this3.$refs.uToast.show({
-          title: err,
+        _this2.$refs.uToast.show({
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });

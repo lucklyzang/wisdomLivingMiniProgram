@@ -290,6 +290,7 @@ var _default = {
       },
       xAxis: {
         disableGrid: true,
+        scrollShow: true,
         itemCount: 8
       },
       yAxis: {
@@ -337,6 +338,7 @@ var _default = {
         show: false
       },
       xAxis: {
+        scrollShow: true,
         itemCount: 7
       },
       yAxis: {
@@ -404,6 +406,10 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     // 获取日数据当前点击索引
     getDayIndexEvent: function getDayIndexEvent(e) {
+      if (e.currentIndex['index'] == -1) {
+        return;
+      }
+      ;
       this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
       if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']] && !e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]) {
         this.initDayText = '';
@@ -419,6 +425,10 @@ var _default = {
     },
     // 获取周数据当前点击索引
     getWeekIndexEvent: function getWeekIndexEvent(e) {
+      if (e.currentIndex['index'] == -1) {
+        return;
+      }
+      ;
       this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
       this.currentWeekDate = this.getNowFormatDate(new Date(this.currentWeekXaxisArr[e.currentIndex['index']]), 2);
       // 获取离、回家天数据详情
@@ -432,6 +442,10 @@ var _default = {
     },
     // 获取月数据当前点击索引
     getMonthIndexEvent: function getMonthIndexEvent(e) {
+      if (e.currentIndex['index'] == -1) {
+        return;
+      }
+      ;
       this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
       this.currentMonthDate = this.getNowFormatDate(new Date(this.currentMonthXaxisArr[e.currentIndex['index']]), 2);
       // 获取离、回家天数据详情
@@ -702,7 +716,7 @@ var _default = {
         }
       }).catch(function (err) {
         _this.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });
@@ -1089,7 +1103,7 @@ var _default = {
       }).catch(function (err) {
         _this2.showLoadingHint = false;
         _this2.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });

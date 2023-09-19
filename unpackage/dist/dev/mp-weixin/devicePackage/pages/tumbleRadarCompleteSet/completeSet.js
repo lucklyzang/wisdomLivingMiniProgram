@@ -202,7 +202,7 @@ var _default = {
       alarmRangeValue: '',
       acceptAlarmMethod: '',
       // acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
-      acceptAlarmMethodList: ['不通知', '仅短信通知'],
+      acceptAlarmMethodList: ['不通知', '短信通知'],
       wifiListBoxShow: false,
       alarmRangeValueList: [],
       enter: false,
@@ -250,7 +250,7 @@ var _default = {
         case '不通知':
           return 0;
           break;
-        case '仅短信通知':
+        case '短信通知':
           return 1;
           break;
         case '仅电话通知':
@@ -272,7 +272,7 @@ var _default = {
           return '不通知';
           break;
         case '1':
-          return '仅短信通知';
+          return '短信通知';
           break;
         case '2':
           return '仅电话通知';
@@ -361,13 +361,12 @@ var _default = {
             _this2.fall = false;
           }
           ;
-          if (res.data.data.getUp) {
-            _this2.getUp = true;
-            _this2.alarmRangeValueList.push('起身报警');
-          } else {
-            _this2.getUp = false;
-          }
-          ;
+          // if (res.data.data.getUp) {
+          // 	this.getUp = true;
+          // 	this.alarmRangeValueList.push('起身报警')
+          // } else {
+          // 	this.getUp = false
+          // };
           _this2.alarmRangeValue = _this2.alarmRangeValueList.join("、");
           _this2.deviceSetBasicMessage = res.data.data;
           // 回显保存的报警范围设置信息
@@ -438,13 +437,12 @@ var _default = {
         this.fall = false;
       }
       ;
-      if (this.beforeAddDeviceMessage.getUp) {
-        this.getUp = true;
-        this.alarmRangeValueList.push('起身报警');
-      } else {
-        this.getUp = false;
-      }
-      ;
+      // if (this.beforeAddDeviceMessage.getUp) {
+      // 	this.getUp = true;
+      // 	this.alarmRangeValueList.push('起身报警')
+      // } else {
+      // 	this.getUp = false
+      // };
       this.alarmRangeValue = this.alarmRangeValueList.join("、");
       this.deviceSetBasicMessage = this.beforeAddDeviceMessage;
     },

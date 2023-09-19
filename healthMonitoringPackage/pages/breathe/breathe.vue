@@ -28,7 +28,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getDayIndexEvent" v-if="dayChartData.isShow" type="area" :canvas2d="true" canvasId="abcdef123gh" :opts="breathDayOpts" :ontouch="true" :chartData="dayChartData['data']" />
+							<qiun-data-charts @getIndex="getDayIndexEvent" :inScrollView="true" v-if="dayChartData.isShow" type="area" :canvas2d="true" canvasId="abcdef123gh" :opts="breathDayOpts" :ontouch="true" :chartData="dayChartData['data']" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
@@ -47,7 +47,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="weekChartData.isShow" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdatef123gh" :opts="breathMonthOpts" :ontouch="true" :chartData="weekChartData['data']" />
+							<qiun-data-charts v-if="weekChartData.isShow" :inScrollView="true" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdatef123gh" :opts="breathWeekOpts" :ontouch="true" :chartData="weekChartData['data']" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
@@ -66,7 +66,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="monthChartData.isShow" type="column" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcdghhjjsatef123gh" :opts="breathMonthOpts" :ontouch="true" :chartData="monthChartData['data']" />
+							<qiun-data-charts v-if="monthChartData.isShow" :inScrollView="true" type="column" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcdghhjjsatef123gh" :opts="breathMonthOpts" :ontouch="true" :chartData="monthChartData['data']" />
 						</view>
 					</view>
 				</view>
@@ -146,6 +146,10 @@
 				initWeekDate: '',
 				currentMonthDate: '',
 				currentMonthDays: '',
+				currentWeekXaxisArr: [],
+				currentWeekYaxisArr: [],
+				currentMonthXaxisArr: [],
+				currentMonthYaxisArr: [],
 				initMonthDate: '',
 				weekMap: {},
 				dayChartData: {
@@ -166,22 +170,21 @@
 				breathDayOpts: {
 					dataLabel: true,
 					color: ["#1890FF"],
-					padding: [10,10,10,10],
+					padding: [20,10,10,10],
 					enableScroll: true,
 					dataPointShapeType: 'hollow',
 					legend: { show: false },
 					xAxis: {
 						itemCount: 9,
+						scrollShow: true,
 						axisLine: false
 					},
 					yAxis: {
 						gridType: "solid",
 						dashLength: 2,
-						 data: [
-							 {
-								 min: 0
-							 }
-						 ]
+						splitNumber: 4,
+						data: [
+						]
 					},
 					extra: {
 						tooltip: {
@@ -209,10 +212,11 @@
 						axisLine: false
 					},
 					yAxis: {
-						splitNumber: 5,
 						gridType: "solid",
 						dashLength: 2,
-						data: []
+						splitNumber: 4,
+						data: [
+						]
 					},
 					extra: {
 						tooltip: {
@@ -235,13 +239,15 @@
 					enableScroll: true,
 					xAxis: {
 						itemCount: 7,
+						scrollShow: true,
 						axisLine: false
 					},
 					yAxis: {
-						splitNumber: 5,
+						splitNumber: 4,
 						gridType: "solid",
 						dashLength: 2,
-						data: []
+						data: [
+						]
 					},
 					extra: {
 						tooltip: {
@@ -333,17 +339,29 @@
 			
 			// 获取日数据当前点击索引
 			getDayIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
 				this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
 				this.initDayText = this.dayChartData['data']['series'][0]['data'][e.currentIndex['index']];
 			},
 			
 			// 获取周数据当前点击索引
 			getWeekIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
+				this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
+				this.initWeekText = `${Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['breathMinValue'])}-${Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['breathMaxValue'])}`;
+				this.lowest = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['breathMinValue']);
+				this.highest = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['breathMaxValue']);
+				this.average = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['breathAverage'])
 			},
 			
 			// 获取月数据当前点击索引
 			getMonthIndexEvent (e) {
-			
+				if (e.currentIndex['index'] == -1) { return };
+				this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
+				this.initMonthText = `${Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['breathMinValue'])}-${Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['breathMaxValue'])}`;
+				this.lowest = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['breathMinValue']);
+				this.highest = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['breathMaxValue']);
+				this.average = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['breathAverage'])
 			},
 			
 			// 格式化时间
@@ -701,7 +719,7 @@
 							this.initDayText = Math.floor(questData.breath.timeList[0]['value']);
 							this.initDayTime = this.getNowFormatDate(new Date(questData.breath.timeList[0]['time']),1);
 							this.lowest = Math.floor(questData.breath.lowest);
-							this.highest = Math.floor(questData.breath.lowest);
+							this.highest = Math.floor(questData.breath.highest);
 							this.average = Math.floor(questData.breath.average);
 							this.dayChartData['isShow'] = true;
 							let temporaryData = {
@@ -730,7 +748,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -744,12 +762,16 @@
 				this.average = '';
 				if (type == 'week') {
 					this.initWeekText = '';
+					this.currentWeekXaxisArr = [];
+					this.currentWeekYaxisArr = [];
 					this.weekChartData = {
 						isShow: true,
 						data: {}
 					}
 				} else if (type == 'month') {
 					this.initMonthText = '';
+					this.currentMonthXaxisArr = [];
+					this.currentMonthYaxisArr = [];
 					this.monthChartData = {
 						isShow: true,
 						data: {}
@@ -767,9 +789,17 @@
 									data: {}
 								}
 							} else {
-								this.lowest = Math.floor(questData.breathMinValue);
-								this.highest = Math.floor(questData.breathMaxValue);
-								this.average = Math.floor(questData.breathAverage);
+								if (questData.respVOList[0]['startTime'] == this.currentStartWeekDate) {
+									this.initWeekText = `${Math.floor(questData.respVOList[0]['breathMinValue'])}-${Math.floor(questData.respVOList[0]['breathMaxValue'])}`;
+									this.lowest = Math.floor(questData.respVOList[0]['breathMinValue']);
+									this.highest = Math.floor(questData.respVOList[0]['breathMaxValue']);
+									this.average = Math.floor(questData.respVOList[0]['breathAverage'])
+								} else {
+									this.initWeekText = '-';
+									this.lowest = '-';
+									this.highest = '-';
+									this.average = '-';
+								};
 								this.weekChartData['isShow'] = true;
 								let temporaryData = {
 									categories: [],
@@ -783,13 +813,15 @@
 									]
 								};
 								questData.respVOList.forEach((item,index) => {
+									this.currentWeekYaxisArr.push(item);
+									this.currentWeekXaxisArr.push(item.startTime);
 									temporaryData['categories'].push(this.judgeWeek(item.createTime));
 									temporaryData['series'][0]['data'].push({
-										color: '#fff',
+										color: 'transparent',
 										value: Math.floor(item.breathMinValue)
 									});
 									temporaryData['series'][1]['data'].push({
-										color: '#F7A4B6',
+										color: '#1890FF',
 										value: Math.floor(item.breathMaxValue - item.breathMinValue)
 									})
 								});
@@ -806,9 +838,17 @@
 									data: {}
 								}
 							} else {
-								this.lowest = Math.floor(questData.breathMinValue);
-								this.highest = Math.floor(questData.breathMaxValue);
-								this.average = Math.floor(questData.breathAverage);
+								if (questData.respVOList[0]['startTime'] == `${this.currentMonthDate}-01`) {
+									this.initMonthText = `${Math.floor(questData.respVOList[0]['breathMinValue'])}-${Math.floor(questData.respVOList[0]['breathMaxValue'])}`;
+									this.lowest = Math.floor(questData.respVOList[0]['breathMinValue']);
+									this.highest = Math.floor(questData.respVOList[0]['breathMaxValue']);
+									this.average = Math.floor(questData.respVOList[0]['breathAverage']);
+								} else {
+									this.initMonthText = '-';
+									this.lowest = '-';
+									this.highest = '-';
+									this.average = '-';
+								};
 								this.monthChartData['isShow'] = true;
 								let temporaryData = {
 									categories: [],
@@ -822,13 +862,15 @@
 									]
 								};
 								questData.respVOList.forEach((item,index) => {
+									this.currentMonthYaxisArr.push(item);
+									this.currentMonthXaxisArr.push(item.startTime);
 									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.startTime),5));
 									temporaryData['series'][0]['data'].push({
-										color: '#fff',
+										color: 'transparent',
 										value: Math.floor(item.breathMinValue)
 									});
 									temporaryData['series'][1]['data'].push({
-										color: '#F7A4B6',
+										color: '#1890FF',
 										value: Math.floor(item.breathMaxValue - item.breathMinValue)
 									})
 								});
@@ -847,7 +889,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})

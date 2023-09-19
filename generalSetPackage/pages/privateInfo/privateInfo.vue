@@ -199,7 +199,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -230,7 +230,7 @@
 					 fail: err => {
 						this.showLoadingHint = false;
 						this.$refs.uToast.show({
-							title: err,
+							title: err.message,
 							type: 'error',
 							position: 'bottom'
 						})
@@ -293,7 +293,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -391,7 +391,7 @@
 					},
 					fail: function(err) {
 						that.$refs.uToast.show({
-							title: err,
+							title: err.message,
 							type: 'error',
 							position: 'bottom'
 						})

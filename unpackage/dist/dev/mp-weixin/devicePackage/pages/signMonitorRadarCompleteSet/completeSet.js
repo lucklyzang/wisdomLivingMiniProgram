@@ -202,7 +202,7 @@ var _default = {
       alarmRangeValue: '',
       acceptAlarmMethod: '',
       // acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
-      acceptAlarmMethodList: ['不通知', '仅短信通知'],
+      acceptAlarmMethodList: ['不通知', '短信通知'],
       wifiListBoxShow: false,
       alarmRangeValueList: [],
       heart: false,
@@ -253,7 +253,7 @@ var _default = {
         case '不通知':
           return 0;
           break;
-        case '仅短信通知':
+        case '短信通知':
           return 1;
           break;
         case '仅电话通知':
@@ -275,7 +275,7 @@ var _default = {
           return '不通知';
           break;
         case '1':
-          return '仅短信通知';
+          return '短信通知';
           break;
         case '2':
           return '仅电话通知';
@@ -360,20 +360,18 @@ var _default = {
             _this2.breathe = false;
           }
           ;
-          if (res.data.data.move) {
-            _this2.move = true;
-            _this2.alarmRangeValueList.push('体动检测报警');
-          } else {
-            _this2.move = false;
-          }
-          ;
-          if (res.data.data.sitUp) {
-            _this2.sitUp = true;
-            _this2.alarmRangeValueList.push('坐起检测报警');
-          } else {
-            _this2.sitUp = false;
-          }
-          ;
+          // if (res.data.data.move) {
+          // 	this.move = true;
+          // 	this.alarmRangeValueList.push('体动检测报警')
+          // } else {
+          // 	this.move = false;
+          // };
+          // if (res.data.data.sitUp) {
+          // 	this.sitUp = true;
+          // 	this.alarmRangeValueList.push('坐起检测报警')
+          // } else {
+          // 	this.sitUp = false
+          // };
           if (res.data.data.outBed) {
             _this2.outBed = true;
             _this2.alarmRangeValueList.push('离床检测报警');
@@ -400,7 +398,7 @@ var _default = {
       }).catch(function (err) {
         _this2.showLoadingHint = false;
         _this2.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });
@@ -408,6 +406,7 @@ var _default = {
     },
     // 回显报警范围设置页面设置的报警范围信息
     echoAlarmRanageMessage: function echoAlarmRanageMessage() {
+      console.log('进入回西安了', this.beforeAddSignMonitorRadarCompleteSet);
       this.alarmRangeValueList = [];
       if (this.beforeAddSignMonitorRadarCompleteSet.heart) {
         this.heart = true;
@@ -425,20 +424,18 @@ var _default = {
         this.breathe = false;
       }
       ;
-      if (this.beforeAddSignMonitorRadarCompleteSet.move) {
-        this.move = true;
-        this.alarmRangeValueList.push('体动检测报警');
-      } else {
-        this.move = false;
-      }
-      ;
-      if (this.beforeAddSignMonitorRadarCompleteSet.sitUp) {
-        this.sitUp = true;
-        this.alarmRangeValueList.push('坐起检测报警');
-      } else {
-        this.sitUp = false;
-      }
-      ;
+      // if (this.beforeAddSignMonitorRadarCompleteSet.move) {
+      // 	this.move = true;
+      // 	this.alarmRangeValueList.push('体动检测报警')
+      // } else {
+      // 	this.move = false;
+      // };
+      // if (this.beforeAddSignMonitorRadarCompleteSet.sitUp) {
+      // 	this.sitUp = true;
+      // 	this.alarmRangeValueList.push('坐起检测报警')
+      // } else {
+      // 	this.sitUp = false
+      // };
       if (this.beforeAddSignMonitorRadarCompleteSet.outBed) {
         this.outBed = true;
         this.alarmRangeValueList.push('离床检测报警');

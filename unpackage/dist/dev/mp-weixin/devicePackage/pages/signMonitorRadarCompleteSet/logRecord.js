@@ -251,7 +251,6 @@ var _default = {
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     scrolltolower: function scrolltolower() {
-      console.log('滚丝那');
       var totalPage = Math.ceil(this.totalCount / this.pageSize);
       if (this.currentPageNum >= totalPage) {
         this.status = 'nomore';
@@ -330,6 +329,8 @@ var _default = {
     querySignMonitorRadar: function querySignMonitorRadar(data, flag) {
       var _this = this;
       this.recordList = [];
+      this.breath = "";
+      this.heartRate = "";
       if (flag) {
         this.showLoadingHint = true;
       }
@@ -357,7 +358,7 @@ var _default = {
       }).catch(function (err) {
         _this.showLoadingHint = false;
         _this.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });

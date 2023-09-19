@@ -28,7 +28,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts @getIndex="getDayIndexEvent" v-if="dayChartData.isShow" type="area" :canvas2d="true" canvasId="abcdef123gh" :opts="heartDayOpts" :ontouch="true" :chartData="dayChartData['data']" />
+							<qiun-data-charts @getIndex="getDayIndexEvent" :inScrollView="true" v-if="dayChartData.isShow" type="area" :canvas2d="true" canvasId="abcdef123gh" :opts="heartDayOpts" :ontouch="true" :chartData="dayChartData['data']" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
@@ -47,7 +47,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts type="column" :canvas2d="true" v-if="weekChartData.isShow" @getIndex="getWeekIndexEvent" canvasId="abcdsatef123gh" :opts="heartWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+							<qiun-data-charts type="column" :inScrollView="true" :canvas2d="true" v-if="weekChartData.isShow" @getIndex="getWeekIndexEvent" canvasId="abcdsdfdatef123gh" :opts="heartWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
@@ -66,7 +66,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
-							<qiun-data-charts type="column" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcasdgdehhjjsatef123gh" :opts="heartMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
+							<qiun-data-charts type="column" :inScrollView="true" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="ab12casdgdehhjjsatef123gh" :opts="heartMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
 					</view>
 				</view>
@@ -106,7 +106,7 @@
 						<text>日间小憩</text>
 					</view>
 					<view class="daytime-nap-bottom">
-						<text>2小时30分</text>
+						<text>{{ daySleepTime }}</text>
 					</view>
 				</view>
 				<view class="health-tips">
@@ -147,8 +147,11 @@
 				}, {
 					name: '月'
 				}],
+				daySleepTime: '',
 				currentWeekXaxisArr: [],
+				currentWeekYaxisArr: [],
 				currentMonthXaxisArr: [],
+				currentMonthYaxisArr: [],
 				currentItem: 0,
 				dayChartData: {
 					isShow: true,
@@ -200,6 +203,7 @@
 					enableScroll: true,
 					xAxis: {
 						itemCount: 7,
+						scrollShow: true,
 						axisLine: false
 					},
 					yAxis: {
@@ -230,11 +234,12 @@
 				heartDayOpts: {
 					dataPointShape: false,
 					color: ["#ee4f74"],
-					padding: [10,10,10,10],
+					padding: [20,10,10,10],
 					enableScroll: true,
 					legend: { show: false },
 					xAxis: {
 						itemCount: 9,
+						scrollShow: true,
 						axisLine: false
 					},
 					yAxis: {
@@ -243,7 +248,7 @@
 						dashLength: 2,
 						 data: [
 							 {
-								 min: 0
+								 min: 40
 							 }
 						 ]
 					},
@@ -277,7 +282,6 @@
 			}
 		},
 		onLoad() {
-			this.getServerData();
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
@@ -317,45 +321,56 @@
 				'changeOverDueWay'
 			]),
 			
-			getServerData() {
-				//模拟从服务器获取数据时的延时
-				setTimeout(() => {
-					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-					let res = {
-						categories: ["周一","周二","周三","周四","周五","周六","周日"],
-						 series: [
-						   {
-						     data: [{value: 10,color: '#fff'},{value: 20,color: '#fff'},{value: 14,color: '#fff'},
-									{value: 13,color: '#fff'},{value: 15,color: '#fff'},{value: 16,color: '#fff'},
-									{value: 8,color: '#fff'}
-								 ]
-						   },
-							 {
-							   data: [{value: 50,color: '#F7A4B6'},{value: 60,color: '#F7A4B6'},{value: 55,color: '#F7A4B6'},
-									{value: 90,color: '#F7A4B6'},{value: 80,color: '#F7A4B6'},{value: 70,color: '#F7A4B6'},
-									{value: 65,color: '#F7A4B6'}
-								 ]
-							 }
-						 ]
-						};
-					this.chartWeekData = JSON.parse(JSON.stringify(res));
-					console.log('拼接数据',this.chartWeekData);
-				}, 500)
-			},
-			
 			// 获取日数据当前点击索引
 			getDayIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
 				this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
 				this.initDayText = this.dayChartData['data']['series'][0]['data'][e.currentIndex['index']];
 			},
 			
 			// 获取周数据当前点击索引
 			getWeekIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
+				this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
+				this.initWeekText = `${Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartMinValue'])}-${Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartMaxValue'])}`;
+				this.lowest = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartMinValue']);
+				this.highest = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartMaxValue']);
+				this.average = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartAverage']);
+				this.quietness = Math.floor(this.currentWeekYaxisArr[e.currentIndex['index']]['heartSilent']);
+				this.daySleepTime = this.minutesTransitionHour(this.currentWeekYaxisArr[e.currentIndex['index']]['sleepDayTime'])
 			},
 			
 			// 获取月数据当前点击索引
 			getMonthIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
+				this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
+				this.initMonthText = `${Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartMinValue'])}-${Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartMaxValue'])}`;
+				this.lowest = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartMinValue']);
+				this.highest = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartMaxValue']);
+				this.average = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartAverage']);
+				this.quietness = Math.floor(this.currentMonthYaxisArr[e.currentIndex['index']]['heartSilent']);
+				this.daySleepTime = this.minutesTransitionHour(this.currentMonthYaxisArr[e.currentIndex['index']]['sleepDayTime'])
+			},
 			
+			// 分钟转换成小时
+			minutesTransitionHour(min) {
+				if (min <= 0 || !min) {
+					return '0分钟'
+				};
+				let minTime = "";
+				let formatOne = '小时';
+				let formatTwo = '分钟';
+				let h = Math.floor(min / 60);
+				min -= h * 60;
+				if (min == 0) {
+					minTime = h ? "0" + h + ":00" : "";
+				} else {
+					if (min < 10) {
+						min = "0" + min;
+					};
+					minTime = (h ? h + formatOne : "") + (min ? min + formatTwo : "");
+				};
+				return minTime
 			},
 			
 			// 获取体征数据详情(日)
@@ -366,6 +381,7 @@
 				this.quietness = '';
 				this.initDayTime = '';
 				this.initDayText = '';
+				this.daySleepTime = '';
 				this.dayChartData = {
 					isShow: true,
 					data: {}
@@ -378,6 +394,7 @@
 						if ( JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
 							this.initDayTime = '-';
 							this.initDayText = '-';
+							this.daySleepTime = '-'
 							this.dayChartData = {
 								isShow: false,
 								data: {}
@@ -385,8 +402,9 @@
 						} else {
 							this.initDayText = Math.floor(questData.heart.timeList[0]['value']);
 							this.initDayTime = this.getNowFormatDate(new Date(questData.heart.timeList[0]['time']),1);
+							this.daySleepTime = this.minutesTransitionHour(questData.sleepVO['dayTime']);
 							this.lowest = Math.floor(questData.heart.lowest);
-							this.highest = Math.floor(questData.heart.lowest);
+							this.highest = Math.floor(questData.heart.highest);
 							this.average = Math.floor(questData.heart.average);
 							this.dayChartData['isShow'] = true;
 							let temporaryData = {
@@ -414,7 +432,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -427,14 +445,19 @@
 				this.highest = '';
 				this.average = '';
 				this.quietness = '';
+				this.daySleepTime = '';
 				if (type == 'week') {
 					this.initWeekText = '';
+					this.currentWeekXaxisArr = [];
+					this.currentWeekYaxisArr = [];
 					this.weekChartData = {
 						isShow: true,
 						data: {}
 					}
 				} else if (type == 'month') {
 					this.initMonthText = '';
+					this.currentMonthXaxisArr = [];
+					this.currentMonthYaxisArr = [];
 					this.monthChartData = {
 						isShow: true,
 						data: {}
@@ -447,15 +470,27 @@
 							this.weekChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initWeekText = '-';
+								this.daySleepTime = '-';
 								this.weekChartData = {
 									isShow: false,
 									data: {}
 								}
 							} else {
-								this.lowest = Math.floor(questData.heartMinValue);
-								this.highest = Math.floor(questData.heartMaxValue);
-								this.average = Math.floor(questData.heartAverage);
-								this.quietness = Math.floor(questData.heartSilent);
+								if (questData.respVOList[0]['startTime'] == this.currentStartWeekDate) {
+									this.daySleepTime = this.minutesTransitionHour(questData.respVOList[0]['sleepDayTime']);
+									this.initWeekText = `${Math.floor(questData.respVOList[0]['heartMinValue'])}-${Math.floor(questData.respVOList[0]['heartMaxValue'])}`;
+									this.lowest = Math.floor(questData.respVOList[0]['heartMinValue']);
+									this.highest = Math.floor(questData.respVOList[0]['heartMaxValue']);
+									this.average = Math.floor(questData.respVOList[0]['heartAverage']);
+									this.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
+								} else {
+									this.initWeekText = '-';
+									this.initMonthText = '-';
+									this.daySleepTime = '-';
+									this.quietness = '-';
+									this.lowest = '-';
+									this.highest = '-';
+								};
 								this.weekChartData['isShow'] = true;
 								let temporaryData = {
 									categories: [],
@@ -469,9 +504,11 @@
 									]
 								};
 								questData.respVOList.forEach((item,index) => {
+									this.currentWeekYaxisArr.push(item);
+									this.currentWeekXaxisArr.push(item.startTime);
 									temporaryData['categories'].push(this.judgeWeek(item.createTime));
 									temporaryData['series'][0]['data'].push({
-										color: '#fff',
+										color: 'transparent',
 										value: Math.floor(item.heartMinValue)
 									});
 									temporaryData['series'][1]['data'].push({
@@ -487,15 +524,26 @@
 							this.monthChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initMonthText = '-';
+								this.daySleepTime = '-';
 								this.monthChartData = {
 									isShow: false,
 									data: {}
 								}
 							} else {
-								this.lowest = Math.floor(questData.heartMinValue);
-								this.highest = Math.floor(questData.heartMaxValue);
-								this.average = Math.floor(questData.heartAverage);
-								this.quietness = Math.floor(questData.heartSilent);
+								if (questData.respVOList[0]['startTime'] == `${this.currentMonthDate}-01`) {
+									this.daySleepTime = this.minutesTransitionHour(questData.respVOList[0]['sleepDayTime']);
+									this.initMonthText = `${Math.floor(questData.respVOList[0]['heartMinValue'])}-${Math.floor(questData.respVOList[0]['heartMaxValue'])}`;
+									this.lowest = Math.floor(questData.respVOList[0]['heartMinValue']);
+									this.highest = Math.floor(questData.respVOList[0]['heartMaxValue']);
+									this.average = Math.floor(questData.respVOList[0]['heartAverage']);
+									this.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
+								} else {
+									this.initMonthText = '-';
+									this.initMonthText = '-';
+									this.lowest = '-';
+									this.daySleepTime = '-';
+									this.highest = '-';
+								};
 								this.monthChartData['isShow'] = true;
 								let temporaryData = {
 									categories: [],
@@ -509,9 +557,11 @@
 									]
 								};
 								questData.respVOList.forEach((item,index) => {
+									this.currentMonthYaxisArr.push(item);
+									this.currentMonthXaxisArr.push(item.startTime);
 									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.startTime),5));
 									temporaryData['series'][0]['data'].push({
-										color: '#fff',
+										color: 'transparent',
 										value: Math.floor(item.heartMinValue)
 									});
 									temporaryData['series'][1]['data'].push({
@@ -533,7 +583,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})

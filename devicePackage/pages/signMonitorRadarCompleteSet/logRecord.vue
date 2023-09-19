@@ -6,7 +6,7 @@
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" @backClick="backTo">
 				<slot name="default">
-					<text>日志</text>
+					<text>体征监测雷达</text>
 					<u-icon name="calendar-fill" color="#101010" size="45" @click="dateIconClickEvent"></u-icon>
 				</slot>
 			</nav-bar> 
@@ -43,11 +43,11 @@
 								<text>{{ getNowFormatDate(new Date(item.time),4) }}</text>
 								<text>>>></text>
 							</view>
-							<view class="log-list-right" v-if="item.hasPeople == $attrs">
+							<view class="log-list-right" v-if="item.hasPeople == 1">
 								<text>呼吸</text>
-								<text>{{ `${item.breath}次/分` }}</text>
+								<text :class="{'textStyleOne' : item.breath >= 25}">{{ `${item.breath}次/分` }}</text>
 								<text>心跳</text>
-								<text>{{ `${item.heart}次/分` }}</text>
+								<text :class="{'textStyleTwo' : item.heart >= 130}">{{ `${item.heart}次/分` }}</text>
 							</view>
 							<view class="log-list-right" v-else>
 								<text>未检测到人体</text>
@@ -128,7 +128,6 @@
 			]),
 			
 			scrolltolower () {
-				console.log('滚丝那');
 				let totalPage = Math.ceil(this.totalCount/this.pageSize);
 				if (this.currentPageNum >= totalPage) {
 					this.status = 'nomore'
@@ -202,6 +201,8 @@
 			// 获取人体检测雷达日志
 			querySignMonitorRadar (data,flag) {
 				this.recordList = [];
+				this.breath = "";
+				this.heartRate = "";
 				if (flag) {
 						this.showLoadingHint = true
 				};
@@ -229,7 +230,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -375,14 +376,22 @@
 							}
 						};
 						.log-list-right {
+							.textStyleOne {
+								color: #b90019 !important
+							};
+							.textStyleTwo {
+								color: #E86F50 !important
+							};
 							>text {
 								font-size: 14px;
 								color: #101010;
 								&:nth-child(2) {
+									margin: 0 4px;
 									color: #289E8E
 								};
 								&:nth-child(4) {
-									color: #3B9DF9
+									color: #3B9DF9;
+									margin-left: 4px
 								}
 							}
 						}

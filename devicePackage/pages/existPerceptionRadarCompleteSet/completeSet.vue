@@ -105,7 +105,7 @@
 				alarmRangeValue: '',
 				acceptAlarmMethod: '',
 				// acceptAlarmMethodList: ['不通知','仅短信通知','仅电话通知','电话+短信'],
-				acceptAlarmMethodList: ['不通知','仅短信通知'],
+				acceptAlarmMethodList: ['不通知','短信通知'],
 				wifiListBoxShow: false,
 				cceptAlarmMethodBoxShow: false,
 				alarmRangeValueList: [],
@@ -168,7 +168,7 @@
 						case '不通知' :
 							return 0
 							break;
-						case '仅短信通知' :
+						case '短信通知' :
 							return 1
 							break;
 						case '仅电话通知' :
@@ -191,7 +191,7 @@
 							return '不通知'
 							break;
 						case '1' :
-							return '仅短信通知'
+							return '短信通知'
 							break;
 						case '2' :
 							return '仅电话通知'
@@ -266,13 +266,13 @@
 						} else {
 							this.stop = false
 						};
-						if (res.data.data.nobody) {
-							this.nobody = true;
-							this.nobodyTime = res.data.data.nobodyTime
-							this.alarmRangeValueList.push('无人报警')
-						} else {
-							this.nobody = false
-						};
+						// if (res.data.data.nobody) {
+						// 	this.nobody = true;
+						// 	this.nobodyTime = res.data.data.nobodyTime
+						// 	this.alarmRangeValueList.push('无人报警')
+						// } else {
+						// 	this.nobody = false
+						// };
 						this.alarmRangeValue = this.alarmRangeValueList.join("、");
 						this.deviceSetBasicMessage = res.data.data;
 						// 回显保存的报警范围设置信息
@@ -291,7 +291,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -320,13 +320,13 @@
 				} else {
 					this.stop = false
 				};
-				if (this.beforeAddExistPerceptionRadarCompleteSet.nobody) {
-					this.nobody = true;
-					this.nobodyTime = this.beforeAddExistPerceptionRadarCompleteSet.nobodyTime
-					this.alarmRangeValueList.push('无人报警')
-				} else {
-					this.nobody = false
-				};
+				// if (this.beforeAddExistPerceptionRadarCompleteSet.nobody) {
+				// 	this.nobody = true;
+				// 	this.nobodyTime = this.beforeAddExistPerceptionRadarCompleteSet.nobodyTime
+				// 	this.alarmRangeValueList.push('无人报警')
+				// } else {
+				// 	this.nobody = false
+				// };
 				this.alarmRangeValue = this.alarmRangeValueList.join("、");
 				this.deviceSetBasicMessage = this.beforeAddExistPerceptionRadarCompleteSet
 			},

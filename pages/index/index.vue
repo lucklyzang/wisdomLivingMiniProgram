@@ -223,7 +223,7 @@
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="leaveHomeIconPng"></image>
-								<text>最近离家时间</text>
+								<text v-if="sceneDataList[item.id]['isShow']">最近离家时间</text>
 								<text v-if="sceneDataList[item.id]['isShow']">{{ getNowFormatDate(sceneDataList[item.id]['lastGoOut'],3) }}</text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('离家和回家',item)">
@@ -298,11 +298,12 @@
 				breatheOpts: {
 					color: ["#1890FF"],
 					dataPointShapeType: 'hollow',
-					padding: [15,10,0,0],
+					padding: [20,10,10,0],
 					enableScroll: true,
 					legend: { show: false },
 					xAxis: {
 						disableGrid: true,
+						scrollShow: true,
 						itemCount: 8
 					},
 					yAxis: {
@@ -318,10 +319,11 @@
 				leaveHomeOpts: {
 					color: ["#F2A15F","#289E8E"],
 					dataLabel: false,
-					padding: [15,10,0,15],
+					padding: [20,10,10,15],
 					enableScroll: true,
 					xAxis: {
 						boundaryGap: "justify",
+						scrollShow: true,
 						disableGrid: true,
 						itemCount: 8
 					},
@@ -366,10 +368,12 @@
 				heartOpts: {
 					dataPointShape: false,
 					color: ["#ee4f74"],
+					padding: [20,15,10,20],
 					enableScroll: true,
 					legend: { show: false },
 					xAxis: {
 						boundaryGap: "justify",
+						scrollShow: true,
 						itemCount: 9,
 						disableGrid: true
 					},
@@ -378,7 +382,9 @@
 						disableGrid: true,
 						gridType: "dash",
 						dashLength: 2,
-						 data: []
+						 data: [{
+							 min: 40
+						 }]
 					},
 					extra: {
 						tooltip: {
@@ -578,7 +584,6 @@
 						if ( JSON.stringify(res.data.data) == '{}' || questData.sleepVO.sleepOrWeekVOS.length == 0) {
 							this.$set(this.sceneDataList[cardId]['sleep'],'isShowNoData',true)
 						} else {
-							console.log('睡眠信息',questData.sleepVO);
 							let nightSleepDuration = 	Math.ceil(this.msToMinutes(questData.sleepVO['end'] - questData.sleepVO['start']));
 							let temporaryDataArr = questData.sleepVO.sleepOrWeekVOS.filter((item) => { return item.type == 0});
 							if (temporaryDataArr.length == 0) {
@@ -644,7 +649,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -655,6 +660,10 @@
 			queryLeaveHomeDetails (data,cardId) {
 				enterLeaveHomeDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
+						if (res.data.data.length == 0) {
+							this.$set(this.sceneDataList[cardId],'isShowNoData',true);
+							return
+						};
 						let questData = res.data.data[0]['ruleDataVO'];
 						if (questData.length == 0) {
 							this.$set(this.sceneDataList[cardId],'isShowNoData',true);
@@ -700,7 +709,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -734,7 +743,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -767,7 +776,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -820,20 +829,20 @@
 				})
 			},
 			
-			// 为绑定设备的场景请求设备统计日数据(睡眠场景)this.getNowFormatDate(new Date(),1)
+			// 为绑定设备的场景请求设备统计日数据(睡眠场景)
 			requestSleepDeviceStatisticsData (deviceIdList,cardId) {
 				this.querySleepDayDataList({
 					deviceId: deviceIdList,
-					startDate: '2023-09-06'
+					startDate: this.getNowFormatDate(new Date(),1)
 				},cardId)
 			},
 			
-			// 为绑定设备的场景请求设备统计日数据(离、回家场景)this.getNowFormatDate(new Date(),1)
+			// 为绑定设备的场景请求设备统计日数据(离、回家场景)
 			requestEnterLeaveHomeDetails (deviceIdList,cardId) {
 				this.queryLeaveHomeDetails({
 					deviceId: deviceIdList,
-					startDate: '2023-09-06',
-					endDate: '2023-09-06'
+					startDate: this.getNowFormatDate(new Date(),1),
+					endDate: this.getNowFormatDate(new Date(),1)
 				},cardId)
 			},
 			

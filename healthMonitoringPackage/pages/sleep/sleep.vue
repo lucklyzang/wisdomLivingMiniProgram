@@ -28,7 +28,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="dayChartData.isShow" type="bar" canvasId="abc1fgfgfdshdjshd3" :ontouch="true" :opts="sleepDayOpts" :chartData="dayChartData.data" />
+							<qiun-data-charts v-if="dayChartData.isShow" :inScrollView="true" type="bar" canvasId="abc1fgfgfdshdjshd3" :ontouch="true" :opts="sleepDayOpts" :chartData="dayChartData.data" />
 						</view>
 						<view class="sleep-range" v-if="dayChartData['isShow']">
 							<view class="sleep-range-left">
@@ -40,7 +40,7 @@
 								<text>{{ `醒来${dayChartData['sleepEndTime']}` }}</text>
 							</view>
 						</view>
-						<view class="icon-bar">
+						<view class="icon-bar" v-if="dayChartData.isShow">
 							<view>
 								<text></text>
 								<text>睡眠</text>
@@ -74,9 +74,9 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="weekChartData.isShow" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdssa12atef123gh" :opts="sleepWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+							<qiun-data-charts v-if="weekChartData.isShow" :inScrollView="true" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdssa12atef123gh" :opts="sleepWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
 						</view>
-						<view class="icon-bar">
+						<view class="icon-bar" v-if="weekChartData.isShow">
 							<view>
 								<text></text>
 								<text>睡眠</text>
@@ -109,10 +109,10 @@
 							</view>
 						</view>
 						<view class="data-bottom">
-								<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
-							<qiun-data-charts type="column" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" canvasId="abcsdghdsdsbdfdgsatef123gh" :opts="sleepMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
+							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
+							<qiun-data-charts type="column" :inScrollView="true" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" canvasId="abcsdghdsdsbdfdgsatef123gh" :opts="sleepMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
-						<view class="icon-bar">
+						<view class="icon-bar" v-if="monthChartData.isShow">
 							<view>
 								<text></text>
 								<text>睡眠</text>
@@ -250,6 +250,7 @@
 					legend: { show: false },
 					xAxis: {
 						itemCount: 7,
+						scrollShow: true,
 						axisLine: false
 					},
 					yAxis: {
@@ -289,6 +290,10 @@
 				currentMonthDays: '',
 				initMonthDate: '',
 				weekMap: {},
+				currentWeekXaxisArr: [],
+				currentWeekYaxisArr: [],
+				currentMonthXaxisArr: [],
+				currentMonthYaxisArr: [],
 				temporaryDevices: []
 			}
 		},
@@ -339,11 +344,20 @@
 			
 			// 获取周数据当前点击索引
 			getWeekIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
+				this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
+				this.initWeekText = this.minutesTransitionHour(JSON.parse(this.currentWeekYaxisArr[e.currentIndex['index']]['sleepData'])[0]);
+				this.daySleepTime = this.minutesTransitionHour(this.currentWeekYaxisArr[e.currentIndex['index']]['sleepDayTime']);
+				this.daySleepTimeQuantum = this.daySleepTime == '0分钟' ? '' : `${this.getNowFormatDate(new Date(this.currentWeekYaxisArr[e.currentIndex['index']]['dayStart']),1)}-${this.getNowFormatDate(new Date(this.currentWeekYaxisArr[e.currentIndex['index']]['dayEnd']),1)}`;
 			},
 			
 			// 获取月数据当前点击索引
 			getMonthIndexEvent (e) {
-			
+				if (e.currentIndex['index'] == -1) { return };
+				this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
+				this.initMonthText = this.minutesTransitionHour(JSON.parse(this.currentMonthYaxisArr[e.currentIndex['index']]['sleepData'])[0]);
+				this.daySleepTime = this.minutesTransitionHour(this.currentMonthYaxisArr[e.currentIndex['index']]['sleepDayTime']);
+				this.daySleepTimeQuantum = this.daySleepTime == '0分钟' ? '' : `${this.getNowFormatDate(new Date(this.currentMonthYaxisArr[e.currentIndex['index']]['dayStart']),1)}-${this.getNowFormatDate(new Date(this.currentMonthYaxisArr[e.currentIndex['index']]['dayEnd']),1)}`;
 			},
 			
 			// 毫秒转换成分钟
@@ -397,9 +411,8 @@
 								};
 								return
 							};
-							console.log('数据睡眠',questData.sleepVO);
-							this.daySleepTimeQuantum = `${this.getNowFormatDate(new Date(questData.sleepVO['dayStart']),1)}-${this.getNowFormatDate(new Date(questData.sleepVO['dayEnd']),1)}`;
 							this.daySleepTime = this.minutesTransitionHour(questData.sleepVO['dayTime']);
+							this.daySleepTimeQuantum = this.daySleepTime == '0分钟' ? "" : `${this.getNowFormatDate(new Date(questData.sleepVO['dayStart']),1)}-${this.getNowFormatDate(new Date(questData.sleepVO['dayEnd']),1)}`;
 							this.initDayText = this.minutesTransitionHour(questData.sleepVO['totalTime'] - questData.sleepVO['dayTime']);
 							this.dayChartData['isShow'] = true;
 							let temporaryData = {
@@ -457,7 +470,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -466,13 +479,19 @@
 			
 			// 获取体征数据详情(周月)
 			querySleepStatisticsDetailsOther (data,type) {
+				this.daySleepTimeQuantum = '';
+				this.daySleepTime = '';
 				if (type == 'week') {
+					this.currentWeekXaxisArr = [];
+					this.currentWeekYaxisArr = [];
 					this.initWeekText = '';
 					this.weekChartData = {
 						isShow: true,
 						data: {}
 					}
 				} else if (type == 'month') {
+					this.currentMonthXaxisArr = [];
+					this.currentMonthYaxisArr = [];
 					this.initMonthText = '';
 					this.monthChartData = {
 						isShow: true,
@@ -486,6 +505,8 @@
 							this.weekChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initWeekText = '-';
+								this.daySleepTimeQuantum = '-';
+								this.daySleepTime = '-';
 								this.weekChartData = {
 									isShow: false,
 									data: {}
@@ -493,13 +514,23 @@
 							} else {
 								if (questData['respVOList'].length == 0) {
 									this.initWeekText = '-';
+									this.daySleepTimeQuantum = '-';
+									this.daySleepTime = '-';
 									this.weekChartData = {
 										isShow: false,
 										data: {}
 									};
 									return
 								};
-								this.initDayText = this.minutesTransitionHour(JSON.parse(questData.respVOList[0]['sleepData'])[0]);
+								if (questData.respVOList[0]['startTime'] == this.currentStartWeekDate) {
+									this.daySleepTime = this.minutesTransitionHour(questData['respVOList'][0]['sleepDayTime']);
+									this.daySleepTimeQuantum = this.daySleepTime == '0分钟' ? "" : `${this.getNowFormatDate(new Date(questData['respVOList'][0]['dayStart']),1)}-${this.getNowFormatDate(new Date(questData['respVOList'][0]['dayEnd']),1)}`;
+									this.initWeekText = this.minutesTransitionHour(JSON.parse(questData.respVOList[0]['sleepData'])[0]);
+								} else {
+									this.initWeekText = '-';
+									this.daySleepTimeQuantum = '-';
+									this.daySleepTime = '-';
+								};
 								this.weekChartData['isShow'] = true;
 								let temporaryData = {
 									categories: [],
@@ -516,6 +547,8 @@
 									]
 								};
 								questData['respVOList'].forEach((item,index) => {
+									this.currentWeekYaxisArr.push(item);
+									this.currentWeekXaxisArr.push(item.startTime);
 									temporaryData['categories'].push(this.judgeWeek(item.createTime));
 									// sleepData-[睡眠时间, 清醒时间, 无人时间] 时间单位:分钟
 									let currentDayData = JSON.parse(item['sleepData']);
@@ -542,6 +575,8 @@
 							this.monthChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initMonthText = '-';
+								this.daySleepTimeQuantum = '-';
+								this.daySleepTime = '-';
 								this.monthChartData = {
 									isShow: false,
 									data: {}
@@ -549,13 +584,23 @@
 							} else {
 								if (questData['respVOList'].length == 0) {
 									this.initMonthText = '-';
+									this.daySleepTimeQuantum = '-';
+									this.daySleepTime = '-';
 									this.monthChartData = {
 										isShow: false,
 										data: {}
 									};
 									return
 								};
-								this.initDayText = this.minutesTransitionHour(JSON.parse(questData.respVOList[0]['sleepData'])[0]);
+								if (questData.respVOList[0]['startTime'] == this.currentStartWeekDate) {
+									this.daySleepTime = this.minutesTransitionHour(questData['respVOList'][0]['sleepDayTime']);
+									this.daySleepTimeQuantum = this.daySleepTime == '0分钟' ? "" : `${this.getNowFormatDate(new Date(questData['respVOList'][0]['dayStart']),1)}-${this.getNowFormatDate(new Date(questData['respVOList'][0]['dayEnd']),1)}`;
+									this.initMonthText = this.minutesTransitionHour(JSON.parse(questData.respVOList[0]['sleepData'])[0]);
+								} else {
+									this.initMonthText = '-';
+									this.daySleepTimeQuantum = '-';
+									this.daySleepTime = '-';
+								};
 								this.monthChartData['isShow'] = true;
 								let temporaryData = {
 									categories: [],
@@ -572,6 +617,8 @@
 									]
 								};
 								questData['respVOList'].forEach((item,index) => {
+									this.currentMonthYaxisArr.push(item);
+									this.currentMonthXaxisArr.push(item.startTime);
 									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.startTime),5));
 									// sleepData-[睡眠时间, 清醒时间, 无人时间] 时间单位:分钟
 									let currentDayData = JSON.parse(item['sleepData']);
@@ -604,7 +651,7 @@
 				})
 				.catch((err) => {
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})

@@ -6,7 +6,7 @@
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" @backClick="backTo">
 				<slot name="default">
-					<text>日志</text>
+					<text>人员存在感知雷达</text>
 					<u-icon name="calendar-fill" color="#101010" size="45" @click="dateIconClickEvent"></u-icon>
 				</slot>
 			</nav-bar> 
@@ -196,7 +196,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})

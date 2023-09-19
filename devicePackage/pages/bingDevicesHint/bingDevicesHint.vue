@@ -96,7 +96,7 @@
 					this.infoText = '绑定失败!';
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})

@@ -42,15 +42,15 @@
 						</view>
 					</view>
 				</view>
-				<view class="set-list">
+				<!-- <view class="set-list">
 					<view class="set-list-left">
 						<text>无人报警</text>
 					</view>
 					<view class="set-list-right">
 						<u-switch v-model="noPersonAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
 					</view>
-				</view>
-				<view class="person-retention-alarm-time-box">
+				</view> -->
+				<!-- <view class="person-retention-alarm-time-box">
 					<view class="person-retention-alarm-time-top">
 						<view class="person-retention-alarm-time-left">
 							<text>请先择无人多长时间开始报警</text>
@@ -74,7 +74,7 @@
 							<text>分钟</text>
 						</view>
 					</view>
-				</view>
+				</view> -->
 				<view class="set-list">
 					<view class="set-list-left">
 						<text>人员进入报警</text>
@@ -136,8 +136,8 @@
 			// 回显报警范围信息
 			this.personEnterAlarmValue = this.receiveData['enter'];
 			this.personLeaveAlarmValue = this.receiveData['leave'];
-			this.noPersonAlarmValue = this.receiveData['nobody'];
-			this.noPersonTimeValue = this.receiveData['nobodyTime'];
+			// this.noPersonAlarmValue = this.receiveData['nobody'];
+			// this.noPersonTimeValue = this.receiveData['nobodyTime'];
 			this.personRetentionAlarmValue = this.receiveData['stop'];
 			this.retentionTimeValue = this.receiveData['stopTime'];
 		},
@@ -201,24 +201,24 @@
 						return
 					}
 				};
-				if (this.noPersonAlarmValue) {
-					if (!this.noPersonTimeValue) {
-						this.$refs.uToast.show({
-							title: '无人报警时间不能为空,请重新输入!',
-							type: 'error',
-							position: 'bottom'
-						});
-						return
-					}
-				};	
+				// if (this.noPersonAlarmValue) {
+				// 	if (!this.noPersonTimeValue) {
+				// 		this.$refs.uToast.show({
+				// 			title: '无人报警时间不能为空,请重新输入!',
+				// 			type: 'error',
+				// 			position: 'bottom'
+				// 		});
+				// 		return
+				// 	}
+				// };	
 				this.$refs['ytoast'].show({ message: '保存成功!', type: 'success' });
 				// 保存进入设备设置界面的报警范围信息
 				let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
 				temporaryMessage['enter'] = this.personEnterAlarmValue;
 				temporaryMessage['leave'] = this.personLeaveAlarmValue;
-				temporaryMessage['nobody'] = this.noPersonAlarmValue;
+				// temporaryMessage['nobody'] = this.noPersonAlarmValue;
 				temporaryMessage['stop'] = this.personRetentionAlarmValue;
-				temporaryMessage['nobodyTime'] = this.noPersonTimeValue;
+				// temporaryMessage['nobodyTime'] = this.noPersonTimeValue;
 				temporaryMessage['stopTime'] = this.retentionTimeValue;
 				temporaryMessage['isSaveAlarmRanageInfo'] = true;
 				this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);

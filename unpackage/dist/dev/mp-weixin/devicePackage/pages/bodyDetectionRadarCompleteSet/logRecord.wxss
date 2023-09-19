@@ -84,20 +84,31 @@ page {
 }
 .content-box .content-area .log-list-wrapper .log-list {
   margin-bottom: 10px;
-  text-align: center;
+  display: flex;
 }
-.content-box .content-area .log-list-wrapper .log-list > text {
+.content-box .content-area .log-list-wrapper .log-list > view {
+  display: flex;
+  justify-content: flex-end;
+}
+.content-box .content-area .log-list-wrapper .log-list > view > text {
   font-size: 14px;
   color: #101010;
 }
-.content-box .content-area .log-list-wrapper .log-list > text:nth-child(2) {
+.content-box .content-area .log-list-wrapper .log-list .log-list-left {
+  width: 60%;
+}
+.content-box .content-area .log-list-wrapper .log-list .log-list-left > text:nth-child(2) {
   margin-left: 4px;
 }
-.content-box .content-area .log-list-wrapper .log-list > text:nth-child(3) {
+.content-box .content-area .log-list-wrapper .log-list .log-list-right {
+  width: 40%;
+  justify-content: flex-start;
+}
+.content-box .content-area .log-list-wrapper .log-list .log-list-right > text:nth-child(1) {
   margin: 0 10px;
   color: #289E8E;
 }
-.content-box .content-area .log-list-wrapper .log-list > text:last-child {
+.content-box .content-area .log-list-wrapper .log-list .log-list-right > text:last-child {
   color: #E86F50;
 }
 

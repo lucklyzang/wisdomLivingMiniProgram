@@ -224,7 +224,7 @@ var _default = {
         _this.infoText = '绑定失败!';
         _this.showLoadingHint = false;
         _this.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });

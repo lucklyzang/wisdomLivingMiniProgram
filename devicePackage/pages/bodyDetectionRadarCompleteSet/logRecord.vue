@@ -6,7 +6,7 @@
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" @backClick="backTo">
 				<slot name="default">
-					<text>日志</text>
+					<text>人体检测雷达</text>
 					<u-icon name="calendar-fill" color="#101010" size="45" @click="dateIconClickEvent"></u-icon>
 				</slot>
 			</nav-bar> 
@@ -16,10 +16,14 @@
 				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 					<view class="log-list" v-for="(item,index) in fullRecordList" :key="index">
-						<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
-						<text>>>></text>
-						<text>{{ `进: ${item.enter}` }}</text>
-						<text>{{ `出: ${item.goOut}` }}</text>
+						<view class="log-list-left">
+							<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+							<text>>>></text>
+						</view>
+						<view class="log-list-right">
+							<text>{{ `进: ${item.enter}` }}</text>
+							<text>{{ `出: ${item.goOut}` }}</text>
+						</view>
 					</view>
 					<u-loadmore :status="status" v-show="fullRecordList.length > 100" />
 				</scroll-view>
@@ -194,7 +198,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.$refs.uToast.show({
-						title: err,
+						title: err.message,
 						type: 'error',
 						position: 'bottom'
 					})
@@ -264,19 +268,34 @@
 				 };
 				.log-list {
 					margin-bottom: 10px;
-					text-align: center;
-					>text {
-						font-size: 14px;
-						color: #101010;
-						&:nth-child(2) {
-							margin-left: 4px
-						};
-						&:nth-child(3) {
-							margin: 0 10px;
-							color: #289E8E
-						};
-						&:last-child {
-							color: #E86F50
+					display: flex;
+					>view {
+						display: flex;
+						justify-content: flex-end;
+						>text {
+							font-size: 14px;
+							color: #101010;
+						}
+					};
+					.log-list-left {
+						width: 60%;
+						>text {
+							&:nth-child(2) {
+								margin-left: 4px
+							}
+						}
+					};
+					.log-list-right {
+						width: 40%;
+						justify-content: flex-start;
+						>text {
+							&:nth-child(1) {
+								margin: 0 10px;
+								color: #289E8E
+							};
+							&:last-child {
+								color: #E86F50
+							}
 						}
 					}
 				}
