@@ -252,6 +252,14 @@ var _default = {
         isShow: true,
         data: {}
       },
+      weekChartData: {
+        isShow: true,
+        data: {}
+      },
+      monthChartData: {
+        isShow: true,
+        data: {}
+      },
       lowest: '',
       highest: '',
       average: '',
@@ -353,20 +361,12 @@ var _default = {
       },
       initWeekText: '',
       initMonthText: '',
-      weekChartData: {
-        isShow: true,
-        data: {}
-      },
-      monthChartData: {
-        isShow: true,
-        data: {}
-      },
       temporaryDevices: [],
       lineChartData: {}
     };
   },
   onLoad: function onLoad() {
-    this.getServerData();
+    // this.getServerData();
     this.initDayTime = this.getNowFormatDate(new Date(), 1);
     this.currentDayTime = this.getNowFormatDate(new Date(), 2);
     var temporaryDate = this.getNowFormatDate(new Date(), 2);
@@ -965,7 +965,7 @@ var _default = {
                 }]
               };
               _questData.respVOList.forEach(function (item, index) {
-                _temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.createTime), 5));
+                _temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.startTime), 5));
                 _temporaryData['series'][0]['data'].push({
                   color: '#fff',
                   value: Math.floor(item.breathMinValue)
@@ -976,6 +976,7 @@ var _default = {
                 });
               });
               var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
+              console.log('月数据', _temporaryContent);
               _this3.monthChartData['data'] = _temporaryContent;
             }
           }

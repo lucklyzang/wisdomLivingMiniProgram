@@ -46,8 +46,8 @@
 							</view>
 						</view>
 						<view class="data-bottom">
-							<!-- 	<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty> -->
-							<qiun-data-charts type="column" @getIndex="getWeekIndexEvent" canvasId="abcdatef123gh" :opts="breathMonthOpts" :ontouch="true" :chartData="chartWeekData" />
+							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
+							<qiun-data-charts v-if="weekChartData.isShow" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdatef123gh" :opts="breathMonthOpts" :ontouch="true" :chartData="weekChartData['data']" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
@@ -65,8 +65,8 @@
 							</view>
 						</view>
 						<view class="data-bottom">
-							<!-- 	<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty> -->
-							<qiun-data-charts type="column" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcdghhjjsatef123gh" :opts="breathMonthOpts" :ontouch="true" :chartData="chartWeekData" />
+							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
+							<qiun-data-charts v-if="monthChartData.isShow" type="column" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcdghhjjsatef123gh" :opts="breathMonthOpts" :ontouch="true" :chartData="monthChartData['data']" />
 						</view>
 					</view>
 				</view>
@@ -149,6 +149,14 @@
 				initMonthDate: '',
 				weekMap: {},
 				dayChartData: {
+					isShow: true,
+					data: {}
+				},
+				weekChartData: {
+					isShow: true,
+					data: {}
+				},
+				monthChartData: {
 					isShow: true,
 					data: {}
 				},
@@ -249,21 +257,13 @@
 				},
 				initWeekText: '',
 				initMonthText: '',
-				weekChartData: {
-					isShow: true,
-					data: {}
-				},
-				monthChartData: {
-					isShow: true,
-					data: {}
-				},
 				temporaryDevices: [],
 				lineChartData: {}
 			}
 		},
 		
 		onLoad() {
-			this.getServerData();
+			// this.getServerData();
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
@@ -778,7 +778,7 @@
 										  data: []
 										},
 										{
-											data: []
+										  data: []
 										}
 									]
 								};
@@ -817,12 +817,12 @@
 										  data: []
 										},
 										{
-											data: []
+										  data: []
 										}
 									]
 								};
 								questData.respVOList.forEach((item,index) => {
-									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.createTime),5));
+									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.startTime),5));
 									temporaryData['series'][0]['data'].push({
 										color: '#fff',
 										value: Math.floor(item.breathMinValue)
@@ -833,6 +833,7 @@
 									})
 								});
 								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								console.log('月数据',temporaryContent);
 								this.monthChartData['data'] = temporaryContent
 							}	
 						}

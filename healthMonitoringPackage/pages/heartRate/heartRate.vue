@@ -47,7 +47,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts type="column" v-if="weekChartData.isShow" @getIndex="getWeekIndexEvent" canvasId="abcdsatef123gh" :opts="heartWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+							<qiun-data-charts type="column" :canvas2d="true" v-if="weekChartData.isShow" @getIndex="getWeekIndexEvent" canvasId="abcdsatef123gh" :opts="heartWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
@@ -65,7 +65,7 @@
 							</view>
 						</view>
 						<view class="data-bottom">
-								<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
+							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
 							<qiun-data-charts type="column" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" :canvas2d="true" canvasId="abcasdgdehhjjsatef123gh" :opts="heartMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
 					</view>
@@ -509,7 +509,7 @@
 									]
 								};
 								questData.respVOList.forEach((item,index) => {
-									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.createTime),5));
+									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.startTime),5));
 									temporaryData['series'][0]['data'].push({
 										color: '#fff',
 										value: Math.floor(item.heartMinValue)

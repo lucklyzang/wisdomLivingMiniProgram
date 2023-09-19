@@ -617,7 +617,7 @@ var _default = {
                 }]
               };
               _questData.respVOList.forEach(function (item, index) {
-                _temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.createTime), 5));
+                _temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.startTime), 5));
                 _temporaryData['series'][0]['data'].push({
                   color: '#fff',
                   value: Math.floor(item.heartMinValue)
