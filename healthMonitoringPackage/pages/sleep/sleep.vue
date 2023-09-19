@@ -293,10 +293,6 @@
 			}
 		},
 		onLoad() {
-<<<<<<< HEAD
-=======
-			this.getServerData();
->>>>>>> 090e251399ec0a8a3b3e5ee09daf4f15ffb4e0b7
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
