@@ -39,6 +39,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import { getBodyDetectionRadar } from '@/api/device.js'
+	import { createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -62,10 +63,12 @@
 				currentDate: '',
 				isShowNoHomeNoData: false,
 				showLoadingHint: false,
-				moreIconPng: require("@/static/img/more-icon.png")
+				moreIconPng: require("@/static/img/more-icon.png"),
+				visitPageId: ''
 			}
 		},
 		onLoad() {
+			this.createVisitPage();
 			this.currentDate = this.getNowFormatDate(new Date(),2)
 			this.queryBodyDetectionRadar({
 				pageNo: this.currentPageNum,
@@ -73,6 +76,12 @@
 				deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
 				createDate: this.currentDate
 			},true)
+		},
+		destroyed () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
 		},
 		computed: {
 			...mapGetters([
@@ -97,6 +106,30 @@
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 创建页面访问数据
+			createVisitPage () {
+				createVisitPageData({
+					pageName: "设备-人体检测雷达日志",
+					pageKey: "bodyDetectionRadarLogRecord"
+				}).then((res) => {
+					if (res && res.data.code == 0) {
+						this.visitPageId = res.data.data
+					}
+				})
+				.catch((err) => {
+				})
+			},
+			
+			// 退出页面数据
+			exitPage () {
+				exitPageData(this.visitPageId).then((res) => {
+					if (res && res.data.code == 0) {
+					}
+				})
+				.catch((err) => {
+				})
+			},
 			
 			// 日期图标点击事件
 			dateIconClickEvent () {

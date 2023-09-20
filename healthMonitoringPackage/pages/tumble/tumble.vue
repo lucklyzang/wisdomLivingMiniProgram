@@ -97,6 +97,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -128,10 +129,12 @@
 				currentMonthDays: '',
 				initMonthDate: '',
 				weekMap: {},
-				temporaryDevices: []
+				temporaryDevices: [],
+				visitPageId: ''
 			}
 		},
 		onLoad() {
+			this.createVisitPage();
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
@@ -143,6 +146,12 @@
 			for (let el of this.deviceDataMessage.devices) {
 				this.temporaryDevices.push(el.device)
 			}
+		},
+		destroyed () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
 		},
 		computed: {
 			...mapGetters([
@@ -166,6 +175,30 @@
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 创建页面访问数据
+			createVisitPage () {
+				createVisitPageData({
+					pageName: "健康-跌倒详情(日周月)",
+					pageKey: "tumble"
+				}).then((res) => {
+					if (res && res.data.code == 0) {
+						this.visitPageId = res.data.data
+					}
+				})
+				.catch((err) => {
+				})
+			},
+			
+			// 退出页面数据
+			exitPage () {
+				exitPageData(this.visitPageId).then((res) => {
+					if (res && res.data.code == 0) {
+					}
+				})
+				.catch((err) => {
+				})
+			},
 			
 			// 格式化时间
 			getNowFormatDate(currentDate,type) {

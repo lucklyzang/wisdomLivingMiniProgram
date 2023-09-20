@@ -221,6 +221,7 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _device = __webpack_require__(/*! @/api/device.js */ 106);
+var _user = __webpack_require__(/*! @/api/user.js */ 31);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
@@ -357,9 +358,10 @@ var _default = {
           showBox: false
         }
       }
-    }), _ref;
+    }), (0, _defineProperty2.default)(_ref, "visitPageId", ''), _ref;
   },
   onLoad: function onLoad() {
+    this.createVisitPage();
     this.initDayTime = this.getNowFormatDate(new Date(), 1);
     this.currentDayTime = this.getNowFormatDate(new Date(), 2);
     var temporaryDate = this.getNowFormatDate(new Date(), 2);
@@ -395,6 +397,13 @@ var _default = {
       queryDate: this.getNowFormatDate(new Date(), 2)
     }, true, false);
   },
+  destroyed: function destroyed() {
+    if (!this.visitPageId && this.visitPageId !== 0) {
+      return;
+    }
+    ;
+    this.exitPage();
+  },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'deviceDataMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
@@ -404,6 +413,24 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+    // 创建页面访问数据
+    createVisitPage: function createVisitPage() {
+      var _this = this;
+      (0, _user.createVisitPageData)({
+        pageName: "健康-离家回家详情(日周月)",
+        pageKey: "leaveHome"
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this.visitPageId = res.data.data;
+        }
+      }).catch(function (err) {});
+    },
+    // 退出页面数据
+    exitPage: function exitPage() {
+      (0, _user.exitPageData)(this.visitPageId).then(function (res) {
+        if (res && res.data.code == 0) {}
+      }).catch(function (err) {});
+    },
     // 获取日数据当前点击索引
     getDayIndexEvent: function getDayIndexEvent(e) {
       if (e.currentIndex['index'] == -1) {
@@ -507,7 +534,7 @@ var _default = {
     },
     // 获取离回家数据详情
     queryEnterLeaveHomeDetails: function queryEnterLeaveHomeDetails(data, type) {
-      var _this = this;
+      var _this2 = this;
       this.dayChartData = {
         isShow: true,
         data: {}
@@ -523,23 +550,23 @@ var _default = {
       (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           if (type == 'day') {
-            _this.initDayText = '';
-            _this.initDayTime = '';
-            _this.dayChartData['isShow'] = true;
+            _this2.initDayText = '';
+            _this2.initDayTime = '';
+            _this2.dayChartData['isShow'] = true;
             if (res.data.data.length > 0) {
-              _this.dayChartData['isShow'] = true;
+              _this2.dayChartData['isShow'] = true;
               var questData = res.data.data[0]['ruleDataVO'];
               if (questData.details[0]['enter'] && questData.details[0]['goOut']) {
-                _this.initDayText = '离家、回家';
+                _this2.initDayText = '离家、回家';
               } else if (questData.details[0]['enter']) {
-                _this.initDayText = '离家';
+                _this2.initDayText = '离家';
               } else if (questData.details[0]['goOut']) {
-                _this.initDayText = '回家';
+                _this2.initDayText = '回家';
               } else {
-                _this.initDayText = '-';
+                _this2.initDayText = '-';
               }
               ;
-              _this.initDayTime = _this.getNowFormatDate(new Date(questData.details[0]['createTime']), 1);
+              _this2.initDayTime = _this2.getNowFormatDate(new Date(questData.details[0]['createTime']), 1);
               var temporaryData = {
                 categories: [],
                 series: [{
@@ -551,7 +578,7 @@ var _default = {
                 }]
               };
               questData.details.forEach(function (item, index) {
-                temporaryData['categories'].push(_this.getNowFormatDate(new Date(item.createTime), 1));
+                temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.createTime), 1));
                 if (item.goOut) {
                   temporaryData['series'][0]['data'].push(30);
                 } else {
@@ -565,21 +592,21 @@ var _default = {
                 }
               });
               var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-              _this.dayChartData['data'] = temporaryContent;
+              _this2.dayChartData['data'] = temporaryContent;
             } else {
-              _this.dayChartData = {
+              _this2.dayChartData = {
                 isShow: false,
                 data: {}
               };
-              _this.initDayText = '-';
-              _this.initDayTime = '-';
+              _this2.initDayText = '-';
+              _this2.initDayTime = '-';
             }
           } else if (type == 'week') {
-            _this.weekChartData['isShow'] = true;
-            _this.currentWeekXaxisArr = [];
+            _this2.weekChartData['isShow'] = true;
+            _this2.currentWeekXaxisArr = [];
             if (res.data.data.length > 0) {
               var _questData = res.data.data;
-              _this.weekChartData['isShow'] = true;
+              _this2.weekChartData['isShow'] = true;
               var lengthArr = [];
               var maxColumn;
               var _temporaryData = {
@@ -587,8 +614,8 @@ var _default = {
                 series: []
               };
               _questData.forEach(function (item, index) {
-                _temporaryData['categories'].push(_this.judgeWeek(item.date));
-                _this.currentWeekXaxisArr.push(item.date);
+                _temporaryData['categories'].push(_this2.judgeWeek(item.date));
+                _this2.currentWeekXaxisArr.push(item.date);
                 lengthArr.push(item.ruleDataVO.details.length);
               });
               // 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -600,7 +627,7 @@ var _default = {
               }
               ;
               _temporaryData['series'].forEach(function (item, index) {
-                _this.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
+                _this2.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
                   var currentData = _questData[innerIndex]['ruleDataVO']['details'];
                   if (currentData[index]) {
                     if (currentData[index]['enter']) {
@@ -633,19 +660,19 @@ var _default = {
                 });
               });
               var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
-              _this.weekChartData['data'] = _temporaryContent;
+              _this2.weekChartData['data'] = _temporaryContent;
             } else {
-              _this.weekChartData = {
+              _this2.weekChartData = {
                 isShow: false,
                 data: {}
               };
             }
           } else if (type == 'month') {
-            _this.currentMonthXaxisArr = [];
-            _this.monthChartData['isShow'] = true;
+            _this2.currentMonthXaxisArr = [];
+            _this2.monthChartData['isShow'] = true;
             if (res.data.data.length > 0) {
               var _questData2 = res.data.data;
-              _this.monthChartData['isShow'] = true;
+              _this2.monthChartData['isShow'] = true;
               var _lengthArr = [];
               var _maxColumn;
               var _temporaryData2 = {
@@ -653,8 +680,8 @@ var _default = {
                 series: []
               };
               _questData2.forEach(function (item, index) {
-                _temporaryData2['categories'].push(_this.getNowFormatDate(new Date(item.date), 5));
-                _this.currentMonthXaxisArr.push(item.date);
+                _temporaryData2['categories'].push(_this2.getNowFormatDate(new Date(item.date), 5));
+                _this2.currentMonthXaxisArr.push(item.date);
                 _lengthArr.push(item.ruleDataVO.details.length);
               });
               // 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -666,7 +693,7 @@ var _default = {
               }
               ;
               _temporaryData2['series'].forEach(function (item, index) {
-                _this.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
+                _this2.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
                   var currentData = _questData2[innerIndex]['ruleDataVO']['details'];
                   if (currentData[index]) {
                     if (currentData[index]['enter']) {
@@ -699,23 +726,23 @@ var _default = {
                 });
               });
               var _temporaryContent2 = JSON.parse(JSON.stringify(_temporaryData2));
-              _this.monthChartData['data'] = _temporaryContent2;
+              _this2.monthChartData['data'] = _temporaryContent2;
             } else {
-              _this.monthChartData = {
+              _this2.monthChartData = {
                 isShow: false,
                 data: {}
               };
             }
           }
         } else {
-          _this.$refs.uToast.show({
+          _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this.$refs.uToast.show({
+        _this2.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -1070,7 +1097,7 @@ var _default = {
     },
     // 获取离家回家详情日志
     queryBodyDetectionRadar: function queryBodyDetectionRadar(data, flag, isInit) {
-      var _this2 = this;
+      var _this3 = this;
       this.recordList = [];
       if (isInit) {
         this.isShowNoHomeNoData = false;
@@ -1083,26 +1110,26 @@ var _default = {
       }
       ;
       (0, _device.getBodyDetectionRadarDetails)(data).then(function (res) {
-        _this2.showLoadingHint = false;
+        _this3.showLoadingHint = false;
         if (res && res.data.code == 0) {
-          _this2.totalCount = res.data.data.total;
-          _this2.recordList = res.data.data.list;
-          _this2.fullRecordList = _this2.fullRecordList.concat(_this2.recordList);
-          if (_this2.fullRecordList.length == 0) {
-            _this2.isShowNoHomeNoData = true;
+          _this3.totalCount = res.data.data.total;
+          _this3.recordList = res.data.data.list;
+          _this3.fullRecordList = _this3.fullRecordList.concat(_this3.recordList);
+          if (_this3.fullRecordList.length == 0) {
+            _this3.isShowNoHomeNoData = true;
           } else {
-            _this2.isShowNoHomeNoData = false;
+            _this3.isShowNoHomeNoData = false;
           }
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this2.showLoadingHint = false;
-        _this2.$refs.uToast.show({
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'

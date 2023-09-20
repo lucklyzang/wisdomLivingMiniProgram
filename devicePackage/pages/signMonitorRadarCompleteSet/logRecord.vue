@@ -68,6 +68,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import { getsignMonitorRadar } from '@/api/device.js'
+	import { createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -92,10 +93,12 @@
 					month: true,
 					day: true
 				},
-				showLoadingHint: false
+				showLoadingHint: false,
+				visitPageId: ''
 			}
 		},
 		onLoad() {
+			this.createVisitPage();
 			this.currentDate = this.getNowFormatDate(new Date(),2)
 			this.querySignMonitorRadar({
 				pageNo: this.currentPageNum,
@@ -103,6 +106,12 @@
 				deviceId: this.beforeAddSignMonitorRadarCompleteSet.deviceId,
 				queryDate: this.currentDate
 			},true)
+		},
+		destroyed () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
 		},
 		computed: {
 			...mapGetters([
@@ -126,6 +135,29 @@
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			// 创建页面访问数据
+			createVisitPage () {
+				createVisitPageData({
+					pageName: "设备-体征监测雷达日志",
+					pageKey: "signMonitorRadarLogRecord"
+				}).then((res) => {
+					if (res && res.data.code == 0) {
+						this.visitPageId = res.data.data
+					}
+				})
+				.catch((err) => {
+				})
+			},
+			
+			// 退出页面数据
+			exitPage () {
+				exitPageData(this.visitPageId).then((res) => {
+					if (res && res.data.code == 0) {
+					}
+				})
+				.catch((err) => {
+				})
+			},
 			
 			scrolltolower () {
 				let totalPage = Math.ceil(this.totalCount/this.pageSize);

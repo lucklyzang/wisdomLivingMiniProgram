@@ -207,6 +207,7 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _device = __webpack_require__(/*! @/api/device.js */ 106);
+var _user = __webpack_require__(/*! @/api/user.js */ 31);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
@@ -369,10 +370,12 @@ var _default = {
       currentMonthDays: '',
       initMonthDate: '',
       weekMap: {},
-      temporaryDevices: []
+      temporaryDevices: [],
+      visitPageId: ''
     };
   },
   onLoad: function onLoad() {
+    this.createVisitPage();
     this.initDayTime = this.getNowFormatDate(new Date(), 1);
     this.currentDayTime = this.getNowFormatDate(new Date(), 2);
     var temporaryDate = this.getNowFormatDate(new Date(), 2);
@@ -400,6 +403,13 @@ var _default = {
       startDate: this.getNowFormatDate(new Date(), 2)
     });
   },
+  destroyed: function destroyed() {
+    if (!this.visitPageId && this.visitPageId !== 0) {
+      return;
+    }
+    ;
+    this.exitPage();
+  },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'deviceDataMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
@@ -409,6 +419,24 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+    // 创建页面访问数据
+    createVisitPage: function createVisitPage() {
+      var _this = this;
+      (0, _user.createVisitPageData)({
+        pageName: "健康-心率详情(日周月)",
+        pageKey: "heartRate"
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this.visitPageId = res.data.data;
+        }
+      }).catch(function (err) {});
+    },
+    // 退出页面数据
+    exitPage: function exitPage() {
+      (0, _user.exitPageData)(this.visitPageId).then(function (res) {
+        if (res && res.data.code == 0) {}
+      }).catch(function (err) {});
+    },
     // 获取日数据当前点击索引
     getDayIndexEvent: function getDayIndexEvent(e) {
       if (e.currentIndex['index'] == -1) {
@@ -471,7 +499,7 @@ var _default = {
     },
     // 获取体征数据详情(日)
     querySleepStatisticsDetails: function querySleepStatisticsDetails(data) {
-      var _this = this;
+      var _this2 = this;
       this.lowest = '';
       this.highest = '';
       this.average = '';
@@ -486,24 +514,24 @@ var _default = {
       (0, _device.sleepStatisticsDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           var questData = res.data.data;
-          _this.dayChartData['isShow'] = true;
+          _this2.dayChartData['isShow'] = true;
           // 心率
           if (JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
-            _this.initDayTime = '-';
-            _this.initDayText = '-';
-            _this.daySleepTime = '-';
-            _this.dayChartData = {
+            _this2.initDayTime = '-';
+            _this2.initDayText = '-';
+            _this2.daySleepTime = '-';
+            _this2.dayChartData = {
               isShow: false,
               data: {}
             };
           } else {
-            _this.initDayText = Math.floor(questData.heart.timeList[0]['value']);
-            _this.initDayTime = _this.getNowFormatDate(new Date(questData.heart.timeList[0]['time']), 1);
-            _this.daySleepTime = _this.minutesTransitionHour(questData.sleepVO['dayTime']);
-            _this.lowest = Math.floor(questData.heart.lowest);
-            _this.highest = Math.floor(questData.heart.highest);
-            _this.average = Math.floor(questData.heart.average);
-            _this.dayChartData['isShow'] = true;
+            _this2.initDayText = Math.floor(questData.heart.timeList[0]['value']);
+            _this2.initDayTime = _this2.getNowFormatDate(new Date(questData.heart.timeList[0]['time']), 1);
+            _this2.daySleepTime = _this2.minutesTransitionHour(questData.sleepVO['dayTime']);
+            _this2.lowest = Math.floor(questData.heart.lowest);
+            _this2.highest = Math.floor(questData.heart.highest);
+            _this2.average = Math.floor(questData.heart.average);
+            _this2.dayChartData['isShow'] = true;
             var temporaryData = {
               categories: [],
               series: [{
@@ -511,21 +539,21 @@ var _default = {
               }]
             };
             questData.heart.timeList.forEach(function (item, index) {
-              temporaryData['categories'].push(_this.getNowFormatDate(new Date(item.time), 1));
+              temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.time), 1));
               temporaryData['series'][0]['data'].push(Math.floor(item.value));
             });
             var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-            _this.dayChartData['data'] = temporaryContent;
+            _this2.dayChartData['data'] = temporaryContent;
           }
         } else {
-          _this.$refs.uToast.show({
+          _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this.$refs.uToast.show({
+        _this2.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -534,7 +562,7 @@ var _default = {
     },
     // 获取体征数据详情(周月)
     querySleepStatisticsDetailsOther: function querySleepStatisticsDetailsOther(data, type) {
-      var _this2 = this;
+      var _this3 = this;
       this.lowest = '';
       this.highest = '';
       this.average = '';
@@ -562,32 +590,32 @@ var _default = {
         if (res && res.data.code == 0) {
           if (type == 'week') {
             var questData = res.data.data;
-            _this2.weekChartData['isShow'] = true;
+            _this3.weekChartData['isShow'] = true;
             if (JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
-              _this2.initWeekText = '-';
-              _this2.daySleepTime = '-';
-              _this2.weekChartData = {
+              _this3.initWeekText = '-';
+              _this3.daySleepTime = '-';
+              _this3.weekChartData = {
                 isShow: false,
                 data: {}
               };
             } else {
-              if (questData.respVOList[0]['startTime'] == _this2.currentStartWeekDate) {
-                _this2.daySleepTime = _this2.minutesTransitionHour(questData.respVOList[0]['sleepDayTime']);
-                _this2.initWeekText = "".concat(Math.floor(questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(questData.respVOList[0]['heartMaxValue']));
-                _this2.lowest = Math.floor(questData.respVOList[0]['heartMinValue']);
-                _this2.highest = Math.floor(questData.respVOList[0]['heartMaxValue']);
-                _this2.average = Math.floor(questData.respVOList[0]['heartAverage']);
-                _this2.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
+              if (questData.respVOList[0]['startTime'] == _this3.currentStartWeekDate) {
+                _this3.daySleepTime = _this3.minutesTransitionHour(questData.respVOList[0]['sleepDayTime']);
+                _this3.initWeekText = "".concat(Math.floor(questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(questData.respVOList[0]['heartMaxValue']));
+                _this3.lowest = Math.floor(questData.respVOList[0]['heartMinValue']);
+                _this3.highest = Math.floor(questData.respVOList[0]['heartMaxValue']);
+                _this3.average = Math.floor(questData.respVOList[0]['heartAverage']);
+                _this3.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
               } else {
-                _this2.initWeekText = '-';
-                _this2.initMonthText = '-';
-                _this2.daySleepTime = '-';
-                _this2.quietness = '-';
-                _this2.lowest = '-';
-                _this2.highest = '-';
+                _this3.initWeekText = '-';
+                _this3.initMonthText = '-';
+                _this3.daySleepTime = '-';
+                _this3.quietness = '-';
+                _this3.lowest = '-';
+                _this3.highest = '-';
               }
               ;
-              _this2.weekChartData['isShow'] = true;
+              _this3.weekChartData['isShow'] = true;
               var temporaryData = {
                 categories: [],
                 series: [{
@@ -597,9 +625,9 @@ var _default = {
                 }]
               };
               questData.respVOList.forEach(function (item, index) {
-                _this2.currentWeekYaxisArr.push(item);
-                _this2.currentWeekXaxisArr.push(item.startTime);
-                temporaryData['categories'].push(_this2.judgeWeek(item.createTime));
+                _this3.currentWeekYaxisArr.push(item);
+                _this3.currentWeekXaxisArr.push(item.startTime);
+                temporaryData['categories'].push(_this3.judgeWeek(item.createTime));
                 temporaryData['series'][0]['data'].push({
                   color: 'transparent',
                   value: Math.floor(item.heartMinValue)
@@ -610,35 +638,35 @@ var _default = {
                 });
               });
               var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-              _this2.weekChartData['data'] = temporaryContent;
+              _this3.weekChartData['data'] = temporaryContent;
             }
           } else if (type == 'month') {
             var _questData = res.data.data;
-            _this2.monthChartData['isShow'] = true;
+            _this3.monthChartData['isShow'] = true;
             if (JSON.stringify(res.data.data) == '{}' || _questData.respVOList.length == 0) {
-              _this2.initMonthText = '-';
-              _this2.daySleepTime = '-';
-              _this2.monthChartData = {
+              _this3.initMonthText = '-';
+              _this3.daySleepTime = '-';
+              _this3.monthChartData = {
                 isShow: false,
                 data: {}
               };
             } else {
-              if (_questData.respVOList[0]['startTime'] == "".concat(_this2.currentMonthDate, "-01")) {
-                _this2.daySleepTime = _this2.minutesTransitionHour(_questData.respVOList[0]['sleepDayTime']);
-                _this2.initMonthText = "".concat(Math.floor(_questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(_questData.respVOList[0]['heartMaxValue']));
-                _this2.lowest = Math.floor(_questData.respVOList[0]['heartMinValue']);
-                _this2.highest = Math.floor(_questData.respVOList[0]['heartMaxValue']);
-                _this2.average = Math.floor(_questData.respVOList[0]['heartAverage']);
-                _this2.quietness = Math.floor(_questData.respVOList[0]['heartSilent']);
+              if (_questData.respVOList[0]['startTime'] == "".concat(_this3.currentMonthDate, "-01")) {
+                _this3.daySleepTime = _this3.minutesTransitionHour(_questData.respVOList[0]['sleepDayTime']);
+                _this3.initMonthText = "".concat(Math.floor(_questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(_questData.respVOList[0]['heartMaxValue']));
+                _this3.lowest = Math.floor(_questData.respVOList[0]['heartMinValue']);
+                _this3.highest = Math.floor(_questData.respVOList[0]['heartMaxValue']);
+                _this3.average = Math.floor(_questData.respVOList[0]['heartAverage']);
+                _this3.quietness = Math.floor(_questData.respVOList[0]['heartSilent']);
               } else {
-                _this2.initMonthText = '-';
-                _this2.initMonthText = '-';
-                _this2.lowest = '-';
-                _this2.daySleepTime = '-';
-                _this2.highest = '-';
+                _this3.initMonthText = '-';
+                _this3.initMonthText = '-';
+                _this3.lowest = '-';
+                _this3.daySleepTime = '-';
+                _this3.highest = '-';
               }
               ;
-              _this2.monthChartData['isShow'] = true;
+              _this3.monthChartData['isShow'] = true;
               var _temporaryData = {
                 categories: [],
                 series: [{
@@ -648,9 +676,9 @@ var _default = {
                 }]
               };
               _questData.respVOList.forEach(function (item, index) {
-                _this2.currentMonthYaxisArr.push(item);
-                _this2.currentMonthXaxisArr.push(item.startTime);
-                _temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.startTime), 5));
+                _this3.currentMonthYaxisArr.push(item);
+                _this3.currentMonthXaxisArr.push(item.startTime);
+                _temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.startTime), 5));
                 _temporaryData['series'][0]['data'].push({
                   color: 'transparent',
                   value: Math.floor(item.heartMinValue)
@@ -661,18 +689,18 @@ var _default = {
                 });
               });
               var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
-              _this2.monthChartData['data'] = _temporaryContent;
+              _this3.monthChartData['data'] = _temporaryContent;
             }
           }
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this2.$refs.uToast.show({
+        _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'

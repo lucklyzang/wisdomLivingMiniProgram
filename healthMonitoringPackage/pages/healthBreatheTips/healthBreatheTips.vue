@@ -160,6 +160,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
+	import { createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -167,7 +168,8 @@
 		data() {
 			return {
 				infoText: '',
-				showLoadingHint: false
+				showLoadingHint: false,
+				visitPageId: ''
 			}
 		},
 		onReady() {
@@ -189,12 +191,43 @@
 			accountName() {
 			}
 		},
-		mounted() {
+		onShow () {
+			this.createVisitPage();
+		},
+		destroyed () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
 		},
 		methods: {
 			...mapMutations([
 				'changeOverDueWay'
 			]),
+			
+			// 创建页面访问数据
+			createVisitPage () {
+				createVisitPageData({
+					pageName: "健康-呼吸详情-健康小知识",
+					pageKey: "healthBreatheTips"
+				}).then((res) => {
+					if (res && res.data.code == 0) {
+						this.visitPageId = res.data.data
+					}
+				})
+				.catch((err) => {
+				})
+			},
+			
+			// 退出页面数据
+			exitPage () {
+				exitPageData(this.visitPageId).then((res) => {
+					if (res && res.data.code == 0) {
+					}
+				})
+				.catch((err) => {
+				})
+			},
 			
 			backTo () {
 				uni.redirectTo({

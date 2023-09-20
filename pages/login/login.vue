@@ -148,7 +148,7 @@
 	import { mapGetters, mapMutations } from 'vuex'
 	import {logIn, logInByCode, weixinMiniAppLogin, sendPhoneCode, resetPassword, setPassword } from '@/api/login.js'
 	import { setCache, getCache, removeCache } from '@/common/js/utils'
-	import { getUserFamilyList } from '@/api/user.js'
+	import { getUserFamilyList, createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 	components: {
 	 },
@@ -181,10 +181,27 @@
 				isReadAgreeChecked: false,
 				showLoadingHint: false,
 				modalShow: false,
-				modalContent: ''
+				modalContent: '',
+				visitPageId: ''
 			}
 		},
-		onReady () {
+		
+		onShow () {
+			this.createVisitPage()
+		},
+		
+		onHide () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
+		},
+		
+		destroyed () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
 		},
 		computed: {
 			...mapGetters([
@@ -204,6 +221,30 @@
 				'changeFamilyId',
 				'changeFamilyMessage'
 			]),
+			
+			// 创建页面访问数据
+			createVisitPage () {
+				createVisitPageData({
+					pageName: "登录",
+					pageKey: "login"
+				}).then((res) => {
+					if (res && res.data.code == 0) {
+						this.visitPageId = res.data.data
+					}
+				})
+				.catch((err) => {
+				})
+			},
+			
+			// 退出页面数据
+			exitPage () {
+				exitPageData(this.visitPageId).then((res) => {
+					if (res && res.data.code == 0) {
+					}
+				})
+				.catch((err) => {
+				})
+			},
 			
 			// 返回事件
 			backTo () {
@@ -680,17 +721,20 @@
 					code: this.code
 				};
 				console.log('数据',e);
-				// 执行后端接口 这里就是请求后端接口
-				// loginService.bindPhone(param).then(result => { 
-				// 	if (result !== '' && result.errno === 0) { 
-				// 		uni.showToast({ 
-				// 				title: '登录成功',
-				// 				icon: 'none'
-				// 		})
-				// 	}
-				// })
-				// .catch((error) => { 
-				// })
+				// 用户同意
+				if (e.detail.code) {
+					// 执行后端接口 这里就是请求后端接口
+					// loginService.bindPhone(param).then(result => { 
+					// 	if (result !== '' && result.errno === 0) { 
+					// 		uni.showToast({ 
+					// 				title: '登录成功',
+					// 				icon: 'none'
+					// 		})
+					// 	}
+					// })
+					// .catch((error) => { 
+					// })
+				}
 			},
 			
 			// 弹框确定事件

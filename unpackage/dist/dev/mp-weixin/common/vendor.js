@@ -28499,10 +28499,12 @@ exports.createUserBootUpData = createUserBootUpData;
 exports.createUserDeviceBind = createUserDeviceBind;
 exports.createUserFamily = createUserFamily;
 exports.createUserRoom = createUserRoom;
+exports.createVisitPageData = createVisitPageData;
 exports.deleteMobile = deleteMobile;
 exports.deleteUserDeviceBind = deleteUserDeviceBind;
 exports.deleteUserFamily = deleteUserFamily;
 exports.deleteUserRoom = deleteUserRoom;
+exports.exitPageData = exitPageData;
 exports.getUserBannerList = getUserBannerList;
 exports.getUserDeviceBind = getUserDeviceBind;
 exports.getUserDeviceCount = getUserDeviceCount;
@@ -28768,6 +28770,25 @@ function getUserDeviceBind() {
 function createUserBootUpData() {
   return (0, _request.default)({
     url: '/app-api/member/boot-up/create',
+    method: 'post'
+  });
+}
+;
+
+// 创建页面访问数据
+function createVisitPageData(data) {
+  return (0, _request.default)({
+    url: '/app-api/member/visit-page/create',
+    method: 'post',
+    data: data
+  });
+}
+;
+
+// 退出页面
+function exitPageData(id) {
+  return (0, _request.default)({
+    url: "/app-api/member/visit-page/exit?id=".concat(id),
     method: 'post'
   });
 }

@@ -117,6 +117,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import { sleepStatisticsDetails, sleepStatisticsHome } from '@/api/device.js'
+	import { createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -264,12 +265,13 @@
 				initWeekText: '',
 				initMonthText: '',
 				temporaryDevices: [],
-				lineChartData: {}
+				lineChartData: {},
+				visitPageId: ''
 			}
 		},
 		
 		onLoad() {
-			// this.getServerData();
+			this.createVisitPage();
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
@@ -286,6 +288,13 @@
 				deviceId: this.temporaryDevices[0],
 				startDate: this.getNowFormatDate(new Date(),2),
 			})
+		},
+		
+		destroyed () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
 		},
 		
 		computed: {
@@ -311,30 +320,28 @@
 				'changeOverDueWay'
 			]),
 			
-			getServerData() {
-				//模拟从服务器获取数据时的延时
-				setTimeout(() => {
-					//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-					let res = {
-						categories: ["周一","周二","周三","周四","周五","周六","周日"],
-						 series: [
-						   {
-						     data: [{value: 10,color: '#fff'},{value: 20,color: '#fff'},{value: 14,color: '#fff'},
-									{value: 13,color: '#fff'},{value: 15,color: '#fff'},{value: 16,color: '#fff'},
-									{value: 8,color: '#fff'}
-								 ]
-						   },
-							 {
-							   data: [{value: 50,color: '#1890FF'},{value: 60,color: '#1890FF'},{value: 55,color: '#1890FF'},
-									{value: 90,color: '#1890FF'},{value: 80,color: '#1890FF'},{value: 70,color: '#1890FF'},
-									{value: 65,color: '#1890FF'}
-								 ]
-							 }
-						 ]
-						};
-					this.chartWeekData = JSON.parse(JSON.stringify(res));
-					console.log('拼接数据',this.chartWeekData);
-				}, 500)
+			// 创建页面访问数据
+			createVisitPage () {
+				createVisitPageData({
+					pageName: "健康-呼吸详情(日周月)",
+					pageKey: "breathe"
+				}).then((res) => {
+					if (res && res.data.code == 0) {
+						this.visitPageId = res.data.data
+					}
+				})
+				.catch((err) => {
+				})
+			},
+			
+			// 退出页面数据
+			exitPage () {
+				exitPageData(this.visitPageId).then((res) => {
+					if (res && res.data.code == 0) {
+					}
+				})
+				.catch((err) => {
+				})
 			},
 			
 			// 获取日数据当前点击索引

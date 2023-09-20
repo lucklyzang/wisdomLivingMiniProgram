@@ -225,3 +225,20 @@ export function createUserBootUpData() {
     method: 'post'
   })
 };
+
+// 创建页面访问数据
+export function createVisitPageData(data) {
+  return request({
+    url: '/app-api/member/visit-page/create',
+    method: 'post',
+		data
+  })
+};
+
+// 退出页面
+export function exitPageData(id) {
+  return request({
+    url: `/app-api/member/visit-page/exit?id=${id}`,
+    method: 'post'
+  })
+};

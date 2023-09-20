@@ -207,6 +207,7 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _device = __webpack_require__(/*! @/api/device.js */ 106);
+var _user = __webpack_require__(/*! @/api/user.js */ 31);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
@@ -367,11 +368,12 @@ var _default = {
       initWeekText: '',
       initMonthText: '',
       temporaryDevices: [],
-      lineChartData: {}
+      lineChartData: {},
+      visitPageId: ''
     };
   },
   onLoad: function onLoad() {
-    // this.getServerData();
+    this.createVisitPage();
     this.initDayTime = this.getNowFormatDate(new Date(), 1);
     this.currentDayTime = this.getNowFormatDate(new Date(), 2);
     var temporaryDate = this.getNowFormatDate(new Date(), 2);
@@ -400,6 +402,13 @@ var _default = {
       startDate: this.getNowFormatDate(new Date(), 2)
     });
   },
+  destroyed: function destroyed() {
+    if (!this.visitPageId && this.visitPageId !== 0) {
+      return;
+    }
+    ;
+    this.exitPage();
+  },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'deviceDataMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
@@ -409,64 +418,23 @@ var _default = {
     accountName: function accountName() {}
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
-    getServerData: function getServerData() {
+    // 创建页面访问数据
+    createVisitPage: function createVisitPage() {
       var _this = this;
-      //模拟从服务器获取数据时的延时
-      setTimeout(function () {
-        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-        var res = {
-          categories: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-          series: [{
-            data: [{
-              value: 10,
-              color: '#fff'
-            }, {
-              value: 20,
-              color: '#fff'
-            }, {
-              value: 14,
-              color: '#fff'
-            }, {
-              value: 13,
-              color: '#fff'
-            }, {
-              value: 15,
-              color: '#fff'
-            }, {
-              value: 16,
-              color: '#fff'
-            }, {
-              value: 8,
-              color: '#fff'
-            }]
-          }, {
-            data: [{
-              value: 50,
-              color: '#1890FF'
-            }, {
-              value: 60,
-              color: '#1890FF'
-            }, {
-              value: 55,
-              color: '#1890FF'
-            }, {
-              value: 90,
-              color: '#1890FF'
-            }, {
-              value: 80,
-              color: '#1890FF'
-            }, {
-              value: 70,
-              color: '#1890FF'
-            }, {
-              value: 65,
-              color: '#1890FF'
-            }]
-          }]
-        };
-        _this.chartWeekData = JSON.parse(JSON.stringify(res));
-        console.log('拼接数据', _this.chartWeekData);
-      }, 500);
+      (0, _user.createVisitPageData)({
+        pageName: "健康-呼吸详情(日周月)",
+        pageKey: "breathe"
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this.visitPageId = res.data.data;
+        }
+      }).catch(function (err) {});
+    },
+    // 退出页面数据
+    exitPage: function exitPage() {
+      (0, _user.exitPageData)(this.visitPageId).then(function (res) {
+        if (res && res.data.code == 0) {}
+      }).catch(function (err) {});
     },
     // 获取日数据当前点击索引
     getDayIndexEvent: function getDayIndexEvent(e) {

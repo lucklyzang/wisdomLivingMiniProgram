@@ -161,6 +161,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import { sleepStatisticsDetails, sleepStatisticsHome } from '@/api/device.js'
+	import { createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -294,10 +295,12 @@
 				currentWeekYaxisArr: [],
 				currentMonthXaxisArr: [],
 				currentMonthYaxisArr: [],
-				temporaryDevices: []
+				temporaryDevices: [],
+				visitPageId: ''
 			}
 		},
 		onLoad() {
+			this.createVisitPage();
 			this.initDayTime = this.getNowFormatDate(new Date(),1);
 			this.currentDayTime = this.getNowFormatDate(new Date(),2);
 			let temporaryDate = this.getNowFormatDate(new Date(),2);
@@ -313,6 +316,12 @@
 				deviceId: this.temporaryDevices[0],
 				startDate: this.getNowFormatDate(new Date(),2),
 			})
+		},
+		destroyed () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
 		},
 		computed: {
 			...mapGetters([
@@ -337,6 +346,29 @@
 				'changeOverDueWay'
 			]),
 			
+			// 创建页面访问数据
+			createVisitPage () {
+				createVisitPageData({
+					pageName: "健康-睡眠详情(日周月)",
+					pageKey: "sleep"
+				}).then((res) => {
+					if (res && res.data.code == 0) {
+						this.visitPageId = res.data.data
+					}
+				})
+				.catch((err) => {
+				})
+			},
+			
+			// 退出页面数据
+			exitPage () {
+				exitPageData(this.visitPageId).then((res) => {
+					if (res && res.data.code == 0) {
+					}
+				})
+				.catch((err) => {
+				})
+			},
 			
 			// 获取日数据当前点击索引
 			getDayIndexEvent (e) {

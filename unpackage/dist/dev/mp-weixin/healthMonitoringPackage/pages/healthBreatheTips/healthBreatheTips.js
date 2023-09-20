@@ -167,6 +167,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
+var _user = __webpack_require__(/*! @/api/user.js */ 31);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var navBar = function navBar() {
@@ -181,7 +182,8 @@ var _default = {
   data: function data() {
     return {
       infoText: '',
-      showLoadingHint: false
+      showLoadingHint: false,
+      visitPageId: ''
     };
   },
   onReady: function onReady() {},
@@ -193,8 +195,35 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  mounted: function mounted() {},
+  onShow: function onShow() {
+    this.createVisitPage();
+  },
+  destroyed: function destroyed() {
+    if (!this.visitPageId && this.visitPageId !== 0) {
+      return;
+    }
+    ;
+    this.exitPage();
+  },
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+    // 创建页面访问数据
+    createVisitPage: function createVisitPage() {
+      var _this = this;
+      (0, _user.createVisitPageData)({
+        pageName: "健康-呼吸详情-健康小知识",
+        pageKey: "healthBreatheTips"
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this.visitPageId = res.data.data;
+        }
+      }).catch(function (err) {});
+    },
+    // 退出页面数据
+    exitPage: function exitPage() {
+      (0, _user.exitPageData)(this.visitPageId).then(function (res) {
+        if (res && res.data.code == 0) {}
+      }).catch(function (err) {});
+    },
     backTo: function backTo() {
       uni.redirectTo({
         url: '/healthMonitoringPackage/pages/breathe/breathe'

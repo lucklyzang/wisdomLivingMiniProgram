@@ -90,7 +90,7 @@
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>{{ getNowFormatDateText(new Date()) }}</text>
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
-						<text>{{ `睡眠${totalSleepTime}、睡眠状态良好` }}</text>
+						<text v-if="sceneDataList[item.id]['heart']['isShow']">{{ `睡眠${totalSleepTime}、睡眠状态良好` }}</text>
 					</view>
 					<view class="heart-rate-box">
 						<view class="heart-rate-title">
@@ -251,7 +251,7 @@
 	} from 'vuex'
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
 	import { getHomePageList } from '@/api/home.js' 
-	import { getUserBannerList } from '@/api/user.js'
+	import { getUserBannerList,createVisitPageData, exitPageData } from '@/api/user.js'
 	import { sleepStatisticsDetails, enterLeaveHomeDetails } from '@/api/device.js'
 	import _ from 'lodash'
 	export default {
@@ -399,13 +399,27 @@
 							activeType: "hollow"
 						}
 					}
-				}
+				},
+				visitPageId: ''
 			}
 		},
 		onShow() {
 			this.queryHomePageList(this.familyId);
 			this.queryUserBannerList();
-			this.initFamilyInfo()
+			this.initFamilyInfo();
+			this.createVisitPage()
+		},
+		onHide () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
+		},
+		destroyed () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
 		},
 		computed: {
 			...mapGetters([
@@ -434,6 +448,30 @@
 				'changeCurrentNeedBindDevicesMessage',
 				'changeDeviceDataMessage'
 			]),
+			
+			// 创建页面访问数据
+			createVisitPage () {
+				createVisitPageData({
+					pageName: "健康-数据显示",
+					pageKey: "index"
+				}).then((res) => {
+					if (res && res.data.code == 0) {
+						this.visitPageId = res.data.data
+					}
+				})
+				.catch((err) => {
+				})
+			},
+			
+			// 退出页面数据
+			exitPage () {
+				exitPageData(this.visitPageId).then((res) => {
+					if (res && res.data.code == 0) {
+					}
+				})
+				.catch((err) => {
+				})
+			},
 			
 			// 提取卧室
 			extractRooName (roomList) {
@@ -581,7 +619,7 @@
 							this.$set(this.sceneDataList[cardId]['heart'],'average',Math.floor(questData.heart.average));
 						};
 						// 睡眠
-						if ( JSON.stringify(res.data.data) == '{}' || questData.sleepVO.sleepOrWeekVOS.length == 0) {
+						if ( JSON.stringify(res.data.data) == '{}' || JSON.stringify(res.data.data.sleepVO) == '{}' || questData.sleepVO.sleepOrWeekVOS.length == 0) {
 							this.$set(this.sceneDataList[cardId]['sleep'],'isShowNoData',true)
 						} else {
 							let nightSleepDuration = 	Math.ceil(this.msToMinutes(questData.sleepVO['end'] - questData.sleepVO['start']));
