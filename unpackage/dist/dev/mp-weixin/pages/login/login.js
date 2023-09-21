@@ -767,32 +767,18 @@ var _default = {
         //使用微信登录
         success: function success(loginRes) {
           that.userCode = loginRes.code;
-          console.log('用户code', loginRes.code);
         }
       });
     },
     // 绑定手机号码
     bindPhone: function bindPhone(e) {
-      var that = this;
-      var param = {
-        "iv": e.detail.iv,
-        "encryptedData": e.detail.encryptedData,
-        code: this.code
-      };
-      console.log('数据', e);
       // 用户同意
+      console.log(e);
       if (e.detail.code) {
-        // 执行后端接口 这里就是请求后端接口
-        // loginService.bindPhone(param).then(result => { 
-        // 	if (result !== '' && result.errno === 0) { 
-        // 		uni.showToast({ 
-        // 				title: '登录成功',
-        // 				icon: 'none'
-        // 		})
-        // 	}
-        // })
-        // .catch((error) => { 
-        // })
+        this.weixinMiniAppLoginEvent({
+          phoneCode: e.detail.encryptedData,
+          loginCode: this.userCode
+        });
       }
     },
     // 弹框确定事件

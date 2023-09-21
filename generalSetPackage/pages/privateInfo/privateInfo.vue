@@ -619,7 +619,7 @@
 						display: inline-block;
 						height: 42px;
 						text-align: center;
-						line-height: 37px;
+						line-height: 42px;
 						border-radius: 4px;
 						background: #11D183;
 						font-size: 12px;
