@@ -220,6 +220,24 @@ export function getBodyDetectionRadar(data) {
   })
 };
 
+// 获取跌倒数据日志
+export function getTumbleRadar(data) {
+  return request({
+    url: '/app-api/radar/line-rule-data/page',
+    method: 'get',
+		params: data
+  })
+};
+
+// 获取入厕数据日志
+export function getExistPerceptionRadar(data) {
+  return request({
+    url: '/app-api/radar/line-rule-data/page',
+    method: 'get',
+		params: data
+  })
+};
+
 // 获取心率、呼吸数据日志
 export function getsignMonitorRadar(data) {
   return request({

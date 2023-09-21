@@ -28,7 +28,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="dayChartData.isShow" :inScrollView="true" type="bar" canvasId="abc1fgfgfdshdjshd3" :ontouch="true" :opts="sleepDayOpts" :chartData="dayChartData.data" />
+							<qiun-data-charts v-if="dayChartData.isShow" :inScrollView="true" type="bar" :canvas2d="true" canvasId="abc1fgfgfdfdfdshdjshd3" :ontouch="true" :opts="sleepDayOpts" :chartData="dayChartData.data" />
 						</view>
 						<view class="sleep-range" v-if="dayChartData['isShow']">
 							<view class="sleep-range-left">
@@ -74,7 +74,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="weekChartData.isShow" :inScrollView="true" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdssa12atef123gh" :opts="sleepWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
+							<qiun-data-charts v-if="weekChartData.isShow" :inScrollView="true" :canvas2d="true" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdssafdfdf12atef123gh" :opts="sleepWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
 						</view>
 						<view class="icon-bar" v-if="weekChartData.isShow">
 							<view>
@@ -110,7 +110,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
-							<qiun-data-charts type="column" :inScrollView="true" v-if="monthChartData.isShow" @getIndex="getMonthIndexEvent" canvasId="abcsdghdsdsbdfdgsatef123gh" :opts="sleepMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
+							<qiun-data-charts type="column" :inScrollView="true" v-if="monthChartData.isShow" :canvas2d="true" @getIndex="getMonthIndexEvent" canvasId="abcsdghdsdsbdfdgsatef123gh" :opts="sleepMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
 						<view class="icon-bar" v-if="monthChartData.isShow">
 							<view>
@@ -581,7 +581,7 @@
 								questData['respVOList'].forEach((item,index) => {
 									this.currentWeekYaxisArr.push(item);
 									this.currentWeekXaxisArr.push(item.startTime);
-									temporaryData['categories'].push(this.judgeWeek(item.createTime));
+									temporaryData['categories'].push(this.judgeWeek(item.startTime));
 									// sleepData-[睡眠时间, 清醒时间, 无人时间] 时间单位:分钟
 									let currentDayData = JSON.parse(item['sleepData']);
 									let currentDayTotalDuration = Math.ceil(currentDayData[0] + currentDayData[1] + currentDayData[2]);

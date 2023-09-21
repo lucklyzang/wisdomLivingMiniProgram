@@ -941,7 +941,7 @@ var _default = {
               questData.respVOList.forEach(function (item, index) {
                 _this3.currentWeekYaxisArr.push(item);
                 _this3.currentWeekXaxisArr.push(item.startTime);
-                temporaryData['categories'].push(_this3.judgeWeek(item.createTime));
+                temporaryData['categories'].push(_this3.judgeWeek(item.startTime));
                 temporaryData['series'][0]['data'].push({
                   color: 'transparent',
                   value: Math.floor(item.breathMinValue)

@@ -221,7 +221,7 @@ var _default = {
       recordList: [],
       fullRecordList: [],
       isShowNoHomeNoData: false,
-      status: 'loadmore',
+      status: 'nomore',
       params: {
         year: true,
         month: true,
@@ -243,6 +243,13 @@ var _default = {
   },
   onLoad: function onLoad() {
     this.createVisitPage();
+    this.currentDate = this.getNowFormatDate(new Date(), 2);
+    this.queryTumbleRadar({
+      pageNo: this.currentPageNum,
+      pageSize: this.pageSize,
+      deviceId: this.beforeAddDeviceMessage.deviceId,
+      queryDate: this.currentDate
+    }, true);
   },
   destroyed: function destroyed() {
     if (!this.visitPageId && this.visitPageId !== 0) {
@@ -251,7 +258,7 @@ var _default = {
     ;
     this.exitPage();
   },
-  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddDeviceMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
     proName: function proName() {},
@@ -283,14 +290,14 @@ var _default = {
       if (this.currentPageNum >= totalPage) {
         this.status = 'nomore';
       } else {
-        this.status = 'loading';
+        this.status = 'loadmore';
         this.currentPageNum = this.currentPageNum + 1;
-        this.queryBodyDetectionRadar({
+        this.queryTumbleRadar({
           pageNo: this.currentPageNum,
           pageSize: this.pageSize,
-          deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+          deviceId: this.beforeAddDeviceMessage.deviceId,
           createDate: this.currentDate
-        });
+        }, false);
       }
     },
     // 格式化时间
@@ -346,20 +353,32 @@ var _default = {
     dateSure: function dateSure(value) {
       this.currentDate = "".concat(value.year, "-").concat(value.month, "-").concat(value.day);
       this.fullRecordList = [];
-      this.queryBodyDetectionRadar({
+      this.queryTumbleRadar({
         pageNo: this.currentPageNum,
         pageSize: this.pageSize,
-        deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+        deviceId: this.beforeAddDeviceMessage.deviceId,
         createDate: this.currentDate
-      });
+      }, true);
     },
     // 获取人体检测雷达日志
-    queryBodyDetectionRadar: function queryBodyDetectionRadar(data) {
+    queryTumbleRadar: function queryTumbleRadar(data, flag) {
       var _this2 = this;
       this.recordList = [];
-      this.showLoadingHint = true;
-      (0, _device.getBodyDetectionRadar)(data).then(function (res) {
-        _this2.showLoadingHint = false;
+      if (flag) {
+        this.showLoadingHint = true;
+      } else {
+        this.showLoadingHint = false;
+        ss;
+        this.status = 'loading';
+      }
+      ;
+      (0, _device.getTumbleRadar)(data).then(function (res) {
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          _this2.status = 'loadmore';
+        }
+        ;
         if (res && res.data.code == 0) {
           _this2.totalCount = res.data.data.total;
           _this2.recordList = res.data.data.list;
@@ -377,7 +396,12 @@ var _default = {
           });
         }
       }).catch(function (err) {
-        _this2.showLoadingHint = false;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          _this2.status = 'loadmore';
+        }
+        ;
         _this2.$refs.uToast.show({
           title: err,
           type: 'error',

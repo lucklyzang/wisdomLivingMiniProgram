@@ -635,7 +635,7 @@ var _default = {
               questData['respVOList'].forEach(function (item, index) {
                 _this3.currentWeekYaxisArr.push(item);
                 _this3.currentWeekXaxisArr.push(item.startTime);
-                temporaryData['categories'].push(_this3.judgeWeek(item.createTime));
+                temporaryData['categories'].push(_this3.judgeWeek(item.startTime));
                 // sleepData-[睡眠时间, 清醒时间, 无人时间] 时间单位:分钟
                 var currentDayData = JSON.parse(item['sleepData']);
                 var currentDayTotalDuration = Math.ceil(currentDayData[0] + currentDayData[1] + currentDayData[2]);

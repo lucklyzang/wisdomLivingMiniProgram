@@ -52,7 +52,7 @@
 						</view>
 					</view>
 				</view>
-				<u-loadmore :status="status" v-show="fullNoticeList.length > 15" />
+				<u-loadmore :status="status" v-show="fullNoticeList.length > 0"/>
 			</scroll-view>
 			</view>
 		</view>
@@ -81,7 +81,7 @@
 				totalCount: 0,
 				noReadNum: 0,
 				readedNum: 0,
-				status: 'loadmore',
+				status: 'nomore',
 				initValue: null,
 				initValueId: null,
 				noticeList: [],
@@ -133,7 +133,7 @@
 				if (this.currentPage >= totalPage) {
 					this.status = 'nomore'
 				} else {
-					this.status = 'loading';
+					this.status = 'loadmore';
 					this.currentPage = this.currentPage + 1;
 					this.queryDeviceNoticeList({
 						pageNo: this.currentPage,
@@ -205,7 +205,8 @@
 					this.showLoadingHint = true
 				} else {
 					this.showLoadingHint = false;
-					this.infoText = ''
+					this.infoText = '';
+					this.status = 'loading';
 				};
 				this.noticeList = [];
 				getDeviceInforPage(data).then((res) => {

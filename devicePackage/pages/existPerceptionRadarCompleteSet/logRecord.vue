@@ -23,7 +23,7 @@
 						<text>当前区域人数</text>
 						<text>1人</text>
 					</view>
-					<u-loadmore :status="status" v-show="fullRecordList.length > 40" />
+					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
 				</scroll-view>
 			</view>
 		</view>
@@ -36,7 +36,7 @@
 		mapMutations
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
-	import { getBodyDetectionRadar } from '@/api/device.js'
+	import { getExistPerceptionRadar } from '@/api/device.js'
 	import { createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 		components: {
@@ -52,7 +52,7 @@
 				totalCount: 0,
 				recordList: [],
 				fullRecordList: [],
-				status: 'loadmore',
+				status: 'nomore',
 				params: {
 					year: true,
 					month: true,
@@ -79,6 +79,13 @@
 		},
 		onLoad() {
 			this.createVisitPage();
+			this.currentDate = this.getNowFormatDate(new Date(),2);
+			this.queryExistPerceptionRadar({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
+				queryDate: this.currentDate
+			},true)
 		},
 		destroyed () {
 			if (!this.visitPageId && this.visitPageId !== 0) {
@@ -88,7 +95,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'userInfo'
+				'userInfo',
+				'beforeAddExistPerceptionRadarCompleteSet'
 			]),
 			userName() {
 			},
@@ -138,14 +146,14 @@
 				if (this.currentPageNum >= totalPage) {
 					this.status = 'nomore'
 				} else {
-					this.status = 'loading';
+					this.status = 'loadmore';
 					this.currentPageNum = this.currentPageNum + 1;
-					this.queryBodyDetectionRadar({
+					this.queryExistPerceptionRadar({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
-						deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+						deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
 						createDate: this.currentDate
-					})
+					},false)
 				}
 			},
 			
@@ -196,20 +204,29 @@
 			dateSure (value) {
 				this.currentDate = `${value.year}-${value.month}-${value.day}`;
 				this.fullRecordList = [];
-				this.queryBodyDetectionRadar({
+				this.queryExistPerceptionRadar({
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,
-					deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
+					deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
 					createDate: this.currentDate
-				});
+				},true);
 			},
 			
 			// 获取人体检测雷达日志
-			queryBodyDetectionRadar (data) {
+			queryExistPerceptionRadar (data,flag) {
 				this.recordList = [];
-				this.showLoadingHint = true;
-				getBodyDetectionRadar(data).then((res) => {
+				if (flag) {
+						this.showLoadingHint = true
+				} else {
 					this.showLoadingHint = false;
+					this.status = 'loading';
+				};
+				getExistPerceptionRadar(data).then((res) => {
+					if (flag) {
+							this.showLoadingHint = false
+					} else {
+						this.status = 'loadmore';
+					};
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.recordList = res.data.data.list;
@@ -228,7 +245,11 @@
 					}
 				})
 				.catch((err) => {
-					this.showLoadingHint = false;
+					if (flag) {
+							this.showLoadingHint = false
+					} else {
+						this.status = 'loadmore';
+					};
 					this.$refs.uToast.show({
 						title: err.message,
 						type: 'error',

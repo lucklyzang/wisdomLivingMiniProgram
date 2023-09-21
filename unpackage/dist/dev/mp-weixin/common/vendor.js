@@ -172,8 +172,10 @@ exports.getDeviceInform = getDeviceInform;
 exports.getDeviceInformList = getDeviceInformList;
 exports.getDeviceInformUnread = getDeviceInformUnread;
 exports.getExistAlarmSettings = getExistAlarmSettings;
+exports.getExistPerceptionRadar = getExistPerceptionRadar;
 exports.getFallAlarmSettings = getFallAlarmSettings;
 exports.getHealthAlarmSettings = getHealthAlarmSettings;
+exports.getTumbleRadar = getTumbleRadar;
 exports.getsignMonitorRadar = getsignMonitorRadar;
 exports.sleepStatisticsDetails = sleepStatisticsDetails;
 exports.sleepStatisticsHome = sleepStatisticsHome;
@@ -421,6 +423,26 @@ function enterLeaveHomeDetails(data) {
 
 // 获取离、回家数据日志
 function getBodyDetectionRadar(data) {
+  return (0, _request.default)({
+    url: '/app-api/radar/line-rule-data/page',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 获取跌倒数据日志
+function getTumbleRadar(data) {
+  return (0, _request.default)({
+    url: '/app-api/radar/line-rule-data/page',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 获取入厕数据日志
+function getExistPerceptionRadar(data) {
   return (0, _request.default)({
     url: '/app-api/radar/line-rule-data/page',
     method: 'get',

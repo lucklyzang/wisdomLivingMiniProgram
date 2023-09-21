@@ -53,7 +53,7 @@
 								<text>未检测到人体</text>
 							</view>
 						</view>
-						<u-loadmore :status="status" v-show="fullRecordList.length > 20" />
+						<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
 					</scroll-view>
 				</view>
 			</view>
@@ -86,7 +86,7 @@
 				heartRate: '',
 				fullRecordList: [],
 				currentDate: '',
-				status: 'loadmore',
+				status: 'nomore',
 				isShowNoHomeNoData: false,
 				params: {
 					year: true,
@@ -164,7 +164,7 @@
 				if (this.currentPageNum >= totalPage) {
 					this.status = 'nomore'
 				} else {
-					this.status = 'loading';
+					this.status = 'loadmore';
 					this.currentPageNum = this.currentPageNum + 1;
 					this.querySignMonitorRadar({
 						pageNo: this.currentPageNum,
@@ -237,9 +237,16 @@
 				this.heartRate = "";
 				if (flag) {
 						this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.status = 'loading';
 				};
 				getsignMonitorRadar(data).then((res) => {
-					this.showLoadingHint = false;
+					if (flag) {
+							this.showLoadingHint = false
+					} else {
+						this.status = 'loadmore';
+					};
 					if ( res && res.data.code == 0) {
 						this.breath = res.data.data.breath ? res.data.data.breath : '-';
 						this.heartRate = res.data.data.heartRate ? res.data.data.heartRate : '-';
@@ -260,7 +267,11 @@
 					}
 				})
 				.catch((err) => {
-					this.showLoadingHint = false;
+					if (flag) {
+							this.showLoadingHint = false
+					} else {
+						this.status = 'loadmore';
+					};
 					this.$refs.uToast.show({
 						title: err.message,
 						type: 'error',

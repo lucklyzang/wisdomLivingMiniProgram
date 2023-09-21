@@ -220,7 +220,7 @@ var _default = {
       totalCount: 0,
       recordList: [],
       fullRecordList: [],
-      status: 'loadmore',
+      status: 'nomore',
       params: {
         year: true,
         month: true,
@@ -286,7 +286,7 @@ var _default = {
       if (this.currentPageNum >= totalPage) {
         this.status = 'nomore';
       } else {
-        this.status = 'loading';
+        this.status = 'loadmore';
         this.currentPageNum = this.currentPageNum + 1;
         this.queryBodyDetectionRadar({
           pageNo: this.currentPageNum,
@@ -306,7 +306,6 @@ var _default = {
         deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
         createDate: this.currentDate
       }, true);
-      console.log(value);
     },
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
@@ -359,10 +358,18 @@ var _default = {
       this.recordList = [];
       if (flag) {
         this.showLoadingHint = true;
+      } else {
+        this.showLoadingHint = false;
+        this.status = 'loading';
       }
       ;
       (0, _device.getBodyDetectionRadar)(data).then(function (res) {
-        _this2.showLoadingHint = false;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          _this2.status = 'loadmore';
+        }
+        ;
         if (res && res.data.code == 0) {
           _this2.totalCount = res.data.data.total;
           _this2.recordList = res.data.data.list;
@@ -380,7 +387,12 @@ var _default = {
           });
         }
       }).catch(function (err) {
-        _this2.showLoadingHint = false;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          _this2.status = 'loadmore';
+        }
+        ;
         _this2.$refs.uToast.show({
           title: err.message,
           type: 'error',

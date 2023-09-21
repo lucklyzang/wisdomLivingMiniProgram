@@ -223,7 +223,7 @@ var _default = {
       heartRate: '',
       fullRecordList: [],
       currentDate: '',
-      status: 'loadmore',
+      status: 'nomore',
       isShowNoHomeNoData: false,
       params: {
         year: true,
@@ -283,7 +283,7 @@ var _default = {
       if (this.currentPageNum >= totalPage) {
         this.status = 'nomore';
       } else {
-        this.status = 'loading';
+        this.status = 'loadmore';
         this.currentPageNum = this.currentPageNum + 1;
         this.querySignMonitorRadar({
           pageNo: this.currentPageNum,
@@ -361,10 +361,18 @@ var _default = {
       this.heartRate = "";
       if (flag) {
         this.showLoadingHint = true;
+      } else {
+        this.showLoadingHint = false;
+        this.status = 'loading';
       }
       ;
       (0, _device.getsignMonitorRadar)(data).then(function (res) {
-        _this2.showLoadingHint = false;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          _this2.status = 'loadmore';
+        }
+        ;
         if (res && res.data.code == 0) {
           _this2.breath = res.data.data.breath ? res.data.data.breath : '-';
           _this2.heartRate = res.data.data.heartRate ? res.data.data.heartRate : '-';
@@ -384,7 +392,12 @@ var _default = {
           });
         }
       }).catch(function (err) {
-        _this2.showLoadingHint = false;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          _this2.status = 'loadmore';
+        }
+        ;
         _this2.$refs.uToast.show({
           title: err.message,
           type: 'error',

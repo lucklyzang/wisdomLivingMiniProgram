@@ -130,7 +130,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import { sleepStatisticsDetails, sleepStatisticsHome } from '@/api/device.js'
-	import { getUserBannerList,createVisitPageData, exitPageData } from '@/api/user.js'
+	import { createVisitPageData, exitPageData } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -439,6 +439,7 @@
 							this.lowest = Math.floor(questData.heart.lowest);
 							this.highest = Math.floor(questData.heart.highest);
 							this.average = Math.floor(questData.heart.average);
+							this.quietness = Math.floor(questData.heart.heartSilent);
 							this.dayChartData['isShow'] = true;
 							let temporaryData = {
 								categories: [],
@@ -539,7 +540,7 @@
 								questData.respVOList.forEach((item,index) => {
 									this.currentWeekYaxisArr.push(item);
 									this.currentWeekXaxisArr.push(item.startTime);
-									temporaryData['categories'].push(this.judgeWeek(item.createTime));
+									temporaryData['categories'].push(this.judgeWeek(item.startTime));
 									temporaryData['series'][0]['data'].push({
 										color: 'transparent',
 										value: Math.floor(item.heartMinValue)

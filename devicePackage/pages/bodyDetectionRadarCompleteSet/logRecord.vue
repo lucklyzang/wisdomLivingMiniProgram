@@ -25,7 +25,7 @@
 							<text>{{ `出: ${item.goOut}` }}</text>
 						</view>
 					</view>
-					<u-loadmore :status="status" v-show="fullRecordList.length > 100" />
+					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
 				</scroll-view>
 			</view>
 		</view>
@@ -54,7 +54,7 @@
 				totalCount: 0,
 				recordList: [],
 				fullRecordList: [],
-				status: 'loadmore',
+				status: 'nomore',
 				params: {
 					year: true,
 					month: true,
@@ -141,7 +141,7 @@
 				if (this.currentPageNum >= totalPage) {
 					this.status = 'nomore'
 				} else {
-					this.status = 'loading';
+					this.status = 'loadmore';
 					this.currentPageNum = this.currentPageNum + 1;
 					this.queryBodyDetectionRadar({
 						pageNo: this.currentPageNum,
@@ -161,8 +161,7 @@
 					pageSize: this.pageSize,
 					deviceId: this.beforeAddBodyDetectionDeviceMessage.deviceId,
 					createDate: this.currentDate
-				},true);
-				console.log(value)
+				},true)
 			},
 			
 			// 格式化时间
@@ -208,9 +207,16 @@
 				this.recordList = [];
 				if (flag) {
 					this.showLoadingHint = true;
+				} else {
+					this.showLoadingHint = false;
+					this.status = 'loading'
 				};
 				getBodyDetectionRadar(data).then((res) => {
-					this.showLoadingHint = false;
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.recordList = res.data.data.list;
@@ -229,7 +235,11 @@
 					}
 				})
 				.catch((err) => {
-					this.showLoadingHint = false;
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
 					this.$refs.uToast.show({
 						title: err.message,
 						type: 'error',

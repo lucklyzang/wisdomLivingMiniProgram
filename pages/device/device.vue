@@ -434,19 +434,19 @@
 						position: relative;
 						.no-read-box {
 							position: absolute;
-							width: 16px;
-							height: 16px;
+							width: 18px;
+							height: 18px;
 							border-radius: 50%;
 							background: #F50057;
 							color: #fff;
-							font-size: 12px;
+							font-size: 10px;
 							left: 24px;
 							top: -4px;
 							>text {
 								text-align: center;
-								line-height: 16px;
-								width: 16px;
-								height: 16px;
+								line-height: 18px;
+								width: 18px;
+								height: 18px;
 								display: inline-block;
 								@include no-wrap
 							};

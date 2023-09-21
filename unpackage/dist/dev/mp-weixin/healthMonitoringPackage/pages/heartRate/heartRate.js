@@ -531,6 +531,7 @@ var _default = {
             _this2.lowest = Math.floor(questData.heart.lowest);
             _this2.highest = Math.floor(questData.heart.highest);
             _this2.average = Math.floor(questData.heart.average);
+            _this2.quietness = Math.floor(questData.heart.heartSilent);
             _this2.dayChartData['isShow'] = true;
             var temporaryData = {
               categories: [],
@@ -627,7 +628,7 @@ var _default = {
               questData.respVOList.forEach(function (item, index) {
                 _this3.currentWeekYaxisArr.push(item);
                 _this3.currentWeekXaxisArr.push(item.startTime);
-                temporaryData['categories'].push(_this3.judgeWeek(item.createTime));
+                temporaryData['categories'].push(_this3.judgeWeek(item.startTime));
                 temporaryData['series'][0]['data'].push({
                   color: 'transparent',
                   value: Math.floor(item.heartMinValue)

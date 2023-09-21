@@ -47,7 +47,7 @@
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
-							<qiun-data-charts v-if="weekChartData.isShow" :inScrollView="true" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdatef123gh" :opts="breathWeekOpts" :ontouch="true" :chartData="weekChartData['data']" />
+							<qiun-data-charts v-if="weekChartData.isShow" :inScrollView="true" type="column" @getIndex="getWeekIndexEvent" :canvas2d="true" canvasId="abcdatef123gh" :opts="breathWeekOpts" :ontouch="true" :chartData="weekChartData['data']" />
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
@@ -822,7 +822,7 @@
 								questData.respVOList.forEach((item,index) => {
 									this.currentWeekYaxisArr.push(item);
 									this.currentWeekXaxisArr.push(item.startTime);
-									temporaryData['categories'].push(this.judgeWeek(item.createTime));
+									temporaryData['categories'].push(this.judgeWeek(item.startTime));
 									temporaryData['series'][0]['data'].push({
 										color: 'transparent',
 										value: Math.floor(item.breathMinValue)

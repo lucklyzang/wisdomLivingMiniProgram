@@ -234,7 +234,7 @@ var _default = {
       totalCount: 0,
       noReadNum: 0,
       readedNum: 0,
-      status: 'loadmore',
+      status: 'nomore',
       initValue: null,
       initValueId: null,
       noticeList: [],
@@ -268,7 +268,7 @@ var _default = {
       if (this.currentPage >= totalPage) {
         this.status = 'nomore';
       } else {
-        this.status = 'loading';
+        this.status = 'loadmore';
         this.currentPage = this.currentPage + 1;
         this.queryDeviceNoticeList({
           pageNo: this.currentPage,
@@ -340,6 +340,7 @@ var _default = {
       } else {
         this.showLoadingHint = false;
         this.infoText = '';
+        this.status = 'loading';
       }
       ;
       this.noticeList = [];
