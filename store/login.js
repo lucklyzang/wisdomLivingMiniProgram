@@ -3,6 +3,7 @@ export default {
 	state: {
 		userInfo: {},
 		token: null, //请求token,
+		isLogin: false,
 		overDueWay: false,
 		userBasicInfo: null
 	},
@@ -10,6 +11,10 @@ export default {
 		 userInfo:(state) => {
 			state.userInfo = getCache('userInfo') ? getCache('userInfo') : {};
 			return state.userInfo
+		},
+		isLogin: (state) => {
+			state.isLogin = getCache('isLogin') ? getCache('isLogin') === 'false' ? false : true : false;
+			return state.isLogin
 		},
 		token:(state) => {
 			state.token = getCache('token') ? getCache('token') : null;
@@ -40,6 +45,13 @@ export default {
 			if (playLoad && playLoad != 'null') {
 				setCache('token', playLoad);
 				state.token = playLoad
+			}
+		},
+		// 修改是否登录状态
+		changeIsLogin(state, playLoad) {
+			if (playLoad && playLoad != 'null') {
+				setCache('isLogin', playLoad);
+				state.isLogin = playLoad
 			}
 		},
 		// 修改过期方式

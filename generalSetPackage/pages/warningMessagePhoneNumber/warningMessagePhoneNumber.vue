@@ -257,7 +257,8 @@
 							color: #0E2442 !important
 						};
 						.right-arrow {
-							color: #0E2442 !important
+							color: #0E2442 !important;
+							right: -10px !important;
 						}
 					}
 				}

@@ -133,7 +133,7 @@
 				<button @click="resetPasswordEvent">{{ isForgetPassword ? '确认' : '进入首页' }}</button>
 			</view>
       <view class="weixin-login" v-if="!isForgetPassword && !isSetPassword">
-        <u-divider border-color="#DBDBDB" color="#919191" @click="weixinLoginEvent">其他登录方式</u-divider>
+        <u-divider border-color="#DBDBDB" color="#919191">其他登录方式</u-divider>
         <view class="image-wrapper" @click="weixinLoginEvent">
 					<button  width="100%" open-type="getPhoneNumber" @getphonenumber="bindPhone">
 						<image src="/static/img/weixin.png">
@@ -219,7 +219,8 @@
 				'changeOverDueWay',
 				'changeToken',
 				'changeFamilyId',
-				'changeFamilyMessage'
+				'changeFamilyMessage',
+				'changeIsLogin'
 			]),
 			
 			// 创建页面访问数据
@@ -663,6 +664,8 @@
 				this.fullFamilyMemberList = [];
 				getUserFamilyList().then((res) => {
 					if ( res && res.data.code == 0) {
+						// 用户是否登录信息存入store
+						this.changeIsLogin(true);
 						this.fullFamilyMemberList = res.data.data;
 						for (let item of res.data.data) {
 							this.familyMemberList.push({
@@ -717,7 +720,7 @@
 				console.log(e);
 				if (e.detail.code) {
 					this.weixinMiniAppLoginEvent({
-						phoneCode: e.detail.encryptedData,
+						phoneCode: e.detail.code,
 						loginCode: this.userCode
 					})
 				}

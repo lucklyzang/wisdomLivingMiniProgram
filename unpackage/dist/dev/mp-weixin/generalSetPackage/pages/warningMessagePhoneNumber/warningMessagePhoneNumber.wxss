@@ -97,6 +97,7 @@ page {
 }
 .content-box .content-area .family-name-area .dropdown-area  .show-box .right-arrow {
   color: #0E2442 !important;
+  right: -10px !important;
 }
 .content-box .content-area .phone-number-list-area {
   width: 100%;

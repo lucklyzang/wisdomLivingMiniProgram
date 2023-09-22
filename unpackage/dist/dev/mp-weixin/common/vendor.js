@@ -28858,10 +28858,41 @@ var instance = _axiosMiniprogram.default.create({
   }
 });
 
+// 计算是否快要过期
+var isTokenExpired = function isTokenExpired() {
+  var expireTime = new Date(_store.default.getters.userInfo['expiresTime']).getTime();
+  var timeDifference = expireTime - Date.now();
+  if (expireTime && timeDifference < 60000) {
+    return true;
+  }
+  return false;
+};
+
+// 是否正在刷新的标记 -- 防止重复发出刷新token接口--节流阀
+var isRefreshing = false;
+
+// 失效后同时发送请求的容器 -- 缓存接口
+var subscribers = [];
+
+// 刷新 token 后, 将缓存的接口重新请求一次
+function onAccessTokenFetched(newToken) {
+  subscribers.forEach(function (callback) {
+    callback(newToken);
+  });
+  // 清空缓存接口
+  subscribers = [];
+}
+;
+
+// 添加缓存接口
+function addSubscriber(callback) {
+  subscribers.push(callback);
+}
+;
+
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
   config.headers['tenant-id'] = 1;
-  console.log('token', _store.default.getters);
   if (config['url'] == 'auth/login') {
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
   }
@@ -28869,6 +28900,68 @@ instance.interceptors.request.use(function (config) {
   // 请求头添加token
   if (_store.default.getters.token) {
     config.headers['Authorization'] = "Bearer ".concat(_store.default.getters.token);
+  }
+  ;
+  if (isTokenExpired() && _store.default.getters.token && _store.default.getters.isLogin) {
+    // 如果token快过期了
+    if (!isRefreshing) {
+      // 控制重复获取token
+      isRefreshing = true;
+      (0, _axiosMiniprogram.default)({
+        headers: {
+          'tenant-id': 1
+        },
+        baseURL: 'https://blink.blinktech.cn/radar',
+        method: 'post',
+        url: "app-api/member/auth/refresh-token?refreshToken=".concat(_store.default.getters.userInfo['refreshToken'])
+      }).then(function (res) {
+        isRefreshing = false;
+        if (res && res.data.code === 0) {
+          var result = res.data.data;
+          // token存储到vuex
+          if (result) {
+            // token信息存入store
+            _store.default.commit('changeToken', result.accessToken);
+            // 登录用户信息存入store
+            _store.default.commit('storeUserInfo', result);
+            onAccessTokenFetched(result.accessToken);
+          }
+        } else {
+          // 清空store和localStorage
+          (0, _utils.removeAllLocalStorage)();
+          _store.default.dispatch('resetDeviceState');
+          uni.redirectTo({
+            url: '/pages/login/login'
+          }); // 失败就跳转登陆
+          isRefreshing = false;
+        }
+      }).catch(function (err) {
+        console.log('退出', 2, err);
+        // 清空store和localStorage
+        (0, _utils.removeAllLocalStorage)();
+        _store.default.dispatch('resetDeviceState');
+        uni.redirectTo({
+          url: '/pages/login/login'
+        }); // 失败就跳转登陆
+        isRefreshing = false;
+      });
+    }
+    ;
+    // 将其他接口缓存起来 -- 这个Promise函数很关键
+    var retryRequest = new Promise(function (resolve) {
+      // 这里是将其他接口缓存起来的关键, 返回Promise并且让其状态一直为等待状态,
+      // 只有当token刷新成功后, 就会调用通过addSubscriber函数添加的缓存接口,
+      // 此时, Promise的状态就会变成resolve
+      addSubscriber(function (newToken) {
+        // 表示用新的token去替换掉原来的token
+        config.headers['Authorization'] = "Bearer ".concat(newToken);
+        // 替换掉url -- 因为baseURL会扩展请求url
+        config.url = config.url.replace(config.baseURL, '');
+        // 返回重新封装的config, 就会将新配置去发送请求
+        resolve(config);
+      });
+    });
+    return retryRequest;
   }
   ;
   return config;
@@ -28884,15 +28977,37 @@ instance.interceptors.response.use(function (response) {
     (0, _utils.setCache)('token', response.headers['token']);
   }
   ;
+  if (response.data.code == '401') {
+    // 清空store和localStorage
+    (0, _utils.removeAllLocalStorage)();
+    _store.default.dispatch('resetDeviceState');
+    if (!_store.default.getters.overDueWay) {
+      uni.showToast({
+        title: 'token已过期,请重新登录!',
+        duration: 1000
+      });
+      setTimeout(function () {
+        uni.redirectTo({
+          url: '/pages/login/login'
+        });
+      }, 2000);
+    } else {
+      uni.redirectTo({
+        url: '/pages/login/login'
+      });
+    }
+  }
+  ;
   return response;
 }, function (error) {
   if (Object.prototype.toString.call(error.response) === '[object Object]') {
     if (error.response.hasOwnProperty('status')) {
       if (error.response.status === 401) {
-        (0, _utils.removeAllLocalStorage)();
+        // 清空store和localStorage
+        _store.default.dispatch('resetDeviceState');
         if (!_store.default.getters.overDueWay) {
           uni.showToast({
-            title: 'token已过期,请重新登录',
+            title: 'token已过期,请重新登录!',
             duration: 1000
           });
           setTimeout(function () {
@@ -30185,6 +30300,7 @@ var _default = {
     userInfo: {},
     token: null,
     //请求token,
+    isLogin: false,
     overDueWay: false,
     userBasicInfo: null
   },
@@ -30192,6 +30308,10 @@ var _default = {
     userInfo: function userInfo(state) {
       state.userInfo = (0, _utils.getCache)('userInfo') ? (0, _utils.getCache)('userInfo') : {};
       return state.userInfo;
+    },
+    isLogin: function isLogin(state) {
+      state.isLogin = (0, _utils.getCache)('isLogin') ? (0, _utils.getCache)('isLogin') === 'false' ? false : true : false;
+      return state.isLogin;
     },
     token: function token(state) {
       state.token = (0, _utils.getCache)('token') ? (0, _utils.getCache)('token') : null;
@@ -30224,6 +30344,13 @@ var _default = {
       if (playLoad && playLoad != 'null') {
         (0, _utils.setCache)('token', playLoad);
         state.token = playLoad;
+      }
+    },
+    // 修改是否登录状态
+    changeIsLogin: function changeIsLogin(state, playLoad) {
+      if (playLoad && playLoad != 'null') {
+        (0, _utils.setCache)('isLogin', playLoad);
+        state.isLogin = playLoad;
       }
     },
     // 修改过期方式

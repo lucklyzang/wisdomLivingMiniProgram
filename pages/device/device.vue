@@ -117,6 +117,7 @@
 			}
 		},
 		onShow() {
+			this.tabCutActiveIndex = 0;
 			this.initFamilyInfo()
 		},
 		computed: {
@@ -241,6 +242,7 @@
 			
 			// 获取用户房间信息
 			getUserRoom (familyId) {
+				this.roomList = [];
 				this.showLoadingHint = true;
 				this.infoText = '加载中...';
 				this.isShowNoRoomData = false;
@@ -248,7 +250,6 @@
 					if ( res && res.data.code == 0) {
 						if ( res.data.data.length > 0) {
 							this.roomList = res.data.data;
-							console.log('房间信息',this.roomList)
 						} else {
 							this.isShowNoRoomData = true
 						}
@@ -423,7 +424,6 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				z-index: 1;
 				margin-top: 44px;
 				position: relative;
 				.operation-top-area {
@@ -461,6 +461,7 @@
 					};
 					.dropdown-area {
 						width: 100px;
+						z-index: 10;
 						transform: translateX(50%);
 						::v-deep .show-box {
 							border: none !important;
@@ -589,7 +590,6 @@
 				display: flex;
 				flex-direction: column;
 				position: relative;
-				z-index: 1000;
 				flex-grow: 0;
 				.room-list-wrapper {
 					flex: 1;
@@ -653,6 +653,7 @@
 			}
 		};
 		.center-content-area-one {
+			z-index: 1;
 			margin-top: -40px !important
 		}
 	}

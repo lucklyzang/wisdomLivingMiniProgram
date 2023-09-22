@@ -21,18 +21,106 @@ const instance = axios.create({
   }
 });
 
+// 计算是否快要过期
+const isTokenExpired = () => {
+    const expireTime = new Date(store.getters.userInfo['expiresTime']).getTime();
+    const timeDifference = expireTime - Date.now();
+    if (expireTime && timeDifference < 60000) {
+        return true
+    }
+    return false
+};
+
+// 是否正在刷新的标记 -- 防止重复发出刷新token接口--节流阀
+let isRefreshing = false;
+
+// 失效后同时发送请求的容器 -- 缓存接口
+let subscribers = [];
+
+// 刷新 token 后, 将缓存的接口重新请求一次
+function onAccessTokenFetched(newToken) {
+	subscribers.forEach((callback) => {
+			callback(newToken)
+	});
+	// 清空缓存接口
+	subscribers = []
+};
+
+// 添加缓存接口
+function addSubscriber(callback) {
+    subscribers.push(callback)
+};
+
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
 	config.headers['tenant-id'] = 1;
-	console.log('token',store.getters);
   if (config['url'] == 'auth/login') {
   	config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   };
 	// 请求头添加token
 	if (store.getters.token) {
-	   config.headers['Authorization'] = `Bearer ${store.getters.token}`
-	}; 
-	return config;
+	  config.headers['Authorization'] = `Bearer ${store.getters.token}`
+	};
+	if (isTokenExpired() && store.getters.token && store.getters.isLogin) {
+	 // 如果token快过期了
+	 if (!isRefreshing) { // 控制重复获取token
+			 isRefreshing = true;
+			 axios({
+				headers: {
+					'tenant-id': 1
+				},
+				baseURL: 'https://blink.blinktech.cn/radar',
+				method: 'post',
+				url: `app-api/member/auth/refresh-token?refreshToken=${store.getters.userInfo['refreshToken']}`
+			 }).then(res => {
+				isRefreshing = false
+				if (res && res.data.code === 0) {
+					const result = res.data.data;
+					// token存储到vuex
+					if (result) {
+						// token信息存入store
+						store.commit('changeToken',result.accessToken);
+						// 登录用户信息存入store
+						store.commit('storeUserInfo',result);
+						onAccessTokenFetched(result.accessToken)
+					}
+				} else {
+					// 清空store和localStorage
+					removeAllLocalStorage();
+					store.dispatch('resetDeviceState');
+					uni.redirectTo({
+						url: '/pages/login/login'
+					}); // 失败就跳转登陆
+					isRefreshing = false
+				}
+			}).catch((err) => {
+				console.log('退出',2,err);
+				// 清空store和localStorage
+				removeAllLocalStorage();
+				store.dispatch('resetDeviceState');
+				uni.redirectTo({
+					url: '/pages/login/login'
+				}); // 失败就跳转登陆
+				isRefreshing = false
+			})
+	};
+	// 将其他接口缓存起来 -- 这个Promise函数很关键
+	const retryRequest = new Promise((resolve) => {
+		// 这里是将其他接口缓存起来的关键, 返回Promise并且让其状态一直为等待状态,
+		// 只有当token刷新成功后, 就会调用通过addSubscriber函数添加的缓存接口,
+		// 此时, Promise的状态就会变成resolve
+		addSubscriber((newToken) => {
+			// 表示用新的token去替换掉原来的token
+			config.headers['Authorization'] = `Bearer ${newToken}`;
+			// 替换掉url -- 因为baseURL会扩展请求url
+			config.url = config.url.replace(config.baseURL, '');
+			// 返回重新封装的config, 就会将新配置去发送请求
+			resolve(config)
+		})
+	});
+	return retryRequest
+ };
+ return config;
 }, function (error) {
   //处理请求错误
   return Promise.reject(error.response);
@@ -44,15 +132,36 @@ instance.interceptors.response.use(function (response) {
 		store.commit('changeToken', response.headers['token']);
 		setCache('token', response.headers['token'])
 	};
+	if (response.data.code == '401') {
+		// 清空store和localStorage
+		removeAllLocalStorage();
+		store.dispatch('resetDeviceState');
+		if (!store.getters.overDueWay) { 
+			uni.showToast({
+				title: 'token已过期,请重新登录!',
+				duration: 1000
+			});
+			setTimeout(() => {
+				uni.redirectTo({
+				 url: '/pages/login/login'
+				})
+			},2000);
+		 } else {
+			uni.redirectTo({
+				url: '/pages/login/login'
+			})
+		}
+	};
 	return response
 }, function (error) {
 	if (Object.prototype.toString.call(error.response) === '[object Object]') {
 		if (error.response.hasOwnProperty('status')) {
 			if (error.response.status === 401) {
-				removeAllLocalStorage();
+				// 清空store和localStorage
+				store.dispatch('resetDeviceState');
 				if (!store.getters.overDueWay) { 
 					uni.showToast({
-						title: 'token已过期,请重新登录',
+						title: 'token已过期,请重新登录!',
 						duration: 1000
 					});
 					setTimeout(() => {

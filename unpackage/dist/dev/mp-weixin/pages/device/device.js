@@ -231,6 +231,7 @@ var _default = {
     };
   },
   onShow: function onShow() {
+    this.tabCutActiveIndex = 0;
     this.initFamilyInfo();
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'familyMessage', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet'])), {}, {
@@ -327,6 +328,7 @@ var _default = {
     // 获取用户房间信息
     getUserRoom: function getUserRoom(familyId) {
       var _this3 = this;
+      this.roomList = [];
       this.showLoadingHint = true;
       this.infoText = '加载中...';
       this.isShowNoRoomData = false;
@@ -336,7 +338,6 @@ var _default = {
         if (res && res.data.code == 0) {
           if (res.data.data.length > 0) {
             _this3.roomList = res.data.data;
-            console.log('房间信息', _this3.roomList);
           } else {
             _this3.isShowNoRoomData = true;
           }

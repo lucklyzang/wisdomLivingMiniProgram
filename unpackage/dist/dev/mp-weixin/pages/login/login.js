@@ -273,7 +273,7 @@ var _default = {
     this.form.username = (0, _utils.getCache)('userName') ? (0, _utils.getCache)('userName') : '';
     this.form.password = (0, _utils.getCache)('userPassword') ? (0, _utils.getCache)('userPassword') : '';
   },
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['storeUserInfo', 'changeOverDueWay', 'changeToken', 'changeFamilyId', 'changeFamilyMessage'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['storeUserInfo', 'changeOverDueWay', 'changeToken', 'changeFamilyId', 'changeFamilyMessage', 'changeIsLogin'])), {}, {
     // 创建页面访问数据
     createVisitPage: function createVisitPage() {
       var _this = this;
@@ -713,6 +713,8 @@ var _default = {
       this.fullFamilyMemberList = [];
       (0, _user.getUserFamilyList)().then(function (res) {
         if (res && res.data.code == 0) {
+          // 用户是否登录信息存入store
+          _this8.changeIsLogin(true);
           _this8.fullFamilyMemberList = res.data.data;
           var _iterator = _createForOfIteratorHelper(res.data.data),
             _step;
@@ -776,7 +778,7 @@ var _default = {
       console.log(e);
       if (e.detail.code) {
         this.weixinMiniAppLoginEvent({
-          phoneCode: e.detail.encryptedData,
+          phoneCode: e.detail.code,
           loginCode: this.userCode
         });
       }
