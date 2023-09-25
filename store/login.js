@@ -1,12 +1,7 @@
 import { setCache, getCache } from '@/common/js/utils'
+import { getDefaultLoginState } from '@/common/js/resetStore/resetStore.js'
 export default {	
-	state: {
-		userInfo: {},
-		token: null, //请求token,
-		isLogin: false,
-		overDueWay: false,
-		userBasicInfo: null
-	},
+	state: getDefaultLoginState(),
 	getters: {
 		 userInfo:(state) => {
 			state.userInfo = getCache('userInfo') ? getCache('userInfo') : {};
@@ -57,7 +52,15 @@ export default {
 		// 修改过期方式
 		changeOverDueWay(state, playLoad) {
 			state.overDueWay = playLoad
+		},
+		//重置登录信息的状态
+		resetLoginInfoState(state) {
+				Object.assign(state, getDefaultLoginState())
 		}
 	},
-	actions: {}
+	actions: {
+		resetLoginState({ commit }) {
+			commit('resetLoginInfoState')
+		}
+	}
 }

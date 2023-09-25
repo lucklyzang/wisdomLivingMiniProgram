@@ -110,6 +110,7 @@
 						});
 						// 清空store和localStorage
 						this.$store.dispatch('resetDeviceState');
+						this.$store.dispatch('resetLoginState');
 						removeAllLocalStorage();
 						uni.redirectTo({
 							url: '/pages/login/login'

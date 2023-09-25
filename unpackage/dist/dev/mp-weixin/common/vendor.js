@@ -28865,6 +28865,7 @@ var isTokenExpired = function isTokenExpired() {
   if (expireTime && timeDifference < 60000) {
     return true;
   }
+  ;
   return false;
 };
 
@@ -28930,19 +28931,21 @@ instance.interceptors.request.use(function (config) {
           // 清空store和localStorage
           (0, _utils.removeAllLocalStorage)();
           _store.default.dispatch('resetDeviceState');
+          _store.default.dispatch('resetLoginState');
           uni.redirectTo({
             url: '/pages/login/login'
           }); // 失败就跳转登陆
-          isRefreshing = false;
+          isRefreshing = true;
         }
       }).catch(function (err) {
         // 清空store和localStorage
         (0, _utils.removeAllLocalStorage)();
         _store.default.dispatch('resetDeviceState');
+        _store.default.dispatch('resetLoginState');
         uni.redirectTo({
           url: '/pages/login/login'
         }); // 失败就跳转登陆
-        isRefreshing = false;
+        isRefreshing = true;
       });
     }
     ;
@@ -30294,15 +30297,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
+var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 38);
 var _default = {
-  state: {
-    userInfo: {},
-    token: null,
-    //请求token,
-    isLogin: false,
-    overDueWay: false,
-    userBasicInfo: null
-  },
+  state: (0, _resetStore.getDefaultLoginState)(),
   getters: {
     userInfo: function userInfo(state) {
       state.userInfo = (0, _utils.getCache)('userInfo') ? (0, _utils.getCache)('userInfo') : {};
@@ -30355,9 +30352,18 @@ var _default = {
     // 修改过期方式
     changeOverDueWay: function changeOverDueWay(state, playLoad) {
       state.overDueWay = playLoad;
+    },
+    //重置登录信息的状态
+    resetLoginInfoState: function resetLoginInfoState(state) {
+      Object.assign(state, (0, _resetStore.getDefaultLoginState)());
     }
   },
-  actions: {}
+  actions: {
+    resetLoginState: function resetLoginState(_ref) {
+      var commit = _ref.commit;
+      commit('resetLoginInfoState');
+    }
+  }
 };
 exports.default = _default;
 
@@ -30578,6 +30584,7 @@ var removeAllLocalStorage = function removeAllLocalStorage() {
   removeCache('token');
   removeCache('familyId');
   removeCache('familyMessage');
+  removeCache('userBasicInfo');
   removeCache('storeOverDueWay');
 };
 exports.removeAllLocalStorage = removeAllLocalStorage;
@@ -30753,6 +30760,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getDefaultDeviceState = getDefaultDeviceState;
+exports.getDefaultLoginState = getDefaultLoginState;
 // 设备信息store的初始值
 function getDefaultDeviceState() {
   return {
@@ -30773,6 +30781,19 @@ function getDefaultDeviceState() {
     familyMessage: {},
     currentDeviceType: '',
     deviceDataMessage: {}
+  };
+}
+;
+
+// 登录信息store的初始值
+function getDefaultLoginState() {
+  return {
+    userInfo: {},
+    token: null,
+    //请求token,
+    isLogin: false,
+    overDueWay: false,
+    userBasicInfo: null
   };
 }
 ;

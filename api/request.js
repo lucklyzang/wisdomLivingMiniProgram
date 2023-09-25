@@ -27,7 +27,7 @@ const isTokenExpired = () => {
     const timeDifference = expireTime - Date.now();
     if (expireTime && timeDifference < 60000) {
         return true
-    }
+    };
     return false
 };
 
@@ -88,19 +88,21 @@ instance.interceptors.request.use(function (config) {
 					// 清空store和localStorage
 					removeAllLocalStorage();
 					store.dispatch('resetDeviceState');
+					store.dispatch('resetLoginState');
 					uni.redirectTo({
 						url: '/pages/login/login'
 					}); // 失败就跳转登陆
-					isRefreshing = false
+					isRefreshing = true
 				}
 			}).catch((err) => {
 				// 清空store和localStorage
 				removeAllLocalStorage();
 				store.dispatch('resetDeviceState');
+				store.dispatch('resetLoginState');
 				uni.redirectTo({
 					url: '/pages/login/login'
 				}); // 失败就跳转登陆
-				isRefreshing = false
+				isRefreshing = true
 			})
 	};
 	// 将其他接口缓存起来 -- 这个Promise函数很关键
