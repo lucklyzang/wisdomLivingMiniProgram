@@ -28902,7 +28902,7 @@ instance.interceptors.request.use(function (config) {
     config.headers['Authorization'] = "Bearer ".concat(_store.default.getters.token);
   }
   ;
-  if (isTokenExpired() && _store.default.getters.token && _store.default.getters.isLogin) {
+  if (isTokenExpired() && _store.default.getters.userInfo['refreshToken'] && _store.default.getters.isLogin) {
     // 如果token快过期了
     if (!isRefreshing) {
       // 控制重复获取token
@@ -28915,8 +28915,8 @@ instance.interceptors.request.use(function (config) {
         method: 'post',
         url: "app-api/member/auth/refresh-token?refreshToken=".concat(_store.default.getters.userInfo['refreshToken'])
       }).then(function (res) {
-        isRefreshing = false;
         if (res && res.data.code === 0) {
+          isRefreshing = false;
           var result = res.data.data;
           // token存储到vuex
           if (result) {
@@ -28936,7 +28936,6 @@ instance.interceptors.request.use(function (config) {
           isRefreshing = false;
         }
       }).catch(function (err) {
-        console.log('退出', 2, err);
         // 清空store和localStorage
         (0, _utils.removeAllLocalStorage)();
         _store.default.dispatch('resetDeviceState');
