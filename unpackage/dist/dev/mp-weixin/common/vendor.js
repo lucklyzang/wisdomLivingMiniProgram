@@ -30270,7 +30270,7 @@ exports.default = void 0;
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 25));
 var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 30));
 var _login = _interopRequireDefault(__webpack_require__(/*! ./login.js */ 35));
-var _device = _interopRequireDefault(__webpack_require__(/*! ./device.js */ 37));
+var _device = _interopRequireDefault(__webpack_require__(/*! ./device.js */ 38));
 _vue.default.use(_vuex.default);
 var _default = new _vuex.default.Store({
   modules: {
@@ -30297,7 +30297,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
-var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 38);
+var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 37);
 var _default = {
   state: (0, _resetStore.getDefaultLoginState)(),
   getters: {
@@ -30593,6 +30593,60 @@ exports.removeAllLocalStorage = removeAllLocalStorage;
 /***/ }),
 
 /***/ 37:
+/*!**************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/common/js/resetStore/resetStore.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getDefaultDeviceState = getDefaultDeviceState;
+exports.getDefaultLoginState = getDefaultLoginState;
+// 设备信息store的初始值
+function getDefaultDeviceState() {
+  return {
+    timeMessage: {},
+    ossMessage: {},
+    enterAddRoomPageSource: '',
+    enterDeviceSetPageSource: '',
+    enterFamilyManagementPageSource: '',
+    familyId: '',
+    beforeAddDeviceMessage: {},
+    beforeAddBodyDetectionDeviceMessage: {},
+    beforeAddExistPerceptionRadarCompleteSet: {},
+    beforeAddSignMonitorRadarCompleteSet: {},
+    roomDetails: {},
+    warningMessagePhoneNumber: {},
+    currentNeedBindDevicesMessage: {},
+    deviceNoticeDetails: {},
+    familyMessage: {},
+    currentDeviceType: '',
+    deviceDataMessage: {}
+  };
+}
+;
+
+// 登录信息store的初始值
+function getDefaultLoginState() {
+  return {
+    userInfo: {},
+    token: null,
+    //请求token,
+    isLogin: false,
+    overDueWay: false,
+    userBasicInfo: null
+  };
+}
+;
+
+/***/ }),
+
+/***/ 38:
 /*!*******************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/store/device.js ***!
   \*******************************************************/
@@ -30606,7 +30660,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 38);
+var _resetStore = __webpack_require__(/*! @/common/js/resetStore/resetStore.js */ 37);
 var _utils = __webpack_require__(/*! @/common/js/utils */ 36);
 var _default = {
   state: (0, _resetStore.getDefaultDeviceState)(),
@@ -30743,60 +30797,6 @@ var _default = {
   }
 };
 exports.default = _default;
-
-/***/ }),
-
-/***/ 38:
-/*!**************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/common/js/resetStore/resetStore.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getDefaultDeviceState = getDefaultDeviceState;
-exports.getDefaultLoginState = getDefaultLoginState;
-// 设备信息store的初始值
-function getDefaultDeviceState() {
-  return {
-    timeMessage: {},
-    ossMessage: {},
-    enterAddRoomPageSource: '',
-    enterDeviceSetPageSource: '',
-    enterFamilyManagementPageSource: '',
-    familyId: '',
-    beforeAddDeviceMessage: {},
-    beforeAddBodyDetectionDeviceMessage: {},
-    beforeAddExistPerceptionRadarCompleteSet: {},
-    beforeAddSignMonitorRadarCompleteSet: {},
-    roomDetails: {},
-    warningMessagePhoneNumber: {},
-    currentNeedBindDevicesMessage: {},
-    deviceNoticeDetails: {},
-    familyMessage: {},
-    currentDeviceType: '',
-    deviceDataMessage: {}
-  };
-}
-;
-
-// 登录信息store的初始值
-function getDefaultLoginState() {
-  return {
-    userInfo: {},
-    token: null,
-    //请求token,
-    isLogin: false,
-    overDueWay: false,
-    userBasicInfo: null
-  };
-}
-;
 
 /***/ }),
 

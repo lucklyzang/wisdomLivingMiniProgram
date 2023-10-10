@@ -535,10 +535,10 @@
 					margin: 0 auto;
 					margin-top: 20px;
 					::v-deep .u-subsection {
-						.u-item-bg {
-							height: 24px !important;
-							bottom: 5px !important
-						}
+						// .u-item-bg {
+						// 	height: 24px !important;
+						// 	bottom: 5px !important
+						// }
 					}
 				};
 				.content-top-content {
