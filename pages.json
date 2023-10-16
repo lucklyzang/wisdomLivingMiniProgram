@@ -642,7 +642,7 @@
 		},
 		"generalSetPackage/pages/generalSet/index/index": {
 				"network": "all",
-				"packages": ["devicePackage"]
+				"packages": ["generalSetPackage"]
 		}
 	},
 	"globalStyle": {
