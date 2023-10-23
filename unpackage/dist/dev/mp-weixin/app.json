@@ -97,7 +97,7 @@
   },
   "tabBar": {
     "color": "#909090",
-    "selectedColor": "#34B9C0",
+    "selectedColor": "#11D183",
     "backgroundColor": "#fff",
     "borderStyle": "white",
     "list": [
@@ -137,7 +137,7 @@
     "generalSetPackage/pages/generalSet/index/index": {
       "network": "all",
       "packages": [
-        "devicePackage"
+        "generalSetPackage"
       ]
     }
   },

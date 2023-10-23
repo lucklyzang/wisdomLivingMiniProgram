@@ -265,6 +265,8 @@
 				bannerList: [],
 				showLoadingHint: false,
 				isShowHomeNoData: false,
+				sleepBackground: require("@/static/img/sleep-background.png"),
+				toiletBackground: require("@/static/img/toilet-background.png"),
 				heartRateIconPng: require("@/static/img/heart-rate-icon.png"),
 				breatheIconPng: require("@/static/img/breathe-icon.png"),
 				toiletIconPng: require("@/static/img/toilet-icon.png"),
@@ -1041,6 +1043,17 @@
 				left: 50%;
 				transform: translate(-50%,-50%)
 			};
+			// .toilet-background-box {
+			// 	position: absolute;
+			// 	width: 100%;
+			// 	height: 159px;
+			// 	left: 0;
+			// 	top: 510px;
+			// 	>image {
+			// 		width: 100%;
+			// 		height: 100%
+			// 	}
+			// };
 			.bind-sleep-device-area {
 				margin-top: 2px;
 				padding: 4px 10px;
@@ -1050,6 +1063,10 @@
 				border-radius: 10px;
 				display: flex;
 				flex-direction: column;
+				background: #fff url("@/static/img/sleep-background.png") no-repeat;
+				background-size: 100% 100%;
+				background-origin: padding-box;
+				background-clip: border-box;
 				>view {
 					&:nth-child(1) {
 						font-size: 14px;
@@ -1107,15 +1124,27 @@
 			.bind-toileting-device-area {
 				height: 159px !important;
 				margin-top: 4px;
+				background: #fff url("@/static/img/toilet-background.png") no-repeat;
+				background-size: 100% 100%;
+				background-origin: padding-box;
+				background-clip: border-box;
 			};
 			.tumble-toileting-device-area {
 				height: 132px !important;
 				margin-top: 4px;
+				background: #fff url("@/static/img/tumble-background.png") no-repeat;
+				background-size: 100% 100%;
+				background-origin: padding-box;
+				background-clip: border-box;
 			};
 			.leave-home-device-area {
 				height: 159px !important;
 				margin-top: 4px;
 				margin-bottom: 4px;
+				background: #fff url("@/static/img/leave-home-background.png") no-repeat;
+				background-size: 100% 100%;
+				background-origin: padding-box;
+				background-clip: border-box;
 			};
 			.sleep-area-data {
 				background: #fff;

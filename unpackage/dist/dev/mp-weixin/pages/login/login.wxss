@@ -327,15 +327,14 @@ page {
 }
 .container .container-content .form-btn button {
   font-size: 16px;
-  color: #000000;
-  background: #fff;
-  border: 1px solid #BBBBBB;
+  color: #fff;
+  background: #11d183;
   height: 46px;
   line-height: 46px;
   border-radius: 10px;
 }
 .container .container-content .form-btn .form-btn-info-text {
-  margin-top: 4px;
+  margin-top: 10px;
   align-items: center;
   align-items: center;
   display: flex;
@@ -361,9 +360,8 @@ page {
 }
 .container .container-content .enter-home-btn button {
   font-size: 16px;
-  color: #000000;
-  background: #fff;
-  border: 1px solid #BBBBBB;
+  color: #fff;
+  background: #11D183;
   height: 46px;
   line-height: 46px;
   border-radius: 10px;
@@ -371,38 +369,34 @@ page {
 .container .container-content .weixin-login {
   width: 80%;
   margin: 0 auto;
-  margin-top: 90px;
+  margin-top: 60px;
 }
 .container .container-content .weixin-login  .u-divider .u-divider-line {
   width: 150px !important;
 }
 .container .container-content .weixin-login  .u-divider .u-divider-text {
-  font-size: 14px;
+  font-size: 12px;
 }
 .container .container-content .weixin-login .image-wrapper {
-  width: 40px;
-  height: 24px;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .container .container-content .weixin-login .image-wrapper uni-button {
-  width: 40px;
   background: #fff;
 }
 .container .container-content .weixin-login .image-wrapper uni-button image {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
 }
 .container .container-content .weixin-login .image-wrapper uni-button:after {
   border: none;
 }
 .container .container-content .weixin-login .image-wrapper button {
-  width: 40px;
   background: #fff;
 }
 .container .container-content .weixin-login .image-wrapper button image {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
 }
 .container .container-content .weixin-login .image-wrapper button:after {
   border: none;

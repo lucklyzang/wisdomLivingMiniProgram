@@ -135,7 +135,7 @@
       <view class="weixin-login" v-if="!isForgetPassword && !isSetPassword">
         <u-divider border-color="#DBDBDB" color="#919191">其他登录方式</u-divider>
         <view class="image-wrapper" @click="weixinLoginEvent">
-					<button  width="100%" open-type="getPhoneNumber" @getphonenumber="bindPhone">
+					<button open-type="getPhoneNumber" @getphonenumber="bindPhone">
 						<image src="/static/img/weixin.png">
 					</button>
         </view>
@@ -1063,15 +1063,14 @@
         margin-top: 50px;
 				button {
 					font-size: 16px;
-					color: #000000;
-					background: #fff;
-					border: 1px solid #BBBBBB;
+					color: #fff;
+					background: #11d183;
 					height: 46px;
 					line-height: 46px;
           border-radius: 10px;
 				};
 				.form-btn-info-text {
-					margin-top: 4px;
+					margin-top: 10px;
 					align-items: center;
 					align-items: center;
 					display: flex;
@@ -1101,9 +1100,8 @@
 				margin-top: 50px;
 				button {
 					font-size: 16px;
-					color: #000000;
-					background: #fff;
-					border: 1px solid #BBBBBB;
+					color: #fff;
+					background: #11D183;
 					height: 46px;
 					line-height: 46px;
 				  border-radius: 10px;
@@ -1112,37 +1110,33 @@
       .weixin-login {
         width: 80%;
         margin: 0 auto;
-        margin-top: 90px;
+        margin-top: 60px;
 				::v-deep .u-divider {
 					.u-divider-line {
 						width: 150px !important
 					};
 					.u-divider-text {
-						font-size: 14px
+						font-size: 12px
 					}
 				};
         .image-wrapper {
-          width: 40px;
-          height: 24px;
           margin: 0 auto;
-					margin-top: 10px;
+					margin-top: 20px;
 					uni-button {
-						width: 40px;
 						background: #fff;
 						image {
-						  width: 24px;
-							height: 24px
+						  width: 36px;
+						  height: 36px
 						}
 					};
 					uni-button:after {
 						border: none
 					};
 					button {
-						width: 40px;
 						background: #fff;
 						image {
-						  width: 24px;
-							height: 24px
+						  width: 36px;
+							height: 36px
 						}
 					};
 					button:after {

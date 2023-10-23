@@ -234,6 +234,8 @@ var _default = {
       bannerList: [],
       showLoadingHint: false,
       isShowHomeNoData: false,
+      sleepBackground: __webpack_require__(/*! @/static/img/sleep-background.png */ 1068),
+      toiletBackground: __webpack_require__(/*! @/static/img/toilet-background.png */ 1069),
       heartRateIconPng: __webpack_require__(/*! @/static/img/heart-rate-icon.png */ 109),
       breatheIconPng: __webpack_require__(/*! @/static/img/breathe-icon.png */ 110),
       toiletIconPng: __webpack_require__(/*! @/static/img/toilet-icon.png */ 111),
