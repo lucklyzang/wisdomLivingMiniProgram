@@ -8,10 +8,10 @@
 					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/5ae75f4793c5ae4a3b8002752f0473019cd36b2e13bf716c8755670329c3e486.gif"></image>
 				</view>
 				<view class="device-success" v-if="!showLoadingHint && isSuccess">
-					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/0c004ac2cd5b0943c8887f1011165046c0b7554962b8a628bee7dbb58a95cfa6.png"></image>
+					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/187b4cb8c0e3cfe249d49d8a1170b0f716ec3476bc6fe5152b17f362149739a9.png"></image>
 				</view>
 				<view class="device-fail" v-if="!showLoadingHint && isFail">
-					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/276a8524193cb2010e34a5d40f4540fea181445f99ab77017261bc1c9661b5a7.png"></image>
+					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/9eabc7b7ea2df4cad6c4e5b27c185e425b210c4f70ca2069e9f1c04f4833bca4.png"></image>
 				</view>
 				<text>{{ infoText }}</text>
 			</view>

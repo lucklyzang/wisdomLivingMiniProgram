@@ -118,7 +118,7 @@
 				deviceNumber: '',
 				deviceSetBasicMessage: {},
 				cceptAlarmMethodBoxShow: false,
-				signMonitorRadarPng: require("@/static/img/sign-monitor-radar.png"),
+				signMonitorRadarPng: require("@/static/img/room-icon.png"),
 				logIconPng: require("@/static/img/log-icon.png"),
 				moreIconPng: require("@/static/img/more-icon.png")
 			}

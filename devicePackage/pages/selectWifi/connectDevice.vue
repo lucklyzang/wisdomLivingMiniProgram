@@ -43,7 +43,7 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
-				deviceIconPng: require("@/static/img/room-icon.png")
+				deviceIconPng: require("@/static/img/tumble-radar.png")
 			}
 		},
 		onLoad (object) {

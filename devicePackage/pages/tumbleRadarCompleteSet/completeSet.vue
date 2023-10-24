@@ -115,7 +115,7 @@
 				deviceNumber: '',
 				deviceSetBasicMessage: {},
 				cceptAlarmMethodBoxShow: false,
-				deviceIconPng: require("@/static/img/room-icon.png"),
+				deviceIconPng: require("@/static/img/tumble-radar.png"),
 				logIconPng: require("@/static/img/log-icon.png"),
 				moreIconPng: require("@/static/img/more-icon.png")
 			}

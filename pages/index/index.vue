@@ -265,8 +265,6 @@
 				bannerList: [],
 				showLoadingHint: false,
 				isShowHomeNoData: false,
-				sleepBackground: require("@/static/img/sleep-background.png"),
-				toiletBackground: require("@/static/img/toilet-background.png"),
 				heartRateIconPng: require("@/static/img/heart-rate-icon.png"),
 				breatheIconPng: require("@/static/img/breathe-icon.png"),
 				toiletIconPng: require("@/static/img/toilet-icon.png"),
@@ -1063,7 +1061,7 @@
 				border-radius: 10px;
 				display: flex;
 				flex-direction: column;
-				background: #fff url("@/static/img/sleep-background.png") no-repeat;
+				background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/ca12a50a2a2cd49eb1e637bf252c4ae3c76afacdade1a666d869c730ebf6fecc.png") no-repeat;
 				background-size: 100% 100%;
 				background-origin: padding-box;
 				background-clip: border-box;
@@ -1071,6 +1069,7 @@
 					&:nth-child(1) {
 						font-size: 14px;
 						color: #101010;
+						font-weight: bold;
 						@include no-wrap
 					};
 					&:nth-child(2) {
@@ -1124,7 +1123,7 @@
 			.bind-toileting-device-area {
 				height: 159px !important;
 				margin-top: 4px;
-				background: #fff url("@/static/img/toilet-background.png") no-repeat;
+				background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d57a9b26423730ff135874cae1e5894a6b2ee79943bbd951228bba54f2c02194.png") no-repeat;
 				background-size: 100% 100%;
 				background-origin: padding-box;
 				background-clip: border-box;
@@ -1132,7 +1131,7 @@
 			.tumble-toileting-device-area {
 				height: 132px !important;
 				margin-top: 4px;
-				background: #fff url("@/static/img/tumble-background.png") no-repeat;
+				background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/31c68ce6cdc34b2cefcdba8d2f2b2310a21dc2f7ef8ed8392339392c5c318193.png") no-repeat;
 				background-size: 100% 100%;
 				background-origin: padding-box;
 				background-clip: border-box;
@@ -1141,7 +1140,7 @@
 				height: 159px !important;
 				margin-top: 4px;
 				margin-bottom: 4px;
-				background: #fff url("@/static/img/leave-home-background.png") no-repeat;
+				background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d559b5e7d90cee733f9f9082bef8e1f9e19b01d1179a95b8c76974d7a012f6e6.png") no-repeat;
 				background-size: 100% 100%;
 				background-origin: padding-box;
 				background-clip: border-box;
