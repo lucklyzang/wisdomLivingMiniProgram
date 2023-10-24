@@ -92,7 +92,7 @@
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
 						<text v-if="sceneDataList[item.id]['heart']['isShow']">{{ `睡眠${totalSleepTime}、睡眠状态良好` }}</text>
 					</view>
-					<view class="heart-rate-box">
+					<view class="heart-rate-box" v-if="!sceneDataList[item.id]['heart']['isShowNoData']">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="heartRateIconPng"></image>
@@ -108,7 +108,10 @@
 							<qiun-data-charts v-if="!sceneDataList[item.id]['heart']['isShowNoData']" tooltipFormat="tooltipDemo1" type="area" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="sceneDataList[item.id]['heart']['data']" />
 						</view>
 					</view>
-					<view class="heart-rate-box breathe-box">
+					<view @click="enterDetailsEvent('心率',item)" class="heart-rate-no-data-box" v-if="sceneDataList[item.id]['heart']['isShowNoData']">
+						<image :src="heartRateNoDataPng"></image>
+					</view>
+					<view class="heart-rate-box breathe-box" v-if="!sceneDataList[item.id]['breath']['isShowNoData']">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="breatheIconPng"></image>
@@ -124,7 +127,10 @@
 							<qiun-data-charts v-if="!sceneDataList[item.id]['breath']['isShowNoData']" type="line" :canvas2d="true" :canvasId="`abc1245def${item.id}`" :ontouch="true" :opts="breatheOpts" :chartData="sceneDataList[item.id]['breath']['data']" />
 						</view>
 					</view>
-					<view class="heart-rate-box sleep-box">
+					<view @click="enterDetailsEvent('呼吸',item)" class="breath-no-data-box" v-if="sceneDataList[item.id]['breath']['isShowNoData']">
+						<image :src="breathNoDataPng"></image>
+					</view>
+					<view class="heart-rate-box sleep-box" v-if="!sceneDataList[item.id]['sleep']['isShowNoData']">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="sleepSmallIconPng"></image>
@@ -164,6 +170,9 @@
 							</view>
 						</view>
 					</view>
+					<view @click="enterDetailsEvent('睡眠',item)" class="sleep-no-data-box" v-if="sceneDataList[item.id]['sleep']['isShowNoData']">
+						<image :src="sleepNoDataPng"></image>
+					</view>
 				</view>
 				<view class="sleep-area-data toilet-area-data" v-if="item.type == 1 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
@@ -172,7 +181,7 @@
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
 						<text>入厕两次</text>
 					</view>
-					<view class="heart-rate-box">
+					<view class="heart-rate-box" v-if="false">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="toiletIconPng"></image>
@@ -188,6 +197,9 @@
 							<!-- <qiun-data-charts type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="chartData" /> -->
 						</view>
 					</view>
+					<view class="toilet-no-data-box" @click="enterDetailsEvent('入厕',item)">
+						<image :src="toiletNoDataPng"></image>
+					</view>
 				</view>
 				<view class="sleep-area-data tumble-area-data" v-if="item.type == 2 && item.hasOwnProperty('devices')">
 					<view class="sleep-data-title">
@@ -196,7 +208,7 @@
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
 						<!-- <text>跌倒一次</text> -->
 					</view>
-					<view class="heart-rate-box">
+					<view class="heart-rate-box" v-if="false">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="tumbleIconPng"></image>
@@ -209,8 +221,21 @@
 						</view>
 						<view class="tumble-chart">
 							<u-empty text="暂无数据"></u-empty>
-							<!-- <qiun-data-charts type="bar" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="tumbOpts" :ontouch="true" :chartData="chartData" /> -->
+						<!-- 	<qiun-data-charts v-if="!sceneDataList[item.id]['isShowNoData']" type="bar" :canvas2d="true" :canvasId="`akglfg1fdsd3ghh8${item.id}`" :ontouch="true" :opts="tumbleOpts" :chartData="sceneDataList[item.id]['data']" /> -->
+							<!-- <view class="icon-bar" v-if="sceneDataList[item.id]['isShow']">
+								<view>
+									<text></text>
+									<text>清醒</text>
+								</view>
+								<view>
+									<text></text>
+									<text>未检测到人体</text>
+								</view>
+							</view> -->
 						</view>
+					</view>
+					<view class="tumble-no-data-box" @click="enterDetailsEvent('跌倒',item)">
+						<image :src="tumbleNoDataPng"></image>
 					</view>
 				</view>
 				<view class="sleep-area-data leave-home-area-data" v-if="item.type == 3 && item.hasOwnProperty('devices')">
@@ -219,7 +244,7 @@
 						<text>{{ getNowFormatDateText(new Date()) }}</text>
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
 					</view>
-					<view class="heart-rate-box">
+					<view class="heart-rate-box" v-if="!sceneDataList[item.id]['isShowNoData']">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="leaveHomeIconPng"></image>
@@ -235,12 +260,15 @@
 							<qiun-data-charts v-if="!sceneDataList[item.id]['isShowNoData']" tooltipFormat="tooltipDemo1" type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList[item.id]['data']" />
 						</view>
 					</view>
+					<view @click="enterDetailsEvent('离家和回家',item)" class="leave-home-no-data-box" v-if="sceneDataList[item.id]['isShowNoData']">
+						<image :src="leaveHomeNoDataPng"></image>
+					</view>
 				</view>
-			</view>	
+			</view>
+			<view class="bottom-area">
+				<text @click="editDataCardEvent">编辑数据卡片</text>
+			</view>
 		</view>	
-		<view class="bottom-area">
-			<text @click="editDataCardEvent">编辑数据卡片</text>
-		</view>
 	</view>
 </template>
 
@@ -252,7 +280,7 @@
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
 	import { getHomePageList } from '@/api/home.js' 
 	import { getUserBannerList,createVisitPageData, exitPageData } from '@/api/user.js'
-	import { sleepStatisticsDetails, enterLeaveHomeDetails } from '@/api/device.js'
+	import { sleepStatisticsDetails, enterLeaveHomeDetails, tumbleDetails } from '@/api/device.js'
 	import _ from 'lodash'
 	export default {
 		components: {
@@ -271,12 +299,34 @@
 				tumbleIconPng: require("@/static/img/tumble-icon.png"),
 				leaveHomeIconPng: require("@/static/img/leave-home-icon.png"),
 				sleepSmallIconPng: require("@/static/img/sleep-small-icon.png"),
+				sleepNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/71baf49e78e789d6cb800f5eafb51ab49a3edb9719057637ac5e2d07f6cb392f.png',
+				tumbleNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/9dc45d7936b93ecd9123e3cb742ccbd4b7fbf3e606b1fc07db74541e14215e5a.png',
+				toiletNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/0bdf3094ee81212e431bc129902cb5a784efd41096ea58463ca98bcd405aa4f4.png',
+				heartRateNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/934da7e1ea0046263d7b24157e03869b6c7438242ddbd289136333d08f40b00b.png',
+				breathNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/4883122414cefba013204326f9d98e179ec0e4be888d9e0a74ef7f20aaac4486.png',
+				leaveHomeNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/e441f237374d77250e76d72abfab32eabb239c055fc5bcbad9e0bd815e480d88.png',
 				familyMemberList: [],
 				deviceList: [],
 				sceneDataList: {},
-				heartChartData: {},
-				lineChartData: {},
 				totalSleepTime: '',
+				tumbleOpts: {
+					padding: [10,4,10,4],
+					dataLabel: false,
+					legend: { show: false },
+					xAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						bar: {
+							type: 'stack'
+						}
+					}
+				},
 				sleepOpts: {
 					padding: [10,4,10,4],
 					dataLabel: false,
@@ -334,33 +384,6 @@
 					extra: {
 						column: {
 							width: 6,
-							categoryGap: 2
-						}
-					}
-				},
-				tumbOpts: {
-					color: ["#F2A15F","#289E8E"],
-					dataLabel: false,
-					padding: [15,10,0,15],
-					enableScroll: true,
-					 xAxis: {
-						boundaryGap: "justify",
-						min: 0,
-						axisLine: false,
-						max: 70
-					},
-					yAxis: {
-						disableGrid: true,
-						disabled: true
-					},
-					extra: {
-						bar: {
-							type: "stack",
-							width: 30,
-							meterBorde: 1,
-							meterFillColor: "#FFFFFF",
-							activeBgColor: "#000000",
-							activeBgOpacity: 0.08,
 							categoryGap: 2
 						}
 					}
@@ -631,7 +654,7 @@
 							};
 							// status: 0-无人，1-醒着，2-睡眠，type: 0-夜间，1-日间
 							let temporaryData = {
-								categories: ["7-9"],
+								categories: ['7-4'],
 								series: []
 							};
 							questData.sleepVO.sleepOrWeekVOS.forEach((item,index) => {
@@ -676,6 +699,61 @@
 							this.$set(this.sceneDataList[cardId]['sleep'],'sleepStartDate',this.getNowFormatDateText(new Date(questData.sleepVO['start'])));
 							this.$set(this.sceneDataList[cardId]['sleep'],'sleepEndDate',this.getNowFormatDateText(new Date(questData.sleepVO['end'])));
 							this.$set(this.sceneDataList[cardId]['sleep'],'sleepTime',this.minutesTransitionHour(questData.sleepVO['totalTime']-questData.sleepVO['dayTime']))
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取跌倒数据
+			queryTumbleDetails (data,cardId) {
+				tumbleDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						let questData = res.data.data;
+						// 跌倒
+						if ( questData.length == 0 ) {
+							this.$set(this.sceneDataList[cardId],'isShowNoData',true)
+						} else {
+							// status: 0-正常，1-跌倒
+							let temporaryData = {
+								categories: ['7-4'],
+								series: []
+							};
+							questData[0]['resItemVos'].forEach((item,index) => {
+								if (item.status == 0) {
+									temporaryData['series'].push(
+										{
+										  name: "正常",
+										  color: "#F0F0F0",
+										  data: 1
+										}
+									)
+								} else if (item.status == 1) {
+									temporaryData['series'].push(
+										{
+										  name: "跌倒",
+										  color: "#E8CB51",
+										  data: 1
+										}
+									)
+								}
+							});
+							let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+							this.$set(this.sceneDataList[cardId],'data',temporaryContent);
+							this.$set(this.sceneDataList[cardId],'isShow',true);
+							console.log('跌倒数据',this.sceneDataList);
 						}
 					} else {
 						this.$refs.uToast.show({
@@ -855,6 +933,12 @@
 							this.$set(this.sceneDataList[item.id]['sleep'],'sleepEndDate','');
 							this.$set(this.sceneDataList[item.id]['sleep'],'sleepTime','');
 							this.requestSleepDeviceStatisticsData(temporaryDevices[0],item.id)
+						} else if (item.type == 2) {
+							this.$set(this.sceneDataList,item.id,{});
+							this.$set(this.sceneDataList[item.id],'data',{});
+							this.$set(this.sceneDataList[item.id],'isShow',false);
+							this.$set(this.sceneDataList[item.id],'isShowNoData',false);
+							this.requestTumbleDeviceStatisticsData(temporaryDevices,item.id)
 						} else if (item.type == 3) {
 							this.$set(this.sceneDataList,item.id,{});
 							this.$set(this.sceneDataList[item.id],'data',{});
@@ -872,6 +956,15 @@
 				this.querySleepDayDataList({
 					deviceId: deviceIdList,
 					startDate: this.getNowFormatDate(new Date(),1)
+				},cardId)
+			},
+			
+			// 为绑定设备的场景请求设备统计日数据(跌倒场景)
+			requestTumbleDeviceStatisticsData (deviceIdList,cardId) {
+				this.queryTumbleDetails({
+					deviceIds: deviceIdList,
+					startDate: this.getNowFormatDate(new Date(),1),
+					endDate: this.getNowFormatDate(new Date(),1)
 				},cardId)
 			},
 			
@@ -1230,6 +1323,30 @@
 						}
 					}
 				};
+				.heart-rate-no-data-box {
+					width: 100%;
+					height: 111px;
+					>image {
+						width: 100%;
+						height: 100%
+					}
+				};
+				.breath-no-data-box {
+					width: 100%;
+					height: 111px;
+					>image {
+						width: 100%;
+						height: 100%
+					}
+				};
+				.sleep-no-data-box {
+					width: 100%;
+					height: 111px;
+					>image {
+						width: 100%;
+						height: 100%
+					}
+				};
 				.breathe-box {
 					height: 130px;
 					.breathe-chart {
@@ -1360,6 +1477,14 @@
 						 	transform: translate(-50%,-50%)
 						}
 					}
+				};
+				.toilet-no-data-box {
+					width: 100%;
+					height: 111px;
+					>image {
+						width: 100%;
+						height: 100%
+					}
 				}
 			};
 			.tumble-area-data {
@@ -1380,7 +1505,15 @@
 						 	transform: translate(-50%,-50%)
 						}
 					}
-				}
+				};
+				.tumble-no-data-box {
+					width: 100%;
+					height: 111px;
+					>image {
+						width: 100%;
+						height: 100%
+					}
+				};
 			};
 			.leave-home-area-data {
 				height: 184px;
@@ -1406,19 +1539,29 @@
 						 	transform: translate(-50%,-50%)
 						}
 					}
-				}
+				};
+				.leave-home-no-data-box {
+					width: 100%;
+					height: 111px;
+					>image {
+						width: 100%;
+						height: 100%
+					}
+				};
+			};
+			.bottom-area {
+				margin: 0 auto;
+				width: 353px;
+				border-radius: 5px;
+				height: 38px;
+				text-align: center;
+				line-height: 38px;
+				border: 1px solid #11D183;
+				margin-bottom: 10px;
+				color: #11D183;
+				background: #fff;
+				font-size: 14px;
 			}
-		};
-		.bottom-area {
-			margin: 0 auto;
-			width: 353px;
-			border-radius: 5px;
-			height: 38px;
-			text-align: center;
-			line-height: 38px;
-			border: 1px solid #11D183;
-			color: #11D183;
-			font-size: 14px;
 		}
 	}
 </style>

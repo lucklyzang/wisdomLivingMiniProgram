@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["devicePackage/common/vendor"],{
 
-/***/ 262:
+/***/ 259:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/device-inform-icon.png ***!
   \*************************************************************************/
@@ -11,7 +11,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 263:
+/***/ 260:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/system-inform-icon.png ***!
   \*************************************************************************/
@@ -22,7 +22,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 280:
+/***/ 277:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/scan-icon.png ***!
   \****************************************************************/
@@ -33,7 +33,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIBAMAAACn
 
 /***/ }),
 
-/***/ 281:
+/***/ 278:
 /*!***************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/question-circle-icon.png ***!
   \***************************************************************************/
@@ -44,7 +44,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABi
 
 /***/ }),
 
-/***/ 322:
+/***/ 319:
 /*!********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-add-icon.png ***!
   \********************************************************************/
@@ -55,7 +55,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKIAAACiCAYAAADC
 
 /***/ }),
 
-/***/ 323:
+/***/ 320:
 /*!*********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/room-edit-icon.png ***!
   \*********************************************************************/
@@ -66,7 +66,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANIAAADSCAYAAAA/
 
 /***/ }),
 
-/***/ 356:
+/***/ 353:
 /*!***************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/log-icon.png ***!
   \***************************************************************/
@@ -77,7 +77,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABi
 
 /***/ }),
 
-/***/ 357:
+/***/ 354:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/more-icon.png ***!
   \****************************************************************/
@@ -88,7 +88,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIBAMAAACn
 
 /***/ }),
 
-/***/ 535:
+/***/ 532:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/delete-red-icon.png ***!
   \**********************************************************************/

@@ -307,6 +307,30 @@ page {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
 }
+.content-box .center-area .sleep-area-data .heart-rate-no-data-box {
+  width: 100%;
+  height: 111px;
+}
+.content-box .center-area .sleep-area-data .heart-rate-no-data-box > image {
+  width: 100%;
+  height: 100%;
+}
+.content-box .center-area .sleep-area-data .breath-no-data-box {
+  width: 100%;
+  height: 111px;
+}
+.content-box .center-area .sleep-area-data .breath-no-data-box > image {
+  width: 100%;
+  height: 100%;
+}
+.content-box .center-area .sleep-area-data .sleep-no-data-box {
+  width: 100%;
+  height: 111px;
+}
+.content-box .center-area .sleep-area-data .sleep-no-data-box > image {
+  width: 100%;
+  height: 100%;
+}
 .content-box .center-area .sleep-area-data .breathe-box {
   height: 130px;
 }
@@ -439,6 +463,14 @@ page {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
 }
+.content-box .center-area .toilet-area-data .toilet-no-data-box {
+  width: 100%;
+  height: 111px;
+}
+.content-box .center-area .toilet-area-data .toilet-no-data-box > image {
+  width: 100%;
+  height: 100%;
+}
 .content-box .center-area .tumble-area-data {
   height: 174px;
   margin-top: 8px;
@@ -459,6 +491,14 @@ page {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+.content-box .center-area .tumble-area-data .tumble-no-data-box {
+  width: 100%;
+  height: 111px;
+}
+.content-box .center-area .tumble-area-data .tumble-no-data-box > image {
+  width: 100%;
+  height: 100%;
 }
 .content-box .center-area .leave-home-area-data {
   height: 184px;
@@ -485,7 +525,15 @@ page {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
 }
-.content-box .bottom-area {
+.content-box .center-area .leave-home-area-data .leave-home-no-data-box {
+  width: 100%;
+  height: 111px;
+}
+.content-box .center-area .leave-home-area-data .leave-home-no-data-box > image {
+  width: 100%;
+  height: 100%;
+}
+.content-box .center-area .bottom-area {
   margin: 0 auto;
   width: 353px;
   border-radius: 5px;
@@ -493,7 +541,9 @@ page {
   text-align: center;
   line-height: 38px;
   border: 1px solid #11D183;
+  margin-bottom: 10px;
   color: #11D183;
+  background: #fff;
   font-size: 14px;
 }
 

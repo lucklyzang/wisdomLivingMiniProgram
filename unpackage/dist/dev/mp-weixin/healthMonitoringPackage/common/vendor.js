@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["healthMonitoringPackage/common/vendor"],{
 
-/***/ 150:
+/***/ 147:
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/sleep-icon.png ***!
   \*****************************************************************/
@@ -11,7 +11,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABi
 
 /***/ }),
 
-/***/ 151:
+/***/ 148:
 /*!****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/copy-icon.png ***!
   \****************************************************************/
@@ -22,7 +22,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAAN
 
 /***/ }),
 
-/***/ 152:
+/***/ 149:
 /*!******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/delete-icon.png ***!
   \******************************************************************/
@@ -33,7 +33,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAAN
 
 /***/ }),
 
-/***/ 153:
+/***/ 150:
 /*!*********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/menu-move-icon.png ***!
   \*********************************************************************/
@@ -44,7 +44,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIAQMAAABv
 
 /***/ }),
 
-/***/ 162:
+/***/ 159:
 /*!*************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/data-overview-icon.png ***!
   \*************************************************************************/
@@ -55,7 +55,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAAS
 
 /***/ }),
 
-/***/ 163:
+/***/ 160:
 /*!***********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/daytime-nap-icon.png ***!
   \***********************************************************************/
@@ -66,7 +66,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADX
 
 /***/ }),
 
-/***/ 196:
+/***/ 193:
 /*!***************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/leave-home-list-icon.png ***!
   \***************************************************************************/
@@ -77,7 +77,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXBAMAAAAS
 
 /***/ }),
 
-/***/ 197:
+/***/ 194:
 /*!*******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/go-home-icon.png ***!
   \*******************************************************************/

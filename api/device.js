@@ -211,6 +211,18 @@ export function enterLeaveHomeDetails(data) {
   })
 };
 
+// 获取跌倒数据(日、周、月)
+export function tumbleDetails(data) {
+  return request({
+    url: '/app-api/radar/fall-data/falls',
+    method: 'get',
+		params: data,
+		paramsSerializer: function (params) {  
+			return Qs.stringify(params, { arrayFormat: "repeat" });  
+		}
+  })
+};
+
 // 获取离、回家数据日志
 export function getBodyDetectionRadar(data) {
   return request({

@@ -179,6 +179,7 @@ exports.getTumbleRadar = getTumbleRadar;
 exports.getsignMonitorRadar = getsignMonitorRadar;
 exports.sleepStatisticsDetails = sleepStatisticsDetails;
 exports.sleepStatisticsHome = sleepStatisticsHome;
+exports.tumbleDetails = tumbleDetails;
 exports.updateDetectionAlarmSettings = updateDetectionAlarmSettings;
 exports.updateDeviceInform = updateDeviceInform;
 exports.updateDeviceInformRead = updateDeviceInformRead;
@@ -417,6 +418,21 @@ function enterLeaveHomeDetails(data) {
     url: '/app-api/radar/line-rule-data/enter-leave',
     method: 'get',
     params: data
+  });
+}
+;
+
+// 获取跌倒数据(日、周、月)
+function tumbleDetails(data) {
+  return (0, _request.default)({
+    url: '/app-api/radar/fall-data/falls',
+    method: 'get',
+    params: data,
+    paramsSerializer: function paramsSerializer(params) {
+      return _qs.default.stringify(params, {
+        arrayFormat: "repeat"
+      });
+    }
   });
 }
 ;
@@ -17892,7 +17908,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFkAAABZCAMAAABi
 
 /***/ }),
 
-/***/ 138:
+/***/ 135:
 /*!*****************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/common-set.png ***!
   \*****************************************************************/
@@ -17903,7 +17919,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABi
 
 /***/ }),
 
-/***/ 139:
+/***/ 136:
 /*!**************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/household-operation.png ***!
   \**************************************************************************/
@@ -17911,6 +17927,28 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABi
 /***/ (function(module, exports) {
 
 module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAQlBMVEUAAAAR0YMS0YMQz38Qz4UR0YMQ0oIR0YMQz4MS0IQR0YMR0YMR0YQS0YMQ0YMQ0YQQ0YQR0IMR0IMS0YIQz38Q0oQ0ZZHcAAAAFnRSTlMA/4AQMM9g70CfwODfoH9fcNCvjyBP3fpUOgAAAZpJREFUeJztmFl2hCAQRS3n2W6T7H+rQQEt7Cq6UPKR074/BS/TBT0mH558zGNgsgYAmgicQnEAiiwO5zIp7w1Hka5MVF5tHIDqPKnGnAuk0sEsKSNxzpG+CA7AGMxZNKQSqOaqcwTSpiGVADW9nAAS0pkhyYRydKYjUvOg82kSpSGVd2pKOe9ItM50fJLzGlJh1fToHERiNEzXwpQsI9XkdPaBKBKrsxf0Kjmrc1ev5XXHlB/UpHQunxvGop7laz2HRGmohlQOeAqy4UEPcVeT4nT0WZFRQ7Sk79SkFewA3GhrHzw2ivrdMpwkQa3pBSWCQM3eyFhAse8rrL8EBNVkbpqvEXM14WUTgQD0stp7+qHaqSEE4Q5tk3YexF0Gg5TeV3ukd4e9p6w+N0edNVJ3aTZXJTZbAkK7TAnf6v4syYYwEG82Ov9EQ5PsNZnZzO4PN1vVeszOeTQfzyPh8k/qFK9+tsJll/WTU0MI0unNmU29G4JAvrfIfwd5coNuEJU8EMR/taNjVJCB5ag+2e8LQaL857hz50/yCyZsDjY3i3A+AAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 137:
+/*!********************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/help-feedback.png ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAbFBMVEUAqqoR0YMAAAAPzIMNyYYR0YMP0YMP0YUQ0IUS0oQR0YMS0YQR0IMR0YMR0YMR0YMR0YMQ0IQS0YMR0YMR0YMQ0YMR0YQQ0IMS0YMQ0IMQ0IUR0IMAv38Q0YMR0IMS04QOzYcR0YMSz4UQ0YUUutp1AAAAJHRSTlMD/wAjE6FCMmKB8JHQ77HB0XKgwOCAsHGQUkFMBLvrHSSEZH9mycd2AAADLUlEQVR4nOVY2ZabMAwlNYEAIZAQss0+8///WIgkI9mygZ6+9PS+YcvX0rWQl+Tfgrn2fdftN5t91/X91fwZS34bGCT2t3y1L6faZQHUpzV+pSedBXBKl9L0AW+sV/0iqt0MzZPqPs9z4wPaqsiyQeA8y4qq5T39XFiXyfZwdHQ1x8NSpcy04lvV0GytwT7ClFt5DsFFNtarOphUhnjaLOZ2RmLVAZ9SiquZWd20iUdHOm/jNCNIqZPWWWHnTrTmfTc2dr0UZIfGhc9DXYLHPFkAF6E/mXuZmaLQIi6y1ubA6DzBC9SZtx0lz2Zz5L2ouBMcOtRyfscf16cUssBxCR3l+WOziqHmOmWKGEZpowwuBvYMI1ctODk6xJtyaDrjsudn+OZZoEwPUYjpUGkbLAYi9Ib5a292IRssSuWOEsuaul5CUh+4TQKhMPXBpb0wApWm2eBvFV4nnpM4vTCC+C05iiZLUDk2lawBrYSRMxJ4W2ECknD5ITTHCpKSYoEkYbo+I9mez6LcgthSSFSXfhMgkhJ5uCvLT0OJCFY6Wl6TO/4wTi2HeCknZonye6h6SiJImdC+wYtb6RpBKtP6K+vKwDZFxWsxNk7EeGQ598fGQ5viUlSE0Ci54mITj7qHr1k1jEp3WBJBeoYSMqqgTEj1F1lGJH8RpxisIZIFSC0jFl49YXBHQjFQsmSEV08Y3AKklVoLr54wuKVWK/5L4BV/0GHJwUgCah3XT9kgGV5f9XZlg9S2bEI+CHFQz51YpMT0yiEC8fE+drx/+D3aISIxoJJyuvwC8y+vA8+upTMEjxudZ/8GHW9eBxZO9xSZgkv+ORVvXKF216HAYXTACzS/LDQfoB+Pk+RnbPwJ8Kglg6q8G8Xn9/enHlfgr8LT5aD43BWCNihxdmXAHBiyIH6poTuLt8tZ5MS0Cd+ljb04l5G7u5mum/oNkd2/2+i9PWX76sXdOcyVX1Tnig5lAT49XB+Pgc48Hlf5MBHaKhh2VqgwykBZdsIrZqjKYmktZXdpBaECHqAKeFVuVz/+ZPLpYURbrX72oaeHomqa4dRzbpqqcB8m/h/8+kv4DaKvGp1Ulfu4AAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 138:
+/*!************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/about.png ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAS1BMVEUAAAAR0YMQz4MQz38Qz38S0YMQ0oIQz4US0YMR0YMR0YMR0IMR0YIR0YMQ0YMR0YMR0IMQ0oMQ0YQR0YQS0YIQ0YQS0YMQ0oIS0ITt2BlCAAAAGXRSTlMA/0AQIIBgMJDP79Cw8H/gr1Bw349foD+fOkGomAAAAldJREFUeJztmO3aQzAMhk2HfTDmY3b+R/rOk6JIUsyv91r+rbVbkjaVp8HPvrakbR4fa9pkP8M86+vJsWv9NDswTeFCeiuajc48bhyms9tjg1syhlArMWE1/Od+KcNzN3YOy8t9GK7CNZx6oMSzIEw8sGovxvQL9YInczu/+iX0ZCqx2UlZDFCpzZS6sSwnV3MQ5l6S5aQetw05JZMMcSId01lEJOmFlOfYzwmCmDLOT17Wc3rShZsKhbgwvsw+RcetCvZzKryA+QMyXi3H8YacSZ8EMtgFiwhoxThPJRBNLFYODjGBKSAKbu4SHGLrQgad4dJ0DKv54p5WQAEqeLpf4CVfqAoILk3yYXD+sA9roADnk5vup7KnNRAy8nQGUB1CCWogxObWSVeuQmQqCLG5pSsWoA+EUMafSfez3AMqu8nxgFOf3TKJ5EvHvQpCtsflRqEJj+ogZHcst38MOizZhy3/lxvSieWoElnU3mrQvNoPO0YOO9hw1EqxKYa2YxKJcvgrtjz8tc+RYsznKMh2uASHstkgyq1gH+9EDfsKiIz5J9vApe1NRLbYNHCp2tLWoKFiGk60O0xwEgiB5ZKn61s/6jjZjXpUM2pbgi3tsfRxppU7rZBjpKC4jpMsIVLhkxCkUjNNjBBJF3ZWGGqcgXQqZJllRXPu0e+mF4lvXvi97fTdL5FpF3TnUzOXos1wDyAd8BOzwo7uDMqWxHFbOrcJujB0LLKZ4i1bIeiGIGRUFm2814itCJ5aurKCZpcszp0BbhN2XbJYS8I4+lgcfnHt8zNrf9QSD/lkTW3iAAAAAElFTkSuQmCC"
 
 /***/ }),
 
@@ -17933,28 +17971,6 @@ function _toPrimitive(input, hint) {
   return (hint === "string" ? String : Number)(input);
 }
 module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ 140:
-/*!********************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/help-feedback.png ***!
-  \********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAbFBMVEUAqqoR0YMAAAAPzIMNyYYR0YMP0YMP0YUQ0IUS0oQR0YMS0YQR0IMR0YMR0YMR0YMR0YMQ0IQS0YMR0YMR0YMQ0YMR0YQQ0IMS0YMQ0IMQ0IUR0IMAv38Q0YMR0IMS04QOzYcR0YMSz4UQ0YUUutp1AAAAJHRSTlMD/wAjE6FCMmKB8JHQ77HB0XKgwOCAsHGQUkFMBLvrHSSEZH9mycd2AAADLUlEQVR4nOVY2ZabMAwlNYEAIZAQss0+8///WIgkI9mygZ6+9PS+YcvX0rWQl+Tfgrn2fdftN5t91/X91fwZS34bGCT2t3y1L6faZQHUpzV+pSedBXBKl9L0AW+sV/0iqt0MzZPqPs9z4wPaqsiyQeA8y4qq5T39XFiXyfZwdHQ1x8NSpcy04lvV0GytwT7ClFt5DsFFNtarOphUhnjaLOZ2RmLVAZ9SiquZWd20iUdHOm/jNCNIqZPWWWHnTrTmfTc2dr0UZIfGhc9DXYLHPFkAF6E/mXuZmaLQIi6y1ubA6DzBC9SZtx0lz2Zz5L2ouBMcOtRyfscf16cUssBxCR3l+WOziqHmOmWKGEZpowwuBvYMI1ctODk6xJtyaDrjsudn+OZZoEwPUYjpUGkbLAYi9Ib5a292IRssSuWOEsuaul5CUh+4TQKhMPXBpb0wApWm2eBvFV4nnpM4vTCC+C05iiZLUDk2lawBrYSRMxJ4W2ECknD5ITTHCpKSYoEkYbo+I9mez6LcgthSSFSXfhMgkhJ5uCvLT0OJCFY6Wl6TO/4wTi2HeCknZonye6h6SiJImdC+wYtb6RpBKtP6K+vKwDZFxWsxNk7EeGQ598fGQ5viUlSE0Ci54mITj7qHr1k1jEp3WBJBeoYSMqqgTEj1F1lGJH8RpxisIZIFSC0jFl49YXBHQjFQsmSEV08Y3AKklVoLr54wuKVWK/5L4BV/0GHJwUgCah3XT9kgGV5f9XZlg9S2bEI+CHFQz51YpMT0yiEC8fE+drx/+D3aISIxoJJyuvwC8y+vA8+upTMEjxudZ/8GHW9eBxZO9xSZgkv+ORVvXKF216HAYXTACzS/LDQfoB+Pk+RnbPwJ8Kglg6q8G8Xn9/enHlfgr8LT5aD43BWCNihxdmXAHBiyIH6poTuLt8tZ5MS0Cd+ljb04l5G7u5mum/oNkd2/2+i9PWX76sXdOcyVX1Tnig5lAT49XB+Pgc48Hlf5MBHaKhh2VqgwykBZdsIrZqjKYmktZXdpBaECHqAKeFVuVz/+ZPLpYURbrX72oaeHomqa4dRzbpqqcB8m/h/8+kv4DaKvGp1Ulfu4AAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 141:
-/*!************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/about.png ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAS1BMVEUAAAAR0YMQz4MQz38Qz38S0YMQ0oIQz4US0YMR0YMR0YMR0IMR0YIR0YMQ0YMR0YMR0IMQ0oMQ0YQR0YQS0YIQ0YQS0YMQ0oIS0ITt2BlCAAAAGXRSTlMA/0AQIIBgMJDP79Cw8H/gr1Bw349foD+fOkGomAAAAldJREFUeJztmO3aQzAMhk2HfTDmY3b+R/rOk6JIUsyv91r+rbVbkjaVp8HPvrakbR4fa9pkP8M86+vJsWv9NDswTeFCeiuajc48bhyms9tjg1syhlArMWE1/Od+KcNzN3YOy8t9GK7CNZx6oMSzIEw8sGovxvQL9YInczu/+iX0ZCqx2UlZDFCpzZS6sSwnV3MQ5l6S5aQetw05JZMMcSId01lEJOmFlOfYzwmCmDLOT17Wc3rShZsKhbgwvsw+RcetCvZzKryA+QMyXi3H8YacSZ8EMtgFiwhoxThPJRBNLFYODjGBKSAKbu4SHGLrQgad4dJ0DKv54p5WQAEqeLpf4CVfqAoILk3yYXD+sA9roADnk5vup7KnNRAy8nQGUB1CCWogxObWSVeuQmQqCLG5pSsWoA+EUMafSfez3AMqu8nxgFOf3TKJ5EvHvQpCtsflRqEJj+ogZHcst38MOizZhy3/lxvSieWoElnU3mrQvNoPO0YOO9hw1EqxKYa2YxKJcvgrtjz8tc+RYsznKMh2uASHstkgyq1gH+9EDfsKiIz5J9vApe1NRLbYNHCp2tLWoKFiGk60O0xwEgiB5ZKn61s/6jjZjXpUM2pbgi3tsfRxppU7rZBjpKC4jpMsIVLhkxCkUjNNjBBJF3ZWGGqcgXQqZJllRXPu0e+mF4lvXvi97fTdL5FpF3TnUzOXos1wDyAd8BOzwo7uDMqWxHFbOrcJujB0LLKZ4i1bIeiGIGRUFm2814itCJ5aurKCZpcszp0BbhN2XbJYS8I4+lgcfnHt8zNrf9QSD/lkTW3iAAAAAElFTkSuQmCC"
 
 /***/ }),
 
@@ -30602,6 +30618,17 @@ function getDefaultLoginState() {
 
 /***/ }),
 
+/***/ 379:
+/*!************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/exclamation-point.png ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAb1BMVEX/VVXob1DpbVDka1Hpb1Hpb1HocFHob0/oblDpb1Dob1Hnb0/pblHrcFLpcFDobVHpcFDob1DpcFDoblDob1HpblDoblDob0/ocFDrblLob1DocFDob1DqcFDpcFDpbVHpb07mbFPob1DpcFDpcFEOI1LyAAAAJXRSTlMD/yMToYFC0dDvkcFyMvBigPOgsLGWwHGQQd/hujCJUhcopaJSbzKpDwAAAr9JREFUeJzlWNm6ozAI1li11qVqW23Pvsz7P+NoIS4EUGd6cb7vcCeQXyCEQLxfSqYty6Z58v2npinL1vwbSn7d+4T213yzLXVCUYCSeotdQc2jANXBWphSsGawqlwFdVyAuUMdl3Gu0wXxIYuiLigmirJDPJWUS26dRt1zRuJqsvMoPanumXHHd6xisBsU9sr25UN4dqKWGaASMamMxYkjzezIBisR/hZYv9KF3Q1S6x2vaOO8I/xLVV0Iy7p34nAOKKQpcumZFOmIyqGLY0VOqlU9t1qtHmCgqV+eB3yHjd4lNEwhxtk1VQDyMOLEOTQoZrZBAgogC4hJaCiXPxKQFzHBMFKANCAPT940LdEgNlNlIOb3ECHWIAUI/5+MjByU+YRXgAKQjYcXkvrMKmtAGKXD8A2nNdsOlN1le/uJQROKggZEVgJuzOuqQB4kpfUFjsfo6QYgiK49JgAkhEgHgqUWCI6fVF5VIDgm9qg/DKjrW+RN04Egle3+q6pbpA8Dev5f12wK/rxdg/R8QEI+7IiQYkCIvyCR5gVILyPslS2snBcDB8ltIizRAqSWWo1oqVWLv0JO8feKO4O/jhSC66hYeUF+flXV1ycnYS5I5cr+uJ/E5w9GhC3e7PdyE1GChGnQuSbCCyBKTHf5AuovjgB714IswUarcfS/QfDtCBoQ0C4STfJrqv8O/HfKx0mMGqR0l289901S/+NYKrbH3mvbvko4THs8NGCudy7ZCZNPYewuu4gvjRAYZ7Z37clgwP29PtTYmaUQR6jcIvknecwaRsNCmd3NOG7ys/Rk/pb8QsXpsEmfHkw7GVT5CXNCNgvw6aG83ToP8tutnD9MsPs+p+MQKJkKJg8Z98IFqCJc/RYxztIMLUZnSmYnWFXI87dE+fzpoaf4sPnZxz49hGGadnhxmoYhfZj4NfQXcogV2WeB+AMAAAAASUVORK5CYII="
+
+/***/ }),
+
 /***/ 38:
 /*!*******************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/store/device.js ***!
@@ -30753,17 +30780,6 @@ var _default = {
   }
 };
 exports.default = _default;
-
-/***/ }),
-
-/***/ 382:
-/*!************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/static/img/exclamation-point.png ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAb1BMVEX/VVXob1DpbVDka1Hpb1Hpb1HocFHob0/oblDpb1Dob1Hnb0/pblHrcFLpcFDobVHpcFDob1DpcFDoblDob1HpblDoblDob0/ocFDrblLob1DocFDob1DqcFDpcFDpbVHpb07mbFPob1DpcFDpcFEOI1LyAAAAJXRSTlMD/yMToYFC0dDvkcFyMvBigPOgsLGWwHGQQd/hujCJUhcopaJSbzKpDwAAAr9JREFUeJzlWNm6ozAI1li11qVqW23Pvsz7P+NoIS4EUGd6cb7vcCeQXyCEQLxfSqYty6Z58v2npinL1vwbSn7d+4T213yzLXVCUYCSeotdQc2jANXBWphSsGawqlwFdVyAuUMdl3Gu0wXxIYuiLigmirJDPJWUS26dRt1zRuJqsvMoPanumXHHd6xisBsU9sr25UN4dqKWGaASMamMxYkjzezIBisR/hZYv9KF3Q1S6x2vaOO8I/xLVV0Iy7p34nAOKKQpcumZFOmIyqGLY0VOqlU9t1qtHmCgqV+eB3yHjd4lNEwhxtk1VQDyMOLEOTQoZrZBAgogC4hJaCiXPxKQFzHBMFKANCAPT940LdEgNlNlIOb3ECHWIAUI/5+MjByU+YRXgAKQjYcXkvrMKmtAGKXD8A2nNdsOlN1le/uJQROKggZEVgJuzOuqQB4kpfUFjsfo6QYgiK49JgAkhEgHgqUWCI6fVF5VIDgm9qg/DKjrW+RN04Egle3+q6pbpA8Dev5f12wK/rxdg/R8QEI+7IiQYkCIvyCR5gVILyPslS2snBcDB8ltIizRAqSWWo1oqVWLv0JO8feKO4O/jhSC66hYeUF+flXV1ycnYS5I5cr+uJ/E5w9GhC3e7PdyE1GChGnQuSbCCyBKTHf5AuovjgB714IswUarcfS/QfDtCBoQ0C4STfJrqv8O/HfKx0mMGqR0l289901S/+NYKrbH3mvbvko4THs8NGCudy7ZCZNPYewuu4gvjRAYZ7Z37clgwP29PtTYmaUQR6jcIvknecwaRsNCmd3NOG7ys/Rk/pb8QsXpsEmfHkw7GVT5CXNCNgvw6aG83ToP8tutnD9MsPs+p+MQKJkKJg8Z98IFqCJc/RYxztIMLUZnSmYnWFXI87dE+fzpoaf4sPnZxz49hGGadnhxmoYhfZj4NfQXcogV2WeB+AMAAAAASUVORK5CYII="
 
 /***/ }),
 
@@ -34926,7 +34942,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 716:
+/***/ 713:
 /*!**********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/emitter.js ***!
   \**********************************************************************************/
@@ -34995,7 +35011,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 717:
+/***/ 714:
 /*!******************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/async-validator.js ***!
   \******************************************************************************************/
@@ -36173,11 +36189,11 @@ Schema.warning = warning;
 Schema.messages = messages;
 var _default = Schema;
 exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 718)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../../软件/HBuilderX/plugins/uniapp-cli/node_modules/node-libs-browser/mock/process.js */ 715)))
 
 /***/ }),
 
-/***/ 718:
+/***/ 715:
 /*!********************************************************!*\
   !*** ./node_modules/node-libs-browser/mock/process.js ***!
   \********************************************************/
@@ -36208,7 +36224,7 @@ exports.binding = function (name) {
     var path;
     exports.cwd = function () { return cwd };
     exports.chdir = function (dir) {
-        if (!path) path = __webpack_require__(/*! path */ 719);
+        if (!path) path = __webpack_require__(/*! path */ 716);
         cwd = path.resolve(dir, cwd);
     };
 })();
@@ -36222,7 +36238,7 @@ exports.features = {};
 
 /***/ }),
 
-/***/ 719:
+/***/ 716:
 /*!***********************************************!*\
   !*** ./node_modules/path-browserify/index.js ***!
   \***********************************************/
@@ -36532,7 +36548,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 718)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ 715)))
 
 /***/ }),
 
@@ -36781,7 +36797,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 776:
+/***/ 773:
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -36797,20 +36813,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 66));
-var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 777));
+var _assertThisInitialized2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ 774));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 68));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 778));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 779));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 780));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 781));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 775));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 776));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 777));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 778));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
 var _uniI18n = __webpack_require__(/*! @dcloudio/uni-i18n */ 22);
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 783));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 780));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e35) { throw _e35; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e36) { didErr = true; err = _e36; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -37263,7 +37279,7 @@ var b = "development" === "development",
   O = true;
 var x = "";
 try {
-  x = (__webpack_require__(/*! uni-stat-config */ 784).default || __webpack_require__(/*! uni-stat-config */ 784)).appid;
+  x = (__webpack_require__(/*! uni-stat-config */ 781).default || __webpack_require__(/*! uni-stat-config */ 781)).appid;
 } catch (e) {}
 var R = {};
 function U(e) {
@@ -44135,7 +44151,7 @@ exports.default = Ns;
 
 /***/ }),
 
-/***/ 777:
+/***/ 774:
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -44152,7 +44168,7 @@ module.exports = _assertThisInitialized, module.exports.__esModule = true, modul
 
 /***/ }),
 
-/***/ 778:
+/***/ 775:
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -44180,7 +44196,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 
 /***/ }),
 
-/***/ 779:
+/***/ 776:
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -44188,7 +44204,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 777);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 774);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -44198,6 +44214,78 @@ function _possibleConstructorReturn(self, call) {
   return assertThisInitialized(self);
 }
 module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ 777:
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _getPrototypeOf(o) {
+  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  return _getPrototypeOf(o);
+}
+module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ 778:
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 777);
+var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 779);
+var construct = __webpack_require__(/*! ./construct.js */ 15);
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+  module.exports = _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !isNativeFunction(Class)) return Class;
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+      _cache.set(Class, Wrapper);
+    }
+    function Wrapper() {
+      return construct(Class, arguments, getPrototypeOf(this).constructor);
+    }
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+    return setPrototypeOf(Wrapper, Class);
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  return _wrapNativeSuper(Class);
+}
+module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ 779:
+/*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+module.exports = _isNativeFunction, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
 
@@ -44235,78 +44323,6 @@ exports.default = _default;
 /***/ }),
 
 /***/ 780:
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _getPrototypeOf(o) {
-  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  return _getPrototypeOf(o);
-}
-module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ 781:
-/*!****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 780);
-var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 782);
-var construct = __webpack_require__(/*! ./construct.js */ 15);
-function _wrapNativeSuper(Class) {
-  var _cache = typeof Map === "function" ? new Map() : undefined;
-  module.exports = _wrapNativeSuper = function _wrapNativeSuper(Class) {
-    if (Class === null || !isNativeFunction(Class)) return Class;
-    if (typeof Class !== "function") {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-    if (typeof _cache !== "undefined") {
-      if (_cache.has(Class)) return _cache.get(Class);
-      _cache.set(Class, Wrapper);
-    }
-    function Wrapper() {
-      return construct(Class, arguments, getPrototypeOf(this).constructor);
-    }
-    Wrapper.prototype = Object.create(Class.prototype, {
-      constructor: {
-        value: Wrapper,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-    return setPrototypeOf(Wrapper, Class);
-  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  return _wrapNativeSuper(Class);
-}
-module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ 782:
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _isNativeFunction(fn) {
-  return Function.toString.call(fn).indexOf("[native code]") !== -1;
-}
-module.exports = _isNativeFunction, module.exports.__esModule = true, module.exports["default"] = module.exports;
-
-/***/ }),
-
-/***/ 783:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/pages.json?{"type":"origin-pages-json"} ***!
   \*******************************************************************************/
@@ -44926,7 +44942,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 784:
+/***/ 781:
 /*!******************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/pages.json?{"type":"stat"} ***!
   \******************************************************************/
@@ -44947,7 +44963,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 785:
+/***/ 782:
 /*!************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js ***!
   \************************************************************************************************/
@@ -52627,7 +52643,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 786:
+/***/ 783:
 /*!******************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/uni_modules/qiun-data-charts/js_sdk/u-charts/config-ucharts.js ***!
   \******************************************************************************************************/
@@ -53302,7 +53318,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 794:
+/***/ 791:
 /*!*************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/passed.png ***!
   \*************************************************************/
@@ -53465,55 +53481,7 @@ function sys() {
 
 /***/ }),
 
-/***/ 83:
-/*!***************************************************************************************!*\
-  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/debounce.js ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var timeout = null;
-
-/**
- * 防抖原理：一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
- * 
- * @param {Function} func 要执行的回调函数 
- * @param {Number} wait 延时的时间
- * @param {Boolean} immediate 是否立即执行 
- * @return null
- */
-function debounce(func) {
-  var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
-  var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  // 清除定时器
-  if (timeout !== null) clearTimeout(timeout);
-  // 立即执行，此类情况一般用不到
-  if (immediate) {
-    var callNow = !timeout;
-    timeout = setTimeout(function () {
-      timeout = null;
-    }, wait);
-    if (callNow) typeof func === 'function' && func();
-  } else {
-    // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
-    timeout = setTimeout(function () {
-      typeof func === 'function' && func();
-    }, wait);
-  }
-}
-var _default = debounce;
-exports.default = _default;
-
-/***/ }),
-
-/***/ 832:
+/***/ 829:
 /*!*****************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/components/u-parse/libs/MpHtmlParser.js ***!
   \*****************************************************************************************************/
@@ -53527,9 +53495,9 @@ exports.default = _default;
  * @author JinYufeng
  * @listens MIT
  */
-var cfg = __webpack_require__(/*! ./config.js */ 833),
+var cfg = __webpack_require__(/*! ./config.js */ 830),
   blankChar = cfg.blankChar,
-  CssHandler = __webpack_require__(/*! ./CssHandler.js */ 834),
+  CssHandler = __webpack_require__(/*! ./CssHandler.js */ 831),
   windowWidth = uni.getSystemInfoSync().windowWidth;
 var emoji;
 function MpHtmlParser(data) {
@@ -54093,7 +54061,55 @@ module.exports = MpHtmlParser;
 
 /***/ }),
 
-/***/ 833:
+/***/ 83:
+/*!***************************************************************************************!*\
+  !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/function/debounce.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var timeout = null;
+
+/**
+ * 防抖原理：一定时间内，只有最后一次操作，再过wait毫秒后才执行函数
+ * 
+ * @param {Function} func 要执行的回调函数 
+ * @param {Number} wait 延时的时间
+ * @param {Boolean} immediate 是否立即执行 
+ * @return null
+ */
+function debounce(func) {
+  var wait = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
+  var immediate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  // 清除定时器
+  if (timeout !== null) clearTimeout(timeout);
+  // 立即执行，此类情况一般用不到
+  if (immediate) {
+    var callNow = !timeout;
+    timeout = setTimeout(function () {
+      timeout = null;
+    }, wait);
+    if (callNow) typeof func === 'function' && func();
+  } else {
+    // 设置定时器，当最后一次操作后，timeout不会再被清除，所以在延时wait毫秒后执行func回调方法
+    timeout = setTimeout(function () {
+      typeof func === 'function' && func();
+    }, wait);
+  }
+}
+var _default = debounce;
+exports.default = _default;
+
+/***/ }),
+
+/***/ 830:
 /*!***********************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/components/u-parse/libs/config.js ***!
   \***********************************************************************************************/
@@ -54175,14 +54191,14 @@ module.exports = cfg;
 
 /***/ }),
 
-/***/ 834:
+/***/ 831:
 /*!***************************************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/components/u-parse/libs/CssHandler.js ***!
   \***************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var cfg = __webpack_require__(/*! ./config.js */ 833),
+var cfg = __webpack_require__(/*! ./config.js */ 830),
   isLetter = function isLetter(c) {
     return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z';
   };
@@ -54359,7 +54375,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 856:
+/***/ 853:
 /*!***********************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/province.js ***!
   \***********************************************************************************/
@@ -54481,7 +54497,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 857:
+/***/ 854:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/city.js ***!
   \*******************************************************************************/
@@ -55602,7 +55618,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 858:
+/***/ 855:
 /*!*******************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/node_modules/uview-ui/libs/util/area.js ***!
   \*******************************************************************************/

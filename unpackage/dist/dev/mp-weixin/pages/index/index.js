@@ -80,19 +80,19 @@ var components
 try {
   components = {
     uToast: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 690))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 687))
     },
     xflSelect: function () {
-      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 750))
+      return __webpack_require__.e(/*! import() | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then(__webpack_require__.bind(null, /*! @/components/xfl-select/xfl-select.vue */ 747))
     },
     uSwiper: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */ "node-modules/uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 757))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */ "node-modules/uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 754))
     },
     uEmpty: function () {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 764))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 761))
     },
     qiunDataCharts: function () {
-      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 771))
+      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 768))
     },
   }
 } catch (e) {
@@ -135,7 +135,9 @@ var render = function () {
     var m6 = g7 ? _vm.getNowFormatDateText(new Date()) : null
     var m7 = g7 ? _vm.extractRooName(item.devices) : null
     var m8 =
-      g7 && _vm.sceneDataList[item.id]["isShow"]
+      g7 &&
+      !_vm.sceneDataList[item.id]["isShowNoData"] &&
+      _vm.sceneDataList[item.id]["isShow"]
         ? _vm.getNowFormatDate(_vm.sceneDataList[item.id]["lastGoOut"], 3)
         : null
     return {
@@ -220,7 +222,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var xflSelect = function xflSelect() {
   __webpack_require__.e(/*! require.ensure | components/xfl-select/xfl-select */ "components/xfl-select/xfl-select").then((function () {
-    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 750));
+    return resolve(__webpack_require__(/*! @/components/xfl-select/xfl-select.vue */ 747));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var _default = {
@@ -240,12 +242,36 @@ var _default = {
       tumbleIconPng: __webpack_require__(/*! @/static/img/tumble-icon.png */ 112),
       leaveHomeIconPng: __webpack_require__(/*! @/static/img/leave-home-icon.png */ 113),
       sleepSmallIconPng: __webpack_require__(/*! @/static/img/sleep-small-icon.png */ 114),
+      sleepNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/71baf49e78e789d6cb800f5eafb51ab49a3edb9719057637ac5e2d07f6cb392f.png',
+      tumbleNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/9dc45d7936b93ecd9123e3cb742ccbd4b7fbf3e606b1fc07db74541e14215e5a.png',
+      toiletNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/0bdf3094ee81212e431bc129902cb5a784efd41096ea58463ca98bcd405aa4f4.png',
+      heartRateNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/934da7e1ea0046263d7b24157e03869b6c7438242ddbd289136333d08f40b00b.png',
+      breathNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/4883122414cefba013204326f9d98e179ec0e4be888d9e0a74ef7f20aaac4486.png',
+      leaveHomeNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/e441f237374d77250e76d72abfab32eabb239c055fc5bcbad9e0bd815e480d88.png',
       familyMemberList: [],
       deviceList: [],
       sceneDataList: {},
-      heartChartData: {},
-      lineChartData: {},
       totalSleepTime: '',
+      tumbleOpts: {
+        padding: [10, 4, 10, 4],
+        dataLabel: false,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        extra: {
+          bar: {
+            type: 'stack'
+          }
+        }
+      },
       sleepOpts: {
         padding: [10, 4, 10, 4],
         dataLabel: false,
@@ -307,33 +333,6 @@ var _default = {
         extra: {
           column: {
             width: 6,
-            categoryGap: 2
-          }
-        }
-      },
-      tumbOpts: {
-        color: ["#F2A15F", "#289E8E"],
-        dataLabel: false,
-        padding: [15, 10, 0, 15],
-        enableScroll: true,
-        xAxis: {
-          boundaryGap: "justify",
-          min: 0,
-          axisLine: false,
-          max: 70
-        },
-        yAxis: {
-          disableGrid: true,
-          disabled: true
-        },
-        extra: {
-          bar: {
-            type: "stack",
-            width: 30,
-            meterBorde: 1,
-            meterFillColor: "#FFFFFF",
-            activeBgColor: "#000000",
-            activeBgOpacity: 0.08,
             categoryGap: 2
           }
         }
@@ -592,7 +591,7 @@ var _default = {
             ;
             // status: 0-无人，1-醒着，2-睡眠，type: 0-夜间，1-日间
             var _temporaryData2 = {
-              categories: ["7-9"],
+              categories: ['7-4'],
               series: []
             };
             questData.sleepVO.sleepOrWeekVOS.forEach(function (item, index) {
@@ -647,50 +646,41 @@ var _default = {
         });
       });
     },
-    // 获取离、回家数据
-    queryLeaveHomeDetails: function queryLeaveHomeDetails(data, cardId) {
+    // 获取跌倒数据
+    queryTumbleDetails: function queryTumbleDetails(data, cardId) {
       var _this3 = this;
-      (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
+      (0, _device.tumbleDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
-          if (res.data.data.length == 0) {
-            _this3.$set(_this3.sceneDataList[cardId], 'isShowNoData', true);
-            return;
-          }
-          ;
-          var questData = res.data.data[0]['ruleDataVO'];
+          var questData = res.data.data;
+          // 跌倒
           if (questData.length == 0) {
             _this3.$set(_this3.sceneDataList[cardId], 'isShowNoData', true);
-            return;
+          } else {
+            // status: 0-正常，1-跌倒
+            var temporaryData = {
+              categories: ['7-4'],
+              series: []
+            };
+            questData[0]['resItemVos'].forEach(function (item, index) {
+              if (item.status == 0) {
+                temporaryData['series'].push({
+                  name: "正常",
+                  color: "#F0F0F0",
+                  data: 1
+                });
+              } else if (item.status == 1) {
+                temporaryData['series'].push({
+                  name: "跌倒",
+                  color: "#E8CB51",
+                  data: 1
+                });
+              }
+            });
+            var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+            _this3.$set(_this3.sceneDataList[cardId], 'data', temporaryContent);
+            _this3.$set(_this3.sceneDataList[cardId], 'isShow', true);
+            console.log('跌倒数据', _this3.sceneDataList);
           }
-          ;
-          var temporaryData = {
-            categories: [],
-            series: [{
-              name: "离家",
-              data: []
-            }, {
-              name: "回家",
-              data: []
-            }]
-          };
-          questData.details.forEach(function (item, index) {
-            temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.createTime), 3));
-            if (item.goOut) {
-              temporaryData['series'][0]['data'].push(30);
-            } else {
-              temporaryData['series'][0]['data'].push('');
-            }
-            ;
-            if (item.enter) {
-              temporaryData['series'][1]['data'].push(30);
-            } else {
-              temporaryData['series'][1]['data'].push('');
-            }
-          });
-          var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-          _this3.$set(_this3.sceneDataList[cardId], 'data', temporaryContent);
-          _this3.$set(_this3.sceneDataList[cardId], 'isShow', true);
-          _this3.$set(_this3.sceneDataList[cardId], 'lastGoOut', new Date(questData['lastGoOut']));
         } else {
           _this3.$refs.uToast.show({
             title: res.data.msg,
@@ -706,9 +696,68 @@ var _default = {
         });
       });
     },
+    // 获取离、回家数据
+    queryLeaveHomeDetails: function queryLeaveHomeDetails(data, cardId) {
+      var _this4 = this;
+      (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          if (res.data.data.length == 0) {
+            _this4.$set(_this4.sceneDataList[cardId], 'isShowNoData', true);
+            return;
+          }
+          ;
+          var questData = res.data.data[0]['ruleDataVO'];
+          if (questData.length == 0) {
+            _this4.$set(_this4.sceneDataList[cardId], 'isShowNoData', true);
+            return;
+          }
+          ;
+          var temporaryData = {
+            categories: [],
+            series: [{
+              name: "离家",
+              data: []
+            }, {
+              name: "回家",
+              data: []
+            }]
+          };
+          questData.details.forEach(function (item, index) {
+            temporaryData['categories'].push(_this4.getNowFormatDate(new Date(item.createTime), 3));
+            if (item.goOut) {
+              temporaryData['series'][0]['data'].push(30);
+            } else {
+              temporaryData['series'][0]['data'].push('');
+            }
+            ;
+            if (item.enter) {
+              temporaryData['series'][1]['data'].push(30);
+            } else {
+              temporaryData['series'][1]['data'].push('');
+            }
+          });
+          var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+          _this4.$set(_this4.sceneDataList[cardId], 'data', temporaryContent);
+          _this4.$set(_this4.sceneDataList[cardId], 'isShow', true);
+          _this4.$set(_this4.sceneDataList[cardId], 'lastGoOut', new Date(questData['lastGoOut']));
+        } else {
+          _this4.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this4.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 获取首页banner列表
     queryUserBannerList: function queryUserBannerList() {
-      var _this4 = this;
+      var _this5 = this;
       this.showLoadingHint = true;
       this.infoText = '加载中...';
       this.bannerList = [];
@@ -720,7 +769,7 @@ var _default = {
             try {
               for (_iterator.s(); !(_step = _iterator.n()).done;) {
                 var item = _step.value;
-                _this4.bannerList.push({
+                _this5.bannerList.push({
                   image: item.picUrl,
                   title: item.title
                 });
@@ -731,44 +780,6 @@ var _default = {
               _iterator.f();
             }
           }
-        } else {
-          _this4.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-        ;
-        _this4.showLoadingHint = false;
-      }).catch(function (err) {
-        _this4.showLoadingHint = false;
-        _this4.$refs.uToast.show({
-          title: err.message,
-          type: 'error',
-          position: 'bottom'
-        });
-      });
-    },
-    // 获取首页配置列表
-    queryHomePageList: function queryHomePageList(familyId) {
-      var _this5 = this;
-      this.showLoadingHint = true;
-      this.infoText = '加载中...';
-      this.deviceList = [];
-      (0, _home.getHomePageList)({
-        familyId: familyId
-      }).then(function (res) {
-        if (res && res.data.code == 0) {
-          _this5.deviceList = res.data.data.filter(function (item) {
-            return item.status == 0;
-          });
-          if (_this5.deviceList.length == 0) {
-            _this5.isShowHomeNoData = true;
-          } else {
-            _this5.questSceneDataQueue(_this5.deviceList);
-            _this5.isShowHomeNoData = false;
-          }
-          ;
         } else {
           _this5.$refs.uToast.show({
             title: res.data.msg,
@@ -787,9 +798,47 @@ var _default = {
         });
       });
     },
+    // 获取首页配置列表
+    queryHomePageList: function queryHomePageList(familyId) {
+      var _this6 = this;
+      this.showLoadingHint = true;
+      this.infoText = '加载中...';
+      this.deviceList = [];
+      (0, _home.getHomePageList)({
+        familyId: familyId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this6.deviceList = res.data.data.filter(function (item) {
+            return item.status == 0;
+          });
+          if (_this6.deviceList.length == 0) {
+            _this6.isShowHomeNoData = true;
+          } else {
+            _this6.questSceneDataQueue(_this6.deviceList);
+            _this6.isShowHomeNoData = false;
+          }
+          ;
+        } else {
+          _this6.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this6.showLoadingHint = false;
+      }).catch(function (err) {
+        _this6.showLoadingHint = false;
+        _this6.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 请求场景数据队列
     questSceneDataQueue: function questSceneDataQueue(data) {
-      var _this6 = this;
+      var _this7 = this;
       data.forEach(function (item, index, array) {
         // 有设备的场景进行请求数据
         if (item.hasOwnProperty('devices')) {
@@ -809,36 +858,42 @@ var _default = {
           }
           ;
           if (item.type == 0) {
-            _this6.$set(_this6.sceneDataList, item.id, {});
+            _this7.$set(_this7.sceneDataList, item.id, {});
             // 呼吸数据
-            _this6.$set(_this6.sceneDataList[item.id], 'breath', {});
-            _this6.$set(_this6.sceneDataList[item.id]['breath'], 'data', {});
-            _this6.$set(_this6.sceneDataList[item.id]['breath'], 'average', '');
-            _this6.$set(_this6.sceneDataList[item.id]['breath'], 'isShow', false);
-            _this6.$set(_this6.sceneDataList[item.id]['breath'], 'isShowNoData', false);
+            _this7.$set(_this7.sceneDataList[item.id], 'breath', {});
+            _this7.$set(_this7.sceneDataList[item.id]['breath'], 'data', {});
+            _this7.$set(_this7.sceneDataList[item.id]['breath'], 'average', '');
+            _this7.$set(_this7.sceneDataList[item.id]['breath'], 'isShow', false);
+            _this7.$set(_this7.sceneDataList[item.id]['breath'], 'isShowNoData', false);
             // 心率数据
-            _this6.$set(_this6.sceneDataList[item.id], 'heart', {});
-            _this6.$set(_this6.sceneDataList[item.id]['heart'], 'data', {});
-            _this6.$set(_this6.sceneDataList[item.id]['heart'], 'average', '');
-            _this6.$set(_this6.sceneDataList[item.id]['heart'], 'isShow', false);
-            _this6.$set(_this6.sceneDataList[item.id]['heart'], 'isShowNoData', false);
+            _this7.$set(_this7.sceneDataList[item.id], 'heart', {});
+            _this7.$set(_this7.sceneDataList[item.id]['heart'], 'data', {});
+            _this7.$set(_this7.sceneDataList[item.id]['heart'], 'average', '');
+            _this7.$set(_this7.sceneDataList[item.id]['heart'], 'isShow', false);
+            _this7.$set(_this7.sceneDataList[item.id]['heart'], 'isShowNoData', false);
             // 睡眠数据
-            _this6.$set(_this6.sceneDataList[item.id], 'sleep', {});
-            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'data', {});
-            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'isShow', false);
-            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'sleepStartTime', '');
-            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'sleepEndTime', '');
-            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'sleepStartDate', '');
-            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'sleepEndDate', '');
-            _this6.$set(_this6.sceneDataList[item.id]['sleep'], 'sleepTime', '');
-            _this6.requestSleepDeviceStatisticsData(temporaryDevices[0], item.id);
+            _this7.$set(_this7.sceneDataList[item.id], 'sleep', {});
+            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'data', {});
+            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'isShow', false);
+            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepStartTime', '');
+            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepEndTime', '');
+            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepStartDate', '');
+            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepEndDate', '');
+            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepTime', '');
+            _this7.requestSleepDeviceStatisticsData(temporaryDevices[0], item.id);
+          } else if (item.type == 2) {
+            _this7.$set(_this7.sceneDataList, item.id, {});
+            _this7.$set(_this7.sceneDataList[item.id], 'data', {});
+            _this7.$set(_this7.sceneDataList[item.id], 'isShow', false);
+            _this7.$set(_this7.sceneDataList[item.id], 'isShowNoData', false);
+            _this7.requestTumbleDeviceStatisticsData(temporaryDevices, item.id);
           } else if (item.type == 3) {
-            _this6.$set(_this6.sceneDataList, item.id, {});
-            _this6.$set(_this6.sceneDataList[item.id], 'data', {});
-            _this6.$set(_this6.sceneDataList[item.id], 'lastGoOut', '');
-            _this6.$set(_this6.sceneDataList[item.id], 'isShow', false);
-            _this6.$set(_this6.sceneDataList[item.id], 'isShowNoData', false);
-            _this6.requestEnterLeaveHomeDetails(temporaryDevices[0], item.id);
+            _this7.$set(_this7.sceneDataList, item.id, {});
+            _this7.$set(_this7.sceneDataList[item.id], 'data', {});
+            _this7.$set(_this7.sceneDataList[item.id], 'lastGoOut', '');
+            _this7.$set(_this7.sceneDataList[item.id], 'isShow', false);
+            _this7.$set(_this7.sceneDataList[item.id], 'isShowNoData', false);
+            _this7.requestEnterLeaveHomeDetails(temporaryDevices[0], item.id);
           }
         }
       });
@@ -848,6 +903,14 @@ var _default = {
       this.querySleepDayDataList({
         deviceId: deviceIdList,
         startDate: this.getNowFormatDate(new Date(), 1)
+      }, cardId);
+    },
+    // 为绑定设备的场景请求设备统计日数据(跌倒场景)
+    requestTumbleDeviceStatisticsData: function requestTumbleDeviceStatisticsData(deviceIdList, cardId) {
+      this.queryTumbleDetails({
+        deviceIds: deviceIdList,
+        startDate: this.getNowFormatDate(new Date(), 1),
+        endDate: this.getNowFormatDate(new Date(), 1)
       }, cardId);
     },
     // 为绑定设备的场景请求设备统计日数据(离、回家场景)
@@ -860,12 +923,12 @@ var _default = {
     },
     // 初始家庭信息
     initFamilyInfo: function initFamilyInfo() {
-      var _this7 = this;
+      var _this8 = this;
       this.familyMemberList = [];
       this.familyMemberList = _lodash.default.cloneDeep(this.familyMessage.familyMemberList);
       if (this.familyId) {
         this.initValue = this.familyMessage.familyMemberList.filter(function (el) {
-          return el.id == _this7.familyId;
+          return el.id == _this8.familyId;
         })[0]['value'];
       } else {
         this.initValue = this.familyMemberList[0]['value'];
