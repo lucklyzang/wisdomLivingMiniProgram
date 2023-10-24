@@ -57,15 +57,15 @@
 				functionList: [
 					{
 						name: '上门护理',
-						iconImg: require("@/static/img/home-care.png")
+						iconImg: "https://blink-radar.oss-cn-chengdu.aliyuncs.com/4e9c119a06271b1412019d5050256093597876dcdd981abc4392fb44f1a51507.png"
 					},
 					{
 						name: '全屋适老化改造',
-						iconImg: require("@/static/img/house-reconstruction.png")
+						iconImg: "https://blink-radar.oss-cn-chengdu.aliyuncs.com/3caee84ca1d46f3cc690ea69f5f7bd6b778d34b835879155e1b468658f07573c.png"
 					},
 					{
 						name: '慢病管理',
-						iconImg: require("@/static/img/chronic-care-management.png")
+						iconImg: "https://blink-radar.oss-cn-chengdu.aliyuncs.com/7638820954bdd84f0d43d2d2d3d2bdff32b02f4ff0360c881924595d51627f19.png"
 					}
 				],
 				bottomFunctionList: [

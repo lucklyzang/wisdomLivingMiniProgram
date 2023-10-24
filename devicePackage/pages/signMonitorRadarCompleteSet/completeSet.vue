@@ -50,7 +50,7 @@
 		<view class="content-area">
 			<view class="content-top-area">
 				<view class="top-title">
-					<image :src="signMonitorRadarPng"></image>
+					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/7cfa8d18868aae3fd6cdc63b13418ff702db65cad6a4ac1cb8e53ac66b7f5c98.png"></image>
 					<view class="title-text">
 						<text>{{ beforeAddSignMonitorRadarCompleteSet.customDeviceName }}</text>
 						<text>{{ beforeAddSignMonitorRadarCompleteSet.roomName }}</text>
@@ -118,7 +118,6 @@
 				deviceNumber: '',
 				deviceSetBasicMessage: {},
 				cceptAlarmMethodBoxShow: false,
-				signMonitorRadarPng: require("@/static/img/room-icon.png"),
 				logIconPng: require("@/static/img/log-icon.png"),
 				moreIconPng: require("@/static/img/more-icon.png")
 			}

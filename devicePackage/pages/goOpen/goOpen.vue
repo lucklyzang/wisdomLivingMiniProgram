@@ -62,7 +62,7 @@
 				showLoadingHint: false,
 				scanIconPng: require("@/static/img/scan-icon.png"),
 				questionCircleIconPng: require("@/static/img/question-circle-icon.png"),
-				imageUrl: require("@/static/img/room-icon.png")
+				imageUrl: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/7cfa8d18868aae3fd6cdc63b13418ff702db65cad6a4ac1cb8e53ac66b7f5c98.png'
 			}
 		},
 		onReady() {

@@ -30,7 +30,7 @@
 				</view>
 				<view class="device-list-area">
 					<view class="device-list" v-for="(item,index) in scanCodeDeviceList" :key="index" @click="chooseWifiEvent(item)">
-						<image :src="imageUrl" ></image>
+						<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/7cfa8d18868aae3fd6cdc63b13418ff702db65cad6a4ac1cb8e53ac66b7f5c98.png"></image>
 						<text>{{ item.name }}</text>
 					</view>
 				</view>
@@ -56,8 +56,7 @@
 				showLoadingHint: false,
 				scanCodeDeviceList: [],
 				scanIconPng: require("@/static/img/scan-icon.png"),
-				questionCircleIconPng: require("@/static/img/question-circle-icon.png"),
-				imageUrl: require("@/static/img/room-icon.png")
+				questionCircleIconPng: require("@/static/img/question-circle-icon.png")
 			}
 		},
 		onLoad (object) {

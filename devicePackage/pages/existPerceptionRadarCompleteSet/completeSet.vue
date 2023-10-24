@@ -117,7 +117,7 @@
 				nobodyTime: '',
 				deviceNumber: '',
 				deviceSetBasicMessage: {},
-				existPerceptionRadarPng: require("@/static/img/exist-perception-radar.png"),
+				existPerceptionRadarPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/6df5309bc390298f360f8a87790f1a1bea54c1a8fe651c5aa689776d6d04ee5f.png',
 				logIconPng: require("@/static/img/log-icon.png"),
 				moreIconPng: require("@/static/img/more-icon.png")
 			}

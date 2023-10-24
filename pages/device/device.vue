@@ -108,7 +108,7 @@
 				tabCutList: ['设备','房间'],
 				deviceList: [],
 				noReadMessageNum: 0,
-				imageUrl: require("@/static/img/room-icon.png"),
+				imageUrl: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/7cfa8d18868aae3fd6cdc63b13418ff702db65cad6a4ac1cb8e53ac66b7f5c98.png',
 				roomList: [],
 				tabCutActiveIndex: 0,
 				loginBackgroundPng: require("@/static/img/login-background.png"),

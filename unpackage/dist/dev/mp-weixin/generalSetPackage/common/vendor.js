@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["generalSetPackage/common/vendor"],{
 
-/***/ 566:
+/***/ 560:
 /*!************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/logo-ellipse-icon.png ***!
   \************************************************************************/
@@ -11,7 +11,7 @@ module.exports = "/static/img/logo-ellipse-icon.png";
 
 /***/ }),
 
-/***/ 575:
+/***/ 569:
 /*!**********************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/edit-green-icon.png ***!
   \**********************************************************************/
@@ -22,7 +22,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIBAMAAACn
 
 /***/ }),
 
-/***/ 576:
+/***/ 570:
 /*!*****************************************************************************!*\
   !*** D:/工作项目/wisdomLivingMiniProgram/static/img/delete-red-square-icon.png ***!
   \*****************************************************************************/

@@ -15,7 +15,7 @@
 				<view class="devices-list" v-for="(item,index) in deviceList" :key="index" @click="bindDeviceEvent(item)">
 					<view class="list-top">
 						<view class="list-top-left">
-							<image :src="deviceIconPng"></image>
+							<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/7cfa8d18868aae3fd6cdc63b13418ff702db65cad6a4ac1cb8e53ac66b7f5c98.png"></image>
 						</view>
 						<view class="list-top-right">
 							<text :class="{'onLineStyle' : item.onLine }">{{ item.onLine ? '在线' : '离线' }}</text>
@@ -63,8 +63,7 @@
 				deviceList: [],
 				showLoadingHint: false,
 				isShowNoDeviceData: false,
-				deviceIconPng: require("@/static/img/room-icon.png"),
-				noQueryDevice: require("@/static/img/no-query-device.png")
+				noQueryDevice: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/f6339932433f6c6900b93e33b1ec300192658017fe8fce767fde72426b10253e.png'
 			}
 		},
 		onLoad() {

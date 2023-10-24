@@ -43,7 +43,7 @@
 			return {
 				infoText: '',
 				showLoadingHint: false,
-				deviceIconPng: require("@/static/img/tumble-radar.png")
+				deviceIconPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/ac6c559f47eb9cb4a36146fa85b73ab897227911f333d9aa83449650dfdca5df.png'
 			}
 		},
 		onLoad (object) {
