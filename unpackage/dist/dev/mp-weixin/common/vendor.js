@@ -175,6 +175,7 @@ exports.getExistAlarmSettings = getExistAlarmSettings;
 exports.getExistPerceptionRadar = getExistPerceptionRadar;
 exports.getFallAlarmSettings = getFallAlarmSettings;
 exports.getHealthAlarmSettings = getHealthAlarmSettings;
+exports.getTumbleListDetails = getTumbleListDetails;
 exports.getTumbleRadar = getTumbleRadar;
 exports.getsignMonitorRadar = getsignMonitorRadar;
 exports.sleepStatisticsDetails = sleepStatisticsDetails;
@@ -426,6 +427,21 @@ function enterLeaveHomeDetails(data) {
 function tumbleDetails(data) {
   return (0, _request.default)({
     url: '/app-api/radar/fall-data/falls',
+    method: 'get',
+    params: data,
+    paramsSerializer: function paramsSerializer(params) {
+      return _qs.default.stringify(params, {
+        arrayFormat: "repeat"
+      });
+    }
+  });
+}
+;
+
+// 获取跌倒数据详情列表
+function getTumbleListDetails(data) {
+  return (0, _request.default)({
+    url: '/app-api/radar/fall-data/fall-detail',
     method: 'get',
     params: data,
     paramsSerializer: function paramsSerializer(params) {

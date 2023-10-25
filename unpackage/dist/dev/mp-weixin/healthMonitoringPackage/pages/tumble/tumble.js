@@ -109,6 +109,15 @@ try {
     uIcon: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 680))
     },
+    uEmpty: function () {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 761))
+    },
+    qiunDataCharts: function () {
+      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 768))
+    },
+    uLoadmore: function () {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-loadmore/u-loadmore */ "node-modules/uview-ui/components/u-loadmore/u-loadmore").then(__webpack_require__.bind(null, /*! uview-ui/components/u-loadmore/u-loadmore.vue */ 817))
+    },
   }
 } catch (e) {
   if (
@@ -143,13 +152,22 @@ var render = function () {
       ? _vm.getNowFormatDateText(_vm.currentEndWeekDate)
       : null
   var m4 =
-    _vm.currentItem == 1 ? _vm.getNowFormatDateText(_vm.initWeekDate) : null
-  var m5 =
     _vm.currentItem == 2
       ? _vm.getNowFormatDateText(_vm.currentMonthDate, 2)
       : null
-  var m6 =
-    _vm.currentItem == 2 ? _vm.getNowFormatDateText(_vm.initMonthDate) : null
+  var l0 = _vm.__map(_vm.fullRecordList, function (item, index) {
+    var $orig = _vm.__get_orig(item)
+    var m5 = _vm.getNowFormatDate(new Date(item.fallTime), 1)
+    var g0 = item.hasOwnProperty("upTime") && item.upTime
+    var g1 = g0 ? Math.ceil(_vm.msToMinutes(item.upTime - item.fallTime)) : null
+    return {
+      $orig: $orig,
+      m5: m5,
+      g0: g0,
+      g1: g1,
+    }
+  })
+  var g2 = _vm.fullRecordList.length
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -159,8 +177,8 @@ var render = function () {
         m2: m2,
         m3: m3,
         m4: m4,
-        m5: m5,
-        m6: m6,
+        l0: l0,
+        g2: g2,
       },
     }
   )
@@ -207,6 +225,7 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _user = __webpack_require__(/*! @/api/user.js */ 31);
+var _device = __webpack_require__(/*! @/api/device.js */ 106);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
@@ -235,8 +254,106 @@ var _default = {
       }, {
         name: '月'
       }],
-      currentItem: 0
-    }, (0, _defineProperty2.default)(_ref, "currentItem", 0), (0, _defineProperty2.default)(_ref, "isDayPlusCanCilck", true), (0, _defineProperty2.default)(_ref, "isMonthPlusCanCilck", true), (0, _defineProperty2.default)(_ref, "isWeekPlusCanCilck", true), (0, _defineProperty2.default)(_ref, "currentDayTime", ''), (0, _defineProperty2.default)(_ref, "initDayTime", ''), (0, _defineProperty2.default)(_ref, "currentStartWeekDate", ''), (0, _defineProperty2.default)(_ref, "currentEndWeekDate", ''), (0, _defineProperty2.default)(_ref, "initWeekDate", ''), (0, _defineProperty2.default)(_ref, "currentMonthDate", ''), (0, _defineProperty2.default)(_ref, "currentMonthDays", ''), (0, _defineProperty2.default)(_ref, "initMonthDate", ''), (0, _defineProperty2.default)(_ref, "weekMap", {}), (0, _defineProperty2.default)(_ref, "temporaryDevices", []), (0, _defineProperty2.default)(_ref, "visitPageId", ''), _ref;
+      tumbleOpts: {
+        padding: [10, 4, 10, 4],
+        dataLabel: false,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        extra: {
+          bar: {
+            type: 'stack',
+            width: 20
+          }
+        }
+      },
+      leaveHomeWeekOpts: {
+        color: ["#F0F0F0"],
+        dataLabel: false,
+        padding: [10, 10, 0, 10],
+        enableScroll: true,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          itemCount: 7
+        },
+        yAxis: {
+          splitNumber: 5,
+          data: [{
+            format: 'yAxisDemoMix'
+          }]
+        },
+        extra: {
+          column: {
+            type: 'stack',
+            width: 20,
+            categoryGap: 2
+          },
+          tooltip: {
+            showBox: false
+          }
+        }
+      },
+      leaveHomeMonthOpts: {
+        dataLabel: false,
+        padding: [10, 10, 0, 10],
+        enableScroll: true,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          scrollShow: true,
+          itemCount: 7
+        },
+        yAxis: {
+          splitNumber: 5,
+          data: [{
+            format: 'yAxisDemoMix'
+          }]
+        },
+        extra: {
+          column: {
+            type: 'stack',
+            width: 20,
+            categoryGap: 2
+          },
+          tooltip: {
+            showBox: false
+          }
+        }
+      },
+      currentWeekXaxisArr: [],
+      currentMonthXaxisArr: [],
+      currentItem: 0,
+      isDayPlusCanCilck: true,
+      isMonthPlusCanCilck: true,
+      isWeekPlusCanCilck: true,
+      currentDayTime: '',
+      initDayTime: '',
+      currentStartWeekDate: '',
+      currentEndWeekDate: '',
+      initWeekDate: '',
+      currentWeekDate: '',
+      currentMonthDate: ''
+    }, (0, _defineProperty2.default)(_ref, "currentMonthDate", ''), (0, _defineProperty2.default)(_ref, "currentMonthDays", ''), (0, _defineProperty2.default)(_ref, "initMonthDate", ''), (0, _defineProperty2.default)(_ref, "weekMap", {}), (0, _defineProperty2.default)(_ref, "temporaryDevices", []), (0, _defineProperty2.default)(_ref, "visitPageId", ''), (0, _defineProperty2.default)(_ref, "dayChartData", {
+      isShow: true,
+      data: {}
+    }), (0, _defineProperty2.default)(_ref, "weekChartData", {
+      isShow: true,
+      data: {}
+    }), (0, _defineProperty2.default)(_ref, "monthChartData", {
+      isShow: true,
+      data: {}
+    }), (0, _defineProperty2.default)(_ref, "currentPageNum", 1), (0, _defineProperty2.default)(_ref, "pageSize", 20), (0, _defineProperty2.default)(_ref, "totalCount", 0), (0, _defineProperty2.default)(_ref, "status", 'nomore'), (0, _defineProperty2.default)(_ref, "isShowNoHomeNoData", false), (0, _defineProperty2.default)(_ref, "fullRecordList", []), (0, _defineProperty2.default)(_ref, "recordList", []), _ref;
   },
   onLoad: function onLoad() {
     this.createVisitPage();
@@ -261,6 +378,21 @@ var _default = {
     } finally {
       _iterator.f();
     }
+    ;
+    this.queryTumbleDetails({
+      deviceIds: this.temporaryDevices,
+      startDate: '2023-10-24',
+      endDate: '2023-10-24'
+      // startDate: this.getNowFormatDate(new Date(),2)
+    }, 'day');
+
+    // 获取跌倒日数据列表详情
+    this.queryGetTumbleListDetails({
+      pageNo: this.currentPageNum,
+      pageSize: this.pageSize,
+      deviceIds: this.temporaryDevices,
+      date: '2023-10-24'
+    }, true, false);
   },
   destroyed: function destroyed() {
     if (!this.visitPageId && this.visitPageId !== 0) {
@@ -296,13 +428,313 @@ var _default = {
         if (res && res.data.code == 0) {}
       }).catch(function (err) {});
     },
+    // 获取周数据当前点击索引
+    getWeekIndexEvent: function getWeekIndexEvent(e) {
+      if (e.currentIndex['index'] == -1) {
+        return;
+      }
+      ;
+      this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
+      this.currentWeekDate = this.getNowFormatDate(new Date(this.currentWeekXaxisArr[e.currentIndex['index']]), 2);
+      // 获取跌倒数据详情列表
+      this.queryGetTumbleListDetails({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        deviceIds: this.temporaryDevices,
+        date: this.currentWeekDate
+      }, false, true);
+    },
+    // 获取月数据当前点击索引
+    getMonthIndexEvent: function getMonthIndexEvent(e) {
+      if (e.currentIndex['index'] == -1) {
+        return;
+      }
+      ;
+      this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
+      this.currentMonthDate = this.getNowFormatDate(new Date(this.currentMonthXaxisArr[e.currentIndex['index']]), 2);
+      // 获取跌倒数据详情列表
+      this.queryGetTumbleListDetails({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        deviceIds: this.temporaryDevices,
+        date: this.currentMonthDate
+      }, false, true);
+    },
+    // 获取跌倒数据详情列表
+    queryGetTumbleListDetails: function queryGetTumbleListDetails(data, flag, isInit) {
+      var _this2 = this;
+      this.recordList = [];
+      if (isInit) {
+        this.isShowNoHomeNoData = false;
+        this.currentPageNum = 1;
+        this.fullRecordList = [];
+      }
+      ;
+      if (flag) {
+        this.showLoadingHint = true;
+      } else {
+        this.showLoadingHint = false;
+        this.status = 'loading';
+      }
+      ;
+      (0, _device.getTumbleListDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this2.totalCount = res.data.data.total;
+          _this2.recordList = res.data.data.list;
+          _this2.fullRecordList = _this2.fullRecordList.concat(_this2.recordList);
+          if (_this2.fullRecordList.length == 0) {
+            _this2.isShowNoHomeNoData = true;
+          } else {
+            _this2.isShowNoHomeNoData = false;
+          }
+          ;
+        } else {
+          _this2.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          var totalPage = Math.ceil(_this2.totalCount / _this2.pageSize);
+          if (_this2.currentPageNum >= totalPage) {
+            _this2.status = 'nomore';
+          } else {
+            _this2.status = 'loadmore';
+          }
+        }
+      }).catch(function (err) {
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          _this2.status = 'loadmore';
+        }
+        ;
+        _this2.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    scrolltolower: function scrolltolower() {
+      var totalPage = Math.ceil(this.totalCount / this.pageSize);
+      if (this.currentPageNum >= totalPage) {
+        this.status = 'nomore';
+      } else {
+        this.status = 'loadmore';
+        this.currentPageNum = this.currentPageNum + 1;
+        this.queryGetTumbleListDetails({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          deviceIds: this.temporaryDevices,
+          date: '2023-10-24'
+        }, false, false);
+      }
+    },
+    // 获取跌倒数据
+    queryTumbleDetails: function queryTumbleDetails(data, text) {
+      var _this3 = this;
+      if (text == 'day') {
+        this.dayChartData = {
+          isShow: true,
+          data: {}
+        };
+      } else if (text == 'week') {
+        this.weekChartData = {
+          isShow: true,
+          data: {}
+        };
+      }
+      ;
+      (0, _device.tumbleDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          if (text == 'day') {
+            var questData = res.data.data;
+            _this3.dayChartData['isShow'] = true;
+            // 跌倒
+            if (questData.length == 0) {
+              _this3.dayChartData = {
+                isShow: false,
+                data: {}
+              };
+            } else {
+              _this3.dayChartData['isShow'] = true;
+              // status: 0-正常，1-跌倒
+              var temporaryData = {
+                categories: ['7-4'],
+                series: []
+              };
+              // 统计跌倒次数
+              var temporaryCount = questData[0]['resItemVos'].filter(function (el) {
+                return el.status == 1;
+              }).length;
+              questData[0]['resItemVos'].forEach(function (item, index) {
+                if (item.status == 0) {
+                  temporaryData['series'].push({
+                    name: "正常",
+                    color: "#F0F0F0",
+                    data: [1]
+                  });
+                } else if (item.status == 1) {
+                  temporaryData['series'].push({
+                    name: "跌倒",
+                    color: "#E8CB51",
+                    data: [1]
+                  });
+                }
+              });
+              var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+              _this3.dayChartData['data'] = temporaryContent;
+            }
+          } else if (text == 'week') {
+            _this3.weekChartData['isShow'] = true;
+            _this3.currentWeekXaxisArr = [];
+            if (res.data.data.length > 0) {
+              var _questData = res.data.data;
+              _this3.weekChartData['isShow'] = true;
+              var lengthArr = [];
+              var maxColumn;
+              var _temporaryData = {
+                categories: [],
+                series: []
+              };
+              _questData.forEach(function (item, index) {
+                _temporaryData['categories'].push(_this3.judgeWeek(item.date));
+                _this3.currentWeekXaxisArr.push(item.date);
+                lengthArr.push(item.resItemVos.length);
+              });
+              // 按所有天中数据最多的那天算(每天的数据条数不一致)
+              maxColumn = Math.max.apply(null, lengthArr);
+              for (var i = 0; i < maxColumn; i++) {
+                _temporaryData['series'].push({
+                  "data": []
+                });
+              }
+              ;
+              _temporaryData['series'].forEach(function (item, index) {
+                _this3.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
+                  var currentData = _questData[innerIndex]['resItemVos'];
+                  if (currentData[index]) {
+                    if (currentData[index]['status'] == 0) {
+                      item['data'].push({
+                        value: 1,
+                        color: "#F0F0F0"
+                      });
+                    } else if (currentData[index]['status'] == 1) {
+                      item['data'].push({
+                        value: 3,
+                        color: "#E8CB51"
+                      });
+                    }
+                  } else {
+                    item['data'].push({
+                      value: 1,
+                      color: '#F0F0F0'
+                    });
+                  }
+                });
+              });
+              var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
+              _this3.weekChartData['data'] = _temporaryContent;
+            } else {
+              _this3.weekChartData = {
+                isShow: false,
+                data: {}
+              };
+            }
+          } else if (text == 'month') {
+            _this3.monthChartData['isShow'] = true;
+            _this3.currentMonthXaxisArr = [];
+            if (res.data.data.length > 0) {
+              var _questData2 = res.data.data;
+              _this3.monthChartData['isShow'] = true;
+              var _lengthArr = [];
+              var _maxColumn;
+              var _temporaryData2 = {
+                categories: [],
+                series: []
+              };
+              _questData2.forEach(function (item, index) {
+                _temporaryData2['categories'].push(_this3.getNowFormatDate(new Date(item.date), 5));
+                _this3.currentMonthXaxisArr.push(item.date);
+                _lengthArr.push(item.resItemVos.length);
+              });
+              // 按所有天中数据最多的那天算(每天的数据条数不一致)
+              _maxColumn = Math.max.apply(null, _lengthArr);
+              for (var _i = 0; _i < _maxColumn; _i++) {
+                _temporaryData2['series'].push({
+                  "data": []
+                });
+              }
+              ;
+              _temporaryData2['series'].forEach(function (item, index) {
+                _this3.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
+                  var currentData = _questData2[innerIndex]['resItemVos'];
+                  if (currentData[index]) {
+                    if (currentData[index]['status'] == 0) {
+                      item['data'].push({
+                        value: 1,
+                        color: "#F0F0F0"
+                      });
+                    } else if (currentData[index]['status'] == 1) {
+                      item['data'].push({
+                        value: 3,
+                        color: "#E8CB51"
+                      });
+                    }
+                  } else {
+                    item['data'].push({
+                      value: 1,
+                      color: '#F0F0F0'
+                    });
+                  }
+                });
+              });
+              var _temporaryContent2 = JSON.parse(JSON.stringify(_temporaryData2));
+              _this3.monthChartData['data'] = _temporaryContent2;
+            } else {
+              _this3.monthChartData = {
+                isShow: false,
+                data: {}
+              };
+            }
+          }
+        } else {
+          _this3.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this3.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
+    // 毫秒转换成分钟
+    msToMinutes: function msToMinutes(ms) {
+      if (!ms) {
+        return;
+      }
+      ;
+      var minutes = ms / 60000;
+      return minutes;
+    },
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {
-      // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)
+      // type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)5(显示月日)
       var currentdate;
       var strDate = currentDate.getDate();
       var seperator1 = "-";
       var seperator2 = ":";
+      var seperator3 = " ";
       var month = currentDate.getMonth() + 1;
       var hour = currentDate.getHours();
       var minutes = currentDate.getMinutes();
@@ -332,6 +764,14 @@ var _default = {
       ;
       if (type == 3) {
         currentdate = currentDate.getFullYear() + seperator1 + month;
+      }
+      ;
+      if (type == 4) {
+        currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes;
+      }
+      ;
+      if (type == 5) {
+        currentdate = month + seperator1 + strDate;
       }
       ;
       return currentdate;
@@ -377,6 +817,22 @@ var _default = {
         var _newTime = new Date(_addDay);
         this.currentDayTime = this.getNowFormatDate(_newTime, 2);
       }
+      ;
+      // 获取跌倒日数据
+      this.queryTumbleDetails({
+        deviceIds: this.temporaryDevices,
+        startDate: '2023-10-24',
+        endDate: '2023-10-24'
+        // startDate: this.getNowFormatDate(new Date(),2)
+      }, 'day');
+
+      // 获取跌倒数据列表详情
+      this.queryGetTumbleListDetails({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        deviceIds: this.temporaryDevices,
+        date: '2023-10-24'
+      }, false, true);
     },
     // 获取某月的天数
     getMonthDay: function getMonthDay(year, month) {
@@ -413,6 +869,7 @@ var _default = {
         var nextMonth = year2 + "-" + month2;
         this.currentMonthDays = this.getMonthDay(year2, month2);
         this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth), 3);
+        this.initMonthDate = this.getNowFormatDateText(new Date("".concat(this.currentMonthDate, "-01")), 3);
         if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
           this.isMonthPlusCanCilck = false;
         }
@@ -438,8 +895,24 @@ var _default = {
         var preMonth = _year2 + "-" + _month2;
         this.currentMonthDays = this.getMonthDay(_year2, _month2);
         this.currentMonthDate = this.getNowFormatDate(new Date(preMonth), 3);
+        this.initMonthDate = this.getNowFormatDateText(new Date("".concat(this.currentMonthDate, "-01")), 3);
         console.log('当前月', this.currentMonthDate);
       }
+      ;
+      // 获取跌倒日数据
+      this.queryTumbleDetails({
+        deviceIds: this.temporaryDevices,
+        startDate: '2023-10-24',
+        endDate: '2023-10-24'
+        // startDate: this.getNowFormatDate(new Date(),2)
+      }, 'month');
+      // 获取跌倒数据列表详情
+      this.queryGetTumbleListDetails({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        deviceIds: this.temporaryDevices,
+        date: '2023-10-24'
+      }, false, true);
     },
     // 获取当前周
     getWeek: function getWeek(date) {
@@ -503,6 +976,7 @@ var _default = {
         this.weekMap = this.getWeek(new Date(time));
         this.currentStartWeekDate = "".concat(this.weekMap['syear'], "-").concat(this.weekMap["stext"]);
         this.currentEndWeekDate = "".concat(this.weekMap['eyear'], "-").concat(this.weekMap["etext"]);
+        this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate), 3);
         if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
           this.isWeekPlusCanCilck = false;
         }
@@ -513,8 +987,24 @@ var _default = {
         this.weekMap = this.getWeek(new Date(_time));
         this.currentStartWeekDate = "".concat(this.weekMap['syear'], "-").concat(this.weekMap["stext"]);
         this.currentEndWeekDate = "".concat(this.weekMap['eyear'], "-").concat(this.weekMap["etext"]);
+        this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate), 3);
         console.log('周', this.currentStartWeekDate, this.currentEndWeekDate);
       }
+      ;
+      // 获取跌倒日数据
+      this.queryTumbleDetails({
+        deviceIds: this.temporaryDevices,
+        startDate: '2023-10-24',
+        endDate: '2023-10-24'
+        // startDate: this.getNowFormatDate(new Date(),2)
+      }, 'week');
+      // 获取跌倒数据列表详情
+      this.queryGetTumbleListDetails({
+        pageNo: this.currentPageNum,
+        pageSize: this.pageSize,
+        deviceIds: this.temporaryDevices,
+        date: '2023-10-24'
+      }, false, true);
     },
     // 判断周几
     judgeWeek: function judgeWeek(currentDate) {
@@ -522,25 +1012,25 @@ var _default = {
       var day = date.getDay();
       switch (day) {
         case 0:
-          return "星期日";
+          return "周日";
           break;
         case 1:
-          return "星期一";
+          return "周一";
           break;
         case 2:
-          return "星期二";
+          return "周二";
           break;
         case 3:
-          return "星期三";
+          return "周三";
           break;
         case 4:
-          return "星期四";
+          return "周四";
           break;
         case 5:
-          return "星期五";
+          return "周五";
           break;
         case 6:
-          return "星期六";
+          return "周六";
           break;
       }
     },
@@ -554,22 +1044,52 @@ var _default = {
         if (new Date(this.currentDayTime).getTime() >= new Date(temporaryDate).getTime()) {
           this.isDayPlusCanCilck = false;
         }
+        ;
+        // 获取跌倒日数据
+        this.queryTumbleDetails({
+          deviceIds: this.temporaryDevices,
+          startDate: '2023-10-24',
+          endDate: '2023-10-24'
+          // startDate: this.getNowFormatDate(new Date(),2)
+        }, 'day');
+        // 获取跌倒数据列表详情
+        this.queryGetTumbleListDetails({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          deviceIds: this.temporaryDevices,
+          date: '2023-10-24'
+        }, false, true);
       }
       ;
       if (index == 1) {
         this.weekMap = this.getWeek(new Date());
         this.currentStartWeekDate = "".concat(this.weekMap['syear'], "-").concat(this.weekMap["stext"]);
         this.currentEndWeekDate = "".concat(this.weekMap['eyear'], "-").concat(this.weekMap["etext"]);
-        this.initWeekDate = this.getNowFormatDate(new Date(), 3);
+        this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate), 3);
         var _temporaryDate = this.getNowFormatDate(new Date(), 3);
         if (new Date(this.currentEndWeekDate).getTime() >= new Date(_temporaryDate).getTime()) {
           this.isWeekPlusCanCilck = false;
         }
+        ;
+        // 获取跌倒日数据
+        this.queryTumbleDetails({
+          deviceIds: this.temporaryDevices,
+          startDate: '2023-10-23',
+          endDate: '2023-10-24'
+          // startDate: this.getNowFormatDate(new Date(),2)
+        }, 'week');
+        // 获取跌倒数据列表详情
+        this.queryGetTumbleListDetails({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          deviceIds: this.temporaryDevices,
+          date: '2023-10-24'
+        }, false, true);
       }
       ;
       if (index == 2) {
         this.currentMonthDate = this.getNowFormatDate(new Date(), 3);
-        this.initMonthDate = this.getNowFormatDate(new Date(), 3);
+        this.initMonthDate = this.getNowFormatDateText(new Date("".concat(this.currentMonthDate, "-01")), 3);
         var _temporaryDate2 = this.getNowFormatDate(new Date(), 3);
         if (new Date(this.currentMonthDate).getTime() >= new Date(_temporaryDate2).getTime()) {
           this.isMonthPlusCanCilck = false;
@@ -593,6 +1113,20 @@ var _default = {
         ;
         var preMonth = year2 + "-" + month2;
         this.currentMonthDays = this.getMonthDay(year2, month2);
+        // 获取跌倒日数据
+        this.queryTumbleDetails({
+          deviceIds: this.temporaryDevices,
+          startDate: '2023-10-23',
+          endDate: '2023-10-24'
+          // startDate: this.getNowFormatDate(new Date(),2)
+        }, 'month');
+        // 获取跌倒数据列表详情
+        this.queryGetTumbleListDetails({
+          pageNo: this.currentPageNum,
+          pageSize: this.pageSize,
+          deviceIds: this.temporaryDevices,
+          date: '2023-10-24'
+        }, false, true);
       }
     },
     // 进入健康小知识详情事件

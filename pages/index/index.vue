@@ -104,7 +104,6 @@
 							</view>
 						</view>
 						<view class="heart-rate-chart">
-							<u-empty text="暂无数据" v-if="sceneDataList[item.id]['heart']['isShowNoData']"></u-empty>
 							<qiun-data-charts v-if="!sceneDataList[item.id]['heart']['isShowNoData']" tooltipFormat="tooltipDemo1" type="area" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="sceneDataList[item.id]['heart']['data']" />
 						</view>
 					</view>
@@ -123,7 +122,6 @@
 							</view>
 						</view>
 						<view class="breathe-chart">
-							<u-empty text="暂无数据" v-if="sceneDataList[item.id]['breath']['isShowNoData']"></u-empty>
 							<qiun-data-charts v-if="!sceneDataList[item.id]['breath']['isShowNoData']" type="line" :canvas2d="true" :canvasId="`abc1245def${item.id}`" :ontouch="true" :opts="breatheOpts" :chartData="sceneDataList[item.id]['breath']['data']" />
 						</view>
 					</view>
@@ -144,7 +142,6 @@
 						<view class="sleep-chart">
 							<qiun-data-charts v-if="!sceneDataList[item.id]['sleep']['isShowNoData']" type="bar" :canvas2d="true" :canvasId="`abc1fdsd3245def${item.id}`" :ontouch="true" :opts="sleepOpts" :chartData="sceneDataList[item.id]['sleep']['data']" />
 						</view>
-						<u-empty text="暂无数据" v-if="sceneDataList[item.id]['sleep']['isShowNoData']"></u-empty>
 						<view class="sleep-range" v-if="sceneDataList[item.id]['sleep']['isShow']">
 							<view class="sleep-range-left">
 								<text>{{ sceneDataList[item.id]['sleep']['sleepStartDate'] }}</text>
@@ -193,7 +190,6 @@
 							</view>
 						</view>
 						<view class="toilet-chart">
-							<u-empty text="暂无数据"></u-empty>
 							<!-- <qiun-data-charts type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="chartData" /> -->
 						</view>
 					</view>
@@ -206,35 +202,46 @@
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>{{ getNowFormatDateText(new Date()) }}</text>
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
-						<!-- <text>跌倒一次</text> -->
+						<text v-if="!sceneDataList[item.id]['isShowNoData']">{{ `跌倒${sceneDataList[item.id]['tumbleCount']}次` }}</text>
 					</view>
-					<view class="heart-rate-box" v-if="false">
+					<view class="heart-rate-box" v-if="!sceneDataList[item.id]['isShowNoData']">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="tumbleIconPng"></image>
-								<!-- <text>跌倒1次</text>
-								<text>已自行站起</text> -->
+								<!-- <text>{{ `跌倒${sceneDataList[item.id]['tumbleCount']}次` }}</text> -->
+								<text>已自行站起</text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('跌倒',item)">
 								详情
 							</view>
 						</view>
 						<view class="tumble-chart">
-							<u-empty text="暂无数据"></u-empty>
-						<!-- 	<qiun-data-charts v-if="!sceneDataList[item.id]['isShowNoData']" type="bar" :canvas2d="true" :canvasId="`akglfg1fdsd3ghh8${item.id}`" :ontouch="true" :opts="tumbleOpts" :chartData="sceneDataList[item.id]['data']" /> -->
-							<!-- <view class="icon-bar" v-if="sceneDataList[item.id]['isShow']">
+							<qiun-data-charts v-if="!sceneDataList[item.id]['isShowNoData']" type="bar" :canvas2d="true" :canvasId="`akglfjkdj4ghsd3ghh8${item.id}`" :ontouch="true" :opts="tumbleOpts" :chartData="sceneDataList[item.id]['data']" />
+							<view class="time-bar" v-if="sceneDataList[item.id]['isShow']">
+								<view class="time-line"></view>
+								<view class="time-text">
+									<text>00:00</text>
+									<text>04:00</text>
+									<text>08:00</text>
+									<text>12:00</text>
+									<text>16:00</text>
+									<text>20:00</text>
+									<text>23:59</text>
+								</view>
+							</view>
+							<view class="icon-bar" v-if="sceneDataList[item.id]['isShow']">
 								<view>
 									<text></text>
-									<text>清醒</text>
+									<text>正常</text>
 								</view>
 								<view>
 									<text></text>
-									<text>未检测到人体</text>
+									<text>跌倒</text>
 								</view>
-							</view> -->
+							</view>
 						</view>
 					</view>
-					<view class="tumble-no-data-box" @click="enterDetailsEvent('跌倒',item)">
+					<view v-if="sceneDataList[item.id]['isShowNoData']" class="tumble-no-data-box" @click="enterDetailsEvent('跌倒',item)">
 						<image :src="tumbleNoDataPng"></image>
 					</view>
 				</view>
@@ -256,7 +263,6 @@
 							</view>
 						</view>
 						<view class="leave-home-chart">	
-							<u-empty text="暂无数据" v-if="sceneDataList[item.id]['isShowNoData']"></u-empty>
 							<qiun-data-charts v-if="!sceneDataList[item.id]['isShowNoData']" tooltipFormat="tooltipDemo1" type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="leaveHomeOpts" :ontouch="true" :chartData="sceneDataList[item.id]['data']" />
 						</view>
 					</view>
@@ -265,7 +271,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="bottom-area">
+			<view class="bottom-area" v-if="deviceList.length > 0">
 				<text @click="editDataCardEvent">编辑数据卡片</text>
 			</view>
 		</view>	
@@ -323,7 +329,8 @@
 					},
 					extra: {
 						bar: {
-							type: 'stack'
+							type: 'stack',
+							width: 20
 						}
 					}
 				},
@@ -731,13 +738,15 @@
 								categories: ['7-4'],
 								series: []
 							};
+							// 统计跌倒次数
+							let temporaryCount = questData[0]['resItemVos'].filter((el) => { return el.status == 1}).length;
 							questData[0]['resItemVos'].forEach((item,index) => {
 								if (item.status == 0) {
 									temporaryData['series'].push(
 										{
 										  name: "正常",
 										  color: "#F0F0F0",
-										  data: 1
+										  data: [1]
 										}
 									)
 								} else if (item.status == 1) {
@@ -745,7 +754,7 @@
 										{
 										  name: "跌倒",
 										  color: "#E8CB51",
-										  data: 1
+										  data: [1]
 										}
 									)
 								}
@@ -753,7 +762,8 @@
 							let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
 							this.$set(this.sceneDataList[cardId],'data',temporaryContent);
 							this.$set(this.sceneDataList[cardId],'isShow',true);
-							console.log('跌倒数据',this.sceneDataList);
+							this.$set(this.sceneDataList[cardId],'tumbleCount',temporaryCount);
+							console.log('跌倒数据',this.sceneDataList[cardId]);
 						}
 					} else {
 						this.$refs.uToast.show({
@@ -936,6 +946,7 @@
 						} else if (item.type == 2) {
 							this.$set(this.sceneDataList,item.id,{});
 							this.$set(this.sceneDataList[item.id],'data',{});
+							this.$set(this.sceneDataList[item.id],'tumbleCount','');
 							this.$set(this.sceneDataList[item.id],'isShow',false);
 							this.$set(this.sceneDataList[item.id],'isShowNoData',false);
 							this.requestTumbleDeviceStatisticsData(temporaryDevices,item.id)
@@ -959,12 +970,12 @@
 				},cardId)
 			},
 			
-			// 为绑定设备的场景请求设备统计日数据(跌倒场景)
+			// 为绑定设备的场景请求设备统计日数据(跌倒场景)this.getNowFormatDate(new Date(),1)
 			requestTumbleDeviceStatisticsData (deviceIdList,cardId) {
 				this.queryTumbleDetails({
 					deviceIds: deviceIdList,
-					startDate: this.getNowFormatDate(new Date(),1),
-					endDate: this.getNowFormatDate(new Date(),1)
+					startDate: '2023-10-24',
+					endDate: '2023-10-24'
 				},cardId)
 			},
 			
@@ -1118,7 +1129,7 @@
 			}
 		};
 		.banner-area-box {
-			padding: 0 10px 10px 10px;
+			padding: 0 6px 10px 6px;
 			min-height: 135px;
 			box-sizing: border-box;
 			background: #fff
@@ -1134,17 +1145,6 @@
 				left: 50%;
 				transform: translate(-50%,-50%)
 			};
-			// .toilet-background-box {
-			// 	position: absolute;
-			// 	width: 100%;
-			// 	height: 159px;
-			// 	left: 0;
-			// 	top: 510px;
-			// 	>image {
-			// 		width: 100%;
-			// 		height: 100%
-			// 	}
-			// };
 			.bind-sleep-device-area {
 				margin-top: 2px;
 				padding: 4px 10px;
@@ -1244,13 +1244,15 @@
 				display: flex;
 				flex-direction: column;
 				margin-top: 6px;
-				padding: 4px 10px;
+				padding: 4px 6px;
 				box-sizing: border-box;
 				.sleep-data-title {
 					height: 32px;
 					display: flex;
 					align-items: center;
 					margin-bottom: 6px;
+					padding-left: 4px;
+					box-sizing: border-box;
 					>text {
 						margin-right: 10px;
 						margin-top: 2px;
@@ -1315,17 +1317,11 @@
 					.heart-rate-chart {
 						height: 104px;
 						position: relative;
-						::v-deep .u-empty {
-						 	position: absolute;
-						 	top: 50%;
-						 	left: 50%;
-						 	transform: translate(-50%,-50%)
-						}
 					}
 				};
 				.heart-rate-no-data-box {
 					width: 100%;
-					height: 111px;
+					height: 120px;
 					>image {
 						width: 100%;
 						height: 100%
@@ -1333,7 +1329,7 @@
 				};
 				.breath-no-data-box {
 					width: 100%;
-					height: 111px;
+					height: 120px;
 					>image {
 						width: 100%;
 						height: 100%
@@ -1341,7 +1337,7 @@
 				};
 				.sleep-no-data-box {
 					width: 100%;
-					height: 111px;
+					height: 120px;
 					>image {
 						width: 100%;
 						height: 100%
@@ -1352,12 +1348,6 @@
 					.breathe-chart {
 						height: 94px;
 						position: relative;
-						::v-deep .u-empty {
-						 	position: absolute;
-						 	top: 50%;
-						 	left: 50%;
-						 	transform: translate(-50%,-50%)
-						}
 					}
 				};
 				.sleep-box {
@@ -1365,12 +1355,6 @@
 					position: relative;
 					.sleep-chart {
 						height: 44px;
-						::v-deep .u-empty {
-						 	position: absolute;
-						 	top: 50%;
-						 	left: 50%;
-						 	transform: translate(-50%,-50%)
-						}
 					};
 					.sleep-range {
 						width: 100%;
@@ -1470,17 +1454,11 @@
 					.toilet-chart {
 						height: 94px;
 						position: relative;
-						::v-deep .u-empty {
-						 	position: absolute;
-						 	top: 50%;
-						 	left: 50%;
-						 	transform: translate(-50%,-50%)
-						}
 					}
 				};
 				.toilet-no-data-box {
 					width: 100%;
-					height: 111px;
+					height: 120px;
 					>image {
 						width: 100%;
 						height: 100%
@@ -1488,7 +1466,7 @@
 				}
 			};
 			.tumble-area-data {
-				height: 174px;
+				height: 200px;
 				margin-top: 8px;
 				.heart-rate-box {
 					height: 0;
@@ -1496,19 +1474,75 @@
 					display: flex;
 					flex-direction: column;
 					.tumble-chart {
-						height: 84px;
+						height: 50px;
 						position: relative;
-						::v-deep .u-empty {
-						 	position: absolute;
-						 	top: 50%;
-						 	left: 50%;
-						 	transform: translate(-50%,-50%)
+						.time-bar {
+							.time-line {
+								width: 100%;
+								height: 1px;
+								background: #BBBBBB
+							};
+							.time-text {
+								display: flex;
+								align-items: center;
+								>text {
+									flex: 1;
+									text-align: center;
+									font-size: 14px;
+									color: #101010
+								}
+							}
+						};
+						.icon-bar {
+							height: 40px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							margin-top: 4px;
+							>view {
+								width: 100px;
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								justify-content: center;
+								&:first-child {
+									margin-right: 10px;
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 21px;
+											height: 12px;
+											background: #F0F0F0
+										};
+										&:last-child {
+											font-size: 14px;
+											margin-top: 4px;
+											color: #101010
+										}
+									} 
+								};
+								&:last-child {
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 21px;
+											height: 12px;
+											background: #E8CB51
+										};
+										&:last-child {
+											font-size: 14px;
+											margin-top: 4px;
+											color: #101010
+										}
+									} 
+								}
+							}
 						}
 					}
 				};
 				.tumble-no-data-box {
 					width: 100%;
-					height: 111px;
+					height: 120px;
 					>image {
 						width: 100%;
 						height: 100%
@@ -1532,17 +1566,11 @@
 					.leave-home-chart {
 						height: 94px;
 						position: relative;
-						::v-deep .u-empty {
-						 	position: absolute;
-						 	top: 50%;
-						 	left: 50%;
-						 	transform: translate(-50%,-50%)
-						}
 					}
 				};
 				.leave-home-no-data-box {
 					width: 100%;
-					height: 111px;
+					height: 120px;
 					>image {
 						width: 100%;
 						height: 100%

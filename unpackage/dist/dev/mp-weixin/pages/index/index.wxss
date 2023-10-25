@@ -105,7 +105,7 @@ page {
   color: #0E2442 !important;
 }
 .content-box .banner-area-box {
-  padding: 0 10px 10px 10px;
+  padding: 0 6px 10px 6px;
   min-height: 135px;
   box-sizing: border-box;
   background: #fff;
@@ -226,7 +226,7 @@ page {
   display: flex;
   flex-direction: column;
   margin-top: 6px;
-  padding: 4px 10px;
+  padding: 4px 6px;
   box-sizing: border-box;
 }
 .content-box .center-area .sleep-area-data .sleep-data-title {
@@ -234,6 +234,8 @@ page {
   display: flex;
   align-items: center;
   margin-bottom: 6px;
+  padding-left: 4px;
+  box-sizing: border-box;
 }
 .content-box .center-area .sleep-area-data .sleep-data-title > text {
   margin-right: 10px;
@@ -300,16 +302,9 @@ page {
   height: 104px;
   position: relative;
 }
-.content-box .center-area .sleep-area-data .heart-rate-box .heart-rate-chart  .u-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
 .content-box .center-area .sleep-area-data .heart-rate-no-data-box {
   width: 100%;
-  height: 111px;
+  height: 120px;
 }
 .content-box .center-area .sleep-area-data .heart-rate-no-data-box > image {
   width: 100%;
@@ -317,7 +312,7 @@ page {
 }
 .content-box .center-area .sleep-area-data .breath-no-data-box {
   width: 100%;
-  height: 111px;
+  height: 120px;
 }
 .content-box .center-area .sleep-area-data .breath-no-data-box > image {
   width: 100%;
@@ -325,7 +320,7 @@ page {
 }
 .content-box .center-area .sleep-area-data .sleep-no-data-box {
   width: 100%;
-  height: 111px;
+  height: 120px;
 }
 .content-box .center-area .sleep-area-data .sleep-no-data-box > image {
   width: 100%;
@@ -338,26 +333,12 @@ page {
   height: 94px;
   position: relative;
 }
-.content-box .center-area .sleep-area-data .breathe-box .breathe-chart  .u-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
 .content-box .center-area .sleep-area-data .sleep-box {
   height: 170px;
   position: relative;
 }
 .content-box .center-area .sleep-area-data .sleep-box .sleep-chart {
   height: 44px;
-}
-.content-box .center-area .sleep-area-data .sleep-box .sleep-chart  .u-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
 }
 .content-box .center-area .sleep-area-data .sleep-box .sleep-range {
   width: 100%;
@@ -456,23 +437,16 @@ page {
   height: 94px;
   position: relative;
 }
-.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart  .u-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
 .content-box .center-area .toilet-area-data .toilet-no-data-box {
   width: 100%;
-  height: 111px;
+  height: 120px;
 }
 .content-box .center-area .toilet-area-data .toilet-no-data-box > image {
   width: 100%;
   height: 100%;
 }
 .content-box .center-area .tumble-area-data {
-  height: 174px;
+  height: 200px;
   margin-top: 8px;
 }
 .content-box .center-area .tumble-area-data .heart-rate-box {
@@ -482,19 +456,70 @@ page {
   flex-direction: column;
 }
 .content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart {
-  height: 84px;
+  height: 50px;
   position: relative;
 }
-.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart  .u-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .time-bar .time-line {
+  width: 100%;
+  height: 1px;
+  background: #BBBBBB;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .time-bar .time-text {
+  display: flex;
+  align-items: center;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .time-bar .time-text > text {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  color: #101010;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar > view {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar > view:first-child {
+  margin-right: 10px;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar > view:first-child > text {
+  display: inline-block;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar > view:first-child > text:first-child {
+  width: 21px;
+  height: 12px;
+  background: #F0F0F0;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar > view:first-child > text:last-child {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #101010;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar > view:last-child > text {
+  display: inline-block;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar > view:last-child > text:first-child {
+  width: 21px;
+  height: 12px;
+  background: #E8CB51;
+}
+.content-box .center-area .tumble-area-data .heart-rate-box .tumble-chart .icon-bar > view:last-child > text:last-child {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #101010;
 }
 .content-box .center-area .tumble-area-data .tumble-no-data-box {
   width: 100%;
-  height: 111px;
+  height: 120px;
 }
 .content-box .center-area .tumble-area-data .tumble-no-data-box > image {
   width: 100%;
@@ -518,16 +543,9 @@ page {
   height: 94px;
   position: relative;
 }
-.content-box .center-area .leave-home-area-data .heart-rate-box .leave-home-chart  .u-empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
 .content-box .center-area .leave-home-area-data .leave-home-no-data-box {
   width: 100%;
-  height: 111px;
+  height: 120px;
 }
 .content-box .center-area .leave-home-area-data .leave-home-no-data-box > image {
   width: 100%;

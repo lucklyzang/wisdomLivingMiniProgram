@@ -152,9 +152,9 @@
 				currentPageNum: 1,
 				pageSize: 20,
 				totalCount: 0,
+				status: 'nomore',
 				fullRecordList: [],
 				recordList: [],
-				status: 'loadmore',
 				currentItem: 0,
 				isDayPlusCanCilck: true,
 				isMonthPlusCanCilck: true,
@@ -378,8 +378,6 @@
 					deviceId: this.temporaryDevices[0],
 					queryDate: this.currentWeekDate
 				},false,true)
-				console.log('周当天',this.initWeekDate);
-				
 			},
 			
 			// 获取月数据当前点击索引
@@ -984,9 +982,11 @@
 				};
 				if (flag) {
 					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.status = 'loading';
 				};
 				getBodyDetectionRadarDetails(data).then((res) => {
-					this.showLoadingHint = false;
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.recordList = res.data.data.list;
@@ -1002,10 +1002,24 @@
 							type: 'error',
 							position: 'bottom'
 						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPageNum >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore'
+						}
 					}
 				})
 				.catch((err) => {
-					this.showLoadingHint = false;
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
 					this.$refs.uToast.show({
 						title: err.message,
 						type: 'error',
@@ -1019,13 +1033,13 @@
 				if (this.currentPageNum >= totalPage) {
 					this.status = 'nomore'
 				} else {
-					this.status = 'loading';
+					this.status = 'loadmore';
 					this.currentPageNum = this.currentPageNum + 1;
 					this.queryBodyDetectionRadar({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
 						deviceId: this.temporaryDevices[0],
-						queryDate: '2023-09-06'
+						queryDate: this.currentDayTime
 					},false,false)
 				}
 			},

@@ -12,7 +12,7 @@
 					<u-subsection :list="itemList" :current="currentItem" @change="change"></u-subsection>
 				</view>
 				<view class="content-top-content">
-					<view class="day-data-area" v-if="currentItem == 0">
+					<view class="day-data-area day-data-area-other" v-if="currentItem == 0">
 						<view class="data-top">
 							<view>
 								<u-icon name="arrow-left" size="40" color="#101010" @click="getCurrentDate('minus')"></u-icon>
@@ -20,14 +20,39 @@
 								<u-icon name="arrow-right" size="40" :color="isDayPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentDate('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ initDayTime }}</text>
+								<text>跌倒</text>
 							</view>
 							<view>
-								<text>89次/分钟</text>
+								<text>2分钟</text>
 							</view>
 						</view>
 						<view class="data-bottom">
-							
+							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
+							<qiun-data-charts v-if="dayChartData.isShow" type="bar" :canvas2d="true" canvasId="akglfjkdj4ggfdsfg45" :ontouch="true" :opts="tumbleOpts" :chartData="dayChartData['data']" />
+						</view>
+						<view class="tumble-chart-message" v-if="dayChartData.isShow">
+								<view class="time-bar">
+									<view class="time-line"></view>
+									<view class="time-text">
+										<text>00:00</text>
+										<text>04:00</text>
+										<text>08:00</text>
+										<text>12:00</text>
+										<text>16:00</text>
+										<text>20:00</text>
+										<text>23:59</text>
+									</view>
+								</view>
+								<view class="icon-bar" v-if="dayChartData.isShow">
+									<view>
+										<text></text>
+										<text>正常</text>
+									</view>
+									<view>
+										<text></text>
+										<text>跌倒</text>
+									</view>
+								</view>
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
@@ -38,13 +63,23 @@
 								<u-icon name="arrow-right" size="40" :color="isWeekPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentWeek('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ getNowFormatDateText(initWeekDate) }}</text>
-							</view>
-							<view>
-								<text>49-109次/分钟</text>
+								<text>{{ initWeekDate }}</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
+							<qiun-data-charts @getIndex="getWeekIndexEvent" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67dfdfdf8asfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :inScrollView="true" :chartData="weekChartData.data" />
+						</view>
+						<view class="icon-bar" v-if="weekChartData.isShow">
+							<view>
+								<text></text>
+								<text>正常</text>
+							</view>
+							<view>
+								<text></text>
+								<text>跌倒</text>
+							</view>
+						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
 						<view class="data-top">
@@ -54,13 +89,23 @@
 								<u-icon name="arrow-right" size="40" :color="isMonthPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentMonth('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ getNowFormatDateText(initMonthDate) }}</text>
-							</view>
-							<view>
-								<text>49-109次/分钟</text>
+								<text>{{ initMonthDate }}</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
+							<qiun-data-charts @getIndex="getMonthIndexEvent" :inScrollView="true" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdsd8956k" type="column" :opts="leaveHomeMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
+						</view>
+						<view class="icon-bar" v-if="monthChartData.isShow">
+							<view>
+								<text></text>
+								<text>离家</text>
+							</view>
+							<view>
+								<text></text>
+								<text>回家</text>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -76,19 +121,24 @@
 				</view>
 			</view>
 			<view class="content-bottom-area">
-				<view class="data-overview-list">
-					<view class="overview-list-left">
-						<image :src="tumbleIconPng"></image>
-						<text>07:58</text>
-						<text>跌倒1次</text>
+				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
+				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
+					<view class="data-overview-list" v-for="(item,index) in fullRecordList" :key="index">
+						<view class="overview-list-left">
+							<image :src="tumbleIconPng"></image>
+							<text>{{ getNowFormatDate(new Date(item.fallTime),1) }}</text>
+							<text>跌倒1次</text>
+						</view>
+						<view class="overview-list-right" v-if="item.hasOwnProperty('upTime') && item.upTime">
+							<text>{{ `${Math.ceil(msToMinutes(item.upTime - item.fallTime))}分钟后起身` }}</text>
+						</view>
 					</view>
-					<view class="overview-list-right">
-						<text>7分钟后起身</text>
-					</view>
-				</view>
+					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
+				</scroll-view>
 			</view>
 		</view>
 	</view>
+	
 </template>
 
 <script>
@@ -98,6 +148,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import { createVisitPageData, exitPageData } from '@/api/user.js'
+	import { tumbleDetails, getTumbleListDetails } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
@@ -115,7 +166,87 @@
 				}, {
 					name: '月'
 				}],
-				currentItem: 0,
+				tumbleOpts: {
+					padding: [10,4,10,4],
+					dataLabel: false,
+					legend: { show: false },
+					xAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						bar: {
+							type: 'stack',
+							width: 20
+						}
+					}
+				},
+				leaveHomeWeekOpts: {
+					color: ["#F0F0F0"],
+					dataLabel: false,
+					padding: [10,10,0,10],
+					enableScroll: true,
+					legend: {
+						show: false
+					},
+					xAxis: {
+						itemCount: 7
+					},
+					yAxis: {
+						splitNumber: 5,
+						data: [
+							{
+								format: 'yAxisDemoMix'
+							}
+						]
+					},
+					extra: {
+						column: {
+							type: 'stack',
+							width: 20,
+							categoryGap: 2
+						},
+						tooltip: {
+							showBox: false
+						}
+					}
+				},
+				leaveHomeMonthOpts: {
+					dataLabel: false,
+					padding: [10,10,0,10],
+					enableScroll: true,
+					legend: {
+						show: false
+					},
+					xAxis: {
+						scrollShow: true,
+						itemCount: 7
+					},
+					yAxis: {
+						splitNumber: 5,
+						data: [
+							{
+								format: 'yAxisDemoMix'
+							}
+						]
+					},
+					extra: {
+						column: {
+							type: 'stack',
+							width: 20,
+							categoryGap: 2
+						},
+						tooltip: {
+							showBox: false
+						}
+					}
+				},
+				currentWeekXaxisArr: [],
+				currentMonthXaxisArr: [],
 				currentItem: 0,
 				isDayPlusCanCilck: true,
 				isMonthPlusCanCilck: true,
@@ -125,12 +256,33 @@
 				currentStartWeekDate: '',
 				currentEndWeekDate: '',
 				initWeekDate: '',
+				currentWeekDate: '',
+				currentMonthDate: '',
 				currentMonthDate: '',
 				currentMonthDays: '',
 				initMonthDate: '',
 				weekMap: {},
 				temporaryDevices: [],
-				visitPageId: ''
+				visitPageId: '',
+				dayChartData: {
+					isShow: true,
+					data: {}
+				},
+				weekChartData: {
+					isShow: true,
+					data: {}
+				},
+				monthChartData: {
+					isShow: true,
+					data: {}
+				},
+				currentPageNum: 1,
+				pageSize: 20,
+				totalCount: 0,
+				status: 'nomore',
+				isShowNoHomeNoData: false,
+				fullRecordList: [],
+				recordList: []
 			}
 		},
 		onLoad() {
@@ -145,7 +297,21 @@
 			this.temporaryDevices = [];
 			for (let el of this.deviceDataMessage.devices) {
 				this.temporaryDevices.push(el.device)
-			}
+			};
+			this.queryTumbleDetails({
+				deviceIds: this.temporaryDevices,
+				startDate: '2023-10-24',
+				endDate: '2023-10-24'
+				// startDate: this.getNowFormatDate(new Date(),2)
+			},'day');
+			
+			// 获取跌倒日数据列表详情
+			this.queryGetTumbleListDetails({
+				pageNo: this.currentPageNum,
+				pageSize: this.pageSize,
+				deviceIds: this.temporaryDevices,
+				date: '2023-10-24'
+			},true,false)
 		},
 		destroyed () {
 			if (!this.visitPageId && this.visitPageId !== 0) {
@@ -200,13 +366,298 @@
 				})
 			},
 			
+			// 获取周数据当前点击索引
+			getWeekIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
+				this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
+				this.currentWeekDate = this.getNowFormatDate(new Date(this.currentWeekXaxisArr[e.currentIndex['index']]),2);
+				// 获取跌倒数据详情列表
+				this.queryGetTumbleListDetails({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceIds: this.temporaryDevices,
+					date: this.currentWeekDate
+				},false,true)
+			},
+			
+			// 获取月数据当前点击索引
+			getMonthIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
+				this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
+				this.currentMonthDate = this.getNowFormatDate(new Date(this.currentMonthXaxisArr[e.currentIndex['index']]),2);
+				// 获取跌倒数据详情列表
+				this.queryGetTumbleListDetails({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceIds: this.temporaryDevices,
+					date: this.currentMonthDate
+				},false,true)
+			},
+			
+			// 获取跌倒数据详情列表
+			queryGetTumbleListDetails (data,flag,isInit) {
+				this.recordList = [];
+				if (isInit) {
+					this.isShowNoHomeNoData = false;
+					this.currentPageNum = 1;
+					this.fullRecordList = []
+				};
+				if (flag) {
+					this.showLoadingHint = true
+				} else {
+					this.showLoadingHint = false;
+					this.status = 'loading';
+				};
+				getTumbleListDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						this.totalCount = res.data.data.total;
+						this.recordList = res.data.data.list;
+						this.fullRecordList = this.fullRecordList.concat(this.recordList);
+						if (this.fullRecordList.length == 0) {
+							this.isShowNoHomeNoData = true
+						} else {
+							this.isShowNoHomeNoData = false
+						};
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPageNum >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore'
+						}	
+					}
+				})
+				.catch((err) => {
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						this.status = 'loadmore'
+					};
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			scrolltolower () {
+				let totalPage = Math.ceil(this.totalCount/this.pageSize);
+				if (this.currentPageNum >= totalPage) {
+					this.status = 'nomore'
+				} else {
+					this.status = 'loadmore';
+					this.currentPageNum = this.currentPageNum + 1;
+					this.queryGetTumbleListDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceIds: this.temporaryDevices,
+						date: '2023-10-24'
+					},false,false)
+				}
+			},
+			
+			// 获取跌倒数据
+			queryTumbleDetails (data,text) {
+				if (text == 'day') {
+					this.dayChartData = {
+						isShow: true,
+						data: {}
+					}
+				} else if (text == 'week') {
+					this.weekChartData = {
+						isShow: true,
+						data: {}
+					}
+				};
+				tumbleDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						if (text == 'day') {
+							let questData = res.data.data;
+							this.dayChartData['isShow'] = true;
+							// 跌倒
+							if ( questData.length == 0 ) {
+								this.dayChartData = {
+									isShow: false,
+									data: {}
+								}
+							} else {
+								this.dayChartData['isShow'] = true;
+								// status: 0-正常，1-跌倒
+								let temporaryData = {
+									categories: ['7-4'],
+									series: []
+								};
+								// 统计跌倒次数
+								let temporaryCount = questData[0]['resItemVos'].filter((el) => { return el.status == 1}).length;
+								questData[0]['resItemVos'].forEach((item,index) => {
+									if (item.status == 0) {
+										temporaryData['series'].push(
+											{
+												name: "正常",
+												color: "#F0F0F0",
+												data: [1]
+											}
+										)
+									} else if (item.status == 1) {
+										temporaryData['series'].push(
+											{
+												name: "跌倒",
+												color: "#E8CB51",
+												data: [1]
+											}
+										)
+									}
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.dayChartData['data'] = temporaryContent
+							}
+						}	else if (text == 'week') {
+							this.weekChartData['isShow'] = true;
+							this.currentWeekXaxisArr = [];
+							if (res.data.data.length > 0) {
+								let questData = res.data.data;
+								this.weekChartData['isShow'] = true;
+								let lengthArr = [];
+								let maxColumn;
+								let temporaryData = {
+									categories: [],
+									series: []
+								};
+								questData.forEach((item,index) => {
+									temporaryData['categories'].push(this.judgeWeek(item.date));
+									this.currentWeekXaxisArr.push(item.date);
+									lengthArr.push(item.resItemVos.length);
+								});
+								// 按所有天中数据最多的那天算(每天的数据条数不一致)
+								maxColumn = Math.max.apply(null,lengthArr);
+								for (let i = 0;i < maxColumn;i++) {
+									temporaryData['series'].push({
+										"data": []
+									})
+								};
+								temporaryData['series'].forEach((item,index) => {
+									this.currentWeekXaxisArr.forEach((innerItem,innerIndex) => {
+										let currentData = questData[innerIndex]['resItemVos'];
+										if (currentData[index]) {
+											if (currentData[index]['status'] == 0) {
+												item['data'].push(
+													{value:1,color:"#F0F0F0"}
+												)
+											} else if (currentData[index]['status'] == 1) {
+												item['data'].push(
+													{value:3,color:"#E8CB51"}
+												)
+											}
+										} else {
+											item['data'].push(
+												{value: 1,color: '#F0F0F0'}
+											)
+										}
+									})
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.weekChartData['data'] = temporaryContent;
+							} else {
+								this.weekChartData = {
+									isShow: false,
+									data: {}
+								};
+							}
+						} else if (text == 'month') {
+							this.monthChartData['isShow'] = true;
+							this.currentMonthXaxisArr = [];
+							if (res.data.data.length > 0) {
+								let questData = res.data.data;
+								this.monthChartData['isShow'] = true;
+								let lengthArr = [];
+								let maxColumn;
+								let temporaryData = {
+									categories: [],
+									series: []
+								};
+								questData.forEach((item,index) => {
+									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.date),5));
+									this.currentMonthXaxisArr.push(item.date);
+									lengthArr.push(item.resItemVos.length);
+								});
+								// 按所有天中数据最多的那天算(每天的数据条数不一致)
+								maxColumn = Math.max.apply(null,lengthArr);
+								for (let i = 0;i < maxColumn;i++) {
+									temporaryData['series'].push({
+										"data": []
+									})
+								};
+								temporaryData['series'].forEach((item,index) => {
+									this.currentMonthXaxisArr.forEach((innerItem,innerIndex) => {
+										let currentData = questData[innerIndex]['resItemVos'];
+										if (currentData[index]) {
+											if (currentData[index]['status'] == 0) {
+												item['data'].push(
+													{value:1,color:"#F0F0F0"}
+												)
+											} else if (currentData[index]['status'] == 1) {
+												item['data'].push(
+													{value:3,color:"#E8CB51"}
+												)
+											}
+										} else {
+											item['data'].push(
+												{value: 1,color: '#F0F0F0'}
+											)
+										}
+									})
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.monthChartData['data'] = temporaryContent;
+							} else {
+								this.monthChartData = {
+									isShow: false,
+									data: {}
+								};
+							}
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 毫秒转换成分钟
+			msToMinutes(ms) {
+				if (!ms) { return };
+				let minutes = ms / 60000;
+				return minutes
+			},
+			
 			// 格式化时间
 			getNowFormatDate(currentDate,type) {
-				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)
+				// type:1(只显示小时分钟),2(只显示年月日)3(只显示年月)4(显示年月日小时分钟)5(显示月日)
 				let currentdate;
 				let strDate = currentDate.getDate();
 				let seperator1 = "-";
 				let seperator2 = ":";
+				let seperator3 = " ";
 				let month = currentDate.getMonth() + 1;
 				let hour = currentDate.getHours();
 				let minutes = currentDate.getMinutes();
@@ -230,6 +681,12 @@
 				};
 				if (type == 3) {
 					currentdate = currentDate.getFullYear() + seperator1 + month
+				};
+				if (type == 4) {
+					currentdate = currentDate.getFullYear() + seperator1 + month + seperator1 + strDate + seperator3 + hour + seperator2 + minutes
+				};
+				if (type == 5) {
+					currentdate = month + seperator1 + strDate
 				};
 				return currentdate
 			},
@@ -273,7 +730,22 @@
 					let addDay = + time_num - 1000 * 60 * 60 * 24; // 减一天
 					let newTime = new Date(addDay);
 					this.currentDayTime = this.getNowFormatDate(newTime,2)
-				}
+				};
+				// 获取跌倒日数据
+				this.queryTumbleDetails({
+					deviceIds: this.temporaryDevices,
+					startDate: '2023-10-24',
+					endDate: '2023-10-24'
+					// startDate: this.getNowFormatDate(new Date(),2)
+				},'day');
+				
+				// 获取跌倒数据列表详情
+				this.queryGetTumbleListDetails({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceIds: this.temporaryDevices,
+					date: '2023-10-24'
+				},false,true)
 			},
 			
 			// 获取某月的天数
@@ -309,6 +781,7 @@
 					let nextMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
 					};
@@ -331,8 +804,23 @@
 					let preMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(preMonth),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					console.log('当前月',this.currentMonthDate);
-				}
+				};
+				// 获取跌倒日数据
+				this.queryTumbleDetails({
+					deviceIds: this.temporaryDevices,
+					startDate: '2023-10-24',
+					endDate: '2023-10-24'
+					// startDate: this.getNowFormatDate(new Date(),2)
+				},'month');
+				// 获取跌倒数据列表详情
+				this.queryGetTumbleListDetails({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceIds: this.temporaryDevices,
+					date: '2023-10-24'
+				},false,true)
 			},
 			
 			// 获取当前周
@@ -393,6 +881,7 @@
 					this.weekMap = this.getWeek(new Date(time));
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
 					};
@@ -402,8 +891,23 @@
 					this.weekMap = this.getWeek(new Date(time));
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					console.log('周',this.currentStartWeekDate,this.currentEndWeekDate)
-				}
+				};
+				// 获取跌倒日数据
+				this.queryTumbleDetails({
+					deviceIds: this.temporaryDevices,
+					startDate: '2023-10-24',
+					endDate: '2023-10-24'
+					// startDate: this.getNowFormatDate(new Date(),2)
+				},'week');
+				// 获取跌倒数据列表详情
+				this.queryGetTumbleListDetails({
+					pageNo: this.currentPageNum,
+					pageSize: this.pageSize,
+					deviceIds: this.temporaryDevices,
+					date: '2023-10-24'
+				},false,true)
 			},
 			
 			// 判断周几
@@ -412,25 +916,25 @@
 				let day = date.getDay();
 				switch (day) {
 					case 0:
-						return "星期日"
+						return "周日"
 						break;
 					case 1:
-						return "星期一"
+						return "周一"
 						break;
 					case 2:
-						return "星期二"
+						return "周二"
 						break;
 					case 3:
-						return "星期三"
+						return "周三"
 						break;
 					case 4:
-						return "星期四"
+						return "周四"
 						break;
 					case 5:
-						return "星期五"
+						return "周五"
 						break;
 					case 6:
-						return "星期六"
+						return "周六"
 						break
 					}
 			},
@@ -444,21 +948,49 @@
 					let temporaryDate = this.getNowFormatDate(new Date(),2);
 					if (new Date(this.currentDayTime).getTime() >= new Date(temporaryDate).getTime()) { 
 						this.isDayPlusCanCilck = false
-					}
+					};
+					// 获取跌倒日数据
+					this.queryTumbleDetails({
+						deviceIds: this.temporaryDevices,
+						startDate: '2023-10-24',
+						endDate: '2023-10-24'
+						// startDate: this.getNowFormatDate(new Date(),2)
+					},'day');
+					// 获取跌倒数据列表详情
+					this.queryGetTumbleListDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceIds: this.temporaryDevices,
+						date: '2023-10-24'
+					},false,true)
 				};
 				if (index == 1) {
 					this.weekMap = this.getWeek(new Date());
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
-					this.initWeekDate = this.getNowFormatDate(new Date(),3);
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
-					}
+					};
+					// 获取跌倒日数据
+					this.queryTumbleDetails({
+						deviceIds: this.temporaryDevices,
+						startDate: '2023-10-23',
+						endDate: '2023-10-24'
+						// startDate: this.getNowFormatDate(new Date(),2)
+					},'week');
+					// 获取跌倒数据列表详情
+					this.queryGetTumbleListDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceIds: this.temporaryDevices,
+						date: '2023-10-24'
+					},false,true)
 				};
 				if (index == 2) {
 					this.currentMonthDate = this.getNowFormatDate(new Date(),3);
-					this.initMonthDate = this.getNowFormatDate(new Date(),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
@@ -479,6 +1011,20 @@
 					};
 					let preMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
+					// 获取跌倒日数据
+					this.queryTumbleDetails({
+						deviceIds: this.temporaryDevices,
+						startDate: '2023-10-23',
+						endDate: '2023-10-24'
+						// startDate: this.getNowFormatDate(new Date(),2)
+					},'month');
+					// 获取跌倒数据列表详情
+					this.queryGetTumbleListDetails({
+						pageNo: this.currentPageNum,
+						pageSize: this.pageSize,
+						deviceIds: this.temporaryDevices,
+						date: '2023-10-24'
+					},false,true)
 				} 
 			},
 			
@@ -544,6 +1090,13 @@
 				.content-top-content {
 					margin-top: 10px;
 					flex: 1;
+					.day-data-area-other {
+						.data-bottom {
+							flex: none !important;
+							margin-top: 10px;
+							height: 80px !important
+						}
+					};
 					.day-data-area {
 						display: flex;
 						flex-direction: column;
@@ -580,6 +1133,117 @@
 							 	top: 40%;
 							 	left: 50%;
 							 	transform: translate(-50%,-50%)
+							}
+						};
+						.icon-bar {
+							height: 40px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							>view {
+								width: 100px;
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								justify-content: center;
+								&:first-child {
+									margin-right: 10px;
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 21px;
+											height: 12px;
+											background: #F0F0F0
+										};
+										&:last-child {
+											font-size: 14px;
+											margin-top: 4px;
+											color: #101010
+										}
+									} 
+								};
+								&:last-child {
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 21px;
+											height: 12px;
+											background: #E8CB51
+										};
+										&:last-child {
+											font-size: 14px;
+											margin-top: 4px;
+											color: #101010
+										}
+									} 
+								}
+							}
+						};
+						.tumble-chart-message {
+							height: 50px;
+							margin-top: 30px;
+							position: relative;
+							.time-bar {
+								.time-line {
+									width: 100%;
+									height: 1px;
+									background: #BBBBBB
+								};
+								.time-text {
+									display: flex;
+									align-items: center;
+									>text {
+										flex: 1;
+										text-align: center;
+										font-size: 14px;
+										color: #101010
+									}
+								}
+							};
+							.icon-bar {
+								height: 40px;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								margin-top: 30px;
+								>view {
+									width: 100px;
+									display: flex;
+									flex-direction: column;
+									align-items: center;
+									justify-content: center;
+									&:first-child {
+										margin-right: 10px;
+										>text {
+											display: inline-block;
+											&:first-child {
+												width: 21px;
+												height: 12px;
+												background: #F0F0F0
+											};
+											&:last-child {
+												font-size: 14px;
+												margin-top: 4px;
+												color: #101010
+											}
+										} 
+									};
+									&:last-child {
+										>text {
+											display: inline-block;
+											&:first-child {
+												width: 21px;
+												height: 12px;
+												background: #E8CB51
+											};
+											&:last-child {
+												font-size: 14px;
+												margin-top: 4px;
+												color: #101010
+											}
+										} 
+									}
+								}
 							}
 						}
 					}
@@ -628,6 +1292,7 @@
 				padding: 10px;
 				box-sizing: border-box;
 				background: #fff;
+				overflow: auto;
 				.data-overview-list {
 					height: 65px;
 					display: flex;

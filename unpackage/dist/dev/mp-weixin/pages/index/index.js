@@ -161,11 +161,13 @@ var render = function () {
       m8: m8,
     }
   })
+  var g8 = _vm.deviceList.length
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         l0: l0,
+        g8: g8,
       },
     }
   )
@@ -268,7 +270,8 @@ var _default = {
         },
         extra: {
           bar: {
-            type: 'stack'
+            type: 'stack',
+            width: 20
           }
         }
       },
@@ -661,25 +664,30 @@ var _default = {
               categories: ['7-4'],
               series: []
             };
+            // 统计跌倒次数
+            var temporaryCount = questData[0]['resItemVos'].filter(function (el) {
+              return el.status == 1;
+            }).length;
             questData[0]['resItemVos'].forEach(function (item, index) {
               if (item.status == 0) {
                 temporaryData['series'].push({
                   name: "正常",
                   color: "#F0F0F0",
-                  data: 1
+                  data: [1]
                 });
               } else if (item.status == 1) {
                 temporaryData['series'].push({
                   name: "跌倒",
                   color: "#E8CB51",
-                  data: 1
+                  data: [1]
                 });
               }
             });
             var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
             _this3.$set(_this3.sceneDataList[cardId], 'data', temporaryContent);
             _this3.$set(_this3.sceneDataList[cardId], 'isShow', true);
-            console.log('跌倒数据', _this3.sceneDataList);
+            _this3.$set(_this3.sceneDataList[cardId], 'tumbleCount', temporaryCount);
+            console.log('跌倒数据', _this3.sceneDataList[cardId]);
           }
         } else {
           _this3.$refs.uToast.show({
@@ -884,6 +892,7 @@ var _default = {
           } else if (item.type == 2) {
             _this7.$set(_this7.sceneDataList, item.id, {});
             _this7.$set(_this7.sceneDataList[item.id], 'data', {});
+            _this7.$set(_this7.sceneDataList[item.id], 'tumbleCount', '');
             _this7.$set(_this7.sceneDataList[item.id], 'isShow', false);
             _this7.$set(_this7.sceneDataList[item.id], 'isShowNoData', false);
             _this7.requestTumbleDeviceStatisticsData(temporaryDevices, item.id);
@@ -905,12 +914,12 @@ var _default = {
         startDate: this.getNowFormatDate(new Date(), 1)
       }, cardId);
     },
-    // 为绑定设备的场景请求设备统计日数据(跌倒场景)
+    // 为绑定设备的场景请求设备统计日数据(跌倒场景)this.getNowFormatDate(new Date(),1)
     requestTumbleDeviceStatisticsData: function requestTumbleDeviceStatisticsData(deviceIdList, cardId) {
       this.queryTumbleDetails({
         deviceIds: deviceIdList,
-        startDate: this.getNowFormatDate(new Date(), 1),
-        endDate: this.getNowFormatDate(new Date(), 1)
+        startDate: '2023-10-24',
+        endDate: '2023-10-24'
       }, cardId);
     },
     // 为绑定设备的场景请求设备统计日数据(离、回家场景)

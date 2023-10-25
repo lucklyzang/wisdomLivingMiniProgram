@@ -243,7 +243,12 @@
 					if (flag) {
 						this.showLoadingHint = false;
 					} else {
-						this.status = 'loadmore'
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
 					}
 				})
 				.catch((err) => {

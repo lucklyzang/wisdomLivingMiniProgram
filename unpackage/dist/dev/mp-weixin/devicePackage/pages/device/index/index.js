@@ -379,7 +379,12 @@ var _default = {
         if (flag) {
           _this2.showLoadingHint = false;
         } else {
-          _this2.status = 'loadmore';
+          var totalPage = Math.ceil(_this2.totalCount / _this2.pageSize);
+          if (_this2.currentPage >= totalPage) {
+            _this2.status = 'nomore';
+          } else {
+            _this2.status = 'loadmore';
+          }
         }
       }).catch(function (err) {
         if (flag) {

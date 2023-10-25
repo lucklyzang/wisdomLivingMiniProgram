@@ -255,9 +255,9 @@ var _default = {
       currentPageNum: 1,
       pageSize: 20,
       totalCount: 0,
+      status: 'nomore',
       fullRecordList: [],
       recordList: [],
-      status: 'loadmore',
       currentItem: 0,
       isDayPlusCanCilck: true,
       isMonthPlusCanCilck: true,
@@ -465,7 +465,6 @@ var _default = {
         deviceId: this.temporaryDevices[0],
         queryDate: this.currentWeekDate
       }, false, true);
-      console.log('周当天', this.initWeekDate);
     },
     // 获取月数据当前点击索引
     getMonthIndexEvent: function getMonthIndexEvent(e) {
@@ -1107,10 +1106,12 @@ var _default = {
       ;
       if (flag) {
         this.showLoadingHint = true;
+      } else {
+        this.showLoadingHint = false;
+        this.status = 'loading';
       }
       ;
       (0, _device.getBodyDetectionRadarDetails)(data).then(function (res) {
-        _this3.showLoadingHint = false;
         if (res && res.data.code == 0) {
           _this3.totalCount = res.data.data.total;
           _this3.recordList = res.data.data.list;
@@ -1127,8 +1128,24 @@ var _default = {
             position: 'bottom'
           });
         }
+        ;
+        if (flag) {
+          _this3.showLoadingHint = false;
+        } else {
+          var totalPage = Math.ceil(_this3.totalCount / _this3.pageSize);
+          if (_this3.currentPageNum >= totalPage) {
+            _this3.status = 'nomore';
+          } else {
+            _this3.status = 'loadmore';
+          }
+        }
       }).catch(function (err) {
-        _this3.showLoadingHint = false;
+        if (flag) {
+          _this3.showLoadingHint = false;
+        } else {
+          _this3.status = 'loadmore';
+        }
+        ;
         _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
@@ -1141,13 +1158,13 @@ var _default = {
       if (this.currentPageNum >= totalPage) {
         this.status = 'nomore';
       } else {
-        this.status = 'loading';
+        this.status = 'loadmore';
         this.currentPageNum = this.currentPageNum + 1;
         this.queryBodyDetectionRadar({
           pageNo: this.currentPageNum,
           pageSize: this.pageSize,
           deviceId: this.temporaryDevices[0],
-          queryDate: '2023-09-06'
+          queryDate: this.currentDayTime
         }, false, false);
       }
     },
