@@ -367,16 +367,11 @@ var _default = {
         this.showLoadingHint = true;
       } else {
         this.showLoadingHint = false;
+        this.infoText = '';
         this.status = 'loading';
       }
       ;
       (0, _device.getExistPerceptionRadar)(data).then(function (res) {
-        if (flag) {
-          _this2.showLoadingHint = false;
-        } else {
-          _this2.status = 'loadmore';
-        }
-        ;
         if (res && res.data.code == 0) {
           _this2.totalCount = res.data.data.total;
           _this2.recordList = res.data.data.list;
@@ -392,6 +387,17 @@ var _default = {
             type: 'error',
             position: 'bottom'
           });
+        }
+        ;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          var totalPage = Math.ceil(_this2.totalCount / _this2.pageSize);
+          if (_this2.currentPage >= totalPage) {
+            _this2.status = 'nomore';
+          } else {
+            _this2.status = 'loadmore';
+          }
         }
       }).catch(function (err) {
         if (flag) {

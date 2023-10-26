@@ -466,7 +466,7 @@ function getBodyDetectionRadar(data) {
 // 获取跌倒数据日志
 function getTumbleRadar(data) {
   return (0, _request.default)({
-    url: '/app-api/radar/line-rule-data/page',
+    url: '/app-api/radar/fall-data/fall-log',
     method: 'get',
     params: data
   });

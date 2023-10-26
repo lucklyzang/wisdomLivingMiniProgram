@@ -48,7 +48,9 @@ page {
   background: #fff;
 }
 .content-box .nav  .header_title_center {
-  left: 240px !important;
+  left: 210px !important;
+  -webkit-transform: translateX(-55%) !important;
+          transform: translateX(-55%) !important;
 }
 .content-box .nav  .header_title_center .u-icon {
   margin-left: 14px;

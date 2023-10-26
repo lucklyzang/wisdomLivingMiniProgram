@@ -300,9 +300,8 @@
 			};
 			this.queryTumbleDetails({
 				deviceIds: this.temporaryDevices,
-				startDate: '2023-10-24',
-				endDate: '2023-10-24'
-				// startDate: this.getNowFormatDate(new Date(),2)
+				startDate: this.getNowFormatDate(new Date(),2),
+				endDate: this.getNowFormatDate(new Date(),2)
 			},'day');
 			
 			// 获取跌倒日数据列表详情
@@ -310,7 +309,7 @@
 				pageNo: this.currentPageNum,
 				pageSize: this.pageSize,
 				deviceIds: this.temporaryDevices,
-				date: '2023-10-24'
+				date: this.getNowFormatDate(new Date(),2)
 			},true,false)
 		},
 		destroyed () {
@@ -399,7 +398,7 @@
 				this.recordList = [];
 				if (isInit) {
 					this.isShowNoHomeNoData = false;
-					this.currentPageNum = 1;
+					data.pageNo = 1;
 					this.fullRecordList = []
 				};
 				if (flag) {
@@ -734,9 +733,8 @@
 				// 获取跌倒日数据
 				this.queryTumbleDetails({
 					deviceIds: this.temporaryDevices,
-					startDate: '2023-10-24',
-					endDate: '2023-10-24'
-					// startDate: this.getNowFormatDate(new Date(),2)
+					startDate: this.currentDayTime,
+					endDate: this.currentDayTime
 				},'day');
 				
 				// 获取跌倒数据列表详情
@@ -744,7 +742,7 @@
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,
 					deviceIds: this.temporaryDevices,
-					date: '2023-10-24'
+					date: this.currentDayTime
 				},false,true)
 			},
 			
@@ -807,19 +805,18 @@
 					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					console.log('当前月',this.currentMonthDate);
 				};
-				// 获取跌倒日数据
+				// 获取跌倒月数据
 				this.queryTumbleDetails({
 					deviceIds: this.temporaryDevices,
-					startDate: '2023-10-24',
-					endDate: '2023-10-24'
-					// startDate: this.getNowFormatDate(new Date(),2)
+					startDate: `${this.currentMonthDate}-01`,
+					endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
 				},'month');
 				// 获取跌倒数据列表详情
 				this.queryGetTumbleListDetails({
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,
 					deviceIds: this.temporaryDevices,
-					date: '2023-10-24'
+					date: `${this.currentMonthDate}-01`
 				},false,true)
 			},
 			
@@ -894,19 +891,18 @@
 					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					console.log('周',this.currentStartWeekDate,this.currentEndWeekDate)
 				};
-				// 获取跌倒日数据
+				// 获取跌倒周数据
 				this.queryTumbleDetails({
 					deviceIds: this.temporaryDevices,
-					startDate: '2023-10-24',
-					endDate: '2023-10-24'
-					// startDate: this.getNowFormatDate(new Date(),2)
+					startDate: this.currentStartWeekDate,
+					endDate: this.currentEndWeekDate
 				},'week');
 				// 获取跌倒数据列表详情
 				this.queryGetTumbleListDetails({
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,
 					deviceIds: this.temporaryDevices,
-					date: '2023-10-24'
+					date: this.currentStartWeekDate
 				},false,true)
 			},
 			
@@ -952,16 +948,15 @@
 					// 获取跌倒日数据
 					this.queryTumbleDetails({
 						deviceIds: this.temporaryDevices,
-						startDate: '2023-10-24',
-						endDate: '2023-10-24'
-						// startDate: this.getNowFormatDate(new Date(),2)
+						startDate: this.getNowFormatDate(new Date(),2),
+						endDate: this.getNowFormatDate(new Date(),2)
 					},'day');
 					// 获取跌倒数据列表详情
 					this.queryGetTumbleListDetails({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
 						deviceIds: this.temporaryDevices,
-						date: '2023-10-24'
+						date: this.getNowFormatDate(new Date(),2)
 					},false,true)
 				};
 				if (index == 1) {
@@ -973,19 +968,18 @@
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
 					};
-					// 获取跌倒日数据
+					// 获取跌倒周数据
 					this.queryTumbleDetails({
 						deviceIds: this.temporaryDevices,
-						startDate: '2023-10-23',
-						endDate: '2023-10-24'
-						// startDate: this.getNowFormatDate(new Date(),2)
+						startDate: this.currentStartWeekDate,
+						endDate: this.currentEndWeekDate
 					},'week');
-					// 获取跌倒数据列表详情
+					// 获取跌倒周数据列表详情
 					this.queryGetTumbleListDetails({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
 						deviceIds: this.temporaryDevices,
-						date: '2023-10-24'
+						date: this.currentStartWeekDate
 					},false,true)
 				};
 				if (index == 2) {
@@ -1011,19 +1005,18 @@
 					};
 					let preMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
-					// 获取跌倒日数据
+					// 获取跌倒月数据
 					this.queryTumbleDetails({
 						deviceIds: this.temporaryDevices,
-						startDate: '2023-10-23',
-						endDate: '2023-10-24'
-						// startDate: this.getNowFormatDate(new Date(),2)
+						startDate: `${this.currentMonthDate}-01`,
+						endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
 					},'month');
-					// 获取跌倒数据列表详情
+					// 获取跌倒月数据列表详情
 					this.queryGetTumbleListDetails({
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
 						deviceIds: this.temporaryDevices,
-						date: '2023-10-24'
+						date: `${this.currentMonthDate}-01`
 					},false,true)
 				} 
 			},
@@ -1065,14 +1058,11 @@
 			background: #fff;
 		};
 		.content-area {
-			flex: 1;
 			background: #F5F5F5;
 			overflow: auto;
-			display: flex;
-			flex-direction: column;
 			.content-top-area {
 				background: #fff;
-				height: 440px;
+				height: 470px;
 				display: flex;
 				flex-direction: column;
 				.content-top-title {
@@ -1088,11 +1078,10 @@
 					}
 				};
 				.content-top-content {
-					margin-top: 10px;
 					flex: 1;
 					.day-data-area-other {
 						.data-bottom {
-							flex: none !important;
+							position: relative;
 							margin-top: 10px;
 							height: 80px !important
 						}
@@ -1104,7 +1093,8 @@
 						.data-top {
 							width: 70%;
 							margin: 0 auto;
-							height: 93px;
+							padding: 10px 0;
+							box-sizing: border-box;
 							display: flex;
 							flex-direction: column;
 							align-items: center;
@@ -1128,6 +1118,7 @@
 						};
 						.data-bottom {
 							flex: 1;
+							position: relative;
 							::v-deep .u-empty {
 							 	position: absolute;
 							 	top: 40%;
@@ -1180,7 +1171,7 @@
 							}
 						};
 						.tumble-chart-message {
-							height: 50px;
+							height: 250px;
 							margin-top: 30px;
 							position: relative;
 							.time-bar {
@@ -1287,11 +1278,11 @@
 				}
 			};
 			.content-bottom-area {
-				flex: 1;
 				margin-top: 8px;
 				padding: 10px;
 				box-sizing: border-box;
 				background: #fff;
+				height: 250px;
 				overflow: auto;
 				.data-overview-list {
 					height: 65px;

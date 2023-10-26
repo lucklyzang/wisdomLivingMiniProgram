@@ -236,9 +236,10 @@
 				this.breath = "";
 				this.heartRate = "";
 				if (flag) {
-						this.showLoadingHint = true
+					this.showLoadingHint = true
 				} else {
 					this.showLoadingHint = false;
+					this.infoText = '';
 					this.status = 'loading';
 				};
 				getsignMonitorRadar(data).then((res) => {
@@ -264,13 +265,23 @@
 							type: 'error',
 							position: 'bottom'
 						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
 					}
 				})
 				.catch((err) => {
 					if (flag) {
-							this.showLoadingHint = false
+						this.showLoadingHint = false;
 					} else {
-						this.status = 'loadmore';
+						this.status = 'loadmore'
 					};
 					this.$refs.uToast.show({
 						title: err.message,
@@ -309,7 +320,8 @@
 			width: 100%;
 			background: #fff;
 			::v-deep .header_title_center {
-				left: 240px !important;
+				left: 210px !important;
+				transform: translateX(-55%) !important;
 				.u-icon {
 					margin-left: 14px
 				}

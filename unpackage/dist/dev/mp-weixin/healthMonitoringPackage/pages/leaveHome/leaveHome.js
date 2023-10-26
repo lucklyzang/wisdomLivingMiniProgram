@@ -1100,7 +1100,7 @@ var _default = {
       this.recordList = [];
       if (isInit) {
         this.isShowNoHomeNoData = false;
-        this.currentPageNum = 1;
+        data.pageNo = 1;
         this.fullRecordList = [];
       }
       ;

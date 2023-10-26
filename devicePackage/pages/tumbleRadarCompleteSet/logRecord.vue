@@ -15,10 +15,10 @@
 			<view class="log-list-wrapper">
 				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-					<view class="log-list" v-for="(item,index) in logList" :key="index">
-						<text>{{ getNowFormatDate(new Date(item.date),4) }}</text>
+					<view class="log-list" v-for="(item,index) in fullRecordList" :key="index">
+						<text>{{ getNowFormatDate(new Date(item.time),4) }}</text>
 						<text>>>></text>
-						<text>起身</text>
+						<text :class="{'textStyle' : item.status == 1 || item.status == 3}">{{ statusTransForm(item.status) }}</text>
 					</view>
 					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
 				</scroll-view>
@@ -58,23 +58,11 @@
 				},
 				showLoadingHint: false,
 				moreIconPng: require("@/static/img/more-icon.png"),
-				logList: [
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					}
-				],
+				logList: [],
 				visitPageId: ''
 			}
 		},
+		// this.currentDate,
 		onLoad() {
 			this.createVisitPage();
 			this.currentDate = this.getNowFormatDate(new Date(),2);
@@ -82,7 +70,8 @@
 				pageNo: this.currentPageNum,
 				pageSize: this.pageSize,
 				deviceId: this.beforeAddDeviceMessage.deviceId,
-				queryDate: this.currentDate
+				startDate: this.currentDate,
+				endDate: this.currentDate
 			},true)
 		},
 		destroyed () {
@@ -138,6 +127,24 @@
 				})
 			},
 			
+			// 状态转换
+			statusTransForm (status) {
+				switch (status) {
+					case 1:
+						return "跌倒"
+						break;
+					case 2:
+						return "起身"
+						break;
+					case 3:
+						return "进入"
+						break;
+					case 4:
+						return "离开"
+						break
+				}		
+			},
+			
 			scrolltolower () {
 				let totalPage = Math.ceil(this.totalCount/this.pageSize);
 				if (this.currentPageNum >= totalPage) {
@@ -149,7 +156,8 @@
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
 						deviceId: this.beforeAddDeviceMessage.deviceId,
-						createDate: this.currentDate
+						startDate: this.currentDate,
+						endDate: this.currentDate
 					},false)
 				}
 			},
@@ -205,7 +213,8 @@
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,
 					deviceId: this.beforeAddDeviceMessage.deviceId,
-					createDate: this.currentDate
+					startDate: this.currentDate,
+					endDate: this.currentDate
 				},true);
 			},
 			
@@ -213,39 +222,50 @@
 			queryTumbleRadar (data,flag) {
 				this.recordList = [];
 				if (flag) {
-						this.showLoadingHint = true
+					this.showLoadingHint = true
 				} else {
-					this.showLoadingHint = false;ss
+					this.showLoadingHint = false;
+					this.infoText = '';
 					this.status = 'loading';
 				};
 				getTumbleRadar(data).then((res) => {
-					if (flag) {
-							this.showLoadingHint = false
-					} else {
-						this.status = 'loadmore';
-					};
+					// status 1-跌倒，2-起身, 3-进入，4-离开
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.recordList = res.data.data.list;
+						if (!res.data.data.hasOwnProperty('list')) {
+							this.isShowNoHomeNoData = true;
+							this.recordList = []
+						};
 						this.fullRecordList = this.fullRecordList.concat(this.recordList);
 						if (this.fullRecordList.length == 0) {
 							this.isShowNoHomeNoData = true
 						} else {
 							this.isShowNoHomeNoData = false
-						}
+						};
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
 							type: 'error',
 							position: 'bottom'
 						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
 					}
 				})
 				.catch((err) => {
 					if (flag) {
-							this.showLoadingHint = false
+						this.showLoadingHint = false;
 					} else {
-						this.status = 'loadmore';
+						this.status = 'loadmore'
 					};
 					this.$refs.uToast.show({
 						title: err,
@@ -284,7 +304,8 @@
 			width: 100%;
 			background: #fff;
 			::v-deep .header_title_center {
-				left: 240px !important;
+				left: 210px !important;
+				transform: translateX(-55%) !important;
 				.u-icon {
 					margin-left: 14px
 				}
@@ -324,7 +345,13 @@
 						color: #101010;
 						&:nth-child(2) {
 							margin: 0 4px
+						};
+						&:nth-child(3) {
+							color: #289E8E
 						}
+					};
+					.textStyle {
+						color: #E86F50 !important
 					}
 				}
 			}

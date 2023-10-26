@@ -137,12 +137,14 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.__map(_vm.logList, function (item, index) {
+  var l0 = _vm.__map(_vm.fullRecordList, function (item, index) {
     var $orig = _vm.__get_orig(item)
-    var m0 = _vm.getNowFormatDate(new Date(item.date), 4)
+    var m0 = _vm.getNowFormatDate(new Date(item.time), 4)
+    var m1 = _vm.statusTransForm(item.status)
     return {
       $orig: $orig,
       m0: m0,
+      m1: m1,
     }
   })
   var g0 = _vm.fullRecordList.length
@@ -229,18 +231,11 @@ var _default = {
       },
       showLoadingHint: false,
       moreIconPng: __webpack_require__(/*! @/static/img/more-icon.png */ 354),
-      logList: [{
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }],
+      logList: [],
       visitPageId: ''
     };
   },
+  // this.currentDate,
   onLoad: function onLoad() {
     this.createVisitPage();
     this.currentDate = this.getNowFormatDate(new Date(), 2);
@@ -248,7 +243,8 @@ var _default = {
       pageNo: this.currentPageNum,
       pageSize: this.pageSize,
       deviceId: this.beforeAddDeviceMessage.deviceId,
-      queryDate: this.currentDate
+      startDate: this.currentDate,
+      endDate: this.currentDate
     }, true);
   },
   destroyed: function destroyed() {
@@ -285,6 +281,23 @@ var _default = {
         if (res && res.data.code == 0) {}
       }).catch(function (err) {});
     },
+    // 状态转换
+    statusTransForm: function statusTransForm(status) {
+      switch (status) {
+        case 1:
+          return "跌倒";
+          break;
+        case 2:
+          return "起身";
+          break;
+        case 3:
+          return "进入";
+          break;
+        case 4:
+          return "离开";
+          break;
+      }
+    },
     scrolltolower: function scrolltolower() {
       var totalPage = Math.ceil(this.totalCount / this.pageSize);
       if (this.currentPageNum >= totalPage) {
@@ -296,7 +309,8 @@ var _default = {
           pageNo: this.currentPageNum,
           pageSize: this.pageSize,
           deviceId: this.beforeAddDeviceMessage.deviceId,
-          createDate: this.currentDate
+          startDate: this.currentDate,
+          endDate: this.currentDate
         }, false);
       }
     },
@@ -357,7 +371,8 @@ var _default = {
         pageNo: this.currentPageNum,
         pageSize: this.pageSize,
         deviceId: this.beforeAddDeviceMessage.deviceId,
-        createDate: this.currentDate
+        startDate: this.currentDate,
+        endDate: this.currentDate
       }, true);
     },
     // 获取人体检测雷达日志
@@ -368,32 +383,44 @@ var _default = {
         this.showLoadingHint = true;
       } else {
         this.showLoadingHint = false;
-        ss;
+        this.infoText = '';
         this.status = 'loading';
       }
       ;
       (0, _device.getTumbleRadar)(data).then(function (res) {
-        if (flag) {
-          _this2.showLoadingHint = false;
-        } else {
-          _this2.status = 'loadmore';
-        }
-        ;
+        // status 1-跌倒，2-起身, 3-进入，4-离开
         if (res && res.data.code == 0) {
           _this2.totalCount = res.data.data.total;
           _this2.recordList = res.data.data.list;
+          if (!res.data.data.hasOwnProperty('list')) {
+            _this2.isShowNoHomeNoData = true;
+            _this2.recordList = [];
+          }
+          ;
           _this2.fullRecordList = _this2.fullRecordList.concat(_this2.recordList);
           if (_this2.fullRecordList.length == 0) {
             _this2.isShowNoHomeNoData = true;
           } else {
             _this2.isShowNoHomeNoData = false;
           }
+          ;
         } else {
           _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
+        }
+        ;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          var totalPage = Math.ceil(_this2.totalCount / _this2.pageSize);
+          if (_this2.currentPage >= totalPage) {
+            _this2.status = 'nomore';
+          } else {
+            _this2.status = 'loadmore';
+          }
         }
       }).catch(function (err) {
         if (flag) {

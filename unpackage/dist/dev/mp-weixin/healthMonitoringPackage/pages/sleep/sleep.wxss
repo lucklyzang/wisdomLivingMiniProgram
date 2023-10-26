@@ -48,11 +48,8 @@ page {
   background: #fff;
 }
 .content-box .content-area {
-  flex: 1;
   background: #F5F5F5;
   overflow: auto;
-  display: flex;
-  flex-direction: column;
 }
 .content-box .content-area .content-top-area {
   background: #fff;
@@ -67,7 +64,6 @@ page {
   margin-top: 20px;
 }
 .content-box .content-area .content-top-area .content-top-content {
-  margin-top: 10px;
   flex: 1;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area-other .data-bottom {
@@ -83,7 +79,8 @@ page {
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-top {
   width: 70%;
   margin: 0 auto;
-  height: 93px;
+  padding: 10px 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,9 +205,12 @@ page {
   color: #101010;
 }
 .content-box .content-area .content-bottom-area {
-  flex: 1;
+  height: 250px;
   margin-top: 8px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
   box-sizing: border-box;
   background: #fff;
 }
@@ -257,10 +257,9 @@ page {
   font-weight: bold;
 }
 .content-box .content-area .content-bottom-area .health-tips {
-  height: 91px;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  height: 134px;
 }
 .content-box .content-area .content-bottom-area .health-tips .health-tips-top > image {
   width: 24px;

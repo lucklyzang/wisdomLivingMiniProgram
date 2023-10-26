@@ -977,7 +977,7 @@
 				this.recordList = [];
 				if (isInit) {
 					this.isShowNoHomeNoData = false;
-					this.currentPageNum = 1;
+					data.pageNo = 1;
 					this.fullRecordList = []
 				};
 				if (flag) {
@@ -1081,14 +1081,11 @@
 			background: #fff;
 		};
 		.content-area {
-			flex: 1;
 			background: #F5F5F5;
 			overflow: auto;
-			display: flex;
-			flex-direction: column;
 			.content-top-area {
 				background: #fff;
-				height: 440px;
+				height: 450px;
 				display: flex;
 				flex-direction: column;
 				.content-top-title {
@@ -1107,7 +1104,6 @@
 					}
 				};
 				.content-top-content {
-					margin-top: 10px;
 					flex: 1;
 					.day-data-area {
 						display: flex;
@@ -1116,7 +1112,8 @@
 						.data-top {
 							width: 70%;
 							margin: 0 auto;
-							height: 93px;
+							padding: 10px 0;
+							box-sizing: border-box;
 							display: flex;
 							flex-direction: column;
 							align-items: center;
@@ -1230,7 +1227,8 @@
 				}
 			};
 			.content-bottom-area {
-				flex: 1;
+				// flex: 1;
+				height: 250px;
 				padding: 10px;
 				box-sizing: border-box;
 				background: #fff;

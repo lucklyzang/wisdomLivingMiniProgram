@@ -381,9 +381,8 @@ var _default = {
     ;
     this.queryTumbleDetails({
       deviceIds: this.temporaryDevices,
-      startDate: '2023-10-24',
-      endDate: '2023-10-24'
-      // startDate: this.getNowFormatDate(new Date(),2)
+      startDate: this.getNowFormatDate(new Date(), 2),
+      endDate: this.getNowFormatDate(new Date(), 2)
     }, 'day');
 
     // 获取跌倒日数据列表详情
@@ -391,7 +390,7 @@ var _default = {
       pageNo: this.currentPageNum,
       pageSize: this.pageSize,
       deviceIds: this.temporaryDevices,
-      date: '2023-10-24'
+      date: this.getNowFormatDate(new Date(), 2)
     }, true, false);
   },
   destroyed: function destroyed() {
@@ -466,7 +465,7 @@ var _default = {
       this.recordList = [];
       if (isInit) {
         this.isShowNoHomeNoData = false;
-        this.currentPageNum = 1;
+        data.pageNo = 1;
         this.fullRecordList = [];
       }
       ;
@@ -821,9 +820,8 @@ var _default = {
       // 获取跌倒日数据
       this.queryTumbleDetails({
         deviceIds: this.temporaryDevices,
-        startDate: '2023-10-24',
-        endDate: '2023-10-24'
-        // startDate: this.getNowFormatDate(new Date(),2)
+        startDate: this.currentDayTime,
+        endDate: this.currentDayTime
       }, 'day');
 
       // 获取跌倒数据列表详情
@@ -831,7 +829,7 @@ var _default = {
         pageNo: this.currentPageNum,
         pageSize: this.pageSize,
         deviceIds: this.temporaryDevices,
-        date: '2023-10-24'
+        date: this.currentDayTime
       }, false, true);
     },
     // 获取某月的天数
@@ -899,19 +897,18 @@ var _default = {
         console.log('当前月', this.currentMonthDate);
       }
       ;
-      // 获取跌倒日数据
+      // 获取跌倒月数据
       this.queryTumbleDetails({
         deviceIds: this.temporaryDevices,
-        startDate: '2023-10-24',
-        endDate: '2023-10-24'
-        // startDate: this.getNowFormatDate(new Date(),2)
+        startDate: "".concat(this.currentMonthDate, "-01"),
+        endDate: "".concat(this.currentMonthDate, "-").concat(this.currentMonthDays)
       }, 'month');
       // 获取跌倒数据列表详情
       this.queryGetTumbleListDetails({
         pageNo: this.currentPageNum,
         pageSize: this.pageSize,
         deviceIds: this.temporaryDevices,
-        date: '2023-10-24'
+        date: "".concat(this.currentMonthDate, "-01")
       }, false, true);
     },
     // 获取当前周
@@ -991,19 +988,18 @@ var _default = {
         console.log('周', this.currentStartWeekDate, this.currentEndWeekDate);
       }
       ;
-      // 获取跌倒日数据
+      // 获取跌倒周数据
       this.queryTumbleDetails({
         deviceIds: this.temporaryDevices,
-        startDate: '2023-10-24',
-        endDate: '2023-10-24'
-        // startDate: this.getNowFormatDate(new Date(),2)
+        startDate: this.currentStartWeekDate,
+        endDate: this.currentEndWeekDate
       }, 'week');
       // 获取跌倒数据列表详情
       this.queryGetTumbleListDetails({
         pageNo: this.currentPageNum,
         pageSize: this.pageSize,
         deviceIds: this.temporaryDevices,
-        date: '2023-10-24'
+        date: this.currentStartWeekDate
       }, false, true);
     },
     // 判断周几
@@ -1048,16 +1044,15 @@ var _default = {
         // 获取跌倒日数据
         this.queryTumbleDetails({
           deviceIds: this.temporaryDevices,
-          startDate: '2023-10-24',
-          endDate: '2023-10-24'
-          // startDate: this.getNowFormatDate(new Date(),2)
+          startDate: this.getNowFormatDate(new Date(), 2),
+          endDate: this.getNowFormatDate(new Date(), 2)
         }, 'day');
         // 获取跌倒数据列表详情
         this.queryGetTumbleListDetails({
           pageNo: this.currentPageNum,
           pageSize: this.pageSize,
           deviceIds: this.temporaryDevices,
-          date: '2023-10-24'
+          date: this.getNowFormatDate(new Date(), 2)
         }, false, true);
       }
       ;
@@ -1071,19 +1066,18 @@ var _default = {
           this.isWeekPlusCanCilck = false;
         }
         ;
-        // 获取跌倒日数据
+        // 获取跌倒周数据
         this.queryTumbleDetails({
           deviceIds: this.temporaryDevices,
-          startDate: '2023-10-23',
-          endDate: '2023-10-24'
-          // startDate: this.getNowFormatDate(new Date(),2)
+          startDate: this.currentStartWeekDate,
+          endDate: this.currentEndWeekDate
         }, 'week');
-        // 获取跌倒数据列表详情
+        // 获取跌倒周数据列表详情
         this.queryGetTumbleListDetails({
           pageNo: this.currentPageNum,
           pageSize: this.pageSize,
           deviceIds: this.temporaryDevices,
-          date: '2023-10-24'
+          date: this.currentStartWeekDate
         }, false, true);
       }
       ;
@@ -1113,19 +1107,18 @@ var _default = {
         ;
         var preMonth = year2 + "-" + month2;
         this.currentMonthDays = this.getMonthDay(year2, month2);
-        // 获取跌倒日数据
+        // 获取跌倒月数据
         this.queryTumbleDetails({
           deviceIds: this.temporaryDevices,
-          startDate: '2023-10-23',
-          endDate: '2023-10-24'
-          // startDate: this.getNowFormatDate(new Date(),2)
+          startDate: "".concat(this.currentMonthDate, "-01"),
+          endDate: "".concat(this.currentMonthDate, "-").concat(this.currentMonthDays)
         }, 'month');
-        // 获取跌倒数据列表详情
+        // 获取跌倒月数据列表详情
         this.queryGetTumbleListDetails({
           pageNo: this.currentPageNum,
           pageSize: this.pageSize,
           deviceIds: this.temporaryDevices,
-          date: '2023-10-24'
+          date: "".concat(this.currentMonthDate, "-01")
         }, false, true);
       }
     },

@@ -1074,11 +1074,8 @@
 			background: #fff;
 		};
 		.content-area {
-			flex: 1;
 			background: #F5F5F5;
 			overflow: auto;
-			display: flex;
-			flex-direction: column;
 			.content-top-area {
 				background: #fff;
 				height: 470px;
@@ -1097,7 +1094,6 @@
 					}
 				};
 				.content-top-content {
-					margin-top: 10px;
 					flex: 1;
 					.day-data-area-other {
 						.data-bottom {
@@ -1113,7 +1109,8 @@
 						.data-top {
 							width: 70%;
 							margin: 0 auto;
-							height: 93px;
+							padding: 10px 0;
+							box-sizing: border-box;
 							display: flex;
 							flex-direction: column;
 							align-items: center;
@@ -1242,9 +1239,12 @@
 				}
 			};
 			.content-bottom-area {
-				flex: 1;
+				height: 250px;
 				margin-top: 8px;
 				padding: 10px;
+				display: flex;
+				flex-direction: column;
+				overflow: auto;
 				box-sizing: border-box;
 				background: #fff;
 				> view {
@@ -1294,10 +1294,9 @@
 					}
 				};
 				.health-tips {
-					height: 91px;
+					flex: 1;
 					display: flex;
 					flex-direction: column;
-					height: 134px;
 					.health-tips-top {
 						>image {
 							width: 24px;

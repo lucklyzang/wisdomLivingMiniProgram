@@ -48,7 +48,9 @@ page {
   background: #fff;
 }
 .content-box .nav  .header_title_center {
-  left: 240px !important;
+  left: 210px !important;
+  -webkit-transform: translateX(-55%) !important;
+          transform: translateX(-55%) !important;
 }
 .content-box .nav  .header_title_center .u-icon {
   margin-left: 14px;
@@ -92,5 +94,11 @@ page {
 }
 .content-box .content-area .log-list-wrapper .log-list > text:nth-child(2) {
   margin: 0 4px;
+}
+.content-box .content-area .log-list-wrapper .log-list > text:nth-child(3) {
+  color: #289E8E;
+}
+.content-box .content-area .log-list-wrapper .log-list .textStyle {
+  color: #E86F50 !important;
 }
 

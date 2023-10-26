@@ -206,17 +206,13 @@
 			queryBodyDetectionRadar (data,flag) {
 				this.recordList = [];
 				if (flag) {
-					this.showLoadingHint = true;
+					this.showLoadingHint = true
 				} else {
 					this.showLoadingHint = false;
-					this.status = 'loading'
+					this.infoText = '';
+					this.status = 'loading';
 				};
 				getBodyDetectionRadar(data).then((res) => {
-					if (flag) {
-						this.showLoadingHint = false;
-					} else {
-						this.status = 'loadmore'
-					};
 					if ( res && res.data.code == 0) {
 						this.totalCount = res.data.data.total;
 						this.recordList = res.data.data.list;
@@ -232,6 +228,16 @@
 							type: 'error',
 							position: 'bottom'
 						})
+					};
+					if (flag) {
+						this.showLoadingHint = false;
+					} else {
+						let totalPage = Math.ceil(this.totalCount/this.pageSize);
+						if (this.currentPage >= totalPage) {
+							this.status = 'nomore'
+						} else {
+							this.status = 'loadmore';
+						}	
 					}
 				})
 				.catch((err) => {
@@ -277,7 +283,8 @@
 			width: 100%;
 			background: #fff;
 			::v-deep .header_title_center {
-				left: 240px !important;
+				left: 210px !important;
+				transform: translateX(-55%) !important;
 				.u-icon {
 					margin-left: 14px
 				}

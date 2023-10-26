@@ -970,12 +970,12 @@
 				},cardId)
 			},
 			
-			// 为绑定设备的场景请求设备统计日数据(跌倒场景)this.getNowFormatDate(new Date(),1)
+			// 为绑定设备的场景请求设备统计日数据(跌倒场景)
 			requestTumbleDeviceStatisticsData (deviceIdList,cardId) {
 				this.queryTumbleDetails({
 					deviceIds: deviceIdList,
-					startDate: '2023-10-24',
-					endDate: '2023-10-24'
+					startDate: this.getNowFormatDate(new Date(),1),
+					endDate: this.getNowFormatDate(new Date(),1)
 				},cardId)
 			},
 			

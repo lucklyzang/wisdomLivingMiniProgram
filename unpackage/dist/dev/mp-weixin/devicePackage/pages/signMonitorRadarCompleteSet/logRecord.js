@@ -363,6 +363,7 @@ var _default = {
         this.showLoadingHint = true;
       } else {
         this.showLoadingHint = false;
+        this.infoText = '';
         this.status = 'loading';
       }
       ;
@@ -390,6 +391,17 @@ var _default = {
             type: 'error',
             position: 'bottom'
           });
+        }
+        ;
+        if (flag) {
+          _this2.showLoadingHint = false;
+        } else {
+          var totalPage = Math.ceil(_this2.totalCount / _this2.pageSize);
+          if (_this2.currentPage >= totalPage) {
+            _this2.status = 'nomore';
+          } else {
+            _this2.status = 'loadmore';
+          }
         }
       }).catch(function (err) {
         if (flag) {
