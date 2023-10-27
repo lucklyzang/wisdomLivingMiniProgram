@@ -109,6 +109,12 @@ try {
     uIcon: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-icon/u-icon */ "node-modules/uview-ui/components/u-icon/u-icon").then(__webpack_require__.bind(null, /*! uview-ui/components/u-icon/u-icon.vue */ 680))
     },
+    uEmpty: function () {
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-empty/u-empty */ "node-modules/uview-ui/components/u-empty/u-empty").then(__webpack_require__.bind(null, /*! uview-ui/components/u-empty/u-empty.vue */ 761))
+    },
+    qiunDataCharts: function () {
+      return Promise.all(/*! import() | uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts")]).then(__webpack_require__.bind(null, /*! @/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts.vue */ 768))
+    },
   }
 } catch (e) {
   if (
@@ -207,6 +213,7 @@ exports.default = void 0;
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _vuex = __webpack_require__(/*! vuex */ 30);
 var _user = __webpack_require__(/*! @/api/user.js */ 31);
+var _device = __webpack_require__(/*! @/api/device.js */ 106);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
@@ -248,7 +255,44 @@ var _default = {
       initMonthDate: '',
       weekMap: {},
       temporaryDevices: [],
-      visitPageId: ''
+      visitPageId: '',
+      stool: '',
+      urinate: '',
+      stoolAverageTime: '',
+      urinateAverageTime: '',
+      dayChartData: {
+        isShow: true,
+        data: {}
+      },
+      weekChartData: {
+        isShow: true,
+        data: {}
+      },
+      monthChartData: {
+        isShow: true,
+        data: {}
+      },
+      toiletOpts: {
+        padding: [10, 4, 10, 4],
+        dataLabel: false,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        extra: {
+          bar: {
+            type: 'stack',
+            width: 20
+          }
+        }
+      }
     };
   },
   onLoad: function onLoad() {
@@ -275,6 +319,11 @@ var _default = {
       _iterator.f();
     }
     ;
+    this.queryToiletDetails({
+      deviceId: this.temporaryDevices[0],
+      startDate: this.getNowFormatDate(new Date(), 2),
+      endDate: this.getNowFormatDate(new Date(), 2)
+    }, 'day');
   },
   destroyed: function destroyed() {
     if (!this.visitPageId && this.visitPageId !== 0) {
@@ -310,6 +359,196 @@ var _default = {
       (0, _user.exitPageData)(this.visitPageId).then(function (res) {
         if (res && res.data.code == 0) {}
       }).catch(function (err) {});
+    },
+    // 获取入厕数据
+    queryToiletDetails: function queryToiletDetails(data, text) {
+      var _this2 = this;
+      this.stool = '';
+      this.urinate = '';
+      this.stoolAverageTime = '';
+      this.urinateAverageTime = '';
+      if (text == 'day') {
+        this.dayChartData = {
+          isShow: true,
+          data: {}
+        };
+      } else if (text == 'week') {
+        this.weekChartData = {
+          isShow: true,
+          data: {}
+        };
+      }
+      ;
+      (0, _device.toiletDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          if (text == 'day') {
+            var questData = res.data.data;
+            _this2.dayChartData['isShow'] = true;
+            if (questData.length == 0) {
+              _this2.stool = '-';
+              _this2.urinate = '-';
+              _this2.stoolAverageTime = '-';
+              _this2.urinateAverageTime = '-';
+              _this2.dayChartData = {
+                isShow: false,
+                data: {}
+              };
+            } else {
+              _this2.dayChartData['isShow'] = true;
+              _this2.stool = questData[0]['stool'];
+              _this2.urinate = questData[0]['urinate'];
+              _this2.stoolAverageTime = '';
+              _this2.urinateAverageTime = '';
+              // type是否如厕 0-否， 1-是
+              var temporaryData = {
+                categories: ['7-4'],
+                series: []
+              };
+              questData[0]['itemList'].forEach(function (item, index) {
+                if (item.type == 0) {
+                  temporaryData['series'].push({
+                    name: "未检测到人体",
+                    color: "#F0F0F0",
+                    data: [1]
+                  });
+                } else if (item.type == 1) {
+                  temporaryData['series'].push({
+                    name: "入厕",
+                    color: "#289E8E",
+                    data: [20]
+                  });
+                }
+              });
+              var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+              _this2.dayChartData['data'] = temporaryContent;
+            }
+          } else if (text == 'week') {
+            _this2.weekChartData['isShow'] = true;
+            _this2.currentWeekXaxisArr = [];
+            if (res.data.data.length > 0) {
+              var _questData = res.data.data;
+              _this2.weekChartData['isShow'] = true;
+              var lengthArr = [];
+              var maxColumn;
+              var _temporaryData = {
+                categories: [],
+                series: []
+              };
+              _questData.forEach(function (item, index) {
+                _temporaryData['categories'].push(_this2.judgeWeek(item.date));
+                _this2.currentWeekXaxisArr.push(item.date);
+                lengthArr.push(item.resItemVos.length);
+              });
+              // 按所有天中数据最多的那天算(每天的数据条数不一致)
+              maxColumn = Math.max.apply(null, lengthArr);
+              for (var i = 0; i < maxColumn; i++) {
+                _temporaryData['series'].push({
+                  "data": []
+                });
+              }
+              ;
+              _temporaryData['series'].forEach(function (item, index) {
+                _this2.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
+                  var currentData = _questData[innerIndex]['resItemVos'];
+                  if (currentData[index]) {
+                    if (currentData[index]['status'] == 0) {
+                      item['data'].push({
+                        value: 1,
+                        color: "#F0F0F0"
+                      });
+                    } else if (currentData[index]['status'] == 1) {
+                      item['data'].push({
+                        value: 3,
+                        color: "#E8CB51"
+                      });
+                    }
+                  } else {
+                    item['data'].push({
+                      value: 1,
+                      color: '#F0F0F0'
+                    });
+                  }
+                });
+              });
+              var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
+              _this2.weekChartData['data'] = _temporaryContent;
+            } else {
+              _this2.weekChartData = {
+                isShow: false,
+                data: {}
+              };
+            }
+          } else if (text == 'month') {
+            _this2.monthChartData['isShow'] = true;
+            _this2.currentMonthXaxisArr = [];
+            if (res.data.data.length > 0) {
+              var _questData2 = res.data.data;
+              _this2.monthChartData['isShow'] = true;
+              var _lengthArr = [];
+              var _maxColumn;
+              var _temporaryData2 = {
+                categories: [],
+                series: []
+              };
+              _questData2.forEach(function (item, index) {
+                _temporaryData2['categories'].push(_this2.getNowFormatDate(new Date(item.date), 5));
+                _this2.currentMonthXaxisArr.push(item.date);
+                _lengthArr.push(item.resItemVos.length);
+              });
+              // 按所有天中数据最多的那天算(每天的数据条数不一致)
+              _maxColumn = Math.max.apply(null, _lengthArr);
+              for (var _i = 0; _i < _maxColumn; _i++) {
+                _temporaryData2['series'].push({
+                  "data": []
+                });
+              }
+              ;
+              _temporaryData2['series'].forEach(function (item, index) {
+                _this2.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
+                  var currentData = _questData2[innerIndex]['resItemVos'];
+                  if (currentData[index]) {
+                    if (currentData[index]['status'] == 0) {
+                      item['data'].push({
+                        value: 1,
+                        color: "#F0F0F0"
+                      });
+                    } else if (currentData[index]['status'] == 1) {
+                      item['data'].push({
+                        value: 3,
+                        color: "#E8CB51"
+                      });
+                    }
+                  } else {
+                    item['data'].push({
+                      value: 1,
+                      color: '#F0F0F0'
+                    });
+                  }
+                });
+              });
+              var _temporaryContent2 = JSON.parse(JSON.stringify(_temporaryData2));
+              _this2.monthChartData['data'] = _temporaryContent2;
+            } else {
+              _this2.monthChartData = {
+                isShow: false,
+                data: {}
+              };
+            }
+          }
+        } else {
+          _this2.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this2.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
     },
     // 格式化时间
     getNowFormatDate: function getNowFormatDate(currentDate, type) {

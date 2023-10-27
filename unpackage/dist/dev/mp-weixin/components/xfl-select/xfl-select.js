@@ -81,7 +81,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var g0 = _vm.innerList.length
+  var g0 = _vm.isShowList ? _vm.innerList.length : null
   if (!_vm._isMounted) {
     _vm.e0 = function ($event) {
       $event.stopPropagation()

@@ -126,11 +126,15 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = !_vm.isShowNoDeviceData ? _vm.deviceList.length : null
+  var m0 = !_vm.isShowNoDeviceData
+    ? _vm.radarTransition(_vm.currentNeedBindDevicesMessage.type)
+    : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
+        m0: m0,
       },
     }
   )
@@ -222,6 +226,25 @@ var _default = {
       temporaryMessage['type'] = item.type;
       temporaryMessage['message'] = item;
       this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
+    },
+    // 雷达类型转换
+    // 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
+    radarTransition: function radarTransition(type) {
+      var textValue = type.toString();
+      switch (textValue) {
+        case '1':
+          return "睡眠";
+          break;
+        case '2':
+          return "如厕";
+          break;
+        case '3':
+          return "跌倒";
+          break;
+        case '4':
+          return "离/回家";
+          break;
+      }
     },
     // 获取用户设备信息
     getUserDevice: function getUserDevice(data) {

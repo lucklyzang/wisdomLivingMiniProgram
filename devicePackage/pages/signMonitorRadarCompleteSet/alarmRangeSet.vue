@@ -14,7 +14,7 @@
 						<text>心率异常报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="heartRateAbnormalAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="heartRateAbnormalAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 				<view class="person-retention-alarm-time-box">
@@ -60,7 +60,7 @@
 						<text>呼吸异常报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="breatheAbnormalAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="breatheAbnormalAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 				<view class="person-retention-alarm-time-box">
@@ -106,7 +106,7 @@
 						<text>体动检测报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="kinesiaDetectionAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="kinesiaDetectionAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 				<view class="set-list">
@@ -114,7 +114,7 @@
 						<text>坐起检测报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="situpDetectionAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="situpDetectionAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view> -->
 				<view class="set-list">
@@ -122,7 +122,7 @@
 						<text>离床检测报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="leaveBedDetectionAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="leaveBedDetectionAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 			</view>

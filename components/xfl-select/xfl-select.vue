@@ -29,7 +29,7 @@
 		<div class="list-container" 
 		@click.stop.prevent="onListClick"
 		@touchmove.stop.prevent="function(){}"
-		:style="'transform:' + 'translateY('+ listTop__ + 'px);'" v-show="isShowList">
+		:style="'transform:' + 'translateY('+ listTop__ + 'px);'" v-if="isShowList">
 			<span class="popper__arrow"></span> <!-- 列表框左上角的空心小三角 -->
 			<scroll-view 
 				class="list" style="background-color: #fff;"  
@@ -43,7 +43,7 @@
 					<div>{{item.value}}</div>
 					<image :src="item.iconPath" v-if="item.isClickNoEffect"></image>
 				</div>
-				<div v-show="innerList.length==0" class="data-state item">无数据</div>
+				<div v-if="innerList.length==0" class="data-state item">无数据</div>
 				<!-- <slot></slot> -->
 			</scroll-view>
 		</div>

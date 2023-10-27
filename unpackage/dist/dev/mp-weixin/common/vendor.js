@@ -180,6 +180,7 @@ exports.getTumbleRadar = getTumbleRadar;
 exports.getsignMonitorRadar = getsignMonitorRadar;
 exports.sleepStatisticsDetails = sleepStatisticsDetails;
 exports.sleepStatisticsHome = sleepStatisticsHome;
+exports.toiletDetails = toiletDetails;
 exports.tumbleDetails = tumbleDetails;
 exports.updateDetectionAlarmSettings = updateDetectionAlarmSettings;
 exports.updateDeviceInform = updateDeviceInform;
@@ -497,6 +498,16 @@ function getsignMonitorRadar(data) {
 function getBodyDetectionRadarDetails(data) {
   return (0, _request.default)({
     url: '/app-api/radar/line-rule-data/enter-leave-detail',
+    method: 'get',
+    params: data
+  });
+}
+;
+
+// 获取入厕数据(日、周、月)
+function toiletDetails(data) {
+  return (0, _request.default)({
+    url: '/app-api/radar/person-exist-data/data-list',
     method: 'get',
     params: data
   });

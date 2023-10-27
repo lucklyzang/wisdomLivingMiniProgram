@@ -279,3 +279,12 @@ export function getBodyDetectionRadarDetails(data) {
 		params: data
   })
 };
+
+// 获取入厕数据(日、周、月)
+export function toiletDetails(data) {
+  return request({
+    url: '/app-api/radar/person-exist-data/data-list',
+    method: 'get',
+		params: data
+  })
+};

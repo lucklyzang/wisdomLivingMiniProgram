@@ -246,6 +246,7 @@ page {
 .content-box .center-area .sleep-area-data .sleep-data-title > text:first-child {
   font-size: 14px;
   color: #101010;
+  font-weight: bold;
   margin-top: 0 !important;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -424,7 +425,7 @@ page {
   color: #101010;
 }
 .content-box .center-area .toilet-area-data {
-  height: 184px;
+  height: 200px;
   margin-top: 8px;
 }
 .content-box .center-area .toilet-area-data .heart-rate-box {
@@ -434,8 +435,66 @@ page {
   flex-direction: column;
 }
 .content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart {
-  height: 94px;
+  height: 50px;
   position: relative;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .time-bar .time-line {
+  width: 100%;
+  height: 1px;
+  background: #BBBBBB;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .time-bar .time-text {
+  display: flex;
+  align-items: center;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .time-bar .time-text > text {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  color: #101010;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar > view {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar > view:first-child {
+  margin-right: 10px;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar > view:first-child > text {
+  display: inline-block;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar > view:first-child > text:first-child {
+  width: 21px;
+  height: 12px;
+  background: #F0F0F0;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar > view:first-child > text:last-child {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #101010;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar > view:last-child > text {
+  display: inline-block;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar > view:last-child > text:first-child {
+  width: 21px;
+  height: 12px;
+  background: #289E8E;
+}
+.content-box .center-area .toilet-area-data .heart-rate-box .toilet-chart .icon-bar > view:last-child > text:last-child {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #101010;
 }
 .content-box .center-area .toilet-area-data .toilet-no-data-box {
   width: 100%;

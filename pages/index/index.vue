@@ -176,13 +176,13 @@
 						<text>{{ item.mold == 0 ? item.name : `${item.name}-${item.subtitle}` }}</text>
 						<text>{{ getNowFormatDateText(new Date()) }}</text>
 						<text class="room-name">{{ extractRooName(item.devices) }}</text>
-						<text>入厕两次</text>
+						<text v-if="!sceneDataList[item.id]['isShowNoData']">{{`入厕${sceneDataList[item.id]['toiletCount']}次`}}</text>
 					</view>
-					<view class="heart-rate-box" v-if="false">
+					<view class="heart-rate-box" v-if="!sceneDataList[item.id]['isShowNoData']">
 						<view class="heart-rate-title">
 							<view class="heart-rate-title-left">
 								<image :src="toiletIconPng"></image>
-								<text>平均入厕时间 15分钟</text>
+								<text>{{ `平均入厕时间 ${sceneDataList[item.id]['averageToiletDuration']}分钟` }}</text>
 								<text>入厕时间正常</text>
 							</view>
 							<view class="heart-rate-title-right" @click="enterDetailsEvent('入厕',item)">
@@ -190,10 +190,32 @@
 							</view>
 						</view>
 						<view class="toilet-chart">
-							<!-- <qiun-data-charts type="column" :canvas2d="true" :canvasId="`abcdef${item.id}`" :opts="heartOpts" :ontouch="true" :chartData="chartData" /> -->
+							<qiun-data-charts v-if="!sceneDataList[item.id]['isShowNoData']" type="bar" :canvas2d="true" :canvasId="`akglhdjs56j4ghsd3ghh8${item.id}`" :ontouch="true" :opts="toiletOpts" :chartData="sceneDataList[item.id]['data']" />
+							<view class="time-bar" v-if="sceneDataList[item.id]['isShow']">
+								<view class="time-line"></view>
+								<view class="time-text">
+									<text>00:00</text>
+									<text>04:00</text>
+									<text>08:00</text>
+									<text>12:00</text>
+									<text>16:00</text>
+									<text>20:00</text>
+									<text>23:59</text>
+								</view>
+							</view>
+							<view class="icon-bar" v-if="sceneDataList[item.id]['isShow']">
+								<view>
+									<text></text>
+									<text>未检测到人体</text>
+								</view>
+								<view>
+									<text></text>
+									<text>入厕</text>
+								</view>
+							</view>
 						</view>
 					</view>
-					<view class="toilet-no-data-box" @click="enterDetailsEvent('入厕',item)">
+					<view v-if="sceneDataList[item.id]['isShowNoData']" class="toilet-no-data-box" @click="enterDetailsEvent('入厕',item)">
 						<image :src="toiletNoDataPng"></image>
 					</view>
 				</view>
@@ -286,7 +308,7 @@
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
 	import { getHomePageList } from '@/api/home.js' 
 	import { getUserBannerList,createVisitPageData, exitPageData } from '@/api/user.js'
-	import { sleepStatisticsDetails, enterLeaveHomeDetails, tumbleDetails } from '@/api/device.js'
+	import { sleepStatisticsDetails, enterLeaveHomeDetails, tumbleDetails, toiletDetails } from '@/api/device.js'
 	import _ from 'lodash'
 	export default {
 		components: {
@@ -305,17 +327,36 @@
 				tumbleIconPng: require("@/static/img/tumble-icon.png"),
 				leaveHomeIconPng: require("@/static/img/leave-home-icon.png"),
 				sleepSmallIconPng: require("@/static/img/sleep-small-icon.png"),
-				sleepNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/71baf49e78e789d6cb800f5eafb51ab49a3edb9719057637ac5e2d07f6cb392f.png',
-				tumbleNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/9dc45d7936b93ecd9123e3cb742ccbd4b7fbf3e606b1fc07db74541e14215e5a.png',
-				toiletNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/0bdf3094ee81212e431bc129902cb5a784efd41096ea58463ca98bcd405aa4f4.png',
-				heartRateNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/934da7e1ea0046263d7b24157e03869b6c7438242ddbd289136333d08f40b00b.png',
-				breathNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/4883122414cefba013204326f9d98e179ec0e4be888d9e0a74ef7f20aaac4486.png',
-				leaveHomeNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/e441f237374d77250e76d72abfab32eabb239c055fc5bcbad9e0bd815e480d88.png',
+				sleepNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/c95f24a43725b7293404b91e7328e7d95bebd5acb1a4b2d0f53c0365effbf740.png',
+				tumbleNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/44aca0ac7237d6bbab8b1c852186227b2bccaede943b0b50a11ec81831209a18.png',
+				toiletNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/08135512fe88507769647aa2a8d4c6d021c371cfa34c5e1b7112fbd594c5369e.png',
+				heartRateNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/1fa5940196eb291b16f67a0cbbf6b2a5fd553b446c3a59488249a99d8c46e224.png',
+				breathNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/96020f150c154cce304efa7ddee97d65c9762ac7d6b3dc5a409a18af1f672df2.png',
+				leaveHomeNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/471133070b089731561a5221d5525362805945529955616686f409e7494a4a91.png',
 				familyMemberList: [],
 				deviceList: [],
 				sceneDataList: {},
 				totalSleepTime: '',
 				tumbleOpts: {
+					padding: [10,4,10,4],
+					dataLabel: false,
+					legend: { show: false },
+					xAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						bar: {
+							type: 'stack',
+							width: 20
+						}
+					}
+				},
+				toiletOpts: {
 					padding: [10,4,10,4],
 					dataLabel: false,
 					legend: { show: false },
@@ -782,6 +823,71 @@
 				})
 			},
 			
+			// 获取入厕数据
+			queryToiletDetails (data,cardId) {
+				toiletDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						let questData = res.data.data;
+						// 入厕
+						if ( questData.length == 0 ) {
+							this.$set(this.sceneDataList[cardId],'isShowNoData',true)
+						} else {
+							let temporaryData = {
+								categories: ['7-4'],
+								series: []
+							};
+							console.log('入',questData);
+							// 统计入厕次数
+							let temporaryCount = questData[0]['itemList'].filter((item) => { return item.type == 1}).length;
+							// 统计平均入厕时间
+							let temporaryAverageToiletDuration = Math.ceil((questData[0]['stoolTime'] + questData[0]['urinateTime'])/temporaryCount);
+							let detectionDuration = 24*60;
+							questData[0]['itemList'].forEach((item,index) => {
+								let currentDurationPercentage = (item.end - item.start)/detectionDuration;
+								let currentDuration = Math.ceil(currentDurationPercentage*100);
+								// type是否如厕 0-否， 1-是
+								if (item.type == 0) {
+									temporaryData['series'].push(
+										{
+										  name: "未检测到人体",
+										  color: "#F0F0F0",
+										  data: [1]
+										}
+									)
+								} else if (item.type == 1) {
+									temporaryData['series'].push(
+										{
+										  name: "入厕",
+										  color: "#289E8E",
+										  data: [20]
+										}
+									)
+								}
+							});
+							let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+							this.$set(this.sceneDataList[cardId],'data',temporaryContent);
+							this.$set(this.sceneDataList[cardId],'isShow',true);
+							this.$set(this.sceneDataList[cardId],'averageToiletDuration',temporaryAverageToiletDuration);
+							this.$set(this.sceneDataList[cardId],'toiletCount',temporaryCount);
+							console.log('入厕数据',this.sceneDataList[cardId]);
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
 			// 获取离、回家数据
 			queryLeaveHomeDetails (data,cardId) {
 				enterLeaveHomeDetails(data).then((res) => {
@@ -943,6 +1049,14 @@
 							this.$set(this.sceneDataList[item.id]['sleep'],'sleepEndDate','');
 							this.$set(this.sceneDataList[item.id]['sleep'],'sleepTime','');
 							this.requestSleepDeviceStatisticsData(temporaryDevices[0],item.id)
+						} else if (item.type == 1) {
+							this.$set(this.sceneDataList,item.id,{});
+							this.$set(this.sceneDataList[item.id],'data',{});
+							this.$set(this.sceneDataList[item.id],'toiletCount',{});
+							this.$set(this.sceneDataList[item.id],'averageToiletDuration',{});
+							this.$set(this.sceneDataList[item.id],'isShow',false);
+							this.$set(this.sceneDataList[item.id],'isShowNoData',false);
+							this.requestToiletDeviceStatisticsData(temporaryDevices[0],item.id)
 						} else if (item.type == 2) {
 							this.$set(this.sceneDataList,item.id,{});
 							this.$set(this.sceneDataList[item.id],'data',{});
@@ -974,6 +1088,15 @@
 			requestTumbleDeviceStatisticsData (deviceIdList,cardId) {
 				this.queryTumbleDetails({
 					deviceIds: deviceIdList,
+					startDate: this.getNowFormatDate(new Date(),1),
+					endDate: this.getNowFormatDate(new Date(),1)
+				},cardId)
+			},
+			
+			// 为绑定设备的场景请求设备统计日数据(入厕场景)
+			requestToiletDeviceStatisticsData (deviceIdList,cardId) {
+				this.queryToiletDetails({
+					deviceId: deviceIdList,
 					startDate: this.getNowFormatDate(new Date(),1),
 					endDate: this.getNowFormatDate(new Date(),1)
 				},cardId)
@@ -1261,6 +1384,7 @@
 						&:first-child {
 							font-size: 14px;
 							color: #101010;
+							font-weight: bold;
 							margin-top: 0 !important;
 							@include no-wrap();
 							max-width: 200px;
@@ -1444,7 +1568,7 @@
 				}
 			};
 			.toilet-area-data {
-				height: 184px;
+				height: 200px;
 				margin-top: 8px;
 				.heart-rate-box {
 					height: 0;
@@ -1452,8 +1576,70 @@
 					display: flex;
 					flex-direction: column;
 					.toilet-chart {
-						height: 94px;
+						height: 50px;
 						position: relative;
+						.time-bar {
+							.time-line {
+								width: 100%;
+								height: 1px;
+								background: #BBBBBB
+							};
+							.time-text {
+								display: flex;
+								align-items: center;
+								>text {
+									flex: 1;
+									text-align: center;
+									font-size: 14px;
+									color: #101010
+								}
+							}
+						};
+						.icon-bar {
+							height: 40px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							margin-top: 4px;
+							>view {
+								width: 100px;
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								justify-content: center;
+								&:first-child {
+									margin-right: 10px;
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 21px;
+											height: 12px;
+											background: #F0F0F0
+										};
+										&:last-child {
+											font-size: 14px;
+											margin-top: 4px;
+											color: #101010
+										}
+									} 
+								};
+								&:last-child {
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 21px;
+											height: 12px;
+											background: #289E8E
+										};
+										&:last-child {
+											font-size: 14px;
+											margin-top: 4px;
+											color: #101010
+										}
+									} 
+								}
+							}
+						}
 					}
 				};
 				.toilet-no-data-box {

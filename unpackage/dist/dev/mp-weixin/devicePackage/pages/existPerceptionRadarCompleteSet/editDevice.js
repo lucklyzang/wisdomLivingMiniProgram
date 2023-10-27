@@ -106,6 +106,9 @@ try {
     uToast: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-toast/u-toast */ "node-modules/uview-ui/components/u-toast/u-toast").then(__webpack_require__.bind(null, /*! uview-ui/components/u-toast/u-toast.vue */ 687))
     },
+    yToast: function () {
+      return Promise.all(/*! import() | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then(__webpack_require__.bind(null, /*! @/components/y-toast/y-toast.vue */ 786))
+    },
     uForm: function () {
       return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-form/u-form */ "node-modules/uview-ui/components/u-form/u-form").then(__webpack_require__.bind(null, /*! uview-ui/components/u-form/u-form.vue */ 701))
     },
@@ -191,9 +194,15 @@ var navBar = function navBar() {
     return resolve(__webpack_require__(/*! @/components/zhouWei-navBar */ 803));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
+var yToast = function yToast() {
+  Promise.all(/*! require.ensure | components/y-toast/y-toast */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/y-toast/y-toast")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/y-toast/y-toast.vue */ 786));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
 var _default = {
   components: {
-    navBar: navBar
+    navBar: navBar,
+    yToast: yToast
   },
   data: function data() {
     return {

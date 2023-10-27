@@ -54,6 +54,7 @@
 			</u-popup>
 		</view>
 		<u-toast ref="uToast" />
+		<y-toast ref="ytoast"></y-toast>
 		<ourLoading isFullScreen :active="showLoadingHint"  :translateY="50" :text="infoText" color="#fff" textColor="#fff" background-color="rgb(143 143 143)"/>
 		<view class="nav">
 			<nav-bar :home="false" backState='3000' bgColor="none" fontColor="#101010" title="更多" @backClick="backTo">
@@ -139,9 +140,11 @@
 	import { deleteExistAlarmSettings} from '@/api/device.js'
 	import { updateUserDeviceBind, getUserRoomList, deleteUserDeviceBind } from '@/api/user.js'
 	import navBar from "@/components/zhouWei-navBar"
+	import yToast from "@/components/y-toast/y-toast.vue"
 	export default {
 		components: {
-			navBar
+			navBar,
+			yToast
 		},
 		data() {
 			return {

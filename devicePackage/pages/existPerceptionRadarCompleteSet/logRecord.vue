@@ -45,6 +45,7 @@
 		data() {
 			return {
 				infoText: '加载中',
+				isShowNoHomeNoData: false,
 				checked: false,
 				dateShow: false,
 				currentPageNum: 1,

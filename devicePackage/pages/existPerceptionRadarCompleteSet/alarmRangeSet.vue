@@ -14,7 +14,7 @@
 						<text>人员滞留报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="personRetentionAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="personRetentionAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 				<view class="person-retention-alarm-time-box">
@@ -47,7 +47,7 @@
 						<text>无人报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="noPersonAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="noPersonAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view> -->
 				<!-- <view class="person-retention-alarm-time-box">
@@ -80,7 +80,7 @@
 						<text>人员进入报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="personEnterAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="personEnterAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 				<view class="set-list">
@@ -88,7 +88,7 @@
 						<text>人员离开报警</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="personLeaveAlarmValue" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="personLeaveAlarmValue" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 			</view>

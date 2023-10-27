@@ -14,7 +14,7 @@
 						<text>{{ item.name }}</text>
 					</view>
 					<view class="set-list-right">
-						<u-switch v-model="item.checked" active-color="#5A7BF4" inactive-color="#9E9E9E"></u-switch>
+						<u-switch v-model="item.checked" active-color="#11D183" inactive-color="#9E9E9E"></u-switch>
 					</view>
 				</view>
 			</view>

@@ -244,17 +244,38 @@ var _default = {
       tumbleIconPng: __webpack_require__(/*! @/static/img/tumble-icon.png */ 112),
       leaveHomeIconPng: __webpack_require__(/*! @/static/img/leave-home-icon.png */ 113),
       sleepSmallIconPng: __webpack_require__(/*! @/static/img/sleep-small-icon.png */ 114),
-      sleepNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/71baf49e78e789d6cb800f5eafb51ab49a3edb9719057637ac5e2d07f6cb392f.png',
-      tumbleNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/9dc45d7936b93ecd9123e3cb742ccbd4b7fbf3e606b1fc07db74541e14215e5a.png',
-      toiletNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/0bdf3094ee81212e431bc129902cb5a784efd41096ea58463ca98bcd405aa4f4.png',
-      heartRateNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/934da7e1ea0046263d7b24157e03869b6c7438242ddbd289136333d08f40b00b.png',
-      breathNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/4883122414cefba013204326f9d98e179ec0e4be888d9e0a74ef7f20aaac4486.png',
-      leaveHomeNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/e441f237374d77250e76d72abfab32eabb239c055fc5bcbad9e0bd815e480d88.png',
+      sleepNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/c95f24a43725b7293404b91e7328e7d95bebd5acb1a4b2d0f53c0365effbf740.png',
+      tumbleNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/44aca0ac7237d6bbab8b1c852186227b2bccaede943b0b50a11ec81831209a18.png',
+      toiletNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/08135512fe88507769647aa2a8d4c6d021c371cfa34c5e1b7112fbd594c5369e.png',
+      heartRateNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/1fa5940196eb291b16f67a0cbbf6b2a5fd553b446c3a59488249a99d8c46e224.png',
+      breathNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/96020f150c154cce304efa7ddee97d65c9762ac7d6b3dc5a409a18af1f672df2.png',
+      leaveHomeNoDataPng: 'https://blink-radar.oss-cn-chengdu.aliyuncs.com/471133070b089731561a5221d5525362805945529955616686f409e7494a4a91.png',
       familyMemberList: [],
       deviceList: [],
       sceneDataList: {},
       totalSleepTime: '',
       tumbleOpts: {
+        padding: [10, 4, 10, 4],
+        dataLabel: false,
+        legend: {
+          show: false
+        },
+        xAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true
+        },
+        extra: {
+          bar: {
+            type: 'stack',
+            width: 20
+          }
+        }
+      },
+      toiletOpts: {
         padding: [10, 4, 10, 4],
         dataLabel: false,
         legend: {
@@ -704,50 +725,53 @@ var _default = {
         });
       });
     },
-    // 获取离、回家数据
-    queryLeaveHomeDetails: function queryLeaveHomeDetails(data, cardId) {
+    // 获取入厕数据
+    queryToiletDetails: function queryToiletDetails(data, cardId) {
       var _this4 = this;
-      (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
+      (0, _device.toiletDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
-          if (res.data.data.length == 0) {
-            _this4.$set(_this4.sceneDataList[cardId], 'isShowNoData', true);
-            return;
-          }
-          ;
-          var questData = res.data.data[0]['ruleDataVO'];
+          var questData = res.data.data;
+          // 入厕
           if (questData.length == 0) {
             _this4.$set(_this4.sceneDataList[cardId], 'isShowNoData', true);
-            return;
+          } else {
+            var temporaryData = {
+              categories: ['7-4'],
+              series: []
+            };
+            console.log('入', questData);
+            // 统计入厕次数
+            var temporaryCount = questData[0]['itemList'].filter(function (item) {
+              return item.type == 1;
+            }).length;
+            // 统计平均入厕时间
+            var temporaryAverageToiletDuration = Math.ceil((questData[0]['stoolTime'] + questData[0]['urinateTime']) / temporaryCount);
+            var detectionDuration = 24 * 60;
+            questData[0]['itemList'].forEach(function (item, index) {
+              var currentDurationPercentage = (item.end - item.start) / detectionDuration;
+              var currentDuration = Math.ceil(currentDurationPercentage * 100);
+              // type是否如厕 0-否， 1-是
+              if (item.type == 0) {
+                temporaryData['series'].push({
+                  name: "未检测到人体",
+                  color: "#F0F0F0",
+                  data: [1]
+                });
+              } else if (item.type == 1) {
+                temporaryData['series'].push({
+                  name: "入厕",
+                  color: "#289E8E",
+                  data: [20]
+                });
+              }
+            });
+            var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+            _this4.$set(_this4.sceneDataList[cardId], 'data', temporaryContent);
+            _this4.$set(_this4.sceneDataList[cardId], 'isShow', true);
+            _this4.$set(_this4.sceneDataList[cardId], 'averageToiletDuration', temporaryAverageToiletDuration);
+            _this4.$set(_this4.sceneDataList[cardId], 'toiletCount', temporaryCount);
+            console.log('入厕数据', _this4.sceneDataList[cardId]);
           }
-          ;
-          var temporaryData = {
-            categories: [],
-            series: [{
-              name: "离家",
-              data: []
-            }, {
-              name: "回家",
-              data: []
-            }]
-          };
-          questData.details.forEach(function (item, index) {
-            temporaryData['categories'].push(_this4.getNowFormatDate(new Date(item.createTime), 3));
-            if (item.goOut) {
-              temporaryData['series'][0]['data'].push(30);
-            } else {
-              temporaryData['series'][0]['data'].push('');
-            }
-            ;
-            if (item.enter) {
-              temporaryData['series'][1]['data'].push(30);
-            } else {
-              temporaryData['series'][1]['data'].push('');
-            }
-          });
-          var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-          _this4.$set(_this4.sceneDataList[cardId], 'data', temporaryContent);
-          _this4.$set(_this4.sceneDataList[cardId], 'isShow', true);
-          _this4.$set(_this4.sceneDataList[cardId], 'lastGoOut', new Date(questData['lastGoOut']));
         } else {
           _this4.$refs.uToast.show({
             title: res.data.msg,
@@ -763,9 +787,68 @@ var _default = {
         });
       });
     },
+    // 获取离、回家数据
+    queryLeaveHomeDetails: function queryLeaveHomeDetails(data, cardId) {
+      var _this5 = this;
+      (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
+        if (res && res.data.code == 0) {
+          if (res.data.data.length == 0) {
+            _this5.$set(_this5.sceneDataList[cardId], 'isShowNoData', true);
+            return;
+          }
+          ;
+          var questData = res.data.data[0]['ruleDataVO'];
+          if (questData.length == 0) {
+            _this5.$set(_this5.sceneDataList[cardId], 'isShowNoData', true);
+            return;
+          }
+          ;
+          var temporaryData = {
+            categories: [],
+            series: [{
+              name: "离家",
+              data: []
+            }, {
+              name: "回家",
+              data: []
+            }]
+          };
+          questData.details.forEach(function (item, index) {
+            temporaryData['categories'].push(_this5.getNowFormatDate(new Date(item.createTime), 3));
+            if (item.goOut) {
+              temporaryData['series'][0]['data'].push(30);
+            } else {
+              temporaryData['series'][0]['data'].push('');
+            }
+            ;
+            if (item.enter) {
+              temporaryData['series'][1]['data'].push(30);
+            } else {
+              temporaryData['series'][1]['data'].push('');
+            }
+          });
+          var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+          _this5.$set(_this5.sceneDataList[cardId], 'data', temporaryContent);
+          _this5.$set(_this5.sceneDataList[cardId], 'isShow', true);
+          _this5.$set(_this5.sceneDataList[cardId], 'lastGoOut', new Date(questData['lastGoOut']));
+        } else {
+          _this5.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+      }).catch(function (err) {
+        _this5.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 获取首页banner列表
     queryUserBannerList: function queryUserBannerList() {
-      var _this5 = this;
+      var _this6 = this;
       this.showLoadingHint = true;
       this.infoText = '加载中...';
       this.bannerList = [];
@@ -777,7 +860,7 @@ var _default = {
             try {
               for (_iterator.s(); !(_step = _iterator.n()).done;) {
                 var item = _step.value;
-                _this5.bannerList.push({
+                _this6.bannerList.push({
                   image: item.picUrl,
                   title: item.title
                 });
@@ -788,44 +871,6 @@ var _default = {
               _iterator.f();
             }
           }
-        } else {
-          _this5.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
-            position: 'bottom'
-          });
-        }
-        ;
-        _this5.showLoadingHint = false;
-      }).catch(function (err) {
-        _this5.showLoadingHint = false;
-        _this5.$refs.uToast.show({
-          title: err.message,
-          type: 'error',
-          position: 'bottom'
-        });
-      });
-    },
-    // 获取首页配置列表
-    queryHomePageList: function queryHomePageList(familyId) {
-      var _this6 = this;
-      this.showLoadingHint = true;
-      this.infoText = '加载中...';
-      this.deviceList = [];
-      (0, _home.getHomePageList)({
-        familyId: familyId
-      }).then(function (res) {
-        if (res && res.data.code == 0) {
-          _this6.deviceList = res.data.data.filter(function (item) {
-            return item.status == 0;
-          });
-          if (_this6.deviceList.length == 0) {
-            _this6.isShowHomeNoData = true;
-          } else {
-            _this6.questSceneDataQueue(_this6.deviceList);
-            _this6.isShowHomeNoData = false;
-          }
-          ;
         } else {
           _this6.$refs.uToast.show({
             title: res.data.msg,
@@ -844,9 +889,47 @@ var _default = {
         });
       });
     },
+    // 获取首页配置列表
+    queryHomePageList: function queryHomePageList(familyId) {
+      var _this7 = this;
+      this.showLoadingHint = true;
+      this.infoText = '加载中...';
+      this.deviceList = [];
+      (0, _home.getHomePageList)({
+        familyId: familyId
+      }).then(function (res) {
+        if (res && res.data.code == 0) {
+          _this7.deviceList = res.data.data.filter(function (item) {
+            return item.status == 0;
+          });
+          if (_this7.deviceList.length == 0) {
+            _this7.isShowHomeNoData = true;
+          } else {
+            _this7.questSceneDataQueue(_this7.deviceList);
+            _this7.isShowHomeNoData = false;
+          }
+          ;
+        } else {
+          _this7.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this7.showLoadingHint = false;
+      }).catch(function (err) {
+        _this7.showLoadingHint = false;
+        _this7.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 请求场景数据队列
     questSceneDataQueue: function questSceneDataQueue(data) {
-      var _this7 = this;
+      var _this8 = this;
       data.forEach(function (item, index, array) {
         // 有设备的场景进行请求数据
         if (item.hasOwnProperty('devices')) {
@@ -866,43 +949,51 @@ var _default = {
           }
           ;
           if (item.type == 0) {
-            _this7.$set(_this7.sceneDataList, item.id, {});
+            _this8.$set(_this8.sceneDataList, item.id, {});
             // 呼吸数据
-            _this7.$set(_this7.sceneDataList[item.id], 'breath', {});
-            _this7.$set(_this7.sceneDataList[item.id]['breath'], 'data', {});
-            _this7.$set(_this7.sceneDataList[item.id]['breath'], 'average', '');
-            _this7.$set(_this7.sceneDataList[item.id]['breath'], 'isShow', false);
-            _this7.$set(_this7.sceneDataList[item.id]['breath'], 'isShowNoData', false);
+            _this8.$set(_this8.sceneDataList[item.id], 'breath', {});
+            _this8.$set(_this8.sceneDataList[item.id]['breath'], 'data', {});
+            _this8.$set(_this8.sceneDataList[item.id]['breath'], 'average', '');
+            _this8.$set(_this8.sceneDataList[item.id]['breath'], 'isShow', false);
+            _this8.$set(_this8.sceneDataList[item.id]['breath'], 'isShowNoData', false);
             // 心率数据
-            _this7.$set(_this7.sceneDataList[item.id], 'heart', {});
-            _this7.$set(_this7.sceneDataList[item.id]['heart'], 'data', {});
-            _this7.$set(_this7.sceneDataList[item.id]['heart'], 'average', '');
-            _this7.$set(_this7.sceneDataList[item.id]['heart'], 'isShow', false);
-            _this7.$set(_this7.sceneDataList[item.id]['heart'], 'isShowNoData', false);
+            _this8.$set(_this8.sceneDataList[item.id], 'heart', {});
+            _this8.$set(_this8.sceneDataList[item.id]['heart'], 'data', {});
+            _this8.$set(_this8.sceneDataList[item.id]['heart'], 'average', '');
+            _this8.$set(_this8.sceneDataList[item.id]['heart'], 'isShow', false);
+            _this8.$set(_this8.sceneDataList[item.id]['heart'], 'isShowNoData', false);
             // 睡眠数据
-            _this7.$set(_this7.sceneDataList[item.id], 'sleep', {});
-            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'data', {});
-            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'isShow', false);
-            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepStartTime', '');
-            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepEndTime', '');
-            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepStartDate', '');
-            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepEndDate', '');
-            _this7.$set(_this7.sceneDataList[item.id]['sleep'], 'sleepTime', '');
-            _this7.requestSleepDeviceStatisticsData(temporaryDevices[0], item.id);
+            _this8.$set(_this8.sceneDataList[item.id], 'sleep', {});
+            _this8.$set(_this8.sceneDataList[item.id]['sleep'], 'data', {});
+            _this8.$set(_this8.sceneDataList[item.id]['sleep'], 'isShow', false);
+            _this8.$set(_this8.sceneDataList[item.id]['sleep'], 'sleepStartTime', '');
+            _this8.$set(_this8.sceneDataList[item.id]['sleep'], 'sleepEndTime', '');
+            _this8.$set(_this8.sceneDataList[item.id]['sleep'], 'sleepStartDate', '');
+            _this8.$set(_this8.sceneDataList[item.id]['sleep'], 'sleepEndDate', '');
+            _this8.$set(_this8.sceneDataList[item.id]['sleep'], 'sleepTime', '');
+            _this8.requestSleepDeviceStatisticsData(temporaryDevices[0], item.id);
+          } else if (item.type == 1) {
+            _this8.$set(_this8.sceneDataList, item.id, {});
+            _this8.$set(_this8.sceneDataList[item.id], 'data', {});
+            _this8.$set(_this8.sceneDataList[item.id], 'toiletCount', {});
+            _this8.$set(_this8.sceneDataList[item.id], 'averageToiletDuration', {});
+            _this8.$set(_this8.sceneDataList[item.id], 'isShow', false);
+            _this8.$set(_this8.sceneDataList[item.id], 'isShowNoData', false);
+            _this8.requestToiletDeviceStatisticsData(temporaryDevices[0], item.id);
           } else if (item.type == 2) {
-            _this7.$set(_this7.sceneDataList, item.id, {});
-            _this7.$set(_this7.sceneDataList[item.id], 'data', {});
-            _this7.$set(_this7.sceneDataList[item.id], 'tumbleCount', '');
-            _this7.$set(_this7.sceneDataList[item.id], 'isShow', false);
-            _this7.$set(_this7.sceneDataList[item.id], 'isShowNoData', false);
-            _this7.requestTumbleDeviceStatisticsData(temporaryDevices, item.id);
+            _this8.$set(_this8.sceneDataList, item.id, {});
+            _this8.$set(_this8.sceneDataList[item.id], 'data', {});
+            _this8.$set(_this8.sceneDataList[item.id], 'tumbleCount', '');
+            _this8.$set(_this8.sceneDataList[item.id], 'isShow', false);
+            _this8.$set(_this8.sceneDataList[item.id], 'isShowNoData', false);
+            _this8.requestTumbleDeviceStatisticsData(temporaryDevices, item.id);
           } else if (item.type == 3) {
-            _this7.$set(_this7.sceneDataList, item.id, {});
-            _this7.$set(_this7.sceneDataList[item.id], 'data', {});
-            _this7.$set(_this7.sceneDataList[item.id], 'lastGoOut', '');
-            _this7.$set(_this7.sceneDataList[item.id], 'isShow', false);
-            _this7.$set(_this7.sceneDataList[item.id], 'isShowNoData', false);
-            _this7.requestEnterLeaveHomeDetails(temporaryDevices[0], item.id);
+            _this8.$set(_this8.sceneDataList, item.id, {});
+            _this8.$set(_this8.sceneDataList[item.id], 'data', {});
+            _this8.$set(_this8.sceneDataList[item.id], 'lastGoOut', '');
+            _this8.$set(_this8.sceneDataList[item.id], 'isShow', false);
+            _this8.$set(_this8.sceneDataList[item.id], 'isShowNoData', false);
+            _this8.requestEnterLeaveHomeDetails(temporaryDevices[0], item.id);
           }
         }
       });
@@ -922,6 +1013,14 @@ var _default = {
         endDate: this.getNowFormatDate(new Date(), 1)
       }, cardId);
     },
+    // 为绑定设备的场景请求设备统计日数据(入厕场景)
+    requestToiletDeviceStatisticsData: function requestToiletDeviceStatisticsData(deviceIdList, cardId) {
+      this.queryToiletDetails({
+        deviceId: deviceIdList,
+        startDate: this.getNowFormatDate(new Date(), 1),
+        endDate: this.getNowFormatDate(new Date(), 1)
+      }, cardId);
+    },
     // 为绑定设备的场景请求设备统计日数据(离、回家场景)
     requestEnterLeaveHomeDetails: function requestEnterLeaveHomeDetails(deviceIdList, cardId) {
       this.queryLeaveHomeDetails({
@@ -932,12 +1031,12 @@ var _default = {
     },
     // 初始家庭信息
     initFamilyInfo: function initFamilyInfo() {
-      var _this8 = this;
+      var _this9 = this;
       this.familyMemberList = [];
       this.familyMemberList = _lodash.default.cloneDeep(this.familyMessage.familyMemberList);
       if (this.familyId) {
         this.initValue = this.familyMessage.familyMemberList.filter(function (el) {
-          return el.id == _this8.familyId;
+          return el.id == _this9.familyId;
         })[0]['value'];
       } else {
         this.initValue = this.familyMemberList[0]['value'];

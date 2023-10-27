@@ -8,7 +8,7 @@
 		</view>
 		<view class="content-area" v-if="!isShowNoDeviceData">
 			<view class="content-top">
-				<text>{{`已为您检测到${deviceList.length}个睡眠相关雷达`}}</text>
+				<text>{{`已为您检测到${deviceList.length}个${radarTransition(currentNeedBindDevicesMessage.type)}相关雷达`}}</text>
 				<text>请选择其中一个进行绑定</text>
 			</view>
 			<view class="content-bottom">
@@ -108,6 +108,26 @@
 				temporaryMessage['type'] = item.type;
 				temporaryMessage['message'] = item;
 				this.changeCurrentNeedBindDevicesMessage(temporaryMessage)
+			},
+			
+			// 雷达类型转换
+			// 睡眠:1-体征雷达,入厕:2-存在感知雷达,跌倒:3-跌倒监测雷达,离回家:4-人体检测雷达
+			radarTransition (type) {
+				let textValue = type.toString();
+				switch (textValue) {
+					case '1':
+						return "睡眠"
+						break;
+					case '2':
+						return "如厕"
+						break;
+					case '3':
+						return "跌倒"
+						break;
+					case '4':
+						return "离/回家"
+						break
+				}
 			},
 			
 			// 获取用户设备信息

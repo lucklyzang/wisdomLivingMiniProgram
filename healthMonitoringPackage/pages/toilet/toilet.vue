@@ -12,7 +12,7 @@
 					<u-subsection :list="itemList" :current="currentItem" @change="change"></u-subsection>
 				</view>
 				<view class="content-top-content">
-					<view class="day-data-area" v-if="currentItem == 0">
+					<view class="day-data-area day-data-area-other" v-if="currentItem == 0">
 						<view class="data-top">
 							<view>
 								<u-icon name="arrow-left" size="40" color="#101010" @click="getCurrentDate('minus')"></u-icon>
@@ -27,7 +27,32 @@
 							</view>
 						</view>
 						<view class="data-bottom">
-							
+							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
+							<qiun-data-charts v-if="dayChartData.isShow" type="bar" :canvas2d="true" canvasId="ak89fghkdj4ggfdsfg45" :ontouch="true" :opts="toiletOpts" :chartData="dayChartData['data']" />
+						</view>
+						<view class="toilet-chart-message" v-if="dayChartData.isShow">
+							<view class="time-bar">
+								<view class="time-line"></view>
+								<view class="time-text">
+									<text>00:00</text>
+									<text>04:00</text>
+									<text>08:00</text>
+									<text>12:00</text>
+									<text>16:00</text>
+									<text>20:00</text>
+									<text>23:59</text>
+								</view>
+							</view>
+							<view class="icon-bar" v-if="dayChartData.isShow">
+								<view>
+									<text></text>
+									<text>正常</text>
+								</view>
+								<view>
+									<text></text>
+									<text>跌倒</text>
+								</view>
+							</view>
 						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
@@ -73,11 +98,11 @@
 					<view class="data-content">
 						<view class="data-content-top">
 							<view class="content-top-left">
-								<text>5次</text>
+								<text>{{`${stool}次`}}</text>
 								<text>大便次数</text>
 							</view>
 							<view class="content-top-right">
-								<text>2次</text>
+								<text>{{`${urinate}次`}}</text>
 								<text>小便次数</text>
 							</view>
 						</view>
@@ -114,6 +139,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import { createVisitPageData, exitPageData } from '@/api/user.js'
+	import { toiletDetails } from '@/api/device.js'
 	export default {
 		components: {
 			navBar
@@ -145,7 +171,42 @@
 				initMonthDate: '',
 				weekMap: {},
 				temporaryDevices: [],
-				visitPageId: ''
+				visitPageId: '',
+				stool: '',
+				urinate: '',
+				stoolAverageTime: '',
+				urinateAverageTime: '',
+				dayChartData: {
+					isShow: true,
+					data: {}
+				},
+				weekChartData: {
+					isShow: true,
+					data: {}
+				},
+				monthChartData: {
+					isShow: true,
+					data: {}
+				},
+				toiletOpts: {
+					padding: [10,4,10,4],
+					dataLabel: false,
+					legend: { show: false },
+					xAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					yAxis: {
+						disabled: true,
+						disableGrid: true
+					},
+					extra: {
+						bar: {
+							type: 'stack',
+							width: 20
+						}
+					}
+				}
 			}
 		},
 		onLoad() {
@@ -161,6 +222,11 @@
 			for (let el of this.deviceDataMessage.devices) {
 				this.temporaryDevices.push(el.device)
 			};
+			this.queryToiletDetails({
+				deviceId: this.temporaryDevices[0],
+				startDate: this.getNowFormatDate(new Date(),2),
+				endDate: this.getNowFormatDate(new Date(),2)
+			},'day');
 		},
 		destroyed () {
 			if (!this.visitPageId && this.visitPageId !== 0) {
@@ -214,6 +280,192 @@
 					}
 				})
 				.catch((err) => {
+				})
+			},
+			
+			// 获取入厕数据
+			queryToiletDetails (data,text) {
+				this.stool = '';
+				this.urinate = '';
+				this.stoolAverageTime = '';
+				this.urinateAverageTime = '';
+				if (text == 'day') {
+					this.dayChartData = {
+						isShow: true,
+						data: {}
+					}
+				} else if (text == 'week') {
+					this.weekChartData = {
+						isShow: true,
+						data: {}
+					}
+				};
+				toiletDetails(data).then((res) => {
+					if ( res && res.data.code == 0) {
+						if (text == 'day') {
+							let questData = res.data.data;
+							this.dayChartData['isShow'] = true;
+							if ( questData.length == 0 ) {
+								this.stool = '-';
+								this.urinate = '-';
+								this.stoolAverageTime = '-';
+								this.urinateAverageTime = '-';
+								this.dayChartData = {
+									isShow: false,
+									data: {}
+								}
+							} else {
+								this.dayChartData['isShow'] = true;
+								this.stool = questData[0]['stool'];
+								this.urinate = questData[0]['urinate'];
+								this.stoolAverageTime = '';
+								this.urinateAverageTime = '';
+								// type是否如厕 0-否， 1-是
+								let temporaryData = {
+									categories: ['7-4'],
+									series: []
+								};
+								questData[0]['itemList'].forEach((item,index) => {
+									if (item.type == 0) {
+										temporaryData['series'].push(
+											{
+												name: "未检测到人体",
+												color: "#F0F0F0",
+												data: [1]
+											}
+										)
+									} else if (item.type == 1) {
+										temporaryData['series'].push(
+											{
+												name: "入厕",
+												color: "#289E8E",
+												data: [20]
+											}
+										)
+									}
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.dayChartData['data'] = temporaryContent
+							}
+						}	else if (text == 'week') {
+							this.weekChartData['isShow'] = true;
+							this.currentWeekXaxisArr = [];
+							if (res.data.data.length > 0) {
+								let questData = res.data.data;
+								this.weekChartData['isShow'] = true;
+								let lengthArr = [];
+								let maxColumn;
+								let temporaryData = {
+									categories: [],
+									series: []
+								};
+								questData.forEach((item,index) => {
+									temporaryData['categories'].push(this.judgeWeek(item.date));
+									this.currentWeekXaxisArr.push(item.date);
+									lengthArr.push(item.resItemVos.length);
+								});
+								// 按所有天中数据最多的那天算(每天的数据条数不一致)
+								maxColumn = Math.max.apply(null,lengthArr);
+								for (let i = 0;i < maxColumn;i++) {
+									temporaryData['series'].push({
+										"data": []
+									})
+								};
+								temporaryData['series'].forEach((item,index) => {
+									this.currentWeekXaxisArr.forEach((innerItem,innerIndex) => {
+										let currentData = questData[innerIndex]['resItemVos'];
+										if (currentData[index]) {
+											if (currentData[index]['status'] == 0) {
+												item['data'].push(
+													{value:1,color:"#F0F0F0"}
+												)
+											} else if (currentData[index]['status'] == 1) {
+												item['data'].push(
+													{value:3,color:"#E8CB51"}
+												)
+											}
+										} else {
+											item['data'].push(
+												{value: 1,color: '#F0F0F0'}
+											)
+										}
+									})
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.weekChartData['data'] = temporaryContent;
+							} else {
+								this.weekChartData = {
+									isShow: false,
+									data: {}
+								};
+							}
+						} else if (text == 'month') {
+							this.monthChartData['isShow'] = true;
+							this.currentMonthXaxisArr = [];
+							if (res.data.data.length > 0) {
+								let questData = res.data.data;
+								this.monthChartData['isShow'] = true;
+								let lengthArr = [];
+								let maxColumn;
+								let temporaryData = {
+									categories: [],
+									series: []
+								};
+								questData.forEach((item,index) => {
+									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.date),5));
+									this.currentMonthXaxisArr.push(item.date);
+									lengthArr.push(item.resItemVos.length);
+								});
+								// 按所有天中数据最多的那天算(每天的数据条数不一致)
+								maxColumn = Math.max.apply(null,lengthArr);
+								for (let i = 0;i < maxColumn;i++) {
+									temporaryData['series'].push({
+										"data": []
+									})
+								};
+								temporaryData['series'].forEach((item,index) => {
+									this.currentMonthXaxisArr.forEach((innerItem,innerIndex) => {
+										let currentData = questData[innerIndex]['resItemVos'];
+										if (currentData[index]) {
+											if (currentData[index]['status'] == 0) {
+												item['data'].push(
+													{value:1,color:"#F0F0F0"}
+												)
+											} else if (currentData[index]['status'] == 1) {
+												item['data'].push(
+													{value:3,color:"#E8CB51"}
+												)
+											}
+										} else {
+											item['data'].push(
+												{value: 1,color: '#F0F0F0'}
+											)
+										}
+									})
+								});
+								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
+								this.monthChartData['data'] = temporaryContent;
+							} else {
+								this.monthChartData = {
+									isShow: false,
+									data: {}
+								};
+							}
+						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					}
+				})
+				.catch((err) => {
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
 				})
 			},
 			
@@ -549,14 +801,21 @@
 					margin: 0 auto;
 					margin-top: 20px;
 					::v-deep .u-subsection {
-						.u-item-bg {
-							height: 24px !important;
-							bottom: 5px !important
-						}
+						// .u-item-bg {
+						// 	height: 24px !important;
+						// 	bottom: 5px !important
+						// }
 					}
 				};
 				.content-top-content {
 					flex: 1;
+					.day-data-area-other {
+						.data-bottom {
+							position: relative;
+							margin-top: 10px;
+							height: 80px !important
+						}
+					};
 					.day-data-area {
 						display: flex;
 						flex-direction: column;
@@ -594,6 +853,73 @@
 							 	top: 40%;
 							 	left: 50%;
 							 	transform: translate(-50%,-50%)
+							}
+						};
+						.toilet-chart-message {
+							height: 250px;
+							margin-top: 30px;
+							position: relative;
+							.time-bar {
+								.time-line {
+									width: 100%;
+									height: 1px;
+									background: #BBBBBB
+								};
+								.time-text {
+									display: flex;
+									align-items: center;
+									>text {
+										flex: 1;
+										text-align: center;
+										font-size: 14px;
+										color: #101010
+									}
+								}
+							};
+							.icon-bar {
+								height: 40px;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								margin-top: 30px;
+								>view {
+									width: 100px;
+									display: flex;
+									flex-direction: column;
+									align-items: center;
+									justify-content: center;
+									&:first-child {
+										margin-right: 10px;
+										>text {
+											display: inline-block;
+											&:first-child {
+												width: 21px;
+												height: 12px;
+												background: #F0F0F0
+											};
+											&:last-child {
+												font-size: 14px;
+												margin-top: 4px;
+												color: #101010
+											}
+										} 
+									};
+									&:last-child {
+										>text {
+											display: inline-block;
+											&:first-child {
+												width: 21px;
+												height: 12px;
+												background: #289E8E
+											};
+											&:last-child {
+												font-size: 14px;
+												margin-top: 4px;
+												color: #101010
+											}
+										} 
+									}
+								}
 							}
 						}
 					}
