@@ -1270,19 +1270,17 @@
 			};
 			.bind-sleep-device-area {
 				margin-top: 2px;
-				padding: 4px 10px;
+				padding: 4px 0;
 				box-sizing: border-box;
 				background: #fff;
 				height: 275px;
 				border-radius: 10px;
 				display: flex;
 				flex-direction: column;
-				background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/ca12a50a2a2cd49eb1e637bf252c4ae3c76afacdade1a666d869c730ebf6fecc.png") no-repeat;
-				background-size: 100% 100%;
-				background-origin: padding-box;
-				background-clip: border-box;
 				>view {
 					&:nth-child(1) {
+						padding: 0 10px;
+						box-sizing: border-box;
 						font-size: 14px;
 						color: #101010;
 						font-weight: bold;
@@ -1290,6 +1288,11 @@
 					};
 					&:nth-child(2) {
 						flex: 1;
+						box-sizing: border-box;
+						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/ca12a50a2a2cd49eb1e637bf252c4ae3c76afacdade1a666d869c730ebf6fecc.png") no-repeat;
+						background-size: 100% 100%;
+						background-origin: padding-box;
+						background-clip: border-box;
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
@@ -1339,27 +1342,39 @@
 			.bind-toileting-device-area {
 				height: 159px !important;
 				margin-top: 4px;
-				background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d57a9b26423730ff135874cae1e5894a6b2ee79943bbd951228bba54f2c02194.png") no-repeat;
-				background-size: 100% 100%;
-				background-origin: padding-box;
-				background-clip: border-box;
+				>view {
+					&:nth-child(2) {
+						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d57a9b26423730ff135874cae1e5894a6b2ee79943bbd951228bba54f2c02194.png") no-repeat;
+						background-size: 100% 100%;
+						background-origin: padding-box;
+						background-clip: border-box;
+					}
+				}
 			};
 			.tumble-toileting-device-area {
 				height: 132px !important;
 				margin-top: 4px;
-				background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/31c68ce6cdc34b2cefcdba8d2f2b2310a21dc2f7ef8ed8392339392c5c318193.png") no-repeat;
-				background-size: 100% 100%;
-				background-origin: padding-box;
-				background-clip: border-box;
+				>view {
+					&:nth-child(2) {
+						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/31c68ce6cdc34b2cefcdba8d2f2b2310a21dc2f7ef8ed8392339392c5c318193.png") no-repeat;
+						background-size: 100% 100%;
+						background-origin: padding-box;
+						background-clip: border-box;
+					}
+				}
 			};
 			.leave-home-device-area {
 				height: 159px !important;
 				margin-top: 4px;
 				margin-bottom: 4px;
-				background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d559b5e7d90cee733f9f9082bef8e1f9e19b01d1179a95b8c76974d7a012f6e6.png") no-repeat;
-				background-size: 100% 100%;
-				background-origin: padding-box;
-				background-clip: border-box;
+				>view {
+					&:nth-child(2) {
+						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d559b5e7d90cee733f9f9082bef8e1f9e19b01d1179a95b8c76974d7a012f6e6.png") no-repeat;
+						background-size: 100% 100%;
+						background-origin: padding-box;
+						background-clip: border-box;
+					}
+				}
 			};
 			.sleep-area-data {
 				background: #fff;
