@@ -243,14 +243,17 @@ var _default = {
       currentItem: 0,
       dayChartData: {
         isShow: true,
+        noData: false,
         data: {}
       },
       weekChartData: {
         isShow: true,
+        noData: false,
         data: {}
       },
       monthChartData: {
         isShow: true,
+        noData: false,
         data: {}
       },
       chartWeekData: {},
@@ -509,12 +512,12 @@ var _default = {
       this.daySleepTime = '';
       this.dayChartData = {
         isShow: true,
+        noData: true,
         data: {}
       };
       (0, _device.sleepStatisticsDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           var questData = res.data.data;
-          _this2.dayChartData['isShow'] = true;
           // 心率
           if (JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
             _this2.initDayTime = '-';
@@ -522,6 +525,7 @@ var _default = {
             _this2.daySleepTime = '-';
             _this2.dayChartData = {
               isShow: false,
+              noData: true,
               data: {}
             };
           } else {
@@ -533,6 +537,7 @@ var _default = {
             _this2.average = Math.floor(questData.heart.average);
             _this2.quietness = Math.floor(questData.heart.heartSilent);
             _this2.dayChartData['isShow'] = true;
+            _this2.dayChartData['noData'] = false;
             var temporaryData = {
               categories: [],
               series: [{
@@ -575,6 +580,7 @@ var _default = {
         this.currentWeekYaxisArr = [];
         this.weekChartData = {
           isShow: true,
+          noData: true,
           data: {}
         };
       } else if (type == 'month') {
@@ -583,6 +589,7 @@ var _default = {
         this.currentMonthYaxisArr = [];
         this.monthChartData = {
           isShow: true,
+          noData: true,
           data: {}
         };
       }
@@ -591,12 +598,15 @@ var _default = {
         if (res && res.data.code == 0) {
           if (type == 'week') {
             var questData = res.data.data;
-            _this3.weekChartData['isShow'] = true;
             if (JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
               _this3.initWeekText = '-';
               _this3.daySleepTime = '-';
+              _this3.lowest = '-';
+              _this3.daySleepTime = '-';
+              _this3.highest = '-';
               _this3.weekChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             } else {
@@ -609,7 +619,6 @@ var _default = {
                 _this3.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
               } else {
                 _this3.initWeekText = '-';
-                _this3.initMonthText = '-';
                 _this3.daySleepTime = '-';
                 _this3.quietness = '-';
                 _this3.lowest = '-';
@@ -617,6 +626,7 @@ var _default = {
               }
               ;
               _this3.weekChartData['isShow'] = true;
+              _this3.weekChartData['noData'] = false;
               var temporaryData = {
                 categories: [],
                 series: [{
@@ -643,12 +653,15 @@ var _default = {
             }
           } else if (type == 'month') {
             var _questData = res.data.data;
-            _this3.monthChartData['isShow'] = true;
             if (JSON.stringify(res.data.data) == '{}' || _questData.respVOList.length == 0) {
               _this3.initMonthText = '-';
               _this3.daySleepTime = '-';
+              _this3.lowest = '-';
+              _this3.daySleepTime = '-';
+              _this3.highest = '-';
               _this3.monthChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             } else {
@@ -661,13 +674,13 @@ var _default = {
                 _this3.quietness = Math.floor(_questData.respVOList[0]['heartSilent']);
               } else {
                 _this3.initMonthText = '-';
-                _this3.initMonthText = '-';
                 _this3.lowest = '-';
                 _this3.daySleepTime = '-';
                 _this3.highest = '-';
               }
               ;
               _this3.monthChartData['isShow'] = true;
+              _this3.monthChartData['noData'] = false;
               var _temporaryData = {
                 categories: [],
                 series: [{

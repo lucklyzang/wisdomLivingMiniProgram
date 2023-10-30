@@ -236,6 +236,7 @@ var _default = {
       }],
       dayChartData: {
         isShow: true,
+        noData: false,
         sleepStartTime: '',
         sleepEndTime: '',
         sleepStartDate: '',
@@ -244,10 +245,12 @@ var _default = {
       },
       weekChartData: {
         isShow: true,
+        noData: false,
         data: {}
       },
       monthChartData: {
         isShow: true,
+        noData: false,
         data: {}
       },
       sleepDayOpts: {
@@ -282,6 +285,7 @@ var _default = {
         },
         xAxis: {
           itemCount: 7,
+          scrollShow: true,
           axisLine: false
         },
         yAxis: {
@@ -306,6 +310,7 @@ var _default = {
       sleepMonthOpts: {
         dataPointShape: false,
         dataLabel: false,
+        enableScroll: true,
         color: ["#F7A4B6"],
         padding: [10, 10, 10, 10],
         legend: {
@@ -465,6 +470,7 @@ var _default = {
       this.daySleepTime = '';
       this.dayChartData = {
         isShow: true,
+        noData: true,
         sleepStartTime: '',
         sleepEndTime: '',
         sleepStartDate: '',
@@ -474,7 +480,6 @@ var _default = {
       (0, _device.sleepStatisticsDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           var questData = res.data.data;
-          _this2.dayChartData['isShow'] = true;
           // 睡眠
           if (JSON.stringify(res.data.data) == '{}' || JSON.stringify(questData.sleepVO) == '{}') {
             _this2.initDayText = '-';
@@ -482,6 +487,7 @@ var _default = {
             _this2.daySleepTime = '-';
             _this2.dayChartData = {
               isShow: false,
+              noData: true,
               sleepStartTime: '',
               sleepEndTime: '',
               sleepStartDate: '',
@@ -496,6 +502,7 @@ var _default = {
             if (temporaryDataArr.length == 0) {
               _this2.dayChartData = {
                 isShow: false,
+                noData: true,
                 sleepStartTime: '',
                 sleepEndTime: '',
                 sleepStartDate: '',
@@ -505,10 +512,11 @@ var _default = {
               return;
             }
             ;
+            _this2.dayChartData['isShow'] = true;
+            _this2.dayChartData['noData'] = false;
             _this2.daySleepTime = _this2.minutesTransitionHour(questData.sleepVO['dayTime']);
             _this2.daySleepTimeQuantum = _this2.daySleepTime == '0分钟' ? "" : "".concat(_this2.getNowFormatDate(new Date(questData.sleepVO['dayStart']), 1), "-").concat(_this2.getNowFormatDate(new Date(questData.sleepVO['dayEnd']), 1));
             _this2.initDayText = _this2.minutesTransitionHour(questData.sleepVO['totalTime'] - questData.sleepVO['dayTime']);
-            _this2.dayChartData['isShow'] = true;
             var temporaryData = {
               categories: ["7-9"],
               series: []
@@ -574,6 +582,7 @@ var _default = {
         this.initWeekText = '';
         this.weekChartData = {
           isShow: true,
+          noData: true,
           data: {}
         };
       } else if (type == 'month') {
@@ -582,6 +591,7 @@ var _default = {
         this.initMonthText = '';
         this.monthChartData = {
           isShow: true,
+          noData: true,
           data: {}
         };
       }
@@ -590,13 +600,13 @@ var _default = {
         if (res && res.data.code == 0) {
           if (type == 'week') {
             var questData = res.data.data;
-            _this3.weekChartData['isShow'] = true;
             if (JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
               _this3.initWeekText = '-';
               _this3.daySleepTimeQuantum = '-';
               _this3.daySleepTime = '-';
               _this3.weekChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             } else {
@@ -606,6 +616,7 @@ var _default = {
                 _this3.daySleepTime = '-';
                 _this3.weekChartData = {
                   isShow: false,
+                  noData: true,
                   data: {}
                 };
                 return;
@@ -622,6 +633,7 @@ var _default = {
               }
               ;
               _this3.weekChartData['isShow'] = true;
+              _this3.weekChartData['noData'] = false;
               var temporaryData = {
                 categories: [],
                 series: [{
@@ -661,13 +673,13 @@ var _default = {
             }
           } else if (type == 'month') {
             var _questData = res.data.data;
-            _this3.monthChartData['isShow'] = true;
             if (JSON.stringify(res.data.data) == '{}' || _questData.respVOList.length == 0) {
               _this3.initMonthText = '-';
               _this3.daySleepTimeQuantum = '-';
               _this3.daySleepTime = '-';
               _this3.monthChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             } else {
@@ -677,6 +689,7 @@ var _default = {
                 _this3.daySleepTime = '-';
                 _this3.monthChartData = {
                   isShow: false,
+                  noData: true,
                   data: {}
                 };
                 return;
@@ -693,6 +706,7 @@ var _default = {
               }
               ;
               _this3.monthChartData['isShow'] = true;
+              _this3.monthChartData['noData'] = false;
               var _temporaryData = {
                 categories: [],
                 series: [{

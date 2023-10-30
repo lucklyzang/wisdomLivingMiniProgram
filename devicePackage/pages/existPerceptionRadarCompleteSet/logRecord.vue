@@ -15,7 +15,7 @@
 			<view class="log-list-wrapper">
 				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
-					<view class="log-list" v-for="(item,index) in logList" :key="index">
+					<view class="log-list" v-for="(item,index) in fullRecordList" :key="index">
 						<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
 						<text>>>></text>
 						<text>一人进入</text>

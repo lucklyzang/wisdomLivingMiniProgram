@@ -137,7 +137,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.__map(_vm.logList, function (item, index) {
+  var l0 = _vm.__map(_vm.fullRecordList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m0 = _vm.getNowFormatDate(new Date(item.createTime), 4)
     return {

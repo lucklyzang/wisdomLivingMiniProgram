@@ -16,8 +16,8 @@
 					<text>添加设备</text>
 				</view>
 				<view>
-					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/3131a72d2618fe9c61c413fb5e357fb45a9e80e16df605585da4773fd5ddf4c1.gif"></image>
-					<text>自动搜寻附近设备中…</text>
+					<image src="https://blink-radar.oss-cn-chengdu.aliyuncs.com/dd9c4e6794ee7eed46be5aa77f10678738377b9ce264ef7cd06d0e6e70ade3f7.png"></image>
+					<text class="text-opacity">自动搜寻附近设备中…</text>
 					<text>部分设备需Wi-Fi扫描，请开启WLAN</text>
 				</view>
 				<view>
@@ -218,6 +218,14 @@
 		width: 100%;
 		height: 100%;
 	};
+	 @keyframes fadeOut {
+			0% {
+					opacity: 0.4;
+			}
+			100% {
+					opacity: 1;
+			}
+	};
 	.content-box {
 		@include content-wrapper;
 		padding-bottom: 0;
@@ -259,25 +267,28 @@
 						font-size: 20px
 					};
 					&:nth-child(2) {
-						flex: 1;
+						height: 200px;
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
 						align-items: center;
 						>image {
-							width: 140px;
-							height: 140px
+							width: 130px;
+							height: 93px
+						};
+						.text-opacity {
+							animation: fadeOut 0.5s infinite alternate;
 						};
 						>text {
 							&:nth-of-type(1) {
 								margin-top: 20px;
-								color: #101010;
+								color: #11D183;
 								font-size: 14px
 							};
 							&:nth-of-type(2) {
 								color: #656565;
 								font-size: 14px;
-								margin-top: 4px;
+								margin-top: 30px;
 							}
 						}
 					};

@@ -346,12 +346,15 @@ var _default = {
       currentMonthDate: ''
     }, (0, _defineProperty2.default)(_ref, "currentMonthDate", ''), (0, _defineProperty2.default)(_ref, "currentMonthDays", ''), (0, _defineProperty2.default)(_ref, "initMonthDate", ''), (0, _defineProperty2.default)(_ref, "weekMap", {}), (0, _defineProperty2.default)(_ref, "temporaryDevices", []), (0, _defineProperty2.default)(_ref, "visitPageId", ''), (0, _defineProperty2.default)(_ref, "dayChartData", {
       isShow: true,
+      noData: false,
       data: {}
     }), (0, _defineProperty2.default)(_ref, "weekChartData", {
       isShow: true,
+      noData: false,
       data: {}
     }), (0, _defineProperty2.default)(_ref, "monthChartData", {
       isShow: true,
+      noData: false,
       data: {}
     }), (0, _defineProperty2.default)(_ref, "currentPageNum", 1), (0, _defineProperty2.default)(_ref, "pageSize", 20), (0, _defineProperty2.default)(_ref, "totalCount", 0), (0, _defineProperty2.default)(_ref, "status", 'nomore'), (0, _defineProperty2.default)(_ref, "isShowNoHomeNoData", false), (0, _defineProperty2.default)(_ref, "fullRecordList", []), (0, _defineProperty2.default)(_ref, "recordList", []), _ref;
   },
@@ -540,11 +543,19 @@ var _default = {
       if (text == 'day') {
         this.dayChartData = {
           isShow: true,
+          noData: true,
           data: {}
         };
       } else if (text == 'week') {
         this.weekChartData = {
           isShow: true,
+          noData: true,
+          data: {}
+        };
+      } else if (text == 'month') {
+        this.monthChartData = {
+          isShow: true,
+          noData: true,
           data: {}
         };
       }
@@ -553,15 +564,16 @@ var _default = {
         if (res && res.data.code == 0) {
           if (text == 'day') {
             var questData = res.data.data;
-            _this3.dayChartData['isShow'] = true;
             // 跌倒
             if (questData.length == 0) {
               _this3.dayChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             } else {
               _this3.dayChartData['isShow'] = true;
+              _this3.dayChartData['noData'] = false;
               // status: 0-正常，1-跌倒
               var temporaryData = {
                 categories: ['7-4'],
@@ -590,11 +602,11 @@ var _default = {
               _this3.dayChartData['data'] = temporaryContent;
             }
           } else if (text == 'week') {
-            _this3.weekChartData['isShow'] = true;
             _this3.currentWeekXaxisArr = [];
             if (res.data.data.length > 0) {
               var _questData = res.data.data;
               _this3.weekChartData['isShow'] = true;
+              _this3.weekChartData['noData'] = false;
               var lengthArr = [];
               var maxColumn;
               var _temporaryData = {
@@ -642,15 +654,16 @@ var _default = {
             } else {
               _this3.weekChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             }
           } else if (text == 'month') {
-            _this3.monthChartData['isShow'] = true;
             _this3.currentMonthXaxisArr = [];
             if (res.data.data.length > 0) {
               var _questData2 = res.data.data;
               _this3.monthChartData['isShow'] = true;
+              _this3.monthChartData['noData'] = false;
               var _lengthArr = [];
               var _maxColumn;
               var _temporaryData2 = {
@@ -698,6 +711,7 @@ var _default = {
             } else {
               _this3.monthChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             }

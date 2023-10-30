@@ -30,7 +30,7 @@
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
 							<qiun-data-charts v-if="dayChartData.isShow" :inScrollView="true" type="bar" :canvas2d="true" canvasId="abc1fgfgfdfdfdshdjshd3" :ontouch="true" :opts="sleepDayOpts" :chartData="dayChartData.data" />
 						</view>
-						<view class="sleep-range" v-if="dayChartData['isShow']">
+						<view class="sleep-range" v-if="!dayChartData['noData']">
 							<view class="sleep-range-left">
 								<text>{{ dayChartData['sleepStartDate'] }}</text>
 								<text>{{ `入睡${dayChartData['sleepStartTime']}` }}</text>
@@ -40,7 +40,7 @@
 								<text>{{ `醒来${dayChartData['sleepEndTime']}` }}</text>
 							</view>
 						</view>
-						<view class="icon-bar" v-if="dayChartData.isShow">
+						<view class="icon-bar" v-if="!dayChartData.noData">
 							<view>
 								<text></text>
 								<text>睡眠</text>
@@ -76,7 +76,7 @@
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
 							<qiun-data-charts v-if="weekChartData.isShow" :inScrollView="true" :canvas2d="true" type="column" @getIndex="getWeekIndexEvent" canvasId="abcdssafdfdf12atef123gh" :opts="sleepWeekOpts" :ontouch="true" :chartData="weekChartData.data" />
 						</view>
-						<view class="icon-bar" v-if="weekChartData.isShow">
+						<view class="icon-bar" v-if="!weekChartData.noData">
 							<view>
 								<text></text>
 								<text>睡眠</text>
@@ -112,7 +112,7 @@
 							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
 							<qiun-data-charts type="column" :inScrollView="true" v-if="monthChartData.isShow" :canvas2d="true" @getIndex="getMonthIndexEvent" canvasId="abcsdghdsdsbdfdgsatef123gh" :opts="sleepMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
-						<view class="icon-bar" v-if="monthChartData.isShow">
+						<view class="icon-bar" v-if="!monthChartData.noData">
 							<view>
 								<text></text>
 								<text>睡眠</text>
@@ -180,6 +180,7 @@
 				}],
 				dayChartData: {
 					isShow: true,
+					noData: false,
 					sleepStartTime: '',
 					sleepEndTime: '',
 					sleepStartDate: '',
@@ -188,10 +189,12 @@
 				},
 				weekChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				monthChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				sleepDayOpts: {
@@ -222,6 +225,7 @@
 					legend: { show: false },
 					xAxis: {
 						itemCount: 7,
+						scrollShow: true,
 						axisLine: false
 					},
 					yAxis: {
@@ -246,6 +250,7 @@
 				sleepMonthOpts: {
 					dataPointShape: false,
 					dataLabel: false,
+					enableScroll: true,
 					color: ["#F7A4B6"],
 					padding: [10,10,10,10],
 					legend: { show: false },
@@ -406,6 +411,7 @@
 				this.daySleepTime = '';
 				this.dayChartData = {
 					isShow: true,
+					noData: true,
 					sleepStartTime: '',
 					sleepEndTime: '',
 					sleepStartDate: '',
@@ -415,7 +421,6 @@
 				sleepStatisticsDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						let questData = res.data.data;
-						this.dayChartData['isShow'] = true;
 						// 睡眠
 						if (JSON.stringify(res.data.data) == '{}' || JSON.stringify(questData.sleepVO) == '{}') {
 							this.initDayText = '-';
@@ -423,6 +428,7 @@
 							this.daySleepTime = '-';
 							this.dayChartData = {
 								isShow: false,
+								noData: true,
 								sleepStartTime: '',
 								sleepEndTime: '',
 								sleepStartDate: '',
@@ -435,6 +441,7 @@
 							if (temporaryDataArr.length == 0) {
 								this.dayChartData = {
 									isShow: false,
+									noData: true,
 									sleepStartTime: '',
 									sleepEndTime: '',
 									sleepStartDate: '',
@@ -443,10 +450,11 @@
 								};
 								return
 							};
+							this.dayChartData['isShow'] = true;
+							this.dayChartData['noData'] = false;
 							this.daySleepTime = this.minutesTransitionHour(questData.sleepVO['dayTime']);
 							this.daySleepTimeQuantum = this.daySleepTime == '0分钟' ? "" : `${this.getNowFormatDate(new Date(questData.sleepVO['dayStart']),1)}-${this.getNowFormatDate(new Date(questData.sleepVO['dayEnd']),1)}`;
 							this.initDayText = this.minutesTransitionHour(questData.sleepVO['totalTime'] - questData.sleepVO['dayTime']);
-							this.dayChartData['isShow'] = true;
 							let temporaryData = {
 								categories: ["7-9"],
 								series: []
@@ -519,6 +527,7 @@
 					this.initWeekText = '';
 					this.weekChartData = {
 						isShow: true,
+						noData: true,
 						data: {}
 					}
 				} else if (type == 'month') {
@@ -527,6 +536,7 @@
 					this.initMonthText = '';
 					this.monthChartData = {
 						isShow: true,
+						noData: true,
 						data: {}
 					}
 				};
@@ -534,13 +544,13 @@
 					if ( res && res.data.code == 0) {
 						if (type == 'week') {
 							let questData = res.data.data;
-							this.weekChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initWeekText = '-';
 								this.daySleepTimeQuantum = '-';
 								this.daySleepTime = '-';
 								this.weekChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							} else {
@@ -550,6 +560,7 @@
 									this.daySleepTime = '-';
 									this.weekChartData = {
 										isShow: false,
+										noData: true,
 										data: {}
 									};
 									return
@@ -564,6 +575,7 @@
 									this.daySleepTime = '-';
 								};
 								this.weekChartData['isShow'] = true;
+								this.weekChartData['noData'] = false;
 								let temporaryData = {
 									categories: [],
 									series: [
@@ -604,13 +616,13 @@
 							}	
 						} else if (type == 'month') {
 							let questData = res.data.data;
-							this.monthChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initMonthText = '-';
 								this.daySleepTimeQuantum = '-';
 								this.daySleepTime = '-';
 								this.monthChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							} else {
@@ -620,6 +632,7 @@
 									this.daySleepTime = '-';
 									this.monthChartData = {
 										isShow: false,
+										noData: true,
 										data: {}
 									};
 									return
@@ -634,6 +647,7 @@
 									this.daySleepTime = '-';
 								};
 								this.monthChartData['isShow'] = true;
+								this.monthChartData['noData'] = false;
 								let temporaryData = {
 									categories: [],
 									series: [
@@ -1078,14 +1092,12 @@
 			overflow: auto;
 			.content-top-area {
 				background: #fff;
-				height: 470px;
-				display: flex;
-				flex-direction: column;
+				padding-top: 20px;
+				box-sizing: border-box;
 				.content-top-title {
 					width: 70%;
 					height: 41px;
 					margin: 0 auto;
-					margin-top: 20px;
 					::v-deep .u-subsection {
 						// .u-item-bg {
 						// 	height: 24px !important;
@@ -1094,18 +1106,14 @@
 					}
 				};
 				.content-top-content {
-					flex: 1;
 					.day-data-area-other {
 						.data-bottom {
 							flex: none !important;
-							margin-top: 50px;
-							height: 80px !important
+							height: 80px !important;
+							min-height: 80px !important
 						}
 					};
 					.day-data-area {
-						display: flex;
-						flex-direction: column;
-						height: 100%;
 						.data-top {
 							width: 70%;
 							margin: 0 auto;
@@ -1139,7 +1147,7 @@
 							}
 						};
 						.data-bottom {
-							flex: 1;
+							min-height: 250px;
 							position: relative;
 							::v-deep .u-empty {
 							 	position: absolute;
@@ -1175,7 +1183,7 @@
 							}
 						};
 						.icon-bar {
-							height: 40px;
+							height: 80px;
 							display: flex;
 							justify-content: center;
 							align-items: center;

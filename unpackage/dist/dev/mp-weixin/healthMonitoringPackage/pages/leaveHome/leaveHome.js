@@ -274,12 +274,15 @@ var _default = {
       initMonthDate: ''
     }, (0, _defineProperty2.default)(_ref, "currentMonthDate", ''), (0, _defineProperty2.default)(_ref, "weekMap", {}), (0, _defineProperty2.default)(_ref, "currentWeekXaxisArr", []), (0, _defineProperty2.default)(_ref, "currentMonthXaxisArr", []), (0, _defineProperty2.default)(_ref, "temporaryDevices", []), (0, _defineProperty2.default)(_ref, "dayChartData", {
       isShow: true,
+      noData: false,
       data: {}
     }), (0, _defineProperty2.default)(_ref, "weekChartData", {
       isShow: true,
+      noData: false,
       data: {}
     }), (0, _defineProperty2.default)(_ref, "monthChartData", {
       isShow: true,
+      noData: false,
       data: {}
     }), (0, _defineProperty2.default)(_ref, "leaveHomeDayOpts", {
       color: ["#F2A15F", "#289E8E"],
@@ -288,6 +291,9 @@ var _default = {
       enableScroll: true,
       tooltip: {
         showBox: true
+      },
+      legend: {
+        show: true
       },
       xAxis: {
         disableGrid: true,
@@ -447,8 +453,6 @@ var _default = {
       } else {
         this.initDayText = '回家、离家';
       }
-      ;
-      console.log('点击数据', this.initDayText);
     },
     // 获取周数据当前点击索引
     getWeekIndexEvent: function getWeekIndexEvent(e) {
@@ -536,14 +540,17 @@ var _default = {
       var _this2 = this;
       this.dayChartData = {
         isShow: true,
+        noData: true,
         data: {}
       };
       this.weekChartData = {
         isShow: true,
+        noData: true,
         data: {}
       };
       this.monthChartData = {
         isShow: true,
+        noData: true,
         data: {}
       };
       (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
@@ -551,9 +558,8 @@ var _default = {
           if (type == 'day') {
             _this2.initDayText = '';
             _this2.initDayTime = '';
-            _this2.dayChartData['isShow'] = true;
             if (res.data.data.length > 0) {
-              _this2.dayChartData['isShow'] = true;
+              _this2.dayChartData['noData'] = false;
               var questData = res.data.data[0]['ruleDataVO'];
               if (questData.details[0]['enter'] && questData.details[0]['goOut']) {
                 _this2.initDayText = '离家、回家';
@@ -595,17 +601,17 @@ var _default = {
             } else {
               _this2.dayChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
               _this2.initDayText = '-';
               _this2.initDayTime = '-';
             }
           } else if (type == 'week') {
-            _this2.weekChartData['isShow'] = true;
             _this2.currentWeekXaxisArr = [];
             if (res.data.data.length > 0) {
               var _questData = res.data.data;
-              _this2.weekChartData['isShow'] = true;
+              _this2.weekChartData['noData'] = false;
               var lengthArr = [];
               var maxColumn;
               var _temporaryData = {
@@ -663,15 +669,15 @@ var _default = {
             } else {
               _this2.weekChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             }
           } else if (type == 'month') {
             _this2.currentMonthXaxisArr = [];
-            _this2.monthChartData['isShow'] = true;
             if (res.data.data.length > 0) {
               var _questData2 = res.data.data;
-              _this2.monthChartData['isShow'] = true;
+              _this2.monthChartData['noData'] = false;
               var _lengthArr = [];
               var _maxColumn;
               var _temporaryData2 = {
@@ -729,6 +735,7 @@ var _default = {
             } else {
               _this2.monthChartData = {
                 isShow: false,
+                noData: true,
                 data: {}
               };
             }

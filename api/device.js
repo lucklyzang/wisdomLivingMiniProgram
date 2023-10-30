@@ -67,6 +67,14 @@ export function updateDeviceInformRead(id) {
   })
 };
 
+// 更新设备通知为全读
+export function updateDeviceInformAllRead() {
+  return request({
+    url: '/app-api/member/device-notice/all-read',
+    method: 'put'
+  })
+};
+
 // 获得人体监测雷达设置
 export function getDetectionAlarmSettings(data) {
   return request({

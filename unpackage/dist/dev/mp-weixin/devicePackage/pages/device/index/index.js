@@ -424,6 +424,37 @@ var _default = {
         });
       });
     },
+    // 更新设备通知为全读
+    updateDeviceInformAllReadEvent: function updateDeviceInformAllReadEvent(id) {
+      var _this4 = this;
+      this.showLoadingHint = true;
+      this.infoText = '';
+      (0, _device.updateDeviceInformAllRead)().then(function (res) {
+        if (res && res.data.code == 0) {
+          _this4.noReadNum = 0;
+          _this4.fullNoticeList.forEach(function (item) {
+            item.respVOS.forEach(function (innerItem) {
+              innerItem.status = 1;
+            });
+          });
+        } else {
+          _this4.$refs.uToast.show({
+            title: res.data.msg,
+            type: 'error',
+            position: 'bottom'
+          });
+        }
+        ;
+        _this4.showLoadingHint = false;
+      }).catch(function (err) {
+        _this4.showLoadingHint = false;
+        _this4.$refs.uToast.show({
+          title: err.message,
+          type: 'error',
+          position: 'bottom'
+        });
+      });
+    },
     // 进入消息详情事件
     enterMessageDetailsPageEvent: function enterMessageDetailsPageEvent(item, innerItem) {
       var temporaryDeviceNoticeDetails = this.deviceNoticeDetails;

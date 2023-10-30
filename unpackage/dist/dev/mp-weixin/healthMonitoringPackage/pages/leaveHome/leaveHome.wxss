@@ -53,23 +53,13 @@ page {
 }
 .content-box .content-area .content-top-area {
   background: #fff;
-  height: 450px;
-  display: flex;
-  flex-direction: column;
+  padding-top: 20px;
+  box-sizing: border-box;
 }
 .content-box .content-area .content-top-area .content-top-title {
   width: 70%;
   height: 41px;
   margin: 0 auto;
-  margin-top: 20px;
-}
-.content-box .content-area .content-top-area .content-top-content {
-  flex: 1;
-}
-.content-box .content-area .content-top-area .content-top-content .day-data-area {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-top {
   width: 70%;
@@ -99,7 +89,7 @@ page {
   font-size: 14px;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-bottom {
-  flex: 1;
+  min-height: 250px;
   position: relative;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-bottom  .u-empty {
@@ -110,8 +100,15 @@ page {
           transform: translate(-50%, -50%);
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .icon-bar {
-  height: 30px;
+  height: 80px;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content-box .content-area .content-top-area .content-top-content .day-data-area .icon-bar > view {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -122,10 +119,9 @@ page {
   display: inline-block;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .icon-bar > view:first-child > text:first-child {
-  width: 16px;
-  height: 10px;
+  width: 21px;
+  height: 12px;
   background: #E86F50;
-  margin-right: 4px;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .icon-bar > view:first-child > text:last-child {
   font-size: 14px;
@@ -135,10 +131,9 @@ page {
   display: inline-block;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .icon-bar > view:last-child > text:first-child {
-  width: 16px;
-  height: 10px;
+  width: 21px;
+  height: 12px;
   background: #289E8E;
-  margin-right: 4px;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .icon-bar > view:last-child > text:last-child {
   font-size: 14px;

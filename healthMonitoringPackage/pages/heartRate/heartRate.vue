@@ -156,14 +156,17 @@
 				currentItem: 0,
 				dayChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				weekChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				monthChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				chartWeekData: {},
@@ -417,12 +420,12 @@
 				this.daySleepTime = '';
 				this.dayChartData = {
 					isShow: true,
+					noData: true,
 					data: {}
 				};
 				sleepStatisticsDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						let questData = res.data.data;
-						this.dayChartData['isShow'] = true;
 						// 心率
 						if ( JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
 							this.initDayTime = '-';
@@ -430,6 +433,7 @@
 							this.daySleepTime = '-'
 							this.dayChartData = {
 								isShow: false,
+								noData: true,
 								data: {}
 							}
 						} else {
@@ -441,6 +445,7 @@
 							this.average = Math.floor(questData.heart.average);
 							this.quietness = Math.floor(questData.heart.heartSilent);
 							this.dayChartData['isShow'] = true;
+							this.dayChartData['noData'] = false;
 							let temporaryData = {
 								categories: [],
 								series: [
@@ -486,6 +491,7 @@
 					this.currentWeekYaxisArr = [];
 					this.weekChartData = {
 						isShow: true,
+						noData: true,
 						data: {}
 					}
 				} else if (type == 'month') {
@@ -494,6 +500,7 @@
 					this.currentMonthYaxisArr = [];
 					this.monthChartData = {
 						isShow: true,
+						noData: true,
 						data: {}
 					}
 				};
@@ -501,12 +508,15 @@
 					if ( res && res.data.code == 0) {
 						if (type == 'week') {
 							let questData = res.data.data;
-							this.weekChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initWeekText = '-';
 								this.daySleepTime = '-';
+								this.lowest = '-';
+								this.daySleepTime = '-';
+								this.highest = '-';
 								this.weekChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							} else {
@@ -519,13 +529,13 @@
 									this.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
 								} else {
 									this.initWeekText = '-';
-									this.initMonthText = '-';
 									this.daySleepTime = '-';
 									this.quietness = '-';
 									this.lowest = '-';
 									this.highest = '-';
 								};
 								this.weekChartData['isShow'] = true;
+								this.weekChartData['noData'] = false;
 								let temporaryData = {
 									categories: [],
 									series: [
@@ -555,12 +565,15 @@
 							}	
 						} else if (type == 'month') {
 							let questData = res.data.data;
-							this.monthChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initMonthText = '-';
 								this.daySleepTime = '-';
+								this.lowest = '-';
+								this.daySleepTime = '-';
+								this.highest = '-';
 								this.monthChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							} else {
@@ -573,12 +586,12 @@
 									this.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
 								} else {
 									this.initMonthText = '-';
-									this.initMonthText = '-';
 									this.lowest = '-';
 									this.daySleepTime = '-';
 									this.highest = '-';
 								};
 								this.monthChartData['isShow'] = true;
+								this.monthChartData['noData'] = false;
 								let temporaryData = {
 									categories: [],
 									series: [

@@ -22,15 +22,15 @@
 							<view>
 								<text>跌倒</text>
 							</view>
-							<view>
+							<!-- <view>
 								<text>2分钟</text>
-							</view>
+							</view> -->
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
 							<qiun-data-charts v-if="dayChartData.isShow" type="bar" :canvas2d="true" canvasId="akglfjkdj4ggfdsfg45" :ontouch="true" :opts="tumbleOpts" :chartData="dayChartData['data']" />
 						</view>
-						<view class="tumble-chart-message" v-if="dayChartData.isShow">
+						<view class="tumble-chart-message" v-if="!dayChartData.noData">
 								<view class="time-bar">
 									<view class="time-line"></view>
 									<view class="time-text">
@@ -43,7 +43,7 @@
 										<text>23:59</text>
 									</view>
 								</view>
-								<view class="icon-bar" v-if="dayChartData.isShow">
+								<view class="icon-bar">
 									<view>
 										<text></text>
 										<text>正常</text>
@@ -70,7 +70,7 @@
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
 							<qiun-data-charts @getIndex="getWeekIndexEvent" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67dfdfdf8asfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :inScrollView="true" :chartData="weekChartData.data" />
 						</view>
-						<view class="icon-bar" v-if="weekChartData.isShow">
+						<view class="icon-bar" v-if="!weekChartData.noData">
 							<view>
 								<text></text>
 								<text>正常</text>
@@ -96,14 +96,14 @@
 							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
 							<qiun-data-charts @getIndex="getMonthIndexEvent" :inScrollView="true" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdsd8956k" type="column" :opts="leaveHomeMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
-						<view class="icon-bar" v-if="monthChartData.isShow">
+						<view class="icon-bar" v-if="!monthChartData.noData">
 							<view>
 								<text></text>
-								<text>离家</text>
+								<text>正常</text>
 							</view>
 							<view>
 								<text></text>
-								<text>回家</text>
+								<text>跌倒</text>
 							</view>
 						</view>
 					</view>
@@ -266,14 +266,17 @@
 				visitPageId: '',
 				dayChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				weekChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				monthChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				currentPageNum: 1,
@@ -470,11 +473,19 @@
 				if (text == 'day') {
 					this.dayChartData = {
 						isShow: true,
+						noData: true,
 						data: {}
 					}
 				} else if (text == 'week') {
 					this.weekChartData = {
 						isShow: true,
+						noData: true,
+						data: {}
+					}
+				} else if (text == 'month') {
+					this.monthChartData = {
+						isShow: true,
+						noData: true,
 						data: {}
 					}
 				};
@@ -482,15 +493,16 @@
 					if ( res && res.data.code == 0) {
 						if (text == 'day') {
 							let questData = res.data.data;
-							this.dayChartData['isShow'] = true;
 							// 跌倒
 							if ( questData.length == 0 ) {
 								this.dayChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							} else {
 								this.dayChartData['isShow'] = true;
+								this.dayChartData['noData'] = false;
 								// status: 0-正常，1-跌倒
 								let temporaryData = {
 									categories: ['7-4'],
@@ -521,11 +533,11 @@
 								this.dayChartData['data'] = temporaryContent
 							}
 						}	else if (text == 'week') {
-							this.weekChartData['isShow'] = true;
 							this.currentWeekXaxisArr = [];
 							if (res.data.data.length > 0) {
 								let questData = res.data.data;
 								this.weekChartData['isShow'] = true;
+								this.weekChartData['noData'] = false;
 								let lengthArr = [];
 								let maxColumn;
 								let temporaryData = {
@@ -569,15 +581,16 @@
 							} else {
 								this.weekChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								};
 							}
 						} else if (text == 'month') {
-							this.monthChartData['isShow'] = true;
 							this.currentMonthXaxisArr = [];
 							if (res.data.data.length > 0) {
 								let questData = res.data.data;
 								this.monthChartData['isShow'] = true;
+								this.monthChartData['noData'] = false;
 								let lengthArr = [];
 								let maxColumn;
 								let temporaryData = {
@@ -621,6 +634,7 @@
 							} else {
 								this.monthChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								};
 							}
@@ -1062,14 +1076,12 @@
 			overflow: auto;
 			.content-top-area {
 				background: #fff;
-				height: 470px;
-				display: flex;
-				flex-direction: column;
+				padding-top: 20px;
+				box-sizing: border-box;
 				.content-top-title {
 					width: 70%;
 					height: 41px;
 					margin: 0 auto;
-					margin-top: 20px;
 					::v-deep .u-subsection {
 						// .u-item-bg {
 						// 	height: 24px !important;
@@ -1078,18 +1090,14 @@
 					}
 				};
 				.content-top-content {
-					flex: 1;
 					.day-data-area-other {
 						.data-bottom {
 							position: relative;
-							margin-top: 10px;
-							height: 80px !important
+							height: 200px !important;
+							min-height: 200px !important
 						}
 					};
 					.day-data-area {
-						display: flex;
-						flex-direction: column;
-						height: 100%;
 						.data-top {
 							width: 70%;
 							margin: 0 auto;
@@ -1117,7 +1125,7 @@
 							}
 						};
 						.data-bottom {
-							flex: 1;
+							min-height: 250px;
 							position: relative;
 							::v-deep .u-empty {
 							 	position: absolute;
@@ -1127,7 +1135,7 @@
 							}
 						};
 						.icon-bar {
-							height: 40px;
+							height: 80px;
 							display: flex;
 							justify-content: center;
 							align-items: center;
@@ -1171,8 +1179,7 @@
 							}
 						};
 						.tumble-chart-message {
-							height: 250px;
-							margin-top: 30px;
+							height: 120px;
 							position: relative;
 							.time-bar {
 								.time-line {

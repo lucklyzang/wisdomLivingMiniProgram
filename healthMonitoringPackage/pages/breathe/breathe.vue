@@ -148,21 +148,24 @@
 				currentMonthDate: '',
 				currentMonthDays: '',
 				currentWeekXaxisArr: [],
-				currentWeekYaxisArr: [],
 				currentMonthXaxisArr: [],
 				currentMonthYaxisArr: [],
+				currentWeekYaxisArr: [],
 				initMonthDate: '',
 				weekMap: {},
 				dayChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				weekChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				monthChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				lowest: '',
@@ -201,7 +204,6 @@
 						}
 					}
 				},
-				chartWeekData: {},
 				breathWeekOpts: {
 					dataPointShape: false,
 					dataLabel: false,
@@ -703,6 +705,7 @@
 			querySleepStatisticsDetails (data) {
 				this.dayChartData = {
 					isShow: true,
+					noData: true,
 					data: {}
 				};
 				this.initDayTime = '';
@@ -713,13 +716,13 @@
 				sleepStatisticsDetails(data).then((res) => {
 					if ( res && res.data.code == 0) {
 						let questData = res.data.data;
-						this.dayChartData['isShow'] = true;
 						// 呼吸
 						if ( JSON.stringify(res.data.data) == '{}' || questData.breath.timeList.length == 0) {
 							this.initDayTime = '-';
 							this.initDayText = '-';
 							this.dayChartData = {
 								isShow: false,
+								noData: true,
 								data: {}
 							}
 						} else {
@@ -729,6 +732,7 @@
 							this.highest = Math.floor(questData.breath.highest);
 							this.average = Math.floor(questData.breath.average);
 							this.dayChartData['isShow'] = true;
+							this.dayChartData['noData'] = false;
 							let temporaryData = {
 								categories: [],
 								series: [
@@ -773,6 +777,7 @@
 					this.currentWeekYaxisArr = [];
 					this.weekChartData = {
 						isShow: true,
+						noData: true,
 						data: {}
 					}
 				} else if (type == 'month') {
@@ -781,6 +786,7 @@
 					this.currentMonthYaxisArr = [];
 					this.monthChartData = {
 						isShow: true,
+						noData: true,
 						data: {}
 					}
 				};
@@ -788,11 +794,14 @@
 					if ( res && res.data.code == 0) {
 						if (type == 'week') {
 							let questData = res.data.data;
-							this.weekChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initWeekText = '-';
+								this.lowest = '-';
+								this.highest = '-';
+								this.average = '-';
 								this.weekChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							} else {
@@ -808,6 +817,7 @@
 									this.average = '-';
 								};
 								this.weekChartData['isShow'] = true;
+								this.weekChartData['noData'] = false;
 								let temporaryData = {
 									categories: [],
 									series: [
@@ -837,11 +847,14 @@
 							}	
 						} else if (type == 'month') {
 							let questData = res.data.data;
-							this.monthChartData['isShow'] = true;
 							if ( JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
 								this.initMonthText = '-';
+								this.lowest = '-';
+								this.highest = '-';
+								this.average = '-';
 								this.monthChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							} else {
@@ -857,6 +870,7 @@
 									this.average = '-';
 								};
 								this.monthChartData['isShow'] = true;
+								this.monthChartData['noData'] = false;
 								let temporaryData = {
 									categories: [],
 									series: [

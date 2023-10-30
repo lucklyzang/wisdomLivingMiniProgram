@@ -9,7 +9,7 @@
 		<view class="message-title-area">
 			<view class="message-atile-area-left">
 				<text>{{ `${noReadNum}条未读` }}</text>
-				<text>{{ noReadNum == 0 ? '全部已读' : `${readedNum}条已读` }}</text>
+				<text @click="updateDeviceInformAllReadEvent">全部已读</text>
 			</view>
 			<view class="message-atile-area-right">
 				<xfl-select
@@ -66,7 +66,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import xflSelect from '@/components/xfl-select/xfl-select.vue'
-	import { getDeviceInforPage, updateDeviceInformRead } from '@/api/device.js'
+	import { getDeviceInforPage, updateDeviceInformRead, updateDeviceInformAllRead } from '@/api/device.js'
 	import _ from 'lodash'
 	export default {
 		components: {
@@ -271,6 +271,37 @@
 				this.infoText = '';
 				updateDeviceInformRead(id).then((res) => {
 					if ( res && res.data.code == 0) {
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 更新设备通知为全读
+			updateDeviceInformAllReadEvent(id) {
+				this.showLoadingHint = true
+				this.infoText = '';
+				updateDeviceInformAllRead().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.noReadNum = 0;
+						this.fullNoticeList.forEach((item) => {
+							item.respVOS.forEach((innerItem) => {
+								innerItem.status = 1
+							})
+						})
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,

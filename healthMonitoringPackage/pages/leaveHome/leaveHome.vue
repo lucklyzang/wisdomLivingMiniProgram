@@ -30,7 +30,16 @@
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
 							<qiun-data-charts @getIndex="getDayIndexEvent" :inScrollView="true" tooltipFormat="tooltipDemo1" v-if="dayChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdf56k" type="column" :opts="leaveHomeDayOpts" :ontouch="true" :chartData="dayChartData.data" />
 						</view>
-						<view class="icon-bar" v-if="dayChartData.isShow"></view>
+						<view class="icon-bar" v-if="!dayChartData.noData">
+							<view>
+								<text></text>
+								<text>离家</text>
+							</view>
+							<view>
+								<text></text>
+								<text>回家</text>
+							</view>
+						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 1">
 						<view class="data-top">
@@ -49,7 +58,7 @@
 							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
 							<qiun-data-charts @getIndex="getWeekIndexEvent" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdef67dfdfdf8asfdf56k" type="column" :opts="leaveHomeWeekOpts" :ontouch="true" :inScrollView="true" :chartData="weekChartData.data" />
 						</view>
-						<view class="icon-bar" v-if="weekChartData.isShow">
+						<view class="icon-bar" v-if="!weekChartData.noData">
 							<view>
 								<text></text>
 								<text>离家</text>
@@ -77,7 +86,7 @@
 							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
 							<qiun-data-charts @getIndex="getMonthIndexEvent" :inScrollView="true" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdef67sasfdsd8956k" type="column" :opts="leaveHomeMonthOpts" :ontouch="true" :chartData="monthChartData.data" />
 						</view>
-						<view class="icon-bar" v-if="monthChartData.isShow">
+						<view class="icon-bar" v-if="!monthChartData.noData">
 							<view>
 								<text></text>
 								<text>离家</text>
@@ -176,14 +185,17 @@
 				temporaryDevices: [],
 				dayChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				weekChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				monthChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				leaveHomeDayOpts: {
@@ -192,6 +204,9 @@
 					padding: [10,10,10,10],
 					enableScroll: true,
 					tooltip: { showBox: true},
+					legend: {
+						show: true
+					},
 					xAxis: {
 						disableGrid: true,
 						scrollShow: true,
@@ -362,8 +377,7 @@
 					this.initDayText = '离家';
 				} else {
 					this.initDayText = '回家、离家';
-				};
-				console.log('点击数据',this.initDayText);
+				}
 			},
 			
 			// 获取周数据当前点击索引
@@ -439,14 +453,17 @@
 			queryEnterLeaveHomeDetails (data,type) {
 				this.dayChartData = {
 					isShow: true,
+					noData: true,
 					data: {}
 				};
 				this.weekChartData = {
 					isShow: true,
+					noData: true,
 					data: {}
 				};
 				this.monthChartData = {
 					isShow: true,
+					noData: true,
 					data: {}
 				};
 				enterLeaveHomeDetails(data).then((res) => {
@@ -454,9 +471,8 @@
 						if (type == 'day') {
 							this.initDayText = '';
 							this.initDayTime = '';
-							this.dayChartData['isShow'] = true;
 							if (res.data.data.length > 0) {
-								this.dayChartData['isShow'] = true;
+								this.dayChartData['noData'] = false;
 								let questData = res.data.data[0]['ruleDataVO'];
 								if (questData.details[0]['enter'] && questData.details[0]['goOut']) {
 									this.initDayText = '离家、回家';
@@ -499,17 +515,17 @@
 							} else {
 								this.dayChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								};
 								this.initDayText = '-';
 								this.initDayTime = '-';
 							}
 						} else if (type == 'week') {
-							this.weekChartData['isShow'] = true;
 							this.currentWeekXaxisArr = [];
 							if (res.data.data.length > 0) {
 								let questData = res.data.data;
-								this.weekChartData['isShow'] = true;
+								this.weekChartData['noData'] = false;
 								let lengthArr = [];
 								let maxColumn;
 								let temporaryData = {
@@ -561,15 +577,15 @@
 							} else {
 								this.weekChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								};
 							}
 						} else if (type == 'month') {
 							this.currentMonthXaxisArr = [];
-							this.monthChartData['isShow'] = true;
 							if (res.data.data.length > 0) {
 								let questData = res.data.data;
-								this.monthChartData['isShow'] = true;
+								this.monthChartData['noData'] = false;
 								let lengthArr = [];
 								let maxColumn;
 								let temporaryData = {
@@ -621,6 +637,7 @@
 							} else {
 								this.monthChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							}
@@ -1085,14 +1102,12 @@
 			overflow: auto;
 			.content-top-area {
 				background: #fff;
-				height: 450px;
-				display: flex;
-				flex-direction: column;
+				padding-top: 20px;
+				box-sizing: border-box;
 				.content-top-title {
 					width: 70%;
 					height: 41px;
 					margin: 0 auto;
-					margin-top: 20px;
 					::v-deep .u-subsection {
 						.u-item {
 							.u-item-text {}
@@ -1104,11 +1119,7 @@
 					}
 				};
 				.content-top-content {
-					flex: 1;
 					.day-data-area {
-						display: flex;
-						flex-direction: column;
-						height: 100%;
 						.data-top {
 							width: 70%;
 							margin: 0 auto;
@@ -1137,7 +1148,7 @@
 							}
 						};
 						.data-bottom {
-							flex: 1;
+							min-height: 250px;
 							position: relative;
 							::v-deep .u-empty {
 							 	position: absolute;
@@ -1147,20 +1158,24 @@
 							}
 						};
 						.icon-bar {
-							height: 30px;
+							height: 80px;
 							display: flex;
 							justify-content: center;
 							align-items: center;
 							>view {
+								width: 100px;
+								display: flex;
+								flex-direction: column;
+								justify-content: center;
+								align-items: center;
 								&:first-child {
 									margin-right: 10px;
 									>text {
 										display: inline-block;
 										&:first-child {
-											width: 16px;
-											height: 10px;
+											width: 21px;
+											height: 12px;
 											background: #E86F50;
-											margin-right: 4px;
 										};
 										&:last-child {
 											font-size: 14px;
@@ -1172,10 +1187,9 @@
 									>text {
 										display: inline-block;
 										&:first-child {
-											width: 16px;
-											height: 10px;
+											width: 21px;
+											height: 12px;
 											background: #289E8E;
-											margin-right: 4px;
 										};
 										&:last-child {
 											font-size: 14px;
@@ -1227,7 +1241,6 @@
 				}
 			};
 			.content-bottom-area {
-				// flex: 1;
 				height: 250px;
 				padding: 10px;
 				box-sizing: border-box;

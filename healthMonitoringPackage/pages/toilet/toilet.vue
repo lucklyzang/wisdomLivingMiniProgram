@@ -20,17 +20,18 @@
 								<u-icon name="arrow-right" size="40" :color="isDayPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentDate('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ initDayTime }}</text>
+								<!-- <text>{{ initDayTime }}</text> -->
+								<text>入厕</text>
 							</view>
-							<view>
+							<!-- <view>
 								<text>89次/分钟</text>
-							</view>
+							</view> -->
 						</view>
 						<view class="data-bottom">
 							<u-empty text="暂无数据" v-if="!dayChartData.isShow"></u-empty>
 							<qiun-data-charts v-if="dayChartData.isShow" type="bar" :canvas2d="true" canvasId="ak89fghkdj4ggfdsfg45" :ontouch="true" :opts="toiletOpts" :chartData="dayChartData['data']" />
 						</view>
-						<view class="toilet-chart-message" v-if="dayChartData.isShow">
+						<view class="toilet-chart-message" v-if="!dayChartData.noData">
 							<view class="time-bar">
 								<view class="time-line"></view>
 								<view class="time-text">
@@ -43,14 +44,14 @@
 									<text>23:59</text>
 								</view>
 							</view>
-							<view class="icon-bar" v-if="dayChartData.isShow">
+							<view class="icon-bar">
 								<view>
 									<text></text>
-									<text>正常</text>
+									<text>未检测到人体</text>
 								</view>
 								<view>
 									<text></text>
-									<text>跌倒</text>
+									<text>入厕</text>
 								</view>
 							</view>
 						</view>
@@ -63,13 +64,23 @@
 								<u-icon name="arrow-right" size="40" :color="isWeekPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentWeek('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ getNowFormatDateText(initWeekDate) }}</text>
-							</view>
-							<view>
-								<text>49-109次/分钟</text>
+								<text>{{ initWeekDate }}</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<u-empty text="暂无数据" v-if="!weekChartData.isShow"></u-empty>
+							<qiun-data-charts @getIndex="getWeekIndexEvent" v-if="weekChartData.isShow" :canvas2d="true" canvasId="abcdehdkah56dfdf8asfdf56k" type="column" :opts="toiletWeekOpts" :ontouch="true" :inScrollView="true" :chartData="weekChartData.data" />
+						</view>
+						<view class="icon-bar" v-if="!weekChartData.noData">
+							<view>
+								<text></text>
+								<text>未检测到人体</text>
+							</view>
+							<view>
+								<text></text>
+								<text>入厕</text>
+							</view>
+						</view>
 					</view>
 					<view class="day-data-area" v-if="currentItem == 2">
 						<view class="data-top">
@@ -79,13 +90,23 @@
 								<u-icon name="arrow-right" size="40" :color="isMonthPlusCanCilck ? '#101010' : '#c9c9c9'" @click="getCurrentMonth('plus')"></u-icon>
 							</view>
 							<view>
-								<text>{{ getNowFormatDateText(initMonthDate) }}</text>
-							</view>
-							<view>
-								<text>49-109次/分钟</text>
+								<text>{{ initMonthDate }}</text>
 							</view>
 						</view>
-						<view class="data-bottom"></view>
+						<view class="data-bottom">
+							<u-empty text="暂无数据" v-if="!monthChartData.isShow"></u-empty>
+							<qiun-data-charts @getIndex="getMonthIndexEvent" v-if="monthChartData.isShow" :canvas2d="true" canvasId="abcdehhdjskhder8asfdf56k" type="column" :opts="toiletMonthOpts" :ontouch="true" :inScrollView="true" :chartData="monthChartData.data" />
+						</view>
+						<view class="icon-bar" v-if="!monthChartData.noData">
+							<view>
+								<text></text>
+								<text>未检测到人体</text>
+							</view>
+							<view>
+								<text></text>
+								<text>入厕</text>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -108,11 +129,11 @@
 						</view>
 						<view class="data-content-bottom">
 							<view class="content-bottom-left">
-								<text>4分</text>
+								<text>{{`${stoolAverageTime}分钟`}}</text>
 								<text>大便平均时间</text>
 							</view>
 							<view class="content-bottom-right">
-								<text>6分</text>
+								<text>{{`${urinateAverageTime}分钟`}}</text>
 								<text>小便平均时间</text>
 							</view>
 						</view>
@@ -160,6 +181,10 @@
 				currentItem: 0,
 				isDayPlusCanCilck: true,
 				isMonthPlusCanCilck: true,
+				currentWeekXaxisArr: [],
+				currentMonthXaxisArr: [],
+				currentMonthYaxisArr: [],
+				currentWeekYaxisArr: [],
 				isWeekPlusCanCilck: true,
 				currentDayTime: '',
 				initDayTime: '',
@@ -178,14 +203,17 @@
 				urinateAverageTime: '',
 				dayChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				weekChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				monthChartData: {
 					isShow: true,
+					noData: false,
 					data: {}
 				},
 				toiletOpts: {
@@ -206,6 +234,67 @@
 							width: 20
 						}
 					}
+				},
+				toiletWeekOpts: {
+					color: ["#F0F0F0"],
+					dataLabel: false,
+					padding: [10,10,0,10],
+					enableScroll: true,
+					legend: {
+						show: false
+					},
+					xAxis: {
+						itemCount: 7
+					},
+					yAxis: {
+						splitNumber: 5,
+						data: [
+							{
+								format: 'yAxisDemoMix'
+							}
+						]
+					},
+					extra: {
+						column: {
+							type: 'stack',
+							width: 20,
+							categoryGap: 2
+						},
+						tooltip: {
+							showBox: false
+						}
+					}
+				},
+				toiletMonthOpts: {
+					color: ["#F0F0F0"],
+					dataLabel: false,
+					padding: [10,10,0,10],
+					enableScroll: true,
+					legend: {
+						show: false
+					},
+					xAxis: {
+						itemCount: 7,
+						scrollShow: true
+					},
+					yAxis: {
+						splitNumber: 5,
+						data: [
+							{
+								format: 'yAxisDemoMix'
+							}
+						]
+					},
+					extra: {
+						column: {
+							type: 'stack',
+							width: 20,
+							categoryGap: 2
+						},
+						tooltip: {
+							showBox: false
+						}
+					}
 				}
 			}
 		},
@@ -222,11 +311,12 @@
 			for (let el of this.deviceDataMessage.devices) {
 				this.temporaryDevices.push(el.device)
 			};
+			// 获取入厕数据周
 			this.queryToiletDetails({
 				deviceId: this.temporaryDevices[0],
 				startDate: this.getNowFormatDate(new Date(),2),
 				endDate: this.getNowFormatDate(new Date(),2)
-			},'day');
+			},'day')
 		},
 		destroyed () {
 			if (!this.visitPageId && this.visitPageId !== 0) {
@@ -283,6 +373,28 @@
 				})
 			},
 			
+			// 获取周数据当前点击索引
+			getWeekIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
+				this.initWeekDate = this.getNowFormatDateText(this.currentWeekXaxisArr[e.currentIndex['index']]);
+				this.currentWeekDate = this.getNowFormatDate(new Date(this.currentWeekXaxisArr[e.currentIndex['index']]),2);
+				this.stool = this.currentWeekYaxisArr[e.currentIndex['index']]['stool'];
+				this.urinate = this.currentWeekYaxisArr[e.currentIndex['index']]['urinate'];
+				this.stoolAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['stoolTime']/this.currentWeekYaxisArr[e.currentIndex['index']]['stool']);
+				this.urinateAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['urinateTime']/this.currentWeekYaxisArr[e.currentIndex['index']]['urinate']);
+			},
+			
+			// 获取月数据当前点击索引
+			getMonthIndexEvent (e) {
+				if (e.currentIndex['index'] == -1) { return };
+				this.initMonthDate = this.getNowFormatDateText(this.currentMonthXaxisArr[e.currentIndex['index']]);
+				this.currentMonthDate = this.getNowFormatDate(new Date(this.currentMonthXaxisArr[e.currentIndex['index']]),2);
+				this.stool = this.currentMonthYaxisArr[e.currentIndex['index']]['stool'];
+				this.urinate = this.currentMonthYaxisArr[e.currentIndex['index']]['urinate'];
+				this.stoolAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['stoolTime']/this.currentMonthYaxisArr[e.currentIndex['index']]['stool']);
+				this.urinateAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['urinateTime']/this.currentMonthYaxisArr[e.currentIndex['index']]['urinate'])
+			},
+			
 			// 获取入厕数据
 			queryToiletDetails (data,text) {
 				this.stool = '';
@@ -292,11 +404,23 @@
 				if (text == 'day') {
 					this.dayChartData = {
 						isShow: true,
+						noData: true,
 						data: {}
 					}
 				} else if (text == 'week') {
+					this.currentWeekXaxisArr = [];
+					this.currentWeekYaxisArr = [];
 					this.weekChartData = {
 						isShow: true,
+						noData: true,
+						data: {}
+					}
+				} else if (text == 'month') {
+					this.currentMonthXaxisArr = [];
+					this.currentMonthYaxisArr = [];
+					this.monthChartData = {
+						isShow: true,
+						noData: true,
 						data: {}
 					}
 				};
@@ -304,7 +428,6 @@
 					if ( res && res.data.code == 0) {
 						if (text == 'day') {
 							let questData = res.data.data;
-							this.dayChartData['isShow'] = true;
 							if ( questData.length == 0 ) {
 								this.stool = '-';
 								this.urinate = '-';
@@ -312,14 +435,16 @@
 								this.urinateAverageTime = '-';
 								this.dayChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
 								}
 							} else {
 								this.dayChartData['isShow'] = true;
+								this.dayChartData['noData'] = false;
 								this.stool = questData[0]['stool'];
 								this.urinate = questData[0]['urinate'];
-								this.stoolAverageTime = '';
-								this.urinateAverageTime = '';
+								this.stoolAverageTime = Math.ceil(questData[0]['stoolTime']/this.stool);
+								this.urinateAverageTime = Math.ceil(questData[0]['urinateTime']/this.urinate);
 								// type是否如厕 0-否， 1-是
 								let temporaryData = {
 									categories: ['7-4'],
@@ -348,11 +473,21 @@
 								this.dayChartData['data'] = temporaryContent
 							}
 						}	else if (text == 'week') {
-							this.weekChartData['isShow'] = true;
-							this.currentWeekXaxisArr = [];
 							if (res.data.data.length > 0) {
 								let questData = res.data.data;
+								if (questData[0]['date'] == this.currentStartWeekDate) {
+									this.stool = questData[0]['stool'];
+									this.urinate = questData[0]['urinate'];
+									this.stoolAverageTime = Math.ceil(questData[0]['stoolTime']/this.stool);
+									this.urinateAverageTime = Math.ceil(questData[0]['urinateTime']/this.urinate);
+								} else {
+									this.stool = '-';
+									this.urinate = '-';
+									this.stoolAverageTime = '-';
+									this.urinateAverageTime = '-';
+								};
 								this.weekChartData['isShow'] = true;
+								this.weekChartData['noData'] = false;
 								let lengthArr = [];
 								let maxColumn;
 								let temporaryData = {
@@ -361,8 +496,9 @@
 								};
 								questData.forEach((item,index) => {
 									temporaryData['categories'].push(this.judgeWeek(item.date));
+									this.currentWeekYaxisArr.push(item);
 									this.currentWeekXaxisArr.push(item.date);
-									lengthArr.push(item.resItemVos.length);
+									lengthArr.push(item.itemList.length);
 								});
 								// 按所有天中数据最多的那天算(每天的数据条数不一致)
 								maxColumn = Math.max.apply(null,lengthArr);
@@ -373,15 +509,15 @@
 								};
 								temporaryData['series'].forEach((item,index) => {
 									this.currentWeekXaxisArr.forEach((innerItem,innerIndex) => {
-										let currentData = questData[innerIndex]['resItemVos'];
+										let currentData = questData[innerIndex]['itemList'];
 										if (currentData[index]) {
-											if (currentData[index]['status'] == 0) {
+											if (currentData[index]['type'] == 0) {
 												item['data'].push(
 													{value:1,color:"#F0F0F0"}
 												)
-											} else if (currentData[index]['status'] == 1) {
+											} else if (currentData[index]['type'] == 1) {
 												item['data'].push(
-													{value:3,color:"#E8CB51"}
+													{value:20,color:"#289E8E"}
 												)
 											}
 										} else {
@@ -394,16 +530,31 @@
 								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
 								this.weekChartData['data'] = temporaryContent;
 							} else {
+								this.stool = '-';
+								this.urinate = '-';
+								this.stoolAverageTime = '-';
+								this.urinateAverageTime = '-';
 								this.weekChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
-								};
+								}
 							}
 						} else if (text == 'month') {
-							this.monthChartData['isShow'] = true;
-							this.currentMonthXaxisArr = [];
 							if (res.data.data.length > 0) {
 								let questData = res.data.data;
+								if (questData[0]['date'] == this.currentStartMonthDate) {
+									this.stool = questData[0]['stool'];
+									this.urinate = questData[0]['urinate'];
+									this.stoolAverageTime = Math.ceil(questData[0]['stoolTime']/this.stool);
+									this.urinateAverageTime = Math.ceil(questData[0]['urinateTime']/this.urinate);
+								} else {
+									this.stool = '-';
+									this.urinate = '-';
+									this.stoolAverageTime = '-';
+									this.urinateAverageTime = '-';
+								};
+								this.monthChartData['noData'] = false;
 								this.monthChartData['isShow'] = true;
 								let lengthArr = [];
 								let maxColumn;
@@ -412,9 +563,10 @@
 									series: []
 								};
 								questData.forEach((item,index) => {
-									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.date),5));
+									temporaryData['categories'].push(this.judgeWeek(item.date));
+									this.currentMonthYaxisArr.push(item);
 									this.currentMonthXaxisArr.push(item.date);
-									lengthArr.push(item.resItemVos.length);
+									lengthArr.push(item.itemList.length);
 								});
 								// 按所有天中数据最多的那天算(每天的数据条数不一致)
 								maxColumn = Math.max.apply(null,lengthArr);
@@ -425,15 +577,15 @@
 								};
 								temporaryData['series'].forEach((item,index) => {
 									this.currentMonthXaxisArr.forEach((innerItem,innerIndex) => {
-										let currentData = questData[innerIndex]['resItemVos'];
+										let currentData = questData[innerIndex]['itemList'];
 										if (currentData[index]) {
-											if (currentData[index]['status'] == 0) {
+											if (currentData[index]['type'] == 0) {
 												item['data'].push(
 													{value:1,color:"#F0F0F0"}
 												)
-											} else if (currentData[index]['status'] == 1) {
+											} else if (currentData[index]['type'] == 1) {
 												item['data'].push(
-													{value:3,color:"#E8CB51"}
+													{value:20,color:"#289E8E"}
 												)
 											}
 										} else {
@@ -446,10 +598,15 @@
 								let temporaryContent = JSON.parse(JSON.stringify(temporaryData));
 								this.monthChartData['data'] = temporaryContent;
 							} else {
+								this.stool = '-';
+								this.urinate = '-';
+								this.stoolAverageTime = '-';
+								this.urinateAverageTime = '-';
 								this.monthChartData = {
 									isShow: false,
+									noData: true,
 									data: {}
-								};
+								}
 							}
 						}
 					} else {
@@ -542,7 +699,12 @@
 					let addDay = + time_num - 1000 * 60 * 60 * 24; // 减一天
 					let newTime = new Date(addDay);
 					this.currentDayTime = this.getNowFormatDate(newTime,2)
-				}
+				};
+				this.queryToiletDetails({
+					deviceId: this.temporaryDevices[0],
+					startDate: this.currentDayTime,
+					endDate: this.currentDayTime
+				},'day')
 			},
 			
 			// 获取上一月和下一月
@@ -572,6 +734,7 @@
 					let nextMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(nextMonth),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
 					};
@@ -594,8 +757,14 @@
 					let preMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
 					this.currentMonthDate = this.getNowFormatDate(new Date(preMonth),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					console.log('当前月',this.currentMonthDate);
-				}
+				};
+				this.queryToiletDetails({
+					deviceId: this.temporaryDevices[0],
+					startDate: `${this.currentMonthDate}-01`,
+					endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
+				},'month')
 			},
 			
 			// 获取当前周
@@ -662,6 +831,7 @@
 					this.weekMap = this.getWeek(new Date(time));
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
 					};
@@ -671,8 +841,14 @@
 					this.weekMap = this.getWeek(new Date(time));
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					console.log('周',this.currentStartWeekDate,this.currentEndWeekDate)
-				}
+				};
+				this.queryToiletDetails({
+					deviceId: this.temporaryDevices[0],
+					startDate: this.currentStartWeekDate,
+					endDate: this.currentEndWeekDate
+				},'week')
 			},
 			
 			// 判断周几
@@ -681,25 +857,25 @@
 				let day = date.getDay();
 				switch (day) {
 					case 0:
-						return "星期日"
+						return "周日"
 						break;
 					case 1:
-						return "星期一"
+						return "周一"
 						break;
 					case 2:
-						return "星期二"
+						return "周二"
 						break;
 					case 3:
-						return "星期三"
+						return "周三"
 						break;
 					case 4:
-						return "星期四"
+						return "周四"
 						break;
 					case 5:
-						return "星期五"
+						return "周五"
 						break;
 					case 6:
-						return "星期六"
+						return "周六"
 						break
 					}
 			},
@@ -713,21 +889,33 @@
 					let temporaryDate = this.getNowFormatDate(new Date(),2);
 					if (new Date(this.currentDayTime).getTime() >= new Date(temporaryDate).getTime()) { 
 						this.isDayPlusCanCilck = false
-					}
+					};
+					// 获取跌倒日数据
+					this.queryToiletDetails({
+						deviceId: this.temporaryDevices[0],
+						startDate: this.getNowFormatDate(new Date(),2),
+						endDate: this.getNowFormatDate(new Date(),2)
+					},'day')
 				};
 				if (index == 1) {
 					this.weekMap = this.getWeek(new Date());
 					this.currentStartWeekDate = `${this.weekMap['syear']}-${this.weekMap["stext"]}`;
 					this.currentEndWeekDate = `${this.weekMap['eyear']}-${this.weekMap["etext"]}`;
-					this.initWeekDate = this.getNowFormatDate(new Date(),3);
+					this.initWeekDate = this.getNowFormatDateText(new Date(this.currentStartWeekDate),3);
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentEndWeekDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isWeekPlusCanCilck = false
-					}
+					};
+					// 获取跌倒周数据
+					this.queryToiletDetails({
+						deviceId: this.temporaryDevices[0],
+						startDate: this.getNowFormatDate(new Date(),2),
+						endDate: this.currentEndWeekDate,
+					},'week')
 				};
 				if (index == 2) {
 					this.currentMonthDate = this.getNowFormatDate(new Date(),3);
-					this.initMonthDate = this.getNowFormatDate(new Date(),3);
+					this.initMonthDate = this.getNowFormatDateText(new Date(`${this.currentMonthDate}-01`),3);
 					let temporaryDate = this.getNowFormatDate(new Date(),3);
 					if (new Date(this.currentMonthDate).getTime() >= new Date(temporaryDate).getTime()) {
 						this.isMonthPlusCanCilck = false
@@ -748,6 +936,12 @@
 					};
 					let preMonth = year2 + "-" + month2;
 					this.currentMonthDays = this.getMonthDay(year2,month2);
+					// 获取跌倒月数据
+					this.queryToiletDetails({
+						deviceId: this.temporaryDevices[0],
+						startDate: `${this.currentMonthDate}-01`,
+						endDate: `${this.currentMonthDate}-${this.currentMonthDays}`
+					},'month')
 				} 
 			},
 			
@@ -792,14 +986,13 @@
 			overflow: auto;
 			.content-top-area {
 				background: #fff;
-				height: 470px;
-				display: flex;
-				flex-direction: column;
+				padding-top: 20px;
+				box-sizing: border-box;
 				.content-top-title {
 					width: 70%;
 					height: 41px;
+					background: #fff;
 					margin: 0 auto;
-					margin-top: 20px;
 					::v-deep .u-subsection {
 						// .u-item-bg {
 						// 	height: 24px !important;
@@ -808,18 +1001,14 @@
 					}
 				};
 				.content-top-content {
-					flex: 1;
 					.day-data-area-other {
 						.data-bottom {
 							position: relative;
-							margin-top: 10px;
-							height: 80px !important
+							height: 200px !important;
+							min-height: 200px !important
 						}
 					};
 					.day-data-area {
-						display: flex;
-						flex-direction: column;
-						height: 100%;
 						.data-top {
 							width: 70%;
 							margin: 0 auto;
@@ -847,7 +1036,8 @@
 							}
 						};
 						.data-bottom {
-							flex: 1;
+							min-height: 250px;
+							position: relative;
 							::v-deep .u-empty {
 							 	position: absolute;
 							 	top: 40%;
@@ -855,9 +1045,52 @@
 							 	transform: translate(-50%,-50%)
 							}
 						};
+						.icon-bar {
+							height: 80px;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							>view {
+								width: 100px;
+								display: flex;
+								flex-direction: column;
+								align-items: center;
+								justify-content: center;
+								&:first-child {
+									margin-right: 10px;
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 21px;
+											height: 12px;
+											background: #F0F0F0
+										};
+										&:last-child {
+											font-size: 14px;
+											margin-top: 4px;
+											color: #101010
+										}
+									} 
+								};
+								&:last-child {
+									>text {
+										display: inline-block;
+										&:first-child {
+											width: 21px;
+											height: 12px;
+											background: #289E8E
+										};
+										&:last-child {
+											font-size: 14px;
+											margin-top: 4px;
+											color: #101010
+										}
+									} 
+								}
+							}
+						};
 						.toilet-chart-message {
-							height: 250px;
-							margin-top: 30px;
+							height: 120px;
 							position: relative;
 							.time-bar {
 								.time-line {
@@ -877,7 +1110,7 @@
 								}
 							};
 							.icon-bar {
-								height: 40px;
+								height: 80px;
 								display: flex;
 								justify-content: center;
 								align-items: center;
