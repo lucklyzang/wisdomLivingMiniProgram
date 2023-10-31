@@ -1273,7 +1273,7 @@
 				padding: 4px 0;
 				box-sizing: border-box;
 				background: #fff;
-				height: 275px;
+				height: 400px;
 				border-radius: 10px;
 				display: flex;
 				flex-direction: column;
@@ -1289,7 +1289,7 @@
 					&:nth-child(2) {
 						flex: 1;
 						box-sizing: border-box;
-						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/ca12a50a2a2cd49eb1e637bf252c4ae3c76afacdade1a666d869c730ebf6fecc.png") no-repeat;
+						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d8f9e9aef2b6c55486f9ed69790dba22a88a2b5a8a0239ac433aabdb990d63a8.png") no-repeat;
 						background-size: 100% 100%;
 						background-origin: padding-box;
 						background-clip: border-box;
@@ -1340,11 +1340,11 @@
 				}
 			};
 			.bind-toileting-device-area {
-				height: 159px !important;
+				height: 165px !important;
 				margin-top: 4px;
 				>view {
 					&:nth-child(2) {
-						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d57a9b26423730ff135874cae1e5894a6b2ee79943bbd951228bba54f2c02194.png") no-repeat;
+						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/e771893548ecde7677fb5e42cdd1a05790b74a65867cdd1eda80ac243145cfc8.jpg") no-repeat;
 						background-size: 100% 100%;
 						background-origin: padding-box;
 						background-clip: border-box;
@@ -1352,11 +1352,11 @@
 				}
 			};
 			.tumble-toileting-device-area {
-				height: 132px !important;
+				height: 165px !important;
 				margin-top: 4px;
 				>view {
 					&:nth-child(2) {
-						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/31c68ce6cdc34b2cefcdba8d2f2b2310a21dc2f7ef8ed8392339392c5c318193.png") no-repeat;
+						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/af59281f1eff5d5edf4f37dd21b1d7678eaee7701802e99c4d77685231551972.jpg") no-repeat;
 						background-size: 100% 100%;
 						background-origin: padding-box;
 						background-clip: border-box;
@@ -1364,12 +1364,12 @@
 				}
 			};
 			.leave-home-device-area {
-				height: 159px !important;
+				height: 165px !important;
 				margin-top: 4px;
 				margin-bottom: 4px;
 				>view {
 					&:nth-child(2) {
-						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/d559b5e7d90cee733f9f9082bef8e1f9e19b01d1179a95b8c76974d7a012f6e6.png") no-repeat;
+						background: #fff url("https://blink-radar.oss-cn-chengdu.aliyuncs.com/313c577766250457c492b934957641b3be2b30d1389a6ac2176739a42e4fc0ec.jpg") no-repeat;
 						background-size: 100% 100%;
 						background-origin: padding-box;
 						background-clip: border-box;

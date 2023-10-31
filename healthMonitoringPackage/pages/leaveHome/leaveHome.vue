@@ -180,6 +180,7 @@
 				initMonthDate: '',
 				currentMonthDate: '',
 				weekMap: {},
+				currentDayXaxisArr: [],
 				currentWeekXaxisArr: [],
 				currentMonthXaxisArr: [],
 				temporaryDevices: [],
@@ -205,7 +206,7 @@
 					enableScroll: true,
 					tooltip: { showBox: true},
 					legend: {
-						show: true
+						show: false
 					},
 					xAxis: {
 						disableGrid: true,
@@ -368,15 +369,15 @@
 			// 获取日数据当前点击索引
 			getDayIndexEvent (e) {
 				if (e.currentIndex['index'] == -1) { return };
-				this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
-				if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']] && !e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]){
+				this.initDayTime = this.getNowFormatDate(new Date(this.currentDayXaxisArr[e.currentIndex['index']]['createTime']),1);
+				if (this.currentDayXaxisArr[e.currentIndex['index']]['enter'] === '' && this.currentDayXaxisArr[e.currentIndex['index']]['goOut'] === '') {
 					this.initDayText = '';
-				} else if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']]) {
-					this.initDayText = '回家';
-				} else if (!e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]) {
-					this.initDayText = '离家';
-				} else {
+				} else if (this.currentDayXaxisArr[e.currentIndex['index']]['enter'] && this.currentDayXaxisArr[e.currentIndex['index']]['goOut']) {
 					this.initDayText = '回家、离家';
+				} else if (this.currentDayXaxisArr[e.currentIndex['index']]['enter']) {
+					this.initDayText = '回家';
+				} else if (this.currentDayXaxisArr[e.currentIndex['index']]['goOut']) {
+					this.initDayText = '离家';
 				}
 			},
 			
@@ -471,15 +472,16 @@
 						if (type == 'day') {
 							this.initDayText = '';
 							this.initDayTime = '';
+							this.currentDayXaxisArr = [];
 							if (res.data.data.length > 0) {
 								this.dayChartData['noData'] = false;
 								let questData = res.data.data[0]['ruleDataVO'];
 								if (questData.details[0]['enter'] && questData.details[0]['goOut']) {
 									this.initDayText = '离家、回家';
 								} else if (questData.details[0]['enter']) {
-									this.initDayText = '离家';
-								} else if (questData.details[0]['goOut']) {
 									this.initDayText = '回家';
+								} else if (questData.details[0]['goOut']) {
+									this.initDayText = '离家';
 								} else {
 									this.initDayText = '-';
 								};
@@ -498,6 +500,7 @@
 									]
 								};
 								questData.details.forEach((item,index) => {
+									this.currentDayXaxisArr.push(item);
 									temporaryData['categories'].push(this.getNowFormatDate(new Date(item.createTime),1));
 									if (item.goOut) {
 										temporaryData['series'][0]['data'].push(30)

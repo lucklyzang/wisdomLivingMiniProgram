@@ -272,7 +272,7 @@ var _default = {
       currentMonthDate: '',
       currentMonthDays: '',
       initMonthDate: ''
-    }, (0, _defineProperty2.default)(_ref, "currentMonthDate", ''), (0, _defineProperty2.default)(_ref, "weekMap", {}), (0, _defineProperty2.default)(_ref, "currentWeekXaxisArr", []), (0, _defineProperty2.default)(_ref, "currentMonthXaxisArr", []), (0, _defineProperty2.default)(_ref, "temporaryDevices", []), (0, _defineProperty2.default)(_ref, "dayChartData", {
+    }, (0, _defineProperty2.default)(_ref, "currentMonthDate", ''), (0, _defineProperty2.default)(_ref, "weekMap", {}), (0, _defineProperty2.default)(_ref, "currentDayXaxisArr", []), (0, _defineProperty2.default)(_ref, "currentWeekXaxisArr", []), (0, _defineProperty2.default)(_ref, "currentMonthXaxisArr", []), (0, _defineProperty2.default)(_ref, "temporaryDevices", []), (0, _defineProperty2.default)(_ref, "dayChartData", {
       isShow: true,
       noData: false,
       data: {}
@@ -293,7 +293,7 @@ var _default = {
         showBox: true
       },
       legend: {
-        show: true
+        show: false
       },
       xAxis: {
         disableGrid: true,
@@ -443,15 +443,15 @@ var _default = {
         return;
       }
       ;
-      this.initDayTime = e['opts']['categories'][e.currentIndex['index']];
-      if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']] && !e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]) {
+      this.initDayTime = this.getNowFormatDate(new Date(this.currentDayXaxisArr[e.currentIndex['index']]['createTime']), 1);
+      if (this.currentDayXaxisArr[e.currentIndex['index']]['enter'] === '' && this.currentDayXaxisArr[e.currentIndex['index']]['goOut'] === '') {
         this.initDayText = '';
-      } else if (!e['opts']['chartData']['legendData']['points'][0][0]['data'][e.currentIndex['index']]) {
-        this.initDayText = '回家';
-      } else if (!e['opts']['chartData']['legendData']['points'][0][1]['data'][e.currentIndex['index']]) {
-        this.initDayText = '离家';
-      } else {
+      } else if (this.currentDayXaxisArr[e.currentIndex['index']]['enter'] && this.currentDayXaxisArr[e.currentIndex['index']]['goOut']) {
         this.initDayText = '回家、离家';
+      } else if (this.currentDayXaxisArr[e.currentIndex['index']]['enter']) {
+        this.initDayText = '回家';
+      } else if (this.currentDayXaxisArr[e.currentIndex['index']]['goOut']) {
+        this.initDayText = '离家';
       }
     },
     // 获取周数据当前点击索引
@@ -558,15 +558,16 @@ var _default = {
           if (type == 'day') {
             _this2.initDayText = '';
             _this2.initDayTime = '';
+            _this2.currentDayXaxisArr = [];
             if (res.data.data.length > 0) {
               _this2.dayChartData['noData'] = false;
               var questData = res.data.data[0]['ruleDataVO'];
               if (questData.details[0]['enter'] && questData.details[0]['goOut']) {
                 _this2.initDayText = '离家、回家';
               } else if (questData.details[0]['enter']) {
-                _this2.initDayText = '离家';
-              } else if (questData.details[0]['goOut']) {
                 _this2.initDayText = '回家';
+              } else if (questData.details[0]['goOut']) {
+                _this2.initDayText = '离家';
               } else {
                 _this2.initDayText = '-';
               }
@@ -583,6 +584,7 @@ var _default = {
                 }]
               };
               questData.details.forEach(function (item, index) {
+                _this2.currentDayXaxisArr.push(item);
                 temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.createTime), 1));
                 if (item.goOut) {
                   temporaryData['series'][0]['data'].push(30);
