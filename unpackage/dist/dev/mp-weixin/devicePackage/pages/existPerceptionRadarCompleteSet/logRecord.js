@@ -140,9 +140,11 @@ var render = function () {
   var l0 = _vm.__map(_vm.fullRecordList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m0 = _vm.getNowFormatDate(new Date(item.createTime), 4)
+    var m1 = _vm.statusTransition(item.type)
     return {
       $orig: $orig,
       m0: m0,
+      m1: m1,
     }
   })
   var g0 = _vm.fullRecordList.length
@@ -217,7 +219,7 @@ var _default = {
       checked: false,
       dateShow: false,
       currentPageNum: 1,
-      pageSize: 20,
+      pageSize: 100,
       totalCount: 0,
       recordList: [],
       fullRecordList: [],
@@ -229,15 +231,6 @@ var _default = {
       },
       showLoadingHint: false,
       moreIconPng: __webpack_require__(/*! @/static/img/more-icon.png */ 354),
-      logList: [{
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }, {
-        date: '2023-03-06 18:59'
-      }],
       visitPageId: ''
     };
   },
@@ -248,7 +241,8 @@ var _default = {
       pageNo: this.currentPageNum,
       pageSize: this.pageSize,
       deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
-      queryDate: this.currentDate
+      startDate: this.currentDate,
+      endDate: this.currentDate
     }, true);
   },
   destroyed: function destroyed() {
@@ -296,7 +290,8 @@ var _default = {
           pageNo: this.currentPageNum,
           pageSize: this.pageSize,
           deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
-          createDate: this.currentDate
+          startDate: this.currentDate,
+          endDate: this.currentDate
         }, false);
       }
     },
@@ -357,7 +352,8 @@ var _default = {
         pageNo: this.currentPageNum,
         pageSize: this.pageSize,
         deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
-        createDate: this.currentDate
+        startDate: this.currentDate,
+        endDate: this.currentDate
       }, true);
     },
     // 获取人体检测雷达日志
@@ -377,6 +373,7 @@ var _default = {
           _this2.totalCount = res.data.data.total;
           _this2.recordList = res.data.data.list;
           _this2.fullRecordList = _this2.fullRecordList.concat(_this2.recordList);
+          console.log('存在数据', _this2.fullRecordList);
           if (_this2.fullRecordList.length == 0) {
             _this2.isShowNoHomeNoData = true;
           } else {
@@ -413,6 +410,20 @@ var _default = {
           position: 'bottom'
         });
       });
+    },
+    // 状态转换
+    statusTransition: function statusTransition(status) {
+      switch (status) {
+        case "IN":
+          return "进入";
+          break;
+        case "OUT":
+          return "离开";
+          break;
+        case "STOP":
+          return "长时间停留";
+          break;
+      }
     },
     backTo: function backTo() {
       uni.redirectTo({

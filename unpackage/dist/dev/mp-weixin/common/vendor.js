@@ -484,10 +484,10 @@ function getTumbleRadar(data) {
 }
 ;
 
-// 获取入厕数据日志
+// 获取入厕数据日志(人员存在感知雷达)
 function getExistPerceptionRadar(data) {
   return (0, _request.default)({
-    url: '/app-api/radar/line-rule-data/page',
+    url: '/app-api/radar/person-exist-data/page',
     method: 'get',
     params: data
   });

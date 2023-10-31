@@ -86,19 +86,17 @@ page {
 }
 .content-box .content-area .log-list-wrapper .log-list {
   margin-bottom: 10px;
-  text-align: center;
+  display: flex;
 }
-.content-box .content-area .log-list-wrapper .log-list > text {
+.content-box .content-area .log-list-wrapper .log-list .log-left > text {
   font-size: 14px;
   color: #101010;
 }
-.content-box .content-area .log-list-wrapper .log-list > text:nth-child(2) {
+.content-box .content-area .log-list-wrapper .log-list .log-left > text:nth-child(2) {
   margin: 0 4px;
 }
-.content-box .content-area .log-list-wrapper .log-list > text:nth-child(5) {
-  margin: 0 4px;
-}
-.content-box .content-area .log-list-wrapper .log-list > text:last-child {
-  color: #289E8E;
+.content-box .content-area .log-list-wrapper .log-list .log-right > text {
+  font-size: 14px;
+  color: #101010;
 }
 

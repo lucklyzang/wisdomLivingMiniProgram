@@ -16,12 +16,14 @@
 				<u-empty text="暂无数据" v-if="isShowNoHomeNoData"></u-empty>
 				<scroll-view class="scroll-view" scroll-y="true"  @scrolltolower="scrolltolower">
 					<view class="log-list" v-for="(item,index) in fullRecordList" :key="index">
-						<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
-						<text>>>></text>
-						<text>一人进入</text>
-						<text>;</text>
-						<text>当前区域人数</text>
-						<text>1人</text>
+						<view class="log-left">
+							<text>{{ getNowFormatDate(new Date(item.createTime),4) }}</text>
+							<text>>>></text>
+						</view>
+						<view class="log-right">
+							<text>检测到有人</text>
+							<text>{{ statusTransition(item.type) }}</text>
+						</view>
 					</view>
 					<u-loadmore :status="status" v-show="fullRecordList.length > 0" />
 				</scroll-view>
@@ -49,7 +51,7 @@
 				checked: false,
 				dateShow: false,
 				currentPageNum: 1,
-				pageSize: 20,
+				pageSize: 100,
 				totalCount: 0,
 				recordList: [],
 				fullRecordList: [],
@@ -61,20 +63,6 @@
 				},
 				showLoadingHint: false,
 				moreIconPng: require("@/static/img/more-icon.png"),
-				logList: [
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					},
-					{
-						date: '2023-03-06 18:59'
-					}
-				],
 				visitPageId: ''
 			}
 		},
@@ -85,7 +73,8 @@
 				pageNo: this.currentPageNum,
 				pageSize: this.pageSize,
 				deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
-				queryDate: this.currentDate
+				startDate: this.currentDate,
+				endDate: this.currentDate
 			},true)
 		},
 		destroyed () {
@@ -153,7 +142,8 @@
 						pageNo: this.currentPageNum,
 						pageSize: this.pageSize,
 						deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
-						createDate: this.currentDate
+						startDate: this.currentDate,
+						endDate: this.currentDate
 					},false)
 				}
 			},
@@ -209,7 +199,8 @@
 					pageNo: this.currentPageNum,
 					pageSize: this.pageSize,
 					deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
-					createDate: this.currentDate
+					startDate: this.currentDate,
+					endDate: this.currentDate
 				},true);
 			},
 			
@@ -228,6 +219,7 @@
 						this.totalCount = res.data.data.total;
 						this.recordList = res.data.data.list;
 						this.fullRecordList = this.fullRecordList.concat(this.recordList);
+						console.log('存在数据',this.fullRecordList);
 						if (this.fullRecordList.length == 0) {
 							this.isShowNoHomeNoData = true
 						} else {
@@ -263,6 +255,21 @@
 						position: 'bottom'
 					})
 				})
+			},
+			
+			// 状态转换
+			statusTransition (status) {
+				switch (status) {
+					case "IN":
+						return "进入"
+						break;
+					case "OUT":
+						return "离开"
+						break;
+					case "STOP":
+						return "长时间停留"
+						break
+				}		
 			},
 			
 			backTo () {
@@ -329,18 +336,21 @@
 				 };
 				.log-list {
 					margin-bottom: 10px;
-					text-align: center;
-					>text {
-						font-size: 14px;
-						color: #101010;
-						&:nth-child(2) {
-							margin: 0 4px
-						};
-						&:nth-child(5) {
-							margin: 0 4px
-						};
-						&:last-child {
-							color: #289E8E
+					display: flex;
+					// justify-content: center;
+					.log-left {
+						>text {
+							font-size: 14px;
+							color: #101010;
+							&:nth-child(2) {
+								margin: 0 4px
+							}
+						}
+					};
+					.log-right {
+						>text {
+							font-size: 14px;
+							color: #101010
 						}
 					}
 				}
