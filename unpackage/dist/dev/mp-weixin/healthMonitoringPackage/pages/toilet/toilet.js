@@ -429,8 +429,17 @@ var _default = {
       this.currentWeekDate = this.getNowFormatDate(new Date(this.currentWeekXaxisArr[e.currentIndex['index']]), 2);
       this.stool = this.currentWeekYaxisArr[e.currentIndex['index']]['stool'];
       this.urinate = this.currentWeekYaxisArr[e.currentIndex['index']]['urinate'];
-      this.stoolAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['stoolTime'] / this.currentWeekYaxisArr[e.currentIndex['index']]['stool']);
-      this.urinateAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['urinateTime'] / this.currentWeekYaxisArr[e.currentIndex['index']]['urinate']);
+      if (this.currentWeekYaxisArr[e.currentIndex['index']]['stoolTime'] == 0) {
+        this.stoolAverageTime = 0;
+      } else {
+        this.stoolAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['stoolTime'] / this.currentWeekYaxisArr[e.currentIndex['index']]['stool']);
+      }
+      ;
+      if (this.currentWeekYaxisArr[e.currentIndex['index']]['urinateTime'] == 0) {
+        this.urinateAverageTime = 0;
+      } else {
+        this.urinateAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['urinateTime'] / this.currentWeekYaxisArr[e.currentIndex['index']]['urinate']);
+      }
     },
     // 获取月数据当前点击索引
     getMonthIndexEvent: function getMonthIndexEvent(e) {
@@ -442,8 +451,17 @@ var _default = {
       this.currentMonthDate = this.getNowFormatDate(new Date(this.currentMonthXaxisArr[e.currentIndex['index']]), 2);
       this.stool = this.currentMonthYaxisArr[e.currentIndex['index']]['stool'];
       this.urinate = this.currentMonthYaxisArr[e.currentIndex['index']]['urinate'];
-      this.stoolAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['stoolTime'] / this.currentMonthYaxisArr[e.currentIndex['index']]['stool']);
-      this.urinateAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['urinateTime'] / this.currentMonthYaxisArr[e.currentIndex['index']]['urinate']);
+      if (this.currentMonthYaxisArr[e.currentIndex['index']]['stoolTime'] == 0) {
+        this.stoolAverageTime = 0;
+      } else {
+        this.stoolAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['stoolTime'] / this.currentMonthYaxisArr[e.currentIndex['index']]['stool']);
+      }
+      ;
+      if (this.currentMonthYaxisArr[e.currentIndex['index']]['urinateTime'] == 0) {
+        this.urinateAverageTime = 0;
+      } else {
+        this.urinateAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['urinateTime'] / this.currentMonthYaxisArr[e.currentIndex['index']]['urinate']);
+      }
     },
     // 获取入厕数据
     queryToiletDetails: function queryToiletDetails(data, text) {
@@ -495,8 +513,8 @@ var _default = {
               _this2.dayChartData['noData'] = false;
               _this2.stool = questData[0]['stool'];
               _this2.urinate = questData[0]['urinate'];
-              _this2.stoolAverageTime = Math.ceil(questData[0]['stoolTime'] / _this2.stool);
-              _this2.urinateAverageTime = Math.ceil(questData[0]['urinateTime'] / _this2.urinate);
+              _this2.stoolAverageTime = questData[0]['stoolTime'] == 0 ? 0 : Math.ceil(questData[0]['stoolTime'] / _this2.stool);
+              _this2.urinateAverageTime = questData[0]['urinateTime'] == 0 ? 0 : Math.ceil(questData[0]['urinateTime'] / _this2.urinate);
               // type是否如厕 0-否， 1-是
               var temporaryData = {
                 categories: ['7-4'],
@@ -526,8 +544,8 @@ var _default = {
               if (_questData[0]['date'] == _this2.currentStartWeekDate) {
                 _this2.stool = _questData[0]['stool'];
                 _this2.urinate = _questData[0]['urinate'];
-                _this2.stoolAverageTime = Math.ceil(_questData[0]['stoolTime'] / _this2.stool);
-                _this2.urinateAverageTime = Math.ceil(_questData[0]['urinateTime'] / _this2.urinate);
+                _this2.stoolAverageTime = _questData[0]['stoolTime'] == 0 ? 0 : Math.ceil(_questData[0]['stoolTime'] / _this2.stool);
+                _this2.urinateAverageTime = _questData[0]['urinateTime'] == 0 ? 0 : Math.ceil(_questData[0]['urinateTime'] / _this2.urinate);
               } else {
                 _this2.stool = '-';
                 _this2.urinate = '-';

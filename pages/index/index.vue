@@ -840,7 +840,7 @@
 							// 统计入厕次数
 							let temporaryCount = questData[0]['itemList'].filter((item) => { return item.type == 1}).length;
 							// 统计平均入厕时间
-							let temporaryAverageToiletDuration = Math.ceil((questData[0]['stoolTime'] + questData[0]['urinateTime'])/temporaryCount);
+							let temporaryAverageToiletDuration = questData[0]['stoolTime'] + questData[0]['urinateTime'] == 0 ? 0 : Math.ceil((questData[0]['stoolTime'] + questData[0]['urinateTime'])/temporaryCount);
 							let detectionDuration = 24*60;
 							questData[0]['itemList'].forEach((item,index) => {
 								let currentDurationPercentage = (item.end - item.start)/detectionDuration;

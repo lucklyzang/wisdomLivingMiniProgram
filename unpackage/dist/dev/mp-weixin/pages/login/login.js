@@ -248,7 +248,29 @@ var _default = {
       showLoadingHint: false,
       modalShow: false,
       modalContent: '',
-      visitPageId: ''
+      visitPageId: '',
+      isShowcountryCodeBox: false,
+      countryCodeList: [{
+        label: '中国大陆+86',
+        value: '+86'
+      }, {
+        label: '中国香港+852',
+        value: '+852'
+      }, {
+        label: '中国台湾+886',
+        value: '+886'
+      }, {
+        label: '美国+1',
+        value: '+1'
+      }, {
+        label: '日本+81',
+        value: '+81'
+      }],
+      selectCountryCode: {
+        label: '中国大陆+86',
+        value: '+86'
+      },
+      selectCountryCodeIndex: 0
     };
   },
   onShow: function onShow() {
@@ -305,6 +327,16 @@ var _default = {
         this.isForgetPassword = false;
         this.form.verificationCode = '';
       }
+    },
+    // 手机国际区号区域点击事件
+    uFormItemLabelClickEvent: function uFormItemLabelClickEvent() {
+      this.isShowcountryCodeBox = !this.isShowcountryCodeBox;
+    },
+    // 手机国际区号列点击事件
+    countryCodeItemClickEvent: function countryCodeItemClickEvent(item, index) {
+      this.selectCountryCode = item;
+      this.selectCountryCodeIndex = index;
+      this.isShowcountryCodeBox = !this.isShowcountryCodeBox;
     },
     // 输入框(账号/手机号)失去焦点事件
     blurEvent: function blurEvent(value) {

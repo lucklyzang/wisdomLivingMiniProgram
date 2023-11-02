@@ -283,7 +283,43 @@ page {
   margin-top: 40px;
   display: flex;
   flex-direction: column;
+}
+.container .container-content .form-box  .u-form .u-form-item .right-label-box {
+  font-size: 12px;
+  color: #B5B5B5;
+  padding-right: 10px;
+  box-sizing: border-box;
   position: relative;
+}
+.container .container-content .form-box  .u-form .u-form-item .right-label-box .label-text-box {
+  margin-right: 4px;
+}
+.container .container-content .form-box  .u-form .u-form-item .right-label-box .country-code-box {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 150px;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  overflow: auto;
+  max-height: 170px;
+  background-color: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 5px 0;
+  z-index: 100;
+}
+.container .container-content .form-box  .u-form .u-form-item .right-label-box .country-code-box .country-code-list {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding-left: 6px;
+  box-sizing: border-box;
+  color: #101010;
+}
+.container .container-content .form-box  .u-form .u-form-item .right-label-box .country-code-box .countryCodeListStyle {
+  background: #f5f7fa !important;
+  color: #11D183 !important;
 }
 .container .container-content .form-box  .u-form .u-form-item .u-form-item--right__content__icon {
   font-size: 14px;
@@ -291,6 +327,52 @@ page {
 }
 .container .container-content .form-box  .u-form u-form-item .u-form-item {
   margin-bottom: 20px;
+}
+.container .container-content .form-box  .u-form u-form-item .u-form-item .u-form-item--right__content__slot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+}
+.container .container-content .form-box  .u-form u-form-item .u-form-item .u-form-item--right__content__slot u-input {
+  flex: 1;
+}
+.container .container-content .form-box  .u-form u-form-item .u-form-item .u-form-item--right__content__slot .right-label-box {
+  font-size: 12px;
+  color: #B5B5B5;
+  padding-right: 10px;
+  box-sizing: border-box;
+  position: relative;
+}
+.container .container-content .form-box  .u-form u-form-item .u-form-item .u-form-item--right__content__slot .right-label-box .label-text-box {
+  margin-right: 4px;
+}
+.container .container-content .form-box  .u-form u-form-item .u-form-item .u-form-item--right__content__slot .right-label-box .country-code-box {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 150px;
+  border-radius: 4px;
+  border: 1px solid #dcdfe6;
+  overflow: auto;
+  max-height: 170px;
+  background-color: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 5px 0;
+  z-index: 100;
+}
+.container .container-content .form-box  .u-form u-form-item .u-form-item .u-form-item--right__content__slot .right-label-box .country-code-box .country-code-list {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  padding-left: 6px;
+  box-sizing: border-box;
+  color: #101010;
+}
+.container .container-content .form-box  .u-form u-form-item .u-form-item .u-form-item--right__content__slot .right-label-box .country-code-box .countryCodeListStyle {
+  background: #f5f7fa !important;
+  color: #11D183 !important;
 }
 .container .container-content .form-box  .u-form u-form-item .u-form-item .u-input {
   background: #fff;

@@ -82,7 +82,8 @@
 		},
 		methods: {
 			...mapMutations([
-				'changeOverDueWay'
+				'changeOverDueWay',
+				'changeUserBasicInfo'
 			]),
 			
 			// 确认事件
@@ -169,8 +170,8 @@
 					if ( res && res.data.code == 0) {
 						if (res.data.data == true) {
 							this.$refs.uToast.show({
-								title: res.data.msg,
-								type: 'error',
+								title: '验证码发送成功',
+								type: 'success',
 								position: 'bottom'
 							})
 						} else {
@@ -205,12 +206,16 @@
 				this.infoText = '修改中...';
 				updateMobile(data).then((res) => {
 					if ( res && res.data.code == 0) {
+						// 更改存储的账号内手机号
+						let temporaryUserBasicInfo = this.userBasicInfo;
+						temporaryUserBasicInfo['mobile'] = this.form.phoneNumber;
+						this.changeUserBasicInfo(temporaryUserBasicInfo);
 						uni.redirectTo({
 							url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
 						});
 						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
+							title: '手机号修改成功',
+							type: 'success',
 							position: 'bottom'
 						})
 					} else {

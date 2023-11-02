@@ -299,8 +299,8 @@ var _default = {
         if (res && res.data.code == 0) {
           if (res.data.data == true) {
             _this2.$refs.uToast.show({
-              title: res.data.msg,
-              type: 'error',
+              title: '验证码发送成功',
+              type: 'success',
               position: 'bottom'
             });
           } else {

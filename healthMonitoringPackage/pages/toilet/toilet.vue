@@ -380,8 +380,16 @@
 				this.currentWeekDate = this.getNowFormatDate(new Date(this.currentWeekXaxisArr[e.currentIndex['index']]),2);
 				this.stool = this.currentWeekYaxisArr[e.currentIndex['index']]['stool'];
 				this.urinate = this.currentWeekYaxisArr[e.currentIndex['index']]['urinate'];
-				this.stoolAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['stoolTime']/this.currentWeekYaxisArr[e.currentIndex['index']]['stool']);
-				this.urinateAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['urinateTime']/this.currentWeekYaxisArr[e.currentIndex['index']]['urinate']);
+				if (this.currentWeekYaxisArr[e.currentIndex['index']]['stoolTime'] == 0) {
+					this.stoolAverageTime = 0
+				} else {
+					this.stoolAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['stoolTime']/this.currentWeekYaxisArr[e.currentIndex['index']]['stool']);
+				};
+				if (this.currentWeekYaxisArr[e.currentIndex['index']]['urinateTime'] == 0) {
+					this.urinateAverageTime = 0
+				} else {
+					this.urinateAverageTime = Math.ceil(this.currentWeekYaxisArr[e.currentIndex['index']]['urinateTime']/this.currentWeekYaxisArr[e.currentIndex['index']]['urinate']);
+				}
 			},
 			
 			// 获取月数据当前点击索引
@@ -391,8 +399,16 @@
 				this.currentMonthDate = this.getNowFormatDate(new Date(this.currentMonthXaxisArr[e.currentIndex['index']]),2);
 				this.stool = this.currentMonthYaxisArr[e.currentIndex['index']]['stool'];
 				this.urinate = this.currentMonthYaxisArr[e.currentIndex['index']]['urinate'];
-				this.stoolAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['stoolTime']/this.currentMonthYaxisArr[e.currentIndex['index']]['stool']);
-				this.urinateAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['urinateTime']/this.currentMonthYaxisArr[e.currentIndex['index']]['urinate'])
+				if (this.currentMonthYaxisArr[e.currentIndex['index']]['stoolTime'] == 0) {
+					this.stoolAverageTime = 0
+				} else {
+					this.stoolAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['stoolTime']/this.currentMonthYaxisArr[e.currentIndex['index']]['stool']);
+				};
+				if (this.currentMonthYaxisArr[e.currentIndex['index']]['urinateTime'] == 0) {
+					this.urinateAverageTime = 0
+				} else {
+					this.urinateAverageTime = Math.ceil(this.currentMonthYaxisArr[e.currentIndex['index']]['urinateTime']/this.currentMonthYaxisArr[e.currentIndex['index']]['urinate']);
+				}
 			},
 			
 			// 获取入厕数据
@@ -443,8 +459,8 @@
 								this.dayChartData['noData'] = false;
 								this.stool = questData[0]['stool'];
 								this.urinate = questData[0]['urinate'];
-								this.stoolAverageTime = Math.ceil(questData[0]['stoolTime']/this.stool);
-								this.urinateAverageTime = Math.ceil(questData[0]['urinateTime']/this.urinate);
+								this.stoolAverageTime = questData[0]['stoolTime'] == 0 ? 0 : Math.ceil(questData[0]['stoolTime']/this.stool);
+								this.urinateAverageTime = questData[0]['urinateTime'] == 0 ? 0 : Math.ceil(questData[0]['urinateTime']/this.urinate);
 								// type是否如厕 0-否， 1-是
 								let temporaryData = {
 									categories: ['7-4'],
@@ -478,8 +494,8 @@
 								if (questData[0]['date'] == this.currentStartWeekDate) {
 									this.stool = questData[0]['stool'];
 									this.urinate = questData[0]['urinate'];
-									this.stoolAverageTime = Math.ceil(questData[0]['stoolTime']/this.stool);
-									this.urinateAverageTime = Math.ceil(questData[0]['urinateTime']/this.urinate);
+									this.stoolAverageTime = questData[0]['stoolTime'] == 0 ? 0 : Math.ceil(questData[0]['stoolTime']/this.stool);
+									this.urinateAverageTime = questData[0]['urinateTime'] == 0 ? 0 : Math.ceil(questData[0]['urinateTime']/this.urinate);
 								} else {
 									this.stool = '-';
 									this.urinate = '-';

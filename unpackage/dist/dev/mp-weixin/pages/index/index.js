@@ -745,7 +745,7 @@ var _default = {
               return item.type == 1;
             }).length;
             // 统计平均入厕时间
-            var temporaryAverageToiletDuration = Math.ceil((questData[0]['stoolTime'] + questData[0]['urinateTime']) / temporaryCount);
+            var temporaryAverageToiletDuration = questData[0]['stoolTime'] + questData[0]['urinateTime'] == 0 ? 0 : Math.ceil((questData[0]['stoolTime'] + questData[0]['urinateTime']) / temporaryCount);
             var detectionDuration = 24 * 60;
             questData[0]['itemList'].forEach(function (item, index) {
               var currentDurationPercentage = (item.end - item.start) / detectionDuration;

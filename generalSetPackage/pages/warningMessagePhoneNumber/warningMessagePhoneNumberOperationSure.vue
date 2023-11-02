@@ -38,7 +38,7 @@
 	} from 'vuex'
 	import navBar from "@/components/zhouWei-navBar"
 	import { sendPhoneCode } from '@/api/login.js'
-	import { deleteMobile } from '@/api/user.js'
+	import { deleteMobile, getUserFamilyList } from '@/api/user.js'
 	export default {
 		components: {
 			navBar
@@ -54,7 +54,9 @@
 				form: {
 					phoneNumber: '',
 					verificationCode: ''
-				}
+				},
+				familyMemberList: [],
+				fullFamilyMemberList: []
 			}
 		},
 		onLoad() {
@@ -63,7 +65,8 @@
 		computed: {
 			...mapGetters([
 				'userInfo',
-				'warningMessagePhoneNumber'
+				'warningMessagePhoneNumber',
+				'familyMessage'
 			]),
 			userName() {
 			},
@@ -81,7 +84,8 @@
 		methods: {
 			...mapMutations([
 				'changeOverDueWay',
-				'changeWarningMessagePhoneNumber'
+				'changeWarningMessagePhoneNumber',
+				'changeFamilyMessage'
 			]),
 			
 			// 确认事件
@@ -133,12 +137,10 @@
 				this.infoText = '删除中...';
 				deleteMobile(data).then((res) => {
 					if ( res && res.data.code == 0) {
-						uni.redirectTo({
-							url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
-						});
+						this.queryUserFamilyList();
 						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error',
+							title: '手机号删除成功',
+							type: 'success',
 							position: 'bottom'
 						})
 					} else {
@@ -208,8 +210,8 @@
 					if ( res && res.data.code == 0) {
 						if (res.data.data == true) {
 							this.$refs.uToast.show({
-								title: res.data.msg,
-								type: 'error',
+								title: '验证码发送成功',
+								type: 'success',
 								position: 'bottom'
 							})
 						} else {
@@ -219,6 +221,47 @@
 								position: 'bottom'
 							})
 						}
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error',
+							position: 'bottom'
+						})
+					};
+					this.showLoadingHint = false;
+				})
+				.catch((err) => {
+					this.showLoadingHint = false;
+					this.$refs.uToast.show({
+						title: err.message,
+						type: 'error',
+						position: 'bottom'
+					})
+				})
+			},
+			
+			// 获取用户家庭列表
+			queryUserFamilyList () {
+				this.showLoadingHint = true;
+				this.loadingText = '加载中...';
+				this.familyMemberList = [];
+				this.fullFamilyMemberList = [];
+				getUserFamilyList().then((res) => {
+					if ( res && res.data.code == 0) {
+						this.fullFamilyMemberList = res.data.data;
+						for (let item of res.data.data) {
+							this.familyMemberList.push({
+								id: item.id,
+								value: item.name
+							})
+						};
+						let temporaryFamilyMessage = this.familyMessage;
+						temporaryFamilyMessage['familyMemberList'] = this.familyMemberList;
+						temporaryFamilyMessage['fullFamilyMemberList'] = this.fullFamilyMemberList;
+						this.changeFamilyMessage(temporaryFamilyMessage);
+						uni.redirectTo({
+							url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
+						});
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,

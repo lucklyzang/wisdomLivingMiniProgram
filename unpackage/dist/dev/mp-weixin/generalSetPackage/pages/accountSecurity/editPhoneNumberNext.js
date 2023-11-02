@@ -215,7 +215,7 @@ var _default = {
     depName: function depName() {},
     accountName: function accountName() {}
   }),
-  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeUserBasicInfo'])), {}, {
     // 确认事件
     sureEvent: function sureEvent() {
       if (!this.form.phoneNumber) {
@@ -305,8 +305,8 @@ var _default = {
         if (res && res.data.code == 0) {
           if (res.data.data == true) {
             _this2.$refs.uToast.show({
-              title: res.data.msg,
-              type: 'error',
+              title: '验证码发送成功',
+              type: 'success',
               position: 'bottom'
             });
           } else {
@@ -341,12 +341,16 @@ var _default = {
       this.infoText = '修改中...';
       (0, _user.updateMobile)(data).then(function (res) {
         if (res && res.data.code == 0) {
+          // 更改存储的账号内手机号
+          var temporaryUserBasicInfo = _this3.userBasicInfo;
+          temporaryUserBasicInfo['mobile'] = _this3.form.phoneNumber;
+          _this3.changeUserBasicInfo(temporaryUserBasicInfo);
           uni.redirectTo({
             url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
           });
           _this3.$refs.uToast.show({
-            title: res.data.msg,
-            type: 'error',
+            title: '手机号修改成功',
+            type: 'success',
             position: 'bottom'
           });
         } else {

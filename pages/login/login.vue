@@ -95,7 +95,19 @@
 			</view>
 			<view class="form-box">
 				<u-form :model="form" ref="uForm">
-					<u-form-item  v-if="!isSetPassword" label="+86" :label-style="{'font-size':'12px','color': '#B5B5B5'}">
+					<u-form-item v-if="!isSetPassword" :label-style="{'font-size':'12px','color': '#B5B5B5'}">
+						<template>
+							<view class="right-label-box" @click.native="uFormItemLabelClickEvent">
+								<text class="label-text-box">{{ selectCountryCode.value }}</text>
+								<u-icon name="arrow-up" color="#B5B5B5" v-if="isShowcountryCodeBox"></u-icon>
+								<u-icon name="arrow-down" color="#B5B5B5" v-if="!isShowcountryCodeBox"></u-icon>
+								<view class="country-code-box" v-if="isShowcountryCodeBox">
+									<view class="country-code-list" :class="{'countryCodeListStyle':selectCountryCodeIndex === index}" @click.stop="countryCodeItemClickEvent(item,index)" v-for="(item,index) in countryCodeList" :key="index">
+										<text>{{ item.label }}</text>
+									</view>
+								</view>
+							</view>
+						</template>
 						<u-input @blur="blurEvent" v-model="form.username" placeholder="请输入手机号" type="number" />
 					</u-form-item>
 					<u-form-item v-if="(isPasswordLogin && !isForgetPassword) || isSetPassword">
@@ -182,7 +194,17 @@
 				showLoadingHint: false,
 				modalShow: false,
 				modalContent: '',
-				visitPageId: ''
+				visitPageId: '',
+				isShowcountryCodeBox: false,
+				countryCodeList: [
+					{label: '中国大陆+86', value: '+86'},
+	        {label: '中国香港+852', value: '+852'},
+	        {label: '中国台湾+886', value: '+886'},
+	        {label: '美国+1', value: '+1'},
+	        {label: '日本+81', value: '+81'}
+				],
+				selectCountryCode: {label: '中国大陆+86', value: '+86'},
+				selectCountryCodeIndex: 0
 			}
 		},
 		
@@ -260,6 +282,18 @@
 					this.isForgetPassword = false;
 					this.form.verificationCode = ''
 				}
+			},
+			
+			// 手机国际区号区域点击事件
+			uFormItemLabelClickEvent () {
+				this.isShowcountryCodeBox = !this.isShowcountryCodeBox
+			},
+			
+			// 手机国际区号列点击事件
+			countryCodeItemClickEvent (item,index) {
+				this.selectCountryCode = item;
+				this.selectCountryCodeIndex = index;
+				this.isShowcountryCodeBox = !this.isShowcountryCodeBox
 			},
 			
 			// 输入框(账号/手机号)失去焦点事件
@@ -1012,9 +1046,45 @@
 				margin-top: 40px;
 				display: flex;
 				flex-direction: column;
-				position: relative;
 				::v-deep .u-form {
 					.u-form-item {
+						.right-label-box {
+							font-size:12px;
+							color: #B5B5B5;
+							padding-right: 10px;
+							box-sizing: border-box;
+							position: relative;
+							.label-text-box {
+								margin-right: 4px;
+							};
+							.country-code-box {
+								position: absolute;
+								top: 50px;
+								left: 0;
+								width: 150px;
+								border-radius: 4px;
+								border: 1px solid #dcdfe6;
+								overflow: auto;
+								max-height: 170px;
+								background-color: #fff;
+								box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+								padding: 5px 0;
+								z-index: 100;
+								.country-code-list {
+									height: 30px;
+									display: flex;
+									align-items: center;
+									font-size: 14px;
+									padding-left: 6px;
+									box-sizing: border-box;
+									color: #101010
+								};
+								.countryCodeListStyle {
+									background: #f5f7fa !important;
+									color: #11D183 !important
+								}
+							}	
+						};
 						.u-form-item--right__content__icon {
 							font-size: 14px;
 							color: #289E8E
@@ -1022,6 +1092,52 @@
 					};
 					u-form-item {
 						.u-form-item {
+							.u-form-item--right__content__slot {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								flex: 1;
+								u-input {
+									flex: 1
+								};
+								.right-label-box {
+									font-size:12px;
+									color: #B5B5B5;
+									padding-right: 10px;
+									box-sizing: border-box;
+									position: relative;
+									.label-text-box {
+										margin-right: 4px;
+									};
+									.country-code-box {
+										position: absolute;
+										top: 50px;
+										left: 0;
+										width: 150px;
+										border-radius: 4px;
+										border: 1px solid #dcdfe6;
+										overflow: auto;
+										max-height: 170px;
+										background-color: #fff;
+										box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+										padding: 5px 0;
+										z-index: 100;
+										.country-code-list {
+											height: 30px;
+											display: flex;
+											align-items: center;
+											font-size: 14px;
+											padding-left: 6px;
+											box-sizing: border-box;
+											color: #101010
+										};
+										.countryCodeListStyle {
+											background: #f5f7fa !important;
+											color: #11D183 !important
+										}
+									}	
+								}
+							};	
 							margin-bottom: 20px;
 							.u-input {
 								background: #fff;
