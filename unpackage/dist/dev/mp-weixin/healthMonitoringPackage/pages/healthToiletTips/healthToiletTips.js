@@ -224,9 +224,9 @@ var _default = {
       }).catch(function (err) {});
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/healthMonitoringPackage/pages/toilet/toilet'
-      });
+      uni.$emit('update');
+      uni.$off('update');
+      uni.navigateBack();
     }
   })
 };

@@ -175,9 +175,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/healthMonitoringPackage/pages/tumble/tumble'
-				})
+				uni.$emit('update');
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

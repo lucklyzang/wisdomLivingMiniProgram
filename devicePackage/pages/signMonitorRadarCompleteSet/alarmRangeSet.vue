@@ -170,6 +170,7 @@
 				leaveBedDetectionAlarmValue: false
 			}
 		},
+		
 		onLoad(options) {
 			if (options.transmitData == '{}') { return };
 			this.receiveData = JSON.parse(options.transmitData);
@@ -344,13 +345,15 @@
 				temporaryMessage['heartRange'] = this.heartRateAbnormalAlarmValue ? `${this.heartRateMinValue}-${this.heartRateMaxValue}` : '';
 				temporaryMessage['breatheRange'] = this.breatheAbnormalAlarmValue ? `${this.breatheMinValue}-${this.breatheMaxValue}` : '';
 				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData='+1
 				})
 			},
 			
 			backTo () {
-				uni.redirectTo({
+				uni.$emit('update', { transmitData: 1 });
+				uni.$off('update');
+				uni.navigateBack({
 					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData='+1
 				})
 			}

@@ -403,6 +403,19 @@ var _default = {
       queryDate: this.getNowFormatDate(new Date(), 2)
     }, true, false);
   },
+  onShow: function onShow() {
+    var _this = this;
+    uni.$on('update', function (object) {
+      _this.createVisitPage();
+    });
+  },
+  onUnload: function onUnload() {
+    if (!this.visitPageId && this.visitPageId !== 0) {
+      return;
+    }
+    ;
+    this.exitPage();
+  },
   destroyed: function destroyed() {
     if (!this.visitPageId && this.visitPageId !== 0) {
       return;
@@ -421,13 +434,13 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     // 创建页面访问数据
     createVisitPage: function createVisitPage() {
-      var _this = this;
+      var _this2 = this;
       (0, _user.createVisitPageData)({
         pageName: "健康-离家回家详情(日周月)",
         pageKey: "leaveHome"
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this.visitPageId = res.data.data;
+          _this2.visitPageId = res.data.data;
         }
       }).catch(function (err) {});
     },
@@ -537,7 +550,7 @@ var _default = {
     },
     // 获取离回家数据详情
     queryEnterLeaveHomeDetails: function queryEnterLeaveHomeDetails(data, type) {
-      var _this2 = this;
+      var _this3 = this;
       this.dayChartData = {
         isShow: true,
         noData: true,
@@ -556,23 +569,23 @@ var _default = {
       (0, _device.enterLeaveHomeDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
           if (type == 'day') {
-            _this2.initDayText = '';
-            _this2.initDayTime = '';
-            _this2.currentDayXaxisArr = [];
+            _this3.initDayText = '';
+            _this3.initDayTime = '';
+            _this3.currentDayXaxisArr = [];
             if (res.data.data.length > 0) {
-              _this2.dayChartData['noData'] = false;
+              _this3.dayChartData['noData'] = false;
               var questData = res.data.data[0]['ruleDataVO'];
               if (questData.details[0]['enter'] && questData.details[0]['goOut']) {
-                _this2.initDayText = '离家、回家';
+                _this3.initDayText = '离家、回家';
               } else if (questData.details[0]['enter']) {
-                _this2.initDayText = '回家';
+                _this3.initDayText = '回家';
               } else if (questData.details[0]['goOut']) {
-                _this2.initDayText = '离家';
+                _this3.initDayText = '离家';
               } else {
-                _this2.initDayText = '-';
+                _this3.initDayText = '-';
               }
               ;
-              _this2.initDayTime = _this2.getNowFormatDate(new Date(questData.details[0]['createTime']), 1);
+              _this3.initDayTime = _this3.getNowFormatDate(new Date(questData.details[0]['createTime']), 1);
               var temporaryData = {
                 categories: [],
                 series: [{
@@ -584,8 +597,8 @@ var _default = {
                 }]
               };
               questData.details.forEach(function (item, index) {
-                _this2.currentDayXaxisArr.push(item);
-                temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.createTime), 1));
+                _this3.currentDayXaxisArr.push(item);
+                temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.createTime), 1));
                 if (item.goOut) {
                   temporaryData['series'][0]['data'].push(30);
                 } else {
@@ -599,21 +612,21 @@ var _default = {
                 }
               });
               var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-              _this2.dayChartData['data'] = temporaryContent;
+              _this3.dayChartData['data'] = temporaryContent;
             } else {
-              _this2.dayChartData = {
+              _this3.dayChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
               };
-              _this2.initDayText = '-';
-              _this2.initDayTime = '-';
+              _this3.initDayText = '-';
+              _this3.initDayTime = '-';
             }
           } else if (type == 'week') {
-            _this2.currentWeekXaxisArr = [];
+            _this3.currentWeekXaxisArr = [];
             if (res.data.data.length > 0) {
               var _questData = res.data.data;
-              _this2.weekChartData['noData'] = false;
+              _this3.weekChartData['noData'] = false;
               var lengthArr = [];
               var maxColumn;
               var _temporaryData = {
@@ -621,8 +634,8 @@ var _default = {
                 series: []
               };
               _questData.forEach(function (item, index) {
-                _temporaryData['categories'].push(_this2.judgeWeek(item.date));
-                _this2.currentWeekXaxisArr.push(item.date);
+                _temporaryData['categories'].push(_this3.judgeWeek(item.date));
+                _this3.currentWeekXaxisArr.push(item.date);
                 lengthArr.push(item.ruleDataVO.details.length);
               });
               // 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -634,7 +647,7 @@ var _default = {
               }
               ;
               _temporaryData['series'].forEach(function (item, index) {
-                _this2.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
+                _this3.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
                   var currentData = _questData[innerIndex]['ruleDataVO']['details'];
                   if (currentData[index]) {
                     if (currentData[index]['enter']) {
@@ -667,19 +680,19 @@ var _default = {
                 });
               });
               var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
-              _this2.weekChartData['data'] = _temporaryContent;
+              _this3.weekChartData['data'] = _temporaryContent;
             } else {
-              _this2.weekChartData = {
+              _this3.weekChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
               };
             }
           } else if (type == 'month') {
-            _this2.currentMonthXaxisArr = [];
+            _this3.currentMonthXaxisArr = [];
             if (res.data.data.length > 0) {
               var _questData2 = res.data.data;
-              _this2.monthChartData['noData'] = false;
+              _this3.monthChartData['noData'] = false;
               var _lengthArr = [];
               var _maxColumn;
               var _temporaryData2 = {
@@ -687,8 +700,8 @@ var _default = {
                 series: []
               };
               _questData2.forEach(function (item, index) {
-                _temporaryData2['categories'].push(_this2.getNowFormatDate(new Date(item.date), 5));
-                _this2.currentMonthXaxisArr.push(item.date);
+                _temporaryData2['categories'].push(_this3.getNowFormatDate(new Date(item.date), 5));
+                _this3.currentMonthXaxisArr.push(item.date);
                 _lengthArr.push(item.ruleDataVO.details.length);
               });
               // 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -700,7 +713,7 @@ var _default = {
               }
               ;
               _temporaryData2['series'].forEach(function (item, index) {
-                _this2.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
+                _this3.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
                   var currentData = _questData2[innerIndex]['ruleDataVO']['details'];
                   if (currentData[index]) {
                     if (currentData[index]['enter']) {
@@ -733,9 +746,9 @@ var _default = {
                 });
               });
               var _temporaryContent2 = JSON.parse(JSON.stringify(_temporaryData2));
-              _this2.monthChartData['data'] = _temporaryContent2;
+              _this3.monthChartData['data'] = _temporaryContent2;
             } else {
-              _this2.monthChartData = {
+              _this3.monthChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
@@ -743,14 +756,14 @@ var _default = {
             }
           }
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this2.$refs.uToast.show({
+        _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -1105,7 +1118,7 @@ var _default = {
     },
     // 获取离家回家详情日志
     queryBodyDetectionRadar: function queryBodyDetectionRadar(data, flag, isInit) {
-      var _this3 = this;
+      var _this4 = this;
       this.recordList = [];
       if (isInit) {
         this.isShowNoHomeNoData = false;
@@ -1122,16 +1135,16 @@ var _default = {
       ;
       (0, _device.getBodyDetectionRadarDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
-          _this3.totalCount = res.data.data.total;
-          _this3.recordList = res.data.data.list;
-          _this3.fullRecordList = _this3.fullRecordList.concat(_this3.recordList);
-          if (_this3.fullRecordList.length == 0) {
-            _this3.isShowNoHomeNoData = true;
+          _this4.totalCount = res.data.data.total;
+          _this4.recordList = res.data.data.list;
+          _this4.fullRecordList = _this4.fullRecordList.concat(_this4.recordList);
+          if (_this4.fullRecordList.length == 0) {
+            _this4.isShowNoHomeNoData = true;
           } else {
-            _this3.isShowNoHomeNoData = false;
+            _this4.isShowNoHomeNoData = false;
           }
         } else {
-          _this3.$refs.uToast.show({
+          _this4.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
@@ -1139,23 +1152,23 @@ var _default = {
         }
         ;
         if (flag) {
-          _this3.showLoadingHint = false;
+          _this4.showLoadingHint = false;
         } else {
-          var totalPage = Math.ceil(_this3.totalCount / _this3.pageSize);
-          if (_this3.currentPageNum >= totalPage) {
-            _this3.status = 'nomore';
+          var totalPage = Math.ceil(_this4.totalCount / _this4.pageSize);
+          if (_this4.currentPageNum >= totalPage) {
+            _this4.status = 'nomore';
           } else {
-            _this3.status = 'loadmore';
+            _this4.status = 'loadmore';
           }
         }
       }).catch(function (err) {
         if (flag) {
-          _this3.showLoadingHint = false;
+          _this4.showLoadingHint = false;
         } else {
-          _this3.status = 'loadmore';
+          _this4.status = 'loadmore';
         }
         ;
-        _this3.$refs.uToast.show({
+        _this4.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -1179,14 +1192,15 @@ var _default = {
     },
     // 进入健康小知识详情事件
     healthTipsDetailsEvent: function healthTipsDetailsEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/healthMonitoringPackage/pages/healthLeaveHomeTips/healthLeaveHomeTips'
       });
     },
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/index/index'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/index/index'
+      // })
     }
   })
 };

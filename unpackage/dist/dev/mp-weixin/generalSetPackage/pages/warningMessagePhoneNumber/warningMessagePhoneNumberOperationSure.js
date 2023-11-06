@@ -254,7 +254,7 @@ var _default = {
         var temporaryNumberMessage = this.warningMessagePhoneNumber;
         temporaryNumberMessage['oldCode'] = this.form.verificationCode;
         this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberEdit'
         });
       } else if (this.warningMessagePhoneNumber.type == '删除') {
@@ -406,7 +406,7 @@ var _default = {
           temporaryFamilyMessage['familyMemberList'] = _this4.familyMemberList;
           temporaryFamilyMessage['fullFamilyMemberList'] = _this4.fullFamilyMemberList;
           _this4.changeFamilyMessage(temporaryFamilyMessage);
-          uni.redirectTo({
+          uni.navigateTo({
             url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
           });
         } else {
@@ -428,9 +428,7 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
-      });
+      uni.navigateBack();
     }
   })
 };

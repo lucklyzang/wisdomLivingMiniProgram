@@ -217,6 +217,28 @@ var _default = {
       moreIconPng: __webpack_require__(/*! @/static/img/more-icon.png */ 354)
     };
   },
+  onShow: function onShow() {
+    var _this = this;
+    // 接收uni.navigateBack返回时的参数
+    uni.$on('update', function (object) {
+      // 获取雷达设置
+      _this.getRadarSet(_this.beforeAddDeviceMessage.deviceId);
+      if (!object.hasOwnProperty('transmitData')) {
+        if (_this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+          _this.wifiListBoxShow = true;
+          return;
+        }
+      }
+      ;
+      if (object.transmitData == 1) {
+        return;
+      }
+      ;
+      if (_this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+        _this.wifiListBoxShow = true;
+      }
+    });
+  },
   onLoad: function onLoad(object) {
     // 获取雷达设置
     this.getRadarSet(this.beforeAddDeviceMessage.deviceId);
@@ -287,7 +309,7 @@ var _default = {
     },
     // 更新雷达设置
     updateRadarSet: function updateRadarSet() {
-      var _this = this;
+      var _this2 = this;
       console.log('通知方式', this.acceptAlarmMethod);
       if (!this.alarmRangeValue || !this.acceptAlarmMethod) {
         return;
@@ -304,24 +326,24 @@ var _default = {
         getUp: this.getUp
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this.$refs['ytoast'].show({
+          _this2.$refs['ytoast'].show({
             message: '保存成功!',
             type: 'success'
           });
-          var temporaryMessage = _this.beforeAddDeviceMessage;
+          var temporaryMessage = _this2.beforeAddDeviceMessage;
           temporaryMessage['isSaveAlarmRanageInfo'] = false;
-          _this.changeBeforeAddDeviceMessage(temporaryMessage);
+          _this2.changeBeforeAddDeviceMessage(temporaryMessage);
         } else {
-          _this.$refs['ytoast'].show({
+          _this2.$refs['ytoast'].show({
             message: '保存失败!',
             type: 'error'
           });
         }
         ;
-        _this.showLoadingHint = false;
+        _this2.showLoadingHint = false;
       }).catch(function (err) {
-        _this.showLoadingHint = false;
-        _this.$refs['ytoast'].show({
+        _this2.showLoadingHint = false;
+        _this2.$refs['ytoast'].show({
           message: '保存失败!',
           type: 'error'
         });
@@ -329,36 +351,36 @@ var _default = {
     },
     // 获得雷达设置
     getRadarSet: function getRadarSet(deviceId) {
-      var _this2 = this;
+      var _this3 = this;
       this.showLoadingHint = true;
       this.infoText = '加载中...';
       this.alarmRangeValueList = [];
       (0, _device.getFallAlarmSettings)({
         deviceId: deviceId
       }).then(function (res) {
-        _this2.showLoadingHint = false;
+        _this3.showLoadingHint = false;
         if (res && res.data.code == 0) {
-          _this2.deviceNumber = res.data.data.sn;
-          _this2.acceptAlarmMethod = _this2.alarmTypeTransitionText(res.data.data.notice);
+          _this3.deviceNumber = res.data.data.sn;
+          _this3.acceptAlarmMethod = _this3.alarmTypeTransitionText(res.data.data.notice);
           if (res.data.data.enter) {
-            _this2.enter = true;
-            _this2.alarmRangeValueList.push('人员进入报警');
+            _this3.enter = true;
+            _this3.alarmRangeValueList.push('人员进入报警');
           } else {
-            _this2.enter = false;
+            _this3.enter = false;
           }
           ;
           if (res.data.data.goOut) {
-            _this2.goOut = true;
-            _this2.alarmRangeValueList.push('人员离开报警');
+            _this3.goOut = true;
+            _this3.alarmRangeValueList.push('人员离开报警');
           } else {
-            _this2.goOut = false;
+            _this3.goOut = false;
           }
           ;
           if (res.data.data.fall) {
-            _this2.fall = true;
-            _this2.alarmRangeValueList.push('跌倒报警');
+            _this3.fall = true;
+            _this3.alarmRangeValueList.push('跌倒报警');
           } else {
-            _this2.fall = false;
+            _this3.fall = false;
           }
           ;
           // if (res.data.data.getUp) {
@@ -367,23 +389,23 @@ var _default = {
           // } else {
           // 	this.getUp = false
           // };
-          _this2.alarmRangeValue = _this2.alarmRangeValueList.join("、");
-          _this2.deviceSetBasicMessage = res.data.data;
+          _this3.alarmRangeValue = _this3.alarmRangeValueList.join("、");
+          _this3.deviceSetBasicMessage = res.data.data;
           // 回显保存的报警范围设置信息
-          if (_this2.beforeAddDeviceMessage['isSaveAlarmRanageInfo']) {
-            _this2.echoAlarmRanageMessage();
+          if (_this3.beforeAddDeviceMessage['isSaveAlarmRanageInfo']) {
+            _this3.echoAlarmRanageMessage();
           }
           ;
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this2.showLoadingHint = false;
-        _this2.$refs.uToast.show({
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
           title: err,
           type: 'error',
           position: 'bottom'
@@ -400,7 +422,7 @@ var _default = {
     },
     // 日志点击事件
     logEvent: function logEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/tumbleRadarCompleteSet/logRecord'
       });
     },
@@ -409,7 +431,7 @@ var _default = {
       var temporaryMessage = this.beforeAddDeviceMessage;
       temporaryMessage['deviceNumber'] = this.deviceNumber;
       this.changeBeforeAddDeviceMessage(temporaryMessage);
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/tumbleRadarCompleteSet/editDevice'
       });
     },
@@ -453,7 +475,7 @@ var _default = {
       this.changeBeforeAddDeviceMessage(temporaryMessage);
       // 传递报警范围信息
       var mynavData = JSON.stringify(this.deviceSetBasicMessage);
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/tumbleRadarCompleteSet/alarmRangeSet?transmitData=' + mynavData
       });
     },
@@ -477,7 +499,7 @@ var _default = {
           url: "".concat(this.enterDeviceSetPageSource)
         });
       } else {
-        uni.redirectTo({
+        uni.navigateTo({
           url: "".concat(this.enterDeviceSetPageSource)
         });
       }

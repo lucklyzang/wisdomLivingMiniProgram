@@ -93,15 +93,16 @@
 			
 			// 进入提示页事件
 			enterInfoEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/addDevicesInfo/addDevicesInfo'
 				})
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/addDevices/addDevices'
-				})
+				uni.navigateBack()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/addDevices/addDevices'
+				// })
 			}
 		}
 	}

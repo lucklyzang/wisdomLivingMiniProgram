@@ -290,9 +290,9 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: "".concat(this.enterAddRoomPageSource)
-      });
+      uni.$emit('update');
+      uni.$off('update');
+      uni.navigateBack();
     }
   })
 };

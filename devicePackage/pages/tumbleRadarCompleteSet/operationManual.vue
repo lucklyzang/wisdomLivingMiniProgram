@@ -54,7 +54,7 @@
 			]),
 			
 			backTo () {
-				uni.redirectTo({
+				uni.navigateBack({
 					url: '/devicePackage/pages/tumbleRadarCompleteSet/editDevice'
 				})
 			}

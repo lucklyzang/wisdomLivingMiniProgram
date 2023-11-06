@@ -122,7 +122,26 @@
 				moreIconPng: require("@/static/img/more-icon.png")
 			}
 		},
-		onLoad(object) {
+		
+		onShow(){
+			// 接收uni.navigateBack返回时的参数
+			uni.$on('update', (object) => {
+				// 获取雷达设置
+				this.getRadarSet(this.beforeAddSignMonitorRadarCompleteSet.deviceId);
+				if (!object.hasOwnProperty('transmitData')) { 
+					if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+						this.wifiListBoxShow = true;
+						return
+					}
+				};
+				if (object.transmitData == 1) { return };
+				if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+					this.wifiListBoxShow = true
+				}
+			})
+		},
+		
+		onLoad (object) {
 			// 获取雷达设置
 			this.getRadarSet(this.beforeAddSignMonitorRadarCompleteSet.deviceId);
 			if (!object.hasOwnProperty('transmitData')) { 
@@ -136,6 +155,7 @@
 				this.wifiListBoxShow = true
 			}
 		},
+		
 		computed: {
 			...mapGetters([
 				'userInfo',
@@ -356,7 +376,7 @@
 			
 			// 日志点击事件
 			logEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/signMonitorRadarCompleteSet/logRecord'
 				})
 			},
@@ -366,7 +386,7 @@
 				let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
 				temporaryMessage['deviceNumber'] = this.deviceNumber;
 				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/signMonitorRadarCompleteSet/editDevice'
 				})
 			},
@@ -379,7 +399,7 @@
 				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 				// 传递报警范围信息
 				let mynavData = JSON.stringify(this.deviceSetBasicMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/signMonitorRadarCompleteSet/alarmRangeSet?transmitData='+mynavData
 				})
 			},
@@ -402,14 +422,17 @@
 			},
 			
 			backTo () {
+				let pages = getCurrentPages();
+				console.log('是咧',pages.length);
 				if (this.enterDeviceSetPageSource == '/pages/device/device') {
 					uni.switchTab({
 						url: `${this.enterDeviceSetPageSource}`
 					})
 				} else {
-					uni.redirectTo({
-						url: `${this.enterDeviceSetPageSource}`
+					uni.navigateBack({ 
+						delta: 2
 					})
+					// uni.navigateTo({url: `${this.enterDeviceSetPageSource}`})
 				}
 			}
 		}

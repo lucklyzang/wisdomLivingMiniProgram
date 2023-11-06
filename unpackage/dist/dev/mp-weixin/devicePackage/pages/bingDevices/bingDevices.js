@@ -219,7 +219,7 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeCurrentNeedBindDevicesMessage'])), {}, {
     // 绑定设备事件
     bindDeviceEvent: function bindDeviceEvent(item) {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/bingDevicesHint/bingDevicesHint'
       });
       var temporaryMessage = this.currentNeedBindDevicesMessage;
@@ -278,9 +278,10 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/index/index'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/index/index'
+      // })
     }
   })
 };

@@ -144,9 +144,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/generalSetPackage/pages/familyManagement/familyManagement'
-				})
+				uni.$emit('update');
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

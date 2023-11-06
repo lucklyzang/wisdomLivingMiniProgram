@@ -219,6 +219,28 @@ var _default = {
       moreIconPng: __webpack_require__(/*! @/static/img/more-icon.png */ 354)
     };
   },
+  onShow: function onShow() {
+    var _this = this;
+    // 接收uni.navigateBack返回时的参数
+    uni.$on('update', function (object) {
+      // 获取雷达设置
+      _this.getRadarSet(_this.beforeAddSignMonitorRadarCompleteSet.deviceId);
+      if (!object.hasOwnProperty('transmitData')) {
+        if (_this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+          _this.wifiListBoxShow = true;
+          return;
+        }
+      }
+      ;
+      if (object.transmitData == 1) {
+        return;
+      }
+      ;
+      if (_this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+        _this.wifiListBoxShow = true;
+      }
+    });
+  },
   onLoad: function onLoad(object) {
     // 获取雷达设置
     this.getRadarSet(this.beforeAddSignMonitorRadarCompleteSet.deviceId);
@@ -289,7 +311,7 @@ var _default = {
     },
     // 更新雷达设置
     updateRadarSet: function updateRadarSet() {
-      var _this = this;
+      var _this2 = this;
       if (!this.alarmRangeValue || !this.acceptAlarmMethod) {
         return;
       }
@@ -308,24 +330,24 @@ var _default = {
         outBed: this.outBed
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this.$refs['ytoast'].show({
+          _this2.$refs['ytoast'].show({
             message: '保存成功!',
             type: 'success'
           });
-          var temporaryMessage = _this.beforeAddSignMonitorRadarCompleteSet;
+          var temporaryMessage = _this2.beforeAddSignMonitorRadarCompleteSet;
           temporaryMessage['isSaveAlarmRanageInfo'] = false;
-          _this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
+          _this2.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
         } else {
-          _this.$refs['ytoast'].show({
+          _this2.$refs['ytoast'].show({
             message: '保存失败!',
             type: 'error'
           });
         }
         ;
-        _this.showLoadingHint = false;
+        _this2.showLoadingHint = false;
       }).catch(function (err) {
-        _this.showLoadingHint = false;
-        _this.$refs['ytoast'].show({
+        _this2.showLoadingHint = false;
+        _this2.$refs['ytoast'].show({
           message: '保存失败!',
           type: 'error'
         });
@@ -333,7 +355,7 @@ var _default = {
     },
     // 获得雷达设置
     getRadarSet: function getRadarSet(deviceId) {
-      var _this2 = this;
+      var _this3 = this;
       this.showLoadingHint = true;
       this.infoText = '加载中...';
       this.alarmRangeValueList = [];
@@ -341,22 +363,22 @@ var _default = {
         deviceId: deviceId
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this2.deviceNumber = res.data.data.sn;
-          _this2.acceptAlarmMethod = _this2.alarmTypeTransitionText(res.data.data.notice);
+          _this3.deviceNumber = res.data.data.sn;
+          _this3.acceptAlarmMethod = _this3.alarmTypeTransitionText(res.data.data.notice);
           if (res.data.data.heart) {
-            _this2.heart = true;
-            _this2.heartRange = res.data.data.heartRange;
-            _this2.alarmRangeValueList.push('心率异常报警');
+            _this3.heart = true;
+            _this3.heartRange = res.data.data.heartRange;
+            _this3.alarmRangeValueList.push('心率异常报警');
           } else {
-            _this2.heart = false;
+            _this3.heart = false;
           }
           ;
           if (res.data.data.breathe) {
-            _this2.breathe = true;
-            _this2.breatheRange = res.data.data.breatheRange;
-            _this2.alarmRangeValueList.push('呼吸异常报警');
+            _this3.breathe = true;
+            _this3.breatheRange = res.data.data.breatheRange;
+            _this3.alarmRangeValueList.push('呼吸异常报警');
           } else {
-            _this2.breathe = false;
+            _this3.breathe = false;
           }
           ;
           // if (res.data.data.move) {
@@ -372,31 +394,31 @@ var _default = {
           // 	this.sitUp = false
           // };
           if (res.data.data.outBed) {
-            _this2.outBed = true;
-            _this2.alarmRangeValueList.push('离床检测报警');
+            _this3.outBed = true;
+            _this3.alarmRangeValueList.push('离床检测报警');
           } else {
-            _this2.outBed = false;
+            _this3.outBed = false;
           }
           ;
-          _this2.alarmRangeValue = _this2.alarmRangeValueList.join("、");
-          _this2.deviceSetBasicMessage = res.data.data;
+          _this3.alarmRangeValue = _this3.alarmRangeValueList.join("、");
+          _this3.deviceSetBasicMessage = res.data.data;
           // 回显保存的报警范围设置信息
-          if (_this2.beforeAddSignMonitorRadarCompleteSet['isSaveAlarmRanageInfo']) {
-            _this2.echoAlarmRanageMessage();
+          if (_this3.beforeAddSignMonitorRadarCompleteSet['isSaveAlarmRanageInfo']) {
+            _this3.echoAlarmRanageMessage();
           }
           ;
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
         ;
-        _this2.showLoadingHint = false;
+        _this3.showLoadingHint = false;
       }).catch(function (err) {
-        _this2.showLoadingHint = false;
-        _this2.$refs.uToast.show({
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -455,7 +477,7 @@ var _default = {
     },
     // 日志点击事件
     logEvent: function logEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/signMonitorRadarCompleteSet/logRecord'
       });
     },
@@ -464,7 +486,7 @@ var _default = {
       var temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
       temporaryMessage['deviceNumber'] = this.deviceNumber;
       this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/signMonitorRadarCompleteSet/editDevice'
       });
     },
@@ -475,7 +497,7 @@ var _default = {
       this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
       // 传递报警范围信息
       var mynavData = JSON.stringify(this.deviceSetBasicMessage);
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/signMonitorRadarCompleteSet/alarmRangeSet?transmitData=' + mynavData
       });
     },
@@ -494,14 +516,17 @@ var _default = {
       this.cceptAlarmMethodBoxShow = false;
     },
     backTo: function backTo() {
+      var pages = getCurrentPages();
+      console.log('是咧', pages.length);
       if (this.enterDeviceSetPageSource == '/pages/device/device') {
         uni.switchTab({
           url: "".concat(this.enterDeviceSetPageSource)
         });
       } else {
-        uni.redirectTo({
-          url: "".concat(this.enterDeviceSetPageSource)
+        uni.navigateBack({
+          delta: 2
         });
+        // uni.navigateTo({url: `${this.enterDeviceSetPageSource}`})
       }
     }
   })

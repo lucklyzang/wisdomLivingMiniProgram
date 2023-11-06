@@ -200,14 +200,15 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     // 进入提示页事件
     enterInfoEvent: function enterInfoEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/addDevicesInfo/addDevicesInfo'
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/addDevices/addDevices'
-      });
+      uni.navigateBack();
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/addDevices/addDevices'
+      // })
     }
   })
 };

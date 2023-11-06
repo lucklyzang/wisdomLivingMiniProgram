@@ -160,9 +160,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/healthMonitoringPackage/pages/sleep/sleep'
-				})
+				uni.$emit('update');
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

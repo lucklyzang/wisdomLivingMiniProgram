@@ -232,7 +232,7 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeUserBasicInfo', 'changeEnterFamilyManagementPageSource'])), {}, {
     // 头像点击事件
     enterPersonMessagePageEvent: function enterPersonMessagePageEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/generalSetPackage/pages/privateInfo/privateInfo'
       });
     },
@@ -289,20 +289,20 @@ var _default = {
     // 底部功能区点击事件
     bottomFunctionClickEvent: function bottomFunctionClickEvent(name) {
       if (name == '帮助与反馈') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/generalSetPackage/pages/generalSet/index/index'
         });
       } else if (name == '关于APP') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/generalSetPackage/pages/aboutApp/aboutApp'
         });
       } else if (name == '家庭管理') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/generalSetPackage/pages/familyManagement/familyManagement'
         });
         this.changeEnterFamilyManagementPageSource('/pages/personInfo/personInfo');
       } else if (name == '通用设置') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/generalSetPackage/pages/generalSetting/generalSetting'
         });
       }

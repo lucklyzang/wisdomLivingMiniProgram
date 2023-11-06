@@ -142,20 +142,21 @@
 			// 设置事件
 			setEvent(name) {
 				if (name == '告警设置') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/warningSetting/warningSetting'
 					})
 				} else if (name == '账号安全') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/accountSecurity/accountSecurity'
 					})
 				}
 			},
 			
 			backTo () {
-				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
-				})
+				uni.navigateBack()
+				// uni.switchTab({
+				// 	url: '/pages/personInfo/personInfo'
+				// })
 			}
 		}
 	}

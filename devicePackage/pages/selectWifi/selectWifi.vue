@@ -113,16 +113,17 @@
 			
 			// wifi确认连接事件
 			sureEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/selectWifi/connectDevice'
 				})
 						
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/addDevices/addDevices'
-				})
+				uni.navigateBack()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/addDevices/addDevices'
+				// })
 			}
 		}
 	}

@@ -242,7 +242,7 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddDeviceMessage'])), {}, {
     // 操作设备点击事件
     operationManualClickEvent: function operationManualClickEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/tumbleRadarCompleteSet/operationManual'
       });
     },
@@ -392,9 +392,11 @@ var _default = {
       this.chooseRoomShow = false;
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData=' + 1
+      uni.$emit('update', {
+        transmitData: 1
       });
+      uni.$off('update');
+      uni.navigateBack();
     }
   })
 };

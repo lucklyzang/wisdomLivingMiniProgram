@@ -310,7 +310,7 @@ var _default = {
             var temporaryMessage = _this.beforeAddDeviceMessage;
             temporaryMessage['id'] = res.data.data;
             _this.changeBeforeAddDeviceMessage(temporaryMessage);
-            uni.redirectTo({
+            uni.navigateTo({
               url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
             });
           }
@@ -319,7 +319,7 @@ var _default = {
             var _temporaryMessage7 = _this.beforeAddBodyDetectionDeviceMessage;
             _temporaryMessage7['id'] = res.data.data;
             _this.changeBeforeAddBodyDetectionDeviceMessage(_temporaryMessage7);
-            uni.redirectTo({
+            uni.navigateTo({
               url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
             });
           }
@@ -328,7 +328,7 @@ var _default = {
             var _temporaryMessage8 = _this.beforeAddExistPerceptionRadarCompleteSet;
             _temporaryMessage8['id'] = res.data.data;
             _this.changeBeforeAddExistPerceptionRadarCompleteSet(_temporaryMessage8);
-            uni.redirectTo({
+            uni.navigateTo({
               url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
             });
           }
@@ -337,10 +337,13 @@ var _default = {
             var _temporaryMessage9 = _this.beforeAddSignMonitorRadarCompleteSet;
             _temporaryMessage9['id'] = res.data.data;
             _this.changeBeforeAddSignMonitorRadarCompleteSet(_temporaryMessage9);
-            uni.redirectTo({
+            uni.navigateTo({
               url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
             });
           }
+          ;
+          uni.$emit('update', {});
+          uni.$off('update');
         } else {
           _this.$refs.uToast.show({
             title: res.data.msg,
@@ -359,9 +362,10 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
-      });
+      uni.navigateBack();
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
+      // })
     }
   })
 };

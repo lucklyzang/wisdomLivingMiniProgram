@@ -101,7 +101,7 @@
 			
 			// 绑定设备事件
 			bindDeviceEvent (item) {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/bingDevicesHint/bingDevicesHint'
 				});
 				let temporaryMessage = this.currentNeedBindDevicesMessage;
@@ -163,9 +163,10 @@
 			},
 			
 			backTo () {
-				uni.switchTab({
-					url: '/pages/index/index'
-				})
+				uni.navigateBack()
+				// uni.switchTab({
+				// 	url: '/pages/index/index'
+				// })
 			}
 		}
 	}

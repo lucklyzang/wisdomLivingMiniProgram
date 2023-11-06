@@ -1049,34 +1049,34 @@ var _default = {
       temporaryMessage['type'] = type;
       this.changeDeviceDataMessage(item);
       this.changeCurrentNeedBindDevicesMessage(temporaryMessage);
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/bingDevices/bingDevices'
       });
     },
     // 进入数据详情事件
     enterDetailsEvent: function enterDetailsEvent(text, item) {
       if (text == '心率') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/healthMonitoringPackage/pages/heartRate/heartRate'
         });
       } else if (text == '呼吸') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/healthMonitoringPackage/pages/breathe/breathe'
         });
       } else if (text == '睡眠') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/healthMonitoringPackage/pages/sleep/sleep'
         });
       } else if (text == '入厕') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/healthMonitoringPackage/pages/toilet/toilet'
         });
       } else if (text == '跌倒') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/healthMonitoringPackage/pages/tumble/tumble'
         });
       } else if (text == '离家和回家') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/healthMonitoringPackage/pages/leaveHome/leaveHome'
         });
       }
@@ -1085,7 +1085,7 @@ var _default = {
     },
     // 编辑数据卡片事件
     editDataCardEvent: function editDataCardEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/healthMonitoringPackage/pages/healthMonitoring/index/index'
       });
     }

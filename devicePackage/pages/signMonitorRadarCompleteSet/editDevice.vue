@@ -171,7 +171,8 @@
 			this.deviceNumber = this.beforeAddSignMonitorRadarCompleteSet.deviceNumber;
 			this.roomId = this.beforeAddSignMonitorRadarCompleteSet.roomId;
 			this.roomName = this.beforeAddSignMonitorRadarCompleteSet.roomName;
-			this.onLine = this.beforeAddSignMonitorRadarCompleteSet.onLine
+			this.onLine = this.beforeAddSignMonitorRadarCompleteSet.onLine;
+			console.log('房间id',this.roomId);
 		},
 		computed: {
 			...mapGetters([
@@ -291,7 +292,7 @@
 			
 			// 操作设备点击事件
 			operationManualClickEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/signMonitorRadarCompleteSet/operationManual'
 				})
 			},
@@ -348,9 +349,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData='+1
-				})
+				uni.$emit('update', { transmitData: 1 });
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

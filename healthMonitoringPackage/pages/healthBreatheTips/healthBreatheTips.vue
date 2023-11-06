@@ -230,9 +230,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/healthMonitoringPackage/pages/breathe/breathe'
-				})
+				uni.$emit('update');
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

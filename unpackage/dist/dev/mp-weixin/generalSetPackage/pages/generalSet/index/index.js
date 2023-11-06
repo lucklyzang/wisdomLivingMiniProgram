@@ -196,9 +196,10 @@ var _default = {
   mounted: function mounted() {},
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/personInfo/personInfo'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/personInfo/personInfo'
+      // })
     }
   })
 };

@@ -73,15 +73,16 @@
 			
 			
 			testTo () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
 				})
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/selectWifi/selectWifi'
-				})
+				uni.navigateBack()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/selectWifi/selectWifi'
+				// })
 			}
 		}
 	}

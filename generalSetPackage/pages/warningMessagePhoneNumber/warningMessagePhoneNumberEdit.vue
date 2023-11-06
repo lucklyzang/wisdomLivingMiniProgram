@@ -253,7 +253,7 @@
 						temporaryFamilyMessage['familyMemberList'] = this.familyMemberList;
 						temporaryFamilyMessage['fullFamilyMemberList'] = this.fullFamilyMemberList;
 						this.changeFamilyMessage(temporaryFamilyMessage);
-						uni.redirectTo({
+						uni.navigateTo({
 							url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
 						});
 					} else {
@@ -276,9 +276,7 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

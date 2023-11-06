@@ -266,9 +266,10 @@ var _default = {
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/index/index'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/index/index'
+      // })
     },
     showImage: function showImage(num) {
       console.log('type', num);

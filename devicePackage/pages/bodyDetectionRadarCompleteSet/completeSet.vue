@@ -119,8 +119,26 @@
 				moreIconPng: require("@/static/img/more-icon.png")
 			}
 		},
-		onLoad(object) {
-			console.log('数据',this.beforeAddBodyDetectionDeviceMessage);		
+		
+		onShow(){
+			// 接收uni.navigateBack返回时的参数
+			uni.$on('update', (object) => {
+				// 获取雷达设置
+				this.getRadarSet(this.beforeAddBodyDetectionDeviceMessage.deviceId);
+				if (!object.hasOwnProperty('transmitData')) { 
+					if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+						this.wifiListBoxShow = true;
+						return
+					}
+				};
+				if (object.transmitData == 1) { return };
+				if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+					this.wifiListBoxShow = true
+				}
+			})
+		},
+		
+		onLoad (object) {
 			// 获取雷达设置
 			this.getRadarSet(this.beforeAddBodyDetectionDeviceMessage.deviceId);
 			if (!object.hasOwnProperty('transmitData')) { 
@@ -134,6 +152,7 @@
 				this.wifiListBoxShow = true
 			}
 		},
+		
 		computed: {
 			...mapGetters([
 				'userInfo',
@@ -310,7 +329,7 @@
 			
 			// 日志点击事件
 			logEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/logRecord'
 				})
 			},
@@ -320,7 +339,7 @@
 				let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 				temporaryMessage['deviceNumber'] = this.deviceNumber;
 				this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/editDevice'
 				})
 			},
@@ -333,7 +352,7 @@
 				this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
 				// 传递报警范围信息
 				let mynavData = JSON.stringify(this.deviceSetBasicMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/alarmRangeSet?transmitData='+mynavData
 				})
 			},
@@ -361,9 +380,7 @@
 						url: `${this.enterDeviceSetPageSource}`
 					})
 				} else {
-					uni.redirectTo({
-						url: `${this.enterDeviceSetPageSource}`
-					})
+					uni.navigateTo({url: `${this.enterDeviceSetPageSource}`})
 				}
 			}
 		}

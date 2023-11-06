@@ -244,7 +244,7 @@ var _default = {
         return;
       }
       ;
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/generalSetPackage/pages/accountSecurity/editPhoneNumberNext?transmitData=' + this.form.verificationCode
       });
     },
@@ -329,9 +329,7 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/generalSetPackage/pages/accountSecurity/accountSecurity'
-      });
+      uni.navigateBack();
     }
   })
 };

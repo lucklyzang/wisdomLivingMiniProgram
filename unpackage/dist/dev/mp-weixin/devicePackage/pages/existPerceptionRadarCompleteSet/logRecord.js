@@ -426,7 +426,11 @@ var _default = {
       }
     },
     backTo: function backTo() {
-      uni.redirectTo({
+      uni.$emit('update', {
+        transmitData: 1
+      });
+      uni.$off('update');
+      uni.navigateBack({
         url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet?transmitData=' + 1
       });
     }

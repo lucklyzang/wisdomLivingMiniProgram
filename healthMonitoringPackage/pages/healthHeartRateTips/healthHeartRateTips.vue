@@ -165,9 +165,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/healthMonitoringPackage/pages/heartRate/heartRate'
-				})
+				uni.$emit('update');
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

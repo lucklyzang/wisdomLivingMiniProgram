@@ -54,9 +54,10 @@
 			]),
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/editDevice'
-				})
+				uni.navigateBack()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/editDevice'
+				// })
 			}
 		}
 	}

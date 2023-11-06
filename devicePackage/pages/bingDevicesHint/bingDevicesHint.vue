@@ -104,9 +104,7 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/bingDevices/bingDevices'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

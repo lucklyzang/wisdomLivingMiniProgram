@@ -163,9 +163,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: `${this.enterAddRoomPageSource}`
-				})
+				uni.$emit('update');
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

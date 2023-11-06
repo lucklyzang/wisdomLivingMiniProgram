@@ -54,9 +54,10 @@
 			]),
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/existPerceptionRadarCompleteSet/editDevice'
-				})
+				uni.navigateBack()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/existPerceptionRadarCompleteSet/editDevice'
+				// })
 			}
 		}
 	}

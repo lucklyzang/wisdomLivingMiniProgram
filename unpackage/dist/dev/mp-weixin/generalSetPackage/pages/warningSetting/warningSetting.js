@@ -205,15 +205,13 @@ var _default = {
     // 设置事件
     setEvent: function setEvent(name) {
       if (name == '报警信息接收手机') {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
         });
       }
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/generalSetPackage/pages/generalSetting/generalSetting'
-      });
+      uni.navigateBack();
     }
   })
 };

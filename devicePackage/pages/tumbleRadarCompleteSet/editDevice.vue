@@ -200,7 +200,7 @@
 			
 			// 操作设备点击事件
 			operationManualClickEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/tumbleRadarCompleteSet/operationManual'
 				})
 			},
@@ -345,9 +345,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData='+1
-				})
+				uni.$emit('update', { transmitData: 1 });
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

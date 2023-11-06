@@ -86,9 +86,7 @@
 			]),
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/addDevices/addDevices'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

@@ -200,9 +200,10 @@ var _default = {
   mounted: function mounted() {},
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeBeforeAddDeviceMessage', 'changeBeforeAddExistPerceptionRadarCompleteSet', 'changeBeforeAddSignMonitorRadarCompleteSet', 'changeBeforeAddBodyDetectionDeviceMessage', 'changeCurrentDeviceType'])), {}, {
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/device/device'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/device/device'
+      // })
     },
     // 选择wifi事件
     chooseWifiEvent: function chooseWifiEvent(item) {
@@ -250,13 +251,13 @@ var _default = {
       // uni.redirectTo({
       // 	url: '/devicePackage/pages/selectWifi/selectWifi'
       // });
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
       });
     },
     // 进入提示页事件
     enterInfoEvent: function enterInfoEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/addDevicesInfo/addDevicesInfo'
       });
     },
@@ -308,7 +309,7 @@ var _default = {
     },
     // 去开启事件
     goOpenEvent: function goOpenEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/goOpen/goOpen'
       });
     }

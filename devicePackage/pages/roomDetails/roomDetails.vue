@@ -94,9 +94,8 @@
 			// 进入设备事件
 			// 1-体征雷达，2-存在感知雷达，3-跌倒雷达，4-人体检测雷达
 			enterDeviceEvent (item) {
-				console.log('房间详情',item);
 				if (item.type == 3) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
 					});
 					// 保存进入设备设置界面的设备部分相关信息
@@ -110,14 +109,15 @@
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddDeviceMessage(temporaryMessage);
 				} else if (item.type == 2) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
 					});
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
 					temporaryMessage['roomId'] = this.roomId;
 					temporaryMessage['roomName'] = this.roomName;
-					temporaryMessage['deviceId'] = item.id;
+					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['id'] = item.id;
 					temporaryMessage['customDeviceName'] = item.customName;
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
@@ -125,30 +125,34 @@
 				} else if (item.type == 1) {
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
-					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['roomId'] = this.roomId;
 					temporaryMessage['roomName'] = this.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['id'] = item.id;
 					temporaryMessage['customDeviceName'] = item.customName;
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
 					})
 				} else if (item.type == 4) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
 					});
 					// 保存进入设备设置界面的设备部分相关信息
 					let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
-					temporaryMessage['roomId'] = item.roomId;
+					temporaryMessage['roomId'] = this.roomId;
 					temporaryMessage['roomName'] = this.roomName;
 					temporaryMessage['deviceId'] = item.deviceId;
+					temporaryMessage['id'] = item.id;
 					temporaryMessage['customDeviceName'] = item.customName;
 					temporaryMessage['deviceName'] = item.name;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
 				};
+				uni.$emit('update', {});
+				uni.$off('update');
 				this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails')
 			},
 			

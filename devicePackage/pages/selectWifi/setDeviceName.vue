@@ -179,7 +179,7 @@
 							let temporaryMessage = this.beforeAddDeviceMessage;
 							temporaryMessage['id'] = res.data.data;
 							this.changeBeforeAddDeviceMessage(temporaryMessage);
-							uni.redirectTo({
+							uni.navigateTo({
 								url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
 							})
 						};
@@ -187,7 +187,7 @@
 							let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 							temporaryMessage['id'] = res.data.data;
 							this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
-							uni.redirectTo({
+							uni.navigateTo({
 								url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
 							})
 						};
@@ -195,7 +195,7 @@
 							let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
 							temporaryMessage['id'] = res.data.data;
 							this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
-							uni.redirectTo({
+							uni.navigateTo({
 								url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
 							})
 						};
@@ -203,10 +203,12 @@
 							let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
 							temporaryMessage['id'] = res.data.data;
 							this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-							uni.redirectTo({
+							uni.navigateTo({
 								url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
 							})
-						}
+						};
+						uni.$emit('update', {});
+						uni.$off('update');
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -227,9 +229,10 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
-				})
+				uni.navigateBack()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
+				// })
 			}
 		}
 	}

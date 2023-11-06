@@ -72,16 +72,14 @@
 			// 设置事件
 			setEvent(name) {
 				if (name == '修改手机号') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
 					})
 				}
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/generalSetPackage/pages/generalSetting/generalSetting'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

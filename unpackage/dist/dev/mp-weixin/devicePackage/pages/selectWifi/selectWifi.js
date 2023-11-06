@@ -229,14 +229,15 @@ var _default = {
     },
     // wifi确认连接事件
     sureEvent: function sureEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/selectWifi/connectDevice'
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/addDevices/addDevices'
-      });
+      uni.navigateBack();
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/addDevices/addDevices'
+      // })
     }
   })
 };

@@ -96,9 +96,10 @@
 			]),
 			
 			backTo () {
-				uni.switchTab({
-					url: '/pages/device/device'
-				})
+				uni.navigateBack()
+				// uni.switchTab({
+				// 	url: '/pages/device/device'
+				// })
 			},
 			
 			// 选择wifi事件
@@ -146,14 +147,14 @@
 				// uni.redirectTo({
 				// 	url: '/devicePackage/pages/selectWifi/selectWifi'
 				// });
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
 				})
 			},
 			
 			// 进入提示页事件
 			enterInfoEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/addDevicesInfo/addDevicesInfo'
 				})
 			},
@@ -204,7 +205,7 @@
 			
 			// 去开启事件
 			goOpenEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/goOpen/goOpen'
 				})
 			}

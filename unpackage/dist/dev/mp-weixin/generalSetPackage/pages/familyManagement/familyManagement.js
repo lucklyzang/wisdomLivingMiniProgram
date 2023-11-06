@@ -199,6 +199,13 @@ var _default = {
       showLoadingHint: false
     };
   },
+  onShow: function onShow() {
+    var _this = this;
+    // 接收uni.navigateBack返回时的参数
+    uni.$on('update', function (object) {
+      _this.initFamilyInfo();
+    });
+  },
   onLoad: function onLoad() {
     this.initFamilyInfo();
   },
@@ -219,19 +226,19 @@ var _default = {
     // 编辑事件
     editEvent: function editEvent(item) {
       var mynavData = JSON.stringify(item);
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/generalSetPackage/pages/editFamily/editFamily?transmitData=' + mynavData
       });
     },
     // 添加事件
     addEvent: function addEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/generalSetPackage/pages/addFamily/addFamily'
       });
     },
     // 获取用户家庭列表
     queryUserFamilyList: function queryUserFamilyList() {
-      var _this = this;
+      var _this2 = this;
       var familyMemberList = [];
       var fullFamilyMemberList = [];
       (0, _user.getUserFamilyList)().then(function (res) {
@@ -253,21 +260,21 @@ var _default = {
             _iterator.f();
           }
           ;
-          _this.changeFamilyId(familyMemberList[0]['id']);
-          var temporaryFamilyMessage = _this.familyMessage;
+          _this2.changeFamilyId(familyMemberList[0]['id']);
+          var temporaryFamilyMessage = _this2.familyMessage;
           temporaryFamilyMessage['familyMemberList'] = familyMemberList;
           temporaryFamilyMessage['fullFamilyMemberList'] = fullFamilyMemberList;
-          _this.changeFamilyMessage(temporaryFamilyMessage);
-          _this.initFamilyInfo();
+          _this2.changeFamilyMessage(temporaryFamilyMessage);
+          _this2.initFamilyInfo();
         } else {
-          _this.$refs.uToast.show({
+          _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this.$refs.uToast.show({
+        _this2.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -276,30 +283,30 @@ var _default = {
     },
     // 删除事件
     deleteEvent: function deleteEvent(id) {
-      var _this2 = this;
+      var _this3 = this;
       this.showLoadingHint = true;
       this.infoText = '删除中...';
       (0, _user.deleteUserFamily)({
         id: id
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: '删除成功',
             type: 'success',
             position: 'bottom'
           });
-          _this2.queryUserFamilyList();
+          _this3.queryUserFamilyList();
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
-        _this2.showLoadingHint = false;
+        _this3.showLoadingHint = false;
       }).catch(function (err) {
-        _this2.showLoadingHint = false;
-        _this2.$refs.uToast.show({
+        _this3.showLoadingHint = false;
+        _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'

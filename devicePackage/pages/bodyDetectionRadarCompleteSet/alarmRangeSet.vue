@@ -97,7 +97,7 @@
 				temporaryMessage['goOut'] = this.setList[1]['checked']
 				temporaryMessage['isSaveAlarmRanageInfo'] = true;
 				this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet?transmitData='+1
 				})
 			},
@@ -106,9 +106,12 @@
 				let temporaryMessage = this.beforeAddBodyDetectionDeviceMessage;
 				temporaryMessage['isSaveAlarmRanageInfo'] = false;
 				this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
-				uni.redirectTo({
-					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet?transmitData='+1
-				})
+				uni.$emit('update', { transmitData: 1 });
+				uni.$off('update');
+				uni.navigateBack();
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet?transmitData='+1
+				// })
 			}
 		}
 	}

@@ -54,9 +54,10 @@
 			]),
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/signMonitorRadarCompleteSet/editDevice'
-				})
+				uni.navigateBack()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/signMonitorRadarCompleteSet/editDevice'
+				// })
 			}
 		}
 	}

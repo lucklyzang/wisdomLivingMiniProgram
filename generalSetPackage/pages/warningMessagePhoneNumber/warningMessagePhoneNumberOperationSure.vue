@@ -119,7 +119,7 @@
 					let temporaryNumberMessage = this.warningMessagePhoneNumber;
 					temporaryNumberMessage['oldCode'] = this.form.verificationCode;
 					this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberEdit'
 					})
 				} else if (this.warningMessagePhoneNumber.type == '删除') {
@@ -259,7 +259,7 @@
 						temporaryFamilyMessage['familyMemberList'] = this.familyMemberList;
 						temporaryFamilyMessage['fullFamilyMemberList'] = this.fullFamilyMemberList;
 						this.changeFamilyMessage(temporaryFamilyMessage);
-						uni.redirectTo({
+						uni.navigateTo({
 							url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
 						});
 					} else {
@@ -282,9 +282,7 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

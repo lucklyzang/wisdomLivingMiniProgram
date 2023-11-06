@@ -192,6 +192,12 @@ var _default = {
       roomEditIconPng: __webpack_require__(/*! @/static/img/room-edit-icon.png */ 320)
     };
   },
+  onShow: function onShow() {
+    var _this = this;
+    uni.$on('update', function (object) {
+      _this.queryUserRoomList(_this.familyId);
+    });
+  },
   onLoad: function onLoad(object) {
     this.queryUserRoomList(this.familyId);
   },
@@ -206,7 +212,7 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeEnterAddRoomPageSource'])), {}, {
     // 获取用户房间列表列表
     queryUserRoomList: function queryUserRoomList(familyId) {
-      var _this = this;
+      var _this2 = this;
       this.showLoadingHint = true;
       this.infoText = '加载中...';
       this.roomList = [];
@@ -215,22 +221,22 @@ var _default = {
       }).then(function (res) {
         if (res && res.data.code == 0) {
           if (res.data.data.length == 0) {
-            _this.isShowNoData = true;
+            _this2.isShowNoData = true;
           } else {
-            _this.roomList = res.data.data;
+            _this2.roomList = res.data.data;
           }
         } else {
-          _this.$refs.uToast.show({
+          _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
         ;
-        _this.showLoadingHint = false;
+        _this2.showLoadingHint = false;
       }).catch(function (err) {
-        _this.showLoadingHint = false;
-        _this.$refs.uToast.show({
+        _this2.showLoadingHint = false;
+        _this2.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -239,14 +245,14 @@ var _default = {
     },
     // 房间编辑事件
     roomEditEvent: function roomEditEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/roomEdit/roomEdit'
       });
     },
     // 房间添加事件
     roomAddEvent: function roomAddEvent() {
       this.changeEnterAddRoomPageSource('/devicePackage/pages/roomManagement/roomManagement');
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/addRoom/addRoom'
       });
     },

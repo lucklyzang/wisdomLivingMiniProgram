@@ -120,7 +120,26 @@
 				moreIconPng: require("@/static/img/more-icon.png")
 			}
 		},
-		onLoad(object) {
+		
+		onShow(){
+			// 接收uni.navigateBack返回时的参数
+			uni.$on('update', (object) => {
+				// 获取雷达设置
+				this.getRadarSet(this.beforeAddDeviceMessage.deviceId);
+				if (!object.hasOwnProperty('transmitData')) { 
+					if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+						this.wifiListBoxShow = true;
+						return
+					}
+				};
+				if (object.transmitData == 1) { return };
+				if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+					this.wifiListBoxShow = true
+				}
+			})
+		},
+		
+		onLoad (object) {
 			// 获取雷达设置
 			this.getRadarSet(this.beforeAddDeviceMessage.deviceId);
 			if (!object.hasOwnProperty('transmitData')) { 
@@ -134,6 +153,7 @@
 				this.wifiListBoxShow = true
 			}
 		},
+	
 		computed: {
 			...mapGetters([
 				'userInfo',
@@ -304,7 +324,7 @@
 			
 			// 日志点击事件
 			logEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/tumbleRadarCompleteSet/logRecord'
 				})
 			},
@@ -314,7 +334,7 @@
 				let temporaryMessage = this.beforeAddDeviceMessage;
 				temporaryMessage['deviceNumber'] = this.deviceNumber;
 				this.changeBeforeAddDeviceMessage(temporaryMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/tumbleRadarCompleteSet/editDevice'
 				})
 			},
@@ -357,7 +377,7 @@
 				this.changeBeforeAddDeviceMessage(temporaryMessage);
 				// 传递报警范围信息
 				let mynavData = JSON.stringify(this.deviceSetBasicMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/tumbleRadarCompleteSet/alarmRangeSet?transmitData='+mynavData
 				})
 			},
@@ -385,9 +405,7 @@
 						url: `${this.enterDeviceSetPageSource}`
 					})
 				} else {
-					uni.redirectTo({
-						url: `${this.enterDeviceSetPageSource}`
-					})
+					uni.navigateTo({url: `${this.enterDeviceSetPageSource}`})
 				}
 			}
 		}

@@ -292,7 +292,20 @@
 			})
 		},
 		
-		destroyed () {
+		onShow () {
+			uni.$on('update', (object) => {
+				this.createVisitPage();
+			})
+		},
+		
+		onUnload () {
+			if (!this.visitPageId && this.visitPageId !== 0) {
+				return
+			};
+			this.exitPage()
+		},
+		
+		onHide () {
 			if (!this.visitPageId && this.visitPageId !== 0) {
 				return
 			};
@@ -919,15 +932,16 @@
 			
 			// 进入健康小知识详情事件
 			healthTipsDetailsEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/healthMonitoringPackage/pages/healthBreatheTips/healthBreatheTips'
 				})
 			},
 			
 			backTo () {
-				uni.switchTab({
-					url: '/pages/index/index'
-				})
+				uni.navigateBack()
+				// uni.switchTab({
+				// 	url: '/pages/index/index'
+				// })
 			}
 		}
 	}

@@ -345,7 +345,7 @@ var _default = {
           var temporaryUserBasicInfo = _this3.userBasicInfo;
           temporaryUserBasicInfo['mobile'] = _this3.form.phoneNumber;
           _this3.changeUserBasicInfo(temporaryUserBasicInfo);
-          uni.redirectTo({
+          uni.navigateTo({
             url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
           });
           _this3.$refs.uToast.show({
@@ -372,9 +372,7 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
-      });
+      uni.navigateBack();
     }
   })
 };

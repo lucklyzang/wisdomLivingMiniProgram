@@ -81,9 +81,10 @@
 			updateEvent () {},
 			
 			backTo () {
-				uni.switchTab({
-					url: '/pages/personInfo/personInfo'
-				})
+				uni.navigateBack()
+				// uni.switchTab({
+				// 	url: '/pages/personInfo/personInfo'
+				// })
 			}
 		}
 	}

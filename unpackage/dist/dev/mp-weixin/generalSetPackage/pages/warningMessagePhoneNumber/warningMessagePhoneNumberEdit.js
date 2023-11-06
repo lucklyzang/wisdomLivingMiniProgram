@@ -400,7 +400,7 @@ var _default = {
           temporaryFamilyMessage['familyMemberList'] = _this4.familyMemberList;
           temporaryFamilyMessage['fullFamilyMemberList'] = _this4.fullFamilyMemberList;
           _this4.changeFamilyMessage(temporaryFamilyMessage);
-          uni.redirectTo({
+          uni.navigateTo({
             url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
           });
         } else {
@@ -422,9 +422,7 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure'
-      });
+      uni.navigateBack();
     }
   })
 };

@@ -40,6 +40,13 @@
 				roomEditIconPng: require("@/static/img/room-edit-icon.png")
 			}
 		},
+		
+		onShow(){
+			uni.$on('update', (object) => {
+				this.queryUserRoomList(this.familyId)
+			})
+		},
+		
 		onLoad (object) {
 			this.queryUserRoomList(this.familyId)
 		},
@@ -100,7 +107,7 @@
 			
 			// 房间编辑事件
 			roomEditEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/roomEdit/roomEdit'
 				})
 			},
@@ -108,7 +115,7 @@
 			// 房间添加事件
 			roomAddEvent () {
 				this.changeEnterAddRoomPageSource('/devicePackage/pages/roomManagement/roomManagement');
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/addRoom/addRoom'
 				})
 			},

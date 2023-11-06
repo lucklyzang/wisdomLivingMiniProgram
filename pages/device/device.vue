@@ -160,7 +160,7 @@
 			familyMemberChange (val) {
 				this.tabCutActiveIndex = 0;
 				if (val.orignItem.isClickNoEffect) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/familyManagement/familyManagement'
 					});
 					this.changeEnterFamilyManagementPageSource('/pages/device/device')
@@ -299,7 +299,7 @@
 			
 			// 房间管理事件
 			roomManagementEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/roomManagement/roomManagement'
 				});
 				this.changeFamilyId(this.familyId)
@@ -307,7 +307,7 @@
 			
 			// 进入消息详情页
 			enterMessagePageDetails () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/device/index/index'
 				})
 			},
@@ -316,7 +316,7 @@
 			// 1-体征雷达，2-存在感知雷达，3-跌倒雷达，4-人体检测雷达
 			enterDeviceDetails (item) {
 				if (item.type == 3) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
 					});
 					// 保存进入设备设置界面的设备部分相关信息
@@ -330,7 +330,7 @@
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddDeviceMessage(temporaryMessage);
 				} else if (item.type == 2) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
 					});
 					// 保存进入设备设置界面的设备部分相关信息
@@ -354,11 +354,11 @@
 					temporaryMessage['deviceName'] = item.deviceName;
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
 					})
 				} else if (item.type == 4) {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
 					});
 					//保存进入设备设置界面的设备部分相关信息
@@ -372,13 +372,15 @@
 					temporaryMessage['onLine'] = item.onLine;
 					this.changeBeforeAddBodyDetectionDeviceMessage(temporaryMessage);
 				};
+				uni.$emit('update', {});
+				uni.$off('update');
 				this.changeEnterDeviceSetPageSource('/pages/device/device')
 			},
 			
 			// 进入房间详情事件
 			enterRoomDetails (item) {
 				this.changeRoomDetails(item);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/roomDetails/roomDetails'
 				})
 			},
@@ -390,7 +392,7 @@
 				this.changeBeforeAddBodyDetectionDeviceMessage({});
 				this.changeBeforeAddExistPerceptionRadarCompleteSet({});
 				this.changeBeforeAddSignMonitorRadarCompleteSet({});
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/addDevices/addDevices'
 				});
 				this.changeFamilyId(this.familyId)

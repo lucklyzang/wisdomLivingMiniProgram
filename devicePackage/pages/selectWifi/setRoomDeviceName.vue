@@ -63,6 +63,11 @@
 		onLoad (object) {
 			this.queryUserRoomList(this.familyId)
 		},
+		onShow () {
+			uni.$on('update', (object) => {
+				this.queryUserRoomList(this.familyId)
+			})
+		},
 		computed: {
 			...mapGetters([
 				'userInfo',
@@ -136,7 +141,7 @@
 					temporaryMessage['roomName'] = this.currentRoomName;
 					this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 				};
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/selectWifi/setDeviceName'
 				})
 			},
@@ -200,7 +205,7 @@
 			// 创建新房间事件
 			createNewRoomEvent () {
 				this.changeEnterAddRoomPageSource('/devicePackage/pages/selectWifi/setRoomDeviceName');
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/addRoom/addRoom'
 				})
 			},
@@ -213,9 +218,10 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/selectWifi/connectDevice'
-				})
+				uni.navigateBack()
+				// uni.redirectTo({
+				// 	url: '/devicePackage/pages/selectWifi/connectDevice'
+				// })
 			}
 		}
 	}

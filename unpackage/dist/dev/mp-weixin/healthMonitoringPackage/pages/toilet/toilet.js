@@ -384,6 +384,19 @@ var _default = {
       endDate: this.getNowFormatDate(new Date(), 2)
     }, 'day');
   },
+  onShow: function onShow() {
+    var _this = this;
+    uni.$on('update', function (object) {
+      _this.createVisitPage();
+    });
+  },
+  onUnload: function onUnload() {
+    if (!this.visitPageId && this.visitPageId !== 0) {
+      return;
+    }
+    ;
+    this.exitPage();
+  },
   destroyed: function destroyed() {
     if (!this.visitPageId && this.visitPageId !== 0) {
       return;
@@ -403,13 +416,13 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     // 创建页面访问数据
     createVisitPage: function createVisitPage() {
-      var _this = this;
+      var _this2 = this;
       (0, _user.createVisitPageData)({
         pageName: "健康-入厕详情(日周月)",
         pageKey: "toilet"
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this.visitPageId = res.data.data;
+          _this2.visitPageId = res.data.data;
         }
       }).catch(function (err) {});
     },
@@ -465,7 +478,7 @@ var _default = {
     },
     // 获取入厕数据
     queryToiletDetails: function queryToiletDetails(data, text) {
-      var _this2 = this;
+      var _this3 = this;
       this.stool = '';
       this.urinate = '';
       this.stoolAverageTime = '';
@@ -499,22 +512,22 @@ var _default = {
           if (text == 'day') {
             var questData = res.data.data;
             if (questData.length == 0) {
-              _this2.stool = '-';
-              _this2.urinate = '-';
-              _this2.stoolAverageTime = '-';
-              _this2.urinateAverageTime = '-';
-              _this2.dayChartData = {
+              _this3.stool = '-';
+              _this3.urinate = '-';
+              _this3.stoolAverageTime = '-';
+              _this3.urinateAverageTime = '-';
+              _this3.dayChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
               };
             } else {
-              _this2.dayChartData['isShow'] = true;
-              _this2.dayChartData['noData'] = false;
-              _this2.stool = questData[0]['stool'];
-              _this2.urinate = questData[0]['urinate'];
-              _this2.stoolAverageTime = questData[0]['stoolTime'] == 0 ? 0 : Math.ceil(questData[0]['stoolTime'] / _this2.stool);
-              _this2.urinateAverageTime = questData[0]['urinateTime'] == 0 ? 0 : Math.ceil(questData[0]['urinateTime'] / _this2.urinate);
+              _this3.dayChartData['isShow'] = true;
+              _this3.dayChartData['noData'] = false;
+              _this3.stool = questData[0]['stool'];
+              _this3.urinate = questData[0]['urinate'];
+              _this3.stoolAverageTime = questData[0]['stoolTime'] == 0 ? 0 : Math.ceil(questData[0]['stoolTime'] / _this3.stool);
+              _this3.urinateAverageTime = questData[0]['urinateTime'] == 0 ? 0 : Math.ceil(questData[0]['urinateTime'] / _this3.urinate);
               // type是否如厕 0-否， 1-是
               var temporaryData = {
                 categories: ['7-4'],
@@ -536,25 +549,25 @@ var _default = {
                 }
               });
               var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-              _this2.dayChartData['data'] = temporaryContent;
+              _this3.dayChartData['data'] = temporaryContent;
             }
           } else if (text == 'week') {
             if (res.data.data.length > 0) {
               var _questData = res.data.data;
-              if (_questData[0]['date'] == _this2.currentStartWeekDate) {
-                _this2.stool = _questData[0]['stool'];
-                _this2.urinate = _questData[0]['urinate'];
-                _this2.stoolAverageTime = _questData[0]['stoolTime'] == 0 ? 0 : Math.ceil(_questData[0]['stoolTime'] / _this2.stool);
-                _this2.urinateAverageTime = _questData[0]['urinateTime'] == 0 ? 0 : Math.ceil(_questData[0]['urinateTime'] / _this2.urinate);
+              if (_questData[0]['date'] == _this3.currentStartWeekDate) {
+                _this3.stool = _questData[0]['stool'];
+                _this3.urinate = _questData[0]['urinate'];
+                _this3.stoolAverageTime = _questData[0]['stoolTime'] == 0 ? 0 : Math.ceil(_questData[0]['stoolTime'] / _this3.stool);
+                _this3.urinateAverageTime = _questData[0]['urinateTime'] == 0 ? 0 : Math.ceil(_questData[0]['urinateTime'] / _this3.urinate);
               } else {
-                _this2.stool = '-';
-                _this2.urinate = '-';
-                _this2.stoolAverageTime = '-';
-                _this2.urinateAverageTime = '-';
+                _this3.stool = '-';
+                _this3.urinate = '-';
+                _this3.stoolAverageTime = '-';
+                _this3.urinateAverageTime = '-';
               }
               ;
-              _this2.weekChartData['isShow'] = true;
-              _this2.weekChartData['noData'] = false;
+              _this3.weekChartData['isShow'] = true;
+              _this3.weekChartData['noData'] = false;
               var lengthArr = [];
               var maxColumn;
               var _temporaryData = {
@@ -562,9 +575,9 @@ var _default = {
                 series: []
               };
               _questData.forEach(function (item, index) {
-                _temporaryData['categories'].push(_this2.judgeWeek(item.date));
-                _this2.currentWeekYaxisArr.push(item);
-                _this2.currentWeekXaxisArr.push(item.date);
+                _temporaryData['categories'].push(_this3.judgeWeek(item.date));
+                _this3.currentWeekYaxisArr.push(item);
+                _this3.currentWeekXaxisArr.push(item.date);
                 lengthArr.push(item.itemList.length);
               });
               // 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -576,7 +589,7 @@ var _default = {
               }
               ;
               _temporaryData['series'].forEach(function (item, index) {
-                _this2.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
+                _this3.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
                   var currentData = _questData[innerIndex]['itemList'];
                   if (currentData[index]) {
                     if (currentData[index]['type'] == 0) {
@@ -599,13 +612,13 @@ var _default = {
                 });
               });
               var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
-              _this2.weekChartData['data'] = _temporaryContent;
+              _this3.weekChartData['data'] = _temporaryContent;
             } else {
-              _this2.stool = '-';
-              _this2.urinate = '-';
-              _this2.stoolAverageTime = '-';
-              _this2.urinateAverageTime = '-';
-              _this2.weekChartData = {
+              _this3.stool = '-';
+              _this3.urinate = '-';
+              _this3.stoolAverageTime = '-';
+              _this3.urinateAverageTime = '-';
+              _this3.weekChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
@@ -614,20 +627,20 @@ var _default = {
           } else if (text == 'month') {
             if (res.data.data.length > 0) {
               var _questData2 = res.data.data;
-              if (_questData2[0]['date'] == _this2.currentStartMonthDate) {
-                _this2.stool = _questData2[0]['stool'];
-                _this2.urinate = _questData2[0]['urinate'];
-                _this2.stoolAverageTime = Math.ceil(_questData2[0]['stoolTime'] / _this2.stool);
-                _this2.urinateAverageTime = Math.ceil(_questData2[0]['urinateTime'] / _this2.urinate);
+              if (_questData2[0]['date'] == _this3.currentStartMonthDate) {
+                _this3.stool = _questData2[0]['stool'];
+                _this3.urinate = _questData2[0]['urinate'];
+                _this3.stoolAverageTime = Math.ceil(_questData2[0]['stoolTime'] / _this3.stool);
+                _this3.urinateAverageTime = Math.ceil(_questData2[0]['urinateTime'] / _this3.urinate);
               } else {
-                _this2.stool = '-';
-                _this2.urinate = '-';
-                _this2.stoolAverageTime = '-';
-                _this2.urinateAverageTime = '-';
+                _this3.stool = '-';
+                _this3.urinate = '-';
+                _this3.stoolAverageTime = '-';
+                _this3.urinateAverageTime = '-';
               }
               ;
-              _this2.monthChartData['noData'] = false;
-              _this2.monthChartData['isShow'] = true;
+              _this3.monthChartData['noData'] = false;
+              _this3.monthChartData['isShow'] = true;
               var _lengthArr = [];
               var _maxColumn;
               var _temporaryData2 = {
@@ -635,9 +648,9 @@ var _default = {
                 series: []
               };
               _questData2.forEach(function (item, index) {
-                _temporaryData2['categories'].push(_this2.judgeWeek(item.date));
-                _this2.currentMonthYaxisArr.push(item);
-                _this2.currentMonthXaxisArr.push(item.date);
+                _temporaryData2['categories'].push(_this3.judgeWeek(item.date));
+                _this3.currentMonthYaxisArr.push(item);
+                _this3.currentMonthXaxisArr.push(item.date);
                 _lengthArr.push(item.itemList.length);
               });
               // 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -649,7 +662,7 @@ var _default = {
               }
               ;
               _temporaryData2['series'].forEach(function (item, index) {
-                _this2.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
+                _this3.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
                   var currentData = _questData2[innerIndex]['itemList'];
                   if (currentData[index]) {
                     if (currentData[index]['type'] == 0) {
@@ -672,13 +685,13 @@ var _default = {
                 });
               });
               var _temporaryContent2 = JSON.parse(JSON.stringify(_temporaryData2));
-              _this2.monthChartData['data'] = _temporaryContent2;
+              _this3.monthChartData['data'] = _temporaryContent2;
             } else {
-              _this2.stool = '-';
-              _this2.urinate = '-';
-              _this2.stoolAverageTime = '-';
-              _this2.urinateAverageTime = '-';
-              _this2.monthChartData = {
+              _this3.stool = '-';
+              _this3.urinate = '-';
+              _this3.stoolAverageTime = '-';
+              _this3.urinateAverageTime = '-';
+              _this3.monthChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
@@ -686,14 +699,14 @@ var _default = {
             }
           }
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this2.$refs.uToast.show({
+        _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -1043,14 +1056,15 @@ var _default = {
     },
     // 进入健康小知识详情事件
     healthTipsDetailsEvent: function healthTipsDetailsEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/healthMonitoringPackage/pages/healthToiletTips/healthToiletTips'
       });
     },
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/index/index'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/index/index'
+      // })
     }
   })
 };

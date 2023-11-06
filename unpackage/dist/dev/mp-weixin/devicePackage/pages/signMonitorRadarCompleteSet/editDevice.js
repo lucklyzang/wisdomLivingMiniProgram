@@ -230,6 +230,7 @@ var _default = {
     this.roomId = this.beforeAddSignMonitorRadarCompleteSet.roomId;
     this.roomName = this.beforeAddSignMonitorRadarCompleteSet.roomName;
     this.onLine = this.beforeAddSignMonitorRadarCompleteSet.onLine;
+    console.log('房间id', this.roomId);
   },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'beforeAddSignMonitorRadarCompleteSet', 'familyId'])), {}, {
     userName: function userName() {},
@@ -344,7 +345,7 @@ var _default = {
     },
     // 操作设备点击事件
     operationManualClickEvent: function operationManualClickEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/signMonitorRadarCompleteSet/operationManual'
       });
     },
@@ -393,9 +394,11 @@ var _default = {
       this.chooseRoomShow = false;
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData=' + 1
+      uni.$emit('update', {
+        transmitData: 1
       });
+      uni.$off('update');
+      uni.navigateBack();
     }
   })
 };

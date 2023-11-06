@@ -199,14 +199,15 @@ var _default = {
   }),
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     testTo: function testTo() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/selectWifi/setRoomDeviceName'
       });
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/selectWifi/selectWifi'
-      });
+      uni.navigateBack();
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/selectWifi/selectWifi'
+      // })
     }
   })
 };

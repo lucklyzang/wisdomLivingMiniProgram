@@ -156,7 +156,7 @@
 				temporaryNumberMessage['familyId'] = this.initValueId;
 				temporaryNumberMessage['mobile'] = item;
 				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure'
 				})
 			},
@@ -168,7 +168,7 @@
 				temporaryNumberMessage['familyId'] = this.initValueId;
 				temporaryNumberMessage['mobile'] = item;
 				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberOperationSure'
 				})
 			},
@@ -179,16 +179,14 @@
 				temporaryNumberMessage['familyId'] = this.initValueId;
 				temporaryNumberMessage['type'] = '添加';
 				this.changeWarningMessagePhoneNumber(temporaryNumberMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumberAdd'
 				})
 			},
 			
 			backTo () {
 				this.changeWarningMessagePhoneNumber({});
-				uni.redirectTo({
-					url: '/generalSetPackage/pages/generalSetting/generalSetting'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

@@ -230,9 +230,7 @@ var _default = {
       }
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/device/index/index'
-      });
+      uni.navigateBack();
     }
   })
 };

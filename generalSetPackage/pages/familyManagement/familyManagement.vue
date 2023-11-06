@@ -51,6 +51,12 @@
 				showLoadingHint: false
 			}
 		},
+		onShow(){
+			// 接收uni.navigateBack返回时的参数
+			uni.$on('update', (object) => {
+				this.initFamilyInfo()
+			})
+		},
 		onLoad() {
 			this.initFamilyInfo()
 		},
@@ -89,14 +95,14 @@
 			// 编辑事件
 			editEvent (item) {
 				let mynavData = JSON.stringify(item);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/generalSetPackage/pages/editFamily/editFamily?transmitData='+mynavData
 				})
 			},
 			
 			// 添加事件
 			addEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/generalSetPackage/pages/addFamily/addFamily'
 				})
 			},

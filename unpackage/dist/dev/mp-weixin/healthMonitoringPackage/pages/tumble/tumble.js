@@ -396,6 +396,19 @@ var _default = {
       date: this.getNowFormatDate(new Date(), 2)
     }, true, false);
   },
+  onShow: function onShow() {
+    var _this = this;
+    uni.$on('update', function (object) {
+      _this.createVisitPage();
+    });
+  },
+  onUnload: function onUnload() {
+    if (!this.visitPageId && this.visitPageId !== 0) {
+      return;
+    }
+    ;
+    this.exitPage();
+  },
   destroyed: function destroyed() {
     if (!this.visitPageId && this.visitPageId !== 0) {
       return;
@@ -414,13 +427,13 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     // 创建页面访问数据
     createVisitPage: function createVisitPage() {
-      var _this = this;
+      var _this2 = this;
       (0, _user.createVisitPageData)({
         pageName: "健康-跌倒详情(日周月)",
         pageKey: "tumble"
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this.visitPageId = res.data.data;
+          _this2.visitPageId = res.data.data;
         }
       }).catch(function (err) {});
     },
@@ -464,7 +477,7 @@ var _default = {
     },
     // 获取跌倒数据详情列表
     queryGetTumbleListDetails: function queryGetTumbleListDetails(data, flag, isInit) {
-      var _this2 = this;
+      var _this3 = this;
       this.recordList = [];
       if (isInit) {
         this.isShowNoHomeNoData = false;
@@ -481,17 +494,17 @@ var _default = {
       ;
       (0, _device.getTumbleListDetails)(data).then(function (res) {
         if (res && res.data.code == 0) {
-          _this2.totalCount = res.data.data.total;
-          _this2.recordList = res.data.data.list;
-          _this2.fullRecordList = _this2.fullRecordList.concat(_this2.recordList);
-          if (_this2.fullRecordList.length == 0) {
-            _this2.isShowNoHomeNoData = true;
+          _this3.totalCount = res.data.data.total;
+          _this3.recordList = res.data.data.list;
+          _this3.fullRecordList = _this3.fullRecordList.concat(_this3.recordList);
+          if (_this3.fullRecordList.length == 0) {
+            _this3.isShowNoHomeNoData = true;
           } else {
-            _this2.isShowNoHomeNoData = false;
+            _this3.isShowNoHomeNoData = false;
           }
           ;
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
@@ -499,23 +512,23 @@ var _default = {
         }
         ;
         if (flag) {
-          _this2.showLoadingHint = false;
+          _this3.showLoadingHint = false;
         } else {
-          var totalPage = Math.ceil(_this2.totalCount / _this2.pageSize);
-          if (_this2.currentPageNum >= totalPage) {
-            _this2.status = 'nomore';
+          var totalPage = Math.ceil(_this3.totalCount / _this3.pageSize);
+          if (_this3.currentPageNum >= totalPage) {
+            _this3.status = 'nomore';
           } else {
-            _this2.status = 'loadmore';
+            _this3.status = 'loadmore';
           }
         }
       }).catch(function (err) {
         if (flag) {
-          _this2.showLoadingHint = false;
+          _this3.showLoadingHint = false;
         } else {
-          _this2.status = 'loadmore';
+          _this3.status = 'loadmore';
         }
         ;
-        _this2.$refs.uToast.show({
+        _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -539,7 +552,7 @@ var _default = {
     },
     // 获取跌倒数据
     queryTumbleDetails: function queryTumbleDetails(data, text) {
-      var _this3 = this;
+      var _this4 = this;
       if (text == 'day') {
         this.dayChartData = {
           isShow: true,
@@ -566,14 +579,14 @@ var _default = {
             var questData = res.data.data;
             // 跌倒
             if (questData.length == 0) {
-              _this3.dayChartData = {
+              _this4.dayChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
               };
             } else {
-              _this3.dayChartData['isShow'] = true;
-              _this3.dayChartData['noData'] = false;
+              _this4.dayChartData['isShow'] = true;
+              _this4.dayChartData['noData'] = false;
               // status: 0-正常，1-跌倒
               var temporaryData = {
                 categories: ['7-4'],
@@ -599,14 +612,14 @@ var _default = {
                 }
               });
               var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-              _this3.dayChartData['data'] = temporaryContent;
+              _this4.dayChartData['data'] = temporaryContent;
             }
           } else if (text == 'week') {
-            _this3.currentWeekXaxisArr = [];
+            _this4.currentWeekXaxisArr = [];
             if (res.data.data.length > 0) {
               var _questData = res.data.data;
-              _this3.weekChartData['isShow'] = true;
-              _this3.weekChartData['noData'] = false;
+              _this4.weekChartData['isShow'] = true;
+              _this4.weekChartData['noData'] = false;
               var lengthArr = [];
               var maxColumn;
               var _temporaryData = {
@@ -614,8 +627,8 @@ var _default = {
                 series: []
               };
               _questData.forEach(function (item, index) {
-                _temporaryData['categories'].push(_this3.judgeWeek(item.date));
-                _this3.currentWeekXaxisArr.push(item.date);
+                _temporaryData['categories'].push(_this4.judgeWeek(item.date));
+                _this4.currentWeekXaxisArr.push(item.date);
                 lengthArr.push(item.resItemVos.length);
               });
               // 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -627,7 +640,7 @@ var _default = {
               }
               ;
               _temporaryData['series'].forEach(function (item, index) {
-                _this3.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
+                _this4.currentWeekXaxisArr.forEach(function (innerItem, innerIndex) {
                   var currentData = _questData[innerIndex]['resItemVos'];
                   if (currentData[index]) {
                     if (currentData[index]['status'] == 0) {
@@ -650,20 +663,20 @@ var _default = {
                 });
               });
               var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
-              _this3.weekChartData['data'] = _temporaryContent;
+              _this4.weekChartData['data'] = _temporaryContent;
             } else {
-              _this3.weekChartData = {
+              _this4.weekChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
               };
             }
           } else if (text == 'month') {
-            _this3.currentMonthXaxisArr = [];
+            _this4.currentMonthXaxisArr = [];
             if (res.data.data.length > 0) {
               var _questData2 = res.data.data;
-              _this3.monthChartData['isShow'] = true;
-              _this3.monthChartData['noData'] = false;
+              _this4.monthChartData['isShow'] = true;
+              _this4.monthChartData['noData'] = false;
               var _lengthArr = [];
               var _maxColumn;
               var _temporaryData2 = {
@@ -671,8 +684,8 @@ var _default = {
                 series: []
               };
               _questData2.forEach(function (item, index) {
-                _temporaryData2['categories'].push(_this3.getNowFormatDate(new Date(item.date), 5));
-                _this3.currentMonthXaxisArr.push(item.date);
+                _temporaryData2['categories'].push(_this4.getNowFormatDate(new Date(item.date), 5));
+                _this4.currentMonthXaxisArr.push(item.date);
                 _lengthArr.push(item.resItemVos.length);
               });
               // 按所有天中数据最多的那天算(每天的数据条数不一致)
@@ -684,7 +697,7 @@ var _default = {
               }
               ;
               _temporaryData2['series'].forEach(function (item, index) {
-                _this3.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
+                _this4.currentMonthXaxisArr.forEach(function (innerItem, innerIndex) {
                   var currentData = _questData2[innerIndex]['resItemVos'];
                   if (currentData[index]) {
                     if (currentData[index]['status'] == 0) {
@@ -707,9 +720,9 @@ var _default = {
                 });
               });
               var _temporaryContent2 = JSON.parse(JSON.stringify(_temporaryData2));
-              _this3.monthChartData['data'] = _temporaryContent2;
+              _this4.monthChartData['data'] = _temporaryContent2;
             } else {
-              _this3.monthChartData = {
+              _this4.monthChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
@@ -717,14 +730,14 @@ var _default = {
             }
           }
         } else {
-          _this3.$refs.uToast.show({
+          _this4.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this3.$refs.uToast.show({
+        _this4.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -1138,14 +1151,15 @@ var _default = {
     },
     // 进入健康小知识详情事件
     healthTipsDetailsEvent: function healthTipsDetailsEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/healthMonitoringPackage/pages/healthTumbleTips/healthTumbleTips'
       });
     },
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/index/index'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/index/index'
+      // })
     }
   })
 };

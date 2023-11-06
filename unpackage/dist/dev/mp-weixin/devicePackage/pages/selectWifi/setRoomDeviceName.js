@@ -198,6 +198,12 @@ var _default = {
   onLoad: function onLoad(object) {
     this.queryUserRoomList(this.familyId);
   },
+  onShow: function onShow() {
+    var _this = this;
+    uni.$on('update', function (object) {
+      _this.queryUserRoomList(_this.familyId);
+    });
+  },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'beforeAddDeviceMessage', 'beforeAddBodyDetectionDeviceMessage', 'beforeAddExistPerceptionRadarCompleteSet', 'beforeAddSignMonitorRadarCompleteSet', 'currentDeviceType'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
@@ -251,75 +257,75 @@ var _default = {
         this.changeBeforeAddSignMonitorRadarCompleteSet(_temporaryMessage3);
       }
       ;
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/selectWifi/setDeviceName'
       });
     },
     // 获取用户房间列表列表
     queryUserRoomList: function queryUserRoomList(familyId) {
-      var _this = this;
+      var _this2 = this;
       this.roomList = [];
       (0, _user.getUserRoomList)({
         familyId: familyId
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this.roomList = res.data.data;
+          _this2.roomList = res.data.data;
           // 回显选过的房间
-          if (_this.currentDeviceType == 3) {
+          if (_this2.currentDeviceType == 3) {
             // 跌倒检测雷达
-            if (JSON.stringify(_this.beforeAddDeviceMessage) != '{}') {
-              var temporaryMessage = _this.beforeAddDeviceMessage;
-              _this.currentIndex = _this.roomList.findIndex(function (item) {
-                return item.id == _this.beforeAddDeviceMessage.roomId;
+            if (JSON.stringify(_this2.beforeAddDeviceMessage) != '{}') {
+              var temporaryMessage = _this2.beforeAddDeviceMessage;
+              _this2.currentIndex = _this2.roomList.findIndex(function (item) {
+                return item.id == _this2.beforeAddDeviceMessage.roomId;
               });
-              _this.currentRoomId = _this.beforeAddDeviceMessage.roomId;
+              _this2.currentRoomId = _this2.beforeAddDeviceMessage.roomId;
             }
             ;
           }
           ;
-          if (_this.currentDeviceType == 4) {
+          if (_this2.currentDeviceType == 4) {
             // 人体检测雷达
-            if (JSON.stringify(_this.beforeAddBodyDetectionDeviceMessage) != '{}') {
-              var _temporaryMessage4 = _this.beforeAddBodyDetectionDeviceMessage;
-              _this.currentIndex = _this.roomList.findIndex(function (item) {
-                return item.id == _this.beforeAddBodyDetectionDeviceMessage.roomId;
+            if (JSON.stringify(_this2.beforeAddBodyDetectionDeviceMessage) != '{}') {
+              var _temporaryMessage4 = _this2.beforeAddBodyDetectionDeviceMessage;
+              _this2.currentIndex = _this2.roomList.findIndex(function (item) {
+                return item.id == _this2.beforeAddBodyDetectionDeviceMessage.roomId;
               });
-              _this.currentRoomId = _this.beforeAddBodyDetectionDeviceMessage.roomId;
+              _this2.currentRoomId = _this2.beforeAddBodyDetectionDeviceMessage.roomId;
             }
             ;
           }
           ;
-          if (_this.currentDeviceType == 2) {
+          if (_this2.currentDeviceType == 2) {
             // 人员存在感知雷达
-            if (JSON.stringify(_this.beforeAddExistPerceptionRadarCompleteSet) != '{}') {
-              var _temporaryMessage5 = _this.beforeAddExistPerceptionRadarCompleteSet;
-              _this.currentIndex = _this.roomList.findIndex(function (item) {
-                return item.id == _this.beforeAddExistPerceptionRadarCompleteSet.roomId;
+            if (JSON.stringify(_this2.beforeAddExistPerceptionRadarCompleteSet) != '{}') {
+              var _temporaryMessage5 = _this2.beforeAddExistPerceptionRadarCompleteSet;
+              _this2.currentIndex = _this2.roomList.findIndex(function (item) {
+                return item.id == _this2.beforeAddExistPerceptionRadarCompleteSet.roomId;
               });
-              _this.currentRoomId = _this.beforeAddExistPerceptionRadarCompleteSet.roomId;
+              _this2.currentRoomId = _this2.beforeAddExistPerceptionRadarCompleteSet.roomId;
             }
             ;
           }
           ;
-          if (_this.currentDeviceType == 1) {
+          if (_this2.currentDeviceType == 1) {
             // 体征监测雷达
-            if (JSON.stringify(_this.beforeAddSignMonitorRadarCompleteSet) != '{}') {
-              var _temporaryMessage6 = _this.beforeAddSignMonitorRadarCompleteSet;
-              _this.currentIndex = _this.roomList.findIndex(function (item) {
-                return item.id == _this.beforeAddSignMonitorRadarCompleteSet.roomId;
+            if (JSON.stringify(_this2.beforeAddSignMonitorRadarCompleteSet) != '{}') {
+              var _temporaryMessage6 = _this2.beforeAddSignMonitorRadarCompleteSet;
+              _this2.currentIndex = _this2.roomList.findIndex(function (item) {
+                return item.id == _this2.beforeAddSignMonitorRadarCompleteSet.roomId;
               });
-              _this.currentRoomId = _this.beforeAddSignMonitorRadarCompleteSet.roomId;
+              _this2.currentRoomId = _this2.beforeAddSignMonitorRadarCompleteSet.roomId;
             }
           }
         } else {
-          _this.$refs.uToast.show({
+          _this2.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this.$refs.uToast.show({
+        _this2.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -329,7 +335,7 @@ var _default = {
     // 创建新房间事件
     createNewRoomEvent: function createNewRoomEvent() {
       this.changeEnterAddRoomPageSource('/devicePackage/pages/selectWifi/setRoomDeviceName');
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/addRoom/addRoom'
       });
     },
@@ -340,9 +346,10 @@ var _default = {
       this.currentRoomId = item.id;
     },
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/selectWifi/connectDevice'
-      });
+      uni.navigateBack();
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/selectWifi/connectDevice'
+      // })
     }
   })
 };

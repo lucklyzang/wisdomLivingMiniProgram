@@ -78,7 +78,7 @@
 				</view>
 			</view>
 			<view class="bottom-btn-area">
-				<text>保存</text>
+				<text :class="{'btnStyle' : alarmRangeValue && acceptAlarmMethod}" @click="updateRadarSet">保存</text>
 			</view>
 		</view>
 	</view>
@@ -110,7 +110,7 @@
 				cceptAlarmMethodBoxShow: false,
 				alarmRangeValueList: [],
 				enter: false,
-				goOut: false,
+				leave: false,
 				stop: false,
 				nobody: false,
 				stopTime: '',
@@ -122,9 +122,26 @@
 				moreIconPng: require("@/static/img/more-icon.png")
 			}
 		},
-		onLoad(object) {
-			console.log('数据',this.beforeAddExistPerceptionRadarCompleteSet);
-			// 获取雷达设置
+		
+		onShow(){
+			// 接收uni.navigateBack返回时的参数
+			uni.$on('update', (object) => {
+				// 获取雷达设置
+				this.getRadarSet(this.beforeAddExistPerceptionRadarCompleteSet.deviceId);
+				if (!object.hasOwnProperty('transmitData')) { 
+					if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+						this.wifiListBoxShow = true;
+						return
+					}
+				};
+				if (object.transmitData == 1) { return };
+				if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
+					this.wifiListBoxShow = true
+				}
+			})
+		},
+		
+		onLoad (object) {
 			this.getRadarSet(this.beforeAddExistPerceptionRadarCompleteSet.deviceId);
 			if (!object.hasOwnProperty('transmitData')) { 
 				if (this.enterDeviceSetPageSource == '/devicePackage/pages/selectWifi/setDeviceName') {
@@ -137,6 +154,7 @@
 				this.wifiListBoxShow = true
 			}
 		},
+		
 		computed: {
 			...mapGetters([
 				'userInfo',
@@ -216,7 +234,7 @@
 					deviceId: this.beforeAddExistPerceptionRadarCompleteSet.deviceId,
 					notice: this.alarmTypeTransition(this.acceptAlarmMethod),
 					enter: this.enter,
-					goOut: this.goOut,
+					leave: this.leave,
 					stop: this.stop,
 					nobody: this.nobody,
 					stopTime: this.stop ? this.stopTime : '',
@@ -253,11 +271,11 @@
 						} else {
 							this.enter = false
 						};
-						if (res.data.data.goOut) {
-							this.goOut = true;
+						if (res.data.data.leave) {
+							this.leave = true;
 							this.alarmRangeValueList.push('人员离开报警')
 						} else {
-							this.goOut = false
+							this.leave = false
 						};
 						if (res.data.data.stop) {
 							this.stop = true;
@@ -307,11 +325,11 @@
 				} else {
 					this.enter = false
 				};
-				if (this.beforeAddExistPerceptionRadarCompleteSet.goOut) {
-					this.goOut = true;
+				if (this.beforeAddExistPerceptionRadarCompleteSet.leave) {
+					this.leave = true;
 					this.alarmRangeValueList.push('人员离开报警')
 				} else {
-					this.goOut = false
+					this.leave = false
 				};
 				if (this.beforeAddExistPerceptionRadarCompleteSet.stop) {
 					this.stop = true;
@@ -344,7 +362,7 @@
 			
 			// 日志点击事件
 			logEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/existPerceptionRadarCompleteSet/logRecord'
 				})
 			},
@@ -354,7 +372,7 @@
 				let temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
 				temporaryMessage['deviceNumber'] = this.deviceNumber;
 				this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/existPerceptionRadarCompleteSet/editDevice'
 				})
 			},
@@ -367,7 +385,7 @@
 				this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
 				// 传递报警范围信息
 				let mynavData = JSON.stringify(this.deviceSetBasicMessage);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/existPerceptionRadarCompleteSet/alarmRangeSet?transmitData='+mynavData
 				})
 			},
@@ -395,9 +413,7 @@
 						url: `${this.enterDeviceSetPageSource}`
 					})
 				} else {
-					uni.redirectTo({
-						url: `${this.enterDeviceSetPageSource}`
-					})
+					uni.navigateTo({url: `${this.enterDeviceSetPageSource}`})
 				}
 			}
 		}

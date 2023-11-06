@@ -207,9 +207,8 @@ var _default = {
     // 进入设备事件
     // 1-体征雷达，2-存在感知雷达，3-跌倒雷达，4-人体检测雷达
     enterDeviceEvent: function enterDeviceEvent(item) {
-      console.log('房间详情', item);
       if (item.type == 3) {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet'
         });
         // 保存进入设备设置界面的设备部分相关信息
@@ -223,14 +222,15 @@ var _default = {
         temporaryMessage['onLine'] = item.onLine;
         this.changeBeforeAddDeviceMessage(temporaryMessage);
       } else if (item.type == 2) {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet'
         });
         // 保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
         _temporaryMessage['roomId'] = this.roomId;
         _temporaryMessage['roomName'] = this.roomName;
-        _temporaryMessage['deviceId'] = item.id;
+        _temporaryMessage['deviceId'] = item.deviceId;
+        _temporaryMessage['id'] = item.id;
         _temporaryMessage['customDeviceName'] = item.customName;
         _temporaryMessage['deviceName'] = item.name;
         _temporaryMessage['onLine'] = item.onLine;
@@ -238,31 +238,35 @@ var _default = {
       } else if (item.type == 1) {
         // 保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage2 = this.beforeAddSignMonitorRadarCompleteSet;
-        _temporaryMessage2['roomId'] = item.roomId;
+        _temporaryMessage2['roomId'] = this.roomId;
         _temporaryMessage2['roomName'] = this.roomName;
         _temporaryMessage2['deviceId'] = item.deviceId;
+        _temporaryMessage2['id'] = item.id;
         _temporaryMessage2['customDeviceName'] = item.customName;
         _temporaryMessage2['deviceName'] = item.name;
         _temporaryMessage2['onLine'] = item.onLine;
         this.changeBeforeAddSignMonitorRadarCompleteSet(_temporaryMessage2);
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet'
         });
       } else if (item.type == 4) {
-        uni.redirectTo({
+        uni.navigateTo({
           url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet'
         });
         // 保存进入设备设置界面的设备部分相关信息
         var _temporaryMessage3 = this.beforeAddBodyDetectionDeviceMessage;
-        _temporaryMessage3['roomId'] = item.roomId;
+        _temporaryMessage3['roomId'] = this.roomId;
         _temporaryMessage3['roomName'] = this.roomName;
         _temporaryMessage3['deviceId'] = item.deviceId;
+        _temporaryMessage3['id'] = item.id;
         _temporaryMessage3['customDeviceName'] = item.customName;
         _temporaryMessage3['deviceName'] = item.name;
         _temporaryMessage3['onLine'] = item.onLine;
         this.changeBeforeAddBodyDetectionDeviceMessage(_temporaryMessage3);
       }
       ;
+      uni.$emit('update', {});
+      uni.$off('update');
       this.changeEnterDeviceSetPageSource('/devicePackage/pages/roomDetails/roomDetails');
     },
     backTo: function backTo() {

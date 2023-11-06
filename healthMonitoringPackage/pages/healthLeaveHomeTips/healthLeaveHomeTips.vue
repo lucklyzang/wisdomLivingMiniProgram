@@ -179,9 +179,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/healthMonitoringPackage/pages/leaveHome/leaveHome'
-				})
+				uni.$emit('update');
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

@@ -406,6 +406,19 @@ var _default = {
       startDate: this.getNowFormatDate(new Date(), 2)
     });
   },
+  onShow: function onShow() {
+    var _this = this;
+    uni.$on('update', function (object) {
+      _this.createVisitPage();
+    });
+  },
+  onUnload: function onUnload() {
+    if (!this.visitPageId && this.visitPageId !== 0) {
+      return;
+    }
+    ;
+    this.exitPage();
+  },
   destroyed: function destroyed() {
     if (!this.visitPageId && this.visitPageId !== 0) {
       return;
@@ -424,13 +437,13 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     // 创建页面访问数据
     createVisitPage: function createVisitPage() {
-      var _this = this;
+      var _this2 = this;
       (0, _user.createVisitPageData)({
         pageName: "健康-心率详情(日周月)",
         pageKey: "heartRate"
       }).then(function (res) {
         if (res && res.data.code == 0) {
-          _this.visitPageId = res.data.data;
+          _this2.visitPageId = res.data.data;
         }
       }).catch(function (err) {});
     },
@@ -502,7 +515,7 @@ var _default = {
     },
     // 获取体征数据详情(日)
     querySleepStatisticsDetails: function querySleepStatisticsDetails(data) {
-      var _this2 = this;
+      var _this3 = this;
       this.lowest = '';
       this.highest = '';
       this.average = '';
@@ -520,24 +533,24 @@ var _default = {
           var questData = res.data.data;
           // 心率
           if (JSON.stringify(res.data.data) == '{}' || questData.heart.timeList.length == 0) {
-            _this2.initDayTime = '-';
-            _this2.initDayText = '-';
-            _this2.daySleepTime = '-';
-            _this2.dayChartData = {
+            _this3.initDayTime = '-';
+            _this3.initDayText = '-';
+            _this3.daySleepTime = '-';
+            _this3.dayChartData = {
               isShow: false,
               noData: true,
               data: {}
             };
           } else {
-            _this2.initDayText = Math.floor(questData.heart.timeList[0]['value']);
-            _this2.initDayTime = _this2.getNowFormatDate(new Date(questData.heart.timeList[0]['time']), 1);
-            _this2.daySleepTime = _this2.minutesTransitionHour(questData.sleepVO['dayTime']);
-            _this2.lowest = Math.floor(questData.heart.lowest);
-            _this2.highest = Math.floor(questData.heart.highest);
-            _this2.average = Math.floor(questData.heart.average);
-            _this2.quietness = Math.floor(questData.heart.heartSilent);
-            _this2.dayChartData['isShow'] = true;
-            _this2.dayChartData['noData'] = false;
+            _this3.initDayText = Math.floor(questData.heart.timeList[0]['value']);
+            _this3.initDayTime = _this3.getNowFormatDate(new Date(questData.heart.timeList[0]['time']), 1);
+            _this3.daySleepTime = _this3.minutesTransitionHour(questData.sleepVO['dayTime']);
+            _this3.lowest = Math.floor(questData.heart.lowest);
+            _this3.highest = Math.floor(questData.heart.highest);
+            _this3.average = Math.floor(questData.heart.average);
+            _this3.quietness = Math.floor(questData.heart.heartSilent);
+            _this3.dayChartData['isShow'] = true;
+            _this3.dayChartData['noData'] = false;
             var temporaryData = {
               categories: [],
               series: [{
@@ -545,21 +558,21 @@ var _default = {
               }]
             };
             questData.heart.timeList.forEach(function (item, index) {
-              temporaryData['categories'].push(_this2.getNowFormatDate(new Date(item.time), 1));
+              temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.time), 1));
               temporaryData['series'][0]['data'].push(Math.floor(item.value));
             });
             var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-            _this2.dayChartData['data'] = temporaryContent;
+            _this3.dayChartData['data'] = temporaryContent;
           }
         } else {
-          _this2.$refs.uToast.show({
+          _this3.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this2.$refs.uToast.show({
+        _this3.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -568,7 +581,7 @@ var _default = {
     },
     // 获取体征数据详情(周月)
     querySleepStatisticsDetailsOther: function querySleepStatisticsDetailsOther(data, type) {
-      var _this3 = this;
+      var _this4 = this;
       this.lowest = '';
       this.highest = '';
       this.average = '';
@@ -599,34 +612,34 @@ var _default = {
           if (type == 'week') {
             var questData = res.data.data;
             if (JSON.stringify(res.data.data) == '{}' || questData.respVOList.length == 0) {
-              _this3.initWeekText = '-';
-              _this3.daySleepTime = '-';
-              _this3.lowest = '-';
-              _this3.daySleepTime = '-';
-              _this3.highest = '-';
-              _this3.weekChartData = {
+              _this4.initWeekText = '-';
+              _this4.daySleepTime = '-';
+              _this4.lowest = '-';
+              _this4.daySleepTime = '-';
+              _this4.highest = '-';
+              _this4.weekChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
               };
             } else {
-              if (questData.respVOList[0]['startTime'] == _this3.currentStartWeekDate) {
-                _this3.daySleepTime = _this3.minutesTransitionHour(questData.respVOList[0]['sleepDayTime']);
-                _this3.initWeekText = "".concat(Math.floor(questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(questData.respVOList[0]['heartMaxValue']));
-                _this3.lowest = Math.floor(questData.respVOList[0]['heartMinValue']);
-                _this3.highest = Math.floor(questData.respVOList[0]['heartMaxValue']);
-                _this3.average = Math.floor(questData.respVOList[0]['heartAverage']);
-                _this3.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
+              if (questData.respVOList[0]['startTime'] == _this4.currentStartWeekDate) {
+                _this4.daySleepTime = _this4.minutesTransitionHour(questData.respVOList[0]['sleepDayTime']);
+                _this4.initWeekText = "".concat(Math.floor(questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(questData.respVOList[0]['heartMaxValue']));
+                _this4.lowest = Math.floor(questData.respVOList[0]['heartMinValue']);
+                _this4.highest = Math.floor(questData.respVOList[0]['heartMaxValue']);
+                _this4.average = Math.floor(questData.respVOList[0]['heartAverage']);
+                _this4.quietness = Math.floor(questData.respVOList[0]['heartSilent']);
               } else {
-                _this3.initWeekText = '-';
-                _this3.daySleepTime = '-';
-                _this3.quietness = '-';
-                _this3.lowest = '-';
-                _this3.highest = '-';
+                _this4.initWeekText = '-';
+                _this4.daySleepTime = '-';
+                _this4.quietness = '-';
+                _this4.lowest = '-';
+                _this4.highest = '-';
               }
               ;
-              _this3.weekChartData['isShow'] = true;
-              _this3.weekChartData['noData'] = false;
+              _this4.weekChartData['isShow'] = true;
+              _this4.weekChartData['noData'] = false;
               var temporaryData = {
                 categories: [],
                 series: [{
@@ -636,9 +649,9 @@ var _default = {
                 }]
               };
               questData.respVOList.forEach(function (item, index) {
-                _this3.currentWeekYaxisArr.push(item);
-                _this3.currentWeekXaxisArr.push(item.startTime);
-                temporaryData['categories'].push(_this3.judgeWeek(item.startTime));
+                _this4.currentWeekYaxisArr.push(item);
+                _this4.currentWeekXaxisArr.push(item.startTime);
+                temporaryData['categories'].push(_this4.judgeWeek(item.startTime));
                 temporaryData['series'][0]['data'].push({
                   color: 'transparent',
                   value: Math.floor(item.heartMinValue)
@@ -649,38 +662,38 @@ var _default = {
                 });
               });
               var temporaryContent = JSON.parse(JSON.stringify(temporaryData));
-              _this3.weekChartData['data'] = temporaryContent;
+              _this4.weekChartData['data'] = temporaryContent;
             }
           } else if (type == 'month') {
             var _questData = res.data.data;
             if (JSON.stringify(res.data.data) == '{}' || _questData.respVOList.length == 0) {
-              _this3.initMonthText = '-';
-              _this3.daySleepTime = '-';
-              _this3.lowest = '-';
-              _this3.daySleepTime = '-';
-              _this3.highest = '-';
-              _this3.monthChartData = {
+              _this4.initMonthText = '-';
+              _this4.daySleepTime = '-';
+              _this4.lowest = '-';
+              _this4.daySleepTime = '-';
+              _this4.highest = '-';
+              _this4.monthChartData = {
                 isShow: false,
                 noData: true,
                 data: {}
               };
             } else {
-              if (_questData.respVOList[0]['startTime'] == "".concat(_this3.currentMonthDate, "-01")) {
-                _this3.daySleepTime = _this3.minutesTransitionHour(_questData.respVOList[0]['sleepDayTime']);
-                _this3.initMonthText = "".concat(Math.floor(_questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(_questData.respVOList[0]['heartMaxValue']));
-                _this3.lowest = Math.floor(_questData.respVOList[0]['heartMinValue']);
-                _this3.highest = Math.floor(_questData.respVOList[0]['heartMaxValue']);
-                _this3.average = Math.floor(_questData.respVOList[0]['heartAverage']);
-                _this3.quietness = Math.floor(_questData.respVOList[0]['heartSilent']);
+              if (_questData.respVOList[0]['startTime'] == "".concat(_this4.currentMonthDate, "-01")) {
+                _this4.daySleepTime = _this4.minutesTransitionHour(_questData.respVOList[0]['sleepDayTime']);
+                _this4.initMonthText = "".concat(Math.floor(_questData.respVOList[0]['heartMinValue']), "-").concat(Math.floor(_questData.respVOList[0]['heartMaxValue']));
+                _this4.lowest = Math.floor(_questData.respVOList[0]['heartMinValue']);
+                _this4.highest = Math.floor(_questData.respVOList[0]['heartMaxValue']);
+                _this4.average = Math.floor(_questData.respVOList[0]['heartAverage']);
+                _this4.quietness = Math.floor(_questData.respVOList[0]['heartSilent']);
               } else {
-                _this3.initMonthText = '-';
-                _this3.lowest = '-';
-                _this3.daySleepTime = '-';
-                _this3.highest = '-';
+                _this4.initMonthText = '-';
+                _this4.lowest = '-';
+                _this4.daySleepTime = '-';
+                _this4.highest = '-';
               }
               ;
-              _this3.monthChartData['isShow'] = true;
-              _this3.monthChartData['noData'] = false;
+              _this4.monthChartData['isShow'] = true;
+              _this4.monthChartData['noData'] = false;
               var _temporaryData = {
                 categories: [],
                 series: [{
@@ -690,9 +703,9 @@ var _default = {
                 }]
               };
               _questData.respVOList.forEach(function (item, index) {
-                _this3.currentMonthYaxisArr.push(item);
-                _this3.currentMonthXaxisArr.push(item.startTime);
-                _temporaryData['categories'].push(_this3.getNowFormatDate(new Date(item.startTime), 5));
+                _this4.currentMonthYaxisArr.push(item);
+                _this4.currentMonthXaxisArr.push(item.startTime);
+                _temporaryData['categories'].push(_this4.getNowFormatDate(new Date(item.startTime), 5));
                 _temporaryData['series'][0]['data'].push({
                   color: 'transparent',
                   value: Math.floor(item.heartMinValue)
@@ -703,18 +716,18 @@ var _default = {
                 });
               });
               var _temporaryContent = JSON.parse(JSON.stringify(_temporaryData));
-              _this3.monthChartData['data'] = _temporaryContent;
+              _this4.monthChartData['data'] = _temporaryContent;
             }
           }
         } else {
-          _this3.$refs.uToast.show({
+          _this4.$refs.uToast.show({
             title: res.data.msg,
             type: 'error',
             position: 'bottom'
           });
         }
       }).catch(function (err) {
-        _this3.$refs.uToast.show({
+        _this4.$refs.uToast.show({
           title: err.message,
           type: 'error',
           position: 'bottom'
@@ -1075,14 +1088,15 @@ var _default = {
     },
     // 进入健康小知识详情事件
     healthTipsDetailsEvent: function healthTipsDetailsEvent() {
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/healthMonitoringPackage/pages/healthHeartRateTips/healthHeartRateTips'
       });
     },
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/index/index'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/index/index'
+      // })
     }
   })
 };

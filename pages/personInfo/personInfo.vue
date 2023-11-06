@@ -124,7 +124,7 @@
 			
 			// 头像点击事件
 			enterPersonMessagePageEvent () {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/generalSetPackage/pages/privateInfo/privateInfo'
 				})
 			},
@@ -184,20 +184,20 @@
 			// 底部功能区点击事件
 			bottomFunctionClickEvent (name) {
 				if (name == '帮助与反馈') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/generalSet/index/index'
 					})
 				} else if (name == '关于APP') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/aboutApp/aboutApp'
 					})
 				} else if (name == '家庭管理') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/familyManagement/familyManagement'
 					});
 					this.changeEnterFamilyManagementPageSource('/pages/personInfo/personInfo')
 				} else if (name == '通用设置') {
-					uni.redirectTo({
+					uni.navigateTo({
 						url: '/generalSetPackage/pages/generalSetting/generalSetting'
 					})
 				}

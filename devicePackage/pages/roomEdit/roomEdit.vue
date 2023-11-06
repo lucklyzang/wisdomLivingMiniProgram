@@ -103,9 +103,7 @@
 			
 			// 完成事件
 			completeEvent () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/roomManagement/roomManagement'
-				})
+				this.backTo()
 			},
 			
 			// 删除事件
@@ -140,9 +138,9 @@
 			},
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/devicePackage/pages/roomManagement/roomManagement'
-				})
+				uni.$emit('update');
+				uni.$off('update');
+				uni.navigateBack()
 			}
 		}
 	}

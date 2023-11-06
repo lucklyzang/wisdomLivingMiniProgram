@@ -145,9 +145,10 @@
 			
 			backTo () {
 				this.changeDeviceNoticeDetails({});
-				uni.switchTab({
-					url: '/pages/device/device'
-				})
+				uni.navigateBack()
+				// uni.switchTab({
+				// 	url: '/pages/device/device'
+				// })
 			},
 			
 			// 设备名称转换
@@ -329,7 +330,7 @@
 				temporaryDeviceNoticeDetails['content'] = innerItem;
 				this.changeDeviceNoticeDetails(temporaryDeviceNoticeDetails);
 				this.updateDeviceInformReadEvent(innerItem.id);
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '/devicePackage/pages/messageDetails/messageDetails'
 				})
 			}

@@ -196,9 +196,10 @@ var _default = {
   mounted: function mounted() {},
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay'])), {}, {
     backTo: function backTo() {
-      uni.redirectTo({
-        url: '/devicePackage/pages/existPerceptionRadarCompleteSet/editDevice'
-      });
+      uni.navigateBack();
+      // uni.redirectTo({
+      // 	url: '/devicePackage/pages/existPerceptionRadarCompleteSet/editDevice'
+      // })
     }
   })
 };

@@ -249,7 +249,7 @@ var _default = {
       // temporaryMessage['getUp'] = this.setList[1]['checked'];
       temporaryMessage['isSaveAlarmRanageInfo'] = true;
       this.changeBeforeAddDeviceMessage(temporaryMessage);
-      uni.redirectTo({
+      uni.navigateTo({
         url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData=' + 1
       });
     },
@@ -257,7 +257,11 @@ var _default = {
       var temporaryMessage = this.beforeAddDeviceMessage;
       temporaryMessage['isSaveAlarmRanageInfo'] = false;
       this.changeBeforeAddDeviceMessage(temporaryMessage);
-      uni.redirectTo({
+      uni.$emit('update', {
+        transmitData: 1
+      });
+      uni.$off('update');
+      uni.navigateBack({
         url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData=' + 1
       });
     }

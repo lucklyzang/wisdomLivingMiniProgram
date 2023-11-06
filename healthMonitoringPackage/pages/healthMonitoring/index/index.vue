@@ -149,9 +149,10 @@
 			]),
 			
 			backTo () {
-				uni.switchTab({
-					url: '/pages/index/index'
-				})
+				uni.navigateBack()
+				// uni.switchTab({
+				// 	url: '/pages/index/index'
+				// })
 			},
 			
 			showImage (num) {

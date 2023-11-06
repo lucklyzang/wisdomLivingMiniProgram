@@ -210,7 +210,7 @@
 						let temporaryUserBasicInfo = this.userBasicInfo;
 						temporaryUserBasicInfo['mobile'] = this.form.phoneNumber;
 						this.changeUserBasicInfo(temporaryUserBasicInfo);
-						uni.redirectTo({
+						uni.navigateTo({
 							url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
 						});
 						this.$refs.uToast.show({
@@ -239,9 +239,7 @@
 			
 			
 			backTo () {
-				uni.redirectTo({
-					url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

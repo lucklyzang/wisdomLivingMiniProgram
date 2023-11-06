@@ -199,9 +199,10 @@ var _default = {
     // 更新事件
     updateEvent: function updateEvent() {},
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/personInfo/personInfo'
-      });
+      uni.navigateBack();
+      // uni.switchTab({
+      // 	url: '/pages/personInfo/personInfo'
+      // })
     }
   })
 };
