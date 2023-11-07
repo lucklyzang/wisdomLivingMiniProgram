@@ -345,17 +345,18 @@
 				temporaryMessage['heartRange'] = this.heartRateAbnormalAlarmValue ? `${this.heartRateMinValue}-${this.heartRateMaxValue}` : '';
 				temporaryMessage['breatheRange'] = this.breatheAbnormalAlarmValue ? `${this.breatheMinValue}-${this.breatheMaxValue}` : '';
 				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
-				uni.navigateTo({
-					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData='+1
-				})
+				uni.$emit('update', { transmitData: 1 });
+				uni.$off('update');
+				uni.navigateBack()
 			},
 			
 			backTo () {
+				let temporaryMessage = this.beforeAddSignMonitorRadarCompleteSet;
+				temporaryMessage['isSaveAlarmRanageInfo'] = false;
+				this.changeBeforeAddSignMonitorRadarCompleteSet(temporaryMessage);
 				uni.$emit('update', { transmitData: 1 });
 				uni.$off('update');
-				uni.navigateBack({
-					url: '/devicePackage/pages/signMonitorRadarCompleteSet/completeSet?transmitData='+1
-				})
+				uni.navigateBack()
 			}
 		}
 	}

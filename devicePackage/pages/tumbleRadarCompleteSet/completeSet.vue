@@ -400,13 +400,7 @@
 			},
 			
 			backTo () {
-				if (this.enterDeviceSetPageSource == '/pages/device/device') {
-					uni.switchTab({
-						url: `${this.enterDeviceSetPageSource}`
-					})
-				} else {
-					uni.navigateTo({url: `${this.enterDeviceSetPageSource}`})
-				}
+				uni.navigateBack()
 			}
 		}
 	}

@@ -63,8 +63,8 @@ page {
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area-other .data-bottom {
   flex: none !important;
-  height: 80px !important;
-  min-height: 80px !important;
+  height: 100px !important;
+  min-height: 100px !important;
 }
 .content-box .content-area .content-top-area .content-top-content .day-data-area .data-top {
   width: 70%;

@@ -249,9 +249,11 @@ var _default = {
       // temporaryMessage['getUp'] = this.setList[1]['checked'];
       temporaryMessage['isSaveAlarmRanageInfo'] = true;
       this.changeBeforeAddDeviceMessage(temporaryMessage);
-      uni.navigateTo({
-        url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData=' + 1
+      uni.$emit('update', {
+        transmitData: 1
       });
+      uni.$off('update');
+      uni.navigateBack();
     },
     backTo: function backTo() {
       var temporaryMessage = this.beforeAddDeviceMessage;
@@ -261,9 +263,7 @@ var _default = {
         transmitData: 1
       });
       uni.$off('update');
-      uni.navigateBack({
-        url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData=' + 1
-      });
+      uni.navigateBack();
     }
   })
 };

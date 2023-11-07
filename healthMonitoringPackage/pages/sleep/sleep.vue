@@ -1123,8 +1123,8 @@
 					.day-data-area-other {
 						.data-bottom {
 							flex: none !important;
-							height: 80px !important;
-							min-height: 80px !important
+							height: 100px !important;
+							min-height: 100px !important
 						}
 					};
 					.day-data-area {

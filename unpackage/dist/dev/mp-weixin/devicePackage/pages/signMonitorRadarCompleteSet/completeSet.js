@@ -516,18 +516,7 @@ var _default = {
       this.cceptAlarmMethodBoxShow = false;
     },
     backTo: function backTo() {
-      var pages = getCurrentPages();
-      console.log('是咧', pages.length);
-      if (this.enterDeviceSetPageSource == '/pages/device/device') {
-        uni.switchTab({
-          url: "".concat(this.enterDeviceSetPageSource)
-        });
-      } else {
-        uni.navigateBack({
-          delta: 2
-        });
-        // uni.navigateTo({url: `${this.enterDeviceSetPageSource}`})
-      }
+      uni.navigateBack();
     }
   })
 };

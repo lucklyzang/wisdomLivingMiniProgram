@@ -297,9 +297,11 @@ var _default = {
       temporaryMessage['stopTime'] = this.retentionTimeValue;
       temporaryMessage['isSaveAlarmRanageInfo'] = true;
       this.changeBeforeAddExistPerceptionRadarCompleteSet(temporaryMessage);
-      uni.navigateTo({
-        url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet?transmitData=' + 1
+      uni.$emit('update', {
+        transmitData: 1
       });
+      uni.$off('update');
+      uni.navigateBack();
     },
     backTo: function backTo() {
       var temporaryMessage = this.beforeAddExistPerceptionRadarCompleteSet;
@@ -310,9 +312,6 @@ var _default = {
       });
       uni.$off('update');
       uni.navigateBack();
-      // uni.redirectTo({
-      // 	url: '/devicePackage/pages/existPerceptionRadarCompleteSet/completeSet?transmitData='+1
-      // })
     }
   })
 };

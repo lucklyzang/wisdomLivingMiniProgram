@@ -400,9 +400,9 @@ var _default = {
           temporaryFamilyMessage['familyMemberList'] = _this4.familyMemberList;
           temporaryFamilyMessage['fullFamilyMemberList'] = _this4.fullFamilyMemberList;
           _this4.changeFamilyMessage(temporaryFamilyMessage);
-          uni.navigateTo({
-            url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
-          });
+          uni.$emit('update');
+          uni.$off('update');
+          uni.navigateBack();
         } else {
           _this4.$refs.uToast.show({
             title: res.data.msg,

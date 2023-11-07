@@ -501,15 +501,7 @@ var _default = {
       this.cceptAlarmMethodBoxShow = false;
     },
     backTo: function backTo() {
-      if (this.enterDeviceSetPageSource == '/pages/device/device') {
-        uni.switchTab({
-          url: "".concat(this.enterDeviceSetPageSource)
-        });
-      } else {
-        uni.navigateTo({
-          url: "".concat(this.enterDeviceSetPageSource)
-        });
-      }
+      uni.navigateBack();
     }
   })
 };

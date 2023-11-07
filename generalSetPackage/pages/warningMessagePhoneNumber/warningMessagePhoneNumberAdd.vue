@@ -250,9 +250,9 @@
 						temporaryFamilyMessage['familyMemberList'] = this.familyMemberList;
 						temporaryFamilyMessage['fullFamilyMemberList'] = this.fullFamilyMemberList;
 						this.changeFamilyMessage(temporaryFamilyMessage);
-						uni.navigateTo({
-							url: '/generalSetPackage/pages/warningMessagePhoneNumber/warningMessagePhoneNumber'
-						});
+						uni.$emit('update');
+						uni.$off('update');
+						uni.navigateBack()
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,

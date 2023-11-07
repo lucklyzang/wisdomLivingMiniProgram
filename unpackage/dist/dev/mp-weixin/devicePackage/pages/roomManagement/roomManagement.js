@@ -257,9 +257,7 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.switchTab({
-        url: '/pages/device/device'
-      });
+      uni.navigateBack();
     }
   })
 };

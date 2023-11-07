@@ -121,9 +121,7 @@
 			},
 			
 			backTo () {
-				uni.switchTab({
-					url: '/pages/device/device'
-				})
+				uni.navigateBack()
 			}
 		}
 	}

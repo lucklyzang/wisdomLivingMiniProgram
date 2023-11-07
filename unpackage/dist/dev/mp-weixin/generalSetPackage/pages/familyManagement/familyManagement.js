@@ -314,9 +314,7 @@ var _default = {
       });
     },
     backTo: function backTo() {
-      uni.switchTab({
-        url: this.enterFamilyManagementPageSource
-      });
+      uni.navigateBack();
     }
   })
 };

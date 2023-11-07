@@ -175,9 +175,7 @@
 			},
 			
 			backTo () {
-				uni.switchTab({
-					url: this.enterFamilyManagementPageSource
-				})
+				uni.navigateBack()
 			}
 		}
 	}

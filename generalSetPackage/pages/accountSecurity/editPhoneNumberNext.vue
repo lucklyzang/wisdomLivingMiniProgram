@@ -210,9 +210,7 @@
 						let temporaryUserBasicInfo = this.userBasicInfo;
 						temporaryUserBasicInfo['mobile'] = this.form.phoneNumber;
 						this.changeUserBasicInfo(temporaryUserBasicInfo);
-						uni.navigateTo({
-							url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
-						});
+						this.backTo();
 						this.$refs.uToast.show({
 							title: '手机号修改成功',
 							type: 'success',

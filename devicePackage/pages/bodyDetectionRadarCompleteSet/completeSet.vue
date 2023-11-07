@@ -120,7 +120,7 @@
 			}
 		},
 		
-		onShow(){
+		onShow () {
 			// 接收uni.navigateBack返回时的参数
 			uni.$on('update', (object) => {
 				// 获取雷达设置
@@ -375,13 +375,7 @@
 			},
 			
 			backTo () {
-				if (this.enterDeviceSetPageSource == '/pages/device/device') {
-					uni.switchTab({
-						url: `${this.enterDeviceSetPageSource}`
-					})
-				} else {
-					uni.navigateTo({url: `${this.enterDeviceSetPageSource}`})
-				}
+				uni.navigateBack()
 			}
 		}
 	}

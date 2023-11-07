@@ -213,6 +213,12 @@ var _default = {
   onLoad: function onLoad() {
     this.initFamilyInfo();
   },
+  onShow: function onShow() {
+    var _this = this;
+    uni.$on('update', function (object) {
+      _this.initFamilyInfo();
+    });
+  },
   computed: _objectSpread(_objectSpread({}, (0, _vuex.mapGetters)(['userInfo', 'familyId', 'warningMessagePhoneNumber', 'familyMessage'])), {}, {
     userName: function userName() {},
     proId: function proId() {},
@@ -224,11 +230,11 @@ var _default = {
   methods: _objectSpread(_objectSpread({}, (0, _vuex.mapMutations)(['changeOverDueWay', 'changeWarningMessagePhoneNumber'])), {}, {
     // 家庭选择下拉框下拉选择确定事件
     familyMemberChange: function familyMemberChange(val) {
-      var _this = this;
+      var _this2 = this;
       this.initValue = val.orignItem.value;
       this.initValueId = val.orignItem.id;
       var temporaryFamilyMemberList = this.fullFamilyMemberList.filter(function (item) {
-        return item.id == _this.initValueId;
+        return item.id == _this2.initValueId;
       });
       this.phoneList = temporaryFamilyMemberList[0]['phones'];
       if (this.phoneList.length > 0) {
@@ -239,7 +245,7 @@ var _default = {
     },
     // 初始家庭信息
     initFamilyInfo: function initFamilyInfo() {
-      var _this2 = this;
+      var _this3 = this;
       this.familyMemberList = [];
       this.fullFamilyMemberLis = [];
       this.familyMemberList = _lodash.default.cloneDeep(this.familyMessage.familyMemberList);
@@ -247,20 +253,20 @@ var _default = {
       if (this.warningMessagePhoneNumber.familyId) {
         this.initValueId = this.warningMessagePhoneNumber.familyId;
         this.initValue = this.familyMemberList.filter(function (el) {
-          return el.id == _this2.warningMessagePhoneNumber.familyId;
+          return el.id == _this3.warningMessagePhoneNumber.familyId;
         })[0]['value'];
         var temporaryIndex = this.fullFamilyMemberList.findIndex(function (el) {
-          return el.id == _this2.warningMessagePhoneNumber.familyId;
+          return el.id == _this3.warningMessagePhoneNumber.familyId;
         });
         this.phoneList = this.fullFamilyMemberList[temporaryIndex]['phones'];
       } else {
         if (this.familyId) {
           this.initValueId = this.familyId;
           this.initValue = this.familyMemberList.filter(function (el) {
-            return el.id == _this2.familyId;
+            return el.id == _this3.familyId;
           })[0]['value'];
           var _temporaryIndex = this.fullFamilyMemberList.findIndex(function (el) {
-            return el.id == _this2.familyId;
+            return el.id == _this3.familyId;
           });
           this.phoneList = this.fullFamilyMemberList[_temporaryIndex]['phones'];
         } else {

@@ -345,9 +345,7 @@ var _default = {
           var temporaryUserBasicInfo = _this3.userBasicInfo;
           temporaryUserBasicInfo['mobile'] = _this3.form.phoneNumber;
           _this3.changeUserBasicInfo(temporaryUserBasicInfo);
-          uni.navigateTo({
-            url: '/generalSetPackage/pages/accountSecurity/editPhoneNumber'
-          });
+          _this3.backTo();
           _this3.$refs.uToast.show({
             title: '手机号修改成功',
             type: 'success',

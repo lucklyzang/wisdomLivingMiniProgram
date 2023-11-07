@@ -77,9 +77,17 @@
 				deleteRedSquareIconPng: require("@/static/img/delete-red-square-icon.png"),
 			}
 		},
-		onLoad() {
+		
+		onLoad () {
 			this.initFamilyInfo()
 		},
+		
+		onShow () {
+			uni.$on('update', (object) => {
+				this.initFamilyInfo()
+			})
+		},
+		
 		computed: {
 			...mapGetters([
 				'userInfo',
