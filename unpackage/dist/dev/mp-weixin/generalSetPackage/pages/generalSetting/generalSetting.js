@@ -251,7 +251,7 @@ var _default = {
       }).catch(function (err) {
         _this.showLoadingHint = false;
         _this.modalShow = true;
-        _this.modalContent = "".concat(err);
+        _this.modalContent = "".concat(err.message);
       });
     },
     // 弹框取消事件

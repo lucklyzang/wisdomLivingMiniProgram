@@ -506,7 +506,7 @@ var _default = {
       }).catch(function (err) {
         _this4.showLoadingHint = false;
         _this4.modalShow = true;
-        _this4.modalContent = "".concat(err);
+        _this4.modalContent = "".concat(err.message);
       });
     },
     // 手机号验证码登录
@@ -574,7 +574,7 @@ var _default = {
       }).catch(function (err) {
         _this5.showLoadingHint = false;
         _this5.modalShow = true;
-        _this5.modalContent = "".concat(err);
+        _this5.modalContent = "".concat(err.message);
       });
     },
     // 发送验证码事件
@@ -619,7 +619,7 @@ var _default = {
       }).catch(function (err) {
         _this6.showLoadingHint = false;
         _this6.modalShow = true;
-        _this6.modalContent = "".concat(err);
+        _this6.modalContent = "".concat(err.message);
       });
     },
     // 跳过事件
@@ -694,7 +694,7 @@ var _default = {
         }).catch(function (err) {
           _this7.showLoadingHint = false;
           _this7.modalShow = true;
-          _this7.modalContent = "".concat(err);
+          _this7.modalContent = "".concat(err.message);
         });
       } else {
         // 设置密码
@@ -731,7 +731,7 @@ var _default = {
           }).catch(function (err) {
             _this7.showLoadingHint = false;
             _this7.modalShow = true;
-            _this7.modalContent = "".concat(err);
+            _this7.modalContent = "".concat(err.message);
           });
         }
       }

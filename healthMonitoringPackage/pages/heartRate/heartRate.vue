@@ -100,7 +100,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="daytime-nap">
+			<!-- 	<view class="daytime-nap">
 					<view class="daytime-nap-top">
 						<image :src="daytimeNapIconPng"></image>
 						<text>日间小憩</text>
@@ -108,7 +108,7 @@
 					<view class="daytime-nap-bottom">
 						<text>{{ daySleepTime }}</text>
 					</view>
-				</view>
+				</view> -->
 				<view class="health-tips">
 					<view class="health-tips-top">
 						<image :src="daytimeNapIconPng"></image>

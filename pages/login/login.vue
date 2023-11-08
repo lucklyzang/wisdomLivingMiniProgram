@@ -466,7 +466,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.modalShow = true;
-					this.modalContent = `${err}`
+					this.modalContent = `${err.message}`
 				})
 			},
 			
@@ -531,7 +531,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.modalShow = true;
-					this.modalContent = `${err}`
+					this.modalContent = `${err.message}`
 				})
 			},
 			
@@ -575,7 +575,7 @@
 				.catch((err) => {
 					this.showLoadingHint = false;
 					this.modalShow = true;
-					this.modalContent = `${err}`
+					this.modalContent = `${err.message}`
 				})
 			},
 			
@@ -648,7 +648,7 @@
 					.catch((err) => {
 						this.showLoadingHint = false;
 						this.modalShow = true;
-						this.modalContent = `${err}`
+						this.modalContent = `${err.message}`
 					})
 				} else {
 					// 设置密码
@@ -684,7 +684,7 @@
 						.catch((err) => {
 							this.showLoadingHint = false;
 							this.modalShow = true;
-							this.modalContent = `${err}`
+							this.modalContent = `${err.message}`
 						})
 					}
 				}

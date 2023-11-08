@@ -257,9 +257,7 @@
 			backTo () {
 				uni.$emit('update', { transmitData: 1 });
 				uni.$off('update');
-				uni.navigateBack({
-					url: '/devicePackage/pages/bodyDetectionRadarCompleteSet/completeSet?transmitData='+1
-				})
+				uni.navigateBack()
 			}
 		}
 	}

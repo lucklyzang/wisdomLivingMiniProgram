@@ -430,7 +430,7 @@ var _default = {
         }
         ;
         _this2.$refs.uToast.show({
-          title: err,
+          title: err.message,
           type: 'error',
           position: 'bottom'
         });
@@ -441,9 +441,7 @@ var _default = {
         transmitData: 1
       });
       uni.$off('update');
-      uni.navigateBack({
-        url: '/devicePackage/pages/tumbleRadarCompleteSet/completeSet?transmitData=' + 1
-      });
+      uni.navigateBack();
     }
   })
 };
