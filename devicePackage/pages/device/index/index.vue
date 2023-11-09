@@ -8,8 +8,8 @@
 		</view>
 		<view class="message-title-area">
 			<view class="message-atile-area-left">
-				<text>{{ `${noReadNum}条未读` }}</text>
-				<text @click="updateDeviceInformAllReadEvent">全部已读</text>
+				<text class="text-no-read-num" v-if="fullNoticeList.length > 0">{{ `${noReadNum}条未读` }}</text>
+				<text class="all-read-btn" v-if="noReadNum > 0" @click="updateDeviceInformAllReadEvent">全部已读</text>
 			</view>
 			<view class="message-atile-area-right">
 				<xfl-select
@@ -292,10 +292,11 @@
 			},
 			
 			// 更新设备通知为全读
-			updateDeviceInformAllReadEvent(id) {
+			updateDeviceInformAllReadEvent() {
 				this.showLoadingHint = true
 				this.infoText = '';
-				updateDeviceInformAllRead().then((res) => {
+				this.initValueId = this.initValueId === null ? '' : this.initValueId;
+				updateDeviceInformAllRead(this.initValueId).then((res) => {
 					if ( res && res.data.code == 0) {
 						this.noReadNum = 0;
 						this.fullNoticeList.forEach((item) => {
@@ -369,14 +370,14 @@
 			background: #fff;
 			.message-atile-area-left {
 				>text {
-					font-size: 14px;
-					&:first-child {
-						color: #E86F50;
-						margin-right: 10px
-					};
-					&:last-child {
-						color: #11D183
-					}
+					font-size: 14px
+				};
+				.text-no-read-num {
+					color: #E86F50;
+					margin-right: 10px
+				};
+				.all-read-btn {
+					color: #11D183
 				}
 			};
 			.message-atile-area-right {

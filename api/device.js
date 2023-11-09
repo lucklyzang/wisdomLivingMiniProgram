@@ -68,9 +68,9 @@ export function updateDeviceInformRead(id) {
 };
 
 // 更新设备通知为全读
-export function updateDeviceInformAllRead() {
+export function updateDeviceInformAllRead(familyId) {
   return request({
-    url: '/app-api/member/device-notice/all-read',
+    url: '/app-api/member/device-notice/all-read?familyId='+familyId,
     method: 'put'
   })
 };

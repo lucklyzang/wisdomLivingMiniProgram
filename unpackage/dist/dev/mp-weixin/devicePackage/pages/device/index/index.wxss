@@ -60,11 +60,11 @@ page {
 .content-box .message-title-area .message-atile-area-left > text {
   font-size: 14px;
 }
-.content-box .message-title-area .message-atile-area-left > text:first-child {
+.content-box .message-title-area .message-atile-area-left .text-no-read-num {
   color: #E86F50;
   margin-right: 10px;
 }
-.content-box .message-title-area .message-atile-area-left > text:last-child {
+.content-box .message-title-area .message-atile-area-left .all-read-btn {
   color: #11D183;
 }
 .content-box .message-title-area .message-atile-area-right {

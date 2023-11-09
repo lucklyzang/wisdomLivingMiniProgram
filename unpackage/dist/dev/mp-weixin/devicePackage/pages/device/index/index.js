@@ -137,6 +137,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var g0 = _vm.fullNoticeList.length
   var l1 = _vm.__map(_vm.fullNoticeList, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var l0 = _vm.__map(item.respVOS, function (innerItem, innerIndex) {
@@ -155,13 +156,14 @@ var render = function () {
       l0: l0,
     }
   })
-  var g0 = _vm.fullNoticeList.length
+  var g1 = _vm.fullNoticeList.length
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
-        l1: l1,
         g0: g0,
+        l1: l1,
+        g1: g1,
       },
     }
   )
@@ -426,11 +428,12 @@ var _default = {
       });
     },
     // 更新设备通知为全读
-    updateDeviceInformAllReadEvent: function updateDeviceInformAllReadEvent(id) {
+    updateDeviceInformAllReadEvent: function updateDeviceInformAllReadEvent() {
       var _this4 = this;
       this.showLoadingHint = true;
       this.infoText = '';
-      (0, _device.updateDeviceInformAllRead)().then(function (res) {
+      this.initValueId = this.initValueId === null ? '' : this.initValueId;
+      (0, _device.updateDeviceInformAllRead)(this.initValueId).then(function (res) {
         if (res && res.data.code == 0) {
           _this4.noReadNum = 0;
           _this4.fullNoticeList.forEach(function (item) {
